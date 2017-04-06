@@ -121,9 +121,9 @@ class DtrController extends BaseController
     {
         $lists = '';
         if (Input::has('keyword')) {
-
             $keyword = Input::has('keyword');
             Session::put('keyword', $keyword);
+
         }
         if (Input::has('from') and Input::has('to')) {
             Session::forget('keyword');
@@ -137,7 +137,6 @@ class DtrController extends BaseController
         }
 
         if (Session::has('f_from') and Session::has('f_to') and Session::has('keyword')) {
-
             $f_from = Session::get('f_from');
             $f_to = Session::get('f_to');
             $keyword = Session::get('keyword');
@@ -149,6 +148,7 @@ class DtrController extends BaseController
                 ->orWhere('lastname', 'LIKE', '%'.$keyword.'%')
                 ->orderBy('datein', 'ASC')
                 ->paginate(20);
+
         }
         if(Session::has('keyword')) {
             $keyword = Session::get('keyword');

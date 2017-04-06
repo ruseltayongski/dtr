@@ -78,7 +78,7 @@
         </div>
         <div class="clearfix"></div>
     </div>
-    <div class="header" style="background-color:#9900cc;padding:15px;">
+    <div class="header" style="background-color:#9C8AA5	;padding:15px;">
         <div class="container">
             <img src="{{ asset('public/img/banner.png') }}" class="img-responsive" />
         </div>

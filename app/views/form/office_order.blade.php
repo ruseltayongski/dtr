@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('content')
-    <link rel="stylesheet" type="text/css" href="{{ asset('resources/plugin/select2/select2.min.css') }}" />
-    <script src="{{ asset('resources/plugin/select2/select2.full.min.js') }}"></script>
+    <link rel="stylesheet" type="text/css" href="{{ asset('public/plugin/select2/select2.min.css') }}" />
+    <script src="{{ asset('public/plugin/select2/select2.full.min.js') }}"></script>
     <span id="so_append" data-link="{{ asset('so_append') }}"></span>
     <div class="col-md-12 wrapper">
         <div class="alert alert-jim">
@@ -10,11 +10,10 @@
                 <div class="row">
                     <div class="col-md-11">
                         <form action="{{ asset('so_add') }}" method="POST" id="form_route">
-                            {{ csrf_field() }}
                             <div class="table-responsive">
                                 <table class="table">
                                     <tr>
-                                        <td class="col-md-1"><img height="130" width="130" src="{{ asset('resources/img/doh.png') }}" /></td>
+                                        <td class="col-md-1"><img height="130" width="130" src="{{ asset('public/img/doh.png') }}" /></td>
                                         <td class="col-lg-10" style="text-align: center;">
                                             Repulic of the Philippines <br />
                                             <strong>DEPARTMENT OF HEALTH REGIONAL OFFICE NO. VII</strong><br />
@@ -22,7 +21,7 @@
                                             Regional Director's Office Tel. No. (032) 253-635-6355 Fax No. (032) 254-0109 <br />
                                             Official Website:<a target="_blank" href="http://www.ro7.doh.gov.ph"><u>http://www.ro7.doh.gov.ph</u></a> Email Address: dohro7{{ '@' }}gmail.com
                                         </td>
-                                        <td class="col-md-10"><img height="130" width="130" src="{{ asset('resources/img/ro7.png') }}" /> </td>
+                                        <td class="col-md-10"><img height="130" width="130" src="{{ asset('public/img/ro7.png') }}" /> </td>
                                     </tr>
                                 </table>
                                 <table class="table table-hover table-form table-striped">

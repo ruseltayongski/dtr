@@ -7,7 +7,6 @@
             <h3 class="page-header">Office Order
             </h3>
             <form class="form-inline" method="POST" action="{{ asset('search') }}" onsubmit="return searchDocument();" id="searchForm">
-                {{ csrf_field() }}
                 <div class="form-group">
                     <input type="text" class="form-control" placeholder="Search ID and or NAME" name="keyword" value="{{ Session::get('keyword') }}" autofocus>
                     <button  type="submit" name="search" value="search" class="btn btn-default"><i class="fa fa-search"></i> Search</button>

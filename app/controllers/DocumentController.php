@@ -274,28 +274,28 @@ class DocumentController extends BaseController
     }
 
     //OFFICE ORDER
-    public function so(Request $request)
+    public function so()
     {
-        Session::put('my_id',$request->user()->id);
-        if($request->isMethod('get')){
+        Session::put('my_id',Auth::user()->id);
+        if(Request::method() == 'GET'){
             $users = User::all();
-            return view('form.office_order',['users'=>$users]);
+            return View::make('form.office_order',['users'=>$users]);
         }
-        if($request->isMethod('post')){
-            return $request->all();
+        if(Request::method() == 'POST'){
+
         }
     }
-    public function so_view(Request $request)
+    public function so_view()
     {
-        Session::put('my_id',$request->user()->id);
-        if($request->isMethod('get')){
+        Session::put('my_id',Auth::user()->id);
+        if(Request::method() == 'GET'){
             $users = User::all();
-            $office_order = office_order::where('route_no',Session::get('route_no'))->get()->first();
+            $office_order = OfficeOrders::where('route_no',Session::get('route_no'))->get()->first();
             $inclusive_date = Calendar::where('route_no',Session::get('route_no'))->get();
-            return view('form.office_order_view',['users'=>$users,'office_order'=>$office_order,'inclusive_date'=>$inclusive_date]);
+            return View::make('form.office_order_view',['users'=>$users,'office_order'=>$office_order,'inclusive_date'=>$inclusive_date]);
         }
-        if($request->isMethod('post')){
-            return $request->all();
+        if(Request::method() == 'POST'){
+            return Input::all();
         }
     }
     public function so_pdf()
@@ -305,15 +305,15 @@ class DocumentController extends BaseController
         $office_order = office_order::where('route_no',Session::get('route_no'))->get()->first();
         $inclusive_name = inclusive_name::where('route_no',Session::get('route_no'))->get();
         $inclusive_date = Calendar::where('route_no',Session::get('route_no'))->get();
-        $display = view('form.office_order_pdf',['users'=>$users,'office_order'=>$office_order,'inclusive_date'=>$inclusive_date,'inclusive_name'=>$inclusive_name]);
+        $display = View::make('form.office_order_pdf',['users'=>$users,'office_order'=>$office_order,'inclusive_date'=>$inclusive_date,'inclusive_name'=>$inclusive_name]);
 
-        $pdf = App::make('dompdf.wrapper');
+        $pdf = App::make('dompdf');
         $pdf->loadHTML($display)->setPaper('a4','portrait');
 
         if(Session::get('route_no'))
             return $pdf->stream();
         else
-            return redirect('/');
+            return Redirect::to('/');
     }
     public function inclusive_name(){
         $inclusive_name = inclusive_name::where('route_no',Session::get('route_no'))->get();
@@ -323,30 +323,30 @@ class DocumentController extends BaseController
         return $name;
     }
     public function so_list(){
-        $office_order = office_order::orderBy('id','desc')->paginate(10);
-        return view('form.office_order_list',['office_order' => $office_order]);
+        $office_order = OfficeOrders::orderBy('id','desc')->paginate(10);
+        return View::make('form.office_order_list',['office_order' => $office_order]);
     }
     public function so_append(){
-        return view('form.office_order_append');
+        return View::make('form.office_order_append');
     }
-    public function so_add(Request $request){
-        $route_no = date('Y-') . $request->user()->id . date('mdHis');
+    public function so_add(){
+        $route_no = date('Y-') . Auth::user()->id . date('mdHis');
         $doc_type = 'OFFICE_ORDER';
-        $prepared_date = $request->get('prepared_date');
-        $prepared_by =  $request->user()->id;
-        $description = $request->get('subject');
+        $prepared_date = Input::get('prepared_date');
+        $prepared_by =  Auth::user()->id;
+        $description = Input::get('subject');
 
         //ADD OFFICE ORDER
-        $office_order = new office_order();
+        $office_order = new OfficeOrders();
         $office_order->route_no = $route_no;
-        $office_order->subject = $request->get('subject');
-        $office_order->header_body = $request->get('header_body');
-        $office_order->footer_body = $request->get('footer_body');
-        $office_order->approved_by = $request->get('approved_by');
+        $office_order->subject = Input::get('subject');
+        $office_order->header_body = Input::get('header_body');
+        $office_order->footer_body = Input::get('footer_body');
+        $office_order->approved_by = Input::get('approved_by');
         $office_order->save();
 
         //ADD INCLUSIVE NAME
-        foreach($request->get('inclusive_name') as $row){
+        foreach(Input::get('inclusive_name') as $row){
             $inclusive_name = new inclusive_name();
             $inclusive_name->route_no = $route_no;
             $inclusive_name->user_id = $row;
@@ -356,7 +356,7 @@ class DocumentController extends BaseController
 
         //ADD CALENDAR
         $count = 0;
-        foreach($request->get('inclusive') as $result)
+        foreach(Input::get('inclusive') as $result)
         {
             $str = $result;
             $temp1 = explode('-',$str);
@@ -372,10 +372,10 @@ class DocumentController extends BaseController
 
             $so = new Calendar();
             $so->route_no = $route_no;
-            $so->title = $request->get('subject');
+            $so->title = Input::get('subject');
             $so->start = $start_date;
             $so->end = $end_date;
-            $so->area = $request->get('area')[$count];
+            $so->area = Input::get('area')[$count];
             $so->backgroundColor = 'rgb(216, 27, 96)';
             $so->borderColor = 'rgb(216, 27, 96)';
             $so->status = 0;
@@ -394,12 +394,12 @@ class DocumentController extends BaseController
 
         //ADD SYSTEM LOGS
         $user_id = $prepared_by;
-        $name = $request->user()->fname.' '.$request->user()->mname.' '.$request->user()->lname;
+        $name = Auth::user()->fname.' '.Auth::user()->mname.' '.Auth::user()->lname;
         $activity = 'CREATED';
         $this->insert_system_logs($user_id,$name,$activity);
         Session::put('added',true);
 
-        return redirect('form/so_list');
+        return Redirect::to('form/so_list');
     }
 
     public static function check_calendar()
@@ -408,10 +408,10 @@ class DocumentController extends BaseController
     }
 
     public function show($route_no){
-        $info = office_order::where('route_no',$route_no)->first();
+        $info = OfficeOrders::where('route_no',$route_no)->first();
 
         Session::put('route_no', $route_no);
-        return view('document.info',['info' => $info]);
+        return View::make('document.info',['info' => $info]);
     }
 
     public function getTest()
