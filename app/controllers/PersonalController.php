@@ -17,6 +17,12 @@ class PersonalController extends Controller
     private $userid;
     public function __construct()
     {
+        $this->beforeFilter(function () {
+            if(!Auth::check())
+            {
+                return Redirect::to('/');
+            }
+        });
         $this->userid = Auth::user()->userid;
     }
 
@@ -24,6 +30,7 @@ class PersonalController extends Controller
     {
         $lists = DtrDetails::where('userid','=',$this->userid)
                             ->where('userid', '<>', '--')
+                            ->orderBy('created_at','DESC')
                             ->paginate(20);
         return View::make('employee.index')->with('lists',$lists);
     }

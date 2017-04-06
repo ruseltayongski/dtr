@@ -11,7 +11,12 @@ class GenerateDTRController extends BaseController
 {
     function __construct()
     {
-
+        $this->beforeFilter(function () {
+            if(!Auth::check())
+            {
+                return Redirect::to('/');
+            }
+        });
     }
 
     public function list_jo_dtr()

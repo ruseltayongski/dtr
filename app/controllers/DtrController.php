@@ -10,7 +10,12 @@ class DtrController extends BaseController
 {
     public function __construct()
     {
-
+        $this->beforeFilter(function () {
+            if(!Auth::check())
+            {
+                return Redirect::to('/');
+            }
+        });
     }
     public function upload()
     {
@@ -52,7 +57,7 @@ class DtrController extends BaseController
                                     $details->date_d = array_key_exists(2, $date) == true ?trim($date[2], "\" ") : null;
                                 }
                             } catch(Exception $ex){
-                                Log::info("Exception at date array in line 54 :" .$ex->getMessage());
+
                             }
                             $details->time = array_key_exists(5, $employee) == true ? trim($employee[5], "\" ") : null;
                             try{
@@ -71,8 +76,7 @@ class DtrController extends BaseController
                             try{
                                 $details->save();
                             } catch(QueryException $ex){
-                                break;
-                                return redirect('errorupload');
+
                             }
                             //FOR INSERTING DATA TO THE USERS TABLE ONLY. IF THE USERS TABLE HAS NO DATA, JUST UNCOMMENT THIS COMMENT.
                             $user = User::where('userid',$details->userid)->first();
@@ -97,11 +101,10 @@ class DtrController extends BaseController
                             }
                         }
                     } catch (Exception $ex) {
-                        Log::info("Exception at for loop :" . $ex->getMessage());
-                        continue;
+
                     }
                 }
-               return redirect('index');
+               return Redirect::to('index');
             }
         }
     }

@@ -12,7 +12,12 @@ class PrintController extends Controller
     private $pdo;
     public function __construct()
     {
-
+        $this->beforeFilter(function () {
+            if(!Auth::check())
+            {
+                return Redirect::to('/');
+            }
+        });
     }
 
     public function home(Request $request)

@@ -11,7 +11,12 @@ class DocumentController extends BaseController
 {
     public function __construct()
     {
-
+        $this->beforeFilter(function () {
+            if(!Auth::check())
+            {
+                return Redirect::to('/');
+            }
+        });
     }
 
     public function index()

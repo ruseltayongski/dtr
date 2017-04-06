@@ -11,17 +11,22 @@ class PasswordController extends BaseController
 {
     public function __construct()
     {
-
+        $this->beforeFilter(function () {
+            if(!Auth::check())
+            {
+                return Redirect::to('/');
+            }
+        });
     }
     public function change_password() {
-        return view('auth.passwords.reset');
+        return View::make('auth.passwords.reset');
     }
-    public function save_changes(Request $request){
+    public function save_changes(){
         $validator = Validator::make(
             array(
-                'current_password' => $request->input('current_password'),
-                'password' => $request->input('password'),
-                'password_confirmation' => $request->input('password_confirmation')
+                'current_password' => Input::get('current_password'),
+                'password' => Input::get('password'),
+                'password_confirmation' => Input::get('password_confirmation')
             ),
             array(
                 'current_password' => 'required',
@@ -30,16 +35,16 @@ class PasswordController extends BaseController
             )
         );
         if($validator->fails()){
-           return redirect('resetpass')->with('error', $validator->messages());
+           return Redirect::to('resetpass')->with('error', $validator->messages());
         }
-        $user = User::find($request->user()->id);
-        if(Hash::check($request->input('current_password'),$user->password)){
-            $user->password = Hash::make($request->input('password_confirmation'));
+        $user = User::find(Auth::user()->id);
+        if(Hash::check(Input::get('current_password'),$user->password)){
+            $user->password = Hash::make(Input::get('password_confirmation'));
             $user->save();
             Session::flush();
-            return redirect('/')->with(
+            return Redirect::to('/')->with(
                 'ok', 'Password succesfully changed. Login now to your account.');
         }
-        return redirect('resetpass')->with('not_match','Current password invalid');
+        return Redirect::to('resetpass')->with('not_match','Current password invalid');
     }
 }

@@ -5,6 +5,7 @@
 
 Route::match(array('GET','POST'),'/', 'AdminController@index');
 Route::get('logout', function(){
+	Auth::logout();
 	Session::flush();
 	return Redirect::to('/');
 });
