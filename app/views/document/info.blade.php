@@ -5,7 +5,6 @@
     }
 </style>
 <form action="{{ asset('document/update') }}" method="post" class="form-submit">
-    {{ csrf_field() }}
     <table class="table table-hover table-striped table-info">
         <tr>
             <td class="text-right col-lg-4">Document Type :</td>

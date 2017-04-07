@@ -291,7 +291,7 @@ class DocumentController extends BaseController
         if(Request::method() == 'GET'){
             $users = User::all();
             $office_order = OfficeOrders::where('route_no',Session::get('route_no'))->get()->first();
-            $inclusive_date = Calendar::where('route_no',Session::get('route_no'))->get();
+            $inclusive_date = Calendars::where('route_no',Session::get('route_no'))->get();
             return View::make('form.office_order_view',['users'=>$users,'office_order'=>$office_order,'inclusive_date'=>$inclusive_date]);
         }
         if(Request::method() == 'POST'){
@@ -302,9 +302,9 @@ class DocumentController extends BaseController
     {
         Session::put('my_id',Auth::user()->id);
         $users = $this->users();
-        $office_order = office_order::where('route_no',Session::get('route_no'))->get()->first();
+        $office_order = OfficeOrders::where('route_no',Session::get('route_no'))->get()->first();
         $inclusive_name = InclusiveNames::where('route_no',Session::get('route_no'))->get();
-        $inclusive_date = Calendar::where('route_no',Session::get('route_no'))->get();
+        $inclusive_date = Calendars::where('route_no',Session::get('route_no'))->get();
         $display = View::make('form.office_order_pdf',['users'=>$users,'office_order'=>$office_order,'inclusive_date'=>$inclusive_date,'inclusive_name'=>$inclusive_name]);
 
         $pdf = App::make('dompdf');
@@ -370,7 +370,7 @@ class DocumentController extends BaseController
             date_add($enddate, date_interval_create_from_date_string('1days'));
             $end_date = date_format($enddate, 'Y-m-d');
 
-            $so = new Calendar();
+            $so = new Calendars();
             $so->route_no = $route_no;
             $so->title = Input::get('subject');
             $so->start = $start_date;
@@ -425,6 +425,6 @@ class DocumentController extends BaseController
         /*$db_ext = DB::connection('mysql1');
         $user = $db_ext->table('tracking_master')->get();
         return $user;*/
-        return $inclusive_date = Calendar::where('route_no',Session::get('route_no'))->get();
+        return $inclusive_date = Calendars::where('route_no',Session::get('route_no'))->get();
     }
 }
