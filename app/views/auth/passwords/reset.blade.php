@@ -27,7 +27,7 @@
                 <div class="panel-heading">Reset Password</div>
 
                 <div class="panel-body">
-                    <form class="form-horizontal" role="form" method="POST" action="{{ asset('/')  }}">
+                    <form class="form-horizontal" role="form" method="POST" action="{{ asset('resetpass')  }}">
                         <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
                             <label for="email" class="col-md-4 control-label">Current password</label>
 

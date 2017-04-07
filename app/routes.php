@@ -33,7 +33,7 @@ Route::match(array('GET','POST'), 'create/work-schedule', 'HoursController@work_
 Route::match(array('GET','POST') , 'edit/work-schedule/{id}' ,'HoursController@edit_schedule');
 Route::match(array('GET','POST') , 'edit/attendance/{id?}', 'DtrController@edit_attendance');
 Route::post('delete/attendance','DtrController@delete');
-Route::get('resetpass', 'PasswordController@change_password');
+Route::match(array('GET','POST'),'resetpass', 'PasswordController@change_password');
 //Route::post('/', 'PasswordController@save_changes');
 
 
