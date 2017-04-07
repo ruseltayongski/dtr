@@ -2,13 +2,11 @@
 @section('content')
     <span id="calendar_event" data-link=" {{ asset('calendar_event') }} "></span>
     <span id="save" data-link=" {{ asset('calendar_save') }} "></span>
-    <span id="token" data-token="{{ csrf_token() }}"></span>
     <!-- fullCalendar 2.2.5-->
-    <link href="{{ asset('resources/plugin/fullcalendar/fullcalendar.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('resources/plugin/fullcalendar/fullcalendar.print.css') }}" media="print">
+    <link href="{{ asset('public/plugin/fullcalendar/fullcalendar.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('public/plugin/fullcalendar/fullcalendar.print.css') }}" media="print">
     <!-- Theme style -->
-    <link href="{{ asset('resources/plugin/dist/css/AdminLTE.min.css') }}" rel="stylesheet">
-    {{ csrf_field() }}
+    <link href="{{ asset('public/plugin/dist/css/AdminLTE.min.css') }}" rel="stylesheet">
     <div class="col-md-12 wrapper">
         <div class="alert alert-jim">
 
@@ -24,8 +22,8 @@
 @endsection
 @section('js')
     <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
-    <script src="{{ asset('resources/plugin/fullcalendar/moment.js') }}"></script>
-    <script src="{{ asset('resources/plugin/fullcalendar/fullcalendar.min.js') }}"></script>
+    <script src="{{ asset('public/plugin/fullcalendar/moment.js') }}"></script>
+    <script src="{{ asset('public/plugin/fullcalendar/fullcalendar.min.js') }}"></script>
 
     <script>
         $(function () {

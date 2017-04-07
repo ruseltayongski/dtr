@@ -303,7 +303,7 @@ class DocumentController extends BaseController
         Session::put('my_id',Auth::user()->id);
         $users = $this->users();
         $office_order = office_order::where('route_no',Session::get('route_no'))->get()->first();
-        $inclusive_name = inclusive_name::where('route_no',Session::get('route_no'))->get();
+        $inclusive_name = InclusiveNames::where('route_no',Session::get('route_no'))->get();
         $inclusive_date = Calendar::where('route_no',Session::get('route_no'))->get();
         $display = View::make('form.office_order_pdf',['users'=>$users,'office_order'=>$office_order,'inclusive_date'=>$inclusive_date,'inclusive_name'=>$inclusive_name]);
 
@@ -316,7 +316,7 @@ class DocumentController extends BaseController
             return Redirect::to('/');
     }
     public function inclusive_name(){
-        $inclusive_name = inclusive_name::where('route_no',Session::get('route_no'))->get();
+        $inclusive_name = InclusiveNames::where('route_no',Session::get('route_no'))->get();
         foreach($inclusive_name as $row){
             $name[] = $row['user_id'];
         }
@@ -347,7 +347,7 @@ class DocumentController extends BaseController
 
         //ADD INCLUSIVE NAME
         foreach(Input::get('inclusive_name') as $row){
-            $inclusive_name = new inclusive_name();
+            $inclusive_name = new InclusiveNames();
             $inclusive_name->route_no = $route_no;
             $inclusive_name->user_id = $row;
             $inclusive_name->status = 0;
@@ -404,7 +404,7 @@ class DocumentController extends BaseController
 
     public static function check_calendar()
     {
-        return inclusive_name::where('user_id',Auth::user()->userid)->get();
+        return InclusiveNames::where('user_id',Auth::user()->userid)->get();
     }
 
     public function show($route_no){
