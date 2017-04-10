@@ -13,7 +13,10 @@ class AdminController extends BaseController
 {
     public function __construct()
     {
-
+        if(Auth::check())
+        {
+            return Redirect::to('/');
+        }
     }
     public function index()
     {

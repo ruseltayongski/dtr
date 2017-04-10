@@ -119,21 +119,22 @@ class DtrController extends BaseController
     }
     public function search()
     {
-        $lists = '';
+        $lists = null;
         if (Input::has('keyword')) {
-            $keyword = Input::has('keyword');
+            $keyword = Input::get('keyword');
             Session::put('keyword', $keyword);
 
         }
         if (Input::has('from') and Input::has('to')) {
             Session::forget('keyword');
-            $_from = explode('/', Input::has('from'));
-            $_to = explode('/', Input::has('to'));
+            $_from = explode('/', Input::get('from'));
+            $_to = explode('/', Input::get('to'));
 
             $f_from = $_from[2] . '-' . $_from[0] . '-' . $_from[1];
             $f_to = $_to[2] . '-' . $_to[0] . '-' . $_to[1];
             Session::put('f_from', $f_from);
             Session::put('f_to', $f_to);
+
         }
 
         if (Session::has('f_from') and Session::has('f_to') and Session::has('keyword')) {
@@ -152,15 +153,15 @@ class DtrController extends BaseController
         }
         if(Session::has('keyword')) {
             $keyword = Session::get('keyword');
-            $lists = DtrDetails::where('userid', 'LIKE', '%'.$keyword.'%')
+            $lists = DB::table('dtr_file')->where('userid','!=', "")
+                                ->orWhere('userid', 'LIKE', '%'.$keyword.'%')
                                 ->orWhere('firstname', 'LIKE', '%'.$keyword.'%')
                                 ->orWhere('lastname', 'LIKE', '%'.$keyword.'%')
-                                ->orderBy('userid', 'ASC')
+                                ->orderBy('userid','DESC')
                                 ->paginate(20);
+
         }
-
         return View::make('home')->with('lists', $lists);
-
     }
     public function create_attendance()
     {

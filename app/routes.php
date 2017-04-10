@@ -16,7 +16,7 @@ Route::get('home', function(){
 	Session::forget('lists');
 	return Redirect::to('index');
 });
-Route::get('index','AdminController@home');
+Route::get('index',array('before' => 'auth','uses' => 'AdminController@home'));
 
 Route::get('rpchallenge', 'PasswordController@change_password');
 

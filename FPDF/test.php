@@ -165,7 +165,7 @@ class PDF extends FPDF
                 $this->SetTextColor(0,0,0);
 
                 //LATE/UNDERTIME
-                $this->Cell($w[3],5,$late.'  '.$ut,'',0,'R');
+                $this->Cell($w[3],5,$late.'   '.$ut,'',0,'R');
 
                 $this->Cell(15);
                 $this->Cell(5,5,$r1,'');
@@ -189,7 +189,7 @@ class PDF extends FPDF
 
 
                 //LATE/UNDERTIME
-                $this->Cell($w[3],5,$late.'  '.$ut,'',0,'R');
+                $this->Cell($w[3],5,$late.'   '.$ut,'',0,'R');
 
                 $this->Ln();
                 if($r1 == $endday)
@@ -600,7 +600,7 @@ function undertime($am_out,$pm_out)
     if(isset($m_am_ut) and isset($m_pm_ut)) {
         $total = $m_am_ut + $m_pm_ut;
         if($total <= 0) {
-            $total_ut.= '';
+            $total_ut = '';
         } else {
             $total_ut =$total;
         }
