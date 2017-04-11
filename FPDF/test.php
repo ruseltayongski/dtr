@@ -1,6 +1,16 @@
 
 <?php
 
+$date = '2017-03-22 08:18:59';
+$date = date_create($date);
+
+
+$a = new DateTime("2017-03-22 08:00:00");
+$b = new DateTime('2017-03-22 08:30:00');
+
+$interval = $a->diff($b);
+echo $interval->i;
+exit();
 
 require('fpdf.php');
 ini_set('max_execution_time', 0);
@@ -165,7 +175,7 @@ class PDF extends FPDF
                 $this->SetTextColor(0,0,0);
 
                 //LATE/UNDERTIME
-                $this->Cell($w[3],5,$late.'   '.$ut,'',0,'R');
+                $this->Cell($w[3],5,$late.'       '.$ut,'',0,'R');
 
                 $this->Cell(15);
                 $this->Cell(5,5,$r1,'');
@@ -189,7 +199,7 @@ class PDF extends FPDF
 
 
                 //LATE/UNDERTIME
-                $this->Cell($w[3],5,$late.'   '.$ut,'',0,'R');
+                $this->Cell($w[3],5,$late.'       '.$ut,'',0,'R');
 
                 $this->Ln();
                 if($r1 == $endday)
@@ -444,7 +454,17 @@ function look_calendar($datein,$userid,$temp1,$temp2){
     }
 }
 
-function late($am_in, $pm_in)
+function undertime()
+{
+
+}
+
+function late()
+{
+
+}
+
+/*function late($am_in, $pm_in)
 {
     $total_late = 0.0;
 
@@ -528,7 +548,10 @@ function late($am_in, $pm_in)
     return $total_late;
 }
 
-function undertime($am_out,$pm_out)
+
+
+
+/*function undertime($am_out,$pm_out)
 {
     $pdo = conn();
     $query = "SELECT * FROM work_sched WHERE id = '1'";
@@ -607,5 +630,5 @@ function undertime($am_out,$pm_out)
     }
 
     return $total_ut;
-}
+}*/
 ?>

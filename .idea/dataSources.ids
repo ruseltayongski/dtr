@@ -1,0 +1,556 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component name="dataSourceStorage">
+  <data-source name="MySQL - dohdtr@localhost" uuid="3bde54b1-757b-40b2-9b15-ce5461d4430a">
+    <database-info product="MySQL" version="5.6.25" jdbc-version="4.0" driver-name="MySQL Connector Java" driver-version="mysql-connector-java-5.1.35 ( Revision: 5fb9c5849535c13917c2cf9baaece6ef9693ef27 )">
+      <extra-name-characters>#@</extra-name-characters>
+      <identifier-quote-string>`</identifier-quote-string>
+    </database-info>
+    <case-sensitivity plain-identifiers="lower" quoted-identifiers="lower"/>
+    <database-model serializer="dbm" rdbms="MYSQL" format-version="2.4">
+      <schema id="1" name="dohdtr"/>
+      <table id="2" parent="1" name="calendar"/>
+      <table id="3" parent="1" name="dtr_file"/>
+      <table id="4" parent="1" name="generated_pdf"/>
+      <table id="5" parent="1" name="inclusive_name"/>
+      <table id="6" parent="1" name="leave"/>
+      <table id="7" parent="1" name="migrations"/>
+      <table id="8" parent="1" name="office_order"/>
+      <table id="9" parent="1" name="regular_dtr"/>
+      <table id="10" parent="1" name="users"/>
+      <table id="11" parent="1" name="work_sched"/>
+      <routine id="12" parent="1" name="logs">
+        <routine-kind>PROCEDURE</routine-kind>
+      </routine>
+      <column id="13" parent="2" name="id">
+        <mandatory>1</mandatory>
+        <data-type>int(10) unsigned</data-type>
+      </column>
+      <column id="14" parent="2" name="route_no">
+        <mandatory>1</mandatory>
+        <data-type>text</data-type>
+      </column>
+      <column id="15" parent="2" name="title">
+        <mandatory>1</mandatory>
+        <data-type>text</data-type>
+      </column>
+      <column id="16" parent="2" name="start">
+        <mandatory>1</mandatory>
+        <data-type>text</data-type>
+      </column>
+      <column id="17" parent="2" name="end">
+        <mandatory>1</mandatory>
+        <data-type>text</data-type>
+      </column>
+      <column id="18" parent="2" name="area">
+        <mandatory>1</mandatory>
+        <data-type>text</data-type>
+      </column>
+      <column id="19" parent="2" name="backgroundColor">
+        <mandatory>1</mandatory>
+        <data-type>text</data-type>
+      </column>
+      <column id="20" parent="2" name="borderColor">
+        <mandatory>1</mandatory>
+        <data-type>text</data-type>
+      </column>
+      <column id="21" parent="2" name="status">
+        <mandatory>1</mandatory>
+        <data-type>text</data-type>
+      </column>
+      <column id="22" parent="2" name="remember_token">
+        <data-type>varchar(100)</data-type>
+      </column>
+      <column id="23" parent="2" name="created_at">
+        <mandatory>1</mandatory>
+        <data-type>timestamp</data-type>
+        <default-expression>&apos;0000-00-00 00:00:00&apos;</default-expression>
+      </column>
+      <column id="24" parent="2" name="updated_at">
+        <mandatory>1</mandatory>
+        <data-type>timestamp</data-type>
+        <default-expression>&apos;0000-00-00 00:00:00&apos;</default-expression>
+      </column>
+      <key id="25" parent="2" name="PRIMARY">
+        <columns>id</columns>
+        <primary>1</primary>
+      </key>
+      <column id="26" parent="3" name="dtr_id">
+        <mandatory>1</mandatory>
+        <data-type>int(10) unsigned</data-type>
+      </column>
+      <column id="27" parent="3" name="userid">
+        <data-type>varchar(200)</data-type>
+      </column>
+      <column id="28" parent="3" name="firstname">
+        <data-type>varchar(200)</data-type>
+      </column>
+      <column id="29" parent="3" name="lastname">
+        <data-type>varchar(200)</data-type>
+      </column>
+      <column id="30" parent="3" name="department">
+        <data-type>varchar(200)</data-type>
+      </column>
+      <column id="31" parent="3" name="datein">
+        <data-type>date</data-type>
+      </column>
+      <column id="32" parent="3" name="date_y">
+        <data-type>int(11)</data-type>
+      </column>
+      <column id="33" parent="3" name="date_m">
+        <data-type>int(11)</data-type>
+      </column>
+      <column id="34" parent="3" name="date_d">
+        <data-type>int(11)</data-type>
+      </column>
+      <column id="35" parent="3" name="time">
+        <data-type>time</data-type>
+      </column>
+      <column id="36" parent="3" name="timerecord">
+        <data-type>timestamp</data-type>
+      </column>
+      <column id="37" parent="3" name="time_h">
+        <data-type>int(11)</data-type>
+      </column>
+      <column id="38" parent="3" name="time_m">
+        <data-type>int(11)</data-type>
+      </column>
+      <column id="39" parent="3" name="time_s">
+        <data-type>int(11)</data-type>
+      </column>
+      <column id="40" parent="3" name="event">
+        <data-type>varchar(200)</data-type>
+      </column>
+      <column id="41" parent="3" name="terminal">
+        <data-type>varchar(200)</data-type>
+      </column>
+      <column id="42" parent="3" name="remark">
+        <data-type>varchar(200)</data-type>
+      </column>
+      <column id="43" parent="3" name="created_at">
+        <mandatory>1</mandatory>
+        <data-type>timestamp</data-type>
+        <default-expression>&apos;0000-00-00 00:00:00&apos;</default-expression>
+      </column>
+      <column id="44" parent="3" name="updated_at">
+        <mandatory>1</mandatory>
+        <data-type>timestamp</data-type>
+        <default-expression>&apos;0000-00-00 00:00:00&apos;</default-expression>
+      </column>
+      <column id="45" parent="3" name="deleted_at">
+        <data-type>timestamp</data-type>
+      </column>
+      <key id="46" parent="3" name="PRIMARY">
+        <columns>dtr_id</columns>
+        <primary>1</primary>
+      </key>
+      <column id="47" parent="4" name="id">
+        <mandatory>1</mandatory>
+        <data-type>int(10) unsigned</data-type>
+      </column>
+      <column id="48" parent="4" name="filename">
+        <data-type>varchar(255)</data-type>
+      </column>
+      <column id="49" parent="4" name="date_from">
+        <data-type>date</data-type>
+      </column>
+      <column id="50" parent="4" name="date_to">
+        <data-type>date</data-type>
+      </column>
+      <column id="51" parent="4" name="date_created">
+        <mandatory>1</mandatory>
+        <data-type>date</data-type>
+      </column>
+      <column id="52" parent="4" name="time_created">
+        <mandatory>1</mandatory>
+        <data-type>time</data-type>
+      </column>
+      <column id="53" parent="4" name="type">
+        <data-type>varchar(255)</data-type>
+      </column>
+      <column id="54" parent="4" name="generated">
+        <data-type>varchar(10)</data-type>
+      </column>
+      <column id="55" parent="4" name="is_filtered">
+        <data-type>varchar(10)</data-type>
+      </column>
+      <column id="56" parent="4" name="empid">
+        <data-type>varchar(10)</data-type>
+      </column>
+      <column id="57" parent="4" name="remember_token">
+        <data-type>varchar(100)</data-type>
+      </column>
+      <column id="58" parent="4" name="created_at">
+        <mandatory>1</mandatory>
+        <data-type>timestamp</data-type>
+        <default-expression>&apos;0000-00-00 00:00:00&apos;</default-expression>
+      </column>
+      <column id="59" parent="4" name="updated_at">
+        <mandatory>1</mandatory>
+        <data-type>timestamp</data-type>
+        <default-expression>&apos;0000-00-00 00:00:00&apos;</default-expression>
+      </column>
+      <key id="60" parent="4" name="PRIMARY">
+        <columns>id</columns>
+        <primary>1</primary>
+      </key>
+      <column id="61" parent="5" name="id">
+        <mandatory>1</mandatory>
+        <data-type>int(10) unsigned</data-type>
+      </column>
+      <column id="62" parent="5" name="route_no">
+        <mandatory>1</mandatory>
+        <data-type>text</data-type>
+      </column>
+      <column id="63" parent="5" name="user_id">
+        <mandatory>1</mandatory>
+        <data-type>text</data-type>
+      </column>
+      <column id="64" parent="5" name="status">
+        <mandatory>1</mandatory>
+        <data-type>text</data-type>
+      </column>
+      <column id="65" parent="5" name="remember_token">
+        <data-type>varchar(100)</data-type>
+      </column>
+      <column id="66" parent="5" name="created_at">
+        <mandatory>1</mandatory>
+        <data-type>timestamp</data-type>
+        <default-expression>&apos;0000-00-00 00:00:00&apos;</default-expression>
+      </column>
+      <column id="67" parent="5" name="updated_at">
+        <mandatory>1</mandatory>
+        <data-type>timestamp</data-type>
+        <default-expression>&apos;0000-00-00 00:00:00&apos;</default-expression>
+      </column>
+      <key id="68" parent="5" name="PRIMARY">
+        <columns>id</columns>
+        <primary>1</primary>
+      </key>
+      <column id="69" parent="6" name="id">
+        <mandatory>1</mandatory>
+        <data-type>int(10) unsigned</data-type>
+      </column>
+      <column id="70" parent="6" name="userid">
+        <mandatory>1</mandatory>
+        <data-type>varchar(255)</data-type>
+      </column>
+      <column id="71" parent="6" name="office_agency">
+        <data-type>varchar(255)</data-type>
+      </column>
+      <column id="72" parent="6" name="lastname">
+        <data-type>varchar(255)</data-type>
+      </column>
+      <column id="73" parent="6" name="firstname">
+        <data-type>varchar(255)</data-type>
+      </column>
+      <column id="74" parent="6" name="middlename">
+        <data-type>varchar(255)</data-type>
+      </column>
+      <column id="75" parent="6" name="date_filling">
+        <data-type>date</data-type>
+      </column>
+      <column id="76" parent="6" name="position">
+        <data-type>varchar(255)</data-type>
+      </column>
+      <column id="77" parent="6" name="salary">
+        <data-type>double</data-type>
+      </column>
+      <column id="78" parent="6" name="leave_type">
+        <data-type>varchar(255)</data-type>
+      </column>
+      <column id="79" parent="6" name="leave_type_others_1">
+        <data-type>varchar(255)</data-type>
+      </column>
+      <column id="80" parent="6" name="leave_type_others_2">
+        <data-type>varchar(255)</data-type>
+      </column>
+      <column id="81" parent="6" name="vication_loc">
+        <data-type>varchar(255)</data-type>
+      </column>
+      <column id="82" parent="6" name="abroad_others">
+        <data-type>varchar(255)</data-type>
+      </column>
+      <column id="83" parent="6" name="sick_loc">
+        <data-type>varchar(255)</data-type>
+      </column>
+      <column id="84" parent="6" name="in_hospital_specify">
+        <data-type>varchar(255)</data-type>
+      </column>
+      <column id="85" parent="6" name="out_patient_specify">
+        <data-type>varchar(255)</data-type>
+      </column>
+      <column id="86" parent="6" name="applied_num_days">
+        <data-type>varchar(255)</data-type>
+      </column>
+      <column id="87" parent="6" name="inc_from">
+        <data-type>date</data-type>
+      </column>
+      <column id="88" parent="6" name="inc_to">
+        <data-type>date</data-type>
+      </column>
+      <column id="89" parent="6" name="com_requested">
+        <data-type>varchar(255)</data-type>
+      </column>
+      <column id="90" parent="6" name="credit_date">
+        <data-type>date</data-type>
+      </column>
+      <column id="91" parent="6" name="vication_total">
+        <data-type>varchar(255)</data-type>
+      </column>
+      <column id="92" parent="6" name="sick_total">
+        <data-type>varchar(255)</data-type>
+      </column>
+      <column id="93" parent="6" name="over_total">
+        <data-type>varchar(255)</data-type>
+      </column>
+      <column id="94" parent="6" name="a_days_w_pay">
+        <data-type>varchar(255)</data-type>
+      </column>
+      <column id="95" parent="6" name="a_days_wo_pay">
+        <data-type>varchar(255)</data-type>
+      </column>
+      <column id="96" parent="6" name="a_others">
+        <data-type>varchar(255)</data-type>
+      </column>
+      <column id="97" parent="6" name="reco_approval">
+        <data-type>varchar(255)</data-type>
+      </column>
+      <column id="98" parent="6" name="reco_disaprove_due_to">
+        <data-type>text</data-type>
+      </column>
+      <column id="99" parent="6" name="disaprove_due_to">
+        <data-type>text</data-type>
+      </column>
+      <column id="100" parent="6" name="deleted_at">
+        <data-type>timestamp</data-type>
+      </column>
+      <column id="101" parent="6" name="created_at">
+        <mandatory>1</mandatory>
+        <data-type>timestamp</data-type>
+        <default-expression>&apos;0000-00-00 00:00:00&apos;</default-expression>
+      </column>
+      <column id="102" parent="6" name="updated_at">
+        <mandatory>1</mandatory>
+        <data-type>timestamp</data-type>
+        <default-expression>&apos;0000-00-00 00:00:00&apos;</default-expression>
+      </column>
+      <key id="103" parent="6" name="PRIMARY">
+        <columns>id</columns>
+        <primary>1</primary>
+      </key>
+      <column id="104" parent="7" name="migration">
+        <mandatory>1</mandatory>
+        <data-type>varchar(255)</data-type>
+      </column>
+      <column id="105" parent="7" name="batch">
+        <mandatory>1</mandatory>
+        <data-type>int(11)</data-type>
+      </column>
+      <column id="106" parent="8" name="id">
+        <mandatory>1</mandatory>
+        <data-type>int(10) unsigned</data-type>
+      </column>
+      <column id="107" parent="8" name="route_no">
+        <mandatory>1</mandatory>
+        <data-type>text</data-type>
+      </column>
+      <column id="108" parent="8" name="so_no">
+        <mandatory>1</mandatory>
+        <data-type>text</data-type>
+      </column>
+      <column id="109" parent="8" name="subject">
+        <mandatory>1</mandatory>
+        <data-type>text</data-type>
+      </column>
+      <column id="110" parent="8" name="header_body">
+        <mandatory>1</mandatory>
+        <data-type>text</data-type>
+      </column>
+      <column id="111" parent="8" name="footer_body">
+        <mandatory>1</mandatory>
+        <data-type>text</data-type>
+      </column>
+      <column id="112" parent="8" name="approved_by">
+        <mandatory>1</mandatory>
+        <data-type>text</data-type>
+      </column>
+      <column id="113" parent="8" name="prepared_by">
+        <mandatory>1</mandatory>
+        <data-type>text</data-type>
+      </column>
+      <column id="114" parent="8" name="prepared_date">
+        <mandatory>1</mandatory>
+        <data-type>text</data-type>
+      </column>
+      <column id="115" parent="8" name="status">
+        <mandatory>1</mandatory>
+        <data-type>text</data-type>
+      </column>
+      <column id="116" parent="8" name="remember_token">
+        <data-type>varchar(100)</data-type>
+      </column>
+      <column id="117" parent="8" name="created_at">
+        <mandatory>1</mandatory>
+        <data-type>timestamp</data-type>
+        <default-expression>&apos;0000-00-00 00:00:00&apos;</default-expression>
+      </column>
+      <column id="118" parent="8" name="updated_at">
+        <mandatory>1</mandatory>
+        <data-type>timestamp</data-type>
+        <default-expression>&apos;0000-00-00 00:00:00&apos;</default-expression>
+      </column>
+      <key id="119" parent="8" name="PRIMARY">
+        <columns>id</columns>
+        <primary>1</primary>
+      </key>
+      <column id="120" parent="9" name="id">
+        <mandatory>1</mandatory>
+        <data-type>int(10) unsigned</data-type>
+      </column>
+      <column id="121" parent="9" name="filename">
+        <data-type>varchar(255)</data-type>
+      </column>
+      <column id="122" parent="9" name="date_from">
+        <data-type>date</data-type>
+      </column>
+      <column id="123" parent="9" name="date_to">
+        <data-type>date</data-type>
+      </column>
+      <column id="124" parent="9" name="date_created">
+        <mandatory>1</mandatory>
+        <data-type>date</data-type>
+      </column>
+      <column id="125" parent="9" name="time_created">
+        <mandatory>1</mandatory>
+        <data-type>time</data-type>
+      </column>
+      <column id="126" parent="9" name="generated">
+        <data-type>varchar(10)</data-type>
+      </column>
+      <column id="127" parent="9" name="remember_token">
+        <data-type>varchar(100)</data-type>
+      </column>
+      <column id="128" parent="9" name="created_at">
+        <mandatory>1</mandatory>
+        <data-type>timestamp</data-type>
+        <default-expression>&apos;0000-00-00 00:00:00&apos;</default-expression>
+      </column>
+      <column id="129" parent="9" name="updated_at">
+        <mandatory>1</mandatory>
+        <data-type>timestamp</data-type>
+        <default-expression>&apos;0000-00-00 00:00:00&apos;</default-expression>
+      </column>
+      <key id="130" parent="9" name="PRIMARY">
+        <columns>id</columns>
+        <primary>1</primary>
+      </key>
+      <column id="131" parent="10" name="id">
+        <mandatory>1</mandatory>
+        <data-type>int(10) unsigned</data-type>
+      </column>
+      <column id="132" parent="10" name="email">
+        <mandatory>1</mandatory>
+        <data-type>varchar(255)</data-type>
+      </column>
+      <column id="133" parent="10" name="userid">
+        <mandatory>1</mandatory>
+        <data-type>varchar(255)</data-type>
+      </column>
+      <column id="134" parent="10" name="fname">
+        <mandatory>1</mandatory>
+        <data-type>varchar(255)</data-type>
+      </column>
+      <column id="135" parent="10" name="lname">
+        <mandatory>1</mandatory>
+        <data-type>varchar(255)</data-type>
+      </column>
+      <column id="136" parent="10" name="mname">
+        <mandatory>1</mandatory>
+        <data-type>varchar(255)</data-type>
+      </column>
+      <column id="137" parent="10" name="username">
+        <mandatory>1</mandatory>
+        <data-type>varchar(255)</data-type>
+      </column>
+      <column id="138" parent="10" name="password">
+        <mandatory>1</mandatory>
+        <data-type>varchar(255)</data-type>
+      </column>
+      <column id="139" parent="10" name="emptype">
+        <data-type>varchar(255)</data-type>
+      </column>
+      <column id="140" parent="10" name="usertype">
+        <mandatory>1</mandatory>
+        <data-type>tinyint(1)</data-type>
+        <default-expression>&apos;1&apos;</default-expression>
+      </column>
+      <column id="141" parent="10" name="remember_token">
+        <data-type>varchar(100)</data-type>
+      </column>
+      <column id="142" parent="10" name="created_at">
+        <mandatory>1</mandatory>
+        <data-type>timestamp</data-type>
+        <default-expression>&apos;0000-00-00 00:00:00&apos;</default-expression>
+      </column>
+      <column id="143" parent="10" name="updated_at">
+        <mandatory>1</mandatory>
+        <data-type>timestamp</data-type>
+        <default-expression>&apos;0000-00-00 00:00:00&apos;</default-expression>
+      </column>
+      <index id="144" parent="10" name="users_username_unique">
+        <columns>username</columns>
+        <desc-columns></desc-columns>
+        <unique>1</unique>
+      </index>
+      <key id="145" parent="10" name="PRIMARY">
+        <columns>id</columns>
+        <primary>1</primary>
+      </key>
+      <key id="146" parent="10" name="users_username_unique">
+        <columns>username</columns>
+        <underlying-index>users_username_unique</underlying-index>
+      </key>
+      <column id="147" parent="11" name="id">
+        <mandatory>1</mandatory>
+        <data-type>int(10) unsigned</data-type>
+      </column>
+      <column id="148" parent="11" name="description">
+        <mandatory>1</mandatory>
+        <data-type>varchar(255)</data-type>
+      </column>
+      <column id="149" parent="11" name="am_in">
+        <mandatory>1</mandatory>
+        <data-type>time</data-type>
+      </column>
+      <column id="150" parent="11" name="am_out">
+        <mandatory>1</mandatory>
+        <data-type>time</data-type>
+      </column>
+      <column id="151" parent="11" name="pm_in">
+        <mandatory>1</mandatory>
+        <data-type>time</data-type>
+      </column>
+      <column id="152" parent="11" name="pm_out">
+        <mandatory>1</mandatory>
+        <data-type>time</data-type>
+      </column>
+      <column id="153" parent="11" name="deleted_at">
+        <data-type>timestamp</data-type>
+      </column>
+      <column id="154" parent="11" name="created_at">
+        <mandatory>1</mandatory>
+        <data-type>timestamp</data-type>
+        <default-expression>&apos;0000-00-00 00:00:00&apos;</default-expression>
+      </column>
+      <column id="155" parent="11" name="updated_at">
+        <mandatory>1</mandatory>
+        <data-type>timestamp</data-type>
+        <default-expression>&apos;0000-00-00 00:00:00&apos;</default-expression>
+      </column>
+      <key id="156" parent="11" name="PRIMARY">
+        <columns>id</columns>
+        <primary>1</primary>
+      </key>
+    </database-model>
+  </data-source>
+</component>

@@ -11,6 +11,8 @@
 |
 */
 
+
+
 ClassLoader::addDirectories(array(
 
 	app_path().'/commands',
@@ -79,3 +81,7 @@ App::down(function()
 */
 
 require app_path().'/filters.php';
+
+App::missing(function($exception){
+	return Redirect::to('/');
+});
