@@ -1,16 +1,16 @@
 
 <?php
 
-$date = '2017-03-22 08:18:59';
+/*$date = '2017-03-22 08:18:59';
 $date = date_create($date);
 
 
-$a = new DateTime("2017-03-22 08:00:00");
-$b = new DateTime('2017-03-22 08:30:00');
+$a = new DateTime('2017-03-22 17:00:00');
+$b = new DateTime('2017-03-22 00:00:00');
 
 $interval = $a->diff($b);
-echo $interval->i;
-exit();
+echo $interval->h .':' . $interval->i;
+exit();*/
 
 require('fpdf.php');
 ini_set('max_execution_time', 0);
@@ -105,7 +105,16 @@ class PDF extends FPDF
         $log_date = "";
         $log = "";
 
+        $pdo = conn();
+        $query = "SELECT * FROM work_sched WHERE id = '1'";
+        $st = $pdo->prepare($query);
+        $st->execute();
+        $sched = $st->fetchAll(PDO::FETCH_ASSOC);
 
+        $s_am_in = $sched[0]["am_in"];
+        $s_am_out =  $sched[0]["am_out"];
+        $s_pm_in = $sched[0]["pm_in"];
+        $s_pm_out = $sched[0]["pm_out"];
 
         $logs = get_logs($userid,$date_from,$date_to);
 
@@ -139,8 +148,9 @@ class PDF extends FPDF
                     $pm_in = $log['pm_in'];
                     $pm_out = $log['pm_out'];
 
-                    $late = late($am_in, $pm_in);
-                    $ut = undertime($am_out,$pm_out);
+                    $late = late($s_am_in,$s_pm_in,$am_in,$pm_in,$log['datein']);
+
+                    $ut = undertime($s_am_out,$s_pm_out,$am_out,$am_out,$log['datein']);
 
                 } else {
                     $am_in = '';
@@ -298,7 +308,7 @@ $pdf->AliasNbPages();
 $pdf->AddPage();
 $pdf->SetFont('Arial','',12);
 $date_from = '2017-03-01';
-$date_to = '2017-03-15';
+$date_to = '2017-03-31';
 
 $userid = '0476';
 $emp = userlist($userid);
@@ -454,13 +464,71 @@ function look_calendar($datein,$userid,$temp1,$temp2){
     }
 }
 
-function undertime()
+function late($s_am_in,$s_pm_in,$am_in,$pm_in,$datein)
 {
+    $hour = 0;
+    $min = 0;
+    $total = 0;
+
+    if($am_in != '' || $am_in != null) {
+        $a = new DateTime($datein.' '. $am_in);
+        $b = new DateTime($datein.' '. $s_am_in);
+
+        $interval = $a->diff($b);
+        $hour +=$interval->h;
+        $min += $interval->i;
+
+        $a = new DateTime($datein.' '.$pm_in);
+        $b = new DateTime($datein.' '.$s_pm_in);
+
+        $interval = $a->diff($b);
+        $hour += $interval->h;
+        $min += $interval->i;
+
+        if($hour > 59) {
+            $hour = $hour * 60;
+        }
+
+        $total = $hour + $min;
+    } else {
+        $total = '';
+    }
+
+
+    return $total;
 
 }
-
-function late()
+function undertime($s_am_out,$s_pm_out,$am_out,$pm_out,$datein)
 {
+    $hour = '';
+    $min = '';
+    $total = '';
+
+    if($pm_out != '' || $pm_out != null) {
+        $a = new DateTime($datein.' '. $am_out);
+        $b = new DateTime($datein.' '. $s_am_out);
+
+        $interval = $a->diff($b);
+        $hour +=$interval->h;
+        $min += $interval->i;
+
+        $a = new DateTime($datein.' '.$pm_out);
+        $b = new DateTime($datein.' '.$s_pm_out);
+
+        $interval = $a->diff($b);
+        $hour += $interval->h;
+        $min += $interval->i;
+
+        if($hour > 59) {
+            $hour = $hour * 60;
+        }
+
+        $total = $hour + $min;
+
+    } else {
+        $total = '';
+    }
+    return $total;
 
 }
 
