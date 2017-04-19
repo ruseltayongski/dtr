@@ -158,7 +158,6 @@ class PDF extends FPDF
                     $pm_in = '';
                     $pm_out = '';
                     $late = '';
-                    //$ut = personal::undertime($am_out,$pm_out);
                 }
 
                 $this->Cell(5,5,$r1,'');
@@ -183,6 +182,8 @@ class PDF extends FPDF
                 if($day_name == 'Sat' || $day_name == 'Sun' AND $am_in == '' AND $am_out == '' AND $pm_in == '' AND $pm_out == '') $am_out = 'DAY OFF';
                 $this->Cell($w[3],5,$pm_out,'',0,'R');
                 $this->SetTextColor(0,0,0);
+                
+                
 
                 //LATE/UNDERTIME
                 $this->Cell($w[3],5,$late.'       '.$ut,'',0,'R');
@@ -308,7 +309,7 @@ $pdf->AliasNbPages();
 $pdf->AddPage();
 $pdf->SetFont('Arial','',12);
 $date_from = '2017-03-01';
-$date_to = '2017-03-31';
+$date_to = '2017-03-15';
 
 $userid = '0476';
 $emp = userlist($userid);
@@ -485,10 +486,10 @@ function late($s_am_in,$s_pm_in,$am_in,$pm_in,$datein)
         $hour += $interval->h;
         $min += $interval->i;
 
-        if($hour > 59) {
+        if($hour > 0)
+        {
             $hour = $hour * 60;
         }
-
         $total = $hour + $min;
     } else {
         $total = '';
@@ -504,199 +505,42 @@ function undertime($s_am_out,$s_pm_out,$am_out,$pm_out,$datein)
     $min = '';
     $total = '';
 
-    if($pm_out != '' || $pm_out != null) {
-        $a = new DateTime($datein.' '. $am_out);
-        $b = new DateTime($datein.' '. $s_am_out);
+    if(isset($am_out) and $am_out != '' || $am_out != null) {
+        if(strtotime($am_out) < strtotime($s_am_out)) {
+            $a = new DateTime($datein.' '. $am_out);
+            $b = new DateTime($datein.' '. $s_am_out);
+                
+            $interval = $b->diff($a);
+            $hour1 = $interval->h;
+            $min1 = $interval->i;
 
-        $interval = $a->diff($b);
-        $hour +=$interval->h;
-        $min += $interval->i;
 
-        $a = new DateTime($datein.' '.$pm_out);
-        $b = new DateTime($datein.' '.$s_pm_out);
-
-        $interval = $a->diff($b);
-        $hour += $interval->h;
-        $min += $interval->i;
-
-        if($hour > 59) {
-            $hour = $hour * 60;
+            if($hour1 > 0) {
+                $hour1 = $hour1 * 60;
+            }
+            
+            $total += ($hour1 + $min1);
         }
+    }
 
-        $total = $hour + $min;
+    if(isset($am_out) and $pm_out != '' || $pm_out != null) {
+        if(strtotime($pm_out) < strtotime($s_pm_out)) {
+            $a = new DateTime($datein.' '.$pm_out);
+            $b = new DateTime($datein.' '.$s_pm_out);
 
-    } else {
-        $total = '';
+            $interval = $b->diff($a);
+            $hour2 = $interval->h;
+            $min2 = $interval->i;
+
+
+            if($hour2 > 0) {
+                $hour2 = $hour2 * 60;
+            }
+            
+            $total += ($hour2 + $min2);
+        }
     }
     return $total;
-
 }
 
-/*function late($am_in, $pm_in)
-{
-    $total_late = 0.0;
-
-    $h_am_late = 0.0;
-    $h_pm_late = 0.0;
-
-    $m_am_late = 0.0;
-    $m_pm_late = 0.0;
-
-    $pdo = conn();
-    $query = "SELECT * FROM work_sched WHERE id = '1'";
-    $st = $pdo->prepare($query);
-    $st->execute();
-    $sched = $st->fetchAll(PDO::FETCH_ASSOC);
-
-    $s_am_in = explode(':',$sched[0]["am_in"]);
-    $s_am_out =  explode(':',$sched[0]["am_out"]);
-    $s_pm_in =  explode(':',$sched[0]["pm_in"]);
-    $s_pm_out = explode(':',$sched[0]["pm_out"]);
-
-
-    if(isset($am_in) ) {
-        $am_in = explode(':',$am_in);
-        if(floor($am_in[0]) < floor($s_am_in[0])) {
-            $h_am_late = 0;
-            $m_am_late = 0;
-        } else {
-            $h_am_late = floor($am_in[0]) - floor($s_am_in[0]);
-            if($h_am_late <= 0) {
-                $h_am_late = 0;
-            }
-            if($am_in[0] < $s_am_in[0]) {
-                $m_am_late = 0;
-            } else {
-                $m_am_late = floor($am_in[1]) - floor($s_am_in[1]);
-                if($m_am_late <= 0) {
-                    $m_am_late = 0;
-                }
-            }
-        }
-    }
-    if(isset($pm_in)) {
-        $pm_in = explode(':', $pm_in);
-        if(floor($pm_in[0]) < floor($s_pm_in[1])) {
-            $h_pm_late = 0;
-            $m_pm_late = 0;
-        } else {
-            $h_pm_late = floor($pm_in[0]) - floor($s_pm_in[0]);
-            if($h_pm_late <= 0) {
-                $h_pm_late = 0;
-            }
-            if($pm_in[0] < $s_pm_in[0]) {
-                $m_pm_late = 0;
-            } else {
-                $m_pm_late = floor($pm_in[1]) - floor($s_pm_in[1]);
-                if($m_pm_late <= 0) {
-                    $m_pm_late = 0;
-                }
-            }
-        }
-    }
-
-    if(isset($h_am_late) and isset($h_pm_late)) {
-        $total = $h_am_late + $h_pm_late;
-
-        if($total <= 0) {
-            $total_late .= '0';
-        } else {
-            $total_late .= $total;
-        }
-    }
-
-    if(isset($m_am_late) and isset($m_pm_late)) {
-        $total = $m_am_late + $m_pm_late;
-        if($total <= 0) {
-            $total_late = '';
-        } else {
-            $total_late = $total;
-        }
-    }
-    return $total_late;
-}
-
-
-
-
-/*function undertime($am_out,$pm_out)
-{
-    $pdo = conn();
-    $query = "SELECT * FROM work_sched WHERE id = '1'";
-    $st = $pdo->prepare($query);
-    $st->execute();
-    $sched = $st->fetchAll(PDO::FETCH_ASSOC);
-
-    $s_am_in = explode(':',$sched[0]["am_in"]);
-    $s_am_out =  explode(':',$sched[0]["am_out"]);
-    $s_pm_in =  explode(':',$sched[0]["pm_in"]);
-    $s_pm_out = explode(':',$sched[0]["pm_out"]);
-
-    $total_ut = '';
-
-    $h_am_ut = '';
-    $h_pm_ut = '';
-
-    $m_am_ut = '';
-    $m_pm_ut = '';
-
-
-    if(isset($am_out) and $am_out != '' ) {
-        $am_out = explode(':', $am_out);
-        if(floor($am_out[0]) > floor($s_am_out[0])) {
-            $h_am_ut = 0;
-            $m_am_ut = 0;
-        } else {
-            $h_am_ut = floor($s_am_out[0]) - floor($am_out[0]);
-            if($h_am_ut < 0) {
-                $h_am_ut = 0;
-            }
-            if($am_out[0] > $s_am_out[0]) {
-                $m_am_ut = 0;
-            } else {
-                $m_am_ut = floor($s_am_out[1]) - floor($am_out[1]);
-                if($m_am_ut <= 0) {
-                    $m_am_ut = 0;
-                }
-            }
-        }
-    }
-    if(isset($pm_out) and $pm_out != '') {
-        $pm_out = explode(':' ,$pm_out);
-        if(floor($pm_out[0]) > floor($s_pm_out[0])) {
-            $h_pm_ut = 0;
-            $m_pm_ut = 0;
-        } else {
-            $h_pm_ut = floor($s_pm_out[0]) - floor($pm_out[0]);
-            if($h_pm_ut < 0) {
-                $h_pm_ut = 0;
-            }
-            if($pm_out[0] > $s_pm_out[0]) {
-                $m_pm_ut = floor($s_pm_out[1]) - floor($pm_out[1]);
-                if($m_pm_ut <= 0) {
-                    $m_pm_ut = 0;
-                }
-            }
-        }
-    }
-
-    if(isset($h_am_ut) and isset($h_pm_ut)) {
-        $total = $h_am_ut + $h_pm_ut;
-        if($total <= 0) {
-            $total_ut = '';
-        } else {
-            $total_ut = $total;
-        }
-    }
-    if(isset($m_am_ut) and isset($m_pm_ut)) {
-        $total = $m_am_ut + $m_pm_ut;
-        if($total <= 0) {
-            $total_ut = '';
-        } else {
-            $total_ut =$total;
-        }
-    }
-
-    return $total_ut;
-}*/
 ?>
