@@ -31,7 +31,8 @@ class PDF extends FPDF
         $endday = $day2[2];
 
         //echo date("M",strtotime($date_from)).' '. $day1[2].'-'.$day2[2].'  '.$day2[0];
-
+        $late_total = 0;
+        $ut_total = 0;
 
         $this->SetFont('Arial','',8);
         $this->SetX(10);
@@ -149,9 +150,15 @@ class PDF extends FPDF
                     $pm_out = $log['pm_out'];
 
                     $late = late($s_am_in,$s_pm_in,$am_in,$pm_in,$log['datein']);
-
+                    if($late != '' or $late != null)
+                    {
+                        $late_total = $late_total + $late;
+                    }
                     $ut = undertime($s_am_out,$s_pm_out,$am_out,$pm_out,$log['datein']);
-
+                    if($ut != '' or $ut != null)
+                    {
+                        $ut_total = $ut_total + $ut;
+                    }
                 } else {
                     $am_in = '';
                     $am_out = '';
@@ -182,13 +189,15 @@ class PDF extends FPDF
                 if($day_name == 'Sat' || $day_name == 'Sun' AND $am_in == '' AND $am_out == '' AND $pm_in == '' AND $pm_out == '') $am_out = 'DAY OFF';
                 $this->Cell($w[3],5,$pm_out,'',0,'R');
                 $this->SetTextColor(0,0,0);
-                
-                
+
+
 
                 //LATE/UNDERTIME
-                $this->Cell($w[3],5,$late.'       '.$ut,'',0,'R');
+                //$this->Cell($w[3],5,"$late       $ut",'',0,'R');
+                $this->Cell(8,5,$late,'',0,'R');
+                $this->Cell(8,5,$ut,'',0,'R');
 
-                $this->Cell(15);
+                $this->Cell(14.5);
                 $this->Cell(5,5,$r1,'');
                 $this->Cell(7,5,$day_name,'');
 
@@ -210,24 +219,42 @@ class PDF extends FPDF
 
 
                 //LATE/UNDERTIME
-                $this->Cell($w[3],5,$late.'       '.$ut,'',0,'R');
+                //$this->Cell($w[3],5,"$late       $ut",'',0,'R');
+                $this->Cell(8,5,$late,'',0,'R');
+                $this->Cell(8,5,$ut,'',0,'R');
 
                 $this->Ln();
                 if($r1 == $endday)
                 {
                     $this->SetFont('Arial','BU',8);
-                    $this->SetX(50);
-                    $this->Cell(5,0,'                                                                                                             ',0,0,'C');
+                    $this->SetX(52);
+                    $this->Cell(5,0,'                                                                                                                   ',0,0,'C');
 
-                    $this->SetX(153);
-                    $this->Cell(5,0,'                                                                                                             ',0,0,'C');
+                    $this->SetX(154);
+                    $this->Cell(5,0,'                                                                                                                   ',0,0,'C');
                     $this->Ln();
 
                     $this->SetFont('Arial','',9);
                     $this->Cell(10,7,'TOTAL',0,0,'C');
+                    $this->SetFont('Arial','',8);
+
+                    $this->SetX(85);
+                    $this->Cell(5,7,$late_total,0,0,'C');
+
+                    $this->SetX(93);
+                    $this->Cell(5,7,$ut_total,0,0,'C');
+
 
                     $this->SetX(113);
                     $this->Cell(10,7,'TOTAL',0,0,'C');
+
+                    $this->SetX(188);
+                    $this->Cell(5,7,$late_total,0,0,'C');
+
+                    $this->SetX(195);
+                    $this->Cell(5,7,$ut_total,0,0,'C');
+
+
                     $this->Ln();
 
                     $this->SetFont('Arial','',7);
@@ -309,7 +336,7 @@ $pdf->AliasNbPages();
 $pdf->AddPage();
 $pdf->SetFont('Arial','',12);
 $date_from = '2017-03-01';
-$date_to = '2017-03-15';
+$date_to = '2017-03-31';
 
 $userid = '0476';
 $emp = userlist($userid);
