@@ -24,7 +24,8 @@ class PDF extends FPDF
         $endday = $day2[2];
 
         //echo date("M",strtotime($date_from)).' '. $day1[2].'-'.$day2[2].'  '.$day2[0];
-
+        $late_total = 0;
+        $ut_total = 0;
 
         $this->SetFont('Arial','',8);
         $this->SetX(10);
@@ -97,8 +98,18 @@ class PDF extends FPDF
         $index = 0;
         $log_date = "";
         $log = "";
+        $late = '';
+        $ut = '';
+        $pdo = conn();
+        $query = "SELECT * FROM work_sched WHERE id = '1'";
+        $st = $pdo->prepare($query);
+        $st->execute();
+        $sched = $st->fetchAll(PDO::FETCH_ASSOC);
 
-
+        $s_am_in = $sched[0]["am_in"];
+        $s_am_out =  $sched[0]["am_out"];
+        $s_pm_in = $sched[0]["pm_in"];
+        $s_pm_out = $sched[0]["pm_out"];
 
         $logs = get_logs($userid,$date_from,$date_to);
 
@@ -132,13 +143,22 @@ class PDF extends FPDF
                     $pm_in = $log['pm_in'];
                     $pm_out = $log['pm_out'];
 
+                    $late = late($s_am_in,$s_pm_in,$am_in,$pm_in,$log['datein']);
+                    if($late != '' or $late != null)
+                    {
+                        $late_total = $late_total + $late;
+                    }
+                    $ut = undertime($s_am_out,$s_pm_out,$am_out,$pm_out,$log['datein']);
+                    if($ut != '' or $ut != null)
+                    {
+                        $ut_total = $ut_total + $ut;
+                    }
                 } else {
                     $am_in = '';
                     $am_out = '';
                     $pm_in = '';
                     $pm_out = '';
                     $late = '';
-                    //$ut = personal::undertime($am_out,$pm_out);
                 }
 
                 $this->Cell(5,5,$r1,'');
@@ -164,7 +184,14 @@ class PDF extends FPDF
                 $this->Cell($w[3],5,$pm_out,'',0,'R');
                 $this->SetTextColor(0,0,0);
 
-                $this->Cell(30);
+
+
+                //LATE/UNDERTIME
+                //$this->Cell($w[3],5,"$late       $ut",'',0,'R');
+                $this->Cell(8,5,$late,'',0,'R');
+                $this->Cell(8,5,$ut,'',0,'R');
+
+                $this->Cell(14.5);
                 $this->Cell(5,5,$r1,'');
                 $this->Cell(7,5,$day_name,'');
 
@@ -184,22 +211,44 @@ class PDF extends FPDF
                 $this->Cell($w[3],5,$pm_out,'',0,'R');
                 $this->SetTextColor(0,0,0);
 
+
+                //LATE/UNDERTIME
+                //$this->Cell($w[3],5,"$late       $ut",'',0,'R');
+                $this->Cell(8,5,$late,'',0,'R');
+                $this->Cell(8,5,$ut,'',0,'R');
+
                 $this->Ln();
                 if($r1 == $endday)
                 {
                     $this->SetFont('Arial','BU',8);
-                    $this->SetX(50);
-                    $this->Cell(5,0,'                                                                                                             ',0,0,'C');
+                    $this->SetX(52);
+                    $this->Cell(5,0,'                                                                                                                   ',0,0,'C');
 
-                    $this->SetX(153);
-                    $this->Cell(5,0,'                                                                                                             ',0,0,'C');
+                    $this->SetX(154);
+                    $this->Cell(5,0,'                                                                                                                   ',0,0,'C');
                     $this->Ln();
 
                     $this->SetFont('Arial','',9);
                     $this->Cell(10,7,'TOTAL',0,0,'C');
+                    $this->SetFont('Arial','',8);
+
+                    $this->SetX(85);
+                    $this->Cell(5,7,$late_total,0,0,'C');
+
+                    $this->SetX(93);
+                    $this->Cell(5,7,$ut_total,0,0,'C');
+
 
                     $this->SetX(113);
                     $this->Cell(10,7,'TOTAL',0,0,'C');
+
+                    $this->SetX(188);
+                    $this->Cell(5,7,$late_total,0,0,'C');
+
+                    $this->SetX(195);
+                    $this->Cell(5,7,$ut_total,0,0,'C');
+
+
                     $this->Ln();
 
                     $this->SetFont('Arial','',7);
@@ -311,6 +360,8 @@ $protocol = 'http://';
 $address = $protocol.$host.'/'.$uri[1].'/dtr/list/jo';
 header('Location:'.$address);
 exit();
+
+
 function get_logs($id,$date_from,$date_to)
 {
     $pdo = conn();
@@ -427,6 +478,112 @@ function look_calendar($datein,$userid,$temp1,$temp2){
             return 'sono.1234';
         }
     }
+}
+
+function late($s_am_in,$s_pm_in,$am_in,$pm_in,$datein)
+{
+    $hour = 0;
+    $min = 0;
+    $total = 0;
+
+    if(isset($am_in) and $am_in != '' || $am_in != null) {
+        if(strtotime($am_in) > strtotime($s_am_in)) {
+            $a = new DateTime($datein.' '. $am_in);
+            $b = new DateTime($datein.' '. $s_am_in);
+
+            $interval = $a->diff($b);
+            $hour1 = $interval->h;
+            $min1 = $interval->i;
+
+
+            if($hour1 > 0) {
+                $hour1 = $hour1 * 60;
+            }
+            $total += ($hour1 + $min1);
+        }
+
+    }
+
+    if(isset($pm_in) and $pm_in != '' || $pm_in != null) {
+        if(strtotime($pm_in) > strtotime($s_pm_in)) {
+            $a = new DateTime($datein.' '.$pm_in);
+            $b = new DateTime($datein.' '.$s_pm_in);
+
+            $interval = $a->diff($b);
+            $hour2 = $interval->h;
+            $min2 = $interval->i;
+
+
+            if($hour2 > 0) {
+                $hour2 = $hour2 * 60;
+            }
+
+            $total += ($hour2 + $min2);
+        }
+    }
+
+    if($total == 0) $total = '';
+    return $total;
+
+}
+function undertime($s_am_out,$s_pm_out,$am_out,$pm_out,$datein)
+{
+
+    $hour = '';
+    $min = '';
+    $total = '';
+
+    if(isset($am_out) and $am_out != '' || $am_out != null) {
+        if(strtotime($am_out) < strtotime($s_am_out)) {
+            $a = new DateTime($datein.' '. $am_out);
+            $b = new DateTime($datein.' '. $s_am_out);
+
+            $interval = $b->diff($a);
+            $hour1 = $interval->h;
+            $min1 = $interval->i;
+
+
+            if($hour1 > 0) {
+                $hour1 = $hour1 * 60;
+            }
+            $total += ($hour1 + $min1);
+        }
+
+    }
+
+    if(isset($pm_out) and $pm_out != '' || $pm_out != null) {
+        if(strtotime($pm_out) < strtotime($s_pm_out)) {
+            $a = new DateTime($datein.' '.$pm_out);
+            $b = new DateTime($datein.' '.$s_pm_out);
+
+            $interval = $b->diff($a);
+            $hour2 = $interval->h;
+            $min2 = $interval->i;
+
+
+            if($hour2 > 0) {
+                $hour2 = $hour2 * 60;
+            }
+
+            /*echo "<br />";
+            echo "DATE IN : " .$datein;
+            echo "<br />";
+            echo "S_PM_OUT : " . $s_pm_out;
+            echo "<br />";
+            echo "PM OUT : " . $pm_out;
+            echo "<br />";
+            echo "Hour1 : " .$hour2;
+            echo "<br />";
+            echo "Min1 : " . $min2;
+            echo "<br />";
+
+            echo "PM OUT TOTAL : " . $total;
+            echo "<br /><br />";*/
+            $total += ($hour2 + $min2);
+        }
+    }
+    if($total == 0 ) $total = '';
+    return $total;
 }
 
 

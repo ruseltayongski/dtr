@@ -28,7 +28,8 @@ class PDF extends FPDF
         $endday = $day2[2];
 
         //echo date("M",strtotime($date_from)).' '. $day1[2].'-'.$day2[2].'  '.$day2[0];
-
+        $late_total = 0;
+        $ut_total = 0;
 
         $this->SetFont('Arial','',8);
         $this->SetX(10);
@@ -102,7 +103,16 @@ class PDF extends FPDF
         $log_date = "";
         $log = "";
 
+        $pdo = conn();
+        $query = "SELECT * FROM work_sched WHERE id = '1'";
+        $st = $pdo->prepare($query);
+        $st->execute();
+        $sched = $st->fetchAll(PDO::FETCH_ASSOC);
 
+        $s_am_in = $sched[0]["am_in"];
+        $s_am_out =  $sched[0]["am_out"];
+        $s_pm_in = $sched[0]["pm_in"];
+        $s_pm_out = $sched[0]["pm_out"];
 
         $logs = get_logs($userid,$date_from,$date_to);
 
@@ -136,13 +146,22 @@ class PDF extends FPDF
                     $pm_in = $log['pm_in'];
                     $pm_out = $log['pm_out'];
 
+                    $late = late($s_am_in,$s_pm_in,$am_in,$pm_in,$log['datein']);
+                    if($late != '' or $late != null)
+                    {
+                        $late_total = $late_total + $late;
+                    }
+                    $ut = undertime($s_am_out,$s_pm_out,$am_out,$pm_out,$log['datein']);
+                    if($ut != '' or $ut != null)
+                    {
+                        $ut_total = $ut_total + $ut;
+                    }
                 } else {
                     $am_in = '';
                     $am_out = '';
                     $pm_in = '';
                     $pm_out = '';
                     $late = '';
-                    //$ut = personal::undertime($am_out,$pm_out);
                 }
 
                 $this->Cell(5,5,$r1,'');
@@ -168,7 +187,14 @@ class PDF extends FPDF
                 $this->Cell($w[3],5,$pm_out,'',0,'R');
                 $this->SetTextColor(0,0,0);
 
-                $this->Cell(30);
+
+
+                //LATE/UNDERTIME
+                //$this->Cell($w[3],5,"$late       $ut",'',0,'R');
+                $this->Cell(8,5,$late,'',0,'R');
+                $this->Cell(8,5,$ut,'',0,'R');
+
+                $this->Cell(14.5);
                 $this->Cell(5,5,$r1,'');
                 $this->Cell(7,5,$day_name,'');
 
@@ -188,22 +214,44 @@ class PDF extends FPDF
                 $this->Cell($w[3],5,$pm_out,'',0,'R');
                 $this->SetTextColor(0,0,0);
 
+
+                //LATE/UNDERTIME
+                //$this->Cell($w[3],5,"$late       $ut",'',0,'R');
+                $this->Cell(8,5,$late,'',0,'R');
+                $this->Cell(8,5,$ut,'',0,'R');
+
                 $this->Ln();
                 if($r1 == $endday)
                 {
                     $this->SetFont('Arial','BU',8);
-                    $this->SetX(50);
-                    $this->Cell(5,0,'                                                                                                             ',0,0,'C');
+                    $this->SetX(52);
+                    $this->Cell(5,0,'                                                                                                                   ',0,0,'C');
 
-                    $this->SetX(153);
-                    $this->Cell(5,0,'                                                                                                             ',0,0,'C');
+                    $this->SetX(154);
+                    $this->Cell(5,0,'                                                                                                                   ',0,0,'C');
                     $this->Ln();
 
                     $this->SetFont('Arial','',9);
                     $this->Cell(10,7,'TOTAL',0,0,'C');
+                    $this->SetFont('Arial','',8);
+
+                    $this->SetX(85);
+                    $this->Cell(5,7,$late_total,0,0,'C');
+
+                    $this->SetX(93);
+                    $this->Cell(5,7,$ut_total,0,0,'C');
+
 
                     $this->SetX(113);
                     $this->Cell(10,7,'TOTAL',0,0,'C');
+
+                    $this->SetX(188);
+                    $this->Cell(5,7,$late_total,0,0,'C');
+
+                    $this->SetX(195);
+                    $this->Cell(5,7,$ut_total,0,0,'C');
+
+
                     $this->Ln();
 
                     $this->SetFont('Arial','',7);
@@ -261,7 +309,6 @@ class PDF extends FPDF
         $this->SetXY(112,47);
         $this->Cell(89,5,'  DAY     ARRIVAL | DEPARTURE   ARRIVAL | DEPARTURE   LATE | UT',1);
         $this->Ln(500);
-
 
     }
 
