@@ -50,10 +50,15 @@ class DocumentController extends BaseController
         }
         if(Request::method() == 'POST') {
 
+            $route_no = date('Y-') . Auth::user()->id . date('mdHis');
+            return $route_no;
+
+            $doc_type = 'LEAVE';
+            $prepared_date = Input::get('prepared_date');
+            $prepared_by =  Auth::user()->id;
+            $description = Input::get('subject');
 
             $leave = new Leave();
-
-
 
 
             $leave->userid = Auth::user()->userid;

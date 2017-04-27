@@ -43,6 +43,7 @@
                                 <table class="table table-list table-hover table-striped">
                                     <thead>
                                          <tr style="background-color:grey;">
+                                            <td width="8%"></td>
                                             <td><b>Date Created</b></td>
                                             <td><b>Application for Leave</b></td>
                                             <td width="30%">
@@ -53,6 +54,7 @@
                                     <tbody>
                                     @foreach($leaves as $leave)
                                         <tr>
+                                            <td><a href="#track" data-link="{{ asset('') }}" data-toggle="modal" class="btn btn-sm btn-success col-sm-12" style="background-color: darkmagenta;color:white;"><i class="fa fa-line-chart"></i> Track</a></td>
                                             <td style="color: #c87f0a;">
                                                 <a href="#leave" data-toggle="modal" data-link="{{ asset('leave/get') }}" data-id="{{ $leave->id }}"><b>{{ $leave->date_filling }}</b></a>
                                             </td>

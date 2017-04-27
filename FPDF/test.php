@@ -511,18 +511,7 @@ function late($s_am_in,$s_pm_in,$am_in,$pm_in,$datein)
             if($hour1 > 0) {
                 $hour1 = $hour1 * 60;
             }
-            /*echo "<br />";
-            echo "S_AM_OUT : " . $s_am_out;
-            echo "<br />";
-            echo "AM OUT : " . $am_out;
-            echo "<br />";
-            echo "Hour1 : " .$hour1;
-            echo "<br />";
-            echo "Min1 : " . $min1;
-            echo "<br />";
 
-            echo "AM OUT TOTAL : " . $total;
-            echo "<br /><br />";*/
             $total += ($hour1 + $min1);
         }
 
@@ -542,20 +531,7 @@ function late($s_am_in,$s_pm_in,$am_in,$pm_in,$datein)
                 $hour2 = $hour2 * 60;
             }
 
-            /*echo "<br />";
-            echo "DATE IN : " .$datein;
-            echo "<br />";
-            echo "S_PM_OUT : " . $s_pm_out;
-            echo "<br />";
-            echo "PM OUT : " . $pm_out;
-            echo "<br />";
-            echo "Hour1 : " .$hour2;
-            echo "<br />";
-            echo "Min1 : " . $min2;
-            echo "<br />";
 
-            echo "PM OUT TOTAL : " . $total;
-            echo "<br /><br />";*/
             $total += ($hour2 + $min2);
         }
     }
@@ -584,18 +560,7 @@ function undertime($s_am_out,$s_pm_out,$am_out,$pm_out,$datein)
             if($hour1 > 0) {
                 $hour1 = $hour1 * 60;
             }
-            /*echo "<br />";
-            echo "S_AM_OUT : " . $s_am_out;
-            echo "<br />";
-            echo "AM OUT : " . $am_out;
-            echo "<br />";
-            echo "Hour1 : " .$hour1;
-            echo "<br />";
-            echo "Min1 : " . $min1;
-            echo "<br />";
 
-            echo "AM OUT TOTAL : " . $total;
-            echo "<br /><br />";*/
             $total += ($hour1 + $min1);
         }
 
@@ -615,20 +580,6 @@ function undertime($s_am_out,$s_pm_out,$am_out,$pm_out,$datein)
                 $hour2 = $hour2 * 60;
             }
 
-            /*echo "<br />";
-            echo "DATE IN : " .$datein;
-            echo "<br />";
-            echo "S_PM_OUT : " . $s_pm_out;
-            echo "<br />";
-            echo "PM OUT : " . $pm_out;
-            echo "<br />";
-            echo "Hour1 : " .$hour2;
-            echo "<br />";
-            echo "Min1 : " . $min2;
-            echo "<br />";
-
-            echo "PM OUT TOTAL : " . $total;
-            echo "<br /><br />";*/
             $total += ($hour2 + $min2);
         }
     }

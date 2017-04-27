@@ -139,4 +139,5 @@ Route::get('emptype', function() {
 	});
 });
 
+
 ?>
