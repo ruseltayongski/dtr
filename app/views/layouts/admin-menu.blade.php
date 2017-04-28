@@ -13,18 +13,10 @@
             </li>
             <li class="divider"></li>
             <li class="dropdown-submenu">
-                <a href="#"><i class="fa fa-print"></i>&nbsp;&nbsp; Print Individual</a>
+                <a href="#"><i class="fa fa-clock-o"></i>&nbsp;&nbsp; Manage Schedule</a>
                 <ul class="dropdown-menu">
                     <li><a href="{{ asset('work-schedule') }}">Working Schedule</a></li>
                     <li><a href="{{ asset('new/flixe/group') }}">Employee Flixe Group</a></li>
-                </ul>
-            </li>
-            <li class="divider"></li>
-            <li class="dropdown-submenu">
-                <a href="#"><i class="fa fa-clock-o"></i>&nbsp;&nbsp; Manage Schedule</a>
-                <ul class="dropdown-menu">
-                    <li><a href="{{ asset('work-schedule') }}">Job Order</a></li>
-                    <li><a href="{{ asset('new/flixe/group') }}">Regular Employee</a></li>
                 </ul>
             </li>
             <li class="divider"></li>
@@ -37,8 +29,6 @@
                     <li><a href="#document_form" data-backdrop="static" data-toggle="modal" data-link="{{ asset('/form/justification/letter') }}"></a></li>
                 </ul>
             </li>
-
-
             <li class="divider"></li>
             <li><a href="{{ url('employees') }}"><i class="fa fa-user"></i> Employees</a></li>
             <li class="divider"></li>

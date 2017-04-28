@@ -218,7 +218,10 @@ class PDF extends FPDF
                 //$this->Cell($w[3],5,"$late       $ut",'',0,'R');
                 $this->Cell(8,5,$late,'',0,'R');
                 $this->Cell(8,5,$ut,'',0,'R');
-
+                
+                $late = '';
+                $ut = '';
+                
                 $this->Ln();
                 if($r1 == $endday)
                 {

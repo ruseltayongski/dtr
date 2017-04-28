@@ -14,6 +14,7 @@ class Leave extends Migration {
 	{
 		Schema::create('leave', function($table){
 			$table->increments('id');
+			$table->string('route_no');
 			$table->string('userid');
 			$table->string('office_agency')->nullable();
 			$table->string('lastname')->nullable();
@@ -56,7 +57,7 @@ class Leave extends Migration {
 	 */
 	public function down()
 	{
-		//
+		Schema::drop('leave');
 	}
 
 }

@@ -44,20 +44,16 @@ class DocumentController extends BaseController
 
     public  function leave()
     {
+        
         if(Request::method() == 'GET'){
+            
             $user = Users::where('userid','=',Auth::user()->userid)->first();
             return View::make('form.form_leave')->with('user',$user);
         }
         if(Request::method() == 'POST') {
 
-            $route_no = date('Y-') . Auth::user()->id . date('mdHis');
-            return $route_no;
-
-            $doc_type = 'LEAVE';
-            $prepared_date = Input::get('prepared_date');
-            $prepared_by =  Auth::user()->id;
-            $description = Input::get('subject');
-
+            
+            
             $leave = new Leave();
 
 
@@ -110,6 +106,34 @@ class DocumentController extends BaseController
             $leave->disaprove_due_to = Input::get('disaprove_due_to');
 
             $leave->save();
+
+
+
+            $route_no = date('Y-') . Auth::user()->userid . date('mdHis');
+
+
+            $doc_type = 'LEAVE';
+            $prepared_date = Input::get('prepared_date');
+            $prepared_by =  Auth::user()->userid;
+            $description = "Application for leave";
+
+            $this->insert_tracking_master($route_no,$doc_type,$prepared_date,$prepared_by,$description);
+
+            //ADD TRACKING DETAILS
+            $date_in = $prepared_date;
+            $received_by = $prepared_by;
+            $delivered_by = $prepared_by;
+            $action = $description;
+            $this->insert_tracking_details($route_no,$date_in,$received_by,$delivered_by,$action);
+
+            //ADD SYSTEM LOGS
+            $user_id = $prepared_by;
+            $name = Auth::user()->fname.' '.Auth::user()->mname.' '.Auth::user()->lname;
+            $activity = 'CREATED';
+            $this->insert_system_logs($user_id,$name,$activity);
+            Session::put('added',true);
+
+
             return Redirect::to('form/leave/all')->with('message','New application for leave created.');
 
         }
