@@ -217,6 +217,9 @@ class PDF extends FPDF
                 $this->Cell(8,5,$late,'',0,'R');
                 $this->Cell(8,5,$ut,'',0,'R');
 
+                $late = '';
+                $ut = '';
+                
                 $this->Ln();
                 if($r1 == $endday)
                 {
@@ -565,20 +568,7 @@ function undertime($s_am_out,$s_pm_out,$am_out,$pm_out,$datein)
                 $hour2 = $hour2 * 60;
             }
 
-            /*echo "<br />";
-            echo "DATE IN : " .$datein;
-            echo "<br />";
-            echo "S_PM_OUT : " . $s_pm_out;
-            echo "<br />";
-            echo "PM OUT : " . $pm_out;
-            echo "<br />";
-            echo "Hour1 : " .$hour2;
-            echo "<br />";
-            echo "Min1 : " . $min2;
-            echo "<br />";
 
-            echo "PM OUT TOTAL : " . $total;
-            echo "<br /><br />";*/
             $total += ($hour2 + $min2);
         }
     }

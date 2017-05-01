@@ -23,7 +23,6 @@ class PDF extends FPDF
 // Page header
     function form($name,$userid,$date_from,$date_to)
     {
-
         $day1 = explode('-',$date_from);
         $day2 = explode('-',$date_to);
 
@@ -105,7 +104,8 @@ class PDF extends FPDF
         $index = 0;
         $log_date = "";
         $log = "";
-
+        $late = '';
+        $ut = '';
         $pdo = conn();
         $query = "SELECT * FROM work_sched WHERE id = '1'";
         $st = $pdo->prepare($query);
@@ -223,6 +223,8 @@ class PDF extends FPDF
                 $this->Cell(8,5,$late,'',0,'R');
                 $this->Cell(8,5,$ut,'',0,'R');
 
+                $late = '';
+                $ut = '';
                 $this->Ln();
                 if($r1 == $endday)
                 {
@@ -312,8 +314,6 @@ class PDF extends FPDF
         $this->SetXY(112,47);
         $this->Cell(89,5,'  DAY     ARRIVAL | DEPARTURE   ARRIVAL | DEPARTURE   LATE | UT',1);
         $this->Ln(500);
-
-
     }
 
     function SetEmpname($empname)
@@ -338,7 +338,7 @@ $pdf->SetFont('Arial','',12);
 $date_from = '2017-03-01';
 $date_to = '2017-03-31';
 
-$userid = '0476';
+$userid = '201400194';
 $emp = userlist($userid);
 
 

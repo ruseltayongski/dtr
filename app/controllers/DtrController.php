@@ -97,7 +97,6 @@ class DtrController extends BaseController
                                     $user->emptype = 'JO';
                                 }
                                 $user->save();
-
                             }
                         }
                     } catch (Exception $ex) {
@@ -105,6 +104,8 @@ class DtrController extends BaseController
                     }
                 }
                return Redirect::to('index');
+            } else {
+                return "<h2 style='color:red;'>No input file</h2>";
             }
         }
     }

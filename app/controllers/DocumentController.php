@@ -44,20 +44,23 @@ class DocumentController extends BaseController
 
     public  function leave()
     {
+        
         if(Request::method() == 'GET'){
+            
             $user = Users::where('userid','=',Auth::user()->userid)->first();
             return View::make('form.form_leave')->with('user',$user);
         }
         if(Request::method() == 'POST') {
 
-            $route_no = date('Y-') . Auth::user()->id . date('mdHis');
-            return $route_no;
+            $route_no = date('Y-') . Auth::user()->userid . date('mdHis');
+
 
             $doc_type = 'LEAVE';
             $prepared_date = Input::get('prepared_date');
-            $prepared_by =  Auth::user()->id;
+            $prepared_by =  Auth::user()->userid;
             $description = Input::get('subject');
-
+            
+            
             $leave = new Leave();
 
 
