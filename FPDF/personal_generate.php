@@ -123,6 +123,11 @@ class PDF extends FPDF
         $am_out = '';
         $pm_in = '';
         $pm_out = '';
+
+        $e1 = '';
+        $e2 = '';
+        $e3 = '';
+        $e4 = '';
         if(isset($logs) and count($logs))
         {
             for($r1 = $startday; $r1 <= $endday; $r1++)
@@ -144,6 +149,10 @@ class PDF extends FPDF
                     $am_out = $log['am_out'];
                     $pm_in = $log['pm_in'];
                     $pm_out = $log['pm_out'];
+                    $e1 = $log['e1'];
+                    $e2 = $log['e2'];
+                    $e3 = $log['e3'];
+                    $e4 = $log['e4'];
 
                     $late = late($s_am_in,$s_pm_in,$am_in,$pm_in,$log['datein']);
                     if($late != '' or $late != null)
@@ -161,28 +170,51 @@ class PDF extends FPDF
                     $pm_in = '';
                     $pm_out = '';
                     $late = '';
+                    $e1 = '';
+                    $e2 = '';
+                    $e3 = '';
+                    $e4 = '';
                 }
 
+                $this->SetFont('Arial','',8);
                 $this->Cell(5,5,$r1,'');
                 $this->Cell(7,5,$day_name,'');
 
                 $am_in == '' ? ($am_in = look_calendar($datein,$userid,$temp1,$temp2) AND $this->SetTextColor(255,0,0)) : $this->SetTextColor(0,0,0);
                 if($day_name == 'Sat' || $day_name == 'Sun' AND $am_in == '') $am_out = 'DAY OFF';
+                if(isset($e1) and $e1 == "1"){
+                    $this->SetFont('Arial','U',8);
+                }
+
                 $this->Cell($w[1],5,$am_in,'');
                 $this->SetTextColor(0,0,0);
 
+
                 $am_out == '' ? ($am_out = look_calendar($datein,$userid,$temp1,$temp2) AND $this->SetTextColor(255,0,0)) : $this->SetTextColor(0,0,0);
+                $this->SetFont('Arial','',8);
                 if($day_name == 'Sat' || $day_name == 'Sun' AND $am_in == '' AND $am_out == '') $am_out = 'DAY OFF';
+                if(isset($e2) and $e2 == "1"){
+                    $this->SetFont('Arial','U',8);
+                }
+
                 $this->Cell($w[1],5,$am_out,'');
                 $this->SetTextColor(0,0,0);
 
                 $pm_in == '' ? ($pm_in = look_calendar($datein,$userid,$temp1,$temp2) AND $this->SetTextColor(255,0,0)) : $this->SetTextColor(0,0,0);
                 if($day_name == 'Sat' || $day_name == 'Sun' AND $am_in == '' AND $am_out == '' AND $pm_in == '') $am_out = 'DAY OFF';
+                if(isset($e3) and $e3 == "1"){
+                    $this->SetFont('Arial','U',8);
+                }
+
                 $this->Cell($w[2],5,$pm_in,'',0,'R');
                 $this->SetTextColor(0,0,0);
 
                 $pm_out == '' ? ($pm_out = look_calendar($datein,$userid,$temp1,$temp2) AND $this->SetTextColor(255,0,0)) : $this->SetTextColor(0,0,0);
                 if($day_name == 'Sat' || $day_name == 'Sun' AND $am_in == '' AND $am_out == '' AND $pm_in == '' AND $pm_out == '') $am_out = 'DAY OFF';
+                if(isset($e4) and $e4 == "1") {
+                    $this->SetFont('Arial','U',8);
+                }
+
                 $this->Cell($w[3],5,$pm_out,'',0,'R');
                 $this->SetTextColor(0,0,0);
 
@@ -190,31 +222,54 @@ class PDF extends FPDF
 
                 //LATE/UNDERTIME
                 //$this->Cell($w[3],5,"$late       $ut",'',0,'R');
+                $this->SetFont('Arial','',8);
                 $this->Cell(8,5,$late,'',0,'R');
                 $this->Cell(8,5,$ut,'',0,'R');
+
 
                 $this->Cell(14.5);
                 $this->Cell(5,5,$r1,'');
                 $this->Cell(7,5,$day_name,'');
 
                 $am_in == 'sono.1234' ? ($am_in = look_calendar($datein,$userid,$temp1,$temp2) AND $this->SetTextColor(255,0,0)) : $this->SetTextColor(0,0,0);
+                if(isset($e1) and $e1 == "1"){
+                    $this->SetFont('Arial','U',8);
+                } else {
+                    $this->SetFont('Arial','',8);
+                }
                 $this->Cell($w[1],5,$am_in,'');
                 $this->SetTextColor(0,0,0);
 
                 $am_out == 'sono.1234' ? ($am_out = look_calendar($datein,$userid,$temp1,$temp2) AND $this->SetTextColor(255,0,0)) : $this->SetTextColor(0,0,0);
+                if(isset($e2) and $e2 == "1"){
+                    $this->SetFont('Arial','U',8);
+                } else {
+                    $this->SetFont('Arial','',8);
+                }
                 $this->Cell($w[1],5,$am_out,'');
                 $this->SetTextColor(0,0,0);
 
                 $pm_in == 'sono.1234' ? ($pm_in = look_calendar($datein,$userid,$temp1,$temp2) AND $this->SetTextColor(255,0,0)) : $this->SetTextColor(0,0,0);
+                if(isset($e3) and $e3 == "1"){
+                    $this->SetFont('Arial','U',8);
+                } else {
+                    $this->SetFont('Arial','',8);
+                }
                 $this->Cell($w[2],5,$pm_in,'',0,'R');
                 $this->SetTextColor(0,0,0);
 
                 $pm_out == 'sono.1234' ? ($pm_out = look_calendar($datein,$userid,$temp1,$temp2) AND $this->SetTextColor(255,0,0)) : $this->SetTextColor(0,0,0);
+                if(isset($e4) and $e4 == "1"){
+                    $this->SetFont('Arial','U',8);
+                } else {
+                    $this->SetFont('Arial','',8);
+                }
                 $this->Cell($w[3],5,$pm_out,'',0,'R');
                 $this->SetTextColor(0,0,0);
 
 
                 //LATE/UNDERTIME
+                $this->SetFont('Arial','',8);
                 //$this->Cell($w[3],5,"$late       $ut",'',0,'R');
                 $this->Cell(8,5,$late,'',0,'R');
                 $this->Cell(8,5,$ut,'',0,'R');
@@ -417,7 +472,12 @@ function get_logs($id,$date_from,$date_to)
                     (SELECT MIN(t1.time) FROM dtr_file t1 WHERE t1.userid = '". $id."' and datein = d.datein and t1.time_h < ". $am_out[0] .") as am_in,
                     (SELECT MAX(t2.time) FROM dtr_file t2 WHERE t2.userid = '". $id."' and datein = d.datein and t2.time_h < ". $pm_in[0]." AND t2.event = 'OUT') as am_out,
                     (SELECT MIN(t3.time) FROM dtr_file t3 WHERE t3.userid = '". $id."' AND datein = d.datein and t3.time_h >= ". $am_out[0]." and t3.time_h < ". $pm_out[0]." AND t3.event = 'IN' ) as pm_in,
-                    (SELECT MAX(t4.time) FROM dtr_file t4 WHERE t4.userid = '". $id."' AND datein = d.datein and t4.time_h > ". $pm_in[0] ." and t4. time_h < 24) as pm_out
+                    (SELECT MAX(t4.time) FROM dtr_file t4 WHERE t4.userid = '". $id."' AND datein = d.datein and t4.time_h > ". $pm_in[0] ." and t4. time_h < 24) as pm_out,
+
+                    (SELECT t1.edited FROM dtr_file t1 WHERE t1.userid = '". $id."' and datein = d.datein and t1.time_h < ". $am_out[0] .") as e1,
+                    (SELECT t2.edited  FROM dtr_file t2 WHERE t2.userid = '". $id."' and datein = d.datein and t2.time_h < ". $pm_in[0]." AND t2.event = 'OUT') as e2,
+                    (SELECT t3.edited FROM dtr_file t3 WHERE t3.userid = '". $id."' AND datein = d.datein and t3.time_h >= ". $am_out[0]." and t3.time_h < ". $pm_out[0]." AND t3.event = 'IN' ) as e3,
+                    (SELECT t4.edited FROM dtr_file t4 WHERE t4.userid = '". $id."' AND datein = d.datein and t4.time_h > ". $pm_in[0] ." and t4. time_h < 24) as e4
 
                     FROM dtr_file d LEFT JOIN users e
                         ON d.userid = e.userid

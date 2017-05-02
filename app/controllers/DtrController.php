@@ -78,6 +78,7 @@ class DtrController extends BaseController
                             } catch(QueryException $ex){
 
                             }
+                            $details->edited = "0";
                             //FOR INSERTING DATA TO THE USERS TABLE ONLY. IF THE USERS TABLE HAS NO DATA, JUST UNCOMMENT THIS COMMENT.
                             $user = User::where('userid',$details->userid)->first();
                             //checking for duplicate userid
