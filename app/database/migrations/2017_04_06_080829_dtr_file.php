@@ -30,6 +30,7 @@ class DtrFile extends Migration {
                 $table->string('event',200)->nullable();
                 $table->string('terminal',200)->nullable();
                 $table->string('remark',200)->nullable();
+                $table->string('edited',10)->nullable();
                 $table->timestamps();
                 $table->softDeletes();
             });

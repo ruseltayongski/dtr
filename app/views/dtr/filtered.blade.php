@@ -161,10 +161,7 @@ if(isset($lists) and count($lists) > 0) {
 <?php
 
 
-<<<<<<< HEAD
 
-=======
->>>>>>> a5e00ff139b9e9860449105f7b9bbb0d653f2792
 function get_logs($id,$date_from,$date_to)
 {
     $pdo = conn();
@@ -197,8 +194,6 @@ function get_logs($id,$date_from,$date_to)
     }
     return $row;
 }
-<<<<<<< HEAD
-=======
 
 
 function late($s_am_in,$s_pm_in,$am_in,$pm_in,$datein)
@@ -224,7 +219,7 @@ function late($s_am_in,$s_pm_in,$am_in,$pm_in,$datein)
         }
 
     }
->>>>>>> a5e00ff139b9e9860449105f7b9bbb0d653f2792
+
 
     if(isset($pm_in) and $pm_in != '' || $pm_in != null) {
         if(strtotime($pm_in) > strtotime($s_pm_in)) {
@@ -353,155 +348,4 @@ function conn()
 
 ?>
 
-function late($s_am_in,$s_pm_in,$am_in,$pm_in,$datein)
-{
-    $hour = 0;
-    $min = 0;
-    $total = 0;
-
-    if(isset($am_in) and $am_in != '' || $am_in != null) {
-        if(strtotime($am_in) > strtotime($s_am_in)) {
-            $a = new DateTime($datein.' '. $am_in);
-            $b = new DateTime($datein.' '. $s_am_in);
-
-            $interval = $a->diff($b);
-            $hour1 = $interval->h;
-            $min1 = $interval->i;
-
-
-            if($hour1 > 0) {
-                $hour1 = $hour1 * 60;
-            }
-            $total += ($hour1 + $min1);
-        }
-
-    }
-
-    if(isset($pm_in) and $pm_in != '' || $pm_in != null) {
-        if(strtotime($pm_in) > strtotime($s_pm_in)) {
-            $a = new DateTime($datein.' '.$pm_in);
-            $b = new DateTime($datein.' '.$s_pm_in);
-
-            $interval = $a->diff($b);
-            $hour2 = $interval->h;
-            $min2 = $interval->i;
-
-
-            if($hour2 > 0) {
-                $hour2 = $hour2 * 60;
-            }
-
-            $total += ($hour2 + $min2);
-        }
-    }
-
-    if($total == 0) $total = '';
-    return $total;
-
-}
-function undertime($s_am_out,$s_pm_out,$am_out,$pm_out,$datein)
-{
-
-    $hour = '';
-    $min = '';
-    $total = '';
-
-    if(isset($am_out) and $am_out != '' || $am_out != null) {
-        if(strtotime($am_out) < strtotime($s_am_out)) {
-            $a = new DateTime($datein.' '. $am_out);
-            $b = new DateTime($datein.' '. $s_am_out);
-
-            $interval = $b->diff($a);
-            $hour1 = $interval->h;
-            $min1 = $interval->i;
-
-
-            if($hour1 > 0) {
-                $hour1 = $hour1 * 60;
-            }
-            $total += ($hour1 + $min1);
-        }
-
-    }
-
-    if(isset($pm_out) and $pm_out != '' || $pm_out != null) {
-        if(strtotime($pm_out) < strtotime($s_pm_out)) {
-            $a = new DateTime($datein.' '.$pm_out);
-            $b = new DateTime($datein.' '.$s_pm_out);
-
-            $interval = $b->diff($a);
-            $hour2 = $interval->h;
-            $min2 = $interval->i;
-
-
-            if($hour2 > 0) {
-                $hour2 = $hour2 * 60;
-            }
-
-
-            $total += ($hour2 + $min2);
-        }
-    }
-    if($total == 0 ) $total = '';
-    return $total;
-}
-
-//RUSEL
-function check_inclusive_name($id)
-{
-    $db = conn();
-    $sql = 'SELECT * FROM inclusive_name where user_id = ?';
-    $pdo = $db->prepare($sql);
-    $pdo->execute(array($id));
-    $row = $pdo->fetchAll();
-    $db = null;
-
-    return $row;
-}
-
-function check_calendar($route_no)
-{
-    $db = conn();
-    $sql = 'SELECT * FROM calendar where route_no = ?';
-    $pdo = $db->prepare($sql);
-    $pdo->execute(array($route_no));
-    $row = $pdo->fetch();
-    $db = null;
-
-    return $row;
-}
-
-function look_calendar($datein,$userid,$temp1,$temp2){
-    $condition = floor(strtotime($datein) / (60 * 60 * 24));
-    foreach(check_inclusive_name($userid) as $check)
-    {
-        if(check_calendar($check['route_no'])) {
-            $title = check_calendar($check['route_no']);
-
-            $temp1 = floor(strtotime($title['start']) / (60 * 60 * 24));
-            $temp2 = floor(strtotime($title['end']) / (60 * 60 * 24));
-        }
-        if($condition < $temp2 and $condition > $temp1 and $title != ''){
-            return 'sono.1234';
-        }
-    }
-}
-
-
-function conn()
-{
-    $pdo = null;
-    try{
-        $pdo = new PDO('mysql:host=localhost; dbname=dohdtr','root','');
-        $pdo->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
-    }
-    catch (PDOException $err) {
-        $err->getMessage() . "<br/>";
-        die();
-    }
-    return $pdo;
-}
-
-
-?>
 

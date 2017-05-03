@@ -11,12 +11,7 @@ class HoursController extends BaseController
 {
     public function __construct()
     {
-        $this->beforeFilter(function () {
-            if(!Auth::check())
-            {
-                return Redirect::to('/');
-            }
-        });
+       $this->beforeFilter('admin');
     }
 
     public function create()

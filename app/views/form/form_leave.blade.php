@@ -14,7 +14,7 @@
                                 <div class="col-md-3">
                                     <div class="form-group has-success">
                                         <label class="control-label" for="inputSuccess1">(1.) Office/Agency</label>
-                                        <input type="text" class="form-control" id="inputSuccess1" name="office_agency">
+                                        <input type="text" class="form-control" id="inputSuccess1" name="office_agency" value="DOH 7">
                                     </div>
                                 </div>
                                 <div class="col-md-3">

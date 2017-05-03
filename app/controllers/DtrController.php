@@ -10,12 +10,7 @@ class DtrController extends BaseController
 {
     public function __construct()
     {
-        $this->beforeFilter(function () {
-            if(!Auth::check())
-            {
-                return Redirect::to('/');
-            }
-        });
+        $this->beforeFilter('admin');
     }
     public function upload()
     {
@@ -39,9 +34,10 @@ class DtrController extends BaseController
                         $employee = explode(',', $data[$i]);
                         $details = new DtrDetails();
 
+                        $details->setTable('next_dtr_file');
+
                         $id = trim($employee[0], "\" ");
                         $id = ltrim($id, "\" ");
-
 
                         if($id != 'Unknown User'){
                             $details->userid = array_key_exists(0, $employee) == true ? trim($employee[0], "\" ") : null;
@@ -74,11 +70,12 @@ class DtrController extends BaseController
                             $details->terminal = array_key_exists(7, $employee) == true ? trim($employee[7], "\" ") : null;
                             $details->remark = array_key_exists(8, $employee) == true ? trim($employee[8], "\" ") : null;
                             try{
+                                $details->edited = "0";
                                 $details->save();
                             } catch(QueryException $ex){
 
                             }
-                            $details->edited = "0";
+
                             //FOR INSERTING DATA TO THE USERS TABLE ONLY. IF THE USERS TABLE HAS NO DATA, JUST UNCOMMENT THIS COMMENT.
                             $user = User::where('userid',$details->userid)->first();
                             //checking for duplicate userid
@@ -246,5 +243,31 @@ class DtrController extends BaseController
             $dtr->delete();
             return Redirect::to('index')->with('message','Attendance succesfully deleted.');
         }
+    }
+
+    private function create_table($desc,$date_from, $date_to,$name)
+    {
+        $pdo = null;
+        $ok = false;
+        try{
+            $pdo = new PDO('mysql:host=localhost; dbname=dohdtr','root','');
+            $pdo->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
+            $query = "INSERT INTO dtr_table(desc,date_from,$date_to,name,created_at,updated_at)
+                      VALUES(:desc,:date_from,:date_to,:name,NOW(),NOW())";
+            $st = $pdo->prepare($query);
+            $st->bindParam(':desc', $desc);
+            $st->bindParam(':date_from', $date_from);
+            $st->bindParam(':date_to', $date_to);
+            $st->bindParam(':name',$name);
+            if($st->execute()) {
+                $ok = true;
+            }
+        }
+        catch (PDOException $err) {
+            $err->getMessage() . "<br/>";
+            die();
+        }
+        return $ok;
+
     }
 }

@@ -184,6 +184,8 @@ class PDF extends FPDF
                 if($day_name == 'Sat' || $day_name == 'Sun' AND $am_in == '') $am_out = 'DAY OFF';
                 if(isset($e1) and $e1 == "1"){
                     $this->SetFont('Arial','U',8);
+                } else {
+                    $this->SetFont('Arial','',8);
                 }
 
                 $this->Cell($w[1],5,$am_in,'');
@@ -195,6 +197,8 @@ class PDF extends FPDF
                 if($day_name == 'Sat' || $day_name == 'Sun' AND $am_in == '' AND $am_out == '') $am_out = 'DAY OFF';
                 if(isset($e2) and $e2 == "1"){
                     $this->SetFont('Arial','U',8);
+                } else {
+
                 }
 
                 $this->Cell($w[1],5,$am_out,'');
@@ -204,6 +208,8 @@ class PDF extends FPDF
                 if($day_name == 'Sat' || $day_name == 'Sun' AND $am_in == '' AND $am_out == '' AND $pm_in == '') $am_out = 'DAY OFF';
                 if(isset($e3) and $e3 == "1"){
                     $this->SetFont('Arial','U',8);
+                } else {
+                    $this->SetFont('Arial','',8);
                 }
 
                 $this->Cell($w[2],5,$pm_in,'',0,'R');
@@ -213,6 +219,8 @@ class PDF extends FPDF
                 if($day_name == 'Sat' || $day_name == 'Sun' AND $am_in == '' AND $am_out == '' AND $pm_in == '' AND $pm_out == '') $am_out = 'DAY OFF';
                 if(isset($e4) and $e4 == "1") {
                     $this->SetFont('Arial','U',8);
+                } else {
+                    $this->SetFont('Arial','',8);
                 }
 
                 $this->Cell($w[3],5,$pm_out,'',0,'R');
@@ -481,19 +489,18 @@ function get_logs($id,$date_from,$date_to)
 
                     FROM dtr_file d LEFT JOIN users e
                         ON d.userid = e.userid
-                    WHERE d.datein BETWEEN '". $date_from. "' AND '" . $date_to . "'
-                          AND e.userid = '". $id."'
+                    WHERE d.datein BETWEEN :date_from AND :date_to
+                          AND e.userid = :id
                     ORDER BY datein ASC";
     try
     {
         $st = $pdo->prepare($query);
-        $st->execute();
+        $st->execute(array('date_from' => $date_from, 'date_to' => $date_to, 'id' => $id));
         $row = $st->fetchAll(PDO::FETCH_ASSOC);
     }catch(PDOException $ex){
         echo $ex->getMessage();
         exit();
     }
-
     return $row;
 }
 

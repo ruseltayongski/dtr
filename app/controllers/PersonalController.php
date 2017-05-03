@@ -17,12 +17,7 @@ class PersonalController extends Controller
     private $userid;
     public function __construct()
     {
-        $this->beforeFilter(function () {
-            if(!Auth::check())
-            {
-                return Redirect::to('/');
-            }
-        });
+        $this->beforeFilter('personal');
         $this->userid = Auth::user()->userid;
     }
 

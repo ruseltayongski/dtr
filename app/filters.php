@@ -53,11 +53,27 @@ Route::filter('auth', function()
 	}
 });
 
+Route::filter('admin' ,function(){
+	if(Auth::check()) {
+		if(!Auth::user()->usertype == 1) {
+			return Redirect::to('/');
+		}
+	}
+});
+
+Route::filter('personal', function(){
+	if(Auth::check()) {
+		if(!Auth::user()->usertype == 0) {
+			return Redirect::to('/');
+		}
+	}
+});
 
 Route::filter('auth.basic', function()
 {
 	return Auth::basic();
 });
+
 
 /*
 |--------------------------------------------------------------------------

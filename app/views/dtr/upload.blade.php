@@ -18,15 +18,42 @@
                             <strong>Warning!</strong>You selected an invalid file. Select a file that ends with .txt file extension.
                         </div>
                         <div class="row upload-section">
-                            <div class="alert-success alert col-md-6 col-lg-offset-3">
-                                <h3 style="font-weight: bold;" class="text-center">Upload a file</h3>
+                            <div class="alert-success alert col-md-8 col-lg-offset-2">
                                 <form id="form_upload" action="{{ asset('admin/upload') }}" method="POST" enctype="multipart/form-data">
-                                    <input id="file" type="file"  class="hidden" value="" name="dtr_file" onchange="readFile(this);"/>
-                                    <input type="hidden" name="_token" value="{{ csrf_token() }}" />
-                                    <p class="text-center" id="file_select" style="border: dashed;padding:20px;">
-                                        Click here to select a file
-                                    </p>
-                                    <button type="submit"  class="btn-lg btn-success center-block" id="upload">Upload File</button>
+                                    <h3 style="font-weight: bold;" class="text-center">Upload a file</h3>
+                                    <div class="modal-body">
+                                        <table class="table table-hover table-form table-striped">
+                                            <tr class="alert-info">
+                                                <td class="col-sm-3"><label>Remarks</label></td>
+                                                <td class="col-sm-1">:</td>
+                                                <td class="col-sm-5"><input  value=""  name="remarks" class="form-control" required></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="col-sm-3"><label>Inclusive Dates</label></td>
+                                                <td class="col-sm-1">:</td>
+                                                <td class="col-sm-5">
+                                                    <div class="input-group">
+                                                        <div class="input-group-addon">
+                                                            <i class="fa fa-calendar"></i>
+                                                        </div>
+                                                        <input type="text" class="form-control" id="inclusive2" name="filter_range" placeholder="Input date range here..." required>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="col-sm-3"><label>Browse File</label></td>
+                                                <td class="col-sm-1">:</td>
+                                                <td class="col-sm-5">
+                                                    <input id="file" type="file"  class="hidden" value="" name="dtr_file" onchange="readFile(this);"/>
+                                                    <input type="hidden" name="_token" value="{{ csrf_token() }}" />
+                                                    <p class="text-center" id="file_select" style="border: dashed;padding:20px;">
+                                                        Click here to select a file
+                                                    </p>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                        <button type="submit"  class="btn-lg btn-success center-block" id="upload">Upload File</button>
+                                    </div>
                                 </form>
                             </div>
                         </div>
@@ -96,6 +123,7 @@
                 reader.readAsText(file);
             });
         }
+        $('#inclusive2').daterangepicker();
     </script>
 
 @endsection
