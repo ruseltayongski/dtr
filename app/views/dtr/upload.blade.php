@@ -1,19 +1,13 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="col-md-12 wrapper">
+    <div class="col-md-12 wrapper" id="upload_body">
         <div class="alert alert-jim">
             <h3 class="page-header">Upload DTR File
             </h3>
             <div class="container">
                 <div class="row">
                     <div class="col-md-11">
-                        <div class="progress">
-                            <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
-                                <strong class="text-center" style="font-size: medium;font-weight: bold;">Please wait. The system is extracting data from the file.</strong>
-                            </div>
-                        </div>
-
                         <div class="alert alert-warning alert-dismissible col-lg-12" role="alert">
                             <strong>Warning!</strong>You selected an invalid file. Select a file that ends with .txt file extension.
                         </div>
@@ -62,12 +56,23 @@
             </div>
         </div>
     </div>
+    <div class="modal fade" tabindex="-1" role="dialog" id="upload_loading">
+        <div class="modal-dialog modal-md" role="document" id="size">
+            <div class="modal-content">
+                <div class="modal-header" style="background-color: #9900cc;">
+                    <h4 class="modal-title"><i class="fa fa-plus"></i>Extracting data from file</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="modal_content"><center><img src="{{ asset('public/img/spin.gif') }}" width="150" style="padding:10px;"></center></div>
+                </div>
+            </div><!-- .modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
 @endsection
 
 @section('js')
     @@parent
     <script>
-
         function readFile(input) {
             if (input.files && input.files[0]) {
                 var reader = new FileReader();
@@ -90,11 +95,13 @@
                 var x = $('input[type="file"]').val();
                 var arr = x.split('.');
                 if(arr[1] === "txt"){
-                    $('.upload-section').fadeOut(1000);
-                    $('.progress').show();
                     $('.alert-warning').hide();
                     $('a').prop('disabled',true);
-
+                    $('#upload_loading').modal({
+                        backdrop: 'static',
+                        keyboard: false,
+                        show: true
+                    });
                 } else {
                     e.preventDefault();
                     $('.alert-warning').show();

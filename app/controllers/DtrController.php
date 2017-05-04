@@ -34,7 +34,7 @@ class DtrController extends BaseController
                         $employee = explode(',', $data[$i]);
                         $details = new DtrDetails();
 
-                        $details->setTable('next_dtr_file');
+                        //$details->setTable('next_dtr_file');
 
                         $id = trim($employee[0], "\" ");
                         $id = ltrim($id, "\" ");

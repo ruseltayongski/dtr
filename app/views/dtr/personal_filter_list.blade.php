@@ -6,7 +6,7 @@
         <div class="row">
             <div class="col-md-4">
                 <div class="btn-group">
-                    <button class="btn btn-success" id="date_modal">Generate New
+                    <button class="btn btn-success btn-lg" id="date_modal">Generate New
                         <i class="fa fa-plus"></i>
                     </button>
                 </div>
@@ -17,13 +17,13 @@
         <div class="page-divider">
             <div class="container-fluid">
                 <div class="row">
-                    <div class="col-md-12">
+
                         @if(isset($lists) and count($lists) >0)
                             <div class="table-responsive">
                                 <table class="table table-list table-hover table-striped">
                                     <thead>
                                     <tr>
-                                        <th>Report ID</th>
+                                        <th></th>
                                         <th>Inclusive Dates</th>
                                         <th>Date Generated</th>
                                         <th>Time Generated</th>
@@ -34,12 +34,16 @@
                                     <tbody>
                                     @foreach($lists as $list)
                                         <tr>
-                                            <td>{{ $list->id }}</td>
-                                            <td>{{ date("M-d-y",strtotime($list->date_from ))." to ".date("M-d-y",strtotime($list->date_to )) }}</td>
-                                            <td>{{ date("M-d-y",strtotime($list->date_created)) }} </td>
-                                            <td>{{ $list->time_created }} </td>
+                                            <td>&nbsp;</td>
                                             <td>
-                                                <a class="btn btn-success" href="{{ asset('FPDF/personal_generate.php?id='.$list->id.'&userid='.Auth::user()->userid) }}">View</a>
+                                                <strong style="color:#F39C2B;font-size: medium;">{{ date("M/d/y",strtotime($list->date_from ))." to ".date("M/d/y",strtotime($list->date_to )) }}</strong>
+                                            </td>
+                                            <td style="color:#337ab7;"><strong>{{ date("M-d-y",strtotime($list->date_created)) }}</strong> </td>
+                                            <td style="color:#337ab7;"><strong>{{ $list->time_created }}</strong> </td>
+                                            <td>
+                                                <a aria-label="Left Align" class="btn btn-success" href="{{ asset('FPDF/personal_generate.php?id='.$list->id.'&userid='.Auth::user()->userid) }}">
+                                                    <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> View
+                                                </a>
                                             </td>
                                         </tr>
                                     @endforeach
@@ -50,7 +54,7 @@
                         @else
                             <div class="alert alert-danger" role="alert">DTR records are empty.</div>
                         @endif
-                    </div>
+
                 </div>
             </div>
         </div>

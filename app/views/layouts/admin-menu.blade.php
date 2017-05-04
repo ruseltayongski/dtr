@@ -13,10 +13,11 @@
             </li>
             <li class="divider"></li>
             <li class="dropdown-submenu">
-                <a href="#"><i class="fa fa-clock-o"></i>&nbsp;&nbsp; Manage Schedule</a>
+                <a href="#"><i class="fa fa-clock-o"></i>&nbsp;&nbsp; Work Schedule</a>
                 <ul class="dropdown-menu">
-                    <li><a href="{{ asset('work-schedule') }}">Working Schedule</a></li>
-                    <li><a href="{{ asset('new/flixe/group') }}">Employee Flixe Group</a></li>
+                    <li><a href="{{ asset('work-schedule') }}">Job Order Group</a></li>
+                    <li><a href="{{ asset('new/regular/group') }}">Regular Group</a></li>
+                    <li><a href="{{ asset('new/flixe/group') }}">Flexible Group</a></li>
                 </ul>
             </li>
             <li class="divider"></li>
@@ -25,7 +26,7 @@
             <li class="dropdown-submenu">
                 <a href="#" data-toggle="dropdown"><i class="fa fa-cog"></i>&nbsp;&nbsp; Settings</a>
                 <ul class="dropdown-menu">
-                    <li><a href="#document_form" data-backdrop="static" data-toggle="modal" data-link="{{ asset('/form/worksheet') }}">Edit work schedule</a></li>
+                    <li><a href="#document_form" data-backdrop="static" data-toggle="modal" data-link="{{ asset('/form/worksheet') }}">Shift schedule</a></li>
                     <li><a href="#document_form" data-backdrop="static" data-toggle="modal" data-link="{{ asset('/form/justification/letter') }}"></a></li>
                 </ul>
             </li>

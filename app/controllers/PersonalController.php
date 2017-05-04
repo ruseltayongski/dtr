@@ -85,13 +85,15 @@ class PersonalController extends Controller
             $st = $pdo->prepare($query);
             $st->execute();
             $sched = $st->fetchAll(PDO::FETCH_ASSOC);
-           
-            $am_in = explode(':',$sched[0]['am_in']);
-            $am_out =  explode(':',$sched[0]['am_out']);
-            $pm_in =  explode(':',$sched[0]['pm_in']);
-            $pm_out = explode(':',$sched[0]['pm_out']);
 
-            $query = "SELECT DISTINCT e.userid, datein,
+            if(isset($sched) and count($sched) > 0) {
+                $am_in = explode(':',$sched[0]['am_in']);
+                $am_out =  explode(':',$sched[0]['am_out']);
+                $pm_in =  explode(':',$sched[0]['pm_in']);
+                $pm_out = explode(':',$sched[0]['pm_out']);
+
+
+                $query = "SELECT DISTINCT e.userid, datein,
 
                     (SELECT MIN(t1.time) FROM dtr_file t1 WHERE t1.userid = '". $id."' and datein = d.datein and t1.time_h < ". $am_out[0] .") as am_in,
                     (SELECT MAX(t2.time) FROM dtr_file t2 WHERE t2.userid = '". $id."' and datein = d.datein and t2.time_h < ". $pm_in[0]." AND t2.event = 'OUT') as am_out,
@@ -108,19 +110,25 @@ class PersonalController extends Controller
                     WHERE d.datein BETWEEN '". $date_from. "' AND '" . $date_to . "'
                           AND e.userid = '". $id."'
                     ORDER BY datein ASC";
-            try
-            {
-                $st = $pdo->prepare($query);
-                $st->execute();
-                $row = $st->fetchAll(PDO::FETCH_ASSOC);
-                if(isset($row) and count($row) > 0)
+                try
                 {
-                    return View::make('dtr.filtered')->with('lists',$row)->with('date_from',$date_from)->with('date_to',$date_to)->with('userid', $id);
+                    $st = $pdo->prepare($query);
+                    $st->execute();
+                    $row = $st->fetchAll(PDO::FETCH_ASSOC);
+                    if(isset($row) and count($row) > 0)
+                    {
+                        return View::make('dtr.filtered')->with('lists',$row)->with('date_from',$date_from)->with('date_to',$date_to)->with('userid', $id);
+                    } else {
+                        return "<p><strong>No result logs from $date_from to $date_to</strong></p>";
+                    }
+                }catch(PDOException $ex){
+                    echo $ex->getMessage();
+                    exit();
                 }
-            }catch(PDOException $ex){
-                echo $ex->getMessage();
-                exit();
+            } else {
+                return "<p><strong>You daily time logs cannot be generated because your work shift schedule is not yet set.</strong></p>";
             }
+
         }
 
     }
@@ -230,7 +238,39 @@ class PersonalController extends Controller
 
         return Redirect::to('personal/dtr/filter/list');
     }
-    
+
+    public function add_logs()
+    {
+        if(Request::method() == "GET") {
+            return View::make('dtr.add_time_log');
+        }
+        if(Request::method() == "POST") {
+            return Input::all();
+            $dtr = new DtrDetails();
+            $dtr->userid = Input::get('userid');
+            $dtr->firstname = Input::get('firstname');
+            $dtr->lastname = Input::get('lastname');
+            $dtr->department = Input::get('department');
+            $date = explode('/', Input::get('datein'));
+            $date = $date[2] . '-' . $date[0] . '-' . $date[1];
+            $dtr->datein = $date;
+            $date = explode('-', $date);
+            $dtr->date_y = array_key_exists(0, $date) == true ? trim($date[0], "\" ") : null;
+            $dtr->date_m = array_key_exists(1, $date) == true ?trim($date[1], "\" ") : null;
+            $dtr->date_d = array_key_exists(2, $date) == true ?trim($date[2], "\" ") : null;
+
+            $dtr->time = Input::get('time');
+            $time = explode(':', Input::get('time'));
+            $dtr->time_h = array_key_exists(0, $time) == true ?trim($time[0], "\" ") : null;
+            $dtr->time_m = array_key_exists(1, $time) == true ?trim($time[1], "\" ") : null;
+            $dtr->time_s = array_key_exists(2, $time) == true ? trim($time[2], "\" ") : null;
+
+            $dtr->event = Input::get('event');
+            $dtr->terminal = Input::get('terminal');
+            $dtr->remark = Input::get('remarks');
+            $dtr->save();
+        }
+    }
     function conn()
     {
         $pdo = null;
