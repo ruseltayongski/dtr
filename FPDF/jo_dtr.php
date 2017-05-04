@@ -398,6 +398,7 @@ function get_logs($id,$date_from,$date_to)
         $st = $pdo->prepare($query);
         $st->execute(array('date_from' => $date_from, 'date_to' => $date_to, 'id' => $id));
         $row = $st->fetchAll(PDO::FETCH_ASSOC);
+
     }catch(PDOException $ex){
         echo $ex->getMessage();
         exit();

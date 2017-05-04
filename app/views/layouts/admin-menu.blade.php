@@ -16,7 +16,9 @@
                 <a href="#"><i class="fa fa-clock-o"></i>&nbsp;&nbsp; Work Schedule</a>
                 <ul class="dropdown-menu">
                     <li><a href="{{ asset('work-schedule') }}">Job Order Group</a></li>
+                    <div class="divider"></div>
                     <li><a href="{{ asset('new/regular/group') }}">Regular Group</a></li>
+                    <div class="divider"></div>
                     <li><a href="{{ asset('new/flixe/group') }}">Flexible Group</a></li>
                 </ul>
             </li>

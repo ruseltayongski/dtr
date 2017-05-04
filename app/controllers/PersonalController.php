@@ -247,10 +247,10 @@ class PersonalController extends Controller
         if(Request::method() == "POST") {
             return Input::all();
             $dtr = new DtrDetails();
-            $dtr->userid = Input::get('userid');
-            $dtr->firstname = Input::get('firstname');
-            $dtr->lastname = Input::get('lastname');
-            $dtr->department = Input::get('department');
+            $dtr->userid = Auth::user()->userid;
+            $dtr->firstname = Auth::user()->fname;
+            $dtr->lastname = Auth::user()->lname;
+            $dtr->department = "GENERAL";
             $date = explode('/', Input::get('datein'));
             $date = $date[2] . '-' . $date[0] . '-' . $date[1];
             $dtr->datein = $date;
@@ -266,8 +266,8 @@ class PersonalController extends Controller
             $dtr->time_s = array_key_exists(2, $time) == true ? trim($time[2], "\" ") : null;
 
             $dtr->event = Input::get('event');
-            $dtr->terminal = Input::get('terminal');
-            $dtr->remark = Input::get('remarks');
+            $dtr->terminal = "WEB";
+            $dtr->remark = "WEB CREATED";
             $dtr->save();
         }
     }
