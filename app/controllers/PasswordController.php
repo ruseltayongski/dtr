@@ -19,6 +19,7 @@ class PasswordController extends BaseController
         });
     }
 
+
     public function change_password(){
         if(Request::method() == 'GET')
         {

@@ -23,6 +23,11 @@ Route::get('rpchallenge', 'PasswordController@change_password');
 Route::match(array('GET','POST'), 'admin/upload', 'DtrController@upload');
 Route::match(array('GET','POST'),'search', 'DtrController@search');
 Route::match(array('GET','POST'), 'add/attendance', 'DtrController@create_attendance');
+Route::get('list/job-order','AdminController@list_jo');
+Route::get('list/regular', 'AdminController@list_regular');
+Route::match(array('GET','POST'), 'change/work-schedule', 'AdminController@change_schedule');
+Route::match(array('GET','POST'), 'print/individual', 'AdminController@print_individual');
+
 
 Route::match(array('GET','POST'), 'print-monthly', 'PrintController@print_monthly');
 Route::get('print-monthly/attendance', 'PrintController@print_pdf');

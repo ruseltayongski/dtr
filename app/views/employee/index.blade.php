@@ -33,6 +33,7 @@
                                     <thead>
                                     <tr>
                                         <th>Userid</th>
+                                        <th>Dtr ID</th>
                                         <th>Name</th>
                                         <th>Department</th>
                                         <th>Transaction date</th>
@@ -40,12 +41,14 @@
                                         <th>Event Type</th>
                                         <th>Terminal</th>
                                         <th>Remarks</th>
+                                        <th>Option</th>
                                     </tr>
                                     </thead>
                                     <tbody>
                                     @foreach($lists as $list)
                                         <tr>
                                             <td>{{ $list->userid }}</td>
+                                            <td>{{ $list->dtr_id }}</td>
                                             <td>{{ $list->firstname .", " .$list->lastname }}</td>
                                             <td>{{ $list->department }} </td>
                                             <td>
@@ -56,6 +59,9 @@
                                             <td>{{ $list->event }}</td>
                                             <td>{{ $list->terminal }}</td>
                                             <td>{{ $list->remark }}</td>
+                                            <td>
+                                                <a class="btn btn-default" href="{{ asset('edit/personal/attendance/' .$list->dtr_id) }}">Edit</a>
+                                            </td>
                                         </tr>
                                     @endforeach
                                     </tbody>

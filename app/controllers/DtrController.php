@@ -91,8 +91,10 @@ class DtrController extends BaseController
 
                                 if(strlen($id)> 5) {
                                     $user->emptype = 'REG';
+                                    $user->sched = "2";
                                 } else {
                                     $user->emptype = 'JO';
+                                    $user->sched = "1";
                                 }
                                 $user->save();
                             }

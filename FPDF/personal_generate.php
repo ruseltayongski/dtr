@@ -18,8 +18,9 @@ class PDF extends FPDF
 {
     private $empname = "";
 // Page header
-    function form($name,$userid,$date_from,$date_to)
+    function form($name,$userid,$date_from,$date_to,$sched)
     {
+
         $day1 = explode('-',$date_from);
         $day2 = explode('-',$date_to);
 
@@ -103,7 +104,7 @@ class PDF extends FPDF
         $log = "";
 
         $pdo = conn();
-        $query = "SELECT * FROM work_sched WHERE id = '1'";
+        $query = "SELECT * FROM work_sched WHERE id = '".$sched ."'";
         $st = $pdo->prepare($query);
         $st->execute();
         $sched = $st->fetchAll(PDO::FETCH_ASSOC);
@@ -113,7 +114,7 @@ class PDF extends FPDF
         $s_pm_in = $sched[0]["pm_in"];
         $s_pm_out = $sched[0]["pm_out"];
 
-        $logs = get_logs($userid,$date_from,$date_to);
+        $logs = get_logs($s_am_in,$s_am_out,$s_pm_in,$s_pm_out,$userid,$date_from,$date_to);
 
         $temp1 = -0;
         $temp2 = -0;
@@ -159,7 +160,7 @@ class PDF extends FPDF
                     {
                         $late_total = $late_total + $late;
                     }
-                    $ut = undertime($s_am_out,$s_pm_out,$am_out,$pm_out,$log['datein']);
+                    $ut = undertime($s_am_in,$s_pm_in,$am_in,$pm_in,$s_am_out,$s_pm_out,$am_out,$pm_out,$log['datein']);
                     if($ut != '' or $ut != null)
                     {
                         $ut_total = $ut_total + $ut;
@@ -174,6 +175,13 @@ class PDF extends FPDF
                     $e2 = '';
                     $e3 = '';
                     $e4 = '';
+                    if($day_name != 'Sat' and $day_name != 'Sun') {
+                        $ut = undertime($s_am_in,$s_pm_in,$am_in,$pm_in,$s_am_out,$s_pm_out,$am_out,$pm_out,$log['datein']);
+                        if($ut != '' or $ut != null)
+                        {
+                            $ut_total = $ut_total + $ut;
+                        }
+                    }
                 }
 
                 $this->SetFont('Arial','',8);
@@ -198,7 +206,7 @@ class PDF extends FPDF
                 if(isset($e2) and $e2 == "1"){
                     $this->SetFont('Arial','U',8);
                 } else {
-
+                    $this->SetFont('Arial','',8);
                 }
 
                 $this->Cell($w[1],5,$am_out,'');
@@ -405,9 +413,10 @@ if(isset($_GET['id']) and isset($_GET['userid'])) {
   $row = get_dtr($id);
   if(isset($row) and count($row) > 0 and isset($emp) and count($emp) > 0) {
 
+
       $date_from = $row[0]['date_from'];
       $date_to = $row[0]['date_to'];
-      $pdf->form($emp[0]['fname'] . ' ' . $emp[0]['lname'] . ' ' . $emp[0]['mname'], $emp[0]['userid'], $date_from, $date_to);
+      $pdf->form($emp[0]['fname'] . ' ' . $emp[0]['lname'] . ' ' . $emp[0]['mname'], $emp[0]['userid'], $date_from, $date_to,$emp[0]['sched']);
       $pdf->SetEmpname($emp[0]['fname'] . ' ' . $emp[0]['lname'] . ' ' . $emp[0]['mname']);
       $pdf->SetTitle($emp[0]['fname'] . ' ' . $emp[0]['lname'] . ' ' . $emp[0]['mname']);
   }
@@ -462,30 +471,21 @@ function get_dtr($id)
 }
 
 
-function get_logs($id,$date_from,$date_to)
+function get_logs($am_in,$am_out,$pm_in,$pm_out,$id,$date_from,$date_to)
 {
-    $pdo = conn();
-    $query = "SELECT * FROM work_sched WHERE id = '1'";
-    $st = $pdo->prepare($query);
-    $st->execute();
-    $sched = $st->fetchAll(PDO::FETCH_ASSOC);
 
-    $am_in = explode(':',$sched[0]['am_in']);
-    $am_out =  explode(':',$sched[0]['am_out']);
-    $pm_in =  explode(':',$sched[0]['pm_in']);
-    $pm_out = explode(':',$sched[0]['pm_out']);
 
     $query = "SELECT DISTINCT e.userid, datein,
 
-                    (SELECT MIN(t1.time) FROM dtr_file t1 WHERE t1.userid = '". $id."' and datein = d.datein and t1.time_h < ". $am_out[0] .") as am_in,
-                    (SELECT MAX(t2.time) FROM dtr_file t2 WHERE t2.userid = '". $id."' and datein = d.datein and t2.time_h < ". $pm_in[0]." AND t2.event = 'OUT') as am_out,
-                    (SELECT MIN(t3.time) FROM dtr_file t3 WHERE t3.userid = '". $id."' AND datein = d.datein and t3.time_h >= ". $am_out[0]." and t3.time_h < ". $pm_out[0]." AND t3.event = 'IN' ) as pm_in,
-                    (SELECT MAX(t4.time) FROM dtr_file t4 WHERE t4.userid = '". $id."' AND datein = d.datein and t4.time_h > ". $pm_in[0] ." and t4. time_h < 24) as pm_out,
+                    (SELECT DISTINCT MIN(t1.time) FROM dtr_file t1 WHERE t1.userid = '". $id."' and datein = d.datein and t1.time < '". $am_out ."') as am_in,
+                    (SELECT DISTINCT MAX(t2.time) FROM dtr_file t2 WHERE t2.userid = '". $id."' and datein = d.datein and t2.time < '". $pm_in."' AND t2.event = 'OUT') as am_out,
+                    (SELECT DISTINCT MIN(t3.time) FROM dtr_file t3 WHERE t3.userid = '". $id."' AND datein = d.datein and t3.time >= '". $am_out."' and t3.time < '". $pm_out."' AND t3.event = 'IN' ) as pm_in,
+                    (SELECT DISTINCT MAX(t4.time) FROM dtr_file t4 WHERE t4.userid = '". $id."' AND datein = d.datein and t4.time > '". $pm_in ."' and t4. time < '24:00:00') as pm_out,
 
-                    (SELECT t1.edited FROM dtr_file t1 WHERE t1.userid = '". $id."' and datein = d.datein and t1.time_h < ". $am_out[0] .") as e1,
-                    (SELECT t2.edited  FROM dtr_file t2 WHERE t2.userid = '". $id."' and datein = d.datein and t2.time_h < ". $pm_in[0]." AND t2.event = 'OUT') as e2,
-                    (SELECT t3.edited FROM dtr_file t3 WHERE t3.userid = '". $id."' AND datein = d.datein and t3.time_h >= ". $am_out[0]." and t3.time_h < ". $pm_out[0]." AND t3.event = 'IN' ) as e3,
-                    (SELECT t4.edited FROM dtr_file t4 WHERE t4.userid = '". $id."' AND datein = d.datein and t4.time_h > ". $pm_in[0] ." and t4. time_h < 24) as e4
+                    (SELECT t1.edited FROM dtr_file t1 WHERE t1.userid = '". $id."' and datein = d.datein and t1.time < '". $am_out ."' AND t1.edited = '1' LIMIT 1) as e1,
+                    (SELECT t2.edited  FROM dtr_file t2 WHERE t2.userid = '". $id."' and datein = d.datein and t2.time < '". $pm_in."' AND t2.event = 'OUT' AND t2.edited = '1' LIMIT 1) as e2,
+                    (SELECT t3.edited FROM dtr_file t3 WHERE t3.userid = '". $id."' AND datein = d.datein and t3.time >='". $am_out."' and t3.time < '". $pm_out."' AND t3.event = 'IN' AND t3.edited = '1' LIMIT 1) as e3,
+                    (SELECT t4.edited FROM dtr_file t4 WHERE t4.userid = '". $id."' AND datein = d.datein and t4.time > '". $pm_in ."'  and t4. time < '24:00:00' AND t4.edited = '1' LIMIT 1) as e4
 
                     FROM dtr_file d LEFT JOIN users e
                         ON d.userid = e.userid
@@ -494,6 +494,7 @@ function get_logs($id,$date_from,$date_to)
                     ORDER BY datein ASC";
     try
     {
+        $pdo = conn();
         $st = $pdo->prepare($query);
         $st->execute(array('date_from' => $date_from, 'date_to' => $date_to, 'id' => $id));
         $row = $st->fetchAll(PDO::FETCH_ASSOC);
@@ -509,7 +510,7 @@ function userlist($id)
 {
     $pdo = conn();
     try {
-        $st = $pdo->prepare("SELECT DISTINCT userid,fname,lname,mname FROM users WHERE usertype != '1' and userid !='Unknown User' and userid = :id" );
+        $st = $pdo->prepare("SELECT DISTINCT userid,fname,lname,mname,sched FROM users WHERE usertype != '1' and userid !='Unknown User' and userid = :id" );
         $st->bindParam(":id", $id);
         $st->execute();
         $row = $st->fetchAll(PDO::FETCH_ASSOC);
@@ -572,6 +573,8 @@ function late($s_am_in,$s_pm_in,$am_in,$pm_in,$datein)
     $min = 0;
     $total = 0;
 
+
+
     if(isset($am_in) and $am_in != '' || $am_in != null) {
         if(strtotime($am_in) > strtotime($s_am_in)) {
             $a = new DateTime($datein.' '. $am_in);
@@ -611,12 +614,43 @@ function late($s_am_in,$s_pm_in,$am_in,$pm_in,$datein)
     return $total;
 
 }
-function undertime($s_am_out,$s_pm_out,$am_out,$pm_out,$datein)
+function undertime($s_am_in,$s_pm_in,$am_in,$pm_in,$s_am_out,$s_pm_out,$am_out,$pm_out,$datein)
 {
 
     $hour = '';
     $min = '';
     $total = '';
+
+    if($am_in == '' and $am_out == '') {
+        $a = new DateTime($datein.' '. $s_am_in);
+        $b = new DateTime($datein.' '. $s_am_out);
+
+        $interval = $b->diff($a);
+        $hour1 = $interval->h;
+        $min1 = $interval->i;
+
+        if($hour1 > 0) {
+            $hour1 = $hour1 * 60;
+        }
+        $total += ($hour1 + $min1);
+
+    }
+
+    if($pm_in == '' and $pm_out == '') {
+
+        $a = new DateTime($datein.' '. $s_pm_in);
+        $b = new DateTime($datein.' '. $s_pm_out);
+
+        $interval = $b->diff($a);
+        $hour2 = $interval->h;
+        $min1 = $interval->i;
+
+        if($hour2 > 0) {
+            $hour2 = $hour2 * 60;
+        }
+        $total += ($hour2 + $min1);
+
+    }
 
     if(isset($am_out) and $am_out != '' || $am_out != null) {
         if(strtotime($am_out) < strtotime($s_am_out)) {
@@ -632,10 +666,11 @@ function undertime($s_am_out,$s_pm_out,$am_out,$pm_out,$datein)
             }
             $total += ($hour1 + $min1);
         }
-
     }
     if(isset($pm_out) and $pm_out != '' || $pm_out != null) {
+
         if(strtotime($pm_out) < strtotime($s_pm_out)) {
+            $hour2 = 0;
             $a = new DateTime($datein.' '.$pm_out);
             $b = new DateTime($datein.' '.$s_pm_out);
 

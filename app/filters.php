@@ -58,14 +58,18 @@ Route::filter('admin' ,function(){
 		if(!Auth::user()->usertype == 1) {
 			return Redirect::to('/');
 		}
+	} else {
+		return Redirect::to('/');
 	}
 });
 
 Route::filter('personal', function(){
-	if(Auth::check()) {
+	if(Auth::check() and isset(Auth::user()->userid)) {
 		if(!Auth::user()->usertype == 0) {
 			return Redirect::to('/');
 		}
+	} else {
+		return Redirect::to('/');
 	}
 });
 

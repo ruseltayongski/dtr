@@ -19,7 +19,6 @@
     <link href="{{ asset('public/assets/css/ie10-viewport-bug-workaround.css') }}" rel="stylesheet">
     <!-- Custom styles for this template -->
     <link href="{{ asset('public/assets/css/style.css') }}" rel="stylesheet">
-    <link href="{{ asset('public/assetes/css/upload.css') }}" rel="stylesheet" >
     <link href="{{ asset('public/plugin/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css') }}" rel="stylesheet">
     <!-- bootstrap datepicker -->
     <!--DATE RANGE-->
@@ -27,7 +26,7 @@
 
     <link rel="stylesheet" type="text/css" href="{{ asset('public/plugin/clockpicker/dist/jquery-clockpicker.min.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ asset('public/plugin/clockpicker/dist/bootstrap-clockpicker.min.css') }}" />
-    <script src="{{ asset('public/angular/angular.js') }}"></script>
+
     <link rel="stylesheet" type="text/css" href="{{ asset('public/assets/datepicer/css/bootstrap-datepicker3.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ asset('public/assets/datepicer/css/bootstrap-datepicker3.standalone.css') }}" />
     <script src="{{ asset('public/assets/js/jquery.min.js') }}"></script>
@@ -40,18 +39,6 @@
         body {
             background: url('{{ asset('public/img/backdrop.png') }}'), -webkit-gradient(radial, center center, 0, center center, 460, from(#ccc), to(#ddd));
         }
-        .loading {
-            opacity:0.4;
-            background:#ccc url('{{ asset('public/img/spin.gif')}}') no-repeat center;
-            position:fixed;
-            width:100%;
-            height:100%;
-            top:0px;
-            left:0px;
-            z-index:1000;
-            display: none;
-        }
-
     </style>
 
 </head>
@@ -131,7 +118,7 @@
 <script src="{{ asset('public/plugin/clockpicker/dist/bootstrap-clockpicker.min.js') }}"></script>
 <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
 <script src="{{ asset('public/assets/js/ie10-viewport-bug-workaround.js') }}"></script>
-<script>var loadingState = '<center><img src="{{ asset('public/img/spin.gif') }}" width="150" style="padding:20px;"></center>'; </script>
+
 <!-- bootstrap datepicker -->
 <script src="{{ asset('public/assets/js/script.js') }}?v=1"></script>
 <script src="{{ asset('public/assets/js/form-justification.js') }}"></script>

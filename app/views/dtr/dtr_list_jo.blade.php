@@ -85,11 +85,7 @@
                     </form>
                     <div class="row" id="jo_loading">
                         <div class="col-md-12">
-                            <div class="progress">
-                                <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
-                                    <strong class="text-center" style="font-size: medium;font-weight: bold;">Please wait. Generating attendance report.</strong>
-                                </div>
-                            </div>
+                            <div class="modal_content"><center><img src="{{ asset('public/img/spin.gif') }}" width="150" style="padding:10px;"></center></div>
                         </div>
                     </div>
                 </div>

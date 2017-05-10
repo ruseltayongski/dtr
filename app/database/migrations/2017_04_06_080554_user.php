@@ -14,15 +14,16 @@ class User extends Migration {
 	{
             Schema::create('users', function ($table) {
                 $table->increments('id');
-                $table->string('email');
-                $table->string('userid');
-                $table->string('fname');
-                $table->string('lname');
-                $table->string('mname');
+                $table->string('email')->nullable();
+                $table->string('userid')->nullable();
+                $table->string('fname')->nullable();
+                $table->string('lname')->nullable();
+                $table->string('mname')->nullable();
+                $table->string('sched',10)->nullable();
                 $table->string('username')->unique();
-                $table->string('password');
+                $table->string('password')->nullable();
                 $table->string('emptype')->nullable();
-                $table->boolean('usertype')->default(1);
+                $table->boolean('usertype')->default(0);
                 $table->rememberToken();
                 $table->timestamps();
             });

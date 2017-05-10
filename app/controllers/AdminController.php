@@ -52,4 +52,70 @@ class AdminController extends BaseController
         $lists = DtrDetails::paginate(20);
         return View::make('home')->with('lists',$lists);
     }
+
+    public function list_jo()
+    {
+        $users = DB::table('users')
+                    ->leftJoin('work_sched', function($join){
+                        $join->on('users.sched','=','work_sched.id');
+                    })
+                    ->orderBy('fname', 'ASC')
+                    ->where('emptype','=','JO')
+                    ->paginate(20);
+
+        return View::make('users.users')->with('users',$users);
+    }
+
+    public function list_regular()
+    {
+        $regulars = DB::table('users')
+            ->leftJoin('work_sched', function($join){
+                $join->on('users.sched','=','work_sched.id');
+            })
+            ->orderBy('fname','ASC')
+            ->where('emptype','=','REG')
+            ->paginate(20);
+        return View::make('users.regular')->with('regulars',$regulars);
+    }
+
+
+    public function change_schedule()
+    {
+        if(Request::method() == "GET") {
+            $sched = WorkScheds::all();
+            if(Input::has('id')){
+                Session::forget('sched_id');
+                Session::put('sched_id',Input::get('id'));
+                $user = Users::where('userid','=', Session::get('sched_id'))->first();
+                return View::make('users.change_sched')->with('sched',$sched)->with('user',$user);
+
+            } else {
+                return "<strong>No employee ID is sent.</strong>";
+            }
+        }
+
+        if(Request::method() == "POST") {
+            $user = Users::where('userid', '=', Session::get('sched_id'))->first();
+            $sched = WorkScheds::where('id', '=' , Input::get('schedule_id'))->first();
+            if(isset($user) and count($user) > 0) {
+                $user->sched = Input::get('schedule_id');
+                $user->save();
+                if($user->emptype == "REG") {
+                    return Redirect::to('list/regular')->with('msg_sched',"Employee $user->fname $user->lname working schedule is change to $sched->description");
+                } else {
+                    return Redirect::to('list/job-order')->with('msg_sched',"Employee $user->fname $user->lname working schedule is change to $sched->description");
+
+                }
+            }
+        }
+    }
+    public function print_individual()
+    {
+        if(Request::method() == "GET") {
+            return View::make('dtr.print_individual');
+        }
+        if(Request::method() == "POST") {
+
+        }
+    }
 }
