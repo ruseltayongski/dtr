@@ -132,7 +132,7 @@
     </div>
 @endsection
 @section('css')
-    @@parent
+    @parent
     <style>
         .underline {
             border-bottom: 1px solid #000000;

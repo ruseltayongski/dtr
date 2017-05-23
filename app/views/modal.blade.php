@@ -58,7 +58,7 @@
                 <h4 class="modal-title"><i class="fa fa-plus"></i> Office Order</h4>
             </div>
             <div class="modal-body">
-                <div class="modal_content"><center><img src="{{ asset('resources/img/spin.gif') }}" width="150" style="padding:20px;"></center></div>
+                <div class="modal_content"><center><img src="{{ asset('public/img/spin.gif') }}" width="150" style="padding:20px;"></center></div>
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
@@ -87,6 +87,18 @@
 </div><!-- /.modal -->
 
 
+<center class="modal fade" tabindex="-1" role="dialog" id="upload_loading">
+    <img src="{{ asset('public/img/spin.gif') }}" width="150" style="padding:10px; color: whitesmoke;">
+    <br />
+    <strong style="color:white;">Uploading.....</strong>
+</center>
+
+
+<center class="modal fade" tabindex="-1" role="dialog" id="generate_dtr_jo">
+    <img src="{{ asset('public/img/spin.gif') }}" width="150" style="padding:10px; color: whitesmoke;">
+    <br />
+    <strong style="color:white;">Generating DTR.....</strong>
+</center>
 
 
 

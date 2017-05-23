@@ -8,7 +8,7 @@
     @endif
     <div class="alert alert-jim" id="inputText">
         <h2 class="page-header">Job Order Employees</h2>
-        <form class="form-inline form-accept" action="{{ asset('/search/user') }}" method="GET">
+        <form class="form-inline form-accept" action="{{ asset('/search/user/j') }}" method="GET">
             <div class="form-group">
                 <input type="text" name="search" class="form-control" placeholder="Quick Search" autofocus>
                 <button type="submit" class="btn btn-default"><i class="fa fa-search"></i> Search</button>
@@ -30,15 +30,17 @@
                     </thead>
                     <tbody>
                     @foreach($users as $user)
-                        <tr>
-                            <td><a href="#user" data-id="{{ $user->userid }}"  class="title-info">{{ $user->userid }}</a></td>
-                            <td><a href="#user" data-id="{{ $user->id }}" data-link="{{ asset('user/edit') }}" class="text-bold">{{ $user->fname ." ". $user->mname." ".$user->lname }}</a></td>
-                            <td>
-                                <span class="text-bold">{{ $user->description }}</span>
-                                <button data-id="{{ $user->userid }}" type="button" class="btn btn-info btn-xs change_sched">Change</button>
-                            </td>
-                            <td>REGULAR EMPLOYEE</td>
-                        </tr>
+                        @if($user->emptype == 'JO')
+                            <tr>
+                                <td><a href="#user" data-id="{{ $user->userid }}"  class="title-info">{{ $user->userid }}</a></td>
+                                <td><a href="#user" data-id="{{ $user->id }}" data-link="{{ asset('user/edit') }}" class="text-bold">{{ $user->fname ." ". $user->mname." ".$user->lname }}</a></td>
+                                <td>
+                                    <span class="text-bold">{{ $user->description }}</span>
+                                    <button data-id="{{ $user->userid }}" type="button" class="btn btn-info btn-xs change_sched">Change</button>
+                                </td>
+                                <td>JOB ORDER EMPLOYEE</td>
+                            </tr>
+                        @endif
                     @endforeach
                     </tbody>
                 </table>
@@ -75,7 +77,7 @@
     <link href="{{ asset('resources/plugin/daterangepicker/daterangepicker-bs3.css') }}" rel="stylesheet">
 @endsection
 @section('js')
-    @@parent
+    @parent
     <script>
         (function($){
             $('.form-accept').submit(function(event){

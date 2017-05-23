@@ -87,7 +87,7 @@ if(Session::has('lists')){
     </div>
 @endsection
 @section('js')
-    @@parent
+    @parent
     <script>
         var is_ok = false;
         error = "";

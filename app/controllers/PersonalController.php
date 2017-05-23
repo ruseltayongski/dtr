@@ -18,15 +18,20 @@ class PersonalController extends Controller
     public function __construct()
     {
         $this->beforeFilter('personal');
-        $this->userid = Auth::user()->userid;
     }
 
     public function index()
     {
-        $lists = DtrDetails::where('userid','=',$this->userid)
-                            ->where('userid', '<>', '--')
-                            ->orderBy('created_at','DESC')
-                            ->paginate(20);
+
+        $lists = DB::table('dtr_file')
+                    ->leftJoin('users', function($join){
+                        $join->on('dtr_file.userid', '=', 'users.userid')
+                            ->where('users.userid', '<>', '1')
+                            ->where('users.userid', '<>', '--');
+                    })
+                    ->where('dtr_file.userid', '=', Auth::user()->userid)
+                    ->orderBy('dtr_file.created_at', 'ASC')
+                    ->paginate(20);
         return View::make('employee.index')->with('lists',$lists);
     }
     public function edit_attendance($id = null)
@@ -136,12 +141,19 @@ class PersonalController extends Controller
     public  function search_filter()
     {
 
-        if(Input::has('from') and Input::has('to')){
+        if(Input::has('filter_range')){
 
-            $_from = explode('/', Input::get('from'));
-            $_to = explode('/', Input::get('to'));
-            $f_from = $_from[2].'-'.$_from[0].'-'.$_from[1];
-            $f_to = $_to[2].'-'.$_to[0].'-'.$_to[1];
+
+            $str = Input::get('filter_range');
+            $temp1 = explode('-',$str);
+            $temp2 = array_slice($temp1, 0, 1);
+            $tmp = implode(',', $temp2);
+            $f_from = date('Y-m-d',strtotime($tmp));
+            $temp3 = array_slice($temp1, 1, 1);
+            $tmp = implode(',', $temp3);
+            $f_to = date('Y-m-d',strtotime($tmp));
+
+
             Session::put('from',$f_from);
             Session::put('to', $f_to);
         }

@@ -61,7 +61,7 @@ use Illuminate\Support\Facades\Auth;
     <link href="{{ asset('resources/plugin/daterangepicker/daterangepicker-bs3.css') }}" rel="stylesheet">
 @endsection
 @section('js')
-    @@parent
+    @parent
     <script>
     </script>
 @endsection

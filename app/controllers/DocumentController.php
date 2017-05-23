@@ -356,9 +356,31 @@ class DocumentController extends BaseController
         return $name;
     }
     public function so_list(){
-        $office_order = OfficeOrders::orderBy('id','desc')->paginate(10);
-        return View::make('form.office_order_list',['office_order' => $office_order]);
+
+        Session::put('keyword',Input::get('keyword'));
+        $keyword = Session::get('keyword');
+        $office_order = OfficeOrders::where('prepared_by',$this->user_search(Auth::user()->userid)['id'])
+            ->where(function($q) use ($keyword){
+                $q->where('route_no','like',"%$keyword%")
+                    ->orwhere('subject','like',"%$keyword%");
+            })
+            ->orderBy('id','desc')
+            ->paginate(10);
+        return View::make('form.office_order_list')->with('office_order',$office_order);
     }
+
+    public function sov1()
+    {
+        $inclusive_name = $this->inclusive_name_page();
+        $users = $this->users();
+        return View::make('form.office_orderv1',['users'=>$users,'inclusive_name'=>$inclusive_name]);
+    }
+
+    public function inclusive_name_page(){
+        $name[] = $this->user_search(Auth::user()->userid)['id'];
+        return $name;
+    }
+
     public function so_append(){
         return View::make('form.office_order_append');
     }
@@ -460,4 +482,16 @@ class DocumentController extends BaseController
         return $user;*/
         return $inclusive_date = Calendars::where('route_no',Session::get('route_no'))->get();
     }
+    public function user_search($id)
+    {
+        $db=$this->connect();
+        $sql="SELECT * FROM USERS WHERE USERNAME = ?";
+        $pdo = $db->prepare($sql);
+        $pdo->execute(array($id));
+        $row = $pdo->fetch();
+        $db = null;
+
+        return $row;
+    }
+
 }

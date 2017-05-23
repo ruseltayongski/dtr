@@ -10,7 +10,7 @@
 
 @section('js')
 
-   @@parent
+   @parent
    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6/jquery.min.js"></script>
    <script src="jquery.paulund_modal_box.js"></script>
    <script>

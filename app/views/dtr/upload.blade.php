@@ -46,7 +46,9 @@
                                                 </td>
                                             </tr>
                                         </table>
-                                        <button type="submit"  class="btn-lg btn-success center-block" id="upload">Upload File</button>
+                                        <button type="submit"  class="btn-lg btn-success center-block" id="upload">
+                                            <span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span> Upload File
+                                        </button>
                                     </div>
                                 </form>
                             </div>
@@ -56,22 +58,10 @@
             </div>
         </div>
     </div>
-    <div class="modal fade" tabindex="-1" role="dialog" id="upload_loading">
-        <div class="modal-dialog modal-md" role="document" id="size">
-            <div class="modal-content">
-                <div class="modal-header" style="background-color: #9900cc;">
-                    <h4 class="modal-title"><i class="fa fa-plus"></i>Extracting data from file</h4>
-                </div>
-                <div class="modal-body">
-                    <div class="modal_content"><center><img src="{{ asset('public/img/spin.gif') }}" width="150" style="padding:10px;"></center></div>
-                </div>
-            </div><!-- .modal-content -->
-        </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
 @endsection
 
 @section('js')
-    @@parent
+    @parent
     <script>
         function readFile(input) {
             if (input.files && input.files[0]) {

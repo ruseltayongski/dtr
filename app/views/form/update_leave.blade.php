@@ -398,7 +398,7 @@
     </div>
 @endsection
 @section('js')
-    @@parent
+    @parent
     <script>
         $('.input-daterange input').each(function() {
             $(this).datepicker({

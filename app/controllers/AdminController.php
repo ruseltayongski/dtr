@@ -49,8 +49,13 @@ class AdminController extends BaseController
 
     public function home()
     {
-        $lists = DtrDetails::paginate(20);
-        return View::make('home')->with('lists',$lists);
+        $users = DB::table('users')
+            ->leftJoin('work_sched', function($join){
+                $join->on('users.sched','=','work_sched.id');
+            })
+            ->orderBy('fname', 'ASC')
+            ->paginate(20);
+        return View::make('home')->with('users',$users);
     }
 
     public function list_jo()
@@ -65,6 +70,66 @@ class AdminController extends BaseController
 
         return View::make('users.users')->with('users',$users);
     }
+
+    public function search_jo()
+    {
+
+        if(Input::has('search')) {
+            $search = Input::get('search');
+
+            $users = DB::table('users')
+                    ->leftJoin('work_sched', function($join){
+                        $join->on('users.sched','=','work_sched.id');
+                    })
+                    ->where('users.userid', 'LIKE', "%$search%")
+                    ->orWhere('users.fname', 'LIKE', "%$search%")
+                    ->orWhere('users.lname', 'LIKE', "%$search%")
+                    ->orderBy('users.fname', 'DESC')
+                    ->paginate(20);
+
+            return View::make('users.users')->with('users', $users);
+        }
+        return Redirect::to('list/job-order');
+    }
+
+    public function search()
+    {
+        if(Input::has('search')) {
+            $keyword = Input::get('search');
+            $users = DB::table('users')
+                ->leftJoin('work_sched', function($join){
+                    $join->on('users.sched','=','work_sched.id');
+                })
+                ->where(function($q) use ($keyword){
+                    $q->where('fname','like',"%$keyword%")
+                        ->orwhere('lname','like',"%$keyword%")
+                        ->orwhere('userid','like',"%$keyword%");
+                })
+                ->where('usertype','=', '0')
+                ->orderBy('fname', 'ASC')
+                ->paginate(20);
+            return View::make('home')->with('users',$users);
+        }
+        return Redirect::to('index');
+    }
+
+    public function search_regular()
+    {
+        if(Input::has('search')) {
+            $search = Input::get('search');
+            $regulars = DB::table('users')
+                    ->leftJoin('work_sched', function($join){
+                        $join->on('users.sched','=','work_sched.id');
+                    })
+                    ->where('users.userid', 'LIKE', "%$search%")
+                    ->orWhere('users.fname', 'LIKE', "%$search%")
+                    ->orWhere('users.lname', 'LIKE', "%$search%")
+                    ->orderBy('users.fname', 'DESC')
+                    ->paginate(20);
+            return View::make('users.regular')->with('users', $regulars);
+        }
+    }
+
 
     public function list_regular()
     {

@@ -60,7 +60,7 @@
 @endsection
 
 @section('js')
-    @@parent
+    @parent
     <script>
 
         $('#inclusive3').daterangepicker();

@@ -171,7 +171,7 @@ if(isset($lists) and count($lists) > 0) {
 @endsection
 
 @section('js')
-    @@parent
+    @parent
     <script>
         $('#inclusive1').daterangepicker();
     </script>

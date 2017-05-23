@@ -49,7 +49,7 @@
     </div>
 @endsection
 @section('js')
-    @@parent
+    @parent
     <script>
         var input = $('#input-a');
         input.clockpicker({

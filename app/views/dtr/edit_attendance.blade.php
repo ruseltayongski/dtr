@@ -122,7 +122,7 @@
 @endsection
 
 @section('js')
-    @@parent
+    @parent
     <script>
 
         var input = $('#input-a');

@@ -27,7 +27,9 @@ Route::get('list/job-order','AdminController@list_jo');
 Route::get('list/regular', 'AdminController@list_regular');
 Route::match(array('GET','POST'), 'change/work-schedule', 'AdminController@change_schedule');
 Route::match(array('GET','POST'), 'print/individual', 'AdminController@print_individual');
-
+Route::get('/search/user/j','AdminController@search_jo');
+Route::get('/search/user/r','AdminController@search_regular');
+Route::get('/search','AdminController@search');
 
 Route::match(array('GET','POST'), 'print-monthly', 'PrintController@print_monthly');
 Route::get('print-monthly/attendance', 'PrintController@print_pdf');
@@ -112,6 +114,10 @@ Route::get('pdf/leave',function() {
 Route::match(array('GET','POST'), 'form/so', 'DocumentController@so');
 Route::match(array('GET','POST'), 'form/so_view', 'DocumentController@so_view');
 Route::match(array('GET','POST'), 'form/so_list', 'DocumentController@so_list');
+Route::match(array('GET','POST'), 'form/sov1', 'DocumentController@sov1');
+Route::get('inclusive_name_page', 'DocumentController@inclusive_name_page');
+
+
 Route::get('form/so_pdf','DocumentController@so_pdf');
 Route::get('inclusive_name', 'DocumentController@inclusive_name');
 Route::get('so_append','DocumentController@so_append');

@@ -23,19 +23,22 @@
     <!-- bootstrap datepicker -->
     <!--DATE RANGE-->
     <link href="{{ asset('public/plugin/daterangepicker/daterangepicker-bs3.css') }}" rel="stylesheet">
-
+    <script>var loadingState = '<center><img src="{{ asset('public/img/spin.gif') }}" width="150" style="padding:20px;"></center>'; </script>
     <link rel="stylesheet" type="text/css" href="{{ asset('public/plugin/clockpicker/dist/jquery-clockpicker.min.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ asset('public/plugin/clockpicker/dist/bootstrap-clockpicker.min.css') }}" />
 
     <link rel="stylesheet" type="text/css" href="{{ asset('public/assets/datepicer/css/bootstrap-datepicker3.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ asset('public/assets/datepicer/css/bootstrap-datepicker3.standalone.css') }}" />
     <script src="{{ asset('public/assets/js/jquery.min.js') }}"></script>
+    <link rel="stylesheet" type="text/css" href="{{ asset('public/plugin/select2/select2.min.css') }}" />
+    <script src="{{ asset('public/plugin/select2/select2.full.min.js') }}"></script>
+
+
     <title>
         @yield('title','Home')
     </title>
     @yield('css')
     <style>
-
         body {
             background: url('{{ asset('public/img/backdrop.png') }}'), -webkit-gradient(radial, center center, 0, center center, 460, from(#ccc), to(#ddd));
         }
@@ -45,7 +48,7 @@
 @section('head-js')
         <!--DATE RANGE-->
 @show
-<body  class="ng-cloak">
+<body  class="ng-cloak ">
 <div class="loading"></div>
 
 <!-- Fixed navbar -->
@@ -128,7 +131,6 @@
 <!-- SELECT CHOOSEN -->
 <script src="{{ asset('public/plugin/chosen/chosen.jquery.js') }}"></script>
 <script>
-
 
 </script>
 @section('js')

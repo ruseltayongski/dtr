@@ -1,4 +1,5 @@
 @extends('layouts.app')
+@extends('layouts.app')
 
 
 @section('content')
@@ -396,7 +397,7 @@
     </div>
 @endsection
 @section('js')
-    @@parent
+    @parent
     <script>
         $('.input-daterange input').each(function() {
             $(this).datepicker("clearDates");
