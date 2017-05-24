@@ -2,56 +2,106 @@
 
 
 @section('content')
-    <div class="col-md-12 wrapper">
-        <div class="alert alert-jim">
-            <h3 class="page-header">Office Order
-            </h3>
-            <form class="form-inline" method="POST" action="{{ asset('form/so_list') }}" onsubmit="return searchDocument();" id="searchForm">
-                <div class="form-group">
-                    <input type="text" class="form-control" placeholder="Search here.." name="keyword" value="{{ Session::get('keyword') }}" autofocus>
-                    <button  type="submit" name="search" value="search" class="btn btn-default"><i class="fa fa-search"></i> Search</button>
-                    <a class="btn btn-success" data-dismiss="modal" data-backdrop="static" data-toggle="modal" data-target="#form_type" style="background-color: darkmagenta;color: white;"><i class="fa fa-plus"></i> Create new</a>
-                </div>
-            </form>
-            <div class="clearfix"></div>
-            <div class="page-divider"></div>
-            <div class="row">
-                <div class="col-md-12">
-                    @if(isset($office_order) and count($office_order) >0)
-                        <div class="table-responsive">
-                            <table class="table table-list table-hover table-striped">
-                                <thead>
-                                <tr>
-                                    <th width="8%"></th>
-                                    <th width="20%">Route #</th>
-                                    <th width="15%">Prepared Date</th>
-                                    <th width="20%">Document Type</th>
-                                    <th>Subject</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                @foreach($office_order as $so)
-                                    <tr>
-                                        <td><a href="#track" data-link="{{ asset('form/track/'.$so->route_no) }}" data-route="{{ $so->route_no }}" data-toggle="modal" class="btn btn-sm btn-success col-sm-12" style="background-color: darkmagenta;color:white;"><i class="fa fa-line-chart"></i> Track</a></td>
-                                        <td><a class="title-info" data-route="{{ $so->route_no }}" data-link="{{ asset('/form/info/'.$so->route_no) }}" href="#document_info" data-toggle="modal">{{ $so->route_no }}</a></td>
-                                        <td>{{ date('M d, Y',strtotime($so->prepared_date)) }}<br>{{ date('h:i:s A',strtotime($so->prepared_date)) }}</td>
-                                        <td>Office Order</td>
-                                        <td>{{ $so->subject }}</td>
-                                    </tr>
-                                @endforeach
-                                </tbody>
-                            </table>
+<div class="col-md-12 wrapper">
+    <div class="alert alert-jim">
+        <h3 class="page-header">Office Order
+        </h3>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="panel panel-default">
+                            <div class="panel-heading"><strong style="color: #f0ad4e;font-size:medium;">Option</strong></div>
+                            <div class="panel-body">
+                                <form class="form-inline" method="POST" action="{{ asset('search') }}" onsubmit="return searchDocument();" id="searchForm">
+                                    <div class="table-responsive">
+                                        <table class="table">
+                                            <tr>
+                                                <td class="col-sm-3" style="font-size: 12px;"><strong>Keyword</strong></td>
+                                                <td class="col-sm-1">: </td>
+                                                <td class="col-sm-9">
+                                                    <input type="text" class="col-md-2 form-control" id="inputEmail3" name="keyword" placeholder="Name, Userid">
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="col-sm-3" style="font-size: 12px;"><strong>Dates</strong></td>
+                                                <td class="col-sm-1"> :</td>
+                                                <td class="col-sm-9">
+                                                    <div class="input-group">
+                                                        <div class="input-group-addon">
+                                                            <i class="fa fa-calendar"></i>
+                                                        </div>
+                                                        <input type="text" class="form-control" id="inclusive3" name="filter_range" placeholder="Input date range here..." required>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                    <button type="submit"  class="btn-lg btn-success center-block col-sm-12" id="print" data-loading-text="<i class='fa fa-refresh fa-spin'></i> Printing DTR">
+                                        <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Search
+                                    </button>
+                                </form>
+                            </div>
                         </div>
-                        {{ $office_order->links() }}
-                    @else
-                        <div class="alert alert-danger" role="alert">Documents records are empty.</div>
-                    @endif
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="panel panel-default">
+                            <div class="panel-heading"><strong style="color: #f0ad4e;font-size:medium;">List</strong></div>
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <a class="btn btn-success" data-dismiss="modal" data-backdrop="static" data-toggle="modal" data-target="#form_type" style="background-color: darkmagenta;color: white;"><i class="fa fa-plus"></i> Create new</a>
+                                    </div>
+                                </div>
+                                <br />
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        @if(isset($office_order) and count($office_order) >0)
+                                            <div class="table-responsive">
+                                                <table class="table table-list table-hover table-striped">
+                                                    <thead>
+                                                    <tr>
+                                                        <th width="8%"></th>
+                                                        <th width="20%">Route #</th>
+                                                        <th width="15%">Prepared Date</th>
+                                                        <th width="20%">Document Type</th>
+                                                        <th>Subject</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    @foreach($office_order as $so)
+                                                        <tr>
+                                                            <td><a href="#track" data-link="{{ asset('form/track/'.$so->route_no) }}" data-route="{{ $so->route_no }}" data-toggle="modal" class="btn btn-sm btn-success col-sm-12" style="background-color: darkmagenta;color:white;"><i class="fa fa-line-chart"></i> Track</a></td>
+                                                            <td><a class="title-info" data-route="{{ $so->route_no }}" data-link="{{ asset('/form/info/'.$so->route_no) }}" href="#document_info" data-toggle="modal">{{ $so->route_no }}</a></td>
+                                                            <td>{{ date('M d, Y',strtotime($so->prepared_date)) }}<br>{{ date('h:i:s A',strtotime($so->prepared_date)) }}</td>
+                                                            <td>Office Order</td>
+                                                            <td>{{ $so->subject }}</td>
+                                                        </tr>
+                                                    @endforeach
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            {{ $office_order->links() }}
+                                        @else
+                                            <div class="alert alert-danger" role="alert">Documents records are empty.</div>
+                                        @endif
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
+
     </div>
-
-
+</div>
 
     <div class="modal fade" tabindex="-1" role="dialog" id="form_type" style="z-index:999991;">
         <div class="modal-dialog modal-sm" role="document">
