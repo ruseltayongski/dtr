@@ -131,6 +131,11 @@
         $('#filter_dates').daterangepicker();
         $('#print_pdf').submit(function(){
             $('#upload').button('loading');
+            $('#print_individual').modal({
+                backdrop: 'static',
+                keyboard: false,
+                show: true
+            });
         });
     </script>
 @endsection

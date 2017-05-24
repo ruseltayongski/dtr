@@ -36,7 +36,7 @@
                 <h4 class="modal-title"><i class="fa fa-plus"></i>Delete Attendance</h4>
             </div>
 
-            <form action="{{ asset('delete/attendance') }}" method="POST">
+            <form action="<?php echo asset('delete/attendance'); ?>" method="POST">
                 <input type="hidden" name="dtr_id" value="" id="dtr_id_val">
                 <div class="modal-body">
                     Delete attendance ?
@@ -58,7 +58,7 @@
                 <h4 class="modal-title"><i class="fa fa-plus"></i> Office Order</h4>
             </div>
             <div class="modal-body">
-                <div class="modal_content"><center><img src="{{ asset('public/img/spin.gif') }}" width="150" style="padding:20px;"></center></div>
+                <div class="modal_content"><center><img src="<?php echo asset('public/img/spin.gif'); ?>" width="150" style="padding:20px;"></center></div>
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
@@ -77,7 +77,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <form action="{{ asset('document/update') }}" method="post">
+                <form action="<?php echo asset('document/update'); ?>" method="post">
                     <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> No</button>
                     <button type="submit" name="delete" class="btn btn-danger" ><i class="fa fa-trash"></i> Yes</button>
                 </form>
@@ -99,21 +99,21 @@
 
 
 <center class="modal fade" tabindex="-1" role="dialog" id="upload_loading">
-    <img src="{{ asset('public/img/spin.gif') }}" width="150" style="padding:10px; color: whitesmoke;">
+    <img src="<?php echo asset('public/img/spin.gif'); ?>" width="150" style="padding:10px; color: whitesmoke;">
     <br />
     <strong style="color:white;">Uploading.....</strong>
 </center>
 
 
 <center class="modal fade" tabindex="-1" role="dialog" id="generate_dtr_jo">
-    <img src="{{ asset('public/img/spin.gif') }}" width="150" style="padding:10px; color: whitesmoke;">
+    <img src="<?php echo asset('public/img/spin.gif'); ?>" width="150" style="padding:10px; color: whitesmoke;">
     <br />
     <strong style="color:white;">Generating DTR.....</strong>
 </center>
 
 
 <center class="modal fade" tabindex="-1" role="dialog" id="print_individual">
-    <img src="{{ asset('public/img/spin.gif') }}" width="150" style="padding:10px; color: whitesmoke;">
+    <img src="<?php echo asset('public/img/spin.gif'); ?>" width="150" style="padding:10px; color: whitesmoke;">
     <br />
     <strong style="color:white;">Generating DTR.....</strong>
 </center>

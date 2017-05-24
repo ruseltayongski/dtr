@@ -1,28 +1,28 @@
 <div class="row">
     <div class="col-sm-12">
-        <form action="{{ asset('change/work-schedule') }}" method="POST">
+        <form action="<?php echo asset('change/work-schedule'); ?>" method="POST">
             <div class="modal-body">
                 <table class="table table-hover table-form table-striped">
                     <tr>
                         <td class="col-sm-1"><label style="font-size: 12px;">User ID</label></td>
                         <td class="col-sm-1">:</td>
-                        <td class="col-sm-10"><input type="text" name="prepared_by" class="form-control" value="{{ $user->userid }}" readonly></td>
+                        <td class="col-sm-10"><input type="text" name="prepared_by" class="form-control" value="<?php echo $user->userid; ?>" readonly></td>
                     </tr>
                     <tr>
                         <td class="col-sm-1"><label style="font-size: 12px;">Name</label></td>
                         <td class="col-sm-1">:</td>
-                        <td class="col-sm-10"><input type="text" name="routed_from" class="form-control" value="{{ $user->fname . " " . $user->lname }}"></td>
+                        <td class="col-sm-10"><input type="text" name="routed_from" class="form-control" value="<?php echo $user->fname . " " . $user->lname; ?>"></td>
                     </tr>
                     <tr>
                         <td class="col-sm-3"><label>Select Working Schedule</label></td>
                         <td class="col-sm-1">:</td>
                         <td class="col-sm-8">
                             <select class="form-control input-mini" name="schedule_id">
-                                @if(isset($sched) and count($sched) > 0)
-                                    @foreach($sched as $s)
-                                        <option value="{{ $s->id }}" {{ ($s->id == $user->sched ? 'selected' : '') }}>{{ $s->description }}</option>
-                                    @endforeach
-                                @endif
+                                <?php if(isset($sched) and count($sched) > 0): ?>
+                                    <?php foreach($sched as $s): ?>
+                                        <option value="<?php echo $s->id; ?>" <?php echo ($s->id == $user->sched ? 'selected' : ''); ?>><?php echo $s->description; ?></option>
+                                    <?php endforeach; ?>
+                                <?php endif; ?>
                             </select>
                         </td>
                     </tr>

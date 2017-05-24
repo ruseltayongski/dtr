@@ -19,6 +19,8 @@
     <link href="{{ asset('public/assets/css/ie10-viewport-bug-workaround.css') }}" rel="stylesheet">
     <!-- Custom styles for this template -->
     <link href="{{ asset('public/assets/css/style.css') }}" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{{ asset('public/plugin/Lobibox old/lobibox.css') }}" />
+
     <link href="{{ asset('public/plugin/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css') }}" rel="stylesheet">
     <!-- bootstrap datepicker -->
     <!--DATE RANGE-->
@@ -33,21 +35,21 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('public/plugin/select2/select2.min.css') }}" />
     <script src="{{ asset('public/plugin/select2/select2.full.min.js') }}"></script>
 
+    @section('css')
 
-    <title>
-        @yield('title','Home')
-    </title>
-    @yield('css')
+    @show
     <style>
+
         body {
             background: url('{{ asset('public/img/backdrop.png') }}'), -webkit-gradient(radial, center center, 0, center center, 460, from(#ccc), to(#ddd));
         }
     </style>
 
+    @section('head-js')
+            <!--DATE RANGE-->
+    @show
 </head>
-@section('head-js')
-        <!--DATE RANGE-->
-@show
+
 <body  class="ng-cloak ">
 <div class="loading"></div>
 
@@ -112,7 +114,7 @@
 <!-- DATE RANGE SELECT -->
 <script src="{{ asset('public/plugin/daterangepicker/moment.min.js') }}"></script>
 <script src="{{ asset('public/plugin/daterangepicker/daterangepicker.js') }}"></script>
-
+<script src="{{ asset('public/plugin/Lobibox old/Lobibox.js') }}"></script>
 <script src="{{ asset('public/assets/js/jquery-validate.js') }}"></script>
 <script src="{{ asset('public/assets/js/bootstrap.min.js') }}"></script>
 <script src="{{ asset('public/assets/datepicer/js/bootstrap-datepicker.js') }}"></script>
@@ -126,15 +128,16 @@
 <script src="{{ asset('public/assets/js/script.js') }}?v=1"></script>
 <script src="{{ asset('public/assets/js/form-justification.js') }}"></script>
 <script src="{{ asset('public/plugin/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js') }}"></script>
-@yield('plugin')
 
 <!-- SELECT CHOOSEN -->
 <script src="{{ asset('public/plugin/chosen/chosen.jquery.js') }}"></script>
-<script>
 
-</script>
+<script src="{{ asset('public/plugin/fullcalendar/moment.js') }}"></script>
+<script src="{{ asset('public/plugin/fullcalendar/fullcalendar.min.js') }}"></script>
+
 @section('js')
 
 @show
+
 </body>
 </html>

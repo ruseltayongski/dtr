@@ -124,9 +124,13 @@ Route::get('so_append','DocumentController@so_append');
 Route::post('so_add','DocumentController@so_add');
 Route::get('form/info/{route}', 'DocumentController@show');
 /////////CALENDAR
-Route::get('calendar', 'CalendarController@calendar');
-Route::get('calendar_event', 'CalendarController@calendar_event');
-Route::get('example','DocumentController@check_calendar');
+/////////CALENDAR
+
+Route::get('calendar','CalendarController@calendar');
+Route::get('calendar_holiday','CalendarController@calendar_holiday');
+Route::post('calendar_save','CalendarController@calendar_save');
+Route::get('calendar_delete/{event_id}','CalendarController@calendar_delete');
+Route::post('calendar_update','CalendarController@calendar_update');
 
 //TEST ROUTES
 Route::get('phpinfo', function() {

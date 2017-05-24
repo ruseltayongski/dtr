@@ -1,11 +1,8 @@
 
 
 <?php
-/*$host = $_SERVER['HTTP_HOST'];
-$uri = explode('/',$_SERVER['REQUEST_URI']);
-$protocol = 'http://';
-$address = $protocol.$host.'/'.$uri[1].'/index';*/
-//require('dbconn.php');
+
+require('dbconn.php');
 require('fpdf.php');
 ini_set('max_execution_time', 0);
 ini_set('memory_limit','1000M');
@@ -49,6 +46,7 @@ class PDF extends FPDF
             $s_pm_out = $sched[0]["pm_out"];
 
             $logs = get_logs($s_am_in,$s_am_out,$s_pm_in,$s_pm_out,$userid,$date_from,$date_to);
+
 
             if(count($logs) <= 0) {
 
@@ -169,7 +167,7 @@ class PDF extends FPDF
                             {
                                 $late_total = $late_total + $late;
                             }
-                            $ut = undertime($s_am_in,$s_pm_in,$am_in,$pm_in,$s_am_out,$s_pm_out,$am_out,$pm_out,$log['datein']);
+                            $ut = undertime($s_am_in,$s_pm_in,$am_in,$pm_in,$s_am_out,$s_pm_out,$am_out,$pm_out,$datein);
                             if($ut != '' or $ut != null)
                             {
                                 $ut_total = $ut_total + $ut;
@@ -185,7 +183,8 @@ class PDF extends FPDF
                             $e3 = '';
                             $e4 = '';
                             if($day_name != 'Sat' and $day_name != 'Sun') {
-                                $ut = undertime($s_am_in,$s_pm_in,$am_in,$pm_in,$s_am_out,$s_pm_out,$am_out,$pm_out,$log['datein']);
+
+                                $ut = undertime($s_am_in,$s_pm_in,$am_in,$pm_in,$s_am_out,$s_pm_out,$am_out,$pm_out,$datein);
                                 if($ut != '' or $ut != null)
                                 {
                                     $ut_total = $ut_total + $ut;
@@ -488,19 +487,7 @@ function get_logs($am_in,$am_out,$pm_in,$pm_out,$id,$date_from,$date_to)
     }
     return $row;
 }
-function conn()
-{
-    $pdo = null;
-    try{
-        $pdo = new PDO('mysql:host=localhost; dbname=dohdtr','root','');
-        $pdo->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
-    }
-    catch (PDOException $err) {
-        $err->getMessage() . "<br/>";
-        die();
-    }
-    return $pdo;
-}
+
 function userlist($id)
 {
     $pdo = conn();

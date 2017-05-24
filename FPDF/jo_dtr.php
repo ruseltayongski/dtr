@@ -5,7 +5,7 @@
 $uri = explode('/',$_SERVER['REQUEST_URI']);
 $protocol = 'http://';
 $address = $protocol.$host.'/'.$uri[1].'/index';*/
-//require('dbconn.php');
+require('dbconn.php');
 require('fpdf.php');
 ini_set('max_execution_time', 0);
 ini_set('memory_limit','1000M');
@@ -485,20 +485,8 @@ function get_logs($am_in,$am_out,$pm_in,$pm_out,$id,$date_from,$date_to)
     }
     return $row;
 }
-function conn()
-{
-    $pdo = null;
-    try{
-        $pdo = new PDO('mysql:host=localhost; dbname=dohdtr','root','');
-        $pdo->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
-    }
-    catch (PDOException $err) {
-        $err->getMessage() . "<br/>";
-        die();
-    }
-    return $pdo;
-}
-function userlist()
+
+function userlist($emptype)
 {
     $pdo = conn();
     try {
