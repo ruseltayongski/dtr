@@ -384,29 +384,32 @@ class DocumentController extends BaseController
     public function so_append(){
         return View::make('form.office_order_append');
     }
-    public function so_add(){
-        $route_no = date('Y-') . Auth::user()->id . date('mdHis');
+
+    public function so_addv1(){
+        $route_no = date('Y-') . $this->user_search(Auth::user()->userid)['id'] . date('mdHis');
         $doc_type = 'OFFICE_ORDER';
-        $prepared_date = Input::get('prepared_date');
-        $prepared_by =  Auth::user()->id;
+        $prepared_date = date('Y-m-d',strtotime(Input::get('prepared_date'))).' '.date('H:i:s');
+        $prepared_by =  $this->user_search(Auth::user()->userid)['id'];
         $description = Input::get('subject');
 
         //ADD OFFICE ORDER
         $office_order = new OfficeOrders();
         $office_order->route_no = $route_no;
         $office_order->subject = Input::get('subject');
-        $office_order->header_body = Input::get('header_body');
-        $office_order->footer_body = Input::get('footer_body');
-        $office_order->approved_by = Input::get('approved_by');
+        $office_order->prepared_by = $prepared_by;
+        $office_order->prepared_date = $prepared_date;
+        $office_order->version = 1;
         $office_order->save();
 
         //ADD INCLUSIVE NAME
+        $count = 0;
         foreach(Input::get('inclusive_name') as $row){
             $inclusive_name = new InclusiveNames();
             $inclusive_name->route_no = $route_no;
-            $inclusive_name->user_id = $row;
-            $inclusive_name->status = 0;
+            $inclusive_name->user_id = Input::get('inclusive_name')[$count];
+            $inclusive_name->status = 1;
             $inclusive_name->save();
+            $count++;
         }
 
         //ADD CALENDAR
@@ -437,6 +440,7 @@ class DocumentController extends BaseController
             $so->save();
             $count++;
         }
+
         //ADD TRACKING MASTER
         $this->insert_tracking_master($route_no,$doc_type,$prepared_date,$prepared_by,$description);
 
@@ -450,8 +454,8 @@ class DocumentController extends BaseController
         //ADD SYSTEM LOGS
         $user_id = $prepared_by;
         $name = Auth::user()->fname.' '.Auth::user()->mname.' '.Auth::user()->lname;
-        $activity = 'CREATED';
-        $this->insert_system_logs($user_id,$name,$activity);
+        $activity = 'Created';
+        $this->insert_system_logs($user_id,$name,$activity,'.');
         Session::put('added',true);
 
         return Redirect::to('form/so_list');

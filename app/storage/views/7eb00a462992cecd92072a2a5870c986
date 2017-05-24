@@ -1,6 +1,4 @@
-@extends('layouts.app')
-
-@section('content')
+<?php $__env->startSection('content'); ?>
     <div class="col-md-12 wrapper">
         <div class="alert alert-jim">
             <h3 class="page-header">Create Application for Leave
@@ -8,7 +6,7 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-md-11">
-                        <form action="{{ asset('form/leave') }}" method="POST">
+                        <form action="<?php echo asset('form/leave'); ?>" method="POST">
                             <div class="row">
                                 <div class="col-md-3">
                                     <div class="form-group has-success">
@@ -19,19 +17,19 @@
                                 <div class="col-md-3">
                                     <div class="form-group has-success">
                                         <label class="control-label" for="inputSuccess1">(2.)  Last Name</label>
-                                        <input type="text" class="form-control" id="inputSuccess1" name="lastname" value="{{ $user->lname }}">
+                                        <input type="text" class="form-control" id="inputSuccess1" name="lastname" value="<?php echo $user->lname; ?>">
                                     </div>
                                 </div>
                                 <div class="col-md-3">
                                     <div class="form-group has-success">
                                         <label class="control-label" for="inputSuccess1">First Name</label>
-                                        <input type="text" class="form-control" id="inputSuccess1" name="firstname" value="{{ $user->fname }}">
+                                        <input type="text" class="form-control" id="inputSuccess1" name="firstname" value="<?php echo $user->fname; ?>">
                                     </div>
                                 </div>
                                 <div class="col-md-3">
                                     <div class="form-group has-success">
                                         <label class="control-label" for="inputSuccess1">Middle Name</label>
-                                        <input type="text" class="form-control" id="inputSuccess1" name="middlename" value="{{ $user->mname }}">
+                                        <input type="text" class="form-control" id="inputSuccess1" name="middlename" value="<?php echo $user->mname; ?>">
                                     </div>
                                 </div>
                             </div>
@@ -393,8 +391,8 @@
             </div>
         </div>
     </div>
-@endsection
-@section('js')
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('js'); ?>
     @parent
     <script>
         $('.input-daterange input').each(function() {
@@ -417,4 +415,5 @@
             }
         });
     </script>
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.app', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

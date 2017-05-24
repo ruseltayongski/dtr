@@ -50,19 +50,7 @@
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
-<div class="modal fade" tabindex="-1" role="dialog" id="document_info">
-    <div class="modal-dialog modal-md" role="document">
-        <div class="modal-content">
-            <div class="modal-header" style="background-color: darkmagenta;color: white">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true" >&times;</span></button>
-                <h4 class="modal-title"><i class="fa fa-plus"></i> Office Order</h4>
-            </div>
-            <div class="modal-body">
-                <div class="modal_content"><center><img src="<?php echo asset('public/img/spin.gif'); ?>" width="150" style="padding:20px;"></center></div>
-            </div>
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
+
 
 <div class="modal fade" tabindex="-1" role="dialog" id="deleteDocument">
     <div class="modal-dialog modal-sm" role="document">
@@ -94,8 +82,6 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
-
-
 
 
 <center class="modal fade" tabindex="-1" role="dialog" id="upload_loading">
