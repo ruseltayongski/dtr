@@ -11,7 +11,6 @@ class CalendarController extends BaseController
 
     public function calendar()
     {
-
         return View::make('calendar.calendar');
     }
 

@@ -466,11 +466,25 @@ class DocumentController extends BaseController
         return InclusiveNames::where('user_id',Auth::user()->userid)->get();
     }
 
-    public function show($route_no){
-        $info = OfficeOrders::where('route_no',$route_no)->first();
+    public function show($route_no,$doc_type=null){
+        Session::put('route_no',$route_no);
+        if($doc_type == 'office_order'){
+            $users = pdoController::users();
+            $info = OfficeOrders::where('route_no',$route_no)->get()->first();
+            $inclusive_date = Calendars::where('route_no',$route_no)->get();
 
-        Session::put('route_no', $route_no);
-        return View::make('document.info',['info' => $info]);
+            return View::make('document.info',['users'=>$users,'info'=>$info,'inclusive_date'=>$inclusive_date]);
+        } else {
+
+            $info = cdo::where('route_no',$route_no)->get()->first();
+            return View::make('document.info',['info' => $info]);
+        }
+    }
+    public function track($route_no){
+
+        $document = pdoController::search_tracking_details($route_no);
+        Session::put('route_no',$route_no);
+        return View::make('document.track',['document' => $document]);
     }
 
     public function getTest()

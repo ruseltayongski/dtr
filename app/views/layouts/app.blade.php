@@ -125,7 +125,7 @@
 <script src="{{ asset('public/assets/js/ie10-viewport-bug-workaround.js') }}"></script>
 
 <!-- bootstrap datepicker -->
-<script src="{{ asset('public/assets/js/script.js') }}?v=1"></script>
+<script src="{{ asset('public/assets/js/script.js') }}?v=2"></script>
 <script src="{{ asset('public/assets/js/form-justification.js') }}"></script>
 <script src="{{ asset('public/plugin/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js') }}"></script>
 

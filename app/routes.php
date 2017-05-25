@@ -119,12 +119,12 @@ Route::get('inclusive_name_page', 'DocumentController@inclusive_name_page');
 Route::post('so_addv1','DocumentController@so_addv1');
 
 
-
+Route::match(['get','post'], 'form/track/{route_no}', 'DocumentController@track');
 Route::get('form/so_pdf','DocumentController@so_pdf');
 Route::get('inclusive_name', 'DocumentController@inclusive_name');
 Route::get('so_append','DocumentController@so_append');
 Route::post('so_add','DocumentController@so_add');
-Route::get('form/info/{route}', 'DocumentController@show');
+Route::get('form/info/{route}/{doc_type}', 'DocumentController@show');
 /////////CALENDAR
 /////////CALENDAR
 

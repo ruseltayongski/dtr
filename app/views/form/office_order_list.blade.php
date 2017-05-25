@@ -55,7 +55,7 @@
                             <div class="panel-body">
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <a class="btn btn-success" data-dismiss="modal" data-backdrop="static" data-toggle="modal" data-target="#form_type" style="background-color: darkmagenta;color: white;"><i class="fa fa-plus"></i> Create new</a>
+                                        <a class="btn btn-success" data-dismiss="modal" data-backdrop="static" data-toggle="modal" data-target="#form_type"><i class="fa fa-plus"></i> Create new</a>
                                     </div>
                                 </div>
                                 <br />
@@ -76,8 +76,8 @@
                                                     <tbody>
                                                     @foreach($office_order as $so)
                                                         <tr>
-                                                            <td><a href="#track" data-link="{{ asset('form/track/'.$so->route_no) }}" data-route="{{ $so->route_no }}" data-toggle="modal" class="btn btn-sm btn-success col-sm-12" style="background-color: darkmagenta;color:white;"><i class="fa fa-line-chart"></i> Track</a></td>
-                                                            <td><a class="title-info" data-route="{{ $so->route_no }}" data-link="{{ asset('/form/info/'.$so->route_no) }}" href="#document_info" data-toggle="modal">{{ $so->route_no }}</a></td>
+                                                            <td><a href="#track" data-link="{{ asset('form/track/'.$so->route_no) }}" data-route="{{ $so->route_no }}" data-toggle="modal" class="btn btn-sm btn-success col-sm-12" ><i class="fa fa-line-chart"></i> Track</a></td>
+                                                            <td><a class="title-info" data-route="{{ $so->route_no }}" data-link="{{ asset('/form/info/'.$so->route_no.'/office_order') }}" href="#document_info" data-toggle="modal">{{ $so->route_no }}</a></td>
                                                             <td>{{ date('M d, Y',strtotime($so->prepared_date)) }}<br>{{ date('h:i:s A',strtotime($so->prepared_date)) }}</td>
                                                             <td>Office Order</td>
                                                             <td>{{ $so->subject }}</td>
@@ -185,6 +185,7 @@
             $('.modal_content').html(loadingState);
             $('.modal-title').html('Route #: '+route_no);
             var url = $(this).data('link');
+
             setTimeout(function(){
                 $.ajax({
                     url: url,
@@ -217,6 +218,8 @@
                 });
             },1000);
         });
+
+        $('#inclusive3').daterangepicker();
     </script>
 
 @endsection

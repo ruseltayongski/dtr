@@ -52,7 +52,7 @@
                             <div class="panel-body">
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <a class="btn btn-success" data-dismiss="modal" data-backdrop="static" data-toggle="modal" data-target="#form_type" style="background-color: darkmagenta;color: white;"><i class="fa fa-plus"></i> Create new</a>
+                                        <a class="btn btn-success" data-dismiss="modal" data-backdrop="static" data-toggle="modal" data-target="#form_type"><i class="fa fa-plus"></i> Create new</a>
                                     </div>
                                 </div>
                                 <br />
@@ -73,8 +73,8 @@
                                                     <tbody>
                                                     <?php foreach($office_order as $so): ?>
                                                         <tr>
-                                                            <td><a href="#track" data-link="<?php echo asset('form/track/'.$so->route_no); ?>" data-route="<?php echo $so->route_no; ?>" data-toggle="modal" class="btn btn-sm btn-success col-sm-12" style="background-color: darkmagenta;color:white;"><i class="fa fa-line-chart"></i> Track</a></td>
-                                                            <td><a class="title-info" data-route="<?php echo $so->route_no; ?>" data-link="<?php echo asset('/form/info/'.$so->route_no); ?>" href="#document_info" data-toggle="modal"><?php echo $so->route_no; ?></a></td>
+                                                            <td><a href="#track" data-link="<?php echo asset('form/track/'.$so->route_no); ?>" data-route="<?php echo $so->route_no; ?>" data-toggle="modal" class="btn btn-sm btn-success col-sm-12" ><i class="fa fa-line-chart"></i> Track</a></td>
+                                                            <td><a class="title-info" data-route="<?php echo $so->route_no; ?>" data-link="<?php echo asset('/form/info/'.$so->route_no.'/office_order'); ?>" href="#document_info" data-toggle="modal"><?php echo $so->route_no; ?></a></td>
                                                             <td><?php echo date('M d, Y',strtotime($so->prepared_date)); ?><br><?php echo date('h:i:s A',strtotime($so->prepared_date)); ?></td>
                                                             <td>Office Order</td>
                                                             <td><?php echo $so->subject; ?></td>
@@ -183,6 +183,7 @@
             $('.modal_content').html(loadingState);
             $('.modal-title').html('Route #: '+route_no);
             var url = $(this).data('link');
+
             setTimeout(function(){
                 $.ajax({
                     url: url,
@@ -215,6 +216,8 @@
                 });
             },1000);
         });
+
+        $('#inclusive3').daterangepicker();
     </script>
 
 <?php $__env->stopSection(); ?>
