@@ -213,7 +213,6 @@
                         $('#reservation').daterangepicker();
                         var datePicker = $('body').find('.datepicker');
                         $('input').attr('autocomplete', 'off');
-                        $('#document_info').modal('show');
                     }
                 });
             },1000);

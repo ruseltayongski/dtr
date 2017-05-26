@@ -20,7 +20,7 @@
                 <a href="<?php echo asset('work-schedule'); ?>"><i class="fa fa-clock-o"></i>&nbsp;&nbsp; Work Schedule</a>
             </li>
             <li class="divider"></li>
-            <li><a href="<?php echo url('calendar'); ?>"><i class="fa fa-calendar"></i>&nbsp;&nbsp; Calendar</a></li>
+            <li><a href="<?php echo url('calendar'); ?>"><i class="fa fa-calendar"></i>&nbsp;&nbsp; Holidays Calendar</a></li>
             <li class="divider"></li>
             <li class="dropdown-submenu">
                 <a href="#" data-toggle="dropdown"><i class="fa fa-cog"></i>&nbsp;&nbsp; Settings</a>

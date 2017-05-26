@@ -25,4 +25,20 @@ function conn()
 }
 
 
+function dts_con()
+{
+    $pdo = null;
+    $server = 'localhost';
+    try{
+        $pdo = new PDO("mysql:host=$server; dbname=dtsv3.0",'root','');
+        $pdo->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
+    }
+    catch (PDOException $err) {
+        $err->getMessage() . "<br/>";
+        die();
+    }
+    return $pdo;
+}
+
+
 ?>

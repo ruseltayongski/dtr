@@ -11,6 +11,10 @@
     <link rel="icon" href="{{ asset('public/img/favicon.png') }}">
     <meta http-equiv="cache-control" content="max-age=0" />
     <title>HRIS</title>
+
+    @section('css')
+
+    @show
     <!-- Bootstrap core CSS -->
     <link href="{{ asset('public/assets/css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ asset('public/assets/css/bootstrap-theme.min.css') }}" rel="stylesheet">
@@ -35,9 +39,7 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('public/plugin/select2/select2.min.css') }}" />
     <script src="{{ asset('public/plugin/select2/select2.full.min.js') }}"></script>
 
-    @section('css')
 
-    @show
     <style>
 
         body {
