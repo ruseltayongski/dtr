@@ -9,7 +9,7 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="panel panel-default">
-                            <div class="panel-heading"><strong style="color: #f0ad4e;font-size:medium;">Print all job order dtr</strong></div>
+                            <div class="panel-heading"><strong style="color: #f0ad4e;font-size:medium;">Print all regular dtr</strong></div>
                             <div class="panel-body">
                                 <form action="{{ asset('FPDF/print_all.php') }}" method="POST" id="all_jo">
                                     <input type="hidden" name="emptype" value="REG" />
@@ -43,10 +43,17 @@
                     <div class="panel panel-default">
                         <div class="panel-heading"><strong style="color: #f0ad4e;font-size:medium;">PDF document list</strong></div>
                         <div class="panel-body">
-                            <form class="form-inline form-accept" action="{{ asset('/search') }}" method="GET">
+                            <form class="form-inline form-accept" action="{{ asset('dtr/list/regular') }}" method="POST">
                                 <div class="form-group">
-                                    <input type="text" name="search" class="form-control" placeholder="Quick Search" autofocus>
-                                    <button type="submit" class="btn btn-default"><i class="fa fa-search"></i> Search</button>
+                                    <div class="input-group">
+                                        <div class="input-group-addon">
+                                            <i class="fa fa-calendar"></i>
+                                        </div>
+                                        <input type="text" class="form-control" id="inclusive3" name="filter_regular" placeholder="Input date range here...">
+                                    </div>
+                                    <button type="submit" name="filter_range" class="btn btn-success form-control" value="Filter">
+                                        <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Filters
+                                    </button>
                                 </div>
                             </form>
                             <div class="clearfix"></div>
@@ -60,6 +67,7 @@
                                             <th class="text-center">Inclusive Dates</th>
                                             <th class="text-center">Date Generated</th>
                                             <th class="text-center">Time Generated</th>
+                                            <th class="text-center">Type</th>
                                             <th class="text-center"><i class="fa fa-cog" aria-hidden="true"></i></th>
                                         </tr>
                                         </thead>
@@ -69,6 +77,7 @@
                                                 <td class="text-center"><strong><a href="#">{{ date("M-d-y",strtotime($list->date_from ))." to ".date("M-d-y",strtotime($list->date_to )) }}</a> </strong></td>
                                                 <td class="text-center"><strong><a href="#">{{ date("M-d-y",strtotime($list->date_created)) }}</a> </strong> </td>
                                                 <td class="text-center"><strong><a href="#">{{ $list->time_created }} </a> </strong></td>
+                                                <td class="text-center"><strong><a href="#">{{ $list->type }}</a> </strong></td>
                                                 <td class="text-center">
                                                     <a class="btn btn-success"  href="{{ asset('').'/FPDF/pdf-files/'.$list->filename }}">View</a>
                                                 </td>
@@ -111,6 +120,7 @@
         });
 
         $('#inclusive2').daterangepicker();
+        $('#inclusive3').daterangepicker();
     </script>
 @endsection
 

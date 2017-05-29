@@ -31,8 +31,10 @@ class GenerateDTRController extends BaseController
         }
 
         if(Request::method('POST')) {
+
             if(Input::has('filter_range1')) {
-                $str = $_POST['filter_range'];
+
+                $str = Input::get('filter_range1');
                 $temp1 = explode('-',$str);
                 $temp2 = array_slice($temp1, 0, 1);
                 $tmp = implode(',', $temp2);
@@ -43,11 +45,13 @@ class GenerateDTRController extends BaseController
 
 
                 $lists = DB::table('generated_pdf')
-                    ->where('date_from','>=',$date_from)
-                    ->Where('date_to' ,' <=', $date_to)
+                    ->where('type', '=', 'JO')
+                    ->whereBetween('date_from',array($date_from,$date_to))
+                    ->whereBetween('date_to', array($date_from,$date_to))
                     ->orderBy('date_created', 'ASC')
                     ->paginate(20);
-                return View::make('dtr.personal_list')->with('lists', $lists);
+
+                return View::make('dtr.dtr_list_jo')->with('lists', $lists);
 
             } else {
                 return Redirect::to('dtr/list/jo');
@@ -60,10 +64,41 @@ class GenerateDTRController extends BaseController
 
     public function list_regular_dtr()
     {
-        $lists = PdfFiles::where('type','REG')
+        if(Request::method() == 'GET') {
+            $lists = PdfFiles::where('type','REG')
                 ->orderBy('date_created','ASC')
                 ->paginate(20);
-        return View::make('dtr.dtr_list_regular')->with('lists',$lists);
+            return View::make('dtr.dtr_list_regular')->with('lists',$lists);
+        }
+        if(Request::method() == 'POST') {
+            if(Input::has('filter_regular')) {
+
+                $str = Input::get('filter_regular');
+                $temp1 = explode('-',$str);
+                $temp2 = array_slice($temp1, 0, 1);
+                $tmp = implode(',', $temp2);
+                $date_from = date('Y-m-d',strtotime($tmp));
+                $temp3 = array_slice($temp1, 1, 1);
+                $tmp = implode(',', $temp3);
+                $date_to = date('Y-m-d',strtotime($tmp));
+
+
+                $lists = DB::table('generated_pdf')
+                    ->where('type', '=', 'REG')
+                    ->whereBetween('date_from',array($date_from,$date_to))
+                    ->whereBetween('date_to', array($date_from,$date_to))
+                    ->orderBy('date_created', 'ASC')
+                    ->paginate(20);
+
+                return View::make('dtr.dtr_list_regular')->with('lists',$lists);
+
+            } else {
+                return Redirect::to('dtr/list/jo');
+            }
+        } else {
+            return Redirect::to('dtr/list/regular');
+        }
+
     }
 
 

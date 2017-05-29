@@ -67,6 +67,7 @@
                                             <th class="text-center">Inclusive Dates</th>
                                             <th class="text-center">Date Generated</th>
                                             <th class="text-center">Time Generated</th>
+                                            <th class="text-center">Type</th>
                                             <th class="text-center"><i class="fa fa-cog" aria-hidden="true"></i></th>
                                         </tr>
                                         </thead>
@@ -76,6 +77,7 @@
                                                 <td class="text-center"><strong><a href="#">{{ date("M-d-y",strtotime($list->date_from ))." to ".date("M-d-y",strtotime($list->date_to )) }}</a> </strong></td>
                                                 <td class="text-center"><strong><a href="#">{{ date("M-d-y",strtotime($list->date_created)) }}</a> </strong> </td>
                                                 <td class="text-center"><strong><a href="#">{{ $list->time_created }} </a> </strong></td>
+                                                <td class="text-center"><strong><a href="#">{{ $list->type }}</a> </strong></td>
                                                 <td class="text-center">
                                                     <a class="btn btn-success"  href="{{ asset('').'/FPDF/pdf-files/'.$list->filename }}">View</a>
                                                 </td>

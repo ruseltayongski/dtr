@@ -47,7 +47,7 @@ Route::match(array('GET','POST'),'resetpass', 'PasswordController@change_passwor
 //DTR
 
 Route::match(['GET','POST'],'dtr/list/jo', 'GenerateDTRController@list_jo_dtr');
-Route::get('dtr/list/regular', 'GenerateDTRController@list_regular_dtr');
+Route::match(['GET','POST'],'dtr/list/regular', 'GenerateDTRController@list_regular_dtr');
 Route::get('dtr/download/{id}', 'GenerateDTRController@download_dtr');
 Route::match(['GET','POST'],'/personal/dtr/list', 'PersonalController@personal_dtrlist');
 Route::get('/personal/dtr/filter/list','PersonalController@personal_filter_dtrlist');
