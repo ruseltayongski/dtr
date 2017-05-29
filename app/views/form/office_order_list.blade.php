@@ -66,21 +66,21 @@
                                                 <table class="table table-list table-hover table-striped">
                                                     <thead>
                                                     <tr>
-                                                        <th width="8%"></th>
-                                                        <th width="20%">Route #</th>
-                                                        <th width="15%">Prepared Date</th>
-                                                        <th width="20%">Document Type</th>
-                                                        <th>Subject</th>
+                                                        <th class="text-center"></th>
+                                                        <th class="text-center">Route #</th>
+                                                        <th class="text-center">Prepared Date</th>
+                                                        <th class="text-center">Document Type</th>
+                                                        <th class="text-center">Subject</th>
                                                     </tr>
                                                     </thead>
                                                     <tbody>
                                                     @foreach($office_order as $so)
                                                         <tr>
-                                                            <td><a href="#track" data-link="{{ asset('form/track/'.$so->route_no) }}" data-route="{{ $so->route_no }}" data-toggle="modal" class="btn btn-sm btn-success col-sm-12" ><i class="fa fa-line-chart"></i> Track</a></td>
-                                                            <td><a class="title-info" data-route="{{ $so->route_no }}" data-link="{{ asset('/form/info/'.$so->route_no.'/office_order') }}" href="#document_info" data-toggle="modal">{{ $so->route_no }}</a></td>
-                                                            <td>{{ date('M d, Y',strtotime($so->prepared_date)) }}<br>{{ date('h:i:s A',strtotime($so->prepared_date)) }}</td>
-                                                            <td>Office Order</td>
-                                                            <td>{{ $so->subject }}</td>
+                                                            <td class="text-center"><a href="#track" data-link="{{ asset('form/track/'.$so->route_no) }}" data-route="{{ $so->route_no }}" data-toggle="modal" class="btn btn-sm btn-success col-sm-12" ><i class="fa fa-line-chart"></i> Track</a></td>
+                                                            <td class="text-center"><a class="title-info" data-route="{{ $so->route_no }}" data-link="{{ asset('/form/info/'.$so->route_no.'/office_order') }}" href="#document_info" data-toggle="modal">{{ $so->route_no }}</a></td>
+                                                            <td class="text-center">{{ date('M d, Y',strtotime($so->prepared_date)) }}<br>{{ date('h:i:s A',strtotime($so->prepared_date)) }}</td>
+                                                            <td class="text-center">Office Order</td>
+                                                            <td class="text-center">{{ $so->subject }}</td>
                                                         </tr>
                                                     @endforeach
                                                     </tbody>

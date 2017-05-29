@@ -57,22 +57,20 @@
                                     <table class="table table-list table-hover table-striped">
                                         <thead>
                                         <tr>
-                                            <th>Report ID</th>
-                                            <th>Inclusive Dates</th>
-                                            <th>Date Generated</th>
-                                            <th>Time Generated</th>
-                                            <th><i class="fa fa-cog" aria-hidden="true"></i></th>
+                                            <th class="text-center">Inclusive Dates</th>
+                                            <th class="text-center">Date Generated</th>
+                                            <th class="text-center">Time Generated</th>
+                                            <th class="text-center"><i class="fa fa-cog" aria-hidden="true"></i></th>
                                         </tr>
                                         </thead>
                                         <tbody>
                                         @foreach($lists as $list)
                                             <tr>
-                                                <td>{{ $list->id }}</td>
-                                                <td>{{ date("M-d-y",strtotime($list->date_from ))." to ".date("M-d-y",strtotime($list->date_to )) }}</td>
-                                                <td>{{ date("M-d-y",strtotime($list->date_created)) }} </td>
-                                                <td>{{ $list->time_created }} </td>
-                                                <td>
-                                                    <a class="btn btn-success" href="{{ asset('').'/FPDF/pdf-files/'.$list->filename }}">View</a>
+                                                <td class="text-center"><strong><a href="#">{{ date("M-d-y",strtotime($list->date_from ))." to ".date("M-d-y",strtotime($list->date_to )) }}</a> </strong></td>
+                                                <td class="text-center"><strong><a href="#">{{ date("M-d-y",strtotime($list->date_created)) }}</a> </strong> </td>
+                                                <td class="text-center"><strong><a href="#">{{ $list->time_created }} </a> </strong></td>
+                                                <td class="text-center">
+                                                    <a class="btn btn-success"  href="{{ asset('').'/FPDF/pdf-files/'.$list->filename }}">View</a>
                                                 </td>
                                             </tr>
                                         @endforeach

@@ -73,9 +73,9 @@
                                         <tbody>
                                         @foreach($lists as $list)
                                             <tr>
-                                                <td class="text-center">{{ date("M-d-y",strtotime($list->date_from ))." to ".date("M-d-y",strtotime($list->date_to )) }}</td>
-                                                <td class="text-center">{{ date("M-d-y",strtotime($list->date_created)) }} </td>
-                                                <td class="text-center">{{ $list->time_created }} </td>
+                                                <td class="text-center"><strong><a href="#">{{ date("M-d-y",strtotime($list->date_from ))." to ".date("M-d-y",strtotime($list->date_to )) }}</a> </strong></td>
+                                                <td class="text-center"><strong><a href="#">{{ date("M-d-y",strtotime($list->date_created)) }}</a> </strong> </td>
+                                                <td class="text-center"><strong><a href="#">{{ $list->time_created }} </a> </strong></td>
                                                 <td class="text-center">
                                                     <a class="btn btn-success"  href="{{ asset('').'/FPDF/pdf-files/'.$list->filename }}">View</a>
                                                 </td>
