@@ -1,7 +1,4 @@
-
-@extends('layouts.app')
-
-@section('content')
+<?php $__env->startSection('content'); ?>
     <div class="col-md-12 wrapper">
         <div class="alert alert-jim">
             <h2 class="page-header">Create time log
@@ -9,7 +6,7 @@
             <div class="container">
                 <div class="row">
                     <div class="col-md-11">
-                        <form action="{{ asset('personal/add/logs') }}" method="POST">
+                        <form action="<?php echo asset('personal/add/logs'); ?>" method="POST">
 
                             <div class="row">
                                 <div class="col-md-10">
@@ -84,7 +81,7 @@
                                     <div class="form-group">
                                         <div class="col-sm-5 col-md-offset-2">
                                             <input type="submit" name="submit" class="btn btn-success" value="Submit">
-                                            <a href="{{ asset('/') }}" class="btn btn-default">Cancel</a>
+                                            <a href="<?php echo asset('/'); ?>" class="btn btn-default">Cancel</a>
                                         </div>
                                     </div>
                                 </div>
@@ -95,9 +92,9 @@
             </div>
         </div>
     </div>
-@endsection
+<?php $__env->stopSection(); ?>
 
-@section('js')
+<?php $__env->startSection('js'); ?>
     @parent
     <script>
 
@@ -143,4 +140,6 @@
 
     </script>
 
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.app', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

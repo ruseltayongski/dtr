@@ -43,10 +43,17 @@
                     <div class="panel panel-default">
                         <div class="panel-heading"><strong style="color: #f0ad4e;font-size:medium;">PDF document list</strong></div>
                         <div class="panel-body">
-                            <form class="form-inline form-accept" action="{{ asset('/search') }}" method="GET">
+                            <form class="form-inline form-accept" action="{{ asset('dtr/list/jo') }}" method="POST">
                                 <div class="form-group">
-                                    <input type="text" name="search" class="form-control" placeholder="Quick Search" autofocus>
-                                    <button type="submit" class="btn btn-default"><i class="fa fa-search"></i> Search</button>
+                                    <div class="input-group">
+                                        <div class="input-group-addon">
+                                            <i class="fa fa-calendar"></i>
+                                        </div>
+                                        <input type="text" class="form-control" id="inclusive3" name="filter_range1" placeholder="Input date range here...">
+                                    </div>
+                                    <button type="submit" name="filter_range" class="btn btn-success form-control" value="Filter">
+                                        <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Filters
+                                    </button>
                                 </div>
                             </form>
                             <div class="clearfix"></div>
@@ -57,22 +64,20 @@
                                     <table class="table table-list table-hover table-striped">
                                         <thead>
                                         <tr>
-                                            <th>Report ID</th>
-                                            <th>Inclusive Dates</th>
-                                            <th>Date Generated</th>
-                                            <th>Time Generated</th>
-                                            <th><i class="fa fa-cog" aria-hidden="true"></i></th>
+                                            <th class="text-center">Inclusive Dates</th>
+                                            <th class="text-center">Date Generated</th>
+                                            <th class="text-center">Time Generated</th>
+                                            <th class="text-center"><i class="fa fa-cog" aria-hidden="true"></i></th>
                                         </tr>
                                         </thead>
                                         <tbody>
                                         @foreach($lists as $list)
                                             <tr>
-                                                <td>{{ $list->id }}</td>
-                                                <td>{{ date("M-d-y",strtotime($list->date_from ))." to ".date("M-d-y",strtotime($list->date_to )) }}</td>
-                                                <td>{{ date("M-d-y",strtotime($list->date_created)) }} </td>
-                                                <td>{{ $list->time_created }} </td>
-                                                <td>
-                                                    <a class="btn btn-success" href="{{ asset('').'/FPDF/pdf-files/'.$list->filename }}">View</a>
+                                                <td class="text-center">{{ date("M-d-y",strtotime($list->date_from ))." to ".date("M-d-y",strtotime($list->date_to )) }}</td>
+                                                <td class="text-center">{{ date("M-d-y",strtotime($list->date_created)) }} </td>
+                                                <td class="text-center">{{ $list->time_created }} </td>
+                                                <td class="text-center">
+                                                    <a class="btn btn-success"  href="{{ asset('').'/FPDF/pdf-files/'.$list->filename }}">View</a>
                                                 </td>
                                             </tr>
                                         @endforeach
@@ -112,7 +117,10 @@
             });
         });
 
+
+
         $('#inclusive2').daterangepicker();
+        $('#inclusive3').daterangepicker();
     </script>
 @endsection
 

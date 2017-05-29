@@ -41,10 +41,17 @@
                     <div class="panel panel-default">
                         <div class="panel-heading"><strong style="color: #f0ad4e;font-size:medium;">PDF document list</strong></div>
                         <div class="panel-body">
-                            <form class="form-inline form-accept" action="<?php echo asset('/search'); ?>" method="GET">
+                            <form class="form-inline form-accept" action="<?php echo asset('dtr/list/jo'); ?>" method="POST">
                                 <div class="form-group">
-                                    <input type="text" name="search" class="form-control" placeholder="Quick Search" autofocus>
-                                    <button type="submit" class="btn btn-default"><i class="fa fa-search"></i> Search</button>
+                                    <div class="input-group">
+                                        <div class="input-group-addon">
+                                            <i class="fa fa-calendar"></i>
+                                        </div>
+                                        <input type="text" class="form-control" id="inclusive3" name="filter_range1" placeholder="Input date range here...">
+                                    </div>
+                                    <button type="submit" name="filter_range" class="btn btn-success form-control" value="Filter">
+                                        <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Filters
+                                    </button>
                                 </div>
                             </form>
                             <div class="clearfix"></div>
@@ -112,6 +119,7 @@
         });
 
         $('#inclusive2').daterangepicker();
+        $('#inclusive3').daterangepicker();
     </script>
 <?php $__env->stopSection(); ?>
 

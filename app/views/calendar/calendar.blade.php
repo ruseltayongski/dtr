@@ -126,6 +126,8 @@
             var id = 1000000;
             var json = '';
             $.get(calendar_event,function(result){
+
+
                 $('#calendar').fullCalendar({
                     header: {
                         left: 'prev,next today',
@@ -143,22 +145,26 @@
                     editable: true,
                     eventResize: function(event)
                     {
+
                         var date = new Date(event.end.toString());
                         var end_date = date.toLocaleDateString();
-                        alert(end_date);
+                        var start = new Date(event.start.toString());
+                        var start_date = start.toLocaleDateString();
+
                         var url = $('#calendar_update').data('link');
                         var object = {
                             'type' : 'resize',
                             'event_id' : event.event_id,
+                            'start' : start_date,
                             'end' : end_date,
                             "_token" : $('#token').data('token')
                         };
 
-                        /*$.post(url,object,function(result){
+                        $.post(url,object,function(result){
                             Lobibox.notify('info',{
                                 msg:'Successfully Holiday Resized!'
                             });
-                        });*/
+                        });
                     },
                     eventRender: function(event, element) {
                         element.append( "<span class='remove_event' style='color: red'><i class='fa fa-remove'></i></span>" );

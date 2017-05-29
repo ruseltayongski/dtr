@@ -141,22 +141,22 @@
                                     <table class="table table-list table-hover table-striped">
                                         <thead>
                                         <tr>
-                                            <th>User ID</th>
-                                            <th>Name </th>
-                                            <th>Work Schedule</th>
-                                            <th>Option</th>
+                                            <th class="text-center">User ID</th>
+                                            <th class="text-center">Name </th>
+                                            <th class="text-center">Work Schedule</th>
+                                            <th class="text-center">Option</th>
                                         </tr>
                                         </thead>
                                         <tbody>
                                             @foreach($users as $user)
                                                 <tr>
-                                                    <td><a href="#user" data-id="{{ $user->userid }}"  class="title-info">{{ $user->userid }}</a></td>
-                                                    <td><a href="#user" data-id="{{ $user->id }}" data-link="{{ asset('user/edit') }}" class="text-bold">{{ $user->fname ." ". $user->mname." ".$user->lname }}</a></td>
-                                                    <td>
+                                                    <td class="text-center"><a href="#user" data-id="{{ $user->userid }}"  class="title-info">{{ $user->userid }}</a></td>
+                                                    <td class="text-center"><a href="#user" data-id="{{ $user->id }}" data-link="{{ asset('user/edit') }}" class="text-bold">{{ $user->fname ." ". $user->mname." ".$user->lname }}</a></td>
+                                                    <td class="text-center">
                                                         <span class="text-bold">{{ $user->description }}</span>
 
                                                     </td>
-                                                    <td><button data-id="{{ $user->userid }}" type="button" class="btn btn-info btn-xs change_sched">Change</button></td>
+                                                    <td class="text-center"><button data-id="{{ $user->userid }}" type="button" class="btn btn-info btn-xs change_sched">Change</button></td>
                                                 </tr>
                                             @endforeach
                                         </tbody>

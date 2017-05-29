@@ -62,6 +62,7 @@ class PDF extends FPDF
 
             $logs = get_logs($s_am_in,$s_am_out,$s_pm_in,$s_pm_out,$userid,$date_from,$date_to);
 
+
             if(count($logs) <= 0) {
 
                 $this->SetFont('Arial','B',8);
@@ -168,7 +169,6 @@ class PDF extends FPDF
                                 $e4 = $log['e4'];
 
 
-
                                 $late = late($s_am_in,$s_pm_in,$am_in,$pm_in,$log['datein']);
                                 if($late != '' or $late != null)
                                 {
@@ -180,15 +180,39 @@ class PDF extends FPDF
                                     $ut_total = $ut_total + $ut;
                                 }
                             } else {
-                                $am_in = '';
-                                $am_out = 'HOLIDAY';
-                                $pm_in = '';
-                                $pm_out = '';
-                                $late = '';
-                                $e1 = '';
-                                $e2 = '';
-                                $e3 = '';
-                                $e4 = '';
+                               if(isset($log['am_in']) ||  isset($log['am_out']) || isset($log['pm_in']) || isset($log['pm_out'])) {
+                                   $am_in = $log['am_in'];
+                                   $am_out = $log['am_out'];
+                                   $pm_in = $log['pm_in'];
+                                   $pm_out = $log['pm_out'];
+                                   $e1 = $log['e1'];
+                                   $e2 = $log['e2'];
+                                   $e3 = $log['e3'];
+                                   $e4 = $log['e4'];
+
+                                   $late = late($s_am_in,$s_pm_in,$am_in,$pm_in,$log['datein']);
+                                   if($late != '' or $late != null)
+                                   {
+                                       $late_total = $late_total + $late;
+                                   }
+                                   $ut = undertime($s_am_in,$s_pm_in,$am_in,$pm_in,$s_am_out,$s_pm_out,$am_out,$pm_out,$datein);
+                                   if($ut != '' or $ut != null)
+                                   {
+                                       $ut_total = $ut_total + $ut;
+                                   }
+                               } else {
+
+                                   $am_in = '';
+                                   $am_out = 'HOLIDAY';
+                                   $pm_in = '';
+                                   $pm_out = '';
+                                   $late = '';
+                                   $e1 = '';
+                                   $e2 = '';
+                                   $e3 = '';
+                                   $e4 = '';
+                               }
+
                             }
 
                         } else {
@@ -477,15 +501,15 @@ function get_logs($am_in,$am_out,$pm_in,$pm_out,$id,$date_from,$date_to)
 
     $query = "SELECT DISTINCT e.userid, datein,holiday,
 
-                    (SELECT DISTINCT MIN(t1.time) FROM dtr_file t1 WHERE t1.userid = '". $id."' and datein = d.datein and t1.time < '". $am_out ."') as am_in,
-                    (SELECT DISTINCT MAX(t2.time) FROM dtr_file t2 WHERE t2.userid = '". $id."' and datein = d.datein and t2.time < '". $pm_in."' AND t2.event = 'OUT') as am_out,
-                    (SELECT DISTINCT MIN(t3.time) FROM dtr_file t3 WHERE t3.userid = '". $id."' AND datein = d.datein and t3.time >= '". $am_out."' and t3.time < '". $pm_out."' AND t3.event = 'IN' ) as pm_in,
-                    (SELECT DISTINCT MAX(t4.time) FROM dtr_file t4 WHERE t4.userid = '". $id."' AND datein = d.datein and t4.time > '". $pm_in ."' and t4. time < '24:00:00') as pm_out,
+                    (SELECT DISTINCT MIN(t1.time) FROM dtr_file t1 WHERE userid = d.userid and datein = d.datein and t1.time < '". $am_out ."') as am_in,
+                    (SELECT DISTINCT MAX(t2.time) FROM dtr_file t2 WHERE userid = d.userid and datein = d.datein and t2.time < '". $pm_in."' AND t2.event = 'OUT') as am_out,
+                    (SELECT DISTINCT MIN(t3.time) FROM dtr_file t3 WHERE userid = d.userid AND datein = d.datein and t3.time >= '". $am_out."' and t3.time < '". $pm_out."' AND t3.event = 'IN' ) as pm_in,
+                    (SELECT DISTINCT MAX(t4.time) FROM dtr_file t4 WHERE userid = d.userid AND datein = d.datein and t4.time > '". $pm_in ."' and t4. time < '24:00:00') as pm_out,
 
-                    (SELECT t1.edited FROM dtr_file t1 WHERE t1.userid = '". $id."' and datein = d.datein and t1.time < '". $am_out ."' AND t1.edited = '1' LIMIT 1) as e1,
-                    (SELECT t2.edited  FROM dtr_file t2 WHERE t2.userid = '". $id."' and datein = d.datein and t2.time < '". $pm_in."' AND t2.event = 'OUT' AND t2.edited = '1' LIMIT 1) as e2,
-                    (SELECT t3.edited FROM dtr_file t3 WHERE t3.userid = '". $id."' AND datein = d.datein and t3.time >='". $am_out."' and t3.time < '". $pm_out."' AND t3.event = 'IN' AND t3.edited = '1' LIMIT 1) as e3,
-                    (SELECT t4.edited FROM dtr_file t4 WHERE t4.userid = '". $id."' AND datein = d.datein and t4.time > '". $pm_in ."'  and t4. time < '24:00:00' AND t4.edited = '1' LIMIT 1) as e4
+                    (SELECT t1.edited FROM dtr_file t1 WHERE userid = d.userid and datein = d.datein and t1.time < '". $am_out ."' AND t1.edited = '1' LIMIT 1) as e1,
+                    (SELECT t2.edited  FROM dtr_file t2 WHERE userid = d.userid and datein = d.datein and t2.time < '". $pm_in."' AND t2.event = 'OUT' AND t2.edited = '1' LIMIT 1) as e2,
+                    (SELECT t3.edited FROM dtr_file t3 WHERE userid = d.userid AND datein = d.datein and t3.time >='". $am_out."' and t3.time < '". $pm_out."' AND t3.event = 'IN' AND t3.edited = '1' LIMIT 1) as e3,
+                    (SELECT t4.edited FROM dtr_file t4 WHERE userid = d.userid AND datein = d.datein and t4.time > '". $pm_in ."'  and t4. time < '24:00:00' AND t4.edited = '1' LIMIT 1) as e4
 
                     FROM dtr_file d LEFT JOIN users e
                         ON d.userid = e.userid OR d.holiday = '001'

@@ -20,117 +20,216 @@ class CalendarController extends BaseController
     }
 
     public function calendar_delete($event_id){
+        if(Auth::user()->usertype == "0")
+        {
+            return;
+        }
         Calendars::where('event_id',$event_id)->delete();
     }
 
     public function calendar_save(){
+        if(Auth::user()->usertype == "0")
+        {
+            return;
+        }
+        try
+        {
+            $calendar = new Calendars();
+            $calendar->event_id = Input::get('event_id');
+            $calendar->title = Input::get('title');
+            $calendar->start = Input::get('start');
 
-        $calendar = new Calendars();
-        $calendar->event_id = Input::get('event_id');
-        $calendar->title = Input::get('title');
-        $calendar->start = Input::get('start');
-
-        $from = date('Y-m-d',strtotime(Input::get('start')));
-        $to =  date('Y-m-d',strtotime(Input::get('end')));
-
-        $end_date = date('Y-m-d',(strtotime (Input::get('end')) ) );
-        //$enddate = date_create(date('Y-m-d',strtotime(Input::get('end'))));
-        //date_add($enddate, date_interval_create_from_date_string('1days'));
-        //$end_date = date_format($enddate, 'Y-m-d');
-
-        return $end_date;
-        $calendar->end = $end_date;
-        $calendar->backgroundColor = Input::get('backgroundColor');
-        $calendar->borderColor = Input::get('borderColor');
-        $calendar->status = 1;
-        $calendar->save();
-
-        return Input::all();
-        $f = new DateTime($from.' '. '24:00:00');
-        $t = new DateTime($to.' '. '24:00:00');
+            $from = date('Y-m-d',strtotime(Input::get('start')));
+            $end_date = date('Y-m-d',(strtotime (Input::get('end')) ) );
 
 
-        $interval = $f->diff($t);
 
+            $calendar->end = $end_date;
+            $calendar->backgroundColor = Input::get('backgroundColor');
+            $calendar->borderColor = Input::get('borderColor');
+            $calendar->status = 1;
+            $calendar->save();
 
-        $datein = '';
-        $f_from = explode('-',$from);
-        $startday = $f_from[2];
-        $j = 0;
-        while($j <= $interval->days) {
+            $f = new DateTime($from.' '. '24:00:00');
+            $t = new DateTime($end_date.' '. '24:00:00');
 
-            $datein = $f_from[0].'-'.$f_from[1] .'-'. $startday;
+            $interval = $f->diff($t);
 
-            $details = new DtrDetails();
-            $details->userid = '001';
-            $details->datein = $datein;
-            $details->time = '08:00:00';
-            $details->event = 'IN';
-            $details->remark = $calendar->title;
-            $details->edited = '0';
-            $details->holiday = '001';
+            $datein = '';
+            $f_from = explode('-',$from);
+            $startday = $f_from[2];
+            $j = 0;
+            while($j <= $interval->days) {
 
-            $details->save();
+                $datein = $f_from[0].'-'.$f_from[1] .'-'. $startday;
 
-            $details = new DtrDetails();
-            $details->userid = '001';
+                $details = new DtrDetails();
+                $details->userid = '001';
+                $details->datein = $datein;
+                $details->event = 'IN';
+                $details->remark = $calendar->title;
+                $details->edited = '0';
+                $details->holiday = '001';
 
-            $details->datein = $datein;
-            $details->time = '12:00:00';
-            $details->event = 'OUT';
-            $details->remark = $calendar->title;
-            $details->edited = '0';
-            $details->holiday = '001';
+                $details->save();
 
-            $details->save();
+                $details = new DtrDetails();
+                $details->userid = '001';
 
-            $details = new DtrDetails();
-            $details->userid = '001';
+                $details->datein = $datein;
 
-            $details->datein = $datein;
-            $details->time = '13:00:00';
-            $details->event = 'IN';
-            $details->remark = $calendar->title;
-            $details->edited = '0';
-            $details->holiday = '001';
+                $details->event = 'OUT';
+                $details->remark = $calendar->title;
+                $details->edited = '0';
+                $details->holiday = '001';
 
-            $details->save();
+                $details->save();
 
-            $details = new DtrDetails();
-            $details->userid = '001';
+                $details = new DtrDetails();
+                $details->userid = '001';
 
-            $details->datein = $datein;
-            $details->time = '18:00:00';
-            $details->event = 'OUT';
-            $details->remark = $calendar->title;
-            $details->edited = '0';
-            $details->holiday = '001';
+                $details->datein = $datein;
 
-            $details->save();
+                $details->event = 'IN';
+                $details->remark = $calendar->title;
+                $details->edited = '0';
+                $details->holiday = '001';
 
-            $startday = $startday + 1;
-            $j++;
+                $details->save();
+
+                $details = new DtrDetails();
+                $details->userid = '001';
+
+                $details->datein = $datein;
+
+                $details->event = 'OUT';
+                $details->remark = $calendar->title;
+                $details->edited = '0';
+                $details->holiday = '001';
+
+                $details->save();
+
+                $startday = $startday + 1;
+                $j++;
+            }
+        }catch(\Whoops\Exception\ErrorException $ex)
+        {
+            return json_encode(array('ok' => false));
         }
 
+        return json_encode(array('ok' => true));
     }
 
     public function calendar_update()
     {
-        return Input::all();
+        if(Auth::user()->usertype == "0")
+        {
+            return;
+        }
         $request_start = Input::get('start');
         $calendar = Calendars::where('event_id',Input::get('event_id'))->first();
-        $difference = strtotime($calendar->end) - strtotime($calendar->start);
-        $day_range = floor($difference / (60 * 60 * 24));
-        $end = date_create($request_start);
-        date_add($end, date_interval_create_from_date_string($day_range.'days'));
-        $day_end = date_format($end, 'Y-m-d');
+
+
         if(Input::get('type') == 'drop') {
-            return Calendars::where('event_id', Input::get('event_id'))
-                ->update(['start' => $request_start,'end' => $day_end]);
+
+            return Input::all();
+
         }
         else
-            return Calendars::where('event_id',Input::get('event_id'))
-                ->update(['end' => Input::get('end')]);
+            try{
+
+                $start_date = date('Y-m-d',strtotime (Input::get('start')));
+                $calendar_end_date = date('Y-m-d',strtotime (Input::get('end')));
+                $end_date = date('Y-m-d',(strtotime ( '-1 day' , strtotime (Input::get('end')) ) ));
+
+
+                $calendar = Calendars::where('event_id',Input::get('event_id'))->first();
+
+                $ca_from = $calendar->start;
+
+                $ca_to = date('Y-m-d',(strtotime ( '-1 day' , strtotime ($calendar->end))));
+
+                $calendar->start = $start_date;
+                $calendar->end = $calendar_end_date;
+                $calendar->save();
+
+
+
+                $details = DtrDetails::where('holiday','=', '001')
+                    ->whereBetween('datein',[$ca_from,$ca_to]);
+                $details->delete();
+
+
+
+                $f = new DateTime($start_date.' '. '00:00:00');
+                $t = new DateTime($end_date.' '. '00:00:00');
+
+                $interval = $f->diff($t);
+
+                $datein = '';
+                $f_from = explode('-',$start_date);
+                $startday = $f_from[2];
+                $j = 0;
+                while($j <= $interval->days) {
+
+                    $datein = $f_from[0].'-'.$f_from[1] .'-'. $startday;
+
+                    $details = new DtrDetails();
+                    $details->userid = '001';
+                    $details->datein = $datein;
+                    $details->time = '08:00:00';
+                    $details->event = 'IN';
+                    $details->remark = $calendar->title;
+                    $details->edited = '0';
+                    $details->holiday = '001';
+
+                    $details->save();
+
+                    $details = new DtrDetails();
+                    $details->userid = '001';
+
+                    $details->datein = $datein;
+                    $details->time = '12:00:00';
+                    $details->event = 'OUT';
+                    $details->remark = $calendar->title;
+                    $details->edited = '0';
+                    $details->holiday = '001';
+
+                    $details->save();
+
+                    $details = new DtrDetails();
+                    $details->userid = '001';
+
+                    $details->datein = $datein;
+                    $details->time = '13:00:00';
+                    $details->event = 'IN';
+                    $details->remark = $calendar->title;
+                    $details->edited = '0';
+                    $details->holiday = '001';
+
+                    $details->save();
+
+                    $details = new DtrDetails();
+                    $details->userid = '001';
+
+                    $details->datein = $datein;
+                    $details->time = '18:00:00';
+                    $details->event = 'OUT';
+                    $details->remark = $calendar->title;
+                    $details->edited = '0';
+                    $details->holiday = '001';
+
+                    $details->save();
+
+                    $startday = $startday + 1;
+                    $j++;
+                }
+
+            }catch(\Whoops\Exception\ErrorException $ex)
+            {
+                return json_encode(array('ok', false));
+            }
+        return  json_encode(array('ok', true));
     }
 
 }

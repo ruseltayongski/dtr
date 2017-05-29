@@ -63,6 +63,43 @@ class PersonalController extends Controller
             }
         }
     }
+
+    public function personal_dtrlist()
+    {
+
+        if(Request::method() == "GET"){
+            $lists = PdfFiles::where('is_filtered','<>', '1')
+                ->where('type', '=', Auth::user()->emptype)
+                ->orderBy('date_created', 'ASC')
+                ->paginate(20);
+            return View::make('dtr.personal_list')->with('lists', $lists);
+        }
+        if(Request::method('POST')) {
+            if(Input::has('filter_range')) {
+                $str = $_POST['filter_range'];
+                $temp1 = explode('-',$str);
+                $temp2 = array_slice($temp1, 0, 1);
+                $tmp = implode(',', $temp2);
+                $date_from = date('Y-m-d',strtotime($tmp));
+                $temp3 = array_slice($temp1, 1, 1);
+                $tmp = implode(',', $temp3);
+                $date_to = date('Y-m-d',strtotime($tmp));
+
+                $lists = DB::table('generated_pdf')
+                    ->where('date_from','>=',$date_from)
+                    ->Where('date_to' ,' <=', $date_to)
+                    ->orderBy('date_created', 'ASC')
+                    ->paginate(20);
+                return View::make('dtr.personal_list')->with('lists', $lists);
+
+            } else {
+                return Redirect::to('personal/dtr/list');
+            }
+        } else {
+            return Redirect::to('personal/dtr/list');
+        }
+    }
+
     public function emp_filtered()
     {
         
@@ -253,29 +290,53 @@ class PersonalController extends Controller
         }
         if(Request::method() == "POST") {
 
-            $dtr = new DtrDetails();
-            $dtr->userid = Auth::user()->userid;
-            $dtr->firstname = Auth::user()->fname;
-            $dtr->lastname = Auth::user()->lname;
-            $dtr->department = "GENERAL";
             $date = explode('/', Input::get('datein'));
             $date = $date[2] . '-' . $date[0] . '-' . $date[1];
-            $dtr->datein = $date;
-            $date = explode('-', $date);
-            $dtr->date_y = array_key_exists(0, $date) == true ? trim($date[0], "\" ") : null;
-            $dtr->date_m = array_key_exists(1, $date) == true ?trim($date[1], "\" ") : null;
-            $dtr->date_d = array_key_exists(2, $date) == true ?trim($date[2], "\" ") : null;
 
-            $dtr->time = Input::get('time');
-            $time = explode(':', Input::get('time'));
-            $dtr->time_h = array_key_exists(0, $time) == true ?trim($time[0], "\" ") : null;
-            $dtr->time_m = array_key_exists(1, $time) == true ?trim($time[1], "\" ") : null;
-            $dtr->time_s = array_key_exists(2, $time) == true ? trim($time[2], "\" ") : null;
+            if(Input::has('am_in')) {
+                $dtr = new DtrDetails();
+                $dtr->userid = Auth::user()->userid;
+                $dtr->datein = $date;
+                $dtr->time = Input::get('am_in');
+                $dtr->event = "IN";
+                $dtr->edited = "1";
+                $dtr->remark = "WEB CREATED";
+                $dtr->save();
+            }
 
-            $dtr->event = Input::get('event');
-            $dtr->terminal = "WEB";
-            $dtr->remark = "WEB CREATED";
-            $dtr->save();
+            if(Input::has('am_out')) {
+                $dtr = new DtrDetails();
+                $dtr->userid = Auth::user()->userid;
+                $dtr->datein = $date;
+                $dtr->time = Input::get('am_out');
+                $dtr->event = "OUT";
+                $dtr->edited = "1";
+                $dtr->remark = "WEB CREATED";
+                $dtr->save();
+            }
+
+            if(Input::has('pm_in')) {
+                $dtr = new DtrDetails();
+                $dtr->userid = Auth::user()->userid;
+                $dtr->datein = $date;
+                $dtr->time = Input::get('pm_in');
+                $dtr->event = "IN";
+                $dtr->edited = "1";
+                $dtr->remark = "WEB CREATED";
+                $dtr->save();
+            }
+
+            if(Input::has('pm_out')) {
+                $dtr = new DtrDetails();
+                $dtr->userid = Auth::user()->userid;
+                $dtr->datein = $date;
+                $dtr->time = Input::get('pm_out');
+                $dtr->event = "OUT";
+                $dtr->edited = "1";
+                $dtr->remark = "WEB CREATED";
+                $dtr->save();
+            }
+
             return Redirect::to('/');
         }
     }

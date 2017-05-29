@@ -78,25 +78,25 @@
                                                 <table class="table table-list table-hover table-striped">
                                                     <thead>
                                                     <tr>
-                                                        <th>Dtr ID</th>
-                                                        <th>Attendance Date</th>
-                                                        <th>Attendance Time</th>
-                                                        <th>Event Type</th>
-                                                        <th>Option</th>
+                                                        <th class="text-center">Attendance Date</th>
+                                                        <th class="text-center">Attendance Time</th>
+                                                        <th class="text-center">Event Type</th>
+                                                        <th class="text-center">Remarks</th>
                                                     </tr>
                                                     </thead>
                                                     <tbody>
                                                     @foreach($lists as $list)
                                                         <tr>
-                                                            <td>{{ $list->dtr_id }}</td>
+                                                            <td class="text-center">
+                                                                <a href="#">
+                                                                    <strong>{{ $list->datein }}</strong>
+                                                                </a>
 
-                                                            <td>
-                                                                {{ $list->datein }}
                                                             </td>
-                                                            <td>{{ date("h:i A", strtotime($list->time)) }}</td>
-                                                            <td>{{ $list->event }}</td>
-                                                            <td>
-                                                                <a class="btn btn-default" href="{{ asset('edit/personal/attendance/' .$list->dtr_id) }}">Edit</a>
+                                                            <td class="text-center"><strong><a href="#"> {{ date("h:i A", strtotime($list->time)) }}</a></strong></td>
+                                                            <td class="text-center"><strong><a href="#">{{ $list->event }}</a> </strong></td>
+                                                            <td class="text-center">
+                                                               <strong><a href="#">{{ $list->remark }}</a> </strong>
                                                             </td>
                                                         </tr>
                                                     @endforeach

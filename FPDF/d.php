@@ -2,15 +2,31 @@
 
 <?php
 
+
+
+/*$f = new DateTime('2017-01-01'.' '. '24:00:00');
+$t = new DateTime('2017-01-05'.' '. '24:00:00');
+
+$interval = $f->diff($t);
+
+echo $interval->days;
+exit();*/
+
+
+
 require('dbconn.php');
+
 require('fpdf.php');
 ini_set('max_execution_time', 0);
 ini_set('memory_limit','1000M');
 ini_set('max_input_time','300000');
+
+
 class PDF extends FPDF
 {
     private $empname = "";
 // Page header
+
     function form($name,$userid,$date_from,$date_to,$sched)
     {
 
@@ -32,9 +48,9 @@ class PDF extends FPDF
         $log = "";
         $holidays = "";
         $pdo = conn();
-        $query = "SELECT * FROM work_sched WHERE id = '".$sched ."'";
+        $query = "SELECT * FROM work_sched WHERE id = ?";
         $st = $pdo->prepare($query);
-        $st->execute();
+        $st->execute(array($sched));
         $sched = $st->fetchAll(PDO::FETCH_ASSOC);
         if(isset($sched) and count($sched) > 0) {
             $s_am_in = $sched[0]["am_in"];
@@ -153,7 +169,6 @@ class PDF extends FPDF
                                 $e4 = $log['e4'];
 
 
-
                                 $late = late($s_am_in,$s_pm_in,$am_in,$pm_in,$log['datein']);
                                 if($late != '' or $late != null)
                                 {
@@ -186,6 +201,7 @@ class PDF extends FPDF
                                         $ut_total = $ut_total + $ut;
                                     }
                                 } else {
+
                                     $am_in = '';
                                     $am_out = 'HOLIDAY';
                                     $pm_in = '';
@@ -196,6 +212,7 @@ class PDF extends FPDF
                                     $e3 = '';
                                     $e4 = '';
                                 }
+
                             }
 
                         } else {
@@ -418,7 +435,6 @@ class PDF extends FPDF
             $this->Cell(10,0,"ATTENDANCE FOR USERID $userid CANNOT BE GENERATED. NO WORK SCHEDULE IS SET.",0,0,'C');
         }
     }
-
     function SetEmpname($empname)
     {
         $this->empname = $empname;
@@ -430,56 +446,55 @@ class PDF extends FPDF
 // Page footer
 
 }
+
 $pdf = new PDF('P','mm','A4');
 $pdf->AliasNbPages();
 $pdf->AddPage();
 $pdf->SetFont('Arial','',12);
 $date_from = '';
 $date_to = '';
-$emptype = '';
-if(isset($_POST['filter_range']) and isset($_POST['emptype'])) {
-    $emptype = $_POST['emptype'];
-    $str = $_POST['filter_range'];
-    $temp1 = explode('-',$str);
-    $temp2 = array_slice($temp1, 0, 1);
-    $tmp = implode(',', $temp2);
-    $date_from = date('Y-m-d',strtotime($tmp));
-    $temp3 = array_slice($temp1, 1, 1);
-    $tmp = implode(',', $temp3);
-    $date_to = date('Y-m-d',strtotime($tmp));
-}
+$userid = '';
 
-$pdf = new PDF('P','mm','A4');
-$pdf->AliasNbPages();
-$pdf->AddPage();
-$pdf->SetFont('Arial','',12);
-$pdf->SetTitle('DTR report From : ' . date('l', strtotime($date_from)) .'---'.date('l', strtotime($date_to)));
-$row = userlist($emptype);
-if(isset($row) and count($row) > 0)
-{
-    for($i = 0; $i < 10; $i++)
-    {
-        $pdf->form($row[$i]['fname'] . ' ' . $row[$i]['lname'] . ' ' . $row[$i]['mname'], $row[$i]['userid'], $date_from, $date_to,$row[$i]['sched']);
-        $pdf->SetEmpname($row[$i]['fname'] . ' ' . $row[$i]['lname'] . ' ' . $row[$i]['mname']);
+
+if(isset($_GET['id']) and isset($_GET['userid'])) {
+    $date = date_range($_GET['id']);
+    if(isset($date) and count($date) > 0) {
+
+        $date_from = $date[0]['date_from'];
+        $date_to = $date[0]['date_to'];
+        $userid = $_GET['userid'];
+    } else {
+        $pdf->SetFont('Arial','B',10);
+        $pdf->SetX(40);
+        $pdf->Cell(10,0,"Something went wrong. Go back to webpage",0,0,'C');
+        $pdf->Output();
+        exit();
     }
+} else {
+    $pdf->SetFont('Arial','B',10);
+    $pdf->SetX(40);
+    $pdf->Cell(10,0,"Something went wrong. Go back to webpage",0,0,'C');
+    $pdf->Output();
+    exit();
 }
 
-$time = rand(1,1000);
-$filename = __DIR__.'/pdf-files/'.$time.'-dtr-'.$date_from .'-'.$date_to.'_.pdf';
-$file =  $time.'-dtr-'.$date_from .'-'.$date_to.'_.pdf';
-save_file_name($file,$date_from,$date_to,$emptype);
-$pdf->Output($filename,'F');
 
-//redirect to admin page
-$host = $_SERVER['HTTP_HOST'];
-$uri = explode('/',$_SERVER['REQUEST_URI']);
-$protocol = 'http://';
-if($emptype == 'JO') {
-    $address = $protocol.$host.'/'.$uri[1].'/dtr/list/jo';
-} else if($emptype == 'REG') {
-    $address = $protocol.$host.'/'.$uri[1].'/dtr/list/regular';
+$pdf->SetTitle('DTR report From : ' . date('l', strtotime($date_from)) .'---'.date('l', strtotime($date_to)));
+$emp = userlist($userid);
+
+if(isset($emp) and count($emp) > 0)
+{
+    $pdf->form($emp[0]['fname'] . ' ' . $emp[0]['lname'] . ' ' . $emp[0]['mname'], $emp[0]['userid'], $date_from, $date_to,$emp[0]['sched']);
+    $pdf->SetEmpname($emp[0]['fname'] . ' ' . $emp[0]['lname'] . ' ' . $emp[0]['mname']);
+    $pdf->SetTitle($emp[0]['fname'] . ' ' . $emp[0]['lname'] . ' ' . $emp[0]['mname']);
+} else {
+    $pdf->SetFont('Arial','B',10);
+    $pdf->SetX(40);
+    $pdf->Cell(10,0,"NO RECORDS FOUND FOR $userid ",0,0,'C');
 }
-header('Location:'.$address);
+
+
+$pdf->Output();
 exit();
 
 
@@ -517,13 +532,13 @@ function get_logs($am_in,$am_out,$pm_in,$pm_out,$id,$date_from,$date_to)
     return $row;
 }
 
-function userlist($emptype)
+function userlist($userid)
 {
     $pdo = conn();
     try {
-        $st = $pdo->prepare("SELECT DISTINCT userid,fname,lname,mname,sched FROM users  WHERE usertype != '1' and emptype = '" . $emptype ."'");
+        $st = $pdo->prepare("SELECT DISTINCT userid,fname,lname,mname,sched FROM users  WHERE usertype != '1' and userid = ?");
         //$st = $pdo->prepare("SELECT DISTINCT userid,fname,lname,mname FROM users WHERE usertype != '1' and userid !='Unknown User' ORDER BY lname ASC");
-        $st->execute();
+        $st->execute(array($userid));
         $row = $st->fetchAll(PDO::FETCH_ASSOC);
         if(isset($row) and count($row) > 0)
         {
@@ -536,6 +551,19 @@ function userlist($emptype)
         exit();
     }
 }
+
+function date_range($id)
+{
+    $db = conn();
+    $sql = 'SELECT date_from,date_to FROM generated_pdf where id = ?';
+    $pdo = $db->prepare($sql);
+    $pdo->execute(array($id));
+    $row = $pdo->fetchAll();
+    $db = null;
+
+    return $row;
+}
+
 function save_file_name($filename,$date_from,$date_to,$emtype)
 {
     $pdo = conn();
@@ -547,6 +575,9 @@ function save_file_name($filename,$date_from,$date_to,$emtype)
     $st->execute();
     $pdo = null;
 }
+
+
+
 function check_inclusive_name($id)
 {
     $db = conn();
@@ -619,18 +650,7 @@ function check_holiday()
     return $row;
 }
 
-function look_holiday($datein){
-    $condition = floor(strtotime($datein) / (60 * 60 * 24));
-    foreach(check_holiday() as $holiday) {
-        if($holiday){
-            $holiday_start = floor(strtotime($holiday['start']) / (60 * 60 * 24));
-            $holiday_end = floor(strtotime($holiday['end']) / (60 * 60 * 24));
-            if($condition >= $holiday_start and $condition < $holiday_end and $holiday['title'] != ''){
-                return $holiday['title'];
-            }
-        }
-    }
-}
+
 
 function check_cdo()
 {

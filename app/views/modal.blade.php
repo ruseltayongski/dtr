@@ -143,5 +143,11 @@
     <strong style="color:white;">Generating DTR.....</strong>
 </center>
 
+<center class="modal fade" tabindex="-1" role="dialog" id="loading_modal">
+    <img src="{{ asset('public/img/spin.gif') }}" width="150" style="padding:10px; color: whitesmoke;">
+    <br />
+    <strong style="color:white;">Loading.....</strong>
+</center>
+
 
 
