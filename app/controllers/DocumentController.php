@@ -223,16 +223,17 @@ class DocumentController extends BaseController
     public function print_leave($id)
     {
         $leave = Leave::find($id);
-        $display = View::make('pdf.leave')->with('leave', $leave);
+        $display = View::make('form.print_leave_pdf')->with('leave', $leave);
         $pdf = App::make('dompdf');
         $pdf->setPaper('LEGAL', 'portrait');
+        //$display = View::make('pdf.test_pdf');
         $pdf->loadHTML($display);
         return $pdf->stream();
     }
 
     public function list_print()
     {
-        $display = view('pdf.personal_dtr');
+        $display = View::make('pdf.personal_dtr');
         $pdf = App::make('dompdf.wrapper');
         $pdf->setPaper('A4', 'portrait');
         $pdf->loadHTML($display);

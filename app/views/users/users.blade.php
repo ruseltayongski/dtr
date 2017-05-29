@@ -22,23 +22,23 @@
                 <table class="table table-list table-hover table-striped">
                     <thead>
                     <tr>
-                        <th>User ID</th>
-                        <th>Name </th>
-                        <th with="30%">Work Schedule</th>
-                        <th width="20%">Designation</th>
+                        <th class="text-center">User ID</th>
+                        <th class="text-center">Name </th>
+                        <th class="text-center" with="30%">Work Schedule</th>
+                        <th class="text-center">Designation</th>
                     </tr>
                     </thead>
                     <tbody>
                     @foreach($users as $user)
                         @if($user->emptype == 'JO')
                             <tr>
-                                <td><a href="#user" data-id="{{ $user->userid }}"  class="title-info">{{ $user->userid }}</a></td>
-                                <td><a href="#user" data-id="{{ $user->id }}" data-link="{{ asset('user/edit') }}" class="text-bold">{{ $user->fname ." ". $user->mname." ".$user->lname }}</a></td>
-                                <td>
+                                <td class="text-center"><a href="#user" data-id="{{ $user->userid }}"  class="title-info">{{ $user->userid }}</a></td>
+                                <td class="text-center"><a href="#user" data-id="{{ $user->id }}" data-link="{{ asset('user/edit') }}" class="text-bold">{{ $user->fname ." ". $user->mname." ".$user->lname }}</a></td>
+                                <td class="text-center">
                                     <span class="text-bold">{{ $user->description }}</span>
                                     <button data-id="{{ $user->userid }}" type="button" class="btn btn-info btn-xs change_sched">Change</button>
                                 </td>
-                                <td>JOB ORDER EMPLOYEE</td>
+                                <td class="text-center">JOB ORDER EMPLOYEE</td>
                             </tr>
                         @endif
                     @endforeach
