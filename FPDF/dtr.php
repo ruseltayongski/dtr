@@ -200,6 +200,12 @@ if(isset($_POST['from']) and isset($_POST['to'])) {
     $date_to = $_to[2].'-'.$_to[0].'-'.$_to[1];
 
 
+} else {
+    $pdf->SetFont('Arial','B',10);
+    $pdf->SetX(40);
+    $pdf->Cell(10,0,"Something went wrong. Go back to webpage",0,0,'C');
+    $pdf->Output();
+    exit();
 }
 
 

@@ -447,6 +447,12 @@ if(isset($_POST['filter_range']) and isset($_POST['emptype'])) {
     $temp3 = array_slice($temp1, 1, 1);
     $tmp = implode(',', $temp3);
     $date_to = date('Y-m-d',strtotime($tmp));
+} else {
+    $pdf->SetFont('Arial','B',10);
+    $pdf->SetX(40);
+    $pdf->Cell(10,0,"Something went wrong. Go back to webpage",0,0,'C');
+    $pdf->Output();
+    exit();
 }
 
 $pdf = new PDF('P','mm','A4');

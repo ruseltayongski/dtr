@@ -117,8 +117,6 @@
             });
         });
 
-
-
         $('#inclusive2').daterangepicker();
         $('#inclusive3').daterangepicker();
     </script>

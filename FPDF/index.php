@@ -1,0 +1,1 @@
+<h2>Access to this page is not allowed.</h2>
