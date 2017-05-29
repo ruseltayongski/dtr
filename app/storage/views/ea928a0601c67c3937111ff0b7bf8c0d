@@ -52,13 +52,13 @@
                             <div class="panel-body">
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <form class="form-inline" method="GET" action="<?php echo asset('/personal/search/filter'); ?>"  id="searchForm">
+                                        <form class="form-inline" method="POST" action="<?php echo asset('personal/index'); ?>"  id="searchForm">
                                             <div class="form-group">
                                                 <div class="input-group">
                                                     <div class="input-group-addon">
                                                         <i class="fa fa-calendar"></i>
                                                     </div>
-                                                    <input type="text" class="form-control" id="filter_dates" name="filter_range" placeholder="Filter date range here..." required>
+                                                    <input type="text" class="form-control" id="filter_dates" name="filter_range1" placeholder="Filter date range here..." >
                                                 </div>
                                                 <button type="submit" name="filter" class="btn btn-success form-control" value="Filter">
                                                     <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Filters

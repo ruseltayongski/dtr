@@ -22,17 +22,52 @@ class PersonalController extends Controller
 
     public function index()
     {
+        if(Request::method() == 'POST'){
+            if(Input::has('filter_range1')) {
+                $str = $_POST['filter_range1'];
+                $temp1 = explode('-',$str);
+                $temp2 = array_slice($temp1, 0, 1);
+                $tmp = implode(',', $temp2);
+                $date_from = date('Y-m-d',strtotime($tmp));
+                $temp3 = array_slice($temp1, 1, 1);
+                $tmp = implode(',', $temp3);
+                $date_to = date('Y-m-d',strtotime($tmp));
 
-        $lists = DB::table('dtr_file')
+                $lists = DB::table('dtr_file')
                     ->leftJoin('users', function($join){
                         $join->on('dtr_file.userid', '=', 'users.userid')
                             ->where('users.userid', '<>', '1')
                             ->where('users.userid', '<>', '--');
                     })
                     ->where('dtr_file.userid', '=', Auth::user()->userid)
-                    ->orderBy('dtr_file.created_at', 'ASC')
+                    ->whereBetween('datein', array($date_from,$date_to))
+                    ->orderBy('dtr_file.datein', 'ASC')
                     ->paginate(20);
-        return View::make('employee.index')->with('lists',$lists);
+
+                return View::make('employee.index')->with('lists',$lists);
+            } else {
+                return Redirect::to('personal/index');
+            }
+        }
+        if(Request::method() == 'GET') {
+            $date = explode("-",date("Y-m-d"));
+            $firt_day = "$date[0]-$date[1]-01";
+            $last_day = "$date[0]-$date[1]-31";
+
+            $lists = DB::table('dtr_file')
+                ->leftJoin('users', function($join){
+                    $join->on('dtr_file.userid', '=', 'users.userid')
+                        ->where('users.userid', '<>', '1')
+                        ->where('users.userid', '<>', '--');
+                })
+                ->where('dtr_file.userid', '=', Auth::user()->userid)
+                ->whereBetween('datein', array($firt_day,$last_day))
+                ->orderBy('dtr_file.datein', 'ASC')
+                ->paginate(20);
+
+            return View::make('employee.index')->with('lists',$lists);
+        }
+
     }
     public function edit_attendance($id = null)
     {

@@ -64,7 +64,7 @@ Route::get('personal/monthly',function() {
 	return Redirect::to('personal/print/monthly');
 });
 
-Route::get('personal/index', 'PersonalController@index');
+Route::match(['GET','POST'],'personal/index', 'PersonalController@index');
 Route::get('/personal/search/filter', 'PersonalController@search_filter');
 Route::get('personal/print/monthly', 'PersonalController@print_monthly');
 Route::post('personal/print/filter' ,'PersonalController@filter');
