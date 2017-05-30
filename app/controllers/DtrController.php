@@ -16,6 +16,7 @@ class DtrController extends BaseController
     {
         $f = '';
         $l = '';
+
         //GET Request
         if(Request::method() == 'GET'){
             return View::make('dtr.upload');
@@ -29,35 +30,39 @@ class DtrController extends BaseController
                 ini_set('max_execution_time', 0);
                 $dtr = file_get_contents($file);
                 $data = explode(PHP_EOL,$dtr);
+
+                $pdo = DB::connection()->getPdo();
+                $st = $pdo->prepare("INSERT INTO `dtr_file`(`userid`, `datein`, `time`, `event`, `remark`, `edited`, `created_at`, `updated_at`)
+                                    VALUES (?,?,?,?,?,?,NOW(),NOW())");
+
                 for($i = 1; $i < count($data); $i++) {
+                    $dtr_data = array();
                     try
                     {
                         $employee = explode(',', $data[$i]);
-                        $details = new DtrDetails();
 
-                        //$details->setTable('next_dtr_file');
 
                         $id = trim($employee[0], "\" ");
                         $id = ltrim($id, "\" ");
 
                         if($id != 'Unknown User'){
-                            $details->userid = array_key_exists(0, $employee) == true ? trim($employee[0], "\" ") : null;
+                            $dtr_data[] = array_key_exists(0, $employee) == true ? trim($employee[0], "\" ") : null;
 
                             $f = array_key_exists(1, $employee) == true ? trim($employee[1], "\" ") : null;
                             $l = array_key_exists(2, $employee) == true ? trim($employee[2], "\" ") : null;
 
-                            $details->datein = array_key_exists(4, $employee) == true ? trim($employee[4], "\" ") : null;
-                            $details->time = array_key_exists(5, $employee) == true ? trim($employee[5], "\" ") : null;
+                            $dtr_data[] = array_key_exists(4, $employee) == true ? trim($employee[4], "\" ") : null;
+                            $dtr_data[] = array_key_exists(5, $employee) == true ? trim($employee[5], "\" ") : null;
 
-                            $details->event = array_key_exists(6, $employee) == true ? trim($employee[6], "\" ") : null;
-                            $details->remark = array_key_exists(8, $employee) == true ? trim($employee[8], "\" ") : null;
+                            $dtr_data[] = array_key_exists(6, $employee) == true ? trim($employee[6], "\" ") : null;
+                            $dtr_data[] = array_key_exists(8, $employee) == true ? trim($employee[8], "\" ") : null;
 
-                            $details->edited = "0";
-                            $details->save();
+                            $dtr_data[] = "0";
 
+                            $st->execute($dtr_data);
 
                             //FOR INSERTING DATA TO THE USERS TABLE ONLY. IF THE USERS TABLE HAS NO DATA, JUST UNCOMMENT THIS COMMENT.
-                            $user = User::where('userid',$details->userid)->first();
+                           /* $user = User::where('userid',$details->userid)->first();
                             //checking for duplicate userid
                             if( !isset($user) and !count($user) > 0){
                                 $user = new User();
@@ -77,12 +82,13 @@ class DtrController extends BaseController
                                     $user->sched = "1";
                                 }
                                 $user->save();
-                            }
+                            }*/
                         }
                     } catch (Exception $ex) {
 
                     }
                 }
+                $pdo = null;
                return Redirect::to('index');
             } else {
                 return "<h2 style='color:red;'>No input file</h2>";

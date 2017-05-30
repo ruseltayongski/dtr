@@ -45,17 +45,17 @@
         </ul>
     </li>
     <li class="dropdown">
-        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="glyphicon glyphicon-duplicate"></i> Documents<span class="caret"></span></a>
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="glyphicon glyphicon-duplicate"></i> Tracking Documents<span class="caret"></span></a>
         <ul class="dropdown-menu">
             <li>
-                <a href="{{ asset('print/individual') }}"><i class="fa fa-file"></i>&nbsp;&nbsp; Office Order</a>
+                <a href="{{ asset('tracked/so') }}"><i class="fa fa-file"></i>&nbsp;&nbsp; Office Order</a>
             </li>
             <li class="divider"></li>
             <li>
-                <a href="{{ asset('work-schedule') }}"><i class="fa fa-file"></i>&nbsp;&nbsp; Leave</a>
+                <a href="{{ asset('tracked/leave') }}"><i class="fa fa-file"></i>&nbsp;&nbsp; Leave</a>
             </li>
             <li class="divider"></li>
-            <li><a href="{{ url('calendar') }}"><i class="fa fa-file"></i>&nbsp;&nbsp; CDO</a></li>
+            <li><a href="{{ asset('tracked/cdo') }}"><i class="fa fa-file"></i>&nbsp;&nbsp; CDO</a></li>
             <li class="divider"></li>
         </ul>
     </li>

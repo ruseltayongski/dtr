@@ -11,6 +11,7 @@ class DocumentController extends BaseController
 {
     public function __construct()
     {
+
         $this->beforeFilter('personal');
     }
 
@@ -39,9 +40,9 @@ class DocumentController extends BaseController
 
     public  function leave()
     {
-        
+
         if(Request::method() == 'GET'){
-            
+
             $user = Users::where('userid','=',Auth::user()->userid)->first();
             return View::make('form.form_leave')->with('user',$user);
         }

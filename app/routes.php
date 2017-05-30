@@ -81,6 +81,13 @@ Route::get('leave/print/{id}', 'DocumentController@print_leave');
 Route::get('leave/update/{id}', 'DocumentController@edit_leave');
 Route::post('leave/update/save', 'DocumentController@save_edit_leave');
 
+
+//ADMIN TRACKED DOCUMENTS
+
+Route::get('tracked/so', 'DocumentController@so_tracking');
+
+
+
 Route::get('list/pdf', 'DocumentController@list_print');
 
 Route::get('clear', function(){

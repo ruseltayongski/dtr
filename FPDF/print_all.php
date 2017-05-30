@@ -49,9 +49,9 @@ class PDF extends FPDF
 
             if(count($logs) <= 0) {
 
-                $this->SetFont('Arial','B',8);
+              /*  $this->SetFont('Arial','B',8);
                 $this->SetX(100);
-                $this->Cell(10,0,"NO AVAILABLE TIME LOGS BETWEEN $date_from AND $date_to FOR USERID $userid . TRY UPLOADING NEW TIME LOGS FROM BIOMETRIC",0,0,'C');
+                $this->Cell(10,0,"NO AVAILABLE TIME LOGS BETWEEN $date_from AND $date_to FOR USERID $userid . TRY UPLOADING NEW TIME LOGS FROM BIOMETRIC",0,0,'C');*/
 
             } else {
 
@@ -463,7 +463,7 @@ $pdf->SetTitle('DTR report From : ' . date('l', strtotime($date_from)) .'---'.da
 $row = userlist($emptype);
 if(isset($row) and count($row) > 0)
 {
-    for($i = 0; $i < 10; $i++)
+    for($i = 0; $i < count($row); $i++)
     {
         $pdf->form($row[$i]['fname'] . ' ' . $row[$i]['lname'] . ' ' . $row[$i]['mname'], $row[$i]['userid'], $date_from, $date_to,$row[$i]['sched']);
         $pdf->SetEmpname($row[$i]['fname'] . ' ' . $row[$i]['lname'] . ' ' . $row[$i]['mname']);
