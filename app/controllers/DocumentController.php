@@ -477,12 +477,37 @@ class DocumentController extends BaseController
             $users = pdoController::users();
             $info = OfficeOrders::where('route_no',$route_no)->get()->first();
             $inclusive_date = Calendars::where('route_no',$route_no)->get();
-
             return View::make('document.info',['users'=>$users,'info'=>$info,'inclusive_date'=>$inclusive_date]);
         } else {
+            $cdo = cdo::where('route_no',$route_no)->get()->first();
+            if(Auth::user()->usertype)
+                $name = pdoController::user_search1($cdo->prepared_name);
+            else
+                $name = pdoController::user_search(Auth::user()->userid);
 
-            $info = cdo::where('route_no',$route_no)->get()->first();
-            return View::make('document.info',['info' => $info]);
+            $position = pdoController::designation_search($name['designation'])['description'];
+            $section = pdoController::search_section($name['section'])['description'];
+            $division = pdoController::search_division($name['division'])['description'];
+            $section_head[] = pdoController::user_search1($cdo['immediate_supervisor']);
+            $division_head[] = pdoController::user_search1($cdo['division_chief']);
+            foreach(pdoController::section() as $row){
+                $section_head[] = pdoController::user_search1($row['head']);
+            }
+            foreach(pdoController::division() as $row){
+                $division_head[] = pdoController::user_search1($row['head']);
+            }
+            $data = array(
+                "cdo" => $cdo,
+                "type" => "update",
+                "asset" => asset('cdo_updatev1'),
+                "name" => $name['fname'].' '.$name['mname'].' '.$name['lname'],
+                "position" => $position,
+                "section" => $section,
+                "division" => $division,
+                "section_head" => $section_head,
+                "division_head" => $division_head
+            );
+            return View::make('cdo.cdo_view',['data' => $data]);
         }
     }
     public function track($route_no){
@@ -492,19 +517,6 @@ class DocumentController extends BaseController
         return View::make('document.track',['document' => $document]);
     }
 
-    public function getTest()
-    {
-        /*$test = new Test();
-        $test->setConnection('mysql1');
-        $connection = $test->find('users');
-
-        return $connection;*/
-
-        /*$db_ext = DB::connection('mysql1');
-        $user = $db_ext->table('tracking_master')->get();
-        return $user;*/
-        return $inclusive_date = Calendars::where('route_no',Session::get('route_no'))->get();
-    }
     public function user_search($id)
     {
         $db=$this->connect();
