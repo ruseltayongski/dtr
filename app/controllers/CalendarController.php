@@ -43,7 +43,6 @@ class CalendarController extends BaseController
             $end_date = date('Y-m-d',(strtotime (Input::get('end')) ) );
 
 
-
             $calendar->end = $end_date;
             $calendar->backgroundColor = Input::get('backgroundColor');
             $calendar->borderColor = Input::get('borderColor');
@@ -132,7 +131,8 @@ class CalendarController extends BaseController
 
         if(Input::get('type') == 'drop') {
 
-            return Input::all();
+            $calendar = Calendars::where('event_id',Input::get('event_id'))->first();
+
 
         }
         else
