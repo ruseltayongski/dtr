@@ -379,6 +379,14 @@ class DocumentController extends BaseController
         return $name;
     }
 
+    public function inclusive_name_view(){
+        $inclusive_name = inclusiveNames::where('route_no',Session::get('route_no'))->get();
+        foreach($inclusive_name as $row){
+            $name[] = $row['user_id'];
+        }
+        return $name;
+    }
+
     public function so_append(){
         return View::make('form.office_order_append');
     }

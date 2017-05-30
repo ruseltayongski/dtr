@@ -123,6 +123,7 @@ Route::match(array('GET','POST'), 'form/so_view', 'DocumentController@so_view');
 Route::match(array('GET','POST'), 'form/so_list', 'DocumentController@so_list');
 Route::match(array('GET','POST'), 'form/sov1', 'DocumentController@sov1');
 Route::get('inclusive_name_page', 'DocumentController@inclusive_name_page');
+Route::get('inclusive_name_view', 'DocumentController@inclusive_name_view');
 Route::post('so_addv1','DocumentController@so_addv1');
 
 
