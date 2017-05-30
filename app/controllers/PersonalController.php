@@ -110,6 +110,7 @@ class PersonalController extends Controller
             return View::make('dtr.personal_list')->with('lists', $lists);
         }
         if(Request::method('POST')) {
+
             if(Input::has('filter_range')) {
                 $str = $_POST['filter_range'];
                 $temp1 = explode('-',$str);
@@ -121,8 +122,9 @@ class PersonalController extends Controller
                 $date_to = date('Y-m-d',strtotime($tmp));
 
                 $lists = DB::table('generated_pdf')
-                    ->where('date_from','>=',$date_from)
-                    ->Where('date_to' ,' <=', $date_to)
+                    ->whereBetween('date_from',array($date_from,$date_to))
+                    ->whereBetween('date_to' ,array($date_from,$date_to))
+                    ->where('type','=','JO')
                     ->orderBy('date_created', 'ASC')
                     ->paginate(20);
                 return View::make('dtr.personal_list')->with('lists', $lists);
