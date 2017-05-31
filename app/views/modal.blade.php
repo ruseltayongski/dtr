@@ -90,7 +90,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <form action="{{ asset('document/update') }}" method="post">
+                <form action="<?php if(isset($delete)) echo $delete; ?>" method="post">
                     <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> No</button>
                     <button type="submit" name="delete" class="btn btn-danger" ><i class="fa fa-trash"></i> Yes</button>
                 </form>
@@ -108,12 +108,62 @@
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
+<div class="modal fade" tabindex="-1" role="dialog" id="form_type" style="z-index:999991;">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color:#9C8AA5	;padding:15px;">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4><i class="fa fa-file-pdf-o"></i> Select Form Type</h4>
+            </div>
+            <div class="modal-body text-center">
+                <div class="col-xs-4" style="left: 10%">
+                    <a href="#document_form" data-dismiss="modal" data-link="<?php if(isset($asset)) echo $asset; ?>" data-backdrop="static" data-toggle="modal" data-target="#document_form" class="text-success">
+                        <i class="fa fa-file-pdf-o fa-5x"></i><br>
+                        <i>Form V1</i>
+                    </a>
+                </div>
+                <div class="col-xs-4" style="left: 25%;">
+                    @if(isset($doc_type))
+                        @if($doc_type == 'CDO')
+                            <a href="#" onclick="soon()" class="text-info">
+                                <i class="fa fa-file-pdf-o fa-5x"></i><br>
+                                <i>Form V2</i>
+                            </a>
+                        @else
+                            <a href="so" class="text-info">
+                                <i class="fa fa-file-pdf-o fa-5x"></i><br>
+                                <i>Form V2</i>
+                            </a>
+                        @endif
+                    @endif
+                </div>
+            </div>
+            <div class="clearfix"></div>
+            <br />
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
 <div class="modal fade" tabindex="-1" role="dialog" id="document_info">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
-            <div class="modal-header" style="background-color: darkmagenta;color: white">
+            <div class="modal-header" style="background-color:#9C8AA5	;padding:15px;">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true" >&times;</span></button>
                 <h4 class="modal-title"><i class="fa fa-plus"></i> Office Order</h4>
+            </div>
+            <div class="modal-body">
+                <div class="modal_content"><center><img src="{{ asset('public/img/spin.gif') }}" width="150" style="padding:20px;"></center></div>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div class="modal fade" tabindex="-1" role="dialog" id="document_form">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color:#9C8AA5;padding:15px;">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title"><i class="fa fa-plus"></i> Create Document</h4>
             </div>
             <div class="modal-body">
                 <div class="modal_content"><center><img src="{{ asset('public/img/spin.gif') }}" width="150" style="padding:20px;"></center></div>

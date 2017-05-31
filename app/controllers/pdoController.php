@@ -1,7 +1,5 @@
 <?php
 
-
-
 class pdoController extends BaseController
 {
     //PDO

@@ -28,7 +28,7 @@
                     <li class="divider"></li>
                     <li><a href="{{ asset('form/so_list') }}">Office Order</a></li>
                     <li class="divider"></li>
-                    <li><a href="#document_form" data-backdrop="static" data-toggle="modal" data-link="{{ asset('form/cdo') }}">CDO</a></li>
+                    <li><a href="{{ asset("form/cdo_list") }}">CTO</a></li>
                 </ul>
             </li>
             <li class="divider"></li>

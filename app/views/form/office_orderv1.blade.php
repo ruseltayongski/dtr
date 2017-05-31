@@ -5,11 +5,9 @@
     }
 </style>
 <form action="{{ asset('so_addv1') }}" method="POST" class="form-submit">
-
     <input type="hidden" name="inclusive_name" value="{{ $inclusive_name[0] }}"/>
     <span id="inclusive_name_page" data-link="{{ asset('inclusive_name_page') }}"></span>
     <span id="so_append" data-link="{{ asset('so_append') }}"></span>
-    <div class="modal-body">
         <table>
             <tr>
                 <td class="col-md-1"><img height="130" width="130" src="{{ asset('public/img/ro7.png') }}" /></td>
@@ -23,7 +21,7 @@
                 <td class="col-md-10"><img height="130" width="130" src="{{ asset('public/img/ro7.png') }}" /> </td>
             </tr>
         </table>
-        <table class="table table-hover table-form table-striped">
+        <table class="table table-hover table-form table-striped table-info">
             <tr>
                 <td class="col-sm-3"><label>Prepared by</label></td>
                 <td class="col-sm-1">:</td>
@@ -35,9 +33,9 @@
                 <td class="col-sm-8"><input class="form-control datepickercalendar" value="{{ date('m/d/Y') }}" name="prepared_date" required></td>
             </tr>
             <tr>
-                <td class=""><label>Subject</label></td>
-                <td>:</td>
-                <td><textarea class="form-control" name="subject" rows="3" style="resize:none;" required></textarea></td>
+                <td class="col-sm-3"><label>Subject</label></td>
+                <td class="col-sm-1">:</td>
+                <td class="col-sm-8"><textarea class="form-control" name="subject" rows="3" style="resize:none;" required></textarea></td>
             </tr>
             <tr>
                 <td class="col-sm-3"><label>Inclusive Name</label></td>
@@ -66,12 +64,10 @@
             </tr>
             </tbody>
             <tr>
-                <td></td>
-                <td></td>
-                <td id="border-top">
-                    <a onclick="add_inclusive();" href="#">
-                        <p class="pull-right"><i class="fa fa-plus"></i> Add Inclusive date
-                    </a>
+                <td class="col-sm-3"></td>
+                <td class="col-sm-1"></td>
+                <td class="col-sm-8" id="border-top">
+                    <button class="btn btn-primary pull-right" type="button" style="color: white" onclick="add_inclusive();"><i class="fa fa-plus"></i> Add inclusive date</button>
                 </td>
             </tr>
         </table>
@@ -79,7 +75,6 @@
             <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Cancel</button>
             <button type="submit" class="btn btn-success btn-submit" style="color:white;"><i class="fa fa-send"></i> Submit</button>
         </div>
-    </div>
 </form>
 <script>
     $('.datepickercalendar').datepicker({

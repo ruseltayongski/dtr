@@ -118,6 +118,7 @@ Route::get('pdf/leave',function() {
 });
 
 /////////RUSEL
+////OFFICE ORDER
 Route::match(array('GET','POST'), 'form/so', 'DocumentController@so');
 Route::match(array('GET','POST'), 'form/so_view', 'DocumentController@so_view');
 Route::match(array('GET','POST'), 'form/so_list', 'DocumentController@so_list');
@@ -125,7 +126,8 @@ Route::match(array('GET','POST'), 'form/sov1', 'DocumentController@sov1');
 Route::get('inclusive_name_page', 'DocumentController@inclusive_name_page');
 Route::get('inclusive_name_view', 'DocumentController@inclusive_name_view');
 Route::post('so_addv1','DocumentController@so_addv1');
-
+Route::post('so_delete','DocumentController@so_delete');
+Route::post('so_updatev1','DocumentController@so_updatev1');
 
 Route::match(['get','post'], 'form/track/{route_no}', 'DocumentController@track');
 Route::get('form/so_pdf','DocumentController@so_pdf');
@@ -133,9 +135,13 @@ Route::get('inclusive_name', 'DocumentController@inclusive_name');
 Route::get('so_append','DocumentController@so_append');
 Route::post('so_add','DocumentController@so_add');
 Route::get('form/info/{route}/{doc_type}', 'DocumentController@show');
-/////////CALENDAR
-/////////CALENDAR
 
+//////CDO
+Route::match(array('GET','POST'), 'form/cdo_list', 'cdoController@cdo_list');
+Route::match(array("GET","POST"), "form/cdov1/{pdf}","cdoController@cdov1");
+Route::post('cdo_addv1','cdoController@cdo_addv1');
+
+/////////CALENDAR
 Route::get('calendar','CalendarController@calendar');
 Route::get('calendar_holiday','CalendarController@calendar_holiday');
 Route::post('calendar_save','CalendarController@calendar_save');
