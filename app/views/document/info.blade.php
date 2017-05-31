@@ -152,8 +152,12 @@
 
     $(".select2").select2();
     $("#inclusive1").daterangepicker();
-    for(var i = 1; i <= $("#date_count").val();i++){
-        $('#inclusive'+i).daterangepicker();
+    for(var i = 1; i < $("#date_count").val();i++){
+        $(function() {
+            $("body").delegate("#inclusive"+i, "focusin", function(){
+                $(this).daterangepicker();
+            });
+        });
     }
     var count = $("#date_count").val();
     function add_inclusive(){
@@ -162,6 +166,11 @@
         var url = $("#so_append").data('link')+"?count="+count;
         $.get(url,function(result){
             $(".p_inclusive_date").append(result);
+        });
+        $(function() {
+            $("body").delegate("#inclusive"+count, "focusin", function(){
+                $(this).daterangepicker();
+            });
         });
     }
 
@@ -180,8 +189,8 @@
     });
     function warning(){
         Lobibox.alert('info', //AVAILABLE TYPES: "error", "info", "success", "warning"
-                {
-                    msg: "Please proceed you're form into version 2 before you print the barcode version 3!"
-                });
+        {
+            msg: "Please proceed you're form into version 2 before you print the barcode version 3!"
+        });
     }
 </script>

@@ -13,7 +13,3 @@
         </div>
     </td>
 </tr>
-<script>
-    var count = '<?php echo $_GET['count']; ?>';
-    $('#inclusive'+count).daterangepicker();
-</script>
