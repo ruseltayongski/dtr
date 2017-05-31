@@ -61,7 +61,7 @@ class cdoController extends BaseController
             "division_head" => $division_head
         );
         if($pdf == 'pdf') {
-            $display = view('cdo.cdo_pdf', ["data" => $data]);
+            $display = View::make('cdo.cdo_pdf', ["data" => $data]);
             $pdf = App::make('dompdf.wrapper');
             $pdf->loadHTML($display)->setPaper('a4', 'portrait');
             return $pdf->stream();

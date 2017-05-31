@@ -39,7 +39,8 @@ Route::get('work-schedule' ,'HoursController@create');
 Route::match(array('GET','POST'), 'create/work-schedule', 'HoursController@work_schedule');
 Route::match(array('GET','POST') , 'edit/work-schedule/{id}' ,'HoursController@edit_schedule');
 Route::match(array('GET','POST') , 'edit/attendance/{id?}', 'DtrController@edit_attendance');
-Route::post('delete/attendance','DtrController@delete');
+Route::get('attendance','DtrController@attendance');
+Route::get('filter/attendance', 'DtrController@filter_attendance');
 Route::match(array('GET','POST'),'resetpass', 'PasswordController@change_password');
 //Route::post('/', 'PasswordController@save_changes');
 
@@ -80,7 +81,7 @@ Route::get('leave/get/{id}','DocumentController@get_leave');
 Route::get('leave/print/{id}', 'DocumentController@print_leave');
 Route::get('leave/update/{id}', 'DocumentController@edit_leave');
 Route::post('leave/update/save', 'DocumentController@save_edit_leave');
-
+Route::get('leave/delete/{id}', 'DocumentController@delete_leave');
 
 //ADMIN TRACKED DOCUMENTS
 
@@ -186,5 +187,27 @@ Route::get('emptype', function() {
 	});
 });
 
-
+Route::get('create/cdo', function() {
+	Schema::create('cdo', function($table) {
+		$table->increments('id');
+		$table->string('route_no','40');
+		$table->text('subject');
+		$table->string('doc_type','15');
+		$table->integer('prepared_name');
+		$table->datetime('prepared_date');
+		$table->string('working_days','5');
+		$table->text('start');
+		$table->text('end');
+		$table->text('beginning_balance');
+		$table->text('less_applied_for');
+		$table->text('remaining_balance');
+		$table->text('recommendation');
+		$table->integer('immediate_supervisor');
+		$table->integer('division_chief');
+		$table->integer('approved_status');
+		$table->integer('status');
+		$table->rememberToken();
+		$table->timestamps();
+	});
+});
 ?>
