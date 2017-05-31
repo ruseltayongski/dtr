@@ -19,6 +19,8 @@
     <link href="{{ asset('public/assets/css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ asset('public/assets/css/bootstrap-theme.min.css') }}" rel="stylesheet">
     <link href="{{ asset('public/assets/css/font-awesome.min.css') }}" rel="stylesheet">
+    <!--CHOSEN SELECT -->
+    <link href="{{ asset('public/plugin/chosen/chosen.css') }}" rel="stylesheet">
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <link href="{{ asset('public/assets/css/ie10-viewport-bug-workaround.css') }}" rel="stylesheet">
     <!-- Custom styles for this template -->
@@ -36,8 +38,8 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('public/assets/datepicer/css/bootstrap-datepicker3.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ asset('public/assets/datepicer/css/bootstrap-datepicker3.standalone.css') }}" />
     <script src="{{ asset('public/assets/js/jquery.min.js') }}"></script>
+    <!-- SELECT 2 -->
     <link rel="stylesheet" type="text/css" href="{{ asset('public/plugin/select2/select2.min.css') }}" />
-    <script src="{{ asset('public/plugin/select2/select2.full.min.js') }}"></script>
 
 
     <style>
@@ -131,7 +133,9 @@
 <script src="{{ asset('public/assets/js/form-justification.js') }}"></script>
 <script src="{{ asset('public/plugin/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js') }}"></script>
 
-<!-- SELECT CHOOSEN -->
+<!-- SELECT 2 -->
+<script src="{{ asset('public/plugin/select2/select2.full.min.js') }}"></script>
+<!-- CHOSEN SELECT -->
 <script src="{{ asset('public/plugin/chosen/chosen.jquery.js') }}"></script>
 
 <script src="{{ asset('public/plugin/fullcalendar/moment.js') }}"></script>
