@@ -144,9 +144,9 @@
                             <td><b>Remaining Balance</b></td>
                         </tr>
                         <tr>
-                            <td><?php if(isset($data['cdo']['beginning_balance'])) echo $data['cdo']['beginning_balance']; else echo '.wew'; ?></td>
+                            <td><?php if($data['cdo']['beginning_balance'] != null): ?> <?php echo $data['cdo']['beginning_balance']; ?> <?php else: ?>.<?php endif; ?></td>
                             <td><?php if($data['cdo']['less_applied_for'] != null): ?> <?php echo $data['cdo']['less_applied_for']; ?> <?php else: ?>.<?php endif; ?></td>
-                            <td><?php if(isset($data['cdo']['remaining_balance'])): ?> <?php echo $data['cdo']['remaining_balance']; ?> <?php else: ?>.<?php endif; ?></td>
+                            <td><?php if($data['cdo']['remaining_balance'] != null): ?> <?php echo $data['cdo']['remaining_balance']; ?> <?php else: ?>.<?php endif; ?></td>
                         </tr>
                     </table>
                 </td>

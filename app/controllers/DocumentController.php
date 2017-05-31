@@ -153,6 +153,12 @@ class DocumentController extends BaseController
        return Redirect::to('form/leave/all');
     }
 
+    public function delete_leave($id) {
+       $leave=  Leave::where('id', $id)->first();
+       $leave->delete();
+
+        return Redirect::to('form/leave/all')->with('message','Leave deleted.');
+    }
     public function save_edit_leave()
     {
 
