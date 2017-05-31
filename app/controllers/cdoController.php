@@ -4,7 +4,7 @@ class cdoController extends BaseController
 {
     public function __construct()
     {
-        $this->beforeFilter('personal');
+        //$this->beforeFilter('personal');
     }
 
     public function cdo_list(){
@@ -62,7 +62,7 @@ class cdoController extends BaseController
         );
         if($pdf == 'pdf') {
             $display = View::make('cdo.cdo_pdf', ["data" => $data]);
-            $pdf = App::make('dompdf.wrapper');
+            $pdf = App::make('dompdf');
             $pdf->loadHTML($display)->setPaper('a4', 'portrait');
             return $pdf->stream();
         }
@@ -120,11 +120,12 @@ class cdoController extends BaseController
         return Redirect::to('form/cdo_list');
     }
 
-    public function cdo_updatev1(Request $request){
+    public function cdo_updatev1(){
         $route_no = Session::get('route_no');
-        $date = date('Y-m-d',strtotime($request->get('date'))).' '.date('H:i:s');
-        $name = pdoController::user_search($request->user()->userid)['id'];
-        $str = $request->input('inclusive_dates');
+        $prepared_date = date('Y-m-d',strtotime(Input::get('prepared_date'))).' '.date('H:i:s');
+        $info = cdo::where('route_no',$route_no)->first();
+
+        $str = Input::get('inclusive_dates');
         $temp1 = explode('-',$str);
         $temp2 = array_slice($temp1, 0, 1);
         $tmp = implode(',', $temp2);
@@ -135,36 +136,56 @@ class cdoController extends BaseController
         $enddate = date_create(date('Y-m-d',strtotime($tmp)));
         date_add($enddate, date_interval_create_from_date_string('1days'));
         $end_date = date_format($enddate, 'Y-m-d');
-        $subject = $request->input('subject');
+        $subject = Input::get('subject');
         $working_days = floor(strtotime($end_date) / (60 * 60 * 24)) - floor(strtotime($start_date) / (60 * 60 * 24)) - 1;
+
+        if(Auth::user()->usertype){
+            $beginning_balance = Input::get('beginning_balance');
+            $less_applied = Input::get('less_applied');
+            $remaining_balance = Input::get('remaining_balance');
+        } else{
+            $beginning_balance = $info->beginning_balance;
+            $less_applied = $info->less_applied_for;
+            $remaining_balance = $info->remaining_balance;
+        }
+        if(Auth::user()->usertype and Input::get('approval'))
+            $approved_status = 1;
+        else
+            $approved_status = 0;
 
         //UPDATE CDO
         cdo::where("route_no",$route_no)->update([
             "subject" => $subject,
-            "date" => $date,
+            "prepared_date" => $prepared_date,
             "working_days" => $working_days,
             "start" => $start_date,
-            "end" => $end_date
+            "end" => $end_date,
+            "beginning_balance" => $beginning_balance,
+            "less_applied_for" => $less_applied,
+            "remaining_balance" => $remaining_balance,
+            "immediate_supervisor" => Input::get('immediate_supervisor'),
+            "division_chief" => Input::get('division_chief'),
+            "approved_status" => $approved_status
         ]);
 
         //UPDATE TRACKING MASTER
-        pdoController::update_tracking_master($date,$subject,$route_no);
+        pdoController::update_tracking_master($prepared_date,$subject,$route_no);
 
         //UPDATE TRACKING DETAILS
         pdoController::update_tracking_details($subject,$route_no);
 
         //ADD SYSTEM LOGS
-        $user_id = $name;
-        $name = $request->user()->fname.' '.$request->user()->mname.' '.$request->user()->lname;
+        $user_id = $info->prepared_name;
+        $name = Auth::user()->fname.' '.Auth::user()->mname.' '.Auth::user()->lname;
         $activity = 'Updated';
         pdoController::insert_system_logs($user_id,$name,$activity,$route_no);
 
         Session::put('updated',true);
-        return redirect()->back();
+        return Redirect::to('form/cdo_list');
     }
 
-    public function cdo_delete(Request $request){
-        $name = pdoController::user_search($request->user()->userid)['id'];
+    public function cdo_delete(){
+        $name = pdoController::user_search(Auth::user()->userid)['id'];
         $route_no = Session::get('route_no');
         cdo::where('route_no',$route_no)->delete();
 
@@ -173,27 +194,13 @@ class cdoController extends BaseController
 
         //ADD SYSTEM LOGS
         $user_id = $name;
-        $name = $request->user()->fname.' '.$request->user()->mname.' '.$request->user()->lname;
+        $name = Auth::user()->fname.' '.Auth::user()->mname.' '.Auth::user()->lname;
         $activity = 'Deleted';
         pdoController::insert_system_logs($user_id,$name,$activity,$route_no);
 
         Session::put('deleted',true);
-        return redirect()->back();
+        return Redirect::to('form/cdo_list');
     }
-
-    public function cdo_pending(Request $request){
-        Session::put('keyword',$request->keyword);
-        $keyword = Session::get('keyword');
-        $cdo = cdo::where('name',pdoController::user_search($request->user()->userid)['id'])
-            ->where(function($q) use ($keyword){
-                $q->where("route_no","like","%$keyword%");
-            })
-            ->orderBy('id','desc')
-            ->paginate(10);
-
-        return view('cdo.cdo_pending',["cdo" => $cdo]);
-    }
-
     public function cdo_view(Request $request){
         return view('cdo.cdo_view');
     }

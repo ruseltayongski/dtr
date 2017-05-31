@@ -12,7 +12,7 @@ class DocumentController extends BaseController
     public function __construct()
     {
 
-        $this->beforeFilter('personal');
+        //$this->beforeFilter('personal');
     }
 
     public function index()

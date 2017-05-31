@@ -50,8 +50,12 @@
                 <a href="{{ asset('tracked/leave') }}"><i class="fa fa-file"></i>&nbsp;&nbsp; Leave</a>
             </li>
             <li class="divider"></li>
-            <li><a href="{{ asset('tracked/cdo') }}"><i class="fa fa-file"></i>&nbsp;&nbsp; CDO</a></li>
-            <li class="divider"></li>
+            <li class="dropdown-submenu">
+                <a href="#" data-toggle="dropdown"><i class="fa fa-file"></i>&nbsp;&nbsp; CTO</a>
+                <ul class="dropdown-menu">
+                    <li><a href="{{ asset('form/cdo_list') }}"><i class="fa fa-file-text"></i> Pending CTO</a></li>
+                </ul>
+            </li>
         </ul>
     </li>
     <li class="dropdown">

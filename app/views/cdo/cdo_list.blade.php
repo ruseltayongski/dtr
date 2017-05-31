@@ -67,21 +67,27 @@
                                                         <thead>
                                                         <tr>
                                                             <th></th>
-                                                            <th>Route #</th>
-                                                            <th>Prepared Name</th>
-                                                            <th>Prepared Date</th>
-                                                            <th>Document Type</th>
-                                                            <th>Subject</th>
+                                                            <th class="text-center">Route #</th>
+                                                            <th class="text-center">Prepared Date</th>
+                                                            @if(\Illuminate\Support\Facades\Auth::user()->usertype)
+                                                            <th class="text-center">Prepared Name</th>
+                                                            @else
+                                                            <th class="text-center">Document Type</th>
+                                                            @endif
+                                                            <th class="text-center">Subject</th>
                                                         </tr>
                                                         </thead>
                                                         <tbody>
                                                         @foreach($cdo as $row)
                                                             <tr>
-                                                                <td><a href="#track" data-link="{{ asset('form/track/'.$row->route_no) }}" data-route="{{ $row->route_no }}" data-toggle="modal" class="btn btn-sm btn-success col-sm-12" style="background-color: darkmagenta;color:white;"><i class="fa fa-line-chart"></i> Track</a></td>
-                                                                <td><a class="title-info" data-backdrop="static" data-route="{{ $row->route_no }}" data-link="{{ asset('/form/info/'.$row->route_no.'/cdo') }}" href="#document_info" data-toggle="modal">{{ $row->route_no }}</a></td>
-                                                                <td>{{ pdoController::user_search1($row->prepared_name)['fname'].' '.pdoController::user_search1($row->prepared_name)['mname'].' '.pdoController::user_search1($row->prepared_name)['lname'] }}</td>
-                                                                <td>{{ date('M d, Y',strtotime($row->prepared_date)) }}<br>{{ date('h:i:s A',strtotime($row->prepared_date)) }}</td>
-                                                                <td>CTO</td>
+                                                                <td class="text-center"><a href="#track" data-link="{{ asset('form/track/'.$row->route_no) }}" data-route="{{ $row->route_no }}" data-toggle="modal" class="btn btn-sm btn-success col-sm-12" style="background-color:darkmagenta;color:white;"><i class="fa fa-line-chart"></i> Track</a></td>
+                                                                <td class="text-center"><a class="title-info" data-backdrop="static" data-route="{{ $row->route_no }}" data-link="{{ asset('/form/info/'.$row->route_no.'/cdo') }}" href="#document_info" data-toggle="modal">{{ $row->route_no }}</a></td>
+                                                                <td class="text-center">{{ date('M d, Y',strtotime($row->prepared_date)) }}<br>{{ date('h:i:s A',strtotime($row->prepared_date)) }}</td>
+                                                                @if(\Illuminate\Support\Facades\Auth::user()->usertype)
+                                                                <td class="text-center">{{ \Illuminate\Support\Facades\Auth::user()->fname.' '.\Illuminate\Support\Facades\Auth::user()->mname.' '.\Illuminate\Support\Facades\Auth::user()->lname }}</td>
+                                                                @else
+                                                                <td class="text-center">CTO</td>
+                                                                @endif
                                                                 <td>{{ $row->subject }}</td>
                                                             </tr>
                                                         @endforeach
@@ -106,6 +112,30 @@
 
 @endsection
 @section('js')
+    @if(Session::get('added'))
+        <script>
+            Lobibox.notify('success',{
+                msg:'Successfully Added!'
+            });
+        </script>
+        <?php Session::forget('added'); ?>
+    @endif
+    @if(Session::get('deleted'))
+        <script>
+            Lobibox.notify('error',{
+                msg:'Successfully Deleted!'
+            });
+        </script>
+        <?php Session::forget('deleted'); ?>
+    @endif
+    @if(Session::get('updated'))
+        <script>
+            Lobibox.notify('info',{
+                msg:'Successfully Updated!'
+            });
+        </script>
+        <?php Session::forget('updated'); ?>
+    @endif
     @parent
     @if(Session::get('added'))
         {{--<div class="alert alert-success">
@@ -138,6 +168,7 @@
         <?php Session::forget('updated'); ?>
     @endif
     <script>
+        $("#inclusive3").daterangepicker();
         $('.input-daterange input').each(function() {
             $(this).datepicker("clearDates");
         });
@@ -186,10 +217,5 @@
             $doc_type = 'CDO';
             ?>
         });
-
-        function soon(){
-            alert("Form version 2 is not available, currently develop");
-        }
-
     </script>
 @endsection

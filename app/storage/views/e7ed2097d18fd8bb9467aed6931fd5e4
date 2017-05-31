@@ -75,7 +75,7 @@
                         <div class="input-group-addon">
                             <i class="fa fa-book"></i>
                         </div>
-                        <textarea name="subject" class="form-control" rows="1" style="resize: none;width: 100%;" required><?php if(isset($data['cdo']['subject'])) echo $data['cdo']['subject'] ?></textarea>
+                        <textarea name="subject" class="form-control" rows="1" style="resize: none;width: 100%;" required><?php if(isset($data['cdo']['subject']) and $data['type'] == 'update') echo $data['cdo']['subject'] ?></textarea>
                     </div>
                 </td>
             </tr>
@@ -194,7 +194,7 @@
                                                 if(\Illuminate\Support\Facades\Auth::user()->usertype)
                                                     echo 'checked';
                                                 else
-                                                    echo 'disabled checked';
+                                                    echo 'disabled';
                                             }
                                             else{
                                                 if(\Illuminate\Support\Facades\Auth::user()->usertype)
