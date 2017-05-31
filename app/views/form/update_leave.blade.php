@@ -141,12 +141,11 @@
                                         <input type="text" name="applied_num_days" />
                                         <div class="form-group">
                                             <label class="control-label" for="inputSuccess1">Inclusive Dates :</label>
-                                            <div class="input-group input-daterange">
-                                                <span class="input-group-addon">From</span>
-                                                <input type="text" class="form-control" name="inc_from" value="{{ $leave->inc_from }}">
-                                                <span class="input-group-addon">To</span>
-                                                <input type="text" class="form-control" name="inc_to" value="{{ $leave->inc_to }}">
-                                                <span class="input-group-addon"></span>
+                                            <div class="input-group">
+                                                <div class="input-group-addon">
+                                                    <i class="fa fa-calendar"></i>
+                                                </div>
+                                                <input type="text" class="form-control" id="inc_date" name="inc_date" placeholder="Input date range here..." required>
                                             </div>
                                         </div>
                                     </div>
@@ -165,7 +164,7 @@
                                                     <div class="has-success">
                                                         <div class="checkbox">
                                                             <label>
-                                                                <input type="radio" id="checkboxSuccess" value="local" name="vication_loc" {{ $leave->vication_loc == "local" ? ' checked' : '' }}>
+                                                                <input type="radio" id="checkboxSuccess" class="vis_dis" value="local" name="vication_loc" {{ $leave->vication_loc == "local" ? ' checked' : '' }}>
                                                                 Within the Philippines
                                                             </label>
                                                         </div>
@@ -173,14 +172,14 @@
                                                     <div class="has-success">
                                                         <div class="checkbox">
                                                             <label>
-                                                                <input type="radio" id="checkboxSuccess" value="abroad" name="vication_loc" {{ $leave->vication_loc == "abroad" ? ' checked' : '' }} >
+                                                                <input type="radio" id="checkboxSuccess" class="vis_dis" value="abroad" name="vication_loc" {{ $leave->vication_loc == "abroad" ? ' checked' : '' }} >
                                                                 Abroad (specify)
                                                             </label>
                                                         </div>
                                                     </div>
                                                     <div class="has-success">
                                                         <div class="form-group has-success">
-                                                            <textarea type="text" class="form-control" maxlength="200" id="inputSuccess1" name="abroad_others">{{ $leave->abroad_others }}</textarea>
+                                                            <textarea type="text" class="form-control vis_dis" maxlength="200" id="inputSuccess1" name="abroad_others">{{ $leave->abroad_others }}</textarea>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -197,18 +196,18 @@
                                                     <div class="has-success">
                                                         <div class="checkbox">
                                                             <label>
-                                                                <input type="radio" id="checkboxSuccess" value="in_hostpital" name="sick_loc" {{ $leave->sick_loc == "in_hostpital" ? ' checked' : '' }}>
+                                                                <input type="radio" id="checkboxSuccess" class="sic_dis" value="in_hostpital" name="sick_loc" {{ $leave->sick_loc == "in_hostpital" ? ' checked' : '' }}>
                                                                 In Hospital (sepecify)
-                                                                <input type="text"  name="in_hospital_specify"/>
+                                                                <input type="text"  name="in_hospital_specify" class="sic_dis"/>
                                                             </label>
                                                         </div>
                                                     </div>
                                                     <div class="has-success">
                                                         <div class="checkbox">
                                                             <label>
-                                                                <input type="radio" id="checkboxSuccess" value="out_patient" name="sick_loc" {{ $leave->sick_loc == "out_patient" ? ' checked' : '' }}>
+                                                                <input type="radio" id="checkboxSuccess" class="sic_dis" value="out_patient" name="sick_loc" {{ $leave->sick_loc == "out_patient" ? ' checked' : '' }}>
                                                                 Out-patient (sepecify)
-                                                                <input type="text" name="out_patient_specify" />
+                                                                <input type="text" name="out_patient_specify" class="sic_dis"/>
                                                             </label>
                                                         </div>
                                                     </div>
@@ -403,6 +402,24 @@
         $('.input-daterange input').each(function() {
             $(this).datepicker({
                 format: 'yyyy/mm/dd'
+            });
+
+            $('#inc_date').daterangepicker();
+            $('input[name="leave_type"]').change(function(){
+                var val = this.value;
+
+                alert(val);
+                if(val != "Vication") {
+                    $('.vic_dis').prop('disabled', true);
+                } else {
+                    $('.vic_dis').prop('disabled', false);
+                }
+
+                if(val != "Sick") {
+                    $('.sic_dis').prop('disabled', true);
+                } else {
+                    $('.sic_dis').prop('disabled', false);
+                }
             });
         });
     </script>

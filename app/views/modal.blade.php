@@ -123,6 +123,41 @@
 </div><!-- /.modal -->
 
 
+<div class="modal fade" tabindex="-1" role="dialog" id="paperSize" style="z-index:999991;">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color: darkmagenta">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4><i class="fa fa-file-pdf-o"></i> Select Paper Size</h4>
+            </div>
+            <div class="modal-body text-center">
+                <div class="col-xs-4">
+                    <a href="{{ asset('pdf/v1/letter') }}" class="text-success" target="_blank">
+                        <i class="fa fa-file-pdf-o fa-5x"></i><br>
+                        Letter
+                    </a>
+                </div>
+                <div class="col-xs-4">
+                    <a href="{{ asset('pdf/v1/a4') }}" class="text-info" target="_blank">
+                        <i class="fa fa-file-pdf-o fa-5x"></i><br>
+                        A4
+                    </a>
+                </div>
+                <div class="col-xs-4">
+                    <a href="{{ asset('pdf/v1/legal') }}" class="text-warning" target="_blank">
+                        <i class="fa fa-file-pdf-o fa-5x"></i><br>
+                        Legal
+                    </a>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+            <br />
+
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
 <center class="modal fade" tabindex="-1" role="dialog" id="upload_loading">
     <img src="{{ asset('public/img/spin.gif') }}" width="150" style="padding:10px; color: whitesmoke;">
     <br />

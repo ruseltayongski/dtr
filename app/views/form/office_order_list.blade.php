@@ -185,7 +185,7 @@
             $('.modal_content').html(loadingState);
             $('.modal-title').html('Route #: '+route_no);
             var url = $(this).data('link');
-
+            alert(url);
             setTimeout(function(){
                 $.ajax({
                     url: url,

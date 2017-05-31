@@ -142,6 +142,22 @@ Route::post('calendar_save','CalendarController@calendar_save');
 Route::get('calendar_delete/{event_id}','CalendarController@calendar_delete');
 Route::post('calendar_update','CalendarController@calendar_update');
 
+
+/////////PDF
+Route::get('pdf/v1/{size}', function($size){
+	$display = View::make("pdf.pdf",['size'=>$size]);
+	$pdf = App::make('dompdf');
+	$pdf->loadHTML($display);
+	return $pdf->setPaper($size, 'portrait')->stream();
+});
+Route::get('pdf/track', function(){
+	$display = View::make("pdf.track");
+	$pdf = App::make('dompdf');
+	$pdf->loadHTML($display);
+	return $pdf->stream();
+});
+
+
 //TEST ROUTES
 Route::get('phpinfo', function() {
 	return phpinfo();

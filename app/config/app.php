@@ -123,7 +123,7 @@ return array(
 		'Illuminate\Workbench\WorkbenchServiceProvider',
 		'Barryvdh\DomPDF\ServiceProvider',
 		'Thujohn\Pdf\PdfServiceProvider',
-
+		'Milon\Barcode\BarcodeServiceProvider',
 	),
 
 	/*
@@ -190,7 +190,9 @@ return array(
 		'URL'             => 'Illuminate\Support\Facades\URL',
 		'Validator'       => 'Illuminate\Support\Facades\Validator',
 		'View'            => 'Illuminate\Support\Facades\View',
-		'PDF' => 'Thujohn\Pdf\PdfFacade',
+		'PDF' 			=> 'Thujohn\Pdf\PdfFacade',
+		'DNS1D' 		=> 'Milon\Barcode\Facades\DNS1DFacade',
+		'DNS2D' 		=> 'Milon\Barcode\Facades\DNS2DFacade',
 	),
 
 );

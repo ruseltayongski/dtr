@@ -198,8 +198,10 @@
                             'type' : 'drop',
                             'event_id' : event.event_id,
                             'start' : event.start.format(),
+                            'end' : event.end.format(),
                             "_token" : $('#token').data('token')
                         };
+
                         $.post(url,object,function(result){
                             Lobibox.notify('warning',{
                                 msg:'Holiday Transferred!'

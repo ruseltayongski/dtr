@@ -6,7 +6,8 @@
 	"require": {
 		"laravel/framework": "4.2.*",
 		"barryvdh/laravel-dompdf": "0.4.*",
-		"thujohn/pdf": "dev-master"
+		"thujohn/pdf": "dev-master",
+		"milon/barcode": "^4.2"
 	},
 	"autoload": {
 		"classmap": [

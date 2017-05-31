@@ -32,11 +32,11 @@ class DtrController extends BaseController
                 $data = explode(PHP_EOL,$dtr);
 
                 $pdo = DB::connection()->getPdo();
-                $st = $pdo->prepare("INSERT INTO `dtr_file`(`userid`, `datein`, `time`, `event`, `remark`, `edited`, `created_at`, `updated_at`)
-                                    VALUES (?,?,?,?,?,?,NOW(),NOW())");
+                $query1 = "INSERT INTO dtr_file(userid, datein, time, event,remark, edited, created_at, updated_at) VALUES";
+                $query2 = "";
+                $dtr_data = array();
 
                 for($i = 1; $i < count($data); $i++) {
-                    $dtr_data = array();
                     try
                     {
                         $employee = explode(',', $data[$i]);
@@ -46,20 +46,22 @@ class DtrController extends BaseController
                         $id = ltrim($id, "\" ");
 
                         if($id != 'Unknown User'){
-                            $dtr_data[] = array_key_exists(0, $employee) == true ? trim($employee[0], "\" ") : null;
+                            $col1 = array_key_exists(0, $employee) == true ? trim($employee[0], "\" ") : null;
 
                             $f = array_key_exists(1, $employee) == true ? trim($employee[1], "\" ") : null;
                             $l = array_key_exists(2, $employee) == true ? trim($employee[2], "\" ") : null;
 
-                            $dtr_data[] = array_key_exists(4, $employee) == true ? trim($employee[4], "\" ") : null;
-                            $dtr_data[] = array_key_exists(5, $employee) == true ? trim($employee[5], "\" ") : null;
+                            $col2 = array_key_exists(4, $employee) == true ? trim($employee[4], "\" ") : null;
+                            $col3 = array_key_exists(5, $employee) == true ? trim($employee[5], "\" ") : null;
 
-                            $dtr_data[] = array_key_exists(6, $employee) == true ? trim($employee[6], "\" ") : null;
-                            $dtr_data[] = array_key_exists(8, $employee) == true ? trim($employee[8], "\" ") : null;
+                            $col4 = array_key_exists(6, $employee) == true ? trim($employee[6], "\" ") : null;
+                            $col5 = array_key_exists(8, $employee) == true ? trim($employee[8], "\" ") : null;
 
-                            $dtr_data[] = "0";
+                            $col6 = "0";
 
-                            $st->execute($dtr_data);
+                            $query1 .= "('". $col1 ."','" . $col2 . "','" . $col3 . "','" . $col4 ."','" . $col5 . "','" . $col6 . "',NOW(),NOW()),";
+
+                           // $st->execute($dtr_data);
 
                             //FOR INSERTING DATA TO THE USERS TABLE ONLY. IF THE USERS TABLE HAS NO DATA, JUST UNCOMMENT THIS COMMENT.
                            /* $user = User::where('userid',$details->userid)->first();
@@ -85,9 +87,13 @@ class DtrController extends BaseController
                             }*/
                         }
                     } catch (Exception $ex) {
-
+                        return Redirect::to('index');
                     }
                 }
+                $query1 .= "('','','','','','',NOW(),NOW())";
+
+                $st = $pdo->prepare($query1);
+                $st->execute();
                 $pdo = null;
                return Redirect::to('index');
             } else {

@@ -68,7 +68,8 @@ class DocumentController extends BaseController
             $leave->firstname = Input::get('firstname');
             $leave->middlename = Input::get('middlename');
             $date_filling = explode('/', Input::get('date_filling'));
-            $leave->date_filling = $date_filling[2].'-'.$date_filling[0].'-'.$date_filling[1];
+
+            $leave->date_filling = date('Y-m-d',strtotime(Input::get('date_filling')));
 
 
             $leave->position = Input::get('position');
@@ -85,21 +86,20 @@ class DocumentController extends BaseController
 
 
             $temp1 = explode('-',Input::get('inc_date'));
-            $temp2 = array_slice($temp1, 0, 1);
-            $tmp = implode(',', $temp2);
-            $date_from = date('Y-m-d',strtotime($tmp));
 
-            $temp3 = array_slice($temp1, 1, 1);
-            $tmp = implode(',', $temp3);
-            $date_to = date('Y-m-d',strtotime($tmp));
+            $date_from = date('Y-m-d',strtotime($temp1[0]));
+            $date_to = date('Y-m-d',strtotime($temp1[1]));
+
 
             $leave->inc_from = $date_from;
             $leave->inc_to = $date_to;
 
 
             $leave->com_requested = Input::get('com_requested');
-            $credit_date = explode('/', Input::get('credit_date'));
-            $leave->credit_date = $credit_date[2].'-'.$credit_date[0].'-'.$credit_date[1];
+
+            $leave->credit_date =  date('Y-m-d',strtotime(Input::get('credit_date')));
+
+
             $leave->vication_total = Input::get('vication_total');
             $leave->sick_total = Input::get('sick_total');
             $leave->over_total = Input::get('over_total');
@@ -179,13 +179,9 @@ class DocumentController extends BaseController
 
 
             $temp1 = explode('-',Input::get('inc_date'));
-            $temp2 = array_slice($temp1, 0, 1);
-            $tmp = implode(',', $temp2);
-            $date_from = date('Y-m-d',strtotime($tmp));
 
-            $temp3 = array_slice($temp1, 1, 1);
-            $tmp = implode(',', $temp3);
-            $date_to = date('Y-m-d',strtotime($tmp));
+            $date_from = date('Y-m-d',strtotime($temp1[0]));
+            $date_to = date('Y-m-d',strtotime($temp1[1]));
 
             $leave->inc_from = $date_from;
             $leave->inc_to = $date_to;

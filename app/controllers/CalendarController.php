@@ -125,13 +125,88 @@ class CalendarController extends BaseController
         {
             return;
         }
-        $request_start = Input::get('start');
-        $calendar = Calendars::where('event_id',Input::get('event_id'))->first();
-
 
         if(Input::get('type') == 'drop') {
 
+
             $calendar = Calendars::where('event_id',Input::get('event_id'))->first();
+            $calendar->start = Input::get('start');
+            $calendar->end = Input::get('end');
+            $calendar->save();
+
+            return;
+            $end_date = date('Y-m-d',(strtotime ( '-1 day' , strtotime (Input::get('end')) ) ));
+            $start = Input::get('start');
+
+            $details = DtrDetails::where('holiday','=', '001')
+                ->whereBetween('datein',[$start,$end_date]);
+            $details->delete();
+
+            $f = new DateTime($start.' '. '00:00:00');
+            $t = new DateTime($end_date.' '. '00:00:00');
+
+            $interval = $f->diff($t);
+
+            $datein = '';
+            $f_from = explode('-',$start);
+            $startday = $f_from[2];
+            $j = 0;
+            while($j <= $interval->days) {
+
+                $datein = $f_from[0].'-'.$f_from[1] .'-'. $startday;
+
+                $details = new DtrDetails();
+                $details->userid = '001';
+                $details->datein = $datein;
+                $details->time = '08:00:00';
+                $details->event = 'IN';
+                $details->remark = $calendar->title;
+                $details->edited = '0';
+                $details->holiday = '001';
+
+                $details->save();
+
+                $details = new DtrDetails();
+                $details->userid = '001';
+
+                $details->datein = $datein;
+                $details->time = '12:00:00';
+                $details->event = 'OUT';
+                $details->remark = $calendar->title;
+                $details->edited = '0';
+                $details->holiday = '001';
+
+                $details->save();
+
+                $details = new DtrDetails();
+                $details->userid = '001';
+
+                $details->datein = $datein;
+                $details->time = '13:00:00';
+                $details->event = 'IN';
+                $details->remark = $calendar->title;
+                $details->edited = '0';
+                $details->holiday = '001';
+
+                $details->save();
+
+                $details = new DtrDetails();
+                $details->userid = '001';
+
+                $details->datein = $datein;
+                $details->time = '18:00:00';
+                $details->event = 'OUT';
+                $details->remark = $calendar->title;
+                $details->edited = '0';
+                $details->holiday = '001';
+
+                $details->save();
+
+                $startday = $startday + 1;
+                $j++;
+            }
+
+
 
 
         }

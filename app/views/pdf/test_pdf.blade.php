@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <meta http-equiv="cache-control" content="max-age=0" />
-    <link rel="icon" href="{{ asset('resources/img/favicon.png') }}">
+    <link rel="icon" href="{{ asset('public/img/favicon.png') }}">
     <!-- Bootstrap core CSS -->
     <link href="{{ asset('resources/assets/css/bootstrap.pdf.css') }}" rel="stylesheet">
     <title>
@@ -19,6 +19,9 @@
         body {
            font-family: "DejaVu Sans", sans-serif;
             font-size: x-small;
+        }
+        table {
+            border : thin;
         }
     </style>
 </head>
@@ -70,7 +73,7 @@
         </td>
         <td>
 
-                (5.) Salary (Monthly)<br /><b>{{ $leave->salary }}</b>
+                (5.) Salary (Monthly)<br /><b>{{ sprintf("%.2f",$leave->salary); }}</b>
 
         </td>
     </tr>
@@ -101,7 +104,7 @@
                             @if($leave->leave_type == "Vication")
                                 <strong><span style="font-family: DejaVu Sans;">&#10004; </span></strong>
                             @else
-                                <span style="text-decoration: underline;width: 20%;" aria-hidden="true">&nbsp;</span>
+                                <span style="text-decoration: underline;width: 10px;" aria-hidden="true">&nbsp;&nbsp;&nbsp;&nbsp;</span>
                             @endif
                         </td>
                         <td><strong>VACATION</strong></td>
@@ -111,7 +114,7 @@
                             @if($leave->leave_type == "To_sake_employement")
                                 <strong><span style="font-family: DejaVu Sans;">&#10004; </span></strong>
                             @else
-                                <span style="text-decoration: underline;width: 20%;" aria-hidden="true">&nbsp;</span>
+                                <span style="text-decoration: underline;width: 10px;" aria-hidden="true">&nbsp;&nbsp;&nbsp;&nbsp;</span>
                             @endif
                         </td>
                         <td><strong>TO SAKE EMPLOYEMENT</strong></td>
@@ -121,7 +124,7 @@
                             @if($leave->leave_type == "Others")
                                 <strong><span style="font-family: DejaVu Sans;">&#10004; </span></strong>
                             @else
-                                <span style="text-decoration: underline;width: 20%;" aria-hidden="true">&nbsp;</span>
+                                <span style="text-decoration: underline;width: 10px;" aria-hidden="true">&nbsp;&nbsp;&nbsp;&nbsp;</span>
                             @endif
                         </td>
                         <td><strong>OTHERS (specify)</strong></td>
@@ -139,7 +142,7 @@
                             @if($leave->leave_type == "Sick")
                                 <strong><span style="font-family: DejaVu Sans;">&#10004; </span></strong>
                             @else
-                                <span style="text-decoration: underline;width: 20%;" aria-hidden="true">&nbsp;</span>
+                                <span style="text-decoration: underline;width: 10px;" aria-hidden="true">&nbsp;&nbsp;&nbsp;&nbsp;</span>
                             @endif
                         </td>
                         <td><strong>SICK</strong></td>
@@ -149,7 +152,7 @@
                             @if($leave->leave_type == "Maternity")
                                 <strong><span style="font-family: DejaVu Sans;">&#10004; </span></strong>
                             @else
-                                <span style="text-decoration: underline;width: 20%;" aria-hidden="true">&nbsp;</span>
+                                <span style="text-decoration: underline;width: 10px;" aria-hidden="true">&nbsp;&nbsp;&nbsp;&nbsp;</span>
                             @endif
                         </td>
                         <td><strong>MATERNITY</strong></td>
@@ -159,7 +162,7 @@
                             @if($leave->leave_type == "Others2")
                                 <strong><span style="font-family: DejaVu Sans;">&#10004; </span></strong>
                             @else
-                                <span style="text-decoration: underline;width: 20%;" aria-hidden="true">&nbsp;</span>
+                                <span style="text-decoration: underline;width: 10px;" aria-hidden="true">&nbsp;&nbsp;&nbsp;&nbsp;</span>
                             @endif
                         </td>
                         <td><strong>OTHERS (specify)</strong></td>
@@ -202,7 +205,7 @@
                             @if($leave->vication_loc == "local")
                                 <strong><span style="font-family: DejaVu Sans;">&#10004; </span></strong>
                             @else
-                                <span style="text-decoration: underline;width: 20%;" aria-hidden="true">&nbsp;</span>
+                                <span style="text-decoration: underline;width: 10px;" aria-hidden="true">&nbsp;&nbsp;&nbsp;&nbsp;</span>
                             @endif
                         </td>
                         <td><strong> Within the Philippines</strong></td>
@@ -212,7 +215,7 @@
                             @if($leave->vication_loc == "abroad")
                                 <strong><span style="font-family: DejaVu Sans;">&#10004; </span></strong>
                             @else
-                                <span style="text-decoration: underline;width: 20%;" aria-hidden="true">&nbsp;</span>
+                                <span style="text-decoration: underline;width: 10px;" aria-hidden="true">&nbsp;&nbsp;&nbsp;&nbsp;</span>
                             @endif
                         </td>
                         <td>
@@ -243,7 +246,7 @@
                             @if($leave->sick_loc == "in_hostpital")
                                 <strong><span style="font-family: DejaVu Sans;">&#10004; </span></strong>
                             @else
-                                <span style="text-decoration: underline;width: 20%;" aria-hidden="true">&nbsp;</span>
+                                <span style="text-decoration: underline;width: 10px;" aria-hidden="true">&nbsp;&nbsp;&nbsp;&nbsp;</span>
                             @endif
                         </td>
                         <td><strong> In Hospital</strong></td>
@@ -265,7 +268,7 @@
                             @if($leave->sick_loc == "out_patient")
                                 <strong><span style="font-family: DejaVu Sans;">&#10004; </span></strong>
                             @else
-                                <span style="text-decoration: underline;width: 20%;" aria-hidden="true">&nbsp;</span>
+                                <span style="text-decoration: underline;width: 10px;" aria-hidden="true">&nbsp;&nbsp;&nbsp;&nbsp;</span>
                             @endif
                         </td>
                         <td>
@@ -385,7 +388,7 @@
                             @if($leave->reco_approval == "approve")
                                 <strong><span style="font-family: DejaVu Sans;">&#10004; </span></strong>
                             @else
-                                <span style="text-decoration: underline;width: 20%;" aria-hidden="true">&nbsp;</span>
+                                <span style="text-decoration: underline;width: 20%;" aria-hidden="true">&nbsp;&nbsp;&nbsp;&nbsp;</span>
                             @endif
                         </td>
                         <td> <strong>Approval</strong></td>
@@ -395,7 +398,7 @@
                             @if($leave->reco_approval == "disapprove")
                                 <strong><span style="font-family: DejaVu Sans;">&#10004; </span></strong>
                             @else
-                                <span style="text-decoration: underline;width: 20%;" aria-hidden="true">&nbsp;</span>
+                                <span style="text-decoration: underline;width: 20%;" aria-hidden="true">&nbsp;&nbsp;&nbsp;&nbsp;</span>
                             @endif
                         </td>
                         <td><strong class="col-sm-6">Disapproval</strong></td>
@@ -407,11 +410,11 @@
                     <tr>
                         <td>&nbsp;</td>
                         <td>
-                                <span class="tab2">
-                                    @if(isset($leave->disaprove_due_to))
-                                        <em>{{ $leave->disaprove_due_to }}</em>
-                                    @endif
-                                </span>
+                            <span class="tab2">
+                                @if(isset($leave->disaprove_due_to))
+                                    <em>{{ $leave->disaprove_due_to }}</em>
+                                @endif
+                            </span>
                         </td>
                     </tr>
                     </tbody>

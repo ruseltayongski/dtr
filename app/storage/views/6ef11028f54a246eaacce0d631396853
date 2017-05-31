@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <meta http-equiv="cache-control" content="max-age=0" />
-    <link rel="icon" href="<?php echo asset('resources/img/favicon.png'); ?>">
+    <link rel="icon" href="<?php echo asset('public/img/favicon.png'); ?>">
     <!-- Bootstrap core CSS -->
     <link href="<?php echo asset('resources/assets/css/bootstrap.pdf.css'); ?>" rel="stylesheet">
     <title>
@@ -19,6 +19,9 @@
         body {
            font-family: "DejaVu Sans", sans-serif;
             font-size: x-small;
+        }
+        table {
+            border : thin;
         }
     </style>
 </head>
@@ -70,8 +73,8 @@
         </td>
         <td>
 
-                (5.) Salary (Monthly)<br /><b><?php echo $leave->salary; ?></b>
-            
+                (5.) Salary (Monthly)<br /><b><?php echo sprintf("%.2f",$leave->salary);; ?></b>
+
         </td>
     </tr>
 </table>
@@ -101,7 +104,7 @@
                             <?php if($leave->leave_type == "Vication"): ?>
                                 <strong><span style="font-family: DejaVu Sans;">&#10004; </span></strong>
                             <?php else: ?>
-                                <span style="text-decoration: underline;width: 20%;" aria-hidden="true">&nbsp;</span>
+                                <span style="text-decoration: underline;width: 10px;" aria-hidden="true">&nbsp;&nbsp;&nbsp;&nbsp;</span>
                             <?php endif; ?>
                         </td>
                         <td><strong>VACATION</strong></td>
@@ -111,7 +114,7 @@
                             <?php if($leave->leave_type == "To_sake_employement"): ?>
                                 <strong><span style="font-family: DejaVu Sans;">&#10004; </span></strong>
                             <?php else: ?>
-                                <span style="text-decoration: underline;width: 20%;" aria-hidden="true">&nbsp;</span>
+                                <span style="text-decoration: underline;width: 10px;" aria-hidden="true">&nbsp;&nbsp;&nbsp;&nbsp;</span>
                             <?php endif; ?>
                         </td>
                         <td><strong>TO SAKE EMPLOYEMENT</strong></td>
@@ -121,7 +124,7 @@
                             <?php if($leave->leave_type == "Others"): ?>
                                 <strong><span style="font-family: DejaVu Sans;">&#10004; </span></strong>
                             <?php else: ?>
-                                <span style="text-decoration: underline;width: 20%;" aria-hidden="true">&nbsp;</span>
+                                <span style="text-decoration: underline;width: 10px;" aria-hidden="true">&nbsp;&nbsp;&nbsp;&nbsp;</span>
                             <?php endif; ?>
                         </td>
                         <td><strong>OTHERS (specify)</strong></td>
@@ -139,7 +142,7 @@
                             <?php if($leave->leave_type == "Sick"): ?>
                                 <strong><span style="font-family: DejaVu Sans;">&#10004; </span></strong>
                             <?php else: ?>
-                                <span style="text-decoration: underline;width: 20%;" aria-hidden="true">&nbsp;</span>
+                                <span style="text-decoration: underline;width: 10px;" aria-hidden="true">&nbsp;&nbsp;&nbsp;&nbsp;</span>
                             <?php endif; ?>
                         </td>
                         <td><strong>SICK</strong></td>
@@ -149,7 +152,7 @@
                             <?php if($leave->leave_type == "Maternity"): ?>
                                 <strong><span style="font-family: DejaVu Sans;">&#10004; </span></strong>
                             <?php else: ?>
-                                <span style="text-decoration: underline;width: 20%;" aria-hidden="true">&nbsp;</span>
+                                <span style="text-decoration: underline;width: 10px;" aria-hidden="true">&nbsp;&nbsp;&nbsp;&nbsp;</span>
                             <?php endif; ?>
                         </td>
                         <td><strong>MATERNITY</strong></td>
@@ -159,7 +162,7 @@
                             <?php if($leave->leave_type == "Others2"): ?>
                                 <strong><span style="font-family: DejaVu Sans;">&#10004; </span></strong>
                             <?php else: ?>
-                                <span style="text-decoration: underline;width: 20%;" aria-hidden="true">&nbsp;</span>
+                                <span style="text-decoration: underline;width: 10px;" aria-hidden="true">&nbsp;&nbsp;&nbsp;&nbsp;</span>
                             <?php endif; ?>
                         </td>
                         <td><strong>OTHERS (specify)</strong></td>
@@ -203,7 +206,7 @@
                             <?php if($leave->vication_loc == "local"): ?>
                                 <strong><span style="font-family: DejaVu Sans;">&#10004; </span></strong>
                             <?php else: ?>
-                                <span style="text-decoration: underline;width: 20%;" aria-hidden="true">&nbsp;</span>
+                                <span style="text-decoration: underline;width: 10px;" aria-hidden="true">&nbsp;&nbsp;&nbsp;&nbsp;</span>
                             <?php endif; ?>
                         </td>
                         <td><strong> Within the Philippines</strong></td>
@@ -213,7 +216,7 @@
                             <?php if($leave->vication_loc == "abroad"): ?>
                                 <strong><span style="font-family: DejaVu Sans;">&#10004; </span></strong>
                             <?php else: ?>
-                                <span style="text-decoration: underline;width: 20%;" aria-hidden="true">&nbsp;</span>
+                                <span style="text-decoration: underline;width: 10px;" aria-hidden="true">&nbsp;&nbsp;&nbsp;&nbsp;</span>
                             <?php endif; ?>
                         </td>
                         <td>
@@ -244,7 +247,7 @@
                             <?php if($leave->sick_loc == "in_hostpital"): ?>
                                 <strong><span style="font-family: DejaVu Sans;">&#10004; </span></strong>
                             <?php else: ?>
-                                <span style="text-decoration: underline;width: 20%;" aria-hidden="true">&nbsp;</span>
+                                <span style="text-decoration: underline;width: 10px;" aria-hidden="true">&nbsp;&nbsp;&nbsp;&nbsp;</span>
                             <?php endif; ?>
                         </td>
                         <td><strong> In Hospital</strong></td>
@@ -267,7 +270,7 @@
                             <?php if($leave->sick_loc == "out_patient"): ?>
                                 <strong><span style="font-family: DejaVu Sans;">&#10004; </span></strong>
                             <?php else: ?>
-                                <span style="text-decoration: underline;width: 20%;" aria-hidden="true">&nbsp;</span>
+                                <span style="text-decoration: underline;width: 10px;" aria-hidden="true">&nbsp;&nbsp;&nbsp;&nbsp;</span>
                             <?php endif; ?>
                         </td>
                         <td>
@@ -388,7 +391,7 @@
                             <?php if($leave->reco_approval == "approve"): ?>
                                 <strong><span style="font-family: DejaVu Sans;">&#10004; </span></strong>
                             <?php else: ?>
-                                <span style="text-decoration: underline;width: 20%;" aria-hidden="true">&nbsp;</span>
+                                <span style="text-decoration: underline;width: 20%;" aria-hidden="true">&nbsp;&nbsp;&nbsp;&nbsp;</span>
                             <?php endif; ?>
                         </td>
                         <td> <strong>Approval</strong></td>
@@ -398,7 +401,7 @@
                             <?php if($leave->reco_approval == "disapprove"): ?>
                                 <strong><span style="font-family: DejaVu Sans;">&#10004; </span></strong>
                             <?php else: ?>
-                                <span style="text-decoration: underline;width: 20%;" aria-hidden="true">&nbsp;</span>
+                                <span style="text-decoration: underline;width: 20%;" aria-hidden="true">&nbsp;&nbsp;&nbsp;&nbsp;</span>
                             <?php endif; ?>
                         </td>
                         <td><strong class="col-sm-6">Disapproval</strong></td>
@@ -410,11 +413,11 @@
                     <tr>
                         <td>&nbsp;</td>
                         <td>
-                                <span class="tab2">
-                                    <?php if(isset($leave->disaprove_due_to)): ?>
-                                        <em><?php echo $leave->disaprove_due_to; ?></em>
-                                    <?php endif; ?>
-                                </span>
+                            <span class="tab2">
+                                <?php if(isset($leave->disaprove_due_to)): ?>
+                                    <em><?php echo $leave->disaprove_due_to; ?></em>
+                                <?php endif; ?>
+                            </span>
                         </td>
                     </tr>
                     </tbody>

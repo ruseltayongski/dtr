@@ -404,6 +404,7 @@
         $('input[name="leave_type"]').change(function(){
             var val = this.value;
 
+
             if(val != "Vication") {
                 $('.vic_dis').prop('disabled', true);
             } else {
