@@ -54,7 +54,7 @@
                                     <div class="row">
                                         <div class="col-md-12">
                                             @if($type == "list")
-                                                <a href="#document_form" data-link="{{ asset('form/cdov1/form') }}" class="btn btn-success" data-dismiss="modal" data-backdrop="static" data-toggle="modal" data-target="#document_form" style="color: white;"><i class="fa fa-plus"></i> Create new</a>
+                                                <a href="#document_form" data-link="{{ asset('form/cdov1/form') }}" class="btn btn-success" data-dismiss="modal" data-backdrop="static" data-toggle="modal" data-target="#document_form" style="background-color:darkmagenta;color: white;"><i class="fa fa-plus"></i> Create new</a>
                                             @endif
                                         </div>
                                     </div>
@@ -77,16 +77,16 @@
                                                             <th class="text-center">Subject</th>
                                                         </tr>
                                                         </thead>
-                                                        <tbody>
+                                                        <tbody style="font-size: 10pt;">
                                                         @foreach($cdo as $row)
                                                             <tr>
-                                                                <td class="text-center"><a href="#track" data-link="{{ asset('form/track/'.$row->route_no) }}" data-route="{{ $row->route_no }}" data-toggle="modal" class="btn btn-sm btn-success col-sm-12" style="background-color:darkmagenta;color:white;"><i class="fa fa-line-chart"></i> Track</a></td>
-                                                                <td class="text-center"><a class="title-info" data-backdrop="static" data-route="{{ $row->route_no }}" data-link="{{ asset('/form/info/'.$row->route_no.'/cdo') }}" href="#document_info" data-toggle="modal">{{ $row->route_no }}</a></td>
-                                                                <td class="text-center">{{ date('M d, Y',strtotime($row->prepared_date)) }}<br>{{ date('h:i:s A',strtotime($row->prepared_date)) }}</td>
+                                                                <td><a href="#track" data-link="{{ asset('form/track/'.$row->route_no) }}" data-route="{{ $row->route_no }}" data-toggle="modal" class="btn btn-sm btn-success col-sm-12" style="background-color:darkmagenta;color:white;"><i class="fa fa-line-chart"></i> Track</a></td>
+                                                                <td><a class="title-info" data-backdrop="static" data-route="{{ $row->route_no }}" data-link="{{ asset('/form/info/'.$row->route_no.'/cdo') }}" href="#document_info" data-toggle="modal">{{ $row->route_no }}</a></td>
+                                                                <td>{{ date('M d, Y',strtotime($row->prepared_date)) }}<br>{{ date('h:i:s A',strtotime($row->prepared_date)) }}</td>
                                                                 @if(\Illuminate\Support\Facades\Auth::user()->usertype)
-                                                                <td class="text-center">{{ \Illuminate\Support\Facades\Auth::user()->fname.' '.\Illuminate\Support\Facades\Auth::user()->mname.' '.\Illuminate\Support\Facades\Auth::user()->lname }}</td>
+                                                                <td>{{ pdoController::user_search1($row['prepared_name'])['fname'].' '.pdoController::user_search1($row['prepared_name'])['mname'].' '.pdoController::user_search1($row['prepared_name'])['lname'] }}</td>
                                                                 @else
-                                                                <td class="text-center">CTO</td>
+                                                                <td>CTO</td>
                                                                 @endif
                                                                 <td>{{ $row->subject }}</td>
                                                             </tr>

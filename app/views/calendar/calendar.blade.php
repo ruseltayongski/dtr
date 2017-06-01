@@ -159,7 +159,7 @@
                             'end' : end_date,
                             "_token" : $('#token').data('token')
                         };
-
+                        console.log(event.end.format()+' '+start_date);
                         $.post(url,object,function(result){
                             Lobibox.notify('info',{
                                 msg:'Successfully Holiday Resized!'

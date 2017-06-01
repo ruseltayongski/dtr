@@ -1,6 +1,4 @@
 @extends('layouts.app')
-
-
 @section('content')
 <div class="col-md-12 wrapper">
     <div class="alert alert-jim">
@@ -55,7 +53,9 @@
                             <div class="panel-body">
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <a class="btn btn-success" data-dismiss="modal" data-backdrop="static" data-toggle="modal" data-target="#form_type"><i class="fa fa-plus"></i> Create new</a>
+                                        @if(!\Illuminate\Support\Facades\Auth::user()->usertype)
+                                        <a class="btn btn-success" data-dismiss="modal" data-backdrop="static" data-toggle="modal" data-target="#form_type" style="background-color: darkmagenta;color: white"><i class="fa fa-plus"></i> Create new</a>
+                                        @endif
                                     </div>
                                 </div>
                                 <br />
@@ -69,17 +69,25 @@
                                                         <th class="text-center"></th>
                                                         <th class="text-center">Route #</th>
                                                         <th class="text-center">Prepared Date</th>
+                                                        @if(\Illuminate\Support\Facades\Auth::user()->usertype)
+                                                        <th class="text-center">Prepared Name</th>
+                                                        @else
                                                         <th class="text-center">Document Type</th>
+                                                        @endif
                                                         <th class="text-center">Subject</th>
                                                     </tr>
                                                     </thead>
-                                                    <tbody>
+                                                    <tbody style="font-size: 10pt;">
                                                     @foreach($office_order as $so)
                                                         <tr>
-                                                            <td class="text-center"><a href="#track" data-link="{{ asset('form/track/'.$so->route_no) }}" data-route="{{ $so->route_no }}" data-toggle="modal" class="btn btn-sm btn-success col-sm-12" ><i class="fa fa-line-chart"></i> Track</a></td>
+                                                            <td class="text-center"><a href="#track" data-link="{{ asset('form/track/'.$so->route_no) }}" data-route="{{ $so->route_no }}" data-toggle="modal" class="btn btn-sm btn-success col-sm-12" style="background-color: darkmagenta;color: white;"><i class="fa fa-line-chart"></i> Track</a></td>
                                                             <td class="text-center"><a class="title-info" data-route="{{ $so->route_no }}" data-backdrop="static" data-link="{{ asset('/form/info/'.$so->route_no.'/office_order') }}" href="#document_info" data-toggle="modal">{{ $so->route_no }}</a></td>
                                                             <td class="text-center">{{ date('M d, Y',strtotime($so->prepared_date)) }}<br>{{ date('h:i:s A',strtotime($so->prepared_date)) }}</td>
+                                                            @if(\Illuminate\Support\Facades\Auth::user()->usertype)
+                                                            <td>{{ pdoController::user_search1($so['prepared_by'])['fname'].' '.pdoController::user_search1($so['prepared_by'])['mname'].' '.pdoController::user_search1($so['prepared_by'])['lname'] }}</td>
+                                                            @else
                                                             <td class="text-center">Office Order</td>
+                                                            @endif
                                                             <td class="text-center">{{ $so->subject }}</td>
                                                         </tr>
                                                     @endforeach

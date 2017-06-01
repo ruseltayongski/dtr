@@ -21,8 +21,9 @@
 </head>
 <body>
 <form action="<?php echo $data['asset']; ?>" method="POST" class="form-submit">
+    <div class="clearfix"></div>
     <div class="new-times-roman table-responsive">
-        <table class="table" cellpadding="0" cellspacing="0">
+        <table cellpadding="0" cellspacing="0">
             <tr>
                 <td class="align"><img src="<?php echo asset('public/img/doh.png'); ?>" width="100"></td>
                 <td width="90%" >
@@ -38,6 +39,7 @@
                 <td class="align"><img src="<?php echo asset('public/img/ro7.png'); ?>" width="100"></td>
             </tr>
         </table>
+        <br>
         <table class="table table-hover table-striped">
             <tr>
                 <td class="col-sm-1">Section: </td>
