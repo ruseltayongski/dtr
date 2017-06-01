@@ -15,29 +15,6 @@ class DocumentController extends BaseController
         //$this->beforeFilter('personal');
     }
 
-    public function index()
-    {
-        $user = Auth::user();
-        $id = $user->id;
-        $keyword = Session::get('keyword');
-
-        $data['documents'] = Tracking::where('prepared_by',$id)
-            ->where(function($q) use ($keyword){
-                $q->where('route_no','like',"%$keyword%")
-                    ->orwhere('description','like',"%$keyword%");
-            })
-            ->orderBy('id','desc')
-            ->paginate(15);
-        $data['access'] = $this->middleware('access');
-        return View::make('document.list',$data);
-
-    }
-
-    public function search(Request $request){
-        Session::put('keyword',Input::keyword);
-        return self::index();
-    }
-
     public  function leave()
     {
 
@@ -266,20 +243,94 @@ class DocumentController extends BaseController
 
     public function so()
     {
-        Session::put('my_id',Auth::user()->id);
         if(Request::method() == 'GET'){
-            $users = User::all();
+            $users = pdoController::users();
             return View::make('form.office_order',['users'=>$users]);
         }
-        if(Request::method() == 'POST'){
+        else if(Request::method() == 'POST'){
+            $route_no = date('Y-') . pdoController::user_search(Auth::user()->userid)['id'] . date('mdHis');
+            $doc_type = 'OFFICE_ORDER';
+            $prepared_date = date('Y-m-d',strtotime(Input::get('prepared_date'))).' '.date('H:i:s');
+            $prepared_by =  pdoController::user_search(Auth::user()->userid)['id'];
+            $description = Input::get('subject');
 
+            //ADD OFFICE ORDER
+            $office_order = new OfficeOrders();
+            $office_order->route_no = $route_no;
+            $office_order->doc_type = $doc_type;
+            $office_order->subject = Input::get('subject');
+            $office_order->header_body = Input::get('header_body');
+            $office_order->footer_body = Input::get('footer_body');
+            $office_order->approved_by = Input::get('approved_by');
+            $office_order->prepared_by = $prepared_by;
+            $office_order->prepared_date = $prepared_date;
+            $office_order->version = 2;
+            $office_order->save();
+
+            //ADD INCLUSIVE NAME
+            $count = 0;
+            foreach(Input::get('inclusive_name') as $row){
+                $inclusive_name = new InclusiveNames();
+                $inclusive_name->route_no = $route_no;
+                $inclusive_name->user_id = Input::get('inclusive_name')[$count];
+                $inclusive_name->status = 1;
+                $inclusive_name->save();
+                $count++;
+            }
+
+            //ADD CALENDAR
+            $count = 0;
+            foreach(Input::get('inclusive') as $result)
+            {
+                $str = $result;
+                $temp1 = explode('-',$str);
+                $temp2 = array_slice($temp1, 0, 1);
+                $tmp = implode(',', $temp2);
+                $start_date = date('Y-m-d',strtotime($tmp));
+
+                $temp3 = array_slice($temp1, 1, 1);
+                $tmp = implode(',', $temp3);
+                $enddate = date_create(date('Y-m-d',strtotime($tmp)));
+                date_add($enddate, date_interval_create_from_date_string('1days'));
+                $end_date = date_format($enddate, 'Y-m-d');
+
+                $so = new Calendars();
+                $so->route_no = $route_no;
+                $so->title = Input::get('subject');
+                $so->start = $start_date;
+                $so->end = $end_date;
+                $so->area = Input::get('area')[$count];
+                $so->backgroundColor = 'rgb(216, 27, 96)';
+                $so->borderColor = 'rgb(216, 27, 96)';
+                $so->status = 0;
+                $so->save();
+                $count++;
+            }
+            //ADD TRACKING MASTER
+            pdoController::insert_tracking_master($route_no,$doc_type,$prepared_date,$prepared_by,$description);
+
+            //ADD TRACKING DETAILS
+            $date_in = $prepared_date;
+            $received_by = $prepared_by;
+            $delivered_by = $prepared_by;
+            $action = $description;
+            pdoController::insert_tracking_details($route_no,$date_in,$received_by,$delivered_by,$action);
+
+            //ADD SYSTEM LOGS
+            $user_id = $prepared_by;
+            $name = Auth::user()->fname.' '.Auth::user()->mname.' '.Auth::user()->lname;
+            $activity = 'Created';
+            pdoController::insert_system_logs($user_id,$name,$activity,$route_no);
+            Session::put('added',true);
+
+            return Redirect::to('form/so_list');
         }
     }
+
     public function so_view()
     {
-        Session::put('my_id',Auth::user()->id);
         if(Request::method() == 'GET'){
-            $users = User::all();
+            $users = pdoController::users();
             $office_order = OfficeOrders::where('route_no',Session::get('route_no'))->get()->first();
             $inclusive_date = Calendars::where('route_no',Session::get('route_no'))->get();
             return View::make('form.office_order_view',['users'=>$users,'office_order'=>$office_order,'inclusive_date'=>$inclusive_date]);
@@ -290,20 +341,21 @@ class DocumentController extends BaseController
     }
     public function so_pdf()
     {
-        Session::put('my_id',Auth::user()->id);
-        $users = $this->users();
+        $users = pdoController::users();
         $office_order = OfficeOrders::where('route_no',Session::get('route_no'))->get()->first();
         $inclusive_name = InclusiveNames::where('route_no',Session::get('route_no'))->get();
         $inclusive_date = Calendars::where('route_no',Session::get('route_no'))->get();
-        $display = View::make('form.office_order_pdf',['users'=>$users,'office_order'=>$office_order,'inclusive_date'=>$inclusive_date,'inclusive_name'=>$inclusive_name]);
-
+        foreach($inclusive_name as $row){
+            $name[] = pdoController::user_search1($row['user_id']);
+        }
+        $display = View::make('form.office_order_pdf',['users'=>$users,'office_order'=>$office_order,'inclusive_date'=>$inclusive_date,'name'=>$name]);
         $pdf = App::make('dompdf');
         $pdf->loadHTML($display)->setPaper('a4','portrait');
 
         if(Session::get('route_no'))
             return $pdf->stream();
         else
-            return Redirect::to('/');
+            return redirect('/');
     }
     public function inclusive_name(){
         $inclusive_name = InclusiveNames::where('route_no',Session::get('route_no'))->get();
@@ -313,6 +365,15 @@ class DocumentController extends BaseController
         return $name;
     }
     public function so_list(){
+        $str = Input::get('filter_range');
+        $temp1 = explode('-',$str);
+        $temp2 = array_slice($temp1, 0, 1);
+        $tmp = implode(',', $temp2);
+        $startdate = date('Y-m-d H:i:s',strtotime($tmp));
+
+        $temp3 = array_slice($temp1, 1, 1);
+        $tmp = implode(',', $temp3);
+        $enddate = date('Y-m-d H:i:s',strtotime($tmp));
 
         Session::put('keyword',Input::get('keyword'));
         $keyword = Session::get('keyword');
@@ -425,6 +486,85 @@ class DocumentController extends BaseController
         Session::put('added',true);
 
         return Redirect::to('form/so_list');
+    }
+
+    public function so_update(){
+        $route_no = Session::get('route_no');
+        $doc_type = 'OFFICE_ORDER';
+        $prepared_date = date('Y-m-d',strtotime(Input::get('prepared_date'))).' '.date('H:i:s');
+        $prepared_by =  pdoController::user_search(Auth::user()->userid)['id'];
+        $description = Input::get('subject');
+
+        //update office order
+        OfficeOrders::where('route_no',$route_no)
+            ->update([
+                'subject' => Input::get('subject'),
+                'header_body' => Input::get('header_body'),
+                'footer_body' => Input::get('footer_body'),
+                'approved_by' => Input::get('approved_by'),
+                'version' => 2
+            ]);
+        //
+
+        //delete
+        InclusiveNames::where('route_no',$route_no)->delete();
+        //
+        //ADD INCLUSIVE NAME
+        $count = 0;
+        foreach(Input::get('inclusive_name') as $row){
+            $inclusive_name = new InclusiveNames();
+            $inclusive_name->route_no = $route_no;
+            $inclusive_name->user_id = Input::get('inclusive_name')[$count];
+            $inclusive_name->status = 1;
+            $inclusive_name->save();
+            $count++;
+        }
+
+        //delete
+        Calendars::where('route_no',$route_no)->delete();
+        //
+        //ADD CALENDAR
+        $count = 0;
+        foreach(Input::get('inclusive') as $result)
+        {
+            $str = $result;
+            $temp1 = explode('-',$str);
+            $temp2 = array_slice($temp1, 0, 1);
+            $tmp = implode(',', $temp2);
+            $start_date = date('Y-m-d',strtotime($tmp));
+
+            $temp3 = array_slice($temp1, 1, 1);
+            $tmp = implode(',', $temp3);
+            $enddate = date_create(date('Y-m-d',strtotime($tmp)));
+            date_add($enddate, date_interval_create_from_date_string('1days'));
+            $end_date = date_format($enddate, 'Y-m-d');
+
+            $so = new Calendars();
+            $so->route_no = $route_no;
+            $so->title = Input::get('subject');
+            $so->start = $start_date;
+            $so->end = $end_date;
+            $so->area = Input::get('area')[$count];
+            $so->backgroundColor = 'rgb(216, 27, 96)';
+            $so->borderColor = 'rgb(216, 27, 96)';
+            $so->status = 0;
+            $so->save();
+            $count++;
+        }
+        //UPDATE TRACKING MASTER
+        pdoController::update_tracking_master($prepared_date,$description,$route_no);
+        //UPDATE TRACKING DETAILS
+        pdoController::update_tracking_details($description,$route_no);
+
+        //ADD SYSTEM LOGS
+        $user_id = $prepared_by;
+        $name = Auth::user()->fname.' '.Auth::user()->mname.' '.Auth::user()->lname;
+        $activity = 'Updated';
+        pdoController::insert_system_logs($user_id,$name,$activity,$route_no);
+        Session::put('updated',true);
+
+
+        return Redirect::back();
     }
 
     public function so_updatev1(){
