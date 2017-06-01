@@ -13,14 +13,14 @@
                         <div class="panel panel-default">
                             <div class="panel-heading"><strong style="color: #f0ad4e;font-size:medium;">Option</strong></div>
                             <div class="panel-body">
-                                <form class="form-inline" method="POST" action="{{ asset('search') }}" onsubmit="return searchDocument();" id="searchForm">
+                                <form class="form-inline" method="POST" action="{{ asset('form/so_list') }}" id="searchForm">
                                     <div class="table-responsive">
                                         <table class="table">
                                             <tr>
                                                 <td class="col-sm-3" style="font-size: 12px;"><strong>Keyword</strong></td>
                                                 <td class="col-sm-1">: </td>
                                                 <td class="col-sm-9">
-                                                    <input type="text" class="col-md-2 form-control" id="inputEmail3" name="keyword" placeholder="Route no, Subject">
+                                                    <input type="text" class="col-md-2 form-control" value="{{ Session::get('keyword') }}" id="inputEmail3" name="keyword" placeholder="Route no, Subject">
                                                 </td>
                                             </tr>
                                             <tr>
@@ -146,7 +146,6 @@
             $('.modal_content').html(loadingState);
             $('.modal-title').html('Route #: '+route_no);
             var url = $(this).data('link');
-            alert(url);
             setTimeout(function(){
                 $.ajax({
                     url: url,
@@ -158,7 +157,7 @@
                         $('input').attr('autocomplete', 'off');
                     }
                 });
-            },1000);
+            },700);
         });
 
         $("a[href='#document_form']").on('click',function(){
