@@ -52,7 +52,7 @@
                             <div class="panel-body">
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <form class="form-inline" method="POST" action="<?php echo asset('personal/index'); ?>"  id="searchForm">
+                                        <form class="form-inline" method="GET" action="<?php echo asset('personal/search'); ?>"  id="searchForm">
                                             <div class="form-group">
                                                 <div class="input-group">
                                                     <div class="input-group-addon">
@@ -90,7 +90,7 @@
                                                                 </a>
 
                                                             </td>
-                                                            <td class="text-center"><strong><a href="#"> <?php echo date("h:i A", strtotime($list->time)); ?></a></strong></td>
+                                                            <td class="text-center"><strong><a href="#"> <?php echo date("h:i:s A", strtotime($list->time)); ?></a></strong></td>
                                                             <td class="text-center"><strong><a href="#"><?php echo $list->event; ?></a> </strong></td>
                                                             <td class="text-center">
                                                                <strong><a href="#"><?php echo $list->remark; ?></a> </strong>

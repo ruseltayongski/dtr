@@ -5,7 +5,7 @@
         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-file"></i> Manage DTR<span class="caret"></span></a>
         <ul class="dropdown-menu">
             <li class="dropdown-submenu">
-                <a href="#"><i class="fa fa-unlock"></i>&nbsp;&nbsp; Employee DTR</a>
+                <a href="#"><i class="fa fa-unlock"></i> Employee DTR</a>
                 <ul class="dropdown-menu">
                     <li><a href="{{ asset('dtr/list/jo') }}">Job Order</a></li>
                     <li><a href="{{ asset('dtr/list/regular') }}">Regular Employee</a></li>
@@ -13,19 +13,19 @@
             </li>
             <li class="divider"></li>
             <li>
-                <a href="{{ asset('print/individual') }}"><i class="fa fa-print"></i>&nbsp;&nbsp; Print Individual</a>
+                <a href="{{ asset('print/individual') }}"><i class="fa fa-print"></i> Print Individual</a>
             </li>
             <li class="divider"></li>
             <li>
-                <a href="{{ asset('work-schedule') }}"><i class="fa fa-clock-o"></i>&nbsp;&nbsp; Work Schedule</a>
+                <a href="{{ asset('work-schedule') }}"><i class="fa fa-clock-o"></i> Work Schedule</a>
             </li>
             <li class="divider"></li>
-            <li><a href="{{ url('calendar') }}"><i class="fa fa-calendar"></i>&nbsp;&nbsp; Holidays Calendar</a></li>
+            <li><a href="{{ url('calendar') }}"><i class="fa fa-calendar"></i> Holidays Calendar</a></li>
             <li class="divider"></li>
 
             <li class="divider"></li>
             <li class="dropdown-submenu">
-                <a href="#"><i class="fa fa-clock-o"></i>&nbsp;&nbsp; Employees</a>
+                <a href="#"><i class="fa fa-clock-o"></i> Employees</a>
                 <ul class="dropdown-menu">
                     <li><a href="{{ asset('list/job-order') }}">Job Order</a></li>
                     <div class="divider"></div>
@@ -43,15 +43,15 @@
         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="glyphicon glyphicon-duplicate"></i> Tracking Documents<span class="caret"></span></a>
         <ul class="dropdown-menu">
             <li>
-                <a href="{{ asset('tracked/so') }}"><i class="fa fa-file"></i>&nbsp;&nbsp; Office Order</a>
+                <a href="{{ asset('tracked/so') }}"><i class="fa fa-file"></i> Office Order</a>
             </li>
             <li class="divider"></li>
             <li>
-                <a href="{{ asset('tracked/leave') }}"><i class="fa fa-file"></i>&nbsp;&nbsp; Leave</a>
+                <a href="{{ asset('tracked/leave') }}"><i class="fa fa-file"></i> Leave</a>
             </li>
             <li class="divider"></li>
             <li class="dropdown-submenu">
-                <a href="#" data-toggle="dropdown"><i class="fa fa-file"></i>&nbsp;&nbsp; CTO</a>
+                <a href="#" data-toggle="dropdown"><i class="fa fa-file"></i> CTO</a>
                 <ul class="dropdown-menu">
                     <li><a href="{{ asset('form/cdo_list') }}"><i class="fa fa-file-text"></i> Pending CTO</a></li>
                 </ul>
@@ -61,11 +61,11 @@
     <li class="dropdown">
         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-user"></i> Account<span class="caret"></span></a>
         <ul class="dropdown-menu">
-            <li><a href="{{ asset('add')}}"><i class="fa fa-plus"></i>&nbsp;&nbsp; Add user</a></li>
+            <li><a href="{{ asset('add')}}"><i class="fa fa-plus"></i> Add user</a></li>
             <li class="divider"></li>
-            <li><a href="{{ asset('resetpass')}}"><i class="fa fa-unlock"></i>&nbsp;&nbsp; Change Password</a></li>
+            <li><a href="{{ asset('resetpass')}}"><i class="fa fa-unlock"></i> Change Password</a></li>
             <li class="divider"></li>
-            <li><a href="{{ url('/logout') }}"><i class="fa fa-sign-out"></i>&nbsp;&nbsp; Logout</a></li>
+            <li><a href="{{ url('/logout') }}"><i class="fa fa-sign-out"></i> Logout</a></li>
         </ul>
     </li>
 </ul>

@@ -69,7 +69,7 @@ class DtrController extends BaseController
                              if( !isset($user) and !count($user) > 0){
                                  $user = new User();
                                  $user->fname = $f;
-                                 $user->lname = $l;
+                                 $user->lname = $l;`
                                  $user->userid = $details->userid;
                                  $user->username = $details->userid;
                                  $user->password = Hash::make($details->userid);
@@ -112,52 +112,7 @@ class DtrController extends BaseController
         return view('dashboard.dtrlist')->with('lists', $lists);
     }
 
-    public function search()
-    {
-        $lists = null;
-        if (Input::has('keyword')) {
-            $keyword = Input::get('keyword');
-            Session::put('keyword', $keyword);
 
-        }
-        if (Input::has('from') and Input::has('to')) {
-            Session::forget('keyword');
-            $_from = explode('/', Input::get('from'));
-            $_to = explode('/', Input::get('to'));
-
-            $f_from = $_from[2] . '-' . $_from[0] . '-' . $_from[1];
-            $f_to = $_to[2] . '-' . $_to[0] . '-' . $_to[1];
-            Session::put('f_from', $f_from);
-            Session::put('f_to', $f_to);
-
-        }
-
-        if (Session::has('f_from') and Session::has('f_to') and Session::has('keyword')) {
-            $f_from = Session::get('f_from');
-            $f_to = Session::get('f_to');
-            $keyword = Session::get('keyword');
-            $lists = DtrDetails::where('department', '<>', '- -')
-                ->where('datein', '>=', $f_from)
-                ->where('datein', '<=', $f_to)
-                ->orWhere('userid', 'LIKE', '%' . $keyword . '%')
-                ->orWhere('firstname', 'LIKE', '%' . $keyword . '%')
-                ->orWhere('lastname', 'LIKE', '%' . $keyword . '%')
-                ->orderBy('datein', 'ASC')
-                ->paginate(20);
-
-        }
-        if (Session::has('keyword')) {
-            $keyword = Session::get('keyword');
-            $lists = DB::table('dtr_file')->where('userid', '!=', "")
-                ->orWhere('userid', 'LIKE', '%' . $keyword . '%')
-                ->orWhere('firstname', 'LIKE', '%' . $keyword . '%')
-                ->orWhere('lastname', 'LIKE', '%' . $keyword . '%')
-                ->orderBy('userid', 'DESC')
-                ->paginate(20);
-
-        }
-        return View::make('home')->with('lists', $lists);
-    }
 
     public function create_attendance()
     {

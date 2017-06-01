@@ -55,7 +55,7 @@
                             <div class="panel-body">
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <form class="form-inline" method="POST" action="{{ asset('personal/index') }}"  id="searchForm">
+                                        <form class="form-inline" method="GET" action="{{ asset('personal/search') }}"  id="searchForm">
                                             <div class="form-group">
                                                 <div class="input-group">
                                                     <div class="input-group-addon">
@@ -93,7 +93,7 @@
                                                                 </a>
 
                                                             </td>
-                                                            <td class="text-center"><strong><a href="#"> {{ date("h:i A", strtotime($list->time)) }}</a></strong></td>
+                                                            <td class="text-center"><strong><a href="#"> {{ date("h:i:s A", strtotime($list->time)) }}</a></strong></td>
                                                             <td class="text-center"><strong><a href="#">{{ $list->event }}</a> </strong></td>
                                                             <td class="text-center">
                                                                <strong><a href="#">{{ $list->remark }}</a> </strong>
