@@ -75,27 +75,27 @@
                                                     <table class="table table-list table-hover table-striped">
                                                         <thead>
                                                         <tr style="background-color:grey;">
-                                                            <td><b>Date Created</b></td>
-                                                            <td><b>Application for Leave</b></td>
-                                                            <td width="30%">
-                                                                <b><span class="glyphicon glyphicon-cog" aria-hidden="true"></span></b>
-                                                            </td>
+                                                            <th class="text-center"></th>
+                                                            <th class="text-center">Route #</th>
+                                                            <th class="text-center"><b>Date Created</b></th>
+                                                            <th class="text-center"><b>Application for Leave</b></th>
+
                                                         </tr>
                                                         </thead>
                                                         <tbody>
                                                         @foreach($leaves as $leave)
                                                             <tr>
-                                                                <td style="color: #c87f0a;">
-                                                                    <a href="#leave" data-toggle="modal" data-link="{{ asset('leave/get') }}" data-id="{{ $leave->id }}"><b>{{ $leave->date_filling }}</b></a>
+                                                                <td class="text-center">
+                                                                    <a href="#track" data-link="{{ asset('form/track/'.$leave->route_no) }}" data-route="{{ $leave->route_no }}" data-toggle="modal" class="btn btn-sm btn-success col-sm-12" ><i class="fa fa-line-chart"></i> Track</a>
                                                                 </td>
-                                                                <td>{{ $leave->leave_type }}</td>
-                                                                <td>
-                                                                    <b>
-                                                                        <a class="btn btn-info" href="{{ asset('leave/update/' . $leave->id) }}">Edit</a>
-                                                                        <a class="btn btn-warning" href="{{ asset('leave/delete/' .$leave->id) }}">Delete</a>
-                                                                        <a target="_blank" class="btn btn-success" href="{{ asset('leave/print/' .$leave->id) }}">Print</a>
-                                                                    </b>
+                                                                <td class="text-center">
+                                                                    <a class="title-info" data-route="{{ $leave->route_no }}" data-id="{{ $leave->id }}" data-backdrop="static" data-link="{{ asset('leave/get') }}" href="#leave_info" data-toggle="modal">{{ $leave->route_no }}</a>
                                                                 </td>
+
+                                                                <td class="text-center">
+                                                                    <a href="#" data-toggle="modal"><b>{{ $leave->date_filling }}</b></a>
+                                                                </td>
+                                                                <td class="text-center">{{ $leave->leave_type }}</td>
                                                             </tr>
                                                         @endforeach
                                                         </tbody>
@@ -122,13 +122,13 @@
     <script>
         $('#inclusive3').daterangepicker();
 
-        $('a[href="#leave').click(function(){
+        $('a[href="#leave_info').click(function(){
             var id = $(this).data('id');
             var url = $(this).data('link');
 
             $.get(url +'/' +id , function(data){
-                $('#leave_form').modal('show');
-                $('.modal-body').html(data);
+                $('#leave_info').modal('show');
+                $('.modal-body_leave').html(data);
             });
         });
     </script>

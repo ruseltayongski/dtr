@@ -502,8 +502,8 @@ function get_logs($am_in,$am_out,$pm_in,$pm_out,$id,$date_from,$date_to)
     $query = "SELECT DISTINCT e.userid, datein,holiday,
 
                     (SELECT DISTINCT MIN(t1.time) FROM dtr_file t1 WHERE userid = d.userid and datein = d.datein and t1.time < '". $am_out ."') as am_in,
-                    (SELECT DISTINCT MAX(t2.time) FROM dtr_file t2 WHERE userid = d.userid and datein = d.datein and t2.time < '". $pm_in."' AND t2.event = 'OUT') as am_out,
-                    (SELECT DISTINCT MIN(t3.time) FROM dtr_file t3 WHERE userid = d.userid AND datein = d.datein and t3.time >= '". $am_out."' and t3.time < '". $pm_out."' AND t3.event = 'IN' ) as pm_in,
+                    (SELECT DISTINCT t2.time FROM dtr_file t2 WHERE userid = d.userid and datein = d.datein and t2.time < '". $pm_in."' AND t2.event = 'OUT') as am_out,
+                    (SELECT DISTINCT t3.time FROM dtr_file t3 WHERE userid = d.userid AND datein = d.datein and t3.time >= '". $am_out."' and t3.time < '". $pm_out."' AND t3.event = 'IN' ) as pm_in,
                     (SELECT DISTINCT MAX(t4.time) FROM dtr_file t4 WHERE userid = d.userid AND datein = d.datein and t4.time > '". $pm_in ."' and t4. time < '24:00:00') as pm_out,
 
                     (SELECT t1.edited FROM dtr_file t1 WHERE userid = d.userid and datein = d.datein and t1.time < '". $am_out ."' AND t1.edited = '1' LIMIT 1) as e1,

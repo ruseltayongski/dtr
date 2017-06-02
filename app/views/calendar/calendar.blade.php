@@ -149,6 +149,7 @@
                         var date = new Date(event.end.toString());
                         var end_date = date.toLocaleDateString();
                         var start = new Date(event.start.toString());
+
                         var start_date = start.toLocaleDateString();
 
                         var url = $('#calendar_update').data('link');
@@ -193,20 +194,30 @@
                         });
                     },
                     eventDrop: function(event,jsEvent) {
+
+                        var start = new Date(event.start.toString());
+                        var start_date = start.toLocaleDateString();
+
+                        var start = new Date(event.start.toString());
+                        start.setDate(start.getDate() + 1);
+                        var end_date = start.toLocaleDateString();
+
+
+
                         var url = $('#calendar_update').data('link');
                         var object = {
                             'type' : 'drop',
                             'event_id' : event.event_id,
-                            'start' : event.start.format(),
-                            'end' : event.end.format(),
+                            'start' : start_date,
+                            'end' : end_date,
                             "_token" : $('#token').data('token')
                         };
 
-                        $.post(url,object,function(result){
+                     /*   $.post(url,object,function(result){
                             Lobibox.notify('warning',{
                                 msg:'Holiday Transferred!'
                             });
-                        });
+                        });*/
                     },
                     eventMouseover: function(event, jsEvent, view) {
                         //var tooltip = '<div class="tooltipevent" id='+event.id+'>' + event.title + '</div>';

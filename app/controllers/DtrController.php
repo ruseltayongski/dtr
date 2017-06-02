@@ -69,7 +69,7 @@ class DtrController extends BaseController
                              if( !isset($user) and !count($user) > 0){
                                  $user = new User();
                                  $user->fname = $f;
-                                 $user->lname = $l;`
+                                 $user->lname = $l;
                                  $user->userid = $details->userid;
                                  $user->username = $details->userid;
                                  $user->password = Hash::make($details->userid);
@@ -240,15 +240,27 @@ class DtrController extends BaseController
     public function filter_attendance()
     {
 
-        if(Input::has('keyword') || Input::has('filter_range')) {
+        if(Input::has('filter_range')) {
 
-            $temp1 = explode('-',Input::get('filter_range'));
-
-            $date_from = date('Y-m-d',strtotime($temp1[0]));
-            $date_to = date('Y-m-d',strtotime($temp1[1]));
+            $temp1 = explode('-', Input::get('filter_range'));
 
 
-            $keyword = Input::get('keyword');
+            $date_from = date('Y-m-d', strtotime($temp1[0]));
+            $date_to = date('Y-m-d', strtotime($temp1[1]));
+
+
+            Session::put('keyword', Input::get('q'));
+            Session::put('date_from', $date_from);
+            Session::put('date_to', $date_to);
+
+        }
+        if(Session::has('date_from') and Session::has('date_to') or Session::has('q')) {
+
+            $keyword = Session::get('keyword');
+            $date_from = Session::get('date_from');
+            $date_to = Session::get('date_to');
+
+
             $lists = DB::table('users')
                 ->leftJoin('dtr_file', function($join){
                     $join->on('users.userid','=','dtr_file.userid');
@@ -259,11 +271,12 @@ class DtrController extends BaseController
                         ->orwhere('userid','like',"%$keyword%");
                 })
                 ->whereBetween('dtr_file.datein', array($date_from,$date_to))
-                ->where('usertype','=', '0')
-                ->orderBy('fname', 'ASC')
+                ->where('users.usertype','=', '0')
+                ->orderBy('users.fname', 'ASC')
                 ->paginate(40);
             return View::make('dtr.attendance')->with('lists',$lists);
         }
-        return Redirect::to('index');
+
+
     }
 }

@@ -28,18 +28,12 @@ class DocumentController extends BaseController
 
             $route_no = date('Y-') . Auth::user()->userid . date('mdHis');
 
-
-            $doc_type = 'LEAVE';
-            $prepared_date = Input::get('prepared_date');
-            $prepared_by =  Auth::user()->userid;
-            $description = Input::get('subject');
-
-            
             
             $leave = new Leave();
 
 
             $leave->userid = Auth::user()->userid;
+            $leave->route_no = $route_no;
             $leave->office_agency = Input::get('office_agency');
             $leave->lastname = Input::get('lastname');
             $leave->firstname = Input::get('firstname');
@@ -91,28 +85,28 @@ class DocumentController extends BaseController
 
 
 
-            $route_no = date('Y-') . Auth::user()->userid . date('mdHis');
 
-
-            $doc_type = 'LEAVE';
+            $doc_type = 'APP_LEAVE';
             $prepared_date = Input::get('prepared_date');
             $prepared_by =  Auth::user()->userid;
             $description = "Application for leave";
 
-            $this->insert_tracking_master($route_no,$doc_type,$prepared_date,$prepared_by,$description);
+            pdoController::insert_tracking_master($route_no,$doc_type,$prepared_date,$prepared_by,$description);
+
+
 
             //ADD TRACKING DETAILS
             $date_in = $prepared_date;
             $received_by = $prepared_by;
             $delivered_by = $prepared_by;
             $action = $description;
-            $this->insert_tracking_details($route_no,$date_in,$received_by,$delivered_by,$action);
+            pdoController::insert_tracking_details($route_no,$date_in,$received_by,$delivered_by,$action);
 
             //ADD SYSTEM LOGS
             $user_id = $prepared_by;
             $name = Auth::user()->fname.' '.Auth::user()->mname.' '.Auth::user()->lname;
             $activity = 'CREATED';
-            $this->insert_system_logs($user_id,$name,$activity);
+            pdoController::insert_system_logs($user_id,$name,$activity,$route_no);
             Session::put('added',true);
 
 
@@ -202,6 +196,7 @@ class DocumentController extends BaseController
 
     public function print_leave($id)
     {
+
         $leave = Leave::find($id);
         $display = View::make('pdf.test_pdf')->with('leave', $leave);
         return PDF::load($display, 'LEGAL', 'portrait')->show();

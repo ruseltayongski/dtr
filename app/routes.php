@@ -40,7 +40,7 @@ Route::match(array('GET','POST'), 'create/work-schedule', 'HoursController@work_
 Route::match(array('GET','POST') , 'edit/work-schedule/{id}' ,'HoursController@edit_schedule');
 Route::match(array('GET','POST') , 'edit/attendance/{id?}', 'DtrController@edit_attendance');
 Route::get('attendance','DtrController@attendance');
-Route::get('filter/attendance', 'DtrController@filter_attendance');
+Route::get('attendance/q', 'DtrController@filter_attendance');
 Route::match(array('GET','POST'),'resetpass', 'PasswordController@change_password');
 //Route::post('/', 'PasswordController@save_changes');
 

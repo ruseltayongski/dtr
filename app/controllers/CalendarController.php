@@ -121,6 +121,8 @@ class CalendarController extends BaseController
 
     public function calendar_update()
     {
+
+
         if(Auth::user()->usertype == "0")
         {
             return;
@@ -134,7 +136,7 @@ class CalendarController extends BaseController
             $calendar->end = Input::get('end');
             $calendar->save();
 
-            return;
+
             $end_date = date('Y-m-d',(strtotime ( '-1 day' , strtotime (Input::get('end')) ) ));
             $start = Input::get('start');
 

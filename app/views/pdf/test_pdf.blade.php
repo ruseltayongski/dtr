@@ -1,19 +1,10 @@
 
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <meta http-equiv="cache-control" content="max-age=0" />
-    <link rel="icon" href="{{ asset('public/img/favicon.png') }}">
-    <!-- Bootstrap core CSS -->
-    <link href="{{ asset('resources/assets/css/bootstrap.pdf.css') }}" rel="stylesheet">
+
     <title>
-        Application fo Leave
+        Application fo Leaves
     </title>
     <style>
         body {
@@ -23,6 +14,7 @@
         table {
             border : thin;
         }
+
     </style>
 </head>
 
@@ -63,17 +55,17 @@
     <tr>
         <td>
 
-                (3.) Date of Filling<br /><b>{{ $leave->date_filling }}</b>
+            (3.) Date of Filling<br /><b>{{ $leave->date_filling }}</b>
 
         </td>
         <td>
 
-                (4.) Position<br /><b>{{ $leave->position }}</b>
+            (4.) Position<br /><b>{{ $leave->position }}</b>
 
         </td>
         <td>
 
-                (5.) Salary (Monthly)<br /><b>{{ sprintf("%.2f",$leave->salary); }}</b>
+            (5.) Salary (Monthly)<br /><b>{{ sprintf("%.2f",$leave->salary); }}</b>
 
         </td>
     </tr>
@@ -86,242 +78,226 @@
     </tr>
     </tbody>
 </table>
-<table border="1" style="width: 100%;" >
-    <thead></thead>
-    <tbody>
+<table border="1" style="width: 100%;">
     <tr>
-        <td style="width: 50%;">
+        <td style="padding:10px;">
+            <strong>(6a) TYPE OF LEAVE</strong>
+            <br /><br />
+            <table border="0" style="width: 100%;">
+                <tr>
+                    <td style="width: 20%;">
+                        @if($leave->leave_type == "Vication")
+                            <strong><span style="font-family: DejaVu Sans;">&#10004; </span></strong>
+                        @else
+                            <span style="text-decoration: underline;width: 10px;" aria-hidden="true">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                        @endif
+                    </td>
+                    <td><strong>VACATION</strong></td>
+                </tr>
+                <tr>
+                    <td style="width: 20%;">
+                        @if($leave->leave_type == "To_sake_employement")
+                            <strong><span style="font-family: DejaVu Sans;">&#10004; </span></strong>
+                        @else
+                            <span style="text-decoration: underline;width: 10px;" aria-hidden="true">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                        @endif
+                    </td>
+                    <td><strong>TO SAKE EMPLOYEMENT</strong></td>
+                </tr>
+                <tr>
+                    <td style="width: 20%;">
+                        @if($leave->leave_type == "Others")
+                            <strong><span style="font-family: DejaVu Sans;">&#10004; </span></strong>
+                        @else
+                            <span style="text-decoration: underline;width: 10px;" aria-hidden="true">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                        @endif
+                    </td>
+                    <td><strong>OTHERS (specify)</strong></td>
+                </tr>
+                <tr>
+                    <td>&nbsp;</td>
+                    <td>
+                        @if(isset($leave->leave_type_others_1))
+                            <span class="tab2"><em>{{  $leave->leave_type_others_1 }}</em></span>
+                        @endif
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @if($leave->leave_type == "Sick")
+                            <strong><span style="font-family: DejaVu Sans;">&#10004; </span></strong>
+                        @else
+                            <span style="text-decoration: underline;width: 10px;" aria-hidden="true">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                        @endif
+                    </td>
+                    <td><strong>SICK</strong></td>
+                </tr>
+                <tr>
+                    <td>
+                        @if($leave->leave_type == "Maternity")
+                            <strong><span style="font-family: DejaVu Sans;">&#10004; </span></strong>
+                        @else
+                            <span style="text-decoration: underline;width: 10px;" aria-hidden="true">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                        @endif
+                    </td>
+                    <td><strong>MATERNITY</strong></td>
+                </tr>
+                <tr>
+                    <td>
+                        @if($leave->leave_type == "Others2")
+                            <strong><span style="font-family: DejaVu Sans;">&#10004; </span></strong>
+                        @else
+                            <span style="text-decoration: underline;width: 10px;" aria-hidden="true">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                        @endif
+                    </td>
+                    <td><strong>OTHERS (specify)</strong></td>
+                </tr>
+                <tr>
+                    <td>&nbsp;</td>
+                    <td>
+                        @if(isset($leave->leave_type_others_2))
+                            <span class="tab2"><em>{{  $leave->leave_type_others_2 }}</em></span>
+                        @endif
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <strong>(6c) NUMBER OF WORKING DAYS APPLIED <br /> FOR :
+                @if(isset($leave->applied_num_days))
+                    <span style="text-decoration: underline;" class="tab2">{{ $leave->applied_num_days }}</span>
+                @endif
+            </strong>
             <div style="padding:10px;width: 100%;">
-                <strong>(6a) TYPE OF LEAVE</strong>
-                <br /><br />
-                <table border="0" style="width: 100%;">
-                    <thead>
-                    <tr><th></th><th></th></tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <td style="width: 20%;">
-                            @if($leave->leave_type == "Vication")
-                                <strong><span style="font-family: DejaVu Sans;">&#10004; </span></strong>
-                            @else
-                                <span style="text-decoration: underline;width: 10px;" aria-hidden="true">&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                            @endif
-                        </td>
-                        <td><strong>VACATION</strong></td>
-                    </tr>
-                    <tr>
-                        <td style="width: 20%;">
-                            @if($leave->leave_type == "To_sake_employement")
-                                <strong><span style="font-family: DejaVu Sans;">&#10004; </span></strong>
-                            @else
-                                <span style="text-decoration: underline;width: 10px;" aria-hidden="true">&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                            @endif
-                        </td>
-                        <td><strong>TO SAKE EMPLOYEMENT</strong></td>
-                    </tr>
-                    <tr>
-                        <td style="width: 20%;">
-                            @if($leave->leave_type == "Others")
-                                <strong><span style="font-family: DejaVu Sans;">&#10004; </span></strong>
-                            @else
-                                <span style="text-decoration: underline;width: 10px;" aria-hidden="true">&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                            @endif
-                        </td>
-                        <td><strong>OTHERS (specify)</strong></td>
-                    </tr>
-                    <tr>
-                        <td>&nbsp;</td>
-                        <td>
-                            @if(isset($leave->leave_type_others_1))
-                                <span class="tab2"><em>{{  $leave->leave_type_others_1 }}</em></span>
-                            @endif
-                        </td>
-                    </tr>
-                    <tr>
-                        <td style="width: 20%;">
-                            @if($leave->leave_type == "Sick")
-                                <strong><span style="font-family: DejaVu Sans;">&#10004; </span></strong>
-                            @else
-                                <span style="text-decoration: underline;width: 10px;" aria-hidden="true">&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                            @endif
-                        </td>
-                        <td><strong>SICK</strong></td>
-                    </tr>
-                    <tr>
-                        <td style="width: 20%;">
-                            @if($leave->leave_type == "Maternity")
-                                <strong><span style="font-family: DejaVu Sans;">&#10004; </span></strong>
-                            @else
-                                <span style="text-decoration: underline;width: 10px;" aria-hidden="true">&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                            @endif
-                        </td>
-                        <td><strong>MATERNITY</strong></td>
-                    </tr>
-                    <tr>
-                        <td style="width: 20%;">
-                            @if($leave->leave_type == "Others2")
-                                <strong><span style="font-family: DejaVu Sans;">&#10004; </span></strong>
-                            @else
-                                <span style="text-decoration: underline;width: 10px;" aria-hidden="true">&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                            @endif
-                        </td>
-                        <td><strong>OTHERS (specify)</strong></td>
-                    </tr>
-                    <tr>
-                        <td>&nbsp;</td>
-                        <td>
-                            @if(isset($leave->leave_type_others_2))
-                                <span class="tab2"><em>{{  $leave->leave_type_others_2 }}</em></span>
-                            @endif
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-                <strong>(6c) NUMBER OF WORKING DAYS APPLIED <br /> FOR :
-                    @if(isset($leave->applied_num_days))
-                        <span style="text-decoration: underline;" class="tab2">{{ $leave->applied_num_days }}</span>
-                    @endif
+                <strong class="col-md-4">Inclusive Dates : </strong>
+                <strong class="col-md-5">
+                    {{ $leave->inc_from }} - {{ $leave->inc_to }}
                 </strong>
-                <div style="padding:10px;width: 100%;">
-                    <strong class="col-md-4">Inclusive Dates : </strong>
-                    <strong class="col-md-5">
-                        {{ $leave->inc_from }} - {{ $leave->inc_to }}
-                    </strong>
-                </div>
             </div>
+
         </td>
-        <td style="width: 50%;">
-            <div style="padding:10px;width: 100%;">
-                <strong>(6a) TYPE OF LEAVE</strong>
-                <br />
-                <span>(1) In case of vacation leave</span>
-                <table border="0" style="width: 100%;">
-                    <thead>
-                    <tr><th></th><th></th></tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <td style="width: 20%;">
-                            @if($leave->vication_loc == "local")
-                                <strong><span style="font-family: DejaVu Sans;">&#10004; </span></strong>
-                            @else
-                                <span style="text-decoration: underline;width: 10px;" aria-hidden="true">&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                            @endif
-                        </td>
-                        <td><strong> Within the Philippines</strong></td>
-                    </tr>
-                    <tr>
-                        <td>
-                            @if($leave->vication_loc == "abroad")
-                                <strong><span style="font-family: DejaVu Sans;">&#10004; </span></strong>
-                            @else
-                                <span style="text-decoration: underline;width: 10px;" aria-hidden="true">&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                            @endif
-                        </td>
-                        <td>
-                            <strong class="col-sm-6">
-                                Abroad (specify)
-                            </strong>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>&nbsp;</td>
-                        <td>
-                            @if(isset($leave->abroad_others))
-                                <span class="tab2"><em>{{  $leave->abroad_others }}</em></span>
-                            @endif
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-                <br />
-                <span>(1) In case of sick leave</span>
-                <table border="0" style="width: 100%;">
-                    <thead>
-                    <tr><th></th><th></th></tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <td style="width: 20%;">
-                            @if($leave->sick_loc == "in_hostpital")
-                                <strong><span style="font-family: DejaVu Sans;">&#10004; </span></strong>
-                            @else
-                                <span style="text-decoration: underline;width: 10px;" aria-hidden="true">&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                            @endif
-                        </td>
-                        <td><strong> In Hospital</strong></td>
-                    </tr>
-                    <tr>
-                        <td>&nbsp;</td>
-                        <td>
-                            <em>
-                                @if(isset($leave->in_hospital_specify))
-                                    {{ $leave->in_hospital_specify }}
-                                @else
-                                    <strong><hr /></strong>
-                                @endif
-                            </em>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            @if($leave->sick_loc == "out_patient")
-                                <strong><span style="font-family: DejaVu Sans;">&#10004; </span></strong>
-                            @else
-                                <span style="text-decoration: underline;width: 10px;" aria-hidden="true">&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                            @endif
-                        </td>
-                        <td>
-                            <strong class="col-sm-6">Out-patient (specify)</strong>
-                        </td>
-                    </tr>
-                    <tr>
-                        <em>
-                            @if(isset($leave->out_patient_specify))
-                                {{ $leave->out_patient_specify }}
-                            @else
-                                <strong><hr /></strong>
-                            @endif
-                        </em>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div style="padding:10px;width: 100%;">
-                <strong>(6d) COMMUTATION</strong>
-                <br />
-                <table border="0" style="width: 100%;">
-                    <thead><th></th></thead>
-                    <tbody>
-                    <tr>
-                        <td>
-                            @if($leave->com_requested == "yes")
-                                <strong class="col-sm-1">
-                                    <strong><span style="font-family: DejaVu Sans;">&#10004; </span></strong>
-                                </strong>
-                                <strong class="col-sm-6">
-                                    Requested
-                                </strong>
-                            @else
-                                <strong class="col-sm-1">
-                                    <strong><span style="font-family: DejaVu Sans;">&#10004; </span></strong>
-                                </strong>
-                                <strong class="col-sm-6">
-                                    Not Requested
-                                </strong>
-                            @endif
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div style="padding:10px;width: 100%;">
-                <br />
-                <p style="border-top: solid 2px black; width: 100%;text-align: center;">Signature</p>
-            </div>
+        <td style="padding:10px;">
+
+        <strong>(6b) WHERE THE LEAVE WILL BE SPENT</strong>
+        <br />
+        <span>(1) In case of vacation leave</span>
+        <table border="0" >
+            <tr>
+                <td>
+                    @if($leave->vication_loc == "local")
+                        <strong><span style="font-family: DejaVu Sans;">&#10004; </span></strong>
+                    @else
+                        <span style="text-decoration: underline;width: 10px;" aria-hidden="true">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                    @endif
+                </td>
+                <td><strong> Within the Philippines</strong></td>
+            </tr>
+            <tr>
+                <td>
+                    @if($leave->vication_loc == "abroad")
+                        <strong><span style="font-family: DejaVu Sans;">&#10004; </span></strong>
+                    @else
+                        <span style="text-decoration: underline;width: 10px;" aria-hidden="true">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                    @endif
+                </td>
+                <td>
+                    <strong class="col-sm-6">
+                        Abroad (specify)
+                    </strong>
+                </td>
+            </tr>
+            <tr>
+                <td>&nbsp;</td>
+                <td>
+                    @if(isset($leave->abroad_others))
+                        <span class="tab2"><em>{{  $leave->abroad_others }}</em></span>
+                    @endif
+                </td>
+            </tr>
+        </table>
+        <br />
+        <span>(2) In case of sick leave</span>
+        <table border="0">
+
+            <tr>
+                <td>
+                    @if($leave->sick_loc == "in_hostpital")
+                        <strong><span style="font-family: DejaVu Sans;">&#10004; </span></strong>
+                    @else
+                        <span style="text-decoration: underline;width: 10px;" aria-hidden="true">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                    @endif
+                </td>
+                <td><strong> In Hospital</strong></td>
+            </tr>
+            <tr>
+                <td>&nbsp;</td>
+                <td>
+                    <em>
+                        @if(isset($leave->in_hospital_specify))
+                            {{ $leave->in_hospital_specify }}
+                        @else
+                            <strong><hr /></strong>
+                        @endif
+                    </em>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @if($leave->sick_loc == "out_patient")
+                        <strong><span style="font-family: DejaVu Sans;">&#10004; </span></strong>
+                    @else
+                        <span style="text-decoration: underline;width: 10px;" aria-hidden="true">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                    @endif
+                </td>
+                <td>
+                    <strong class="col-sm-6">Out-patient (specify)</strong>
+                </td>
+            </tr>
+            <tr>
+                <em>
+                    @if(isset($leave->out_patient_specify))
+                        {{ $leave->out_patient_specify }}
+                    @else
+                        <strong><hr /></strong>
+                    @endif
+                </em>
+            </tr>
+
+        </table>
+
+
+        <strong>(6d) COMMUTATION</strong>
+        <br />
+        <table border="0" style="width: 100%;">
+
+            <tr>
+                <td>
+                    @if($leave->com_requested == "yes")
+                        <strong><span style="font-family: DejaVu Sans;">&#10004; </span></strong>
+                    @else
+                        <span style="text-decoration: underline;width: 10px;" aria-hidden="true">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+
+                    @endif
+                    Requested
+                </td>
+                <td>
+                    @if($leave->com_requested == "no")
+                        <strong><span style="font-family: DejaVu Sans;">&#10004; </span></strong>
+                    @else
+                        <span style="text-decoration: underline;width: 10px;" aria-hidden="true">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+
+                    @endif
+                    Not Requested
+                </td>
+            </tr>
+
+        </table>
+
+        <div style="padding:10px;width: 100%;">
+            <p style="border-top: solid 2px black; margin-top:30px;width: 100%;text-align: center;">Signature of Applicant</p>
+        </div>
         </td>
     </tr>
-    </tbody>
+
 </table>
 <table border="1" style="width: 100%;">
     <thead></thead>
@@ -331,9 +307,7 @@
     </tr>
     </tbody>
 </table>
-<table border="1" style="width: 100%;" >
-    <thead></thead>
-    <tbody>
+<table border="1" >
     <tr>
         <td style="width: 50%;">
             <div class="row" style="padding:10px;">
@@ -380,9 +354,7 @@
             <div style="padding: 8px;width:100%;">
                 <strong>(7b) RECOMMENDATION</strong>
                 <br />
-                <table style="width:100%;">
-                    <thead></thead>
-                    <tbody>
+                <table>
                     <tr>
                         <td>
                             @if($leave->reco_approval == "approve")
@@ -401,7 +373,7 @@
                                 <span style="text-decoration: underline;width: 20%;" aria-hidden="true">&nbsp;&nbsp;&nbsp;&nbsp;</span>
                             @endif
                         </td>
-                        <td><strong class="col-sm-6">Disapproval</strong></td>
+                        <td><strong>Disapproval</strong></td>
                     </tr>
                     <tr>
                         <td>&nbsp;</td>
@@ -410,15 +382,13 @@
                     <tr>
                         <td>&nbsp;</td>
                         <td>
-                            <span class="tab2">
-                                @if(isset($leave->disaprove_due_to))
-                                    <em>{{ $leave->disaprove_due_to }}</em>
-                                @endif
-                            </span>
+                            The Kotlin plugin is bundled with Android Studio starting from version 3.0. If you use an earlier version, you'll need to install the Kotlin plugin. Go to File | Settings | Plugins | Install JetBrains plugin… and then search for and install Kotlin. If you are looking at the "Welcome to Android Studio" screen, choose Configure | Plugins |
                         </td>
                     </tr>
-                    </tbody>
                 </table>
+            </div>
+            <div style="padding:10px;width: 100%;">
+                <p style="border-top: solid 2px black; margin-top:100px;width: 100%;text-align: center;">Authorized Official</p>
             </div>
         </td>
     </tr>
@@ -450,14 +420,7 @@
             </div>
         </td>
         <td style="width: 50%;">
-            <div style="padding: 8px; width: 100%;">
-                <strong>DISAPPROVED DUE TO :</strong>
-                <br />
-                <br />
-                @if(isset($leave->disaprove_due_to))
-                    <em>{{ $leave->disaprove_due_to }}</em>
-                @endif
-            </div>
+           <strong>7d) DISAPPROVED DUE TO :</strong>
         </td>
     </tr>
     </tbody>
@@ -486,9 +449,10 @@
         </td>
     </tr>
 </table>
-
-
-<script src="{{ asset('resources/assets/js/jquery.min.js') }}"></script>
-<script src="{{ asset('resources/assets/js/bootstrap.min.js') }}"></script>
+<div style="padding: 4px; text-align: center;">
+    <strong>{{ $leave->route_no }}</strong>
+    <br />
+    <img src="data:image/png;base64,{{  DNS1D::getBarcodePNG($leave->route_no, 'C39E' ,1,15)}}" alt="barcode" style="width:400px;" />
+</div>
 </body>
 </html>
