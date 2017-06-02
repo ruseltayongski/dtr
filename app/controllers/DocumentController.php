@@ -84,15 +84,10 @@ class DocumentController extends BaseController
             $leave->save();
 
 
-
-
             $doc_type = 'APP_LEAVE';
-            $prepared_date = Input::get('prepared_date');
+            $prepared_date = date('Y-m-d');
             $prepared_by =  Auth::user()->userid;
             $description = "Application for leave";
-
-            pdoController::insert_tracking_master($route_no,$doc_type,$prepared_date,$prepared_by,$description);
-
 
 
             //ADD TRACKING DETAILS
@@ -100,13 +95,25 @@ class DocumentController extends BaseController
             $received_by = $prepared_by;
             $delivered_by = $prepared_by;
             $action = $description;
-            pdoController::insert_tracking_details($route_no,$date_in,$received_by,$delivered_by,$action);
 
-            //ADD SYSTEM LOGS
+            $data = array($route_no,$doc_type,$prepared_date,$prepared_by,$description);
+            DB::connection('dts')->insert("INSERT INTO TRACKING_MASTER(route_no,doc_type,prepared_date,prepared_by,description,created_at,updated_at) values(?,?,?,?,?,now(),now())",$data);
+
+
+
+            $data = array($route_no,$date_in,$received_by,$delivered_by,$action);
+            $sql="INSERT INTO TRACKING_DETAILS(route_no,date_in,received_by,delivered_by,action,created_at,updated_at) values(?,?,?,?,?,now(),now())";
+            DB::connection('dts')->insert($sql,$data);
+
+
             $user_id = $prepared_by;
             $name = Auth::user()->fname.' '.Auth::user()->mname.' '.Auth::user()->lname;
             $activity = 'CREATED';
-            pdoController::insert_system_logs($user_id,$name,$activity,$route_no);
+
+            $data = array($user_id,$name,$activity,$route_no);
+            $sql="INSERT INTO SYSTEMLOGS(user_id,name,activity,description,created_at,updated_at) values(?,?,?,?,now(),now())";
+            DB::connection('dts')->insert($sql,$data);
+
             Session::put('added',true);
 
 
