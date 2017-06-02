@@ -53,7 +53,7 @@
                                     <div class="row">
                                         <div class="col-md-12">
                                             <?php if($type == "list"): ?>
-                                                <a href="#document_form" data-link="<?php echo asset('form/cdov1/form'); ?>" class="btn btn-success" data-dismiss="modal" data-backdrop="static" data-toggle="modal" data-target="#document_form" style="color: white;"><i class="fa fa-plus"></i> Create new</a>
+                                                <a href="#document_form" data-link="<?php echo asset('form/cdov1/form'); ?>" class="btn btn-success" data-dismiss="modal" data-backdrop="static" data-toggle="modal" data-target="#document_form" style="background-color:darkmagenta;color: white;"><i class="fa fa-plus"></i> Create new</a>
                                             <?php endif; ?>
                                         </div>
                                     </div>
@@ -76,16 +76,16 @@
                                                             <th class="text-center">Subject</th>
                                                         </tr>
                                                         </thead>
-                                                        <tbody>
+                                                        <tbody style="font-size: 10pt;">
                                                         <?php foreach($cdo as $row): ?>
                                                             <tr>
-                                                                <td class="text-center"><a href="#track" data-link="<?php echo asset('form/track/'.$row->route_no); ?>" data-route="<?php echo $row->route_no; ?>" data-toggle="modal" class="btn btn-sm btn-success col-sm-12" style="background-color:darkmagenta;color:white;"><i class="fa fa-line-chart"></i> Track</a></td>
-                                                                <td class="text-center"><a class="title-info" data-backdrop="static" data-route="<?php echo $row->route_no; ?>" data-link="<?php echo asset('/form/info/'.$row->route_no.'/cdo'); ?>" href="#document_info" data-toggle="modal"><?php echo $row->route_no; ?></a></td>
-                                                                <td class="text-center"><?php echo date('M d, Y',strtotime($row->prepared_date)); ?><br><?php echo date('h:i:s A',strtotime($row->prepared_date)); ?></td>
+                                                                <td><a href="#track" data-link="<?php echo asset('form/track/'.$row->route_no); ?>" data-route="<?php echo $row->route_no; ?>" data-toggle="modal" class="btn btn-sm btn-success col-sm-12" style="background-color:darkmagenta;color:white;"><i class="fa fa-line-chart"></i> Track</a></td>
+                                                                <td><a class="title-info" data-backdrop="static" data-route="<?php echo $row->route_no; ?>" data-link="<?php echo asset('/form/info/'.$row->route_no.'/cdo'); ?>" href="#document_info" data-toggle="modal"><?php echo $row->route_no; ?></a></td>
+                                                                <td><?php echo date('M d, Y',strtotime($row->prepared_date)); ?><br><?php echo date('h:i:s A',strtotime($row->prepared_date)); ?></td>
                                                                 <?php if(\Illuminate\Support\Facades\Auth::user()->usertype): ?>
-                                                                <td class="text-center"><?php echo \Illuminate\Support\Facades\Auth::user()->fname.' '.\Illuminate\Support\Facades\Auth::user()->mname.' '.\Illuminate\Support\Facades\Auth::user()->lname; ?></td>
+                                                                <td><?php echo pdoController::user_search1($row['prepared_name'])['fname'].' '.pdoController::user_search1($row['prepared_name'])['mname'].' '.pdoController::user_search1($row['prepared_name'])['lname']; ?></td>
                                                                 <?php else: ?>
-                                                                <td class="text-center">CTO</td>
+                                                                <td>CTO</td>
                                                                 <?php endif; ?>
                                                                 <td><?php echo $row->subject; ?></td>
                                                             </tr>

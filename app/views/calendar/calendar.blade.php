@@ -1,18 +1,21 @@
-
 @extends('layouts.app')
 @section('content')
-
     <span id="calendar_holiday" data-link=" {{ asset('calendar_holiday') }} "></span>
     <span id="calendar_id" data-link="{{ asset('calendar_id') }}"></span>
     <span id="calendar_last_id" data-link="{{ asset('calendar_last_id') }}"></span>
     <span id="calendar_save" data-link=" {{ asset('calendar_save') }} "></span>
     <span id="calendar_delete" data-link="{{ asset('calendar_delete') }}"></span>
     <span id="calendar_update" data-link=" {{ asset('calendar_update') }} "></span>
-    <span id="calendar_banner" data-link="{{ asset('public/img/banner.png') }}"></span>
-
+    <span id="calendar_banner" data-link="{{ asset('resources/img/banner.png') }}"></span>
     <div class="col-md-9 wrapper">
         <div class="alert alert-jim">
-
+            {{--<div class="row no-print">
+                <div class="col-xs-12">
+                    <button type="button" class="btn btn-primary pull-plus" onclick="addEvent($(this));" data-link="{{ asset('calendar_form') }}" style="margin-right: 5px;">
+                        <i class="fa fa-download"></i> Add New Event
+                    </button>
+                </div>
+            </div><br>--}}
             <div class="box box-primary">
                 <div class="box-body no-padding">
                     <!-- THE CALENDAR -->
@@ -24,63 +27,70 @@
     </div>
     <!--CREATE EVENT SIDEBAR -->
     @if(Auth::user()->usertype == '1')
-        <div class="col-md-3">
-            <div class="box box-solid">
-                <div class="box-header with-border">
-                    <h4 class="box-title">Draggable Events</h4>
-                </div>
-                <div class="box-body">
-                    <!-- the events -->
-                    <div id="external-events">
-
-                    </div>
-                </div>
-                <!-- /.box-body -->
+    <div class="col-md-3">
+        <div class="box box-solid">
+            <div class="box-header with-border">
+                <h4 class="box-title">Draggable Events</h4>
             </div>
-            <!-- /. box -->
-            <div class="box box-solid">
-                <div class="box-header with-border">
-                    <h3 class="box-title">Create Holiday</h3>
+            <div class="box-body">
+                <!-- the events -->
+                <div id="external-events">
+                    {{--<div class="external-event bg-green">Lunch</div>
+                    <div class="external-event bg-yellow">Go home</div>
+                    <div class="external-event bg-aqua">Do homework</div>
+                    <div class="external-event bg-light-blue">Work on UI design</div>
+                    <div class="external-event bg-red">Sleep tight</div>
+                    <div class="checkbox">
+                        <label for="drop-remove">
+                            <input type="checkbox" id="drop-remove">
+                            remove after drop
+                        </label>
+                    </div>--}}
                 </div>
-                <div class="box-body">
-                    <div class="btn-group" style="width: 100%; margin-bottom: 10px;">
-                        <!--<button type="button" id="color-chooser-btn" class="btn btn-info btn-block dropdown-toggle" data-toggle="dropdown">Color <span class="caret"></span></button>-->
-                        <ul class="fc-color-picker" id="color-chooser">
-                            <li><a class="text-aqua" href="#"><i class="fa fa-square"></i></a></li>
-                            <li><a class="text-blue" href="#"><i class="fa fa-square"></i></a></li>
-                            <li><a class="text-light-blue" href="#"><i class="fa fa-square"></i></a></li>
-                            <li><a class="text-teal" href="#"><i class="fa fa-square"></i></a></li>
-                            <li><a class="text-yellow" href="#"><i class="fa fa-square"></i></a></li>
-                            <li><a class="text-orange" href="#"><i class="fa fa-square"></i></a></li>
-                            <li><a class="text-green" href="#"><i class="fa fa-square"></i></a></li>
-                            <li><a class="text-lime" href="#"><i class="fa fa-square"></i></a></li>
-                            <li><a class="text-red" href="#"><i class="fa fa-square"></i></a></li>
-                            <li><a class="text-purple" href="#"><i class="fa fa-square"></i></a></li>
-                            <li><a class="text-fuchsia" href="#"><i class="fa fa-square"></i></a></li>
-                            <li><a class="text-muted" href="#"><i class="fa fa-square"></i></a></li>
-                            <li><a class="text-navy" href="#"><i class="fa fa-square"></i></a></li>
-                        </ul>
+            </div>
+            <!-- /.box-body -->
+        </div>
+        <!-- /. box -->
+        <div class="box box-solid">
+            <div class="box-header with-border">
+                <h3 class="box-title">Create Holiday</h3>
+            </div>
+            <div class="box-body">
+                <div class="btn-group" style="width: 100%; margin-bottom: 10px;">
+                    <!--<button type="button" id="color-chooser-btn" class="btn btn-info btn-block dropdown-toggle" data-toggle="dropdown">Color <span class="caret"></span></button>-->
+                    <ul class="fc-color-picker" id="color-chooser">
+                        <li><a class="text-aqua" href="#"><i class="fa fa-square"></i></a></li>
+                        <li><a class="text-blue" href="#"><i class="fa fa-square"></i></a></li>
+                        <li><a class="text-light-blue" href="#"><i class="fa fa-square"></i></a></li>
+                        <li><a class="text-teal" href="#"><i class="fa fa-square"></i></a></li>
+                        <li><a class="text-yellow" href="#"><i class="fa fa-square"></i></a></li>
+                        <li><a class="text-orange" href="#"><i class="fa fa-square"></i></a></li>
+                        <li><a class="text-green" href="#"><i class="fa fa-square"></i></a></li>
+                        <li><a class="text-lime" href="#"><i class="fa fa-square"></i></a></li>
+                        <li><a class="text-red" href="#"><i class="fa fa-square"></i></a></li>
+                        <li><a class="text-purple" href="#"><i class="fa fa-square"></i></a></li>
+                        <li><a class="text-fuchsia" href="#"><i class="fa fa-square"></i></a></li>
+                        <li><a class="text-navy" href="#"><i class="fa fa-square"></i></a></li>
+                    </ul>
+                </div>
+                <!-- /btn-group -->
+                <div class="input-group">
+                    <input id="new-event" type="text" class="form-control" placeholder="Holiday Title">
+
+                    <div class="input-group-btn">
+                        <button id="add-new-event" type="button" class="btn btn-primary btn-flat" style="color: white;">Add</button>
                     </div>
                     <!-- /btn-group -->
-                    <div class="input-group">
-                        <input id="new-event" type="text" class="form-control" placeholder="Holiday Title">
-
-                        <div class="input-group-btn">
-                            <button id="add-new-event" type="button" class="btn btn-primary btn-flat" style="color: white;">Add</button>
-                        </div>
-                        <!-- /btn-group -->
-                    </div>
-                    <!-- /input-group -->
                 </div>
+                <!-- /input-group -->
             </div>
         </div>
+    </div>
     @endif
-
 @endsection
-
 @section('css')
     @parent
-        <!-- fullCalendar 2.2.5-->
+    <!-- fullCalendar 2.2.5-->
     <link href="{{ asset('public/plugin/fullcalendar/fullcalendar.min.css') }}" rel="stylesheet">
     <link href="{{ asset('public/plugin/fullcalendar/fullcalendar.print.css') }}" media="print">
     <!-- Theme style -->
@@ -126,8 +136,6 @@
             var id = 1000000;
             var json = '';
             $.get(calendar_event,function(result){
-
-
                 $('#calendar').fullCalendar({
                     header: {
                         left: 'prev,next today',
@@ -146,21 +154,13 @@
                     eventResize: function(event)
                     {
 
-                        var date = new Date(event.end.toString());
-                        var end_date = date.toLocaleDateString();
-                        var start = new Date(event.start.toString());
-
-                        var start_date = start.toLocaleDateString();
 
                         var url = $('#calendar_update').data('link');
                         var object = {
                             'type' : 'resize',
                             'event_id' : event.event_id,
-                            'start' : start_date,
-                            'end' : end_date,
-                            "_token" : $('#token').data('token')
+                            'end' : event.end.format()
                         };
-
                         $.post(url,object,function(result){
                             Lobibox.notify('info',{
                                 msg:'Successfully Holiday Resized!'
@@ -208,16 +208,14 @@
                         var object = {
                             'type' : 'drop',
                             'event_id' : event.event_id,
-                            'start' : start_date,
-                            'end' : end_date,
-                            "_token" : $('#token').data('token')
+                            'start' : event.start.format()
                         };
+                        $.post(url,object,function(result){
 
-                     /*   $.post(url,object,function(result){
                             Lobibox.notify('warning',{
                                 msg:'Holiday Transferred!'
                             });
-                        });*/
+                        });
                     },
                     eventMouseover: function(event, jsEvent, view) {
                         //var tooltip = '<div class="tooltipevent" id='+event.id+'>' + event.title + '</div>';
@@ -241,6 +239,7 @@
                         // retrieve the dropped element's stored Event Object
                         var originalEventObject = $(this).data('eventObject');
 
+                        id++;
                         json = {
                             'id' : id,
                             'event_id' : new Date(),
@@ -248,10 +247,8 @@
                             'start' : date.format(),
                             'end' : date.format(),
                             'backgroundColor' : $(this).css('background-color'),
-                            'borderColor' : $(this).css('border-color'),
-                            "_token" : $('#token').data('token')
+                            'borderColor' : $(this).css('border-color')
                         };
-
                         var url = $('#calendar_save').data('link');
                         $('#calendar').fullCalendar('renderEvent', json, true);
                         $.post(url,json,function(){

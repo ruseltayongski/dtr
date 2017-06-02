@@ -372,13 +372,23 @@ class DocumentController extends BaseController
 
         Session::put('keyword',Input::get('keyword'));
         $keyword = Session::get('keyword');
-        $office_order = OfficeOrders::where('prepared_by',pdoController::user_search(Auth::user()->userid)['id'])
-            ->where(function($q) use ($keyword){
-                $q->where('route_no','like',"%$keyword%")
-                    ->orwhere('subject','like',"%$keyword%");
-            })
-            ->orderBy('id','desc')
-            ->paginate(10);
+        if(Auth::user()->usertype){
+            $office_order = OfficeOrders::where(function($q) use ($keyword){
+                    $q->where('route_no','like',"%$keyword%")
+                        ->orwhere('subject','like',"%$keyword%");
+                })
+                ->orderBy('id','desc')
+                ->paginate(10);
+        } else {
+            $office_order = OfficeOrders::where('prepared_by',pdoController::user_search(Auth::user()->userid)['id'])
+                ->where(function($q) use ($keyword){
+                    $q->where('route_no','like',"%$keyword%")
+                        ->orwhere('subject','like',"%$keyword%");
+                })
+                ->orderBy('id','desc')
+                ->paginate(10);
+        }
+        
         return View::make('form.office_order_list')->with('office_order',$office_order);
     }
 

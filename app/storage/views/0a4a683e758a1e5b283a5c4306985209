@@ -43,7 +43,11 @@
         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="glyphicon glyphicon-duplicate"></i> Tracking Documents<span class="caret"></span></a>
         <ul class="dropdown-menu">
             <li>
+<<<<<<< HEAD
                 <a href="<?php echo asset('tracked/so'); ?>"><i class="fa fa-file"></i> Office Order</a>
+=======
+                <a href="<?php echo asset('form/so_list'); ?>"><i class="fa fa-file"></i>&nbsp;&nbsp; Office Order</a>
+>>>>>>> ad5dccb0e5909db5b576acb2de42f9a7d4df6c3b
             </li>
             <li class="divider"></li>
             <li>

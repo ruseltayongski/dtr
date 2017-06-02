@@ -1,6 +1,5 @@
 <style>
     .table-info tr td:first-child {
-        font-weight:bold;
         color: #2b542c;
     }
 </style>

@@ -43,7 +43,9 @@
         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="glyphicon glyphicon-duplicate"></i> Tracking Documents<span class="caret"></span></a>
         <ul class="dropdown-menu">
             <li>
-                <a href="{{ asset('tracked/so') }}"><i class="fa fa-file"></i> Office Order</a>
+
+                <a href="{{ asset('form/so_list') }}"><i class="fa fa-file"></i>&nbsp;&nbsp; Office Order</a>
+
             </li>
             <li class="divider"></li>
             <li>

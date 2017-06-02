@@ -39,15 +39,18 @@ class CalendarController extends BaseController
             $calendar->title = Input::get('title');
             $calendar->start = Input::get('start');
 
-            $from = date('Y-m-d',strtotime(Input::get('start')));
-            $end_date = date('Y-m-d',(strtotime (Input::get('end')) ) );
-
+            $enddate = date_create(date('Y-m-d',strtotime(Input::get('end'))));
+            date_add($enddate, date_interval_create_from_date_string('1days'));
+            $end_date = date_format($enddate, 'Y-m-d');
 
             $calendar->end = $end_date;
             $calendar->backgroundColor = Input::get('backgroundColor');
             $calendar->borderColor = Input::get('borderColor');
             $calendar->status = 1;
             $calendar->save();
+
+            $from = date('Y-m-d',strtotime(Input::get('start')));
+            $end_date = date('Y-m-d',(strtotime (Input::get('end')) ) );
 
             $f = new DateTime($from.' '. '24:00:00');
             $t = new DateTime($end_date.' '. '24:00:00');
@@ -128,29 +131,41 @@ class CalendarController extends BaseController
             return;
         }
 
+        ///RUSEL
+        $start_date = Input::get('start');
+        $calendar = Calendars::where('event_id',Input::get('event_id'))->first();
+        $difference = strtotime($calendar->end) - strtotime($calendar->start);
+        $day_range = floor($difference / (60 * 60 * 24));
+        $end = date_create($start_date);
+        date_add($end, date_interval_create_from_date_string($day_range.'days'));
+        $end_date = date_format($end, 'Y-m-d');
+        ///END RUSEL
+
+
         if(Input::get('type') == 'drop') {
 
-
+            //RUSEL
             $calendar = Calendars::where('event_id',Input::get('event_id'))->first();
-            $calendar->start = Input::get('start');
-            $calendar->end = Input::get('end');
+            $calendar->start = $start_date;
+            $calendar->end = $end_date;
             $calendar->save();
+            //END RUSEL
 
 
             $end_date = date('Y-m-d',(strtotime ( '-1 day' , strtotime (Input::get('end')) ) ));
             $start = Input::get('start');
 
-            $details = DtrDetails::where('holiday','=', '001')
-                ->whereBetween('datein',[$start,$end_date]);
+            /*$details = DtrDetails::where('holiday','=', '001')
+                ->whereBetween('datein',[$start_date,$end_date]);
             $details->delete();
 
-            $f = new DateTime($start.' '. '00:00:00');
+            $f = new DateTime($start_date.' '. '00:00:00');
             $t = new DateTime($end_date.' '. '00:00:00');
 
             $interval = $f->diff($t);
 
             $datein = '';
-            $f_from = explode('-',$start);
+            $f_from = explode('-',$start_date);
             $startday = $f_from[2];
             $j = 0;
             while($j <= $interval->days) {
@@ -206,7 +221,7 @@ class CalendarController extends BaseController
 
                 $startday = $startday + 1;
                 $j++;
-            }
+            }*/
 
 
 
@@ -214,23 +229,17 @@ class CalendarController extends BaseController
         }
         else
             try{
+                //RUSEL
+                $calendar = Calendars::where('event_id',Input::get('event_id'))->first();
+                $calendar->end = $end_date;
+                $calendar->save();
+                ///
 
-                $start_date = date('Y-m-d',strtotime (Input::get('start')));
+                /*$start_date = date('Y-m-d',strtotime (Input::get('start')));
                 $calendar_end_date = date('Y-m-d',strtotime (Input::get('end')));
                 $end_date = date('Y-m-d',(strtotime ( '-1 day' , strtotime (Input::get('end')) ) ));
 
-
-                $calendar = Calendars::where('event_id',Input::get('event_id'))->first();
-
-                $ca_from = $calendar->start;
-
                 $ca_to = date('Y-m-d',(strtotime ( '-1 day' , strtotime ($calendar->end))));
-
-                $calendar->start = $start_date;
-                $calendar->end = $calendar_end_date;
-                $calendar->save();
-
-
 
                 $details = DtrDetails::where('holiday','=', '001')
                     ->whereBetween('datein',[$ca_from,$ca_to]);
@@ -300,7 +309,7 @@ class CalendarController extends BaseController
 
                     $startday = $startday + 1;
                     $j++;
-                }
+                }*/
 
             }catch(\Whoops\Exception\ErrorException $ex)
             {
