@@ -11,6 +11,7 @@ class CalendarController extends BaseController
 
     public function calendar()
     {
+
         return View::make('calendar.calendar');
     }
 
@@ -231,15 +232,19 @@ class CalendarController extends BaseController
             try{
                 //RUSEL
                 $calendar = Calendars::where('event_id',Input::get('event_id'))->first();
+
+                $ca_from = date('Y-m-d',(strtotime ($calendar->start)));
+                $ca_to = date('Y-m-d',(strtotime ( '-1 day' , strtotime ($calendar->end))));
+
                 $calendar->end = $end_date;
                 $calendar->save();
-                ///
+
 
                 $start_date = date('Y-m-d',strtotime (Input::get('start')));
                 $calendar_end_date = date('Y-m-d',strtotime (Input::get('end')));
                 $end_date = date('Y-m-d',(strtotime ( '-1 day' , strtotime (Input::get('end')) ) ));
 
-                $ca_to = date('Y-m-d',(strtotime ( '-1 day' , strtotime ($calendar->end))));
+
 
                 $details = DtrDetails::where('holiday','=', '001')
                     ->whereBetween('datein',[$ca_from,$ca_to]);

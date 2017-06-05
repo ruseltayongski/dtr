@@ -465,7 +465,7 @@ if(isset($row) and count($row) > 0)
 {
     for($i = 0; $i < count($row); $i++)
     {
-        $pdf->form($row[$i]['fname'] . ' ' . $row[$i]['lname'] . ' ' . $row[$i]['mname'], $row[$i]['userid'], $date_from, $date_to,$row[$i]['sched']);
+        $pdf->form($row[$i]['lname'] . ', ' . $row[$i]['fname'] . ' ' . $row[$i]['mname'], $row[$i]['userid'], $date_from, $date_to,$row[$i]['sched']);
         $pdf->SetEmpname($row[$i]['fname'] . ' ' . $row[$i]['lname'] . ' ' . $row[$i]['mname']);
     }
 }

@@ -42,7 +42,7 @@
                                     <div class="col-md-4">
                                         <div class="form-group has-success  input-daterange">
                                             <label class="control-label" for="inputSuccess1">(3.) Date of Filling</label>
-                                            <input type="text" class="form-control" name="date_filling" value="2012-04-05">
+                                            <input type="text" class="form-control" name="date_filling" value="{{ date("Y-m-d") }}" disabled>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
@@ -60,13 +60,13 @@
                                 </div>
                                 <hr />
                                 <div class="row">
-                                    <h3 class="text-center">Details of Application</h3>
+                                    <h3 class="text-center">DETAILS OF APPLICATION</h3>
                                 </div>
                                 <hr />
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="alert alert-success">
-                                            <strong>(6a) Type of Leave</strong>
+                                            <strong>(6a) TYPE OF LEAVE</strong>
                                             <div class="row">
                                                 <div class="col-md-12">
                                                     <div class="form-group">
@@ -137,7 +137,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <strong>(6c.)Number of working days applied <br />For :</strong>
+                                            <strong>(6c.)NUMBER OF WORKING DAYS APPLIED <br />FOR :</strong>
                                             <input type="text" name="applied_num_days" />
                                             <div class="form-group">
                                                 <label class="control-label" for="inputSuccess1">Inclusive Dates :</label>
@@ -152,7 +152,7 @@
                                     </div>
                                     <div class="col-md-6">
                                         <div class="alert alert-success">
-                                            <strong>(6b) Where leave will be spent</strong>
+                                            <strong>(6b) WHERE LEAVE WILL BE SPENT</strong>
                                             <div class="row">
                                                 <div class="col-md-12">
                                                     <div class="form-group">
@@ -214,7 +214,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <strong>(6d) Communication</strong>
+                                            <strong>(6d) COMMUTATION</strong>
                                             <div class="has-success">
                                                 <div class="checkbox">
                                                     <label>
@@ -248,9 +248,7 @@
 @section('js')
     @parent
     <script>
-        $('.input-daterange input').each(function() {
-            $(this).datepicker("clearDates");
-        });
+
         $('#inc_date').daterangepicker();
         $('input[name="leave_type"]').change(function(){
             var val = this.value;

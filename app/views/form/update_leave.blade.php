@@ -62,7 +62,7 @@
                                 </div>
                                 <hr />
                                 <div class="row">
-                                    <h3 class="text-center">Details of Application</h3>
+                                    <h3 class="text-center">DETAILS OF APPLICATION</h3>
                                 </div>
                                 <hr />
                                 <div class="row">
@@ -139,7 +139,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <strong>(6c.)Number of working days applied <br />For :</strong>
+                                            <strong>(6c.)NUMBER OF WORKING DAYS APPLIED <br />FOR :</strong>
                                             <input type="text" name="applied_num_days" />
                                             <div class="form-group">
                                                 <label class="control-label" for="inputSuccess1">Inclusive Dates :</label>
@@ -154,7 +154,7 @@
                                     </div>
                                     <div class="col-md-6">
                                         <div class="alert alert-success">
-                                            <strong>(6b) Where leave will be spent</strong>
+                                            <strong>(6b) WHERE LEAVE WILL BE SPENT</strong>
                                             <div class="row">
                                                 <div class="col-md-12">
                                                     <div class="form-group">
@@ -216,7 +216,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <strong>(6d) Communication</strong>
+                                            <strong>(6d) COMMUTATION</strong>
                                             <div class="has-success">
                                                 <div class="checkbox">
                                                     <label>
