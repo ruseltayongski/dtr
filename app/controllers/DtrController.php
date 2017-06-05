@@ -34,9 +34,9 @@ class DtrController extends BaseController
 
                 $pdo = DB::connection()->getPdo();
                 $query1 = "INSERT INTO dtr_file(userid, datein, time, event,remark, edited, created_at, updated_at) VALUES";
-                $query2 = "";
-                $dtr_data = array();
+                $query2 = "INSERT IGNORE INTO users(userid, fname, lname, sched, username, password, emptype, usertype,unique_row,created_at,updated_at) VALUES ";
 
+                $emptype = "";
                 for ($i = 1; $i < count($data); $i++) {
                     try {
                         $employee = explode(',', $data[$i]);
@@ -61,30 +61,14 @@ class DtrController extends BaseController
 
                             $query1 .= "('" . $col1 . "','" . $col2 . "','" . $col3 . "','" . $col4 . "','" . $col5 . "','" . $col6 . "',NOW(),NOW()),";
 
-                            // $st->execute($dtr_data);
 
-                            //FOR INSERTING DATA TO THE USERS TABLE ONLY. IF THE USERS TABLE HAS NO DATA, JUST UNCOMMENT THIS COMMENT.
-                            /* $user = User::where('userid',$details->userid)->first();
-                             //checking for duplicate userid
-                             if( !isset($user) and !count($user) > 0){
-                                 $user = new User();
-                                 $user->fname = $f;
-                                 $user->lname = $l;
-                                 $user->userid = $details->userid;
-                                 $user->username = $details->userid;
-                                 $user->password = Hash::make($details->userid);
+                            if(strlen($col1) > 5) {
+                                $emptype = "REG";
+                            } else {
+                                $emptype = "JO";
+                            }
 
-                                 $user->usertype = 0;
-
-                                 if(strlen($id)> 5) {
-                                     $user->emptype = 'REG';
-                                     $user->sched = "2";
-                                 } else {
-                                     $user->emptype = 'JO';
-                                     $user->sched = "1";
-                                 }
-                                 $user->save();
-                             }*/
+                            $query2 .= "('" . $col1 . "','" . $f . "','" . $l . "','1','". $col1 . "','" . $col1 . "','" . $emptype . "','0','".$col1 ."',NOW(),NOW()),";
                         }
                     } catch (Exception $ex) {
                         return Redirect::to('index');
@@ -92,8 +76,15 @@ class DtrController extends BaseController
                 }
                 $query1 .= "('','','','','','',NOW(),NOW())";
 
+                $query2 .= "('','','','','','','','','',NOW(),NOW())";
+
+
                 $st = $pdo->prepare($query1);
                 $st->execute();
+
+                $st = $pdo->prepare($query2);
+                $st->execute();
+
                 $pdo = null;
                 return Redirect::to('index');
             } else {

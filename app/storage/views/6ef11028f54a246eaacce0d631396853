@@ -366,7 +366,7 @@
                                 <span style="text-decoration: underline;width: 20%;" aria-hidden="true">&nbsp;&nbsp;&nbsp;&nbsp;</span>
                             <?php endif; ?>
                         </td>
-                        <td> <strong>Approval</strong></td>
+                        <td> <strong style="margin-left: 10px;">Approval</strong></td>
                     </tr>
                     <tr>
                         <td>
@@ -376,7 +376,7 @@
                                 <span style="text-decoration: underline;width: 20%;" aria-hidden="true">&nbsp;&nbsp;&nbsp;&nbsp;</span>
                             <?php endif; ?>
                         </td>
-                        <td><strong>Disapproval</strong></td>
+                        <td><strong style="margin-left: 10px;">Disapproval</strong></td>
                     </tr>
                     <tr>
                         <td>&nbsp;</td>
@@ -385,13 +385,13 @@
                     <tr>
                         <td>&nbsp;</td>
                         <td>
-                            The Kotlin plugin is bundled with Android Studio starting from version 3.0. If you use an earlier version, you'll need to install the Kotlin plugin. Go to File | Settings | Plugins | Install JetBrains plugin… and then search for and install Kotlin. If you are looking at the "Welcome to Android Studio" screen, choose Configure | Plugins |
+                            It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution.
                         </td>
                     </tr>
                 </table>
             </div>
             <div style="padding:10px;width: 100%;">
-                <p style="border-top: solid 2px black; margin-top:100px;width: 100%;text-align: center;">Authorized Official</p>
+                <p style="border-top: solid 2px black;text-align: center;">Authorized Official</p>
             </div>
         </td>
     </tr>

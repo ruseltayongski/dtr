@@ -25,7 +25,7 @@
 
             <li class="divider"></li>
             <li class="dropdown-submenu">
-                <a href="#"><i class="fa fa-clock-o"></i> Employees</a>
+                <a href="#"><i class="fa fa-user"></i> Employees</a>
                 <ul class="dropdown-menu">
                     <li><a href="{{ asset('list/job-order') }}">Job Order</a></li>
                     <div class="divider"></div>
@@ -36,7 +36,9 @@
             <li class="divider"></li>
             <li><a href="{{ url('add/attendance') }}"><i class="fa fa-user"></i> Add attendance</a></li>
             <li class="divider"></li>
-            <li><a href="{{ url('attendance') }}"><i class="fa fa-user"></i> Attendance</a></li>
+            <li><a href="{{ url('attendance') }}"><i class="glyphicon glyphicon-time"></i> Attendance</a></li>
+            <li class="divider"></li>
+            <li><a href="{{ url('add/user') }}"><i class="fa fa-user"></i> Add user</a></li>
         </ul>
     </li>
     <li class="dropdown">

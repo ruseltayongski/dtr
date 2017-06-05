@@ -47,6 +47,7 @@
         body {
             background: url('{{ asset('public/img/backdrop.png') }}'), -webkit-gradient(radial, center center, 0, center center, 460, from(#ccc), to(#ddd));
         }
+
     </style>
 
     @section('head-js')

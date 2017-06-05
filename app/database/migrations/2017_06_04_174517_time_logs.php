@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class JoDtr extends Migration {
+class TimeLogs extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -12,7 +12,7 @@ class JoDtr extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('jo_dtr', function($table) {
+		Schema::create('dtr_file', function($table) {
 			$table->increments('dtr_id');
 			$table->string('userid',200)->nullable();
 			$table->date('datein')->nullable();
@@ -20,6 +20,14 @@ class JoDtr extends Migration {
 			$table->string('event',200)->nullable();
 			$table->string('remark',200)->nullable();
 			$table->string('edited',10)->nullable();
+			$table->string('holiday',30)->nullable();
+			$table->index('dtr_id');
+			$table->index('userid');
+			$table->index('datein');
+			$table->index('time');
+			$table->index('event');
+			$table->index('edited');
+			$table->index('holiday');
 			$table->timestamps();
 			$table->softDeletes();
 		});

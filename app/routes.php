@@ -30,7 +30,7 @@ Route::match(array('GET','POST'), 'print/individual', 'AdminController@print_ind
 Route::get('/search/user/j','AdminController@search_jo');
 Route::get('/search/user/r','AdminController@search_regular');
 Route::get('/search','AdminController@search');
-
+Route::match(['GET','POST'],'add/user', 'AdminController@adduser');
 Route::match(array('GET','POST'), 'print-monthly', 'PrintController@print_monthly');
 Route::get('print-monthly/attendance', 'PrintController@print_pdf');
 Route::match(array('GET','POST'), 'print/employee-attendance', 'PrintController@print_employee');
@@ -97,6 +97,7 @@ Route::get('list/pdf', 'DocumentController@list_print');
 
 Route::get('clear', function(){
 	Session::flush();
+	return Redirect::to('/');
 });
 
 Route::get('modal',function(){
@@ -217,5 +218,9 @@ Route::get('create/cdo', function() {
 		$table->rememberToken();
 		$table->timestamps();
 	});
+});
+
+Route::get('h', function() {
+
 });
 ?>
