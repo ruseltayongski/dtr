@@ -24,17 +24,38 @@
             <tr>
                 <td class="col-sm-3"><label>Prepared by</label></td>
                 <td class="col-sm-1">:</td>
-                <td class="col-sm-8"><input type="text" name="prepared_by" class="form-control" value="<?php echo Auth::user()->fname; ?> <?php echo Auth::user()->lname; ?>" required readonly></td>
+                <td class="col-sm-8">
+                    <div class="input-group">
+                        <div class="input-group-addon">
+                            <i class="fa fa-user"></i>
+                        </div>
+                        <input type="text" name="prepared_by" class="form-control" value="<?php echo Auth::user()->fname; ?> <?php echo Auth::user()->lname; ?>" required readonly>
+                    </div>
+                </td>
             </tr>
             <tr>
                 <td class="col-sm-3"><label>Prepared date</label></td>
                 <td class="col-sm-1">:</td>
-                <td class="col-sm-8"><input class="form-control datepickercalendar" value="<?php echo date('m/d/Y'); ?>" name="prepared_date" required></td>
+                <td class="col-sm-8">
+                    <div class="input-group">
+                        <div class="input-group-addon">
+                            <i class="fa fa-calendar-plus-o"></i>
+                        </div>
+                        <input class="form-control datepickercalendar" value="<?php echo date('m/d/Y'); ?>" name="prepared_date" required>
+                    </div>
+                </td>
             </tr>
             <tr>
                 <td class="col-sm-3"><label>Subject</label></td>
                 <td class="col-sm-1">:</td>
-                <td class="col-sm-8"><textarea class="form-control" name="subject" rows="3" style="resize:none;" required></textarea></td>
+                <td class="col-sm-8">
+                    <div class="input-group">
+                        <div class="input-group-addon">
+                            <i class="fa fa-book"></i>
+                        </div>
+                        <textarea class="form-control" name="subject" rows="3" style="resize:none;" required></textarea>
+                    </div>
+                </td>
             </tr>
             <tr>
                 <td class="col-sm-3"><label>Inclusive Name</label></td>
@@ -57,7 +78,12 @@
                             <i class="fa fa-calendar"></i>
                         </div>
                         <input type="text" class="form-control" id="inclusive1" name="inclusive[]" placeholder="Input date range here..." style="width: 40%;" required>
-                        <textarea name="area[]" id="area1" class="form-control" rows="1" placeholder="Input your area here..." style="resize: none;width: 40%;margin-left:2%" required></textarea>
+                        <div class="input-group">
+                            <div class="input-group-addon">
+                                <i class="fa fa-location-arrow"></i>
+                            </div>
+                            <textarea name="area[]" id="area1" class="form-control" rows="1" placeholder="Input your area here..." style="resize: none;width: 100%;margin-left:2%" required></textarea>
+                        </div>
                     </div>
                 </td>
             </tr>

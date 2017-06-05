@@ -25,7 +25,9 @@
             <tr>
                 <td class="col-sm-3"><label>Name</label></td>
                 <td class="col-sm-1"><strong>:</strong></td>
-                <td class="col-sm-8"><input type="text" class="form-control" value="<?php echo Auth::user()->fname; ?> <?php echo Auth::user()->lname; ?>" required readonly></td>
+                <td class="col-sm-8">
+                    <input type="text" class="form-control" value="<?php echo Auth::user()->fname; ?> <?php echo Auth::user()->lname; ?>" required readonly>
+                </td>
             </tr>
             <tr>
                 <td class="col-sm-3"><label>Date</label></td>
@@ -62,18 +64,37 @@
             <tr>
                 <td class="col-sm-3"><label>Document Type </label></td>
                 <td class="col-sm-1"><strong>:</strong></td>
-                <td class="col-sm-8">Office Order</td>
+                <td class="col-sm-8">
+                    <div class="input-group">
+                        <div class="input-group-addon">
+                            <i class="fa fa-bookmark"></i>
+                        </div>
+                        <input type="text" class="form-control" value="Office Order" readonly>
+                    </div>
+                </td>
             </tr>
             <tr>
                 <td class="col-sm-3"><label>Prepared date </label></td>
                 <td class="col-sm-1"><strong>:</strong></td>
-                <td class="col-sm-8"><input class="form-control datepickercalendar" value="<?php echo date('m/d/Y',strtotime($info->prepared_date)); ?>" name="prepared_date" <?php if($info->version == 1)echo 'required';else echo'disabled';?>></td>
+                <td class="col-sm-8">
+                    <div class="input-group">
+                        <div class="input-group-addon">
+                            <i class="fa fa-calendar-o"></i>
+                        </div>
+                        <input class="form-control datepickercalendar" value="<?php echo date('m/d/Y',strtotime($info->prepared_date)); ?>" name="prepared_date" <?php if($info->version == 1)echo 'required';else echo'disabled';?>>
+                    </div>
+                </td>
             </tr>
             <tr>
                 <td class="col-sm-3"><label>Subject </label></td>
                 <td class="col-sm-1"><strong>:</strong></td>
                 <td class="col-sm-8">
-                    <textarea class="form-control" name="subject" rows="3" style="resize:none;" <?php if($info->version == 1)echo 'required';else echo'disabled';?>><?php echo $info->subject; ?></textarea>
+                    <div class="input-group">
+                        <div class="input-group-addon">
+                            <i class="fa fa-book"></i>
+                        </div>
+                        <textarea class="form-control" name="subject" rows="3" style="resize:none;" <?php if($info->version == 1)echo 'required';else echo'disabled';?>><?php echo $info->subject; ?></textarea>
+                    </div>
                 </td>
             </tr>
             <?php if($info->version == 1): ?>
