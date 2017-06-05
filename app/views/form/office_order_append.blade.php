@@ -9,7 +9,14 @@
             <input type="text" class="form-control" id="{{ 'inclusive'.$_GET['count'] }}" name="inclusive[]" placeholder="Input date range here..." required style="width: 40%">
             <textarea name="area[]" class="form-control" rows="1" placeholder="Input your area here..." style="resize: none;width: 40%;margin-left:2%" required></textarea>
             &nbsp;
-            <button type="button" value="{{ $_GET['count'] }}" onclick="remove($(this))" class="btn btn-danger" style="color: white" ><span class="fa fa-close"></span></button>
+            <button type="button" value="{{ $_GET['count'] }}" id="sample" onclick="remove($(this))" class="btn btn-danger" style="color: white" ><span class="fa fa-close"></span></button>
         </div>
     </td>
 </tr>
+
+<script>
+    function remove(id){
+        $("#"+id.val()).remove();
+        console.log('got it! '+id.val());
+    }
+</script>

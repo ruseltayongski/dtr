@@ -126,10 +126,6 @@
         });
     }
 
-    function remove(id){
-        $("#"+id.val()).remove();
-    }
-
     $.get($("#inclusive_name_page").data("link"),function(result){
         $('select').val(result).trigger('change');
     });
