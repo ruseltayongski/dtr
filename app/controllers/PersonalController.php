@@ -22,37 +22,42 @@ class PersonalController extends Controller
 
     public function index()
     {
-        if(Request::method() == 'POST'){
-            if(Input::has('filter_range1')) {
-                $str = $_POST['filter_range1'];
-                $temp1 = explode('-',$str);
-                $temp2 = array_slice($temp1, 0, 1);
-                $tmp = implode(',', $temp2);
-                $date_from = date('Y-m-d',strtotime($tmp));
-                $temp3 = array_slice($temp1, 1, 1);
-                $tmp = implode(',', $temp3);
-                $date_to = date('Y-m-d',strtotime($tmp));
 
-                $lists = DB::table('dtr_file')
-                    ->leftJoin('users', function($join){
-                        $join->on('dtr_file.userid', '=', 'users.userid')
-                            ->where('users.userid', '<>', '1')
-                            ->where('users.userid', '<>', '--');
-                    })
-                    ->where('dtr_file.userid', '=', Auth::user()->userid)
-                    ->whereBetween('datein', array($date_from,$date_to))
-                    ->orderBy('dtr_file.datein', 'ASC')
-                    ->paginate(20);
+        $date = explode("-",date("Y-m-d"));
+        $firt_day = "$date[0]-$date[1]-01";
+        $last_day = "$date[0]-$date[1]-31";
 
-                return View::make('employee.index')->with('lists',$lists);
-            } else {
-                return Redirect::to('personal/index');
-            }
+        $lists = DB::table('dtr_file')
+            ->leftJoin('users', function($join){
+                $join->on('dtr_file.userid', '=', 'users.userid')
+                    ->where('users.userid', '<>', '1')
+                    ->where('users.userid', '<>', '--');
+            })
+            ->where('dtr_file.userid', '=', Auth::user()->userid)
+            ->whereBetween('datein', array($firt_day,$last_day))
+            ->orderBy('dtr_file.datein', 'ASC')
+            ->paginate(20);
+
+        return View::make('employee.index')->with('lists',$lists);
+
+
+    }
+    public function search() {
+
+        if(Input::has('filter_range1')) {
+            $str = explode('-',Input::get('filter_range1'));
+            $date_from = date("Y-m-d", strtotime($str[0]));
+            $date_to = date("Y-m-d", strtotime($str[1]));
+
+            Session::put('from',$date_from);
+            Session::put('to', $date_to);
         }
-        if(Request::method() == 'GET') {
-            $date = explode("-",date("Y-m-d"));
-            $firt_day = "$date[0]-$date[1]-01";
-            $last_day = "$date[0]-$date[1]-31";
+
+
+        if(Session::has('from') and Session::has('to')) {
+
+            $f_from = Session::get('from');
+            $f_to = Session::get('to');
 
             $lists = DB::table('dtr_file')
                 ->leftJoin('users', function($join){
@@ -61,13 +66,12 @@ class PersonalController extends Controller
                         ->where('users.userid', '<>', '--');
                 })
                 ->where('dtr_file.userid', '=', Auth::user()->userid)
-                ->whereBetween('datein', array($firt_day,$last_day))
+                ->whereBetween('datein', array($f_from,$f_to))
                 ->orderBy('dtr_file.datein', 'ASC')
                 ->paginate(20);
 
             return View::make('employee.index')->with('lists',$lists);
         }
-
     }
     public function edit_attendance($id = null)
     {
@@ -137,81 +141,7 @@ class PersonalController extends Controller
         }
     }
 
-    public function emp_filtered()
-    {
-        
-        $row = null;
-        $pdo = null;
-        if(Input::has('filter_range')){
-            $str = Input::get('filter_range');
-            $temp1 = explode('-',$str);
-            $temp2 = array_slice($temp1, 0, 1);
-            $tmp = implode(',', $temp2);
-            $date_from = date('Y-m-d',strtotime($tmp));
 
-            $temp3 = array_slice($temp1, 1, 1);
-            $tmp = implode(',', $temp3);
-            $date_to = date('Y-m-d',strtotime($tmp));
-           
-            
-            $id = Auth::user()->userid;
-           
-            $pdo = $this->conn();
-            $sched_id = Auth::user()->sched;
-            $query = "SELECT * FROM work_sched WHERE id = '".$sched_id ."'";
-            $st = $pdo->prepare($query);
-            $st->execute();
-            $sched = $st->fetchAll(PDO::FETCH_ASSOC);
-
-
-
-            if(isset($sched) and count($sched) > 0) {
-
-                $am_in = $sched[0]["am_in"];
-                $am_out =  $sched[0]["am_out"];
-                $pm_in = $sched[0]["pm_in"];
-                $pm_out = $sched[0]["pm_out"];
-
-
-                $query = "SELECT DISTINCT e.userid, datein,
-
-                    (SELECT DISTINCT MIN(t1.time) FROM dtr_file t1 WHERE t1.userid = '". $id."' and datein = d.datein and t1.time < '". $am_out ."') as am_in,
-                    (SELECT DISTINCT MAX(t2.time) FROM dtr_file t2 WHERE t2.userid = '". $id."' and datein = d.datein and t2.time < '". $pm_in."' AND t2.event = 'OUT') as am_out,
-                    (SELECT DISTINCT MIN(t3.time) FROM dtr_file t3 WHERE t3.userid = '". $id."' AND datein = d.datein and t3.time >= '". $am_out."' and t3.time < '". $pm_out."' AND t3.event = 'IN' ) as pm_in,
-                    (SELECT DISTINCT MAX(t4.time) FROM dtr_file t4 WHERE t4.userid = '". $id."' AND datein = d.datein and t4.time > '". $pm_in ."' and t4. time < '24:00:00') as pm_out,
-
-                    (SELECT t1.edited FROM dtr_file t1 WHERE t1.userid = '". $id."' and datein = d.datein and t1.time < '". $am_out ."' AND t1.edited = '1' LIMIT 1) as e1,
-                    (SELECT t2.edited  FROM dtr_file t2 WHERE t2.userid = '". $id."' and datein = d.datein and t2.time < '". $pm_in."' AND t2.event = 'OUT' AND t2.edited = '1' LIMIT 1) as e2,
-                    (SELECT t3.edited FROM dtr_file t3 WHERE t3.userid = '". $id."' AND datein = d.datein and t3.time >='". $am_out."' and t3.time < '". $pm_out."' AND t3.event = 'IN' AND t3.edited = '1' LIMIT 1) as e3,
-                    (SELECT t4.edited FROM dtr_file t4 WHERE t4.userid = '". $id."' AND datein = d.datein and t4.time > '". $pm_in ."'  and t4. time < '24:00:00' AND t4.edited = '1' LIMIT 1) as e4
-
-                    FROM dtr_file d LEFT JOIN users e
-                        ON d.userid = e.userid
-                    WHERE d.datein BETWEEN :date_from AND :date_to
-                          AND e.userid = :id
-                    ORDER BY datein ASC";
-                try
-                {
-                    $st = $pdo->prepare($query);
-                    $st->execute(array('date_from' => $date_from, 'date_to' => $date_to, 'id' => $id));
-                    $row = $st->fetchAll(PDO::FETCH_ASSOC);
-                    if(isset($row) and count($row) > 0)
-                    {
-                        return View::make('dtr.filtered')->with('lists',$row)->with('date_from',$date_from)->with('date_to',$date_to)->with('userid', $id);
-                    } else {
-                        return "<p><strong>No result logs from $date_from to $date_to</strong></p>";
-                    }
-                }catch(PDOException $ex){
-                    echo $ex->getMessage();
-                    exit();
-                }
-            } else {
-                return "<p><strong>You daily time logs cannot be generated because your work shift schedule is not yet set.</strong></p>";
-            }
-
-        }
-
-    }
     public  function search_filter()
     {
 
@@ -248,49 +178,6 @@ class PersonalController extends Controller
     public function print_monthly()
     {
         return View::make('print.personal');
-    }
-    public function filter()
-    {
-        $lists = null;
-
-        $str = Input::get('date_range');
-        $temp1 = explode('-',$str);
-        $temp2 = array_slice($temp1, 0, 1);
-        $tmp = implode(',', $temp2);
-        $start_date = date('Y-m-d',strtotime($tmp));
-
-        $temp3 = array_slice($temp1, 1, 1);
-        $tmp = implode(',', $temp3);
-        $end_date = date('Y-m-d',strtotime($tmp));
-
-        
-
-        $id = Auth::user()->userid;
-        $pdo = conn();
-
-        $query = "SELECT DISTINCT e.userid, datein,
-
-                    (SELECT MIN(t1.time) FROM dtr_file t1 WHERE t1.userid = '". $id."' and datein = d.datein and t1.time_h < 12) as am_in,
-                    (SELECT MAX(t2.time) FROM dtr_file t2 WHERE t2.userid = '". $id."' and datein = d.datein and t2.time_h < 13 AND t2.event = 'OUT') as am_out,
-                    (SELECT MIN(t3.time) FROM dtr_file t3 WHERE t3.userid = '". $id."' AND datein = d.datein and t3.time_h >= 12 and t3.time_h < 17 AND t3.event = 'IN' ) as pm_in,
-                    (SELECT MAX(t4.time) FROM dtr_file t4 WHERE t4.userid = '". $id."' AND datein = d.datein and t4.time_h > 13 and t4. time_h < 24) as pm_out
-
-                    FROM dtr_file d LEFT JOIN users e
-                        ON d.userid = e.userid
-                    WHERE d.datein BETWEEN '". $start_date. "' AND '" . $end_date . "'
-                          AND e.userid = '". $id."'
-                    ORDER BY datein ASC";
-
-
-        $st = $pdo->prepare($query);
-        $st->execute();
-        $lists = $st->fetchAll(PDO::FETCH_ASSOC);
-
-        if(isset($lists) and count($lists) > 0) {
-            return View::make('print.personal')->with('lists',$lists)->with('start_date',$start_date)->with('end_date',$end_date);
-        } else {
-            return Redirect::to('personal/print/monthly');
-        }
     }
 
     public static function day_name($datein)
@@ -377,20 +264,5 @@ class PersonalController extends Controller
             return Redirect::to('/');
         }
     }
-    function conn()
-    {
-        $pdo = null;
-
-        try{
-            $pdo = new PDO('mysql:host=localhost; dbname=dohdtr','root','');
-            $pdo->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
-        }
-        catch (PDOException $err) {
-            $err->getMessage() . "<br/>";
-            exit();
-        }
-        return $pdo;
-    }
-
 
 }

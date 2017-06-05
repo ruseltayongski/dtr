@@ -30,7 +30,7 @@ Route::match(array('GET','POST'), 'print/individual', 'AdminController@print_ind
 Route::get('/search/user/j','AdminController@search_jo');
 Route::get('/search/user/r','AdminController@search_regular');
 Route::get('/search','AdminController@search');
-
+Route::match(['GET','POST'],'add/user', 'AdminController@adduser');
 Route::match(array('GET','POST'), 'print-monthly', 'PrintController@print_monthly');
 Route::get('print-monthly/attendance', 'PrintController@print_pdf');
 Route::match(array('GET','POST'), 'print/employee-attendance', 'PrintController@print_employee');
@@ -40,15 +40,17 @@ Route::match(array('GET','POST'), 'create/work-schedule', 'HoursController@work_
 Route::match(array('GET','POST') , 'edit/work-schedule/{id}' ,'HoursController@edit_schedule');
 Route::match(array('GET','POST') , 'edit/attendance/{id?}', 'DtrController@edit_attendance');
 Route::get('attendance','DtrController@attendance');
-Route::get('filter/attendance', 'DtrController@filter_attendance');
+Route::get('attendance/q', 'DtrController@filter_attendance');
 Route::match(array('GET','POST'),'resetpass', 'PasswordController@change_password');
 //Route::post('/', 'PasswordController@save_changes');
 
 
 //DTR
 
-Route::match(['GET','POST'],'dtr/list/jo', 'GenerateDTRController@list_jo_dtr');
-Route::match(['GET','POST'],'dtr/list/regular', 'GenerateDTRController@list_regular_dtr');
+Route::get('dtr/list/jo', 'GenerateDTRController@list_jo_dtr');
+Route::get('search/jo','GenerateDTRController@search_jo_dtr');
+Route::get('dtr/list/regular', 'GenerateDTRController@list_regular_dtr');
+Route::get('search/regular', 'GenerateDTRController@search_reg_dtr');
 Route::get('dtr/download/{id}', 'GenerateDTRController@download_dtr');
 Route::match(['GET','POST'],'/personal/dtr/list', 'PersonalController@personal_dtrlist');
 Route::get('/personal/dtr/filter/list','PersonalController@personal_filter_dtrlist');
@@ -66,6 +68,8 @@ Route::get('personal/monthly',function() {
 });
 
 Route::match(['GET','POST'],'personal/index', 'PersonalController@index');
+Route::get('personal/search', 'PersonalController@search');
+
 Route::get('/personal/search/filter', 'PersonalController@search_filter');
 Route::get('personal/print/monthly', 'PersonalController@print_monthly');
 Route::post('personal/print/filter' ,'PersonalController@filter');
@@ -93,6 +97,7 @@ Route::get('list/pdf', 'DocumentController@list_print');
 
 Route::get('clear', function(){
 	Session::flush();
+	return Redirect::to('/');
 });
 
 Route::get('modal',function(){
@@ -213,5 +218,9 @@ Route::get('create/cdo', function() {
 		$table->rememberToken();
 		$table->timestamps();
 	});
+});
+
+Route::get('h', function() {
+
 });
 ?>

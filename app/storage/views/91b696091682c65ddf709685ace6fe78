@@ -53,7 +53,7 @@
                                     <div class="row">
                                         <div class="col-md-12">
                                             <?php if($type == "list"): ?>
-                                                <a href="#document_form" data-link="<?php echo asset('form/cdov1/form'); ?>" class="btn btn-success" data-dismiss="modal" data-backdrop="static" data-toggle="modal" data-target="#document_form" style="color: white;"><i class="fa fa-plus"></i> Create new</a>
+                                                <a href="#document_form" data-link="<?php echo asset('form/cdov1/form'); ?>" class="btn btn-success" data-dismiss="modal" data-backdrop="static" data-toggle="modal" data-target="#document_form" style="background-color:darkmagenta;color: white;"><i class="fa fa-plus"></i> Create new</a>
                                             <?php endif; ?>
                                         </div>
                                     </div>
@@ -66,21 +66,27 @@
                                                         <thead>
                                                         <tr>
                                                             <th></th>
-                                                            <th>Route #</th>
-                                                            <th>Prepared Name</th>
-                                                            <th>Prepared Date</th>
-                                                            <th>Document Type</th>
-                                                            <th>Subject</th>
+                                                            <th class="text-center">Route #</th>
+                                                            <th class="text-center">Prepared Date</th>
+                                                            <?php if(\Illuminate\Support\Facades\Auth::user()->usertype): ?>
+                                                            <th class="text-center">Prepared Name</th>
+                                                            <?php else: ?>
+                                                            <th class="text-center">Document Type</th>
+                                                            <?php endif; ?>
+                                                            <th class="text-center">Subject</th>
                                                         </tr>
                                                         </thead>
-                                                        <tbody>
+                                                        <tbody style="font-size: 10pt;">
                                                         <?php foreach($cdo as $row): ?>
                                                             <tr>
-                                                                <td><a href="#track" data-link="<?php echo asset('form/track/'.$row->route_no); ?>" data-route="<?php echo $row->route_no; ?>" data-toggle="modal" class="btn btn-sm btn-success col-sm-12" style="background-color: darkmagenta;color:white;"><i class="fa fa-line-chart"></i> Track</a></td>
+                                                                <td><a href="#track" data-link="<?php echo asset('form/track/'.$row->route_no); ?>" data-route="<?php echo $row->route_no; ?>" data-toggle="modal" class="btn btn-sm btn-success col-sm-12" style="background-color:darkmagenta;color:white;"><i class="fa fa-line-chart"></i> Track</a></td>
                                                                 <td><a class="title-info" data-backdrop="static" data-route="<?php echo $row->route_no; ?>" data-link="<?php echo asset('/form/info/'.$row->route_no.'/cdo'); ?>" href="#document_info" data-toggle="modal"><?php echo $row->route_no; ?></a></td>
-                                                                <td><?php echo pdoController::user_search1($row->prepared_name)['fname'].' '.pdoController::user_search1($row->prepared_name)['mname'].' '.pdoController::user_search1($row->prepared_name)['lname']; ?></td>
                                                                 <td><?php echo date('M d, Y',strtotime($row->prepared_date)); ?><br><?php echo date('h:i:s A',strtotime($row->prepared_date)); ?></td>
+                                                                <?php if(\Illuminate\Support\Facades\Auth::user()->usertype): ?>
+                                                                <td><?php echo pdoController::user_search1($row['prepared_name'])['fname'].' '.pdoController::user_search1($row['prepared_name'])['mname'].' '.pdoController::user_search1($row['prepared_name'])['lname']; ?></td>
+                                                                <?php else: ?>
                                                                 <td>CTO</td>
+                                                                <?php endif; ?>
                                                                 <td><?php echo $row->subject; ?></td>
                                                             </tr>
                                                         <?php endforeach; ?>
@@ -106,11 +112,7 @@
 
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('js'); ?>
-    @parent
     <?php if(Session::get('added')): ?>
-        <?php /*<div class="alert alert-success">
-            <i class="fa fa-check"></i> Successfully Added!
-        </div>*/ ?>
         <script>
             Lobibox.notify('success',{
                 msg:'Successfully Added!'
@@ -119,9 +121,6 @@
         <?php Session::forget('added'); ?>
     <?php endif; ?>
     <?php if(Session::get('deleted')): ?>
-        <?php /*<div class="alert alert-warning">
-            <i class="fa fa-check"></i> Successfully Deleted!
-        </div>*/ ?>
         <script>
             Lobibox.notify('error',{
                 msg:'Successfully Deleted!'
@@ -137,7 +136,9 @@
         </script>
         <?php Session::forget('updated'); ?>
     <?php endif; ?>
+    @parent
     <script>
+        $("#inclusive3").daterangepicker();
         $('.input-daterange input').each(function() {
             $(this).datepicker("clearDates");
         });
@@ -186,11 +187,6 @@
             $doc_type = 'CDO';
             ?>
         });
-
-        function soon(){
-            alert("Form version 2 is not available, currently develop");
-        }
-
     </script>
 <?php $__env->stopSection(); ?>
 <?php echo $__env->make('layouts.app', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

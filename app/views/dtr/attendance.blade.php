@@ -11,13 +11,13 @@
                         <div class="panel panel-default">
                             <div class="panel-heading"><strong style="color: #f0ad4e;font-size:medium;">Filter Attendance</strong></div>
                             <div class="panel-body">
-                                <form action="{{ asset('filter/attendance') }}" method="GET">
+                                <form action="{{ asset('attendance/q') }}" method="GET">
                                     <div class="table-responsive">
                                         <table class="table">
                                             <tr>
                                                 <td class="col-sm-3"><strong>Keyword</strong></td>
                                                 <td class="col-sm-1"> :</td>
-                                                <td class="col-sm-9"><input type="text" class="col-md-2 form-control" id="inputEmail3" name="keyword" value=""></td>
+                                                <td class="col-sm-9"><input type="text" class="col-md-2 form-control" id="inputEmail3" name="q" value=""></td>
                                             </tr>
                                             <tr>
                                                 <td class="col-sm-3"><strong>Dates</strong></td>

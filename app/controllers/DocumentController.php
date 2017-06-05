@@ -12,7 +12,7 @@ class DocumentController extends BaseController
     public function __construct()
     {
 
-        //$this->beforeFilter('personal');
+        $this->beforeFilter('personal');
     }
 
     public  function leave()
@@ -28,18 +28,12 @@ class DocumentController extends BaseController
 
             $route_no = date('Y-') . Auth::user()->userid . date('mdHis');
 
-
-            $doc_type = 'LEAVE';
-            $prepared_date = Input::get('prepared_date');
-            $prepared_by =  Auth::user()->userid;
-            $description = Input::get('subject');
-
-            
             
             $leave = new Leave();
 
 
             $leave->userid = Auth::user()->userid;
+            $leave->route_no = $route_no;
             $leave->office_agency = Input::get('office_agency');
             $leave->lastname = Input::get('lastname');
             $leave->firstname = Input::get('firstname');
@@ -90,29 +84,33 @@ class DocumentController extends BaseController
             $leave->save();
 
 
-
-            $route_no = date('Y-') . Auth::user()->userid . date('mdHis');
-
-
-            $doc_type = 'LEAVE';
-            $prepared_date = Input::get('prepared_date');
+            $doc_type = 'APP_LEAVE';
+            $prepared_date = date('Y-m-d');
             $prepared_by =  Auth::user()->userid;
             $description = "Application for leave";
 
-            $this->insert_tracking_master($route_no,$doc_type,$prepared_date,$prepared_by,$description);
 
             //ADD TRACKING DETAILS
             $date_in = $prepared_date;
             $received_by = $prepared_by;
             $delivered_by = $prepared_by;
             $action = $description;
-            $this->insert_tracking_details($route_no,$date_in,$received_by,$delivered_by,$action);
 
-            //ADD SYSTEM LOGS
+            $data = array($route_no,$doc_type,$prepared_date,$prepared_by,$description);
+            DB::connection('dts')->insert("INSERT INTO TRACKING_MASTER(route_no,doc_type,prepared_date,prepared_by,description,created_at,updated_at) values(?,?,?,?,?,now(),now())",$data);
+
+            $data = array($route_no,$date_in,$received_by,$delivered_by,$action);
+            $sql="INSERT INTO TRACKING_DETAILS(route_no,date_in,received_by,delivered_by,action,created_at,updated_at) values(?,?,?,?,?,now(),now())";
+            DB::connection('dts')->insert($sql,$data);
+
             $user_id = $prepared_by;
             $name = Auth::user()->fname.' '.Auth::user()->mname.' '.Auth::user()->lname;
             $activity = 'CREATED';
-            $this->insert_system_logs($user_id,$name,$activity);
+
+            $data = array($user_id,$name,$activity,$route_no);
+            $sql="INSERT INTO SYSTEMLOGS(user_id,name,activity,description,created_at,updated_at) values(?,?,?,?,now(),now())";
+            DB::connection('dts')->insert($sql,$data);
+
             Session::put('added',true);
 
 
@@ -141,7 +139,7 @@ class DocumentController extends BaseController
 
         $leave = Leave::where('id', Input::get('id'))->first();
         if(isset($leave) and count($leave) > 0) {
-            $leave->userid = Auth::user()->id;
+            $leave->userid = Auth::user()->userid;
             $leave->office_agency = Input::get('office_agency');
             $leave->lastname = Input::get('lastname');
             $leave->firstname = Input::get('firstname');
@@ -190,7 +188,7 @@ class DocumentController extends BaseController
 
     public function all_leave()
     {
-        $leaves = Leave::paginate(15);
+        $leaves = Leave::where('userid','=', Auth::user()->userid)->paginate(20);
         return View::make('form.list_leave')->with('leaves', $leaves);
     }
 
@@ -202,6 +200,7 @@ class DocumentController extends BaseController
 
     public function print_leave($id)
     {
+
         $leave = Leave::find($id);
         $display = View::make('pdf.test_pdf')->with('leave', $leave);
         return PDF::load($display, 'LEGAL', 'portrait')->show();

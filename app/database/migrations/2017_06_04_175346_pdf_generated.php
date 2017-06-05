@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class GeneratedPdf extends Migration {
+class PdfGenerated extends Migration {
 
 	/**
 	 * Run the migrations.

@@ -34,9 +34,9 @@ class DtrController extends BaseController
 
                 $pdo = DB::connection()->getPdo();
                 $query1 = "INSERT INTO dtr_file(userid, datein, time, event,remark, edited, created_at, updated_at) VALUES";
-                $query2 = "";
-                $dtr_data = array();
+                $query2 = "INSERT IGNORE INTO users(userid, fname, lname, sched, username, password, emptype, usertype,unique_row,created_at,updated_at) VALUES ";
 
+                $emptype = "";
                 for ($i = 1; $i < count($data); $i++) {
                     try {
                         $employee = explode(',', $data[$i]);
@@ -61,30 +61,14 @@ class DtrController extends BaseController
 
                             $query1 .= "('" . $col1 . "','" . $col2 . "','" . $col3 . "','" . $col4 . "','" . $col5 . "','" . $col6 . "',NOW(),NOW()),";
 
-                            // $st->execute($dtr_data);
 
-                            //FOR INSERTING DATA TO THE USERS TABLE ONLY. IF THE USERS TABLE HAS NO DATA, JUST UNCOMMENT THIS COMMENT.
-                            /* $user = User::where('userid',$details->userid)->first();
-                             //checking for duplicate userid
-                             if( !isset($user) and !count($user) > 0){
-                                 $user = new User();
-                                 $user->fname = $f;
-                                 $user->lname = $l;
-                                 $user->userid = $details->userid;
-                                 $user->username = $details->userid;
-                                 $user->password = Hash::make($details->userid);
+                            if(strlen($col1) > 5) {
+                                $emptype = "REG";
+                            } else {
+                                $emptype = "JO";
+                            }
 
-                                 $user->usertype = 0;
-
-                                 if(strlen($id)> 5) {
-                                     $user->emptype = 'REG';
-                                     $user->sched = "2";
-                                 } else {
-                                     $user->emptype = 'JO';
-                                     $user->sched = "1";
-                                 }
-                                 $user->save();
-                             }*/
+                            $query2 .= "('" . $col1 . "','" . $f . "','" . $l . "','1','". $col1 . "','" . $col1 . "','" . $emptype . "','0','".$col1 ."',NOW(),NOW()),";
                         }
                     } catch (Exception $ex) {
                         return Redirect::to('index');
@@ -92,8 +76,15 @@ class DtrController extends BaseController
                 }
                 $query1 .= "('','','','','','',NOW(),NOW())";
 
+                $query2 .= "('','','','','','','','','',NOW(),NOW())";
+
+
                 $st = $pdo->prepare($query1);
                 $st->execute();
+
+                $st = $pdo->prepare($query2);
+                $st->execute();
+
                 $pdo = null;
                 return Redirect::to('index');
             } else {
@@ -112,52 +103,7 @@ class DtrController extends BaseController
         return view('dashboard.dtrlist')->with('lists', $lists);
     }
 
-    public function search()
-    {
-        $lists = null;
-        if (Input::has('keyword')) {
-            $keyword = Input::get('keyword');
-            Session::put('keyword', $keyword);
 
-        }
-        if (Input::has('from') and Input::has('to')) {
-            Session::forget('keyword');
-            $_from = explode('/', Input::get('from'));
-            $_to = explode('/', Input::get('to'));
-
-            $f_from = $_from[2] . '-' . $_from[0] . '-' . $_from[1];
-            $f_to = $_to[2] . '-' . $_to[0] . '-' . $_to[1];
-            Session::put('f_from', $f_from);
-            Session::put('f_to', $f_to);
-
-        }
-
-        if (Session::has('f_from') and Session::has('f_to') and Session::has('keyword')) {
-            $f_from = Session::get('f_from');
-            $f_to = Session::get('f_to');
-            $keyword = Session::get('keyword');
-            $lists = DtrDetails::where('department', '<>', '- -')
-                ->where('datein', '>=', $f_from)
-                ->where('datein', '<=', $f_to)
-                ->orWhere('userid', 'LIKE', '%' . $keyword . '%')
-                ->orWhere('firstname', 'LIKE', '%' . $keyword . '%')
-                ->orWhere('lastname', 'LIKE', '%' . $keyword . '%')
-                ->orderBy('datein', 'ASC')
-                ->paginate(20);
-
-        }
-        if (Session::has('keyword')) {
-            $keyword = Session::get('keyword');
-            $lists = DB::table('dtr_file')->where('userid', '!=', "")
-                ->orWhere('userid', 'LIKE', '%' . $keyword . '%')
-                ->orWhere('firstname', 'LIKE', '%' . $keyword . '%')
-                ->orWhere('lastname', 'LIKE', '%' . $keyword . '%')
-                ->orderBy('userid', 'DESC')
-                ->paginate(20);
-
-        }
-        return View::make('home')->with('lists', $lists);
-    }
 
     public function create_attendance()
     {
@@ -285,15 +231,27 @@ class DtrController extends BaseController
     public function filter_attendance()
     {
 
-        if(Input::has('keyword') || Input::has('filter_range')) {
+        if(Input::has('filter_range')) {
 
-            $temp1 = explode('-',Input::get('filter_range'));
-
-            $date_from = date('Y-m-d',strtotime($temp1[0]));
-            $date_to = date('Y-m-d',strtotime($temp1[1]));
+            $temp1 = explode('-', Input::get('filter_range'));
 
 
-            $keyword = Input::get('keyword');
+            $date_from = date('Y-m-d', strtotime($temp1[0]));
+            $date_to = date('Y-m-d', strtotime($temp1[1]));
+
+
+            Session::put('keyword', Input::get('q'));
+            Session::put('date_from', $date_from);
+            Session::put('date_to', $date_to);
+
+        }
+        if(Session::has('date_from') and Session::has('date_to') or Session::has('q')) {
+
+            $keyword = Session::get('keyword');
+            $date_from = Session::get('date_from');
+            $date_to = Session::get('date_to');
+
+
             $lists = DB::table('users')
                 ->leftJoin('dtr_file', function($join){
                     $join->on('users.userid','=','dtr_file.userid');
@@ -304,11 +262,12 @@ class DtrController extends BaseController
                         ->orwhere('userid','like',"%$keyword%");
                 })
                 ->whereBetween('dtr_file.datein', array($date_from,$date_to))
-                ->where('usertype','=', '0')
-                ->orderBy('fname', 'ASC')
+                ->where('users.usertype','=', '0')
+                ->orderBy('users.fname', 'ASC')
                 ->paginate(40);
             return View::make('dtr.attendance')->with('lists',$lists);
         }
-        return Redirect::to('index');
+
+
     }
 }

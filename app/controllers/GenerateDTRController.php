@@ -21,87 +21,75 @@ class GenerateDTRController extends BaseController
 
     public function list_jo_dtr()
     {
+        $lists = PdfFiles::where('type','JO')
+            ->where('is_filtered','!=','1')
+            ->orderBy('date_created', 'ASC')
+            ->paginate(20);
+        return View::make('dtr.dtr_list_jo')->with('lists', $lists);
+    }
 
-        if(Request::method() == 'GET') {
-            $lists = PdfFiles::where('type','JO')
-                ->where('is_filtered','!=','1')
+    public function search_jo_dtr() {
+
+        if(Input::has('q')) {
+
+            $str = explode('-',Input::get('q'));
+            $date_from = date("Y-m-d", strtotime($str[0]));
+            $date_to = date("Y-m-d", strtotime($str[1]));
+
+            Session::put('date_from',$date_from);
+            Session::put('date_to',$date_to);
+        }
+        if(Session::has('date_from') and Session::has('date_to')) {
+            $date_from = Session::get('date_from');
+            $date_to = Session::get('date_to');
+
+            $lists = DB::table('generated_pdf')
+                ->where('type', '=', 'JO')
+                ->whereBetween('date_from',array($date_from,$date_to))
+                ->whereBetween('date_to', array($date_from,$date_to))
                 ->orderBy('date_created', 'ASC')
                 ->paginate(20);
+
             return View::make('dtr.dtr_list_jo')->with('lists', $lists);
         }
 
-        if(Request::method('POST')) {
-
-            if(Input::has('filter_range1')) {
-
-                $str = Input::get('filter_range1');
-                $temp1 = explode('-',$str);
-                $temp2 = array_slice($temp1, 0, 1);
-                $tmp = implode(',', $temp2);
-                $date_from = date('Y-m-d',strtotime($tmp));
-                $temp3 = array_slice($temp1, 1, 1);
-                $tmp = implode(',', $temp3);
-                $date_to = date('Y-m-d',strtotime($tmp));
-
-
-                $lists = DB::table('generated_pdf')
-                    ->where('type', '=', 'JO')
-                    ->whereBetween('date_from',array($date_from,$date_to))
-                    ->whereBetween('date_to', array($date_from,$date_to))
-                    ->orderBy('date_created', 'ASC')
-                    ->paginate(20);
-
-                return View::make('dtr.dtr_list_jo')->with('lists', $lists);
-
-            } else {
-                return Redirect::to('dtr/list/jo');
-            }
-        } else {
-            return Redirect::to('dtr/list/jo');
-        }
-
     }
-
     public function list_regular_dtr()
     {
-        if(Request::method() == 'GET') {
-            $lists = PdfFiles::where('type','REG')
-                ->orderBy('date_created','ASC')
-                ->paginate(20);
-            return View::make('dtr.dtr_list_regular')->with('lists',$lists);
-        }
-        if(Request::method() == 'POST') {
-            if(Input::has('filter_regular')) {
 
-                $str = Input::get('filter_regular');
-                $temp1 = explode('-',$str);
-                $temp2 = array_slice($temp1, 0, 1);
-                $tmp = implode(',', $temp2);
-                $date_from = date('Y-m-d',strtotime($tmp));
-                $temp3 = array_slice($temp1, 1, 1);
-                $tmp = implode(',', $temp3);
-                $date_to = date('Y-m-d',strtotime($tmp));
-
-
-                $lists = DB::table('generated_pdf')
-                    ->where('type', '=', 'REG')
-                    ->whereBetween('date_from',array($date_from,$date_to))
-                    ->whereBetween('date_to', array($date_from,$date_to))
-                    ->orderBy('date_created', 'ASC')
-                    ->paginate(20);
-
-                return View::make('dtr.dtr_list_regular')->with('lists',$lists);
-
-            } else {
-                return Redirect::to('dtr/list/jo');
-            }
-        } else {
-            return Redirect::to('dtr/list/regular');
-        }
+        $lists = PdfFiles::where('type','REG')
+            ->orderBy('date_created','ASC')
+            ->paginate(2);
+        return View::make('dtr.dtr_list_regular')->with('lists',$lists);
 
     }
 
+    public function search_reg_dtr() {
 
+        if(Input::has('q')) {
+
+            $str = explode('-', Input::get('q'));
+            $date_from = date("Y-m-d", strtotime($str[0]));
+            $date_to = date("Y-m-d", strtotime($str[1]));
+
+            Session::put('date_from', $date_from);
+            Session::put('date_to', $date_to);
+        }
+        if(Session::has('date_from') and Session::has('date_to')) {
+
+            $date_from = Session::get('date_from');
+            $date_to = Session::get('date_to');
+
+            $lists = DB::table('generated_pdf')
+                ->where('type', '=', 'REG')
+                ->whereBetween('date_from',array($date_from,$date_to))
+                ->whereBetween('date_to', array($date_from,$date_to))
+                ->orderBy('date_created', 'ASC')
+                ->paginate(2);
+
+            return View::make('dtr.dtr_list_regular')->with('lists',$lists);
+        }
+    }
     public function personal_filter_dtrlist()
     {
         $lists = PdfFiles::where('is_filtered','1')

@@ -153,6 +153,8 @@
                     editable: true,
                     eventResize: function(event)
                     {
+
+
                         var url = $('#calendar_update').data('link');
                         var object = {
                             'type' : 'resize',
@@ -192,6 +194,16 @@
                         });
                     },
                     eventDrop: function(event,jsEvent) {
+
+                        var start = new Date(event.start.toString());
+                        var start_date = start.toLocaleDateString();
+
+                        var start = new Date(event.start.toString());
+                        start.setDate(start.getDate() + 1);
+                        var end_date = start.toLocaleDateString();
+
+
+
                         var url = $('#calendar_update').data('link');
                         var object = {
                             'type' : 'drop',
@@ -199,6 +211,7 @@
                             'start' : event.start.format()
                         };
                         $.post(url,object,function(result){
+
                             Lobibox.notify('warning',{
                                 msg:'Holiday Transferred!'
                             });

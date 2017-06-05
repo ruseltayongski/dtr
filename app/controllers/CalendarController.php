@@ -124,6 +124,13 @@ class CalendarController extends BaseController
 
     public function calendar_update()
     {
+
+
+        if(Auth::user()->usertype == "0")
+        {
+            return;
+        }
+
         ///RUSEL
         $start_date = Input::get('start');
         $calendar = Calendars::where('event_id',Input::get('event_id'))->first();
@@ -133,6 +140,7 @@ class CalendarController extends BaseController
         date_add($end, date_interval_create_from_date_string($day_range.'days'));
         $end_date = date_format($end, 'Y-m-d');
         ///END RUSEL
+
 
         if(Input::get('type') == 'drop') {
 
@@ -144,7 +152,10 @@ class CalendarController extends BaseController
             //END RUSEL
 
 
-            /*$details = DtrDetails::where('holiday','=', '001')
+            $end_date = date('Y-m-d',(strtotime ( '-1 day' , strtotime (Input::get('end')) ) ));
+            $start = Input::get('start');
+
+            $details = DtrDetails::where('holiday','=', '001')
                 ->whereBetween('datein',[$start_date,$end_date]);
             $details->delete();
 
@@ -210,7 +221,7 @@ class CalendarController extends BaseController
 
                 $startday = $startday + 1;
                 $j++;
-            }*/
+            }
 
 
 
@@ -224,7 +235,7 @@ class CalendarController extends BaseController
                 $calendar->save();
                 ///
 
-                /*$start_date = date('Y-m-d',strtotime (Input::get('start')));
+                $start_date = date('Y-m-d',strtotime (Input::get('start')));
                 $calendar_end_date = date('Y-m-d',strtotime (Input::get('end')));
                 $end_date = date('Y-m-d',(strtotime ( '-1 day' , strtotime (Input::get('end')) ) ));
 
@@ -298,7 +309,7 @@ class CalendarController extends BaseController
 
                     $startday = $startday + 1;
                     $j++;
-                }*/
+                }
 
             }catch(\Whoops\Exception\ErrorException $ex)
             {

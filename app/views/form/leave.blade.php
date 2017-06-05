@@ -2,7 +2,6 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-12">
-
             <table border="2" style="width: 100%;">
                 <thead></thead>
                 <tbody>
@@ -467,6 +466,19 @@
                     </tr>
                 </tbody>
             </table>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <div class="row">
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
+                <a href="{{ asset('leave/update/' . $leave->id) }}"  class="btn btn-primary btn-submit" style="color:white;"><i class="fa fa-pencil"></i> Update</a>
+                <a target="_blank" class="btn btn-success" href="{{ asset('leave/print/' .$leave->id) }}" style="color: white;"><i class="fa fa-print"></i> Print</a>
+                <button type="button" class="btn btn-success" data-dismiss="modal" style="color:white" data-toggle="modal" data-target="#paperSize"><i class="fa fa-barcode"></i> Barcode v1</button>
+                <a target="_blank" href="http://localhost/dtr4.2/pdf/track" class="btn btn-success" style="color:white"><i class="fa fa-barcode"></i> Barcode v2</a>
+                <a onclick="warning()" class="btn btn-success" style="color:white"><i class="fa fa-barcode"></i> Barcode v3</a>
+                <a href="{{ asset('leave/delete/' .$leave->id) }}" style="color:white" class="btn btn-danger" ><i class="fa fa-trash"></i> Remove</a>
+            </div>
         </div>
     </div>
 </div>

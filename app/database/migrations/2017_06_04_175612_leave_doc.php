@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class Leave extends Migration {
+class LeaveDoc extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -12,8 +12,6 @@ class Leave extends Migration {
 	 */
 	public function up()
 	{
-
-
 		Schema::create('leave', function($table){
 			$table->increments('id');
 			$table->string('route_no');
@@ -50,7 +48,6 @@ class Leave extends Migration {
 			$table->softDeletes();
 			$table->timestamps();
 		});
-
 	}
 
 	/**
@@ -60,9 +57,7 @@ class Leave extends Migration {
 	 */
 	public function down()
 	{
-
 		Schema::drop('leave');
-
 	}
 
 }

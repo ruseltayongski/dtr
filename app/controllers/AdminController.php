@@ -35,15 +35,23 @@ class AdminController extends BaseController
         if(Request::method() == 'POST') {
             $username = Input::get('username');
             $password = Input::get('password');
-           if(Auth::attempt(array('username' => $username, 'password' => $password))) {
-               if(Auth::user()->usertype == '1') {
-                   return Redirect::to('home');
-               } else {
-                   return Redirect::to('personal/index');
-               }
-           } else {
-               return Redirect::to('/')->with('ops','Invalid Login');
-           }
+            $user = Users::where('username', '=', $username)
+                        ->where('password', '=', $password)
+                        ->first();
+
+            if(isset($user) and count($user) > 0) {
+                if (Auth::loginUsingId($user->id)) {
+                    if (Auth::user()->usertype == '1') {
+                        return Redirect::to('home');
+                    } else {
+                        return Redirect::to('personal/index');
+                    }
+                } else {
+                    return Redirect::to('/')->with('ops', 'Invalid Login');
+                }
+            } else {
+                return Redirect::to('/')->with('ops', 'Invalid Login');
+            }
         }
     }
 
@@ -174,13 +182,22 @@ class AdminController extends BaseController
             }
         }
     }
-    public function print_individual()
+
+    public function adduser()
     {
         if(Request::method() == "GET") {
-            return View::make('dtr.print_individual');
+            $sched = WorkScheds::all();
+            return View::make('users.adduser')->with('scheds',$sched);
         }
-        if(Request::method() == "POST") {
-
-        }
+        $user = new Users();
+        $user->userid = Input::get('userid');
+        $user->fname = Input::get('fname');
+        $user->lname = Input::get('lname');
+        $user->sched = Input::get('sched');
+        $user->username = Input::get('userid');
+        $user->password = Hash::make(Input::get('userid'));
+        $user->emptype = Input::get('emptype');
+        $user->save();
+        return Redirect::to('/');
     }
 }
