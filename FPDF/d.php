@@ -516,7 +516,7 @@ function get_logs($am_in,$am_out,$pm_in,$pm_out,$id,$date_from,$date_to)
                     (SELECT t4.edited FROM dtr_file t4 WHERE userid = d.userid AND datein = d.datein and t4.time > '". $pm_in ."'  and t4. time < '24:00:00' AND t4.edited = '1' LIMIT 1) as e4
 
                     FROM dtr_file d LEFT JOIN users e
-                        ON d.userid = e.userid OR d.holiday = '001'
+                        ON d.userid = e.userid OR d.holiday = '001' OR d.holiday == '002'
                     WHERE d.datein BETWEEN :date_from AND :date_to
                           AND e.userid = :id
                     ORDER BY datein ASC";

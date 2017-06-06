@@ -12,7 +12,7 @@ class DocumentController extends BaseController
     public function __construct()
     {
 
-        $this->beforeFilter('personal');
+        //$this->beforeFilter('personal');
     }
 
     public  function leave()
@@ -654,6 +654,8 @@ class DocumentController extends BaseController
     }
 
     public function show($route_no,$doc_type=null){
+        if(!Auth::user()->usertype)
+            return false;
         Session::put('route_no',$route_no);
         if($doc_type == 'office_order'){
             $users = pdoController::users();
@@ -698,6 +700,5 @@ class DocumentController extends BaseController
         Session::put('route_no',$route_no);
         return View::make('document.track',['document' => $document]);
     }
-
 
 }

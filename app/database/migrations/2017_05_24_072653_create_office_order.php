@@ -27,6 +27,7 @@ class CreateOfficeOrder extends Migration {
 			$table->text('prepared_by');
 			$table->text('prepared_date');
 			$table->text('version');
+			$table->interger('approved_status');
 			$table->rememberToken();
 			$table->timestamps();
 		});

@@ -1,7 +1,4 @@
-
-@extends('layouts.app')
-
-@section('content')
+<?php $__env->startSection('content'); ?>
 
     <div class="col-md-12 wrapper">
         <div class="alert alert-jim">
@@ -10,17 +7,17 @@
             <div class="container">
                 <div class="row">
                     <div class="col-md-11">
-                        <form action="{{ asset('FPDF/test.php') }}" method="POST">
+                        <form action="<?php echo asset('FPDF/test.php'); ?>" method="POST">
                             <div class="row">
                                 <div class="col-md-10">
                                     <div class="form-group">
                                         <label for="inputEmail3" class="col-md-2 control-label">User ID</label>
                                         <div class="col-sm-5">
-                                            @if(Auth::user()->usertype == "1")
+                                            <?php if(Auth::user()->usertype == "1"): ?>
                                                 <input type="text" class="col-md-2 form-control" id="inputEmail3" name="userid" value="" required>
-                                            @else
-                                                <input type="text" readonly class="col-md-2 form-control" id="inputEmail3" name="userid" value="{{ Auth::user()->userid }}" required>
-                                            @endif
+                                            <?php else: ?>
+                                                <input type="text" readonly class="col-md-2 form-control" id="inputEmail3" name="userid" value="<?php echo Auth::user()->userid; ?>" required>
+                                            <?php endif; ?>
                                         </div>
                                     </div>
                                 </div>
@@ -46,7 +43,7 @@
                                     <div class="form-group">
                                         <div class="col-sm-5 col-md-offset-2">
                                             <input type="submit" name="submit" class="btn btn-success" value="Print">
-                                            <a href="{{ asset('/') }}" class="btn btn-default">Cancel</a>
+                                            <a href="<?php echo asset('/'); ?>" class="btn btn-default">Cancel</a>
                                         </div>
                                     </div>
                                 </div>
@@ -57,13 +54,15 @@
             </div>
         </div>
     </div>
-@endsection
+<?php $__env->stopSection(); ?>
 
-@section('js')
+<?php $__env->startSection('js'); ?>
     @parent
     <script>
 
         $('#inclusive3').daterangepicker();
     </script>
 
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.app', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
