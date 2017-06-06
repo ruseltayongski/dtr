@@ -1,4 +1,7 @@
+
 @extends('layouts.app')
+
+
 @section('content')
     <span id="calendar_holiday" data-link=" {{ asset('calendar_holiday') }} "></span>
     <span id="calendar_id" data-link="{{ asset('calendar_id') }}"></span>
@@ -9,13 +12,7 @@
     <span id="calendar_banner" data-link="{{ asset('resources/img/banner.png') }}"></span>
     <div class="col-md-9 wrapper">
         <div class="alert alert-jim">
-            {{--<div class="row no-print">
-                <div class="col-xs-12">
-                    <button type="button" class="btn btn-primary pull-plus" onclick="addEvent($(this));" data-link="{{ asset('calendar_form') }}" style="margin-right: 5px;">
-                        <i class="fa fa-download"></i> Add New Event
-                    </button>
-                </div>
-            </div><br>--}}
+
             <div class="box box-primary">
                 <div class="box-body no-padding">
                     <!-- THE CALENDAR -->
@@ -34,19 +31,7 @@
                 </div>
                 <div class="box-body">
                     <!-- the events -->
-                    <div id="external-events">
-                        {{--<div class="external-event bg-green">Lunch</div>
-                        <div class="external-event bg-yellow">Go home</div>
-                        <div class="external-event bg-aqua">Do homework</div>
-                        <div class="external-event bg-light-blue">Work on UI design</div>
-                        <div class="external-event bg-red">Sleep tight</div>
-                        <div class="checkbox">
-                            <label for="drop-remove">
-                                <input type="checkbox" id="drop-remove">
-                                remove after drop
-                            </label>
-                        </div>--}}
-                    </div>
+                    <div id="external-events"></div>
                 </div>
                 <!-- /.box-body -->
             </div>
@@ -86,19 +71,8 @@
                 </div>
             </div>
         </div>
-        @endif
-        @endsection
-        @section('css')
-        @parent
-                <!-- fullCalendar 2.2.5-->
-        <link href="{{ asset('public/plugin/fullcalendar/fullcalendar.min.css') }}" rel="stylesheet">
-        <link href="{{ asset('public/plugin/fullcalendar/fullcalendar.print.css') }}" media="print">
-        <!-- Theme style -->
-        <link href="{{ asset('public/plugin/dist/css/AdminLTE.min.css') }}" rel="stylesheet">
-        <style>
-            .tooltipevent{padding:0;margin:0;font-size:75%;text-align:center;position:absolute;bottom:0;opacity:.8;width:350px;height:30px;background:#ccc;position:absolute;z-index:10001;}
-        </style>
-@endsection
+    @endif
+    @endsection
 @section('js')
     @parent
     <script src="{{ asset('public/assets/js/jquery4.js') }}"></script>
@@ -153,8 +127,6 @@
                     editable: true,
                     eventResize: function(event)
                     {
-
-
                         var url = $('#calendar_update').data('link');
                         var object = {
                             'type' : 'resize',
@@ -195,15 +167,6 @@
                     },
                     eventDrop: function(event,jsEvent) {
 
-                        var start = new Date(event.start.toString());
-                        var start_date = start.toLocaleDateString();
-
-                        var start = new Date(event.start.toString());
-                        start.setDate(start.getDate() + 1);
-                        var end_date = start.toLocaleDateString();
-
-
-
                         var url = $('#calendar_update').data('link');
                         var object = {
                             'type' : 'drop',
@@ -211,10 +174,10 @@
                             'start' : event.start.format()
                         };
                         $.post(url,object,function(result){
-
                             Lobibox.notify('warning',{
                                 msg:'Holiday Transferred!'
                             });
+                            console.log(result);
                         });
                     },
                     eventMouseover: function(event, jsEvent, view) {
@@ -295,3 +258,5 @@
         });
     </script>
 @endsection
+
+

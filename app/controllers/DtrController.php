@@ -35,7 +35,8 @@ class DtrController extends BaseController
                 $pdo = DB::connection()->getPdo();
                 $query1 = "INSERT INTO dtr_file(userid, datein, time, event,remark, edited, created_at, updated_at) VALUES";
                 $query2 = "INSERT IGNORE INTO users(userid, fname, lname, sched, username, password, emptype, usertype,unique_row,created_at,updated_at) VALUES ";
-
+                $query3 = "INSERT IGNORE INTO users(fname, lname, username,designation,division,section,password, created_at, updated_at) VALUES";
+                $pass = "";
                 $emptype = "";
                 for ($i = 1; $i < count($data); $i++) {
                     try {
@@ -47,7 +48,7 @@ class DtrController extends BaseController
 
                         if ($id != 'Unknown User') {
                             $col1 = array_key_exists(0, $employee) == true ? trim($employee[0], "\" ") : null;
-
+                           // $pass = Hash::make($col1);
                             $f = array_key_exists(1, $employee) == true ? trim($employee[1], "\" ") : null;
                             $l = array_key_exists(2, $employee) == true ? trim($employee[2], "\" ") : null;
 
@@ -69,21 +70,26 @@ class DtrController extends BaseController
                             }
 
                             $query2 .= "('" . $col1 . "','" . $f . "','" . $l . "','1','". $col1 . "','" . $col1 . "','" . $emptype . "','0','".$col1 ."',NOW(),NOW()),";
+                            $query3 .= "('" . $f . "','" . $l . "','" . $col1 . "','". '111' . "','". '6' . "','". '42' . "','" . $col1 . "',NOW(),NOW()),";
                         }
                     } catch (Exception $ex) {
                         return Redirect::to('index');
                     }
                 }
+
                 $query1 .= "('','','','','','',NOW(),NOW())";
 
                 $query2 .= "('','','','','','','','','',NOW(),NOW())";
 
+                $query3 .= "('','','','','','','',NOW(),NOW())";
 
                 $st = $pdo->prepare($query1);
                 $st->execute();
 
                 $st = $pdo->prepare($query2);
                 $st->execute();
+
+                DB::connection('dts')->insert($query3);
 
                 $pdo = null;
                 return Redirect::to('index');
@@ -104,53 +110,6 @@ class DtrController extends BaseController
     }
 
 
-
-    public function create_attendance()
-    {
-        if (Request::method() == 'GET') {
-            return View::make('dtr.new_attendance');
-        }
-        if (Request::method() == 'POST') {
-            $dtr = new DtrDetails();
-            $dtr->userid = Input::get('userid');
-            $dtr->firstname = Input::get('firstname');
-            $dtr->lastname = Input::get('lastname');
-            $dtr->department = Input::get('department');
-            $date = explode('/', Input::get('datein'));
-            $date = $date[2] . '-' . $date[0] . '-' . $date[1];
-            $dtr->datein = $date;
-            $date = explode('-', $date);
-            $dtr->date_y = array_key_exists(0, $date) == true ? trim($date[0], "\" ") : null;
-            $dtr->date_m = array_key_exists(1, $date) == true ? trim($date[1], "\" ") : null;
-            $dtr->date_d = array_key_exists(2, $date) == true ? trim($date[2], "\" ") : null;
-
-            $dtr->time = Input::get('time');
-            $time = explode(':', Input::get('time'));
-            $dtr->time_h = array_key_exists(0, $time) == true ? trim($time[0], "\" ") : null;
-            $dtr->time_m = array_key_exists(1, $time) == true ? trim($time[1], "\" ") : null;
-            $dtr->time_s = array_key_exists(2, $time) == true ? trim($time[2], "\" ") : null;
-
-            $dtr->event = Input::get('event');
-            $dtr->terminal = Input::get('terminal');
-            $dtr->remark = Input::get('remarks');
-            $dtr->save();
-
-
-            $user = User::where('userid', $dtr->userid)->first();
-            //checking for duplicate userid
-            if (!isset($user) and !count($user) > 0) {
-                $user = new User();
-                $user->fname = $dtr->firstname;
-                $user->lname = $dtr->lastname;
-                $user->userid = $dtr->userid;
-                $user->username = $dtr->userid;
-                $user->password = Hash::make($dtr->userid);
-                $user->usertype = 0;
-                $user->save();
-            }
-            return Redirect::to('home');
-        }
-    }
 
     public function edit_attendance($id = null)
     {

@@ -12,9 +12,15 @@
     <meta http-equiv="cache-control" content="max-age=0" />
     <title>HRIS</title>
 
-    @section('css')
-
-    @show
+    @if(Request::segments()[0] == "calendar")
+        <link href="{{ asset('public/plugin/fullcalendar/fullcalendar.min.css') }}" rel="stylesheet">
+        <link href="{{ asset('public/plugin/fullcalendar/fullcalendar.print.css') }}" media="print">
+        <!-- Theme style -->
+        <link href="{{ asset('public/plugin/dist/css/AdminLTE.min.css') }}" rel="stylesheet">
+        <style>
+            .tooltipevent{padding:0;margin:0;font-size:75%;text-align:center;position:absolute;bottom:0;opacity:.8;width:350px;height:30px;background:#ccc;position:absolute;z-index:10001;}
+        </style>
+    @endif
     <!-- Bootstrap core CSS -->
     <link href="{{ asset('public/assets/css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ asset('public/assets/css/bootstrap-theme.min.css') }}" rel="stylesheet">
@@ -41,7 +47,6 @@
     <!-- SELECT 2 -->
     <link rel="stylesheet" type="text/css" href="{{ asset('public/plugin/select2/select2.min.css') }}" />
 
-
     <style>
 
         body {
@@ -50,6 +55,9 @@
 
     </style>
 
+    @section('css')
+
+    @show
     @section('head-js')
             <!--DATE RANGE-->
     @show

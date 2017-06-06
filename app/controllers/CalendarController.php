@@ -1,7 +1,5 @@
 <?php
 
-
-
 class CalendarController extends BaseController
 {
     public function __construct()
@@ -11,6 +9,7 @@ class CalendarController extends BaseController
 
     public function calendar()
     {
+
         return View::make('calendar.calendar');
     }
 
@@ -24,7 +23,12 @@ class CalendarController extends BaseController
         {
             return;
         }
-        Calendars::where('event_id',$event_id)->delete();
+        $calendar = Calendars::where('event_id',$event_id)->first();
+
+        $details = DtrDetails::where('holiday','=', '001')
+            ->whereBetween('datein',array($calendar->start,$calendar->end));
+        $details->delete();
+        $calendar->delete();
     }
 
     public function calendar_save(){
@@ -49,7 +53,7 @@ class CalendarController extends BaseController
             $calendar->status = 1;
             $calendar->save();
 
-            /*$from = date('Y-m-d',strtotime(Input::get('start')));
+            $from = date('Y-m-d',strtotime(Input::get('start')));
             $end_date = date('Y-m-d',(strtotime (Input::get('end')) ) );
 
             $f = new DateTime($from.' '. '24:00:00');
@@ -68,8 +72,9 @@ class CalendarController extends BaseController
                 $details = new DtrDetails();
                 $details->userid = '001';
                 $details->datein = $datein;
+                $details->time = '08:00:00';
                 $details->event = 'IN';
-                $details->remark = $calendar->title;
+                $details->remark = Input::get('title');
                 $details->edited = '0';
                 $details->holiday = '001';
 
@@ -77,11 +82,10 @@ class CalendarController extends BaseController
 
                 $details = new DtrDetails();
                 $details->userid = '001';
-
                 $details->datein = $datein;
-
+                $details->time = '12:00:00';
                 $details->event = 'OUT';
-                $details->remark = $calendar->title;
+                $details->remark = Input::get('title');
                 $details->edited = '0';
                 $details->holiday = '001';
 
@@ -89,11 +93,10 @@ class CalendarController extends BaseController
 
                 $details = new DtrDetails();
                 $details->userid = '001';
-
                 $details->datein = $datein;
-
+                $details->time = '13:00:00';
                 $details->event = 'IN';
-                $details->remark = $calendar->title;
+                $details->remark = Input::get('title');
                 $details->edited = '0';
                 $details->holiday = '001';
 
@@ -101,11 +104,10 @@ class CalendarController extends BaseController
 
                 $details = new DtrDetails();
                 $details->userid = '001';
-
                 $details->datein = $datein;
-
+                $details->time = '18:00:00';
                 $details->event = 'OUT';
-                $details->remark = $calendar->title;
+                $details->remark = Input::get('title');
                 $details->edited = '0';
                 $details->holiday = '001';
 
@@ -113,7 +115,7 @@ class CalendarController extends BaseController
 
                 $startday = $startday + 1;
                 $j++;
-            }*/
+            }
         }catch(\Whoops\Exception\ErrorException $ex)
         {
             return json_encode(array('ok' => false));
@@ -134,6 +136,9 @@ class CalendarController extends BaseController
         $end_date = date_format($end, 'Y-m-d');
         ///END RUSEL
 
+        $details = DtrDetails::where('holiday','=', '001')
+            ->whereBetween('datein',array($calendar->start,$calendar->end));
+        $details->delete();
 
         if(Input::get('type') == 'drop') {
 
@@ -145,12 +150,7 @@ class CalendarController extends BaseController
             //END RUSEL
 
 
-            /*$end_date = date('Y-m-d',(strtotime ( '-1 day' , strtotime (Input::get('end')) ) ));
-            $start = Input::get('start');
-
-            $details = DtrDetails::where('holiday','=', '001')
-                ->whereBetween('datein',[$start_date,$end_date]);
-            $details->delete();
+            $end_date = date('Y-m-d',(strtotime ( '-1 day' , strtotime ($end_date) ) ));
 
             $f = new DateTime($start_date.' '. '00:00:00');
             $t = new DateTime($end_date.' '. '00:00:00');
@@ -214,9 +214,7 @@ class CalendarController extends BaseController
 
                 $startday = $startday + 1;
                 $j++;
-            }*/
-
-
+            }
 
 
         }
@@ -224,29 +222,19 @@ class CalendarController extends BaseController
             try{
                 //RUSEL
                 $calendar = Calendars::where('event_id',Input::get('event_id'))->first();
-                $calendar->end = $end_date;
+                $calendar->end = Input::get('end');
                 $calendar->save();
-                ///
+                //END RUSEL
 
-                /*$start_date = date('Y-m-d',strtotime (Input::get('start')));
-                $calendar_end_date = date('Y-m-d',strtotime (Input::get('end')));
                 $end_date = date('Y-m-d',(strtotime ( '-1 day' , strtotime (Input::get('end')) ) ));
 
-                $ca_to = date('Y-m-d',(strtotime ( '-1 day' , strtotime ($calendar->end))));
-
-                $details = DtrDetails::where('holiday','=', '001')
-                    ->whereBetween('datein',[$start_date,$ca_to]);
-                $details->delete();
-
-
-
-                $f = new DateTime($start_date.' '. '00:00:00');
+                $f = new DateTime($calendar->start.' '. '00:00:00');
                 $t = new DateTime($end_date.' '. '00:00:00');
 
                 $interval = $f->diff($t);
 
                 $datein = '';
-                $f_from = explode('-',$start_date);
+                $f_from = explode('-',$calendar->start);
                 $startday = $f_from[2];
                 $j = 0;
                 while($j <= $interval->days) {
@@ -302,7 +290,7 @@ class CalendarController extends BaseController
 
                     $startday = $startday + 1;
                     $j++;
-                }*/
+                }
 
             }catch(\Whoops\Exception\ErrorException $ex)
             {

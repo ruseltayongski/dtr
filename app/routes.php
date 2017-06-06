@@ -53,7 +53,7 @@ Route::get('dtr/list/regular', 'GenerateDTRController@list_regular_dtr');
 Route::get('search/regular', 'GenerateDTRController@search_reg_dtr');
 Route::get('dtr/download/{id}', 'GenerateDTRController@download_dtr');
 Route::match(['GET','POST'],'/personal/dtr/list', 'PersonalController@personal_dtrlist');
-Route::get('/personal/dtr/filter/list','PersonalController@personal_filter_dtrlist');
+Route::get('/ab','PersonalController@personal_filter_dtrlist');
 //FOR PERSONAL ROUTE GROUP
 
 Route::get('personal/home', function() {
@@ -222,5 +222,7 @@ Route::get('create/users', function() {
 	});
 });
 
-Route::get('example','CalendarController@calendar_holiday')
+Route::get('example',function(){
+	return View::make('prCreated');
+});
 ?>

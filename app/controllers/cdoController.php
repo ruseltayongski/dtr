@@ -148,8 +148,73 @@ class cdoController extends BaseController
             $less_applied = $info->less_applied_for;
             $remaining_balance = $info->remaining_balance;
         }
-        if(Auth::user()->usertype and Input::get('approval'))
+        if(Auth::user()->usertype and Input::get('approval')) {
             $approved_status = 1;
+            $dtr_enddate  = date('Y-m-d',(strtotime ( '-1 day' , strtotime ($end_date))));
+            $f = new DateTime($start_date.' '. '00:00:00');
+            $t = new DateTime($dtr_enddate.' '. '00:00:00');
+
+            $interval = $f->diff($t);
+
+            $datein = '';
+            $f_from = explode('-',$start_date);
+            $startday = $f_from[2];
+            $j = 0;
+            while($j <= $interval->days) {
+
+                $datein = $f_from[0].'-'.$f_from[1] .'-'. $startday;
+
+                $details = new DtrDetails();
+                $details->userid = pdoController::user_search1($info->prepared_name)['username'];
+                $details->datein = $datein;
+                $details->time = '08:00:00';
+                $details->event = 'IN';
+                $details->remark = 'CTO';
+                $details->edited = '0';
+                $details->holiday = '002';
+
+                $details->save();
+
+                $details = new DtrDetails();
+                $details->userid = pdoController::user_search1($info->prepared_name)['username'];
+
+                $details->datein = $datein;
+                $details->time = '12:00:00';
+                $details->event = 'OUT';
+                $details->remark = 'CTO';
+                $details->edited = '0';
+                $details->holiday = '002';
+
+                $details->save();
+
+                $details = new DtrDetails();
+                $details->userid = pdoController::user_search1($info->prepared_name)['username'];
+
+                $details->datein = $datein;
+                $details->time = '13:00:00';
+                $details->event = 'IN';
+                $details->remark = 'CTO';
+                $details->edited = '0';
+                $details->holiday = '002';
+
+                $details->save();
+
+                $details = new DtrDetails();
+                $details->userid = pdoController::user_search1($info->prepared_name)['username'];
+
+                $details->datein = $datein;
+                $details->time = '18:00:00';
+                $details->event = 'OUT';
+                $details->remark = 'CTO';
+                $details->edited = '0';
+                $details->holiday = '002';
+
+                $details->save();
+
+                $startday = $startday + 1;
+                $j++;
+            }
+        }
         else
             $approved_status = 0;
 

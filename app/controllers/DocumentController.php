@@ -12,7 +12,7 @@ class DocumentController extends BaseController
     public function __construct()
     {
 
-        $this->beforeFilter('personal');
+        //$this->beforeFilter('personal');
     }
 
     public  function leave()
@@ -40,7 +40,7 @@ class DocumentController extends BaseController
             $leave->middlename = Input::get('middlename');
             $date_filling = explode('/', Input::get('date_filling'));
 
-            $leave->date_filling = date('Y-m-d',strtotime(Input::get('date_filling')));
+            $leave->date_filling = Input::get('date_filling');
 
 
             $leave->position = Input::get('position');
@@ -98,6 +98,7 @@ class DocumentController extends BaseController
 
             $data = array($route_no,$doc_type,$prepared_date,$prepared_by,$description);
             DB::connection('dts')->insert("INSERT INTO TRACKING_MASTER(route_no,doc_type,prepared_date,prepared_by,description,created_at,updated_at) values(?,?,?,?,?,now(),now())",$data);
+
 
             $data = array($route_no,$date_in,$received_by,$delivered_by,$action);
             $sql="INSERT INTO TRACKING_DETAILS(route_no,date_in,received_by,delivered_by,action,created_at,updated_at) values(?,?,?,?,?,now(),now())";
@@ -653,6 +654,8 @@ class DocumentController extends BaseController
     }
 
     public function show($route_no,$doc_type=null){
+        if(!Auth::user()->usertype)
+            return false;
         Session::put('route_no',$route_no);
         if($doc_type == 'office_order'){
             $users = pdoController::users();
@@ -697,6 +700,5 @@ class DocumentController extends BaseController
         Session::put('route_no',$route_no);
         return View::make('document.track',['document' => $document]);
     }
-
 
 }

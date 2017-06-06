@@ -108,7 +108,6 @@
                             <td colspan="2">NUMBER OF WORKING DAY/S APPLIED FOR:</td>
                         </tr>
                         <tr>
-                            <td class="col-sm-4">Inlusive Dates:</td>
                             <td>
                                 <div class="input-group">
                                     <div class="input-group-addon">
@@ -117,6 +116,7 @@
                                     <input type="text" class="form-control" value="<?php if(isset($data['cdo']['start'])) echo date('m/d/Y',strtotime($data['cdo']['start'])).' - '.date('m/d/Y',strtotime('-1 day',strtotime($data['cdo']['end']))); ?>" id="inclusive1" name="inclusive_dates" placeholder="Input date range here..." required>
                                 </div>
                             </td>
+                            <td class="col-sm-4">Inlusive Dates</td>
                         </tr>
                     </table>
                 </td>

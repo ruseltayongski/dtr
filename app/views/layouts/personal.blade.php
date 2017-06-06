@@ -12,8 +12,6 @@
                     <li class="dropdown-submenu">
                     <li><a href="{{ asset('/personal/dtr/list')  }}">Admin generated DTR</a></li>
                     <li class="divider"></li>
-                    <li><a href="{{ asset('/personal/dtr/filter/list') }}">My filtered DTR</a></li>
-                    <li class="divider"></li>
                     <li><a href="{{ asset('/personal/add/logs') }}">Create time log</a></li>
                 </ul>
             </li>

@@ -10,7 +10,7 @@
             <div class="container">
                 <div class="row">
                     <div class="col-md-11">
-                        <form action="{{ asset('FPDF/print_individual.php') }}" method="POST">
+                        <form action="{{ asset('FPDF/test.php') }}" method="POST">
                             <div class="row">
                                 <div class="col-md-10">
                                     <div class="form-group">
