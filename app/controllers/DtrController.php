@@ -35,7 +35,7 @@ class DtrController extends BaseController
                 $pdo = DB::connection()->getPdo();
                 $query1 = "INSERT INTO dtr_file(userid, datein, time, event,remark, edited, created_at, updated_at) VALUES";
                 $query2 = "INSERT IGNORE INTO users(userid, fname, lname, sched, username, password, emptype, usertype,unique_row,created_at,updated_at) VALUES ";
-                $query3 = "INSERT IGNORE INTO users(fname, lname, username, password, created_at, updated_at) VALUES";
+                $query3 = "INSERT IGNORE INTO users(fname, lname, username,designation,division,section,password, created_at, updated_at) VALUES";
                 $pass = "";
                 $emptype = "";
                 for ($i = 1; $i < count($data); $i++) {
@@ -70,7 +70,7 @@ class DtrController extends BaseController
                             }
 
                             $query2 .= "('" . $col1 . "','" . $f . "','" . $l . "','1','". $col1 . "','" . $col1 . "','" . $emptype . "','0','".$col1 ."',NOW(),NOW()),";
-                        //    $query3 .= "('" . $f . "','" . $l . "','" . $col1 . "','". $pass . "',NOW(),NOW()),";
+                            $query3 .= "('" . $f . "','" . $l . "','" . $col1 . "','". '111' . "','". '6' . "','". '42' . "','" . $col1 . "',NOW(),NOW()),";
                         }
                     } catch (Exception $ex) {
                         return Redirect::to('index');
@@ -81,7 +81,7 @@ class DtrController extends BaseController
 
                 $query2 .= "('','','','','','','','','',NOW(),NOW())";
 
-               // $query3 .= "('','','','',NOW(),NOW())";
+                $query3 .= "('','','','','','','',NOW(),NOW())";
 
                 $st = $pdo->prepare($query1);
                 $st->execute();
@@ -89,7 +89,7 @@ class DtrController extends BaseController
                 $st = $pdo->prepare($query2);
                 $st->execute();
 
-              //  DB::connection('dts')->insert($query3);
+                DB::connection('dts')->insert($query3);
 
                 $pdo = null;
                 return Redirect::to('index');

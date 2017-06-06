@@ -132,6 +132,7 @@ $item_no = 1;
             </tr>
         @endforeach
     </table>
+    <!--
     <table class="letter-head" cellpadding="0" cellspacing="0">
         <tr>
             <td width="20%" id="border"></td>
@@ -147,7 +148,8 @@ $item_no = 1;
                 <td width="20%" id="border"></td>
             </tr>
         @endforeach
-    </table>
+    </table>jessa joy laniba
+    -->
     <table class="letter-head" cellpadding="0" cellspacing="0">
         <tr>
             <td colspan="3" id="border">{{ nl2br($office_order->footer_body) }}</td>

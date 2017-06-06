@@ -31,8 +31,7 @@
                 </div>
                 <div class="box-body">
                     <!-- the events -->
-                    <div id="external-events">
-                    </div>
+                    <div id="external-events"></div>
                 </div>
                 <!-- /.box-body -->
             </div>
@@ -73,8 +72,7 @@
             </div>
         </div>
     @endif
-@endsection
-
+    @endsection
 @section('js')
     @parent
     <script src="{{ asset('public/assets/js/jquery4.js') }}"></script>
@@ -129,8 +127,6 @@
                     editable: true,
                     eventResize: function(event)
                     {
-
-
                         var url = $('#calendar_update').data('link');
                         var object = {
                             'type' : 'resize',
@@ -178,10 +174,10 @@
                             'start' : event.start.format()
                         };
                         $.post(url,object,function(result){
-
                             Lobibox.notify('warning',{
                                 msg:'Holiday Transferred!'
                             });
+                            console.log(result);
                         });
                     },
                     eventMouseover: function(event, jsEvent, view) {

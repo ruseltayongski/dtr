@@ -32,7 +32,9 @@
                                     <tr>
                                         <td class="col-sm-3"><label>Prepared date</label></td>
                                         <td class="col-sm-1">:</td>
-                                        <td class="col-sm-8"><input class="form-control datepickercalendar" value="{{ date('m/d/Y') }}" name="prepared_date" required></td>
+                                        <td class="col-sm-8">
+                                            <input class="form-control datepickercalendar" value="{{ date('m/d/Y') }}" name="prepared_date" required>
+                                        </td>
                                     </tr>
                                     <tr>
                                         <td class="col-sm-3"><label>Subject:</label><small style="color:red;">required field</small></td>

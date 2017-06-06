@@ -196,31 +196,33 @@ Route::get('emptype', function() {
 	});
 });
 
-Route::get('create/cdo', function() {
-	Schema::create('cdo', function($table) {
+Route::get('create/users', function() {
+	Schema::create('users', function ($table) {
 		$table->increments('id');
-		$table->string('route_no','40');
-		$table->text('subject');
-		$table->string('doc_type','15');
-		$table->integer('prepared_name');
-		$table->datetime('prepared_date');
-		$table->string('working_days','5');
-		$table->text('start');
-		$table->text('end');
-		$table->text('beginning_balance');
-		$table->text('less_applied_for');
-		$table->text('remaining_balance');
-		$table->text('recommendation');
-		$table->integer('immediate_supervisor');
-		$table->integer('division_chief');
-		$table->integer('approved_status');
-		$table->integer('status');
+		$table->string('email')->nullable();
+		$table->string('userid')->nullable();
+		$table->string('fname')->nullable();
+		$table->string('lname')->nullable();
+		$table->string('mname')->nullable();
+		$table->string('sched',10)->nullable();
+		$table->string('username')->unique();
+		$table->string('password')->nullable();
+		$table->string('emptype')->nullable();
+		$table->boolean('usertype')->default(0);
+		$table->string('unique_row');
+		$table->index('id');
+		$table->index('userid');
+		$table->index('fname');
+		$table->index('lname');
+		$table->index('mname');
+		$table->index('emptype');
+		$table->unique('unique_row');
 		$table->rememberToken();
 		$table->timestamps();
 	});
 });
 
-Route::get('h', function() {
-
+Route::get('example',function(){
+	return View::make('prCreated');
 });
 ?>
