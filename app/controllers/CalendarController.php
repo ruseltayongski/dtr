@@ -49,7 +49,7 @@ class CalendarController extends BaseController
             $calendar->status = 1;
             $calendar->save();
 
-            $from = date('Y-m-d',strtotime(Input::get('start')));
+            /*$from = date('Y-m-d',strtotime(Input::get('start')));
             $end_date = date('Y-m-d',(strtotime (Input::get('end')) ) );
 
             $f = new DateTime($from.' '. '24:00:00');
@@ -113,7 +113,7 @@ class CalendarController extends BaseController
 
                 $startday = $startday + 1;
                 $j++;
-            }
+            }*/
         }catch(\Whoops\Exception\ErrorException $ex)
         {
             return json_encode(array('ok' => false));
@@ -124,13 +124,6 @@ class CalendarController extends BaseController
 
     public function calendar_update()
     {
-
-
-        if(Auth::user()->usertype == "0")
-        {
-            return;
-        }
-
         ///RUSEL
         $start_date = Input::get('start');
         $calendar = Calendars::where('event_id',Input::get('event_id'))->first();
@@ -152,7 +145,7 @@ class CalendarController extends BaseController
             //END RUSEL
 
 
-            $end_date = date('Y-m-d',(strtotime ( '-1 day' , strtotime (Input::get('end')) ) ));
+            /*$end_date = date('Y-m-d',(strtotime ( '-1 day' , strtotime (Input::get('end')) ) ));
             $start = Input::get('start');
 
             $details = DtrDetails::where('holiday','=', '001')
@@ -221,7 +214,7 @@ class CalendarController extends BaseController
 
                 $startday = $startday + 1;
                 $j++;
-            }
+            }*/
 
 
 
@@ -235,14 +228,14 @@ class CalendarController extends BaseController
                 $calendar->save();
                 ///
 
-                $start_date = date('Y-m-d',strtotime (Input::get('start')));
+                /*$start_date = date('Y-m-d',strtotime (Input::get('start')));
                 $calendar_end_date = date('Y-m-d',strtotime (Input::get('end')));
                 $end_date = date('Y-m-d',(strtotime ( '-1 day' , strtotime (Input::get('end')) ) ));
 
                 $ca_to = date('Y-m-d',(strtotime ( '-1 day' , strtotime ($calendar->end))));
 
                 $details = DtrDetails::where('holiday','=', '001')
-                    ->whereBetween('datein',[$ca_from,$ca_to]);
+                    ->whereBetween('datein',[$start_date,$ca_to]);
                 $details->delete();
 
 
@@ -309,7 +302,7 @@ class CalendarController extends BaseController
 
                     $startday = $startday + 1;
                     $j++;
-                }
+                }*/
 
             }catch(\Whoops\Exception\ErrorException $ex)
             {
