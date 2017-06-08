@@ -49,6 +49,14 @@ class PasswordController extends BaseController
                 Session::flush();
                 return Redirect::to('/')->with(
                     'ok', 'Password succesfully changed. Login now to your account.');
+            } else {
+                if(Input::get('current_password') == $user->password) {
+                    $user->password = Hash::make(Input::get('password_confirmation'));
+                    $user->save();
+                    Session::flush();
+                    return Redirect::to('/')->with(
+                        'ok', 'Password succesfully changed. Login now to your account.');
+                }
             }
             return Redirect::to('resetpass')->with('not_match','Current password invalid');
         }

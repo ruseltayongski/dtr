@@ -526,7 +526,7 @@ function get_logs($am_in,$am_out,$pm_in,$pm_out,$id,$date_from,$date_to)
 
     $query = "SELECT DISTINCT e.userid, datein,holiday,
 
-                    (SELECT DISTINCT CONCAT(MIN(t1.time),'_',t1.edited) FROM dtr_file t1 WHERE userid = d.userid and datein = d.datein and t1.time < '". $am_out ."' LIMIT 1) as am_in,
+                    (SELECT DISTINCT CONCAT(MIN(t1.time),'_',t1.edited) FROM dtr_file t1 WHERE userid = d.userid and datein = d.datein and t1.time < '24:00:00' LIMIT 1) as am_in,
                     (SELECT DISTINCT CONCAT(t2.time,'_',t2.edited) FROM dtr_file t2 WHERE userid = d.userid and datein = d.datein and t2.time < '". $pm_in."' AND t2.event = 'OUT' LIMIT 1) as am_out,
                     (SELECT DISTINCT CONCAT(t3.time,'_',t3.edited) FROM dtr_file t3 WHERE userid = d.userid AND datein = d.datein and t3.time >= '". $am_out."' and t3.time < '". $pm_out."' AND t3.event = 'IN' LIMIT 1) as pm_in,
                     (SELECT DISTINCT CONCAT(MAX(t4.time),'_',t4.edited) FROM dtr_file t4 WHERE userid = d.userid AND datein = d.datein and t4.time > '". $pm_in ."' and t4. time < '24:00:00' LIMIT 1) as pm_out
@@ -641,89 +641,7 @@ function approved_record($route_no,$received_by)
     return $row;
 }
 
-function check_calendar($route_no)
-{
-    $db = conn();
-    $sql = 'SELECT * FROM calendar where route_no = ?';
-    $pdo = $db->prepare($sql);
-    $pdo->execute(array($route_no));
-    $row = $pdo->fetchAll();
-    $db = null;
 
-    return $row;
-}
-
-function check_holiday()
-{
-    $db = conn();
-    $sql = 'SELECT title,start,end FROM calendar where status = 1';
-    $pdo = $db->prepare($sql);
-    $pdo->execute();
-    $row = $pdo->fetchAll();
-    $db = null;
-
-    return $row;
-}
-
-function look_holiday($datein){
-    $condition = floor(strtotime($datein) / (60 * 60 * 24));
-    foreach(check_holiday() as $holiday) {
-        if($holiday){
-            $holiday_start = floor(strtotime($holiday['start']) / (60 * 60 * 24));
-            $holiday_end = floor(strtotime($holiday['end']) / (60 * 60 * 24));
-            if($condition >= $holiday_start and $condition < $holiday_end and $holiday['title'] != ''){
-                return $holiday['title'];
-            }
-        }
-    }
-}
-
-function check_cdo()
-{
-    $db = conn();
-    $sql = 'SELECT start,end FROM cdo where approved_status = 1';
-    $pdo = $db->prepare($sql);
-    $pdo->execute();
-    $row = $pdo->fetchAll();
-    $db = null;
-
-    return $row;
-}
-
-function look_cdo($datein){
-    $condition = floor(strtotime($datein) / (60 * 60 * 24));
-    foreach(check_cdo() as $cdo) {
-        if($cdo){
-            $cdo_start = floor(strtotime($cdo['start']) / (60 * 60 * 24));
-            $cdo_end = floor(strtotime($cdo['end']) / (60 * 60 * 24));
-            if($condition >= $cdo_start and $condition < $cdo_end){
-                return 'CTO';
-            }
-        }
-    }
-}
-
-function look_calendar($datein,$userid){
-    $condition = floor(strtotime($datein) / (60 * 60 * 24));
-    foreach(check_inclusive_name(user_search($userid)['id']) as $check)
-    {
-        foreach(approved_rdard() as $record)
-        {
-            foreach(approved_record($check['route_no'],$record['id']) as $details)
-            {
-                foreach(check_calendar($details['route_no']) as $calendar){
-                    if($calendar) {
-                        $calendar_start = floor(strtotime($calendar['start']) / (60 * 60 * 24));
-                        $calendar_end = floor(strtotime($calendar['end']) / (60 * 60 * 24));
-                        if($condition >= $calendar_start and $condition < $calendar_end and $calendar['title'] != ''){
-                            return 'S.O. No.'.sprintf('%04d',so_no($details['route_no'])['id']);
-                        }
-                    }
-                }
-            }
-        }
-    }
-}
 
 function user_search($id)
 {
