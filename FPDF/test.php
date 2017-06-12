@@ -48,7 +48,7 @@ class PDF extends FPDF
         $log = "";
         $holidays = "";
         $pdo = conn();
-        $query = "SELECT * FROM work_sched WHERE id = '".$sched ."'";
+        $query = "SELECT * FROM work_sched WHERE id = '$sched'";
         $st = $pdo->prepare($query);
         $st->execute();
         $sched = $st->fetchAll(PDO::FETCH_ASSOC);
@@ -68,6 +68,7 @@ class PDF extends FPDF
                 $this->SetFont('Arial','B',8);
                 $this->SetX(100);
                 $this->Cell(10,0,"NO AVAILABLE TIME LOGS BETWEEN $date_from AND $date_to FOR USERID $userid . TRY UPLOADING NEW TIME LOGS FROM BIOMETRIC",0,0,'C');
+
 
             } else {
 

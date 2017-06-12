@@ -111,33 +111,6 @@ class DtrController extends BaseController
 
 
 
-    public function edit_attendance($id = null)
-    {
-        if (Request::method() == 'GET') {
-            if (isset($id)) {
-                Session::put('dtr_id', $id);
-            }
-            $dtr = DtrDetails::where('dtr_id', $id)->first();
-            return View::make('dtr.edit_attendance')->with('dtr', $dtr);
-        }
-        if (Request::method() == 'POST') {
-            if (Session::has('dtr_id')) {
-                $dtr_id = Session::get('dtr_id');
-                $dtr = DtrDetails::where('dtr_id', $dtr_id)->first();
-                $dtr->time = Input::get('time');
-                $time = explode(':', Input::get('time'));
-                $dtr->time_h = array_key_exists(0, $time) == true ? trim($time[0], "\" ") : null;
-                $dtr->time_m = array_key_exists(1, $time) == true ? trim($time[1], "\" ") : null;
-                $dtr->time_s = array_key_exists(2, $time) == true ? trim($time[2], "\" ") : null;
-                $dtr->event = Input::get('event');
-                $dtr->terminal = Input::get('terminal');
-                $dtr->remark = Input::get('remarks');
-                $dtr->save();
-                Session::forget('dtr_id');
-                return Redirect::to('home');
-            }
-        }
-    }
 
     public function delete()
     {
@@ -148,30 +121,6 @@ class DtrController extends BaseController
         }
     }
 
-    private function create_table($desc, $date_from, $date_to, $name)
-    {
-        $pdo = null;
-        $ok = false;
-        try {
-            $pdo = new PDO('mysql:host=localhost; dbname=dohdtr', 'root', '');
-            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $query = "INSERT INTO dtr_table(desc,date_from,$date_to,name,created_at,updated_at)
-                      VALUES(:desc,:date_from,:date_to,:name,NOW(),NOW())";
-            $st = $pdo->prepare($query);
-            $st->bindParam(':desc', $desc);
-            $st->bindParam(':date_from', $date_from);
-            $st->bindParam(':date_to', $date_to);
-            $st->bindParam(':name', $name);
-            if ($st->execute()) {
-                $ok = true;
-            }
-        } catch (PDOException $err) {
-            $err->getMessage() . "<br/>";
-            die();
-        }
-        return $ok;
-
-    }
 
     public function attendance()
     {
