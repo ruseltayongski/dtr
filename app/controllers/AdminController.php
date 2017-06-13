@@ -50,7 +50,15 @@ class AdminController extends BaseController
                     return Redirect::to('/')->with('ops', 'Invalid Login');
                 }
             } else {
-                return Redirect::to('/')->with('ops', 'Invalid Login');
+                if(Auth::attempt(array('username' => $username, 'password' => $password))) {
+                    if(Auth::user()->usertype == '1') {
+                        return Redirect::to('home');
+                    } else {
+                        return Redirect::to('personal/index');
+                    }
+                } else {
+                    return Redirect::to('/')->with('ops','Invalid Login');
+                }
             }
         }
     }

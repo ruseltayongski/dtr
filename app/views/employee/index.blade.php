@@ -93,7 +93,7 @@
                                                                 </a>
 
                                                             </td>
-                                                            <td class="text-center"><strong><a href="#"> {{ date("h:i:s A", strtotime($list->time)) }}</a></strong></td>
+                                                            <td class="text-center"><strong><a href="#"> {{ $list->time }}</a></strong></td>
                                                             <td class="text-center"><strong><a href="#">{{ $list->event }}</a> </strong></td>
                                                             <td class="text-center">
                                                                <strong><a href="#">{{ $list->remark }}</a> </strong>

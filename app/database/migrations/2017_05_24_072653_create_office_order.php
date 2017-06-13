@@ -3,6 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
+
 class CreateOfficeOrder extends Migration {
 
 	/**
@@ -27,7 +28,7 @@ class CreateOfficeOrder extends Migration {
 			$table->text('prepared_by');
 			$table->text('prepared_date');
 			$table->text('version');
-			$table->interger('approved_status');
+			$table->string('approved_status');
 			$table->rememberToken();
 			$table->timestamps();
 		});
