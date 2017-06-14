@@ -151,6 +151,7 @@ class cdoController extends BaseController
         if(Auth::user()->usertype and Input::get('approval')) {
             $approved_status = 1;
             $dtr_enddate  = date('Y-m-d',(strtotime ( '-1 day' , strtotime ($end_date))));
+
             $f = new DateTime($start_date.' '. '00:00:00');
             $t = new DateTime($dtr_enddate.' '. '00:00:00');
 

@@ -199,7 +199,7 @@ class PDF extends FPDF
                                 $pm_out = '';
                                 $e4 = '';
                             }
-                            if(!$log['holiday'] == '001') {
+                            if(!$log['holiday'] == '001' OR !$log['holiday'] == '003') {
 
                                 $late = late($s_am_in,$s_pm_in,$am_in,$pm_in,$log['datein']);
                                 if($late != '' or $late != null)
@@ -212,11 +212,20 @@ class PDF extends FPDF
                                     $ut_total = $ut_total + $ut;
                                 }
                             } else {
-                                $am_in = '';
-                                $am_out = 'HOLIDAY';
-                                $pm_in = '';
-                                $pm_out = '';
-                                $late = '';
+                                if($log['holiday'] == '001') {
+                                    $am_in = '';
+                                    $am_out = 'HOLIDAY';
+                                    $pm_in = '';
+                                    $pm_out = '';
+                                    $late = '';
+                                }
+                                if($log['holiday'] == '003') {
+                                    $am_in = '';
+                                    $am_out = 'SO:'.$log['remark'];
+                                    $pm_in = '';
+                                    $pm_out = '';
+                                    $late = '';
+                                }
                             }
                         } else {
                             $am_in = '';
@@ -507,8 +516,8 @@ function get_logs($am_in,$am_out,$pm_in,$pm_out,$id,$date_from,$date_to)
     $query = "SELECT DISTINCT e.userid, datein,holiday,
 
 
-                    (SELECT  CONCAT(t1.time,'_',t1.edited) FROM dtr_file t1 WHERE userid = d.userid and datein = d.datein and t1.time < '". $am_out . "'  and t1.time < '24:00:00' ORDER BY time ASC  LIMIT 1) as am_in,
-                    (SELECT  CONCAT(t2.time,'_',t2.edited) FROM dtr_file t2 WHERE userid = d.userid and datein = d.datein and t2.time > '00:00:00' AND t2.time < '" .$pm_out . "' ORDER BY t2.time ASC LIMIT 1,1) as am_out,
+                    (SELECT  CONCAT(t1.time,'_',t1.edited) FROM dtr_file t1 WHERE userid = d.userid and datein = d.datein and t1.time < '". $am_out . "'  ORDER BY time ASC  LIMIT 1) as am_in,
+                    (SELECT  CONCAT(t2.time,'_',t2.edited) FROM dtr_file t2 WHERE userid = d.userid and datein = d.datein and t2.time > '". $am_in ."' AND t2.time < '" .$pm_out . "' ORDER BY t2.time ASC LIMIT 1,1) as am_out,
                     (SELECT  CONCAT(t3.time,'_',t3.edited) FROM dtr_file t3 WHERE userid = d.userid AND datein = d.datein and t3.time >= '". $am_out."' and t3.time < '24:00:00' ORDER BY t3.time DESC LIMIT 1,1) as pm_in,
                     (SELECT  CONCAT(t4.time,'_',t4.edited) FROM dtr_file t4 WHERE userid = d.userid AND datein = d.datein and t4.time > '". $pm_in ."' and t4. time < '24:00:00' ORDER BY time DESC LIMIT 1) as pm_out
 
