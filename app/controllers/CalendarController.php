@@ -74,7 +74,7 @@ class CalendarController extends BaseController
                 $details->time = '08:00:00';
                 $details->event = 'IN';
                 $details->remark = Input::get('title');
-                $details->edited = '0';
+                $details->edited = '1';
                 $details->holiday = '001';
 
                 $details->save();
@@ -85,7 +85,7 @@ class CalendarController extends BaseController
                 $details->time = '12:00:00';
                 $details->event = 'OUT';
                 $details->remark = Input::get('title');
-                $details->edited = '0';
+                $details->edited = '1';
                 $details->holiday = '001';
 
                 $details->save();
@@ -96,7 +96,7 @@ class CalendarController extends BaseController
                 $details->time = '13:00:00';
                 $details->event = 'IN';
                 $details->remark = Input::get('title');
-                $details->edited = '0';
+                $details->edited = '1';
                 $details->holiday = '001';
 
                 $details->save();
@@ -107,7 +107,7 @@ class CalendarController extends BaseController
                 $details->time = '18:00:00';
                 $details->event = 'OUT';
                 $details->remark = Input::get('title');
-                $details->edited = '0';
+                $details->edited = '1';
                 $details->holiday = '001';
 
                 $details->save();
@@ -170,7 +170,7 @@ class CalendarController extends BaseController
                 $details->time = '08:00:00';
                 $details->event = 'IN';
                 $details->remark = $calendar->title;
-                $details->edited = '0';
+                $details->edited = '1';
                 $details->holiday = '001';
 
                 $details->save();
@@ -182,7 +182,7 @@ class CalendarController extends BaseController
                 $details->time = '12:00:00';
                 $details->event = 'OUT';
                 $details->remark = $calendar->title;
-                $details->edited = '0';
+                $details->edited = '1';
                 $details->holiday = '001';
 
                 $details->save();
@@ -194,7 +194,7 @@ class CalendarController extends BaseController
                 $details->time = '13:00:00';
                 $details->event = 'IN';
                 $details->remark = $calendar->title;
-                $details->edited = '0';
+                $details->edited = '1';
                 $details->holiday = '001';
 
                 $details->save();
@@ -206,7 +206,7 @@ class CalendarController extends BaseController
                 $details->time = '18:00:00';
                 $details->event = 'OUT';
                 $details->remark = $calendar->title;
-                $details->edited = '0';
+                $details->edited = '1';
                 $details->holiday = '001';
 
                 $details->save();
@@ -246,7 +246,7 @@ class CalendarController extends BaseController
                     $details->time = '08:00:00';
                     $details->event = 'IN';
                     $details->remark = $calendar->title;
-                    $details->edited = '0';
+                    $details->edited = '1';
                     $details->holiday = '001';
 
                     $details->save();
@@ -258,7 +258,7 @@ class CalendarController extends BaseController
                     $details->time = '12:00:00';
                     $details->event = 'OUT';
                     $details->remark = $calendar->title;
-                    $details->edited = '0';
+                    $details->edited = '1';
                     $details->holiday = '001';
 
                     $details->save();
@@ -270,7 +270,7 @@ class CalendarController extends BaseController
                     $details->time = '13:00:00';
                     $details->event = 'IN';
                     $details->remark = $calendar->title;
-                    $details->edited = '0';
+                    $details->edited = '1';
                     $details->holiday = '001';
 
                     $details->save();
@@ -282,7 +282,7 @@ class CalendarController extends BaseController
                     $details->time = '18:00:00';
                     $details->event = 'OUT';
                     $details->remark = $calendar->title;
-                    $details->edited = '0';
+                    $details->edited = '1';
                     $details->holiday = '001';
 
                     $details->save();

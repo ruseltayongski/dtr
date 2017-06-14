@@ -36,6 +36,7 @@ class PersonalController extends Controller
             ->where('dtr_file.userid', '=', Auth::user()->userid)
             ->whereBetween('datein', array($firt_day,$last_day))
             ->orderBy('dtr_file.datein', 'ASC')
+            ->orderBy('dtr_file.time', 'ASC')
             ->paginate(20);
 
         return View::make('employee.index')->with('lists',$lists);
@@ -68,6 +69,7 @@ class PersonalController extends Controller
                 ->where('dtr_file.userid', '=', Auth::user()->userid)
                 ->whereBetween('datein', array($f_from,$f_to))
                 ->orderBy('dtr_file.datein', 'ASC')
+                ->orderBy('dtr_file.time', 'ASC')
                 ->paginate(20);
 
             return View::make('employee.index')->with('lists',$lists);

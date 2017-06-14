@@ -48,7 +48,7 @@ class PDF extends FPDF
         $log = "";
         $holidays = "";
         $pdo = conn();
-        $query = "SELECT * FROM work_sched WHERE id = '".$sched ."'";
+        $query = "SELECT * FROM work_sched WHERE id = '$sched'";
         $st = $pdo->prepare($query);
         $st->execute();
         $sched = $st->fetchAll(PDO::FETCH_ASSOC);
@@ -58,8 +58,6 @@ class PDF extends FPDF
             $s_pm_in = $sched[0]["pm_in"];
             $s_pm_out = $sched[0]["pm_out"];
 
-
-
             $logs = get_logs($s_am_in,$s_am_out,$s_pm_in,$s_pm_out,$userid,$date_from,$date_to);
 
 
@@ -68,6 +66,7 @@ class PDF extends FPDF
                 $this->SetFont('Arial','B',8);
                 $this->SetX(100);
                 $this->Cell(10,0,"NO AVAILABLE TIME LOGS BETWEEN $date_from AND $date_to FOR USERID $userid . TRY UPLOADING NEW TIME LOGS FROM BIOMETRIC",0,0,'C');
+
 
             } else {
 
@@ -511,7 +510,7 @@ function get_logs($am_in,$am_out,$pm_in,$pm_out,$id,$date_from,$date_to)
 
     $query = "SELECT DISTINCT e.userid, datein,holiday,
 
-                    (SELECT DISTINCT CONCAT(MIN(t1.time),'_',t1.edited) FROM dtr_file t1 WHERE userid = d.userid and datein = d.datein and t1.time < '". $am_out ."' LIMIT 1) as am_in,
+                    (SELECT DISTINCT CONCAT(MIN(t1.time),'_',t1.edited) FROM dtr_file t1 WHERE userid = d.userid and datein = d.datein and t1.time < '24:00:00' LIMIT 1) as am_in,
                     (SELECT DISTINCT CONCAT(t2.time,'_',t2.edited) FROM dtr_file t2 WHERE userid = d.userid and datein = d.datein and t2.time < '". $pm_in."' AND t2.event = 'OUT' LIMIT 1) as am_out,
                     (SELECT DISTINCT CONCAT(t3.time,'_',t3.edited) FROM dtr_file t3 WHERE userid = d.userid AND datein = d.datein and t3.time >= '". $am_out."' and t3.time < '". $pm_out."' AND t3.event = 'IN' LIMIT 1) as pm_in,
                     (SELECT DISTINCT CONCAT(MAX(t4.time),'_',t4.edited) FROM dtr_file t4 WHERE userid = d.userid AND datein = d.datein and t4.time > '". $pm_in ."' and t4. time < '24:00:00' LIMIT 1) as pm_out
