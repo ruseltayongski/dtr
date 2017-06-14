@@ -162,61 +162,32 @@ class cdoController extends BaseController
             $j = 0;
             while($j <= $interval->days) {
 
+                $time = array('08:00:00','12:00:00','13:00:00','18:00:00');
                 $datein = $f_from[0].'-'.$f_from[1] .'-'. $startday;
 
-                $details = new DtrDetails();
-                $details->userid = pdoController::user_search1($info->prepared_name)['username'];
-                $details->datein = $datein;
-                $details->time = '08:00:00';
-                $details->event = 'IN';
-                $details->remark = 'CTO';
-                $details->edited = '0';
-                $details->holiday = '002';
+                for($i = 0; $i < count($time); $i++):
+                    $details = new DtrDetails();
+                    $details->userid = pdoController::user_search1($info->prepared_name)['username'];
+                    $details->datein = $datein;
+                    $details->time = $time[$i];
+                    $details->event = 'IN';
+                    $details->remark = 'CTO';
+                    $details->edited = '1';
+                    $details->holiday = '002';
 
-                $details->save();
-
-                $details = new DtrDetails();
-                $details->userid = pdoController::user_search1($info->prepared_name)['username'];
-
-                $details->datein = $datein;
-                $details->time = '12:00:00';
-                $details->event = 'OUT';
-                $details->remark = 'CTO';
-                $details->edited = '0';
-                $details->holiday = '002';
-
-                $details->save();
-
-                $details = new DtrDetails();
-                $details->userid = pdoController::user_search1($info->prepared_name)['username'];
-
-                $details->datein = $datein;
-                $details->time = '13:00:00';
-                $details->event = 'IN';
-                $details->remark = 'CTO';
-                $details->edited = '0';
-                $details->holiday = '002';
-
-                $details->save();
-
-                $details = new DtrDetails();
-                $details->userid = pdoController::user_search1($info->prepared_name)['username'];
-
-                $details->datein = $datein;
-                $details->time = '18:00:00';
-                $details->event = 'OUT';
-                $details->remark = 'CTO';
-                $details->edited = '0';
-                $details->holiday = '002';
-
-                $details->save();
+                    $details->save();
+                endfor;
 
                 $startday = $startday + 1;
                 $j++;
             }
         }
-        else
+        elseif(Input::get('disapproval')) {
             $approved_status = 0;
+            //delete dtr file
+            DtrDetails::where('holiday','=', '002')
+                ->whereBetween('datein',array($info->start,$info->end))->delete();
+        }
 
         //UPDATE CDO
         cdo::where("route_no",$route_no)->update([
@@ -250,15 +221,21 @@ class cdoController extends BaseController
     }
 
     public function cdo_delete(){
-        $name = pdoController::user_search(Auth::user()->userid)['id'];
+        $id = pdoController::user_search(Auth::user()->userid)['id'];
         $route_no = Session::get('route_no');
-        cdo::where('route_no',$route_no)->delete();
+
+        //delete cdo and dtr file
+        $cdo = cdo::where('route_no',$route_no)->first();
+        $details = DtrDetails::where('holiday','=', '002')
+            ->whereBetween('datein',array($cdo->start,$cdo->end));
+        $details->delete();
+        $cdo->delete();
 
         pdoController::delete_tracking_master($route_no);
         pdoController::delete_tracking_details($route_no);
 
         //ADD SYSTEM LOGS
-        $user_id = $name;
+        $user_id = $id;
         $name = Auth::user()->fname.' '.Auth::user()->mname.' '.Auth::user()->lname;
         $activity = 'Deleted';
         pdoController::insert_system_logs($user_id,$name,$activity,$route_no);

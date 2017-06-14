@@ -24,7 +24,6 @@ class CalendarController extends BaseController
             return;
         }
         $calendar = Calendars::where('event_id',$event_id)->first();
-
         $details = DtrDetails::where('holiday','=', '001')
             ->whereBetween('datein',array($calendar->start,$calendar->end));
         $details->delete();
