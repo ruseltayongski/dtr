@@ -654,8 +654,6 @@ class DocumentController extends BaseController
     }
 
     public function show($route_no,$doc_type=null){
-        if(!Auth::user()->usertype)
-            return false;
         Session::put('route_no',$route_no);
         if($doc_type == 'office_order'){
             $users = pdoController::users();
