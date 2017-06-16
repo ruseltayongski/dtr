@@ -49,9 +49,6 @@ class PDF extends FPDF
 
             if(count($logs) <= 0) {
 
-                $this->SetFont('Arial','B',8);
-                $this->SetX(100);
-                $this->Cell(10,0,"NO AVAILABLE TIME LOGS BETWEEN $date_from AND $date_to FOR USERID $userid . TRY UPLOADING NEW TIME LOGS FROM BIOMETRIC",0,0,'C');
 
             } else {
 
@@ -498,6 +495,7 @@ exit();
 function get_logs($am_in,$am_out,$pm_in,$pm_out,$id,$date_from,$date_to)
 {
     $pdo = conn();
+
 
     $query = "CALL GETLOGS('". $am_in ."','" . $am_out ."','" . $pm_in ."','" . $pm_out . "','" . $id . "','" . $date_from . "','" . $date_to ."')";
     try
