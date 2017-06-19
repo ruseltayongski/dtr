@@ -5,7 +5,8 @@ class pdoController extends BaseController
     //PDO
     public static function connect()
     {
-        return new PDO("mysql:host=localhost;dbname=dtsv3.0",'root','');
+        /*return new PDO("mysql:host=localhost;dbname=dtsv3.0",'root','');*/
+        return DB::connection('dts')->getPdo();
     }
     public static function users()
     {
