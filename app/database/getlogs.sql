@@ -28,9 +28,12 @@ SELECT DISTINCT e.userid, datein,holiday,remark,
 
     
 FROM dtr_file d LEFT JOIN users e
-	ON d.userid = e.userid or holiday = '001'
+	ON d.userid = e.userid and datein = d.datein 
+    or (datein between DATE_FROM AND DATE_TO and holiday = '001') 
+    or (datein between DATE_FROM AND DATE_TO and holiday = '002' and d.userid = e.userid)
+    or (datein between DATE_FROM AND DATE_TO and holiday = '003' and d.userid = e.userid)
 WHERE d.datein BETWEEN DATE_FROM AND DATE_TO
-	  AND e.userid = ID
+	  AND e.userid = ID 
 	group by d.datein
 ORDER BY datein ASC;
 
