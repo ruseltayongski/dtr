@@ -18,7 +18,7 @@ SELECT DISTINCT e.userid, datein,holiday,remark,
     
 	(SELECT  CONCAT(t3.time,'_',t3.edited) FROM dtr_file t3 WHERE userid = d.userid AND datein = d.datein and t3.time > AMOUT and t3.time < PMOUT AND t3.event = 'IN' ORDER BY t3.time ASC LIMIT 1) as pm_in,
     
-	(SELECT  CONCAT(t4.time,'_',t4.edited) FROM dtr_file t4 WHERE userid = d.userid AND datein = d.datein and t4.time > PMIN
+	(SELECT  CONCAT(t4.time,'_',t4.edited) FROM dtr_file t4 WHERE userid = d.userid AND datein = d.datein and t4.time > PMIN AND t4.event = 'OUT'
     
 		AND t4.time > IF((SELECT  CONCAT(t3.time,'_',t3.edited) FROM dtr_file t3 WHERE userid = d.userid AND datein = d.datein and t3.time > AMOUT and t3.time < PMOUT AND t3.event = 'IN' ORDER BY t3.time ASC LIMIT 1),
         (SELECT  CONCAT(t3.time,'_',t3.edited) FROM dtr_file t3 WHERE userid = d.userid AND datein = d.datein and t3.time > AMOUT and t3.time < PMOUT AND t3.event = 'IN' ORDER BY t3.time ASC LIMIT 1),
