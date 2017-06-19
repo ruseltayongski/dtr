@@ -578,67 +578,7 @@ function save_file_name($filename,$date_from,$date_to,$emtype)
     $pdo = null;
 }
 
-function get_holidays($from,$to)
-{
-    $pdo = conn();
-    $query = "SELECT title,status FROM calendar WHERE status = '1' AND start >= '". $from . "' AND end <= '" .$to . "'";
-    $st = $pdo->prepare($query);
-    $st->execute();
-    $row = $st->fetch(PDO::FETCH_ASSOC);
 
-    return $row;
-}
-
-
-
-
-function check_inclusive_name($id)
-{
-    $db = conn();
-    $sql = 'SELECT * FROM inclusive_name where user_id = ?';
-    $pdo = $db->prepare($sql);
-    $pdo->execute(array($id));
-    $row = $pdo->fetchAll();
-    $db = null;
-
-    return $row;
-}
-
-function approved_rdard()
-{
-    $db = dts_con();
-    $sql = 'SELECT * FROM USERS where section = 36';
-    $pdo = $db->prepare($sql);
-    $pdo->execute();
-    $row = $pdo->fetchAll();
-    $db = null;
-
-    return $row;
-}
-
-function so_no($route_no)
-{
-    $db = conn();
-    $sql = 'SELECT id FROM OFFICE_ORDER where route_no = ?';
-    $pdo = $db->prepare($sql);
-    $pdo->execute(array($route_no));
-    $row = $pdo->fetch();
-    $db = null;
-
-    return $row;
-}
-
-function approved_record($route_no,$received_by)
-{
-    $db = dts_con();
-    $sql = 'SELECT * FROM TRACKING_DETAILS where route_no = ? and received_by = ?';
-    $pdo = $db->prepare($sql);
-    $pdo->execute(array($route_no,$received_by));
-    $row = $pdo->fetchAll();
-    $db = null;
-
-    return $row;
-}
 
 
 

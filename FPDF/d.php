@@ -30,6 +30,9 @@ class PDF extends FPDF
     function form($name,$userid,$date_from,$date_to,$sched)
     {
 
+        $this->Image(__DIR__.'/image/doh2.png', 20, 50,70,70);
+        $this->Image(__DIR__.'/image/doh2.png', 120, 50,70,70);
+
         $day1 = explode('-',$date_from);
         $day2 = explode('-',$date_to);
 
@@ -87,9 +90,14 @@ class PDF extends FPDF
                 $this->SetXY(35,15);
                 $this->Cell(40,10,'DAILY TIME RECORD',0);
 
-                $this->SetFont('Arial','BU',10);
+                $this->SetFont('Arial','B',10);
                 $this->SetXY(25,22);
                 $this->Cell(60,10,'                  '.$name.'                  ',0,1,'C');
+
+                $this->SetFont('Arial','BU',8);
+                $this->SetXY(51,22);
+                $this->Cell(5,10,'                                                                                                             ',0,0,'C');
+
 
                 $this->SetFont('Arial','',8);
                 $this->SetXY(10,28);
@@ -109,9 +117,16 @@ class PDF extends FPDF
                 $this->SetXY(135,15);
                 $this->Cell(40,10,'DAILY TIME RECORD',0);
 
-                $this->SetFont('Arial','BU',10);
+                $this->SetFont('Arial','B',10);
                 $this->SetXY(135,22);
                 $this->Cell(40,10,'                  '.$name.'                  ',0,1,'C');
+
+
+                $this->SetFont('Arial','BU',8);
+                $this->SetXY(153,22);
+                $this->Cell(5,10,'                                                                                                             ',0,0,'C');
+
+
 
                 $this->SetFont('Arial','',8);
                 $this->SetXY(112,28);
@@ -199,7 +214,7 @@ class PDF extends FPDF
                                 $pm_out = '';
                                 $e4 = '';
                             }
-                            if(!$log['holiday'] == '001') {
+                            if(!$log['holiday'] == '001' OR !$log['holiday'] == '003' OR !$log['holiday'] == '002') {
 
                                 $late = late($s_am_in,$s_pm_in,$am_in,$pm_in,$log['datein']);
                                 if($late != '' or $late != null)
@@ -212,11 +227,27 @@ class PDF extends FPDF
                                     $ut_total = $ut_total + $ut;
                                 }
                             } else {
-                                $am_in = '';
-                                $am_out = 'HOLIDAY';
-                                $pm_in = '';
-                                $pm_out = '';
-                                $late = '';
+                                if($log['holiday'] == '001') {
+                                    $am_in = '';
+                                    $am_out = 'HOLIDAY';
+                                    $pm_in = '';
+                                    $pm_out = '';
+                                    $late = '';
+                                }
+                                if($log['holiday'] == '003') {
+                                    $am_in = '';
+                                    $am_out = 'SO:'.$log['remark'];
+                                    $pm_in = '';
+                                    $pm_out = '';
+                                    $late = '';
+                                }
+                                if($log['holiday'] == '002') {
+                                    $am_in = '';
+                                    $am_out = $log['remark'];
+                                    $pm_in = '';
+                                    $pm_out = '';
+                                    $late = '';
+                                }
                             }
                         } else {
                             $am_in = '';
