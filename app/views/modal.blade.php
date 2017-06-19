@@ -174,7 +174,7 @@
 </div><!-- /.modal -->
 
 
-<div class="modal fade" tabindex="-1" role="dialog" id="document_form">
+<div class="modal fade" tabindex="-1" role="dialog" id="document_form" style="overflow-y:scroll;">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header" style="background-color:#9C8AA5;padding:15px;">

@@ -54,8 +54,9 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         @if(!\Illuminate\Support\Facades\Auth::user()->usertype)
-                                        <a class="btn btn-success" data-dismiss="modal" data-backdrop="static" data-toggle="modal" data-target="#form_type" style="background-color: darkmagenta;color: white"><i class="fa fa-plus"></i> Create new</a>
+                                            <a class="btn btn-success" data-dismiss="modal" data-backdrop="static" data-toggle="modal" data-target="#form_type" style="background-color: darkmagenta;color: white"><i class="fa fa-plus"></i> Create new</a>
                                         @endif
+                                        {{--<a href="#document_form" data-link="{{ asset('form/sov1') }}" class="btn btn-success" data-dismiss="modal" data-backdrop="static" data-toggle="modal" data-target="#document_form" style="background-color:darkmagenta;color: white;"><i class="fa fa-plus"></i> Create new</a>--}}
                                     </div>
                                 </div>
                                 <br />
@@ -168,7 +169,8 @@
             },700);
         });
 
-        $("a[href='#document_form']").on('click',function(){
+        $("a[href='#document_form']").on('click',function(e){
+            $('#form_type').modal({show: false});
             $('.modal-title').html('Office Order');
             $('.modal_content').html(loadingState);
             var url = $(this).data('link');
@@ -183,7 +185,7 @@
                         $('input').attr('autocomplete', 'off');
                     }
                 });
-            },1000);
+            },700);
         });
 
         $("a[href='#form_type']").on("click",function(){

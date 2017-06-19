@@ -90,7 +90,7 @@
                                                                 </a>
 
                                                             </td>
-                                                            <td class="text-center"><strong><a href="#"> <?php echo date("h:i:s A", strtotime($list->time)); ?></a></strong></td>
+                                                            <td class="text-center"><strong><a href="#"> <?php echo $list->time; ?></a></strong></td>
                                                             <td class="text-center"><strong><a href="#"><?php echo $list->event; ?></a> </strong></td>
                                                             <td class="text-center">
                                                                <strong><a href="#"><?php echo $list->remark; ?></a> </strong>

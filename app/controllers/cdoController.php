@@ -194,6 +194,8 @@ class cdoController extends BaseController
             //delete dtr file
             DtrDetails::where('holiday','=', '002')
                 ->whereBetween('datein',array($info->start,$info->end))->delete();
+        } else {
+            $approved_status = 0;
         }
 
         //UPDATE CDO

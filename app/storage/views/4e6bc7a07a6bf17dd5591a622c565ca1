@@ -79,7 +79,7 @@
                 <td class="col-sm-8">
                     <div class="input-group">
                         <div class="input-group-addon">
-                            <i class="fa fa-calendar-o"></i>
+                            <i class="fa fa-calendar-plus-o"></i>
                         </div>
                         <input class="form-control datepickercalendar" value="<?php echo date('m/d/Y',strtotime($info->prepared_date)); ?>" name="prepared_date" <?php if($info->version == 1)echo 'required';else echo'disabled';?>>
                     </div>
@@ -123,9 +123,12 @@
                                 <i class="fa fa-calendar"></i>
                             </div>
                             <input type="text" class="form-control" style="width: 40%;" value="<?php echo date('m/d/Y',strtotime($row->start)).' - '.date('m/d/Y',strtotime('-1 day',strtotime($row->end))); ?>" id="<?php echo 'inclusive'.$count; ?>" name="inclusive[]" placeholder="Input date range here..." required>
-                            <textarea name="area[]" class="form-control" rows="1" placeholder="Input your area here..." style="resize: none;width: 40%;margin-left:2%" required><?php echo $row->area; ?></textarea>
-                            &nbsp;
-                            <button type="button" value="<?php echo $count; ?>" onclick="remove($(this))" class="btn btn-danger" style="color: white" ><span class="fa fa-close"></span></button>
+                            <div class="input-group">
+                                <div class="input-group-addon">
+                                    <i class="fa fa-location-arrow"></i>
+                                </div>
+                                <textarea name="area[]" class="form-control" rows="1" placeholder="Input your area here..." style="resize: none;width: 100%;margin-left:2%" required><?php echo $row->area; ?></textarea>
+                            </div>
                         </div>
                     </td>
                 </tr>
@@ -185,6 +188,9 @@
         event.preventDefault();
         count++;
         var url = $("#so_append").data('link')+"?count="+count;
+        setTimeout(function(){
+
+        });
         $.get(url,function(result){
             $(".p_inclusive_date").append(result);
         });
@@ -195,8 +201,10 @@
         });
     }
 
-    function remove(id){
-        $("#"+id.val()).remove();
+    function remove_row(id){
+        //$("#"+id.val()).remove();
+        console.log($("#"+id.val()).remove().length);
+        //console.log('got it! '+id.val());
     }
 
     $.get($('#inclusive_name').data('link'),function(result){
