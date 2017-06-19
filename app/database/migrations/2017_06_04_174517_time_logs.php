@@ -21,6 +21,8 @@ class TimeLogs extends Migration {
 			$table->string('remark',200)->nullable();
 			$table->string('edited',10)->nullable();
 			$table->string('holiday',30)->nullable();
+			$table->string('so_id',30)->nullable();
+			$table->index('so_id',30);
 			$table->index('dtr_id');
 			$table->index('userid');
 			$table->index('datein');

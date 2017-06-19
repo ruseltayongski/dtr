@@ -74,8 +74,8 @@
                                         <tbody>
                                         @foreach($lists as $list)
                                             <tr>
-                                                <td class="text-center"><strong><a href="#">{{ date("M-d-y",strtotime($list->date_from ))." to ".date("M-d-y",strtotime($list->date_to )) }}</a> </strong></td>
-                                                <td class="text-center"><strong><a href="#">{{ date("M-d-y",strtotime($list->date_created)) }}</a> </strong> </td>
+                                                <td class="text-center"><strong><a href="#">{{ date("M d, Y",strtotime($list->date_from ))." to ".date("M d, Y",strtotime($list->date_to )) }}</a> </strong></td>
+                                                <td class="text-center"><strong><a href="#">{{ date("M d, Y",strtotime($list->date_created)) }}</a> </strong> </td>
                                                 <td class="text-center"><strong><a href="#">{{ $list->time_created }} </a> </strong></td>
                                                 <td class="text-center"><strong><a href="#">{{ $list->type }}</a> </strong></td>
                                                 <td class="text-center">
