@@ -87,9 +87,14 @@ class PDF extends FPDF
                 $this->SetXY(35,15);
                 $this->Cell(40,10,'DAILY TIME RECORD',0);
 
-                $this->SetFont('Arial','BU',10);
+                $this->SetFont('Arial','B',10);
                 $this->SetXY(25,22);
                 $this->Cell(60,10,'                  '.$name.'                  ',0,1,'C');
+
+                $this->SetFont('Arial','BU',8);
+                $this->SetXY(51,22);
+                $this->Cell(5,10,'                                                                                                             ',0,0,'C');
+
 
                 $this->SetFont('Arial','',8);
                 $this->SetXY(10,28);
@@ -109,9 +114,16 @@ class PDF extends FPDF
                 $this->SetXY(135,15);
                 $this->Cell(40,10,'DAILY TIME RECORD',0);
 
-                $this->SetFont('Arial','BU',10);
+                $this->SetFont('Arial','B',10);
                 $this->SetXY(135,22);
                 $this->Cell(40,10,'                  '.$name.'                  ',0,1,'C');
+
+
+                $this->SetFont('Arial','BU',8);
+                $this->SetXY(153,22);
+                $this->Cell(5,10,'                                                                                                             ',0,0,'C');
+
+
 
                 $this->SetFont('Arial','',8);
                 $this->SetXY(112,28);
@@ -199,7 +211,7 @@ class PDF extends FPDF
                                 $pm_out = '';
                                 $e4 = '';
                             }
-                            if(!$log['holiday'] == '001') {
+                            if(!$log['holiday'] == '001' OR !$log['holiday'] == '003' OR !$log['holiday'] == '002') {
 
                                 $late = late($s_am_in,$s_pm_in,$am_in,$pm_in,$log['datein']);
                                 if($late != '' or $late != null)
@@ -212,11 +224,27 @@ class PDF extends FPDF
                                     $ut_total = $ut_total + $ut;
                                 }
                             } else {
-                                $am_in = '';
-                                $am_out = 'HOLIDAY';
-                                $pm_in = '';
-                                $pm_out = '';
-                                $late = '';
+                                if($log['holiday'] == '001') {
+                                    $am_in = '';
+                                    $am_out = 'HOLIDAY';
+                                    $pm_in = '';
+                                    $pm_out = '';
+                                    $late = '';
+                                }
+                                if($log['holiday'] == '003') {
+                                    $am_in = '';
+                                    $am_out = 'SO:'.$log['remark'];
+                                    $pm_in = '';
+                                    $pm_out = '';
+                                    $late = '';
+                                }
+                                if($log['holiday'] == '002') {
+                                    $am_in = '';
+                                    $am_out = $log['remark'];
+                                    $pm_in = '';
+                                    $pm_out = '';
+                                    $late = '';
+                                }
                             }
                         } else {
                             $am_in = '';
@@ -455,6 +483,8 @@ class PDF extends FPDF
 $pdf = new PDF('P','mm','A4');
 $pdf->AliasNbPages();
 $pdf->AddPage();
+$pdf->Image(__DIR__.'/image/doh2.png', 20, 50,70,70);
+$pdf->Image(__DIR__.'/image/doh2.png', 120, 50,70,70);
 $pdf->SetFont('Arial','',12);
 $date_from = '';
 $date_to = '';
@@ -504,24 +534,11 @@ function get_logs($am_in,$am_out,$pm_in,$pm_out,$id,$date_from,$date_to)
     $pdo = conn();
 
 
-    $query = "SELECT DISTINCT e.userid, datein,holiday,
-
-
-                    (SELECT  CONCAT(t1.time,'_',t1.edited) FROM dtr_file t1 WHERE userid = d.userid and datein = d.datein and t1.time < '". $am_out . "'  and t1.time < '24:00:00' ORDER BY time ASC  LIMIT 1) as am_in,
-                    (SELECT  CONCAT(t2.time,'_',t2.edited) FROM dtr_file t2 WHERE userid = d.userid and datein = d.datein and t2.time > '00:00:00' AND t2.time < '" .$pm_out . "' ORDER BY t2.time ASC LIMIT 1,1) as am_out,
-                    (SELECT  CONCAT(t3.time,'_',t3.edited) FROM dtr_file t3 WHERE userid = d.userid AND datein = d.datein and t3.time >= '". $am_out."' and t3.time < '24:00:00' ORDER BY t3.time DESC LIMIT 1,1) as pm_in,
-                    (SELECT  CONCAT(t4.time,'_',t4.edited) FROM dtr_file t4 WHERE userid = d.userid AND datein = d.datein and t4.time > '". $pm_in ."' and t4. time < '24:00:00' ORDER BY time DESC LIMIT 1) as pm_out
-
-                    FROM dtr_file d LEFT JOIN users e
-                        ON d.userid = e.userid  OR d.holiday = '001' OR d.holiday = '002'
-                    WHERE d.datein BETWEEN :date_from AND :date_to
-                          AND e.userid = :id
-                          	GROUP BY d.datein
-                    ORDER BY datein ASC";
+    $query = "CALL GETLOGS('". $am_in ."','" . $am_out ."','" . $pm_in ."','" . $pm_out . "','" . $id . "','" . $date_from . "','" . $date_to ."')";
     try
     {
         $st = $pdo->prepare($query);
-        $st->execute(array('date_from' => $date_from, 'date_to' => $date_to, 'id' => $id));
+        $st->execute();
         $row = $st->fetchAll(PDO::FETCH_ASSOC);
     }catch(PDOException $ex){
         echo $ex->getMessage();

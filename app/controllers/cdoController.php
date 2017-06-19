@@ -149,8 +149,15 @@ class cdoController extends BaseController
             $remaining_balance = $info->remaining_balance;
         }
         if(Auth::user()->usertype and Input::get('approval')) {
+
+            //delete dtr file
+            DtrDetails::where('holiday','=', '002')
+                ->whereBetween('datein',array($info->start,$info->end))
+                ->delete();
+
             $approved_status = 1;
             $dtr_enddate  = date('Y-m-d',(strtotime ( '-1 day' , strtotime ($end_date))));
+
             $f = new DateTime($start_date.' '. '00:00:00');
             $t = new DateTime($dtr_enddate.' '. '00:00:00');
 
