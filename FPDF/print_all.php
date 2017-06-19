@@ -11,8 +11,13 @@ class PDF extends FPDF
 {
     private $empname = "";
 // Page header
+
+
     function form($name,$userid,$date_from,$date_to,$sched)
     {
+
+        $this->Image(__DIR__.'/image/doh2.png', 20, 50,70,70);
+        $this->Image(__DIR__.'/image/doh2.png', 120, 50,70,70);
 
         $day1 = explode('-',$date_from);
         $day2 = explode('-',$date_to);
@@ -49,6 +54,9 @@ class PDF extends FPDF
 
             if(count($logs) <= 0) {
 
+                $this->SetFont('Arial','B',8);
+                $this->SetX(100);
+                $this->Cell(10,0,"NO AVAILABLE TIME LOGS BETWEEN $date_from AND $date_to FOR USERID $userid . TRY UPLOADING NEW TIME LOGS FROM BIOMETRIC",0,0,'C');
 
             } else {
 
@@ -68,9 +76,14 @@ class PDF extends FPDF
                 $this->SetXY(35,15);
                 $this->Cell(40,10,'DAILY TIME RECORD',0);
 
-                $this->SetFont('Arial','BU',10);
+                $this->SetFont('Arial','B',10);
                 $this->SetXY(25,22);
                 $this->Cell(60,10,'                  '.$name.'                  ',0,1,'C');
+
+                $this->SetFont('Arial','BU',8);
+                $this->SetXY(51,22);
+                $this->Cell(5,10,'                                                                                                             ',0,0,'C');
+
 
                 $this->SetFont('Arial','',8);
                 $this->SetXY(10,28);
@@ -90,9 +103,16 @@ class PDF extends FPDF
                 $this->SetXY(135,15);
                 $this->Cell(40,10,'DAILY TIME RECORD',0);
 
-                $this->SetFont('Arial','BU',10);
+                $this->SetFont('Arial','B',10);
                 $this->SetXY(135,22);
                 $this->Cell(40,10,'                  '.$name.'                  ',0,1,'C');
+
+
+                $this->SetFont('Arial','BU',8);
+                $this->SetXY(153,22);
+                $this->Cell(5,10,'                                                                                                             ',0,0,'C');
+
+
 
                 $this->SetFont('Arial','',8);
                 $this->SetXY(112,28);
@@ -180,7 +200,7 @@ class PDF extends FPDF
                                 $pm_out = '';
                                 $e4 = '';
                             }
-                            if(!$log['holiday'] == '001') {
+                            if(!$log['holiday'] == '001' OR !$log['holiday'] == '003' OR !$log['holiday'] == '002') {
 
                                 $late = late($s_am_in,$s_pm_in,$am_in,$pm_in,$log['datein']);
                                 if($late != '' or $late != null)
@@ -193,11 +213,27 @@ class PDF extends FPDF
                                     $ut_total = $ut_total + $ut;
                                 }
                             } else {
-                                $am_in = '';
-                                $am_out = 'HOLIDAY';
-                                $pm_in = '';
-                                $pm_out = '';
-                                $late = '';
+                                if($log['holiday'] == '001') {
+                                    $am_in = '';
+                                    $am_out = 'HOLIDAY';
+                                    $pm_in = '';
+                                    $pm_out = '';
+                                    $late = '';
+                                }
+                                if($log['holiday'] == '003') {
+                                    $am_in = '';
+                                    $am_out = 'SO:'.$log['remark'];
+                                    $pm_in = '';
+                                    $pm_out = '';
+                                    $late = '';
+                                }
+                                if($log['holiday'] == '002') {
+                                    $am_in = '';
+                                    $am_out = $log['remark'];
+                                    $pm_in = '';
+                                    $pm_out = '';
+                                    $late = '';
+                                }
                             }
                         } else {
                             $am_in = '';
@@ -461,8 +497,9 @@ if(isset($_POST['filter_range']) and isset($_POST['emptype'])) {
 $pdf = new PDF('P','mm','A4');
 $pdf->AliasNbPages();
 $pdf->AddPage();
+
 $pdf->SetFont('Arial','',12);
-$pdf->SetTitle('DTR report From : ' . date('l', strtotime($date_from)) .'---'.date('l', strtotime($date_to)));
+$pdf->SetTitle('DTR report From : ' . date('Y-m-d', strtotime($date_from)) .'---'.date('Y-m-d', strtotime($date_to)));
 $row = userlist($emptype);
 if(isset($row) and count($row) > 0)
 {
@@ -475,6 +512,7 @@ if(isset($row) and count($row) > 0)
 
 $time = rand(1,1000);
 $filename = __DIR__.'/pdf-files/'.$time.'-dtr-'.$date_from .'-'.$date_to.'_.pdf';
+
 $file =  $time.'-dtr-'.$date_from .'-'.$date_to.'_.pdf';
 save_file_name($file,$date_from,$date_to,$emptype);
 $pdf->Output($filename,'F');

@@ -87,9 +87,14 @@ class PDF extends FPDF
                 $this->SetXY(35,15);
                 $this->Cell(40,10,'DAILY TIME RECORD',0);
 
-                $this->SetFont('Arial','BU',10);
+                $this->SetFont('Arial','B',10);
                 $this->SetXY(25,22);
                 $this->Cell(60,10,'                  '.$name.'                  ',0,1,'C');
+
+                $this->SetFont('Arial','BU',8);
+                $this->SetXY(51,22);
+                $this->Cell(5,10,'                                                                                                             ',0,0,'C');
+
 
                 $this->SetFont('Arial','',8);
                 $this->SetXY(10,28);
@@ -109,9 +114,16 @@ class PDF extends FPDF
                 $this->SetXY(135,15);
                 $this->Cell(40,10,'DAILY TIME RECORD',0);
 
-                $this->SetFont('Arial','BU',10);
+                $this->SetFont('Arial','B',10);
                 $this->SetXY(135,22);
                 $this->Cell(40,10,'                  '.$name.'                  ',0,1,'C');
+
+
+                $this->SetFont('Arial','BU',8);
+                $this->SetXY(153,22);
+                $this->Cell(5,10,'                                                                                                             ',0,0,'C');
+
+
 
                 $this->SetFont('Arial','',8);
                 $this->SetXY(112,28);
@@ -471,6 +483,8 @@ class PDF extends FPDF
 $pdf = new PDF('P','mm','A4');
 $pdf->AliasNbPages();
 $pdf->AddPage();
+$pdf->Image(__DIR__.'/image/doh2.png', 20, 50,70,70);
+$pdf->Image(__DIR__.'/image/doh2.png', 120, 50,70,70);
 $pdf->SetFont('Arial','',12);
 $date_from = '';
 $date_to = '';
