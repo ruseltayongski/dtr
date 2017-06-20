@@ -225,7 +225,14 @@ class DocumentController extends BaseController
 
         OfficeOrders::where('route_no',$route_no)->delete();
         InclusiveNames::where('route_no',$route_no)->delete();
-        Calendars::where('route_no',$route_no)->delete();
+
+        //delete calendar and dtr file
+        $calendar = Calendars::where('route_no',$route_no)->first();
+        $details = DtrDetails::where('holiday','003')
+            ->whereBetween('datein',array($calendar->start,$calendar->end));
+        $details->delete();
+        $calendar->delete();
+        ///
 
         pdoController::delete_tracking_master($route_no);
         pdoController::delete_tracking_details($route_no);
