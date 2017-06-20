@@ -230,7 +230,11 @@ class cdoController extends BaseController
     }
 
     public function cdo_delete(){
-        $id = pdoController::user_search(Auth::user()->userid)['id'];
+        if(Auth::user()->usertype)
+            $id = 'HRIS-ADMIN';
+        else
+            $id = pdoController::user_search(Auth::user()->userid)['id'].'tayong';
+
         $route_no = Session::get('route_no');
 
         //delete cdo and dtr file
