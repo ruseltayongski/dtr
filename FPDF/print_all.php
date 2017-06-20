@@ -196,6 +196,7 @@ class PDF extends FPDF
                                 $pm_out = '';
                                 $e4 = '';
                             }
+
                             if(!$log['holiday'] == '001' OR !$log['holiday'] == '003' OR !$log['holiday'] == '002') {
 
                                 $late = late($s_am_in,$s_pm_in,$am_in,$pm_in,$log['datein']);
