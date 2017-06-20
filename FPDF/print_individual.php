@@ -663,6 +663,21 @@ function undertime($s_am_in,$s_pm_in,$am_in,$pm_in,$s_am_out,$s_pm_out,$am_out,$
 
     }
 
+    if($am_in != '' and $am_out == '' and $pm_out != '') {
+        $a = new DateTime($datein.' '. $s_am_in);
+        $b = new DateTime($datein.' '. $s_am_out);
+
+        $interval = $b->diff($a);
+        $hour1 = $interval->h;
+        $min1 = $interval->i;
+
+        if($hour1 > 0) {
+            $hour1 = $hour1 * 60;
+        }
+        $total += ($hour1 + $min1);
+    }
+
+
     if($pm_in != '' and $pm_out == '') {
         $a = new DateTime($datein.' '. $s_pm_in);
         $b = new DateTime($datein.' '. $s_pm_out);
