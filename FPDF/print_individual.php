@@ -98,11 +98,20 @@ class PDF extends FPDF
 
                 $this->SetFont('Arial','',8);
                 $this->SetXY(10,28);
-                $this->Cell(40,10,'For the month of : '.date("M",strtotime($date_from)).' '. $day1[2].'-'.$day2[2].'  '.$day2[0],0);
+                $this->Cell(40,10,'For the month of : ',0);
+
+                $this->SetFont('Arial','B',9);
+                $this->SetXY(33,28);
+                $this->Cell(40,10,date("M",strtotime($date_from)).' '. $day1[2].'-'.$day2[2].'  '.$day2[0],0);
+
 
                 $this->SetFont('Arial','',8);
                 $this->SetXY(60,28);
-                $this->Cell(40,10,'ID No.  '.$userid,0);
+                $this->Cell(40,10,'ID No :',0);
+
+                $this->SetFont('Arial','B',9);
+                $this->SetXY(70,28);
+                $this->Cell(40,10,$userid,0);
 
                 $this->SetFont('Arial','',8);
                 $this->SetXY(10,33);
@@ -127,11 +136,19 @@ class PDF extends FPDF
 
                 $this->SetFont('Arial','',8);
                 $this->SetXY(112,28);
-                $this->Cell(40,10,'For the month of : '.date("M",strtotime($date_from)).' '. $day1[2].'-'.$day2[2].'  '.$day2[0],0);
+                $this->Cell(40,10,'For the month of : ',0);
+
+                $this->SetFont('Arial','B',9);
+                $this->SetXY(135,28);
+                $this->Cell(40,10,date("M",strtotime($date_from)).' '. $day1[2].'-'.$day2[2].'  '.$day2[0],0);
 
                 $this->SetFont('Arial','',8);
                 $this->SetXY(170,28);
-                $this->Cell(40,10,'ID No.  '.$userid,0);
+                $this->Cell(40,10,'ID No : ',0);
+
+                $this->SetFont('Arial','B',9);
+                $this->SetXY(179,28);
+                $this->Cell(40,10,$userid,0);
 
                 $this->SetFont('Arial','',8);
                 $this->SetXY(112,33);
@@ -175,6 +192,30 @@ class PDF extends FPDF
                             $am_out = $log['am_out'];
                             $pm_in = $log['pm_in'];
                             $pm_out = $log['pm_out'];
+
+                           if($am_in and $am_out and $pm_in and !$pm_out) {
+                                if($am_out > $pm_in) {
+                                    $pm_in = null;
+                                }
+                            }
+                            if($am_in and !$am_out and $pm_in and !$pm_out) {
+
+                                if($pm_in > $am_in and $pm_in < '14:00:00') {
+                                    $am_out = $pm_in;
+                                    $pm_in = null;
+                                } else {
+                                    $pm_out = $pm_in;
+                                    $pm_in = null;
+                                }
+                            }
+
+                            if($am_in and $am_out and $pm_in and $pm_out) {
+                                if($am_out > $pm_in) {
+                                    $tmp = $am_out;
+                                    $am_out = $pm_in;
+                                    $pm_in = $tmp;
+                                }
+                            }
 
                             if(isset($am_in)) {
                                 $a = explode('_', $am_in);
@@ -444,7 +485,7 @@ class PDF extends FPDF
                             $this->Ln();
 
                             $this->SetFont('Arial','',8);
-                            $this->SetX(40);
+                            $this->SetX(45);
                             $this->Cell(10,0,'IN-CHARGE',0,0,'C');
                             $this->SetX(150);
                             $this->Cell(10,0,'IN-CHARGE',0,0,'C');
@@ -483,8 +524,10 @@ class PDF extends FPDF
 $pdf = new PDF('P','mm','A4');
 $pdf->AliasNbPages();
 $pdf->AddPage();
-$pdf->Image(__DIR__.'/image/doh2.png', 20, 50,70,70);
-$pdf->Image(__DIR__.'/image/doh2.png', 120, 50,70,70);
+
+$pdf->Image(__DIR__.'/image/doh2.png', 15, 50,80,80);
+$pdf->Image(__DIR__.'/image/doh2.png', 118, 50,80,80);
+
 $pdf->SetFont('Arial','',12);
 $date_from = '';
 $date_to = '';
@@ -661,20 +704,6 @@ function undertime($s_am_in,$s_pm_in,$am_in,$pm_in,$s_am_out,$s_pm_out,$am_out,$
         }
         $total += ($hour1 + $min1);
 
-    }
-
-    if($am_in != '' and $am_out == '' and $pm_out != '') {
-        $a = new DateTime($datein.' '. $s_am_in);
-        $b = new DateTime($datein.' '. $s_am_out);
-
-        $interval = $b->diff($a);
-        $hour1 = $interval->h;
-        $min1 = $interval->i;
-
-        if($hour1 > 0) {
-            $hour1 = $hour1 * 60;
-        }
-        $total += ($hour1 + $min1);
     }
 
 

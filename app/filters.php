@@ -14,6 +14,12 @@
 
 App::before(function($request)
 {
+	if(Request::method() == 'POST') {
+		if (Session::token() != Input::get('_token'))
+		{
+			throw new Illuminate\Session\TokenMismatchException;
+		}
+	}
 
 });
 

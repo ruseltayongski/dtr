@@ -150,6 +150,7 @@
 <script src="{{ asset('public/plugin/fullcalendar/moment.js') }}"></script>
 <script src="{{ asset('public/plugin/fullcalendar/fullcalendar.min.js') }}"></script>
 
+
 @section('js')
 
 @show
