@@ -1,5 +1,4 @@
 <?php
-
 class pdoController extends BaseController
 {
     //PDO
@@ -16,7 +15,6 @@ class pdoController extends BaseController
         $pdo->execute();
         $row = $pdo->fetchAll();
         $db = null;
-
         return $row;
     }
     public static function user_search($id)
@@ -27,7 +25,6 @@ class pdoController extends BaseController
         $pdo->execute(array($id));
         $row = $pdo->fetch();
         $db = null;
-
         return $row;
     }
     public static function user_search1($id)
@@ -38,7 +35,6 @@ class pdoController extends BaseController
         $pdo->execute(array($id));
         $row = $pdo->fetch();
         $db = null;
-
         return $row;
     }
     public static function designation_search($id)
@@ -49,7 +45,6 @@ class pdoController extends BaseController
         $pdo->execute(array($id));
         $row = $pdo->fetch();
         $db = null;
-
         return $row;
     }
     public static function division()
@@ -60,7 +55,6 @@ class pdoController extends BaseController
         $pdo->execute();
         $row = $pdo->fetchAll();
         $db = null;
-
         return $row;
     }
     public static function division_head($head)
@@ -71,10 +65,8 @@ class pdoController extends BaseController
         $pdo->execute(array($head));
         $row = $pdo->fetch();
         $db = null;
-
         return $row;
     }
-
     public static function section()
     {
         $db=pdoController::connect();
@@ -83,7 +75,6 @@ class pdoController extends BaseController
         $pdo->execute();
         $row = $pdo->fetchAll();
         $db = null;
-
         return $row;
     }
     public static function section_head($head)
@@ -94,10 +85,8 @@ class pdoController extends BaseController
         $pdo->execute(array($head));
         $row = $pdo->fetch();
         $db = null;
-
         return $row;
     }
-
     public static function insert_tracking_master($route_no,$doc_type,$prepared_date,$prepared_by,$description)
     {
         $db=pdoController::connect();
@@ -106,7 +95,6 @@ class pdoController extends BaseController
         $pdo->execute(array($route_no,$doc_type,$prepared_date,$prepared_by,$description));
         $db=null;
     }
-
     public static function delete_tracking_master($route_no)
     {
         try{
@@ -120,7 +108,6 @@ class pdoController extends BaseController
             return $e->getMessage();
         }
     }
-
     public static function delete_tracking_release($route_no)
     {
         try{
@@ -134,7 +121,6 @@ class pdoController extends BaseController
             return $e->getMessage();
         }
     }
-
     public static function delete_tracking_details($route_no)
     {
         try{
@@ -148,7 +134,6 @@ class pdoController extends BaseController
             return $e->getMessage();
         }
     }
-
     public static function insert_tracking_details($route_no,$date_in,$received_by,$delivered_by,$action)
     {
         $db=pdoController::connect();
@@ -157,7 +142,6 @@ class pdoController extends BaseController
         $pdo->execute(array($route_no,$date_in,$received_by,$delivered_by,$action));
         $db=null;
     }
-
     public static function insert_system_logs($user_id,$name,$activity,$route_no)
     {
         $db=pdoController::connect();
@@ -166,7 +150,6 @@ class pdoController extends BaseController
         $pdo->execute(array($user_id,$name,$activity,$route_no));
         $db=null;
     }
-
     public static function search_tracking_master($route_no)
     {
         $db=pdoController::connect();
@@ -175,7 +158,6 @@ class pdoController extends BaseController
         $pdo->execute(array($route_no));
         $row = $pdo->fetch();
         $db = null;
-
         return $row;
     }
     public static function search_tracking_details($route_no)
@@ -186,10 +168,8 @@ class pdoController extends BaseController
         $pdo->execute(array($route_no));
         $row = $pdo->fetchAll();
         $db = null;
-
         return $row;
     }
-
     public static function search_section($id)
     {
         $db=pdoController::connect();
@@ -198,10 +178,8 @@ class pdoController extends BaseController
         $pdo->execute(array($id));
         $row = $pdo->fetch();
         $db = null;
-
         return $row;
     }
-
     public static function search_division($id)
     {
         $db=pdoController::connect();
@@ -210,11 +188,8 @@ class pdoController extends BaseController
         $pdo->execute(array($id));
         $row = $pdo->fetch();
         $db = null;
-
         return $row;
     }
-
-
     public static function update_tracking_master($prepared_date,$subject,$route_no){
         $db = pdoController::connect();
         $sql = "UPDATE tracking_master set prepared_date = ? ,description = ? where route_no = ?";
@@ -222,7 +197,6 @@ class pdoController extends BaseController
         $pdo->execute(array($prepared_date,$subject,$route_no));
         $db = null;
     }
-
     public static function update_tracking_details($subject,$route_no){
         $db = pdoController::connect();
         $sql = "UPDATE tracking_details set action = ? where route_no = ?";

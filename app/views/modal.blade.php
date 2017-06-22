@@ -75,10 +75,9 @@
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
-
-
 <div class="modal fade" tabindex="-1" role="dialog" id="deleteDocument">
     <div class="modal-dialog modal-sm" role="document">
+        @if(isset($delete))
         <div class="modal-content">
             <div class="modal-header" style="background-color: darkmagenta;color: white;">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -90,14 +89,29 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <form action="<?php if(isset($delete)) echo $delete; ?>" method="post">
+                <form action="{{ $delete }}" method="post">
                     <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> No</button>
                     <button type="submit" name="delete" class="btn btn-danger" ><i class="fa fa-trash"></i> Yes</button>
                 </form>
             </div>
         </div><!-- /.modal-content -->
+        @endif
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
+
+<div class="modal fade" tabindex="-1" role="dialog" id="absentDocument">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color:#9C8AA5;padding:15px;">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title"></h4>
+            </div>
+            <div class="modal-body">
+                <div class="modal_content"><center><img src="{{ asset('public/img/spin.gif') }}" width="150" style="padding:20px;"></center></div>
+            </div>
+        </div><!-- /.modal-content -->
+    </div>
+</div>
 
 
 <div class="modal fade" tabindex="-1" role="dialog" id="change_schedule">

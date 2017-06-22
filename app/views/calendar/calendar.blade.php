@@ -10,7 +10,7 @@
     <span id="calendar_delete" data-link="{{ asset('calendar_delete') }}"></span>
     <span id="calendar_update" data-link=" {{ asset('calendar_update') }} "></span>
     <span id="calendar_banner" data-link="{{ asset('resources/img/banner.png') }}"></span>
-    <div class="col-md-9 wrapper">
+    <div class="<?php if(Auth::user()->usertype == '1') echo 'col-md-9 wrapper'; else echo 'col-md-12 wrapper'; ?>">
         <div class="alert alert-jim">
 
             <div class="box box-primary">
@@ -141,6 +141,7 @@
                     },
                     eventRender: function(event, element) {
                         element.append( "<span class='remove_event' style='color: red'><i class='fa fa-remove'></i></span>" );
+                        <?php if(Auth::user()->usertype == '1'): ?>
                         element.find(".remove_event").click(function() {
                             Lobibox.confirm({
                                 msg: "Are you sure you want to delete this holiday?",
@@ -164,6 +165,7 @@
                                 }
                             });
                         });
+                        <?php endif; ?>
                     },
                     eventDrop: function(event,jsEvent) {
 

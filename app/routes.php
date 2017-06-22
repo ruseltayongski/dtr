@@ -158,7 +158,6 @@ Route::post('calendar_save','CalendarController@calendar_save');
 Route::get('calendar_delete/{event_id}','CalendarController@calendar_delete');
 Route::post('calendar_update','CalendarController@calendar_update');
 
-
 /////////PDF
 Route::get('pdf/v1/{size}', function($size){
 	$display = View::make("pdf.pdf",['size'=>$size]);
@@ -172,6 +171,8 @@ Route::get('pdf/track', function(){
 	$pdf->loadHTML($display);
 	return $pdf->stream();
 });
+////// ABSENT
+Route::match(array('GET','POST'), 'form/absent', 'DocumentController@absent');
 
 
 //TEST ROUTES

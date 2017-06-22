@@ -706,4 +706,69 @@ class DocumentController extends BaseController
         return View::make('document.track',['document' => $document]);
     }
 
+    public function absent(){
+        if(Request::method() =='POST'){
+
+            $str = Input::get('absent');
+            $temp1 = explode('-',$str);
+            $temp2 = array_slice($temp1, 0, 1);
+            $tmp = implode(',', $temp2);
+            $start_date = date('Y-m-d',strtotime($tmp));
+
+            $temp3 = array_slice($temp1, 1, 1);
+            $tmp = implode(',', $temp3);
+            $enddate = date_create(date('Y-m-d',strtotime($tmp)));
+            date_add($enddate, date_interval_create_from_date_string('1days'));
+            $end_date = date_format($enddate, 'Y-m-d');
+
+
+            $dtr_enddate  = date('Y-m-d',(strtotime ( '-1 day' , strtotime ($end_date))));
+
+            $f = new DateTime($start_date.' '. '00:00:00');
+            $t = new DateTime($dtr_enddate.' '. '00:00:00');
+
+            $interval = $f->diff($t);
+
+            $datein = '';
+            $f_from = explode('-',$start_date);
+            $startday = $f_from[2];
+            $j = 0;
+            while($j <= $interval->days) {
+                $datein = $f_from[0].'-'.$f_from[1] .'-'. $startday;
+
+                if(count(DtrDetails::where('userid',Auth::user()->userid)
+                    ->where('datein',$datein)->first()) > 0) {
+                    foreach (DtrDetails::where('userid', Auth::user()->userid)
+                                 ->where('datein', $datein)
+                                 ->get() as $details) {
+                        $details->remark = 'ABSENT';
+                        $details->holiday = '005';
+                        $details->save();
+                    }
+
+                    $startday = $startday + 1;
+                    $j++;
+                } else {
+                    $time = array('08:00:00','12:00:00','13:00:00','18:00:00');
+                    for($i = 0; $i < count($time); $i++):
+                        $details = new DtrDetails();
+                        $details->userid = Auth::user()->userid;
+                        $details->datein = $datein;
+                        $details->time = $time[$i];
+                        $details->event = 'IN';
+                        $details->remark = 'CTO';
+                        $details->edited = '1';
+                        $details->holiday = '005';
+
+                        $details->save();
+                    endfor;
+                }
+            }
+            return Redirect::back();
+
+        }
+        Session::put('absent','true');
+        return View::make('form.absent');
+    }
+
 }
