@@ -143,6 +143,14 @@
         </script>
         <?php Session::forget('updated'); ?>
     @endif
+    @if(Session::get('absent'))
+        <script>
+            Lobibox.notify('error',{
+                msg:'Successfully Absent!'
+            });
+        </script>
+        <?php Session::forget('absent'); ?>
+    @endif
 
     @parent
     <script>

@@ -227,26 +227,46 @@ class PDF extends FPDF
                                     $ut_total = $ut_total + $ut;
                                 }
                             } else {
-                                if($log['holiday'] == '001') {
-                                    $am_in = '';
-                                    $am_out = 'HOLIDAY';
-                                    $pm_in = '';
-                                    $pm_out = '';
-                                    $late = '';
-                                }
-                                if($log['holiday'] == '003') {
-                                    $am_in = '';
-                                    $am_out = 'SO:'.$log['remark'];
-                                    $pm_in = '';
-                                    $pm_out = '';
-                                    $late = '';
-                                }
+                                /*CTO*/
                                 if($log['holiday'] == '002') {
                                     $am_in = '';
                                     $am_out = $log['remark'];
                                     $pm_in = '';
                                     $pm_out = '';
                                     $late = '';
+                                }
+                                /*SO*/
+                                elseif($log['holiday'] == '003') {
+                                    $am_in = '';
+                                    $am_out = 'SO:'.$log['remark'];
+                                    $pm_in = '';
+                                    $pm_out = '';
+                                    $late = '';
+                                }
+                                /*LEAVE*/
+                                elseif($log['holiday'] == '004') {
+                                    $am_in = '';
+                                    $am_out = 'LEAVE';
+                                    $pm_in = '';
+                                    $pm_out = '';
+                                    $late = '';
+                                }
+                                /*HOLIDAY*/
+                                elseif($log['holiday'] == '001') {
+                                    $am_in = '';
+                                    $am_out = 'HOLIDAY';
+                                    $pm_in = '';
+                                    $pm_out = '';
+                                    $late = '';
+                                }
+                                /*ABSENT*/
+                                elseif($log['holiday'] == '005') {
+                                    $am_in = '';
+                                    $am_out = $log['remark'];
+                                    $pm_in = '';
+                                    $pm_out = '';
+                                    $late = '';
+                                    $ut = '480';
                                 }
                             }
                         } else {

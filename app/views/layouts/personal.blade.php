@@ -13,6 +13,10 @@
                     <li><a href="{{ asset('/personal/dtr/list')  }}">Admin generated DTR</a></li>
                     <li class="divider"></li>
                     <li><a href="{{ asset('/personal/add/logs') }}">Create time log</a></li>
+                    <li class="divider"></li>
+                    <li>
+                        <a href="#" onclick="absent($(this));" data-link="{{ asset('form/absent') }}" data-dismiss="modal" data-backdrop="static"> Create absent</a>
+                    </li>
                 </ul>
             </li>
             <li class="divider"></li>
@@ -48,3 +52,56 @@
         </ul>
     </li>
 </ul>
+@if(Session::get('added'))
+    <script>
+        Lobibox.notify('success',{
+            msg:'Successfully Added!'
+        });
+    </script>
+    <?php Session::forget('added'); ?>
+@endif
+@if(Session::get('deleted'))
+    <script>
+        Lobibox.notify('error',{
+            msg:'Successfully Deleted!'
+        });
+    </script>
+    <?php Session::forget('deleted'); ?>
+@endif
+@if(Session::get('updated'))
+    <script>
+        Lobibox.notify('info',{
+            msg:'Successfully Updated!'
+        });
+    </script>
+    <?php Session::forget('updated'); ?>
+@endif
+@if(Session::get('absent'))
+    <script>
+        Lobibox.notify('error',{
+            msg:'Successfully Absent!'
+        });
+    </script>
+    <?php Session::forget('absent'); ?>
+@endif
+<script>
+    function absent(data){
+        <?php $delete = 'absent' ?>
+        $("#absentDocument").modal();
+        $('.modal-title').html('Absent');
+        $('.modal_content').html(loadingState);
+        var url = data.data('link');
+        setTimeout(function(){
+            $.ajax({
+                url: url,
+                type: 'GET',
+                success: function(data) {
+                    $('.modal_content').html(data);
+                    $('#reservation').daterangepicker();
+                    var datePicker = $('body').find('.datepicker');
+                    $('input').attr('autocomplete', 'off');
+                }
+            });
+        },700);
+    }
+</script>
