@@ -189,9 +189,8 @@ class PDF extends FPDF
                                 }
                             }
                             if($am_in and !$am_out and $pm_in and !$pm_out) {
-
-                                if($pm_in > $am_in and $pm_in < '14:00:00') {
-                                    $am_out = $pm_in;
+                                if($pm_in > $am_in) {
+                                    $pm_out = $pm_in;
                                     $pm_in = null;
                                 } else {
                                     $pm_out = $pm_in;

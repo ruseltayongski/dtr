@@ -149,11 +149,7 @@
 
 <script src="<?php echo asset('public/plugin/fullcalendar/moment.js'); ?>"></script>
 <script src="<?php echo asset('public/plugin/fullcalendar/fullcalendar.min.js'); ?>"></script>
-<script>
-    window.onload(function() {
-        alert("Hello");
-    })
-</script>
+
 
 <?php $__env->startSection('js'); ?>
 

@@ -193,15 +193,14 @@ class PDF extends FPDF
                             $pm_in = $log['pm_in'];
                             $pm_out = $log['pm_out'];
 
-                           if($am_in and $am_out and $pm_in and !$pm_out) {
+                            if($am_in and $am_out and $pm_in and !$pm_out) {
                                 if($am_out > $pm_in) {
                                     $pm_in = null;
                                 }
                             }
                             if($am_in and !$am_out and $pm_in and !$pm_out) {
-
-                                if($pm_in > $am_in and $pm_in < '14:00:00') {
-                                    $am_out = $pm_in;
+                                if($pm_in > $am_in) {
+                                    $pm_out = $pm_in;
                                     $pm_in = null;
                                 } else {
                                     $pm_out = $pm_in;
