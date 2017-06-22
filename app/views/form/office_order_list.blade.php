@@ -113,45 +113,6 @@
 
 @endsection
 @section('js')
-    @if(Session::get('added'))
-        {{--<div class="alert alert-success">
-            <i class="fa fa-check"></i> Successfully Added!
-        </div>--}}
-        <script>
-            Lobibox.notify('success',{
-                msg:'Successfully Added!'
-            });
-        </script>
-        <?php Session::forget('added'); ?>
-    @endif
-    @if(Session::get('deleted'))
-        {{--<div class="alert alert-warning">
-            <i class="fa fa-check"></i> Successfully Deleted!
-        </div>--}}
-        <script>
-            Lobibox.notify('error',{
-                msg:'Successfully Deleted!'
-            });
-        </script>
-        <?php Session::forget('deleted'); ?>
-    @endif
-    @if(Session::get('updated'))
-        <script>
-            Lobibox.notify('info',{
-                msg:'Successfully Updated!'
-            });
-        </script>
-        <?php Session::forget('updated'); ?>
-    @endif
-    @if(Session::get('absent'))
-        <script>
-            Lobibox.notify('error',{
-                msg:'Successfully Absent!'
-            });
-        </script>
-        <?php Session::forget('absent'); ?>
-    @endif
-
     @parent
     <script>
         $('.input-daterange input').each(function() {

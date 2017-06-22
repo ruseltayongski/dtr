@@ -737,7 +737,7 @@ class DocumentController extends BaseController
                 $datein = $f_from[0].'-'.$f_from[1] .'-'. $startday;
 
                 if(count(DtrDetails::where('userid',Auth::user()->userid)
-                    ->where('datein',$datein)->first()) > 0) {
+                    ->where('datein',$datein)->get()) > 0) {
                     foreach (DtrDetails::where('userid', Auth::user()->userid)
                                  ->where('datein', $datein)
                                  ->get() as $details) {

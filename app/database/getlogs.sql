@@ -33,6 +33,8 @@ FROM dtr_file d LEFT JOIN users e
     or (datein between DATE_FROM AND DATE_TO and holiday = '001') 
     or (datein between DATE_FROM AND DATE_TO and holiday = '002' and d.userid = e.userid)
     or (datein between DATE_FROM AND DATE_TO and holiday = '003' and d.userid = e.userid)
+    or (datein between DATE_FROM AND DATE_TO and holiday = '004' and d.userid = e.userid)
+    or (datein between DATE_FROM AND DATE_TO and holiday = '005' and d.userid = e.userid)
 WHERE d.datein BETWEEN DATE_FROM AND DATE_TO
 	  AND e.userid = ID 
 	group by d.datein

@@ -112,31 +112,7 @@
 
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('js'); ?>
-    <?php if(Session::get('added')): ?>
-        <script>
-            Lobibox.notify('success',{
-                msg:'Successfully Added!'
-            });
-        </script>
-        <?php Session::forget('added'); ?>
-    <?php endif; ?>
-    <?php if(Session::get('deleted')): ?>
-        <script>
-            Lobibox.notify('error',{
-                msg:'Successfully Deleted!'
-            });
-        </script>
-        <?php Session::forget('deleted'); ?>
-    <?php endif; ?>
-    <?php if(Session::get('updated')): ?>
-        <script>
-            Lobibox.notify('info',{
-                msg:'Successfully Updated!'
-            });
-        </script>
-        <?php Session::forget('updated'); ?>
-    <?php endif; ?>
-    @parent
+
     <script>
         $("#inclusive3").daterangepicker();
         $('.input-daterange input').each(function() {

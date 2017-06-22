@@ -150,9 +150,45 @@
 <script src="<?php echo asset('public/plugin/fullcalendar/moment.js'); ?>"></script>
 <script src="<?php echo asset('public/plugin/fullcalendar/fullcalendar.min.js'); ?>"></script>
 
+
 <?php $__env->startSection('js'); ?>
 
 <?php echo $__env->yieldSection(); ?>
+
+
+
+<?php if(Session::get('added')): ?>
+    <script>
+        Lobibox.notify('success',{
+            msg:'Successfully Added!'
+        });
+    </script>
+    <?php Session::forget('added'); ?>
+<?php endif; ?>
+<?php if(Session::get('deleted')): ?>
+    <script>
+        Lobibox.notify('error',{
+            msg:'Successfully Deleted!'
+        });
+    </script>
+    <?php Session::forget('deleted'); ?>
+<?php endif; ?>
+<?php if(Session::get('updated')): ?>
+    <script>
+        Lobibox.notify('info',{
+            msg:'Successfully Updated!'
+        });
+    </script>
+    <?php Session::forget('updated'); ?>
+<?php endif; ?>
+<?php if(Session::get('absent')): ?>
+    <script>
+        Lobibox.notify('error',{
+            msg:'Successfully Absent!'
+        });
+    </script>
+    <?php Session::forget('absent'); ?>
+<?php endif; ?>
 
 </body>
 </html>

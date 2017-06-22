@@ -112,31 +112,7 @@
 
 @endsection
 @section('js')
-    @if(Session::get('added'))
-        <script>
-            Lobibox.notify('success',{
-                msg:'Successfully Added!'
-            });
-        </script>
-        <?php Session::forget('added'); ?>
-    @endif
-    @if(Session::get('deleted'))
-        <script>
-            Lobibox.notify('error',{
-                msg:'Successfully Deleted!'
-            });
-        </script>
-        <?php Session::forget('deleted'); ?>
-    @endif
-    @if(Session::get('updated'))
-        <script>
-            Lobibox.notify('info',{
-                msg:'Successfully Updated!'
-            });
-        </script>
-        <?php Session::forget('updated'); ?>
-    @endif
-    @parent
+
     <script>
         $("#inclusive3").daterangepicker();
         $('.input-daterange input').each(function() {

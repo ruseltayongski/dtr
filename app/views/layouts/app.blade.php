@@ -155,5 +155,40 @@
 
 @show
 
+
+
+@if(Session::get('added'))
+    <script>
+        Lobibox.notify('success',{
+            msg:'Successfully Added!'
+        });
+    </script>
+    <?php Session::forget('added'); ?>
+@endif
+@if(Session::get('deleted'))
+    <script>
+        Lobibox.notify('error',{
+            msg:'Successfully Deleted!'
+        });
+    </script>
+    <?php Session::forget('deleted'); ?>
+@endif
+@if(Session::get('updated'))
+    <script>
+        Lobibox.notify('info',{
+            msg:'Successfully Updated!'
+        });
+    </script>
+    <?php Session::forget('updated'); ?>
+@endif
+@if(Session::get('absent'))
+    <script>
+        Lobibox.notify('error',{
+            msg:'Successfully Absent!'
+        });
+    </script>
+    <?php Session::forget('absent'); ?>
+@endif
+
 </body>
 </html>

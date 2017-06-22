@@ -33,14 +33,6 @@
                     <li><a href="<?php echo asset("form/cdo_list"); ?>">CTO</a></li>
                 </ul>
             </li>
-            <li class="divider"></li>
-            <li class="dropdown-submenu">
-                <a href="#" data-toggle="dropdown"><i class="fa fa-cog"></i>&nbsp;&nbsp; Settings</a>
-                <ul class="dropdown-menu">
-                    <li><a href="#document_form" data-backdrop="static" data-toggle="modal" data-link="<?php echo asset('/form/worksheet'); ?>">Edit work schedule</a></li>
-                    <li><a href="#document_form" data-backdrop="static" data-toggle="modal" data-link="<?php echo asset('/form/justification/letter'); ?>"></a></li>
-                </ul>
-            </li>
         </ul>
     </li>
     <li class="dropdown">
@@ -52,38 +44,6 @@
         </ul>
     </li>
 </ul>
-<?php if(Session::get('added')): ?>
-    <script>
-        Lobibox.notify('success',{
-            msg:'Successfully Added!'
-        });
-    </script>
-    <?php Session::forget('added'); ?>
-<?php endif; ?>
-<?php if(Session::get('deleted')): ?>
-    <script>
-        Lobibox.notify('error',{
-            msg:'Successfully Deleted!'
-        });
-    </script>
-    <?php Session::forget('deleted'); ?>
-<?php endif; ?>
-<?php if(Session::get('updated')): ?>
-    <script>
-        Lobibox.notify('info',{
-            msg:'Successfully Updated!'
-        });
-    </script>
-    <?php Session::forget('updated'); ?>
-<?php endif; ?>
-<?php if(Session::get('absent')): ?>
-    <script>
-        Lobibox.notify('error',{
-            msg:'Successfully Absent!'
-        });
-    </script>
-    <?php Session::forget('absent'); ?>
-<?php endif; ?>
 <script>
     function absent(data){
         <?php $delete = 'absent' ?>
