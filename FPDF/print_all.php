@@ -55,9 +55,6 @@ class PDF extends FPDF
 
             if(count($logs) <= 0) {
 
-                $this->SetFont('Arial','B',8);
-                $this->SetX(100);
-                $this->Cell(10,0,"NO AVAILABLE TIME LOGS BETWEEN $date_from AND $date_to FOR USERID $userid . TRY UPLOADING NEW TIME LOGS FROM BIOMETRIC",0,0,'C');
 
             } else {
 
