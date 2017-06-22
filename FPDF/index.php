@@ -1,1 +1,1 @@
-<h2>Access to this page is not allowed.</h2>
+<h2>Access to this page is not allowed or the file your looking for is not located on this location.</h2>

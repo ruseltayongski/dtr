@@ -111,7 +111,7 @@ class PersonalController extends Controller
         if(Request::method() == "GET"){
             $lists = PdfFiles::where('is_filtered','<>', '1')
                 ->where('type', '=', Auth::user()->emptype)
-                ->orderBy('date_created', 'ASC')
+                ->orderBy('id', 'DESC')
                 ->paginate(20);
             return View::make('dtr.personal_list')->with('lists', $lists);
         }
@@ -130,8 +130,8 @@ class PersonalController extends Controller
                 $lists = DB::table('generated_pdf')
                     ->whereBetween('date_from',array($date_from,$date_to))
                     ->whereBetween('date_to' ,array($date_from,$date_to))
-                    ->where('type','=','JO')
-                    ->orderBy('date_created', 'ASC')
+                    ->where('type','=',Auth::user()->emptype)
+                    ->orderBy('id', 'DESC')
                     ->paginate(20);
                 return View::make('dtr.personal_list')->with('lists', $lists);
 

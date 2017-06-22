@@ -33,14 +33,6 @@
                     <li><a href="{{ asset("form/cdo_list") }}">CTO</a></li>
                 </ul>
             </li>
-            <li class="divider"></li>
-            <li class="dropdown-submenu">
-                <a href="#" data-toggle="dropdown"><i class="fa fa-cog"></i>&nbsp;&nbsp; Settings</a>
-                <ul class="dropdown-menu">
-                    <li><a href="#document_form" data-backdrop="static" data-toggle="modal" data-link="{{ asset('/form/worksheet') }}">Edit work schedule</a></li>
-                    <li><a href="#document_form" data-backdrop="static" data-toggle="modal" data-link="{{ asset('/form/justification/letter') }}"></a></li>
-                </ul>
-            </li>
         </ul>
     </li>
     <li class="dropdown">

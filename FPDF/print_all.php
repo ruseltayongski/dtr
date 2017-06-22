@@ -16,8 +16,9 @@ class PDF extends FPDF
     function form($name,$userid,$date_from,$date_to,$sched)
     {
 
-        $this->Image(__DIR__.'/image/doh2.png', 20, 50,70,70);
-        $this->Image(__DIR__.'/image/doh2.png', 120, 50,70,70);
+        $this->Image(__DIR__.'/image/doh2.png', 15, 50,80,80);
+        $this->Image(__DIR__.'/image/doh2.png', 118, 50,80,80);
+
 
         $day1 = explode('-',$date_from);
         $day2 = explode('-',$date_to);
@@ -54,6 +55,10 @@ class PDF extends FPDF
 
             if(count($logs) <= 0) {
 
+                $this->SetFont('Arial','B',8);
+                $this->SetX(100);
+                $this->Cell(10,0,"NO AVAILABLE TIME LOGS BETWEEN $date_from AND $date_to FOR USERID $userid . TRY UPLOADING NEW TIME LOGS FROM BIOMETRIC",0,0,'C');
+
             } else {
 
                 $this->SetFont('Arial','',8);
@@ -83,11 +88,20 @@ class PDF extends FPDF
 
                 $this->SetFont('Arial','',8);
                 $this->SetXY(10,28);
-                $this->Cell(40,10,'For the month of : '.date("M",strtotime($date_from)).' '. $day1[2].'-'.$day2[2].'  '.$day2[0],0);
+                $this->Cell(40,10,'For the month of : ',0);
+
+                $this->SetFont('Arial','B',9);
+                $this->SetXY(33,28);
+                $this->Cell(40,10,date("M",strtotime($date_from)).' '. $day1[2].'-'.$day2[2].'  '.$day2[0],0);
+
 
                 $this->SetFont('Arial','',8);
                 $this->SetXY(60,28);
-                $this->Cell(40,10,'ID No.  '.$userid,0);
+                $this->Cell(40,10,'ID No :',0);
+
+                $this->SetFont('Arial','B',9);
+                $this->SetXY(70,28);
+                $this->Cell(40,10,$userid,0);
 
                 $this->SetFont('Arial','',8);
                 $this->SetXY(10,33);
@@ -112,11 +126,19 @@ class PDF extends FPDF
 
                 $this->SetFont('Arial','',8);
                 $this->SetXY(112,28);
-                $this->Cell(40,10,'For the month of : '.date("M",strtotime($date_from)).' '. $day1[2].'-'.$day2[2].'  '.$day2[0],0);
+                $this->Cell(40,10,'For the month of : ',0);
+
+                $this->SetFont('Arial','B',9);
+                $this->SetXY(135,28);
+                $this->Cell(40,10,date("M",strtotime($date_from)).' '. $day1[2].'-'.$day2[2].'  '.$day2[0],0);
 
                 $this->SetFont('Arial','',8);
                 $this->SetXY(170,28);
-                $this->Cell(40,10,'ID No.  '.$userid,0);
+                $this->Cell(40,10,'ID No : ',0);
+
+                $this->SetFont('Arial','B',9);
+                $this->SetXY(179,28);
+                $this->Cell(40,10,$userid,0);
 
                 $this->SetFont('Arial','',8);
                 $this->SetXY(112,33);
@@ -161,6 +183,30 @@ class PDF extends FPDF
                             $pm_in = $log['pm_in'];
                             $pm_out = $log['pm_out'];
 
+                            if($am_in and $am_out and $pm_in and !$pm_out) {
+                                if($am_out > $pm_in) {
+                                    $pm_in = null;
+                                }
+                            }
+                            if($am_in and !$am_out and $pm_in and !$pm_out) {
+
+                                if($pm_in > $am_in and $pm_in < '14:00:00') {
+                                    $am_out = $pm_in;
+                                    $pm_in = null;
+                                } else {
+                                    $pm_out = $pm_in;
+                                    $pm_in = null;
+                                }
+                            }
+
+                            if($am_in and $am_out and $pm_in and $pm_out) {
+                                if($am_out > $pm_in) {
+                                    $tmp = $am_out;
+                                    $am_out = $pm_in;
+                                    $pm_in = $tmp;
+                                }
+                            }
+
                             if(isset($am_in)) {
                                 $a = explode('_', $am_in);
                                 $e1 = $a[1];
@@ -196,7 +242,6 @@ class PDF extends FPDF
                                 $pm_out = '';
                                 $e4 = '';
                             }
-
                             if(!$log['holiday'] == '001' OR !$log['holiday'] == '003' OR !$log['holiday'] == '002') {
 
                                 $late = late($s_am_in,$s_pm_in,$am_in,$pm_in,$log['datein']);
@@ -450,7 +495,7 @@ class PDF extends FPDF
                             $this->Ln();
 
                             $this->SetFont('Arial','',8);
-                            $this->SetX(40);
+                            $this->SetX(45);
                             $this->Cell(10,0,'IN-CHARGE',0,0,'C');
                             $this->SetX(150);
                             $this->Cell(10,0,'IN-CHARGE',0,0,'C');
@@ -679,6 +724,21 @@ function undertime($s_am_in,$s_pm_in,$am_in,$pm_in,$s_am_out,$s_pm_out,$am_out,$
 
     }
 
+
+    if($pm_in != '' and $pm_out == '') {
+        $a = new DateTime($datein.' '. $s_pm_in);
+        $b = new DateTime($datein.' '. $s_pm_out);
+
+        $interval = $b->diff($a);
+        $hour2 = $interval->h;
+        $min1 = $interval->i;
+
+        if($hour2 > 0) {
+            $hour2 = $hour2 * 60;
+        }
+        $total += ($hour2 + $min1);
+    }
+
     if($pm_in == '' and $pm_out == '') {
 
         $a = new DateTime($datein.' '. $s_pm_in);
@@ -730,6 +790,5 @@ function undertime($s_am_in,$s_pm_in,$am_in,$pm_in,$s_am_out,$s_pm_out,$am_out,$
     if($total == 0 ) $total = '';
     return $total;
 }
-
 
 ?>

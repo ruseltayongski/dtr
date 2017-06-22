@@ -8,6 +8,8 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `GETLOGS`(IN AMIN VARCHAR(10), IN AM
     DETERMINISTIC
 BEGIN
 
+DECLARE A VARCHAR(20);
+
 
 SELECT DISTINCT e.userid, datein,holiday,remark, 
 
@@ -15,7 +17,7 @@ SELECT DISTINCT e.userid, datein,holiday,remark,
     
 	(SELECT  CONCAT(t2.time,'_',t2.edited) FROM dtr_file t2 WHERE userid = d.userid and datein = d.datein and (SELECT  CONCAT(t1.time,'_',t1.edited) FROM dtr_file t1 WHERE userid = d.userid and datein = d.datein and t1.time < AMOUT AND t1.event = 'IN' ORDER BY time ASC  LIMIT 1) and  t2.time < PMIN  AND t2.event = 'OUT' AND t2.time > AMIN ORDER BY t2.time DESC LIMIT 1 ) as am_out,
     
-	(SELECT  CONCAT(t3.time,'_',t3.edited) FROM dtr_file t3 WHERE userid = d.userid AND datein = d.datein and t3.time > AMOUT and t3.time < PMOUT AND t3.event = 'IN' ORDER BY t3.time ASC LIMIT 1) as pm_in,
+	(SELECT  CONCAT(t3.time,'_',t3.edited) FROM dtr_file t3 WHERE userid = d.userid AND datein = d.datein and t3.time < '14:00:00' and t3.time > AMOUT and t3.time < PMOUT AND t3.event = 'IN' ORDER BY t3.time DESC LIMIT 1) as pm_in,
     
 	(SELECT  CONCAT(t4.time,'_',t4.edited) FROM dtr_file t4 WHERE userid = d.userid AND datein = d.datein and t4.time > PMIN AND t4.event = 'OUT'
     
