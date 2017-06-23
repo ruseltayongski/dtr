@@ -209,4 +209,40 @@ class AdminController extends BaseController
         $user->save();
         return Redirect::to('/');
     }
+
+    public function flexi_group()
+    {
+        $scheds = WorkScheds::all();
+        Session::put('sched', $scheds[0]['id']);
+        if(isset($scheds) and count($scheds) > 0) {
+            $users = DB::table('users')
+                ->leftJoin('work_sched', function($join){
+                    $join->on('users.sched','=','work_sched.id');
+                })
+                ->where('users.sched', '=', Session::get('sched'))
+                ->orderBy('fname', 'ASC')
+                ->paginate(20);
+            Session::forget('sched');
+            return View::make('users.flixe')->with('scheds',$scheds)->with('users',$users);
+        }
+    }
+    public function filter_flixe()
+    {
+        if(Input::has('sched') and Input::get('sched')) {
+            Session::put('sched', Input::get('sched'));
+        }
+
+        if(Session::has('sched')) {
+            $scheds = WorkScheds::all();
+            $sched = Session::get('sched');
+            $users = DB::table('users')
+                ->leftJoin('work_sched', function ($join) {
+                    $join->on('users.sched', '=', 'work_sched.id');
+                })
+                ->where('users.sched', '=',$sched)
+                ->orderBy('fname', 'ASC')
+                ->paginate(20);
+            return View::make('users.flixe')->with('scheds', $scheds)->with('users', $users);
+        }
+    }
 }
