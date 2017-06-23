@@ -1,4 +1,5 @@
 <?php $__env->startSection('content'); ?>
+
     <div class="col-md-12 wrapper">
         <div class="alert alert-jim">
             <h3 class="page-header">Compensatory Time Off
@@ -49,64 +50,60 @@
                         <div class="col-md-12">
                             <div class="nav-tabs-custom">
                                 <ul class="nav nav-tabs">
-                                    <li class="active"><a href="#approve" data-toggle="tab">Activity</a></li>
-                                    <li><a href="#disapprove" data-toggle="tab">Timeline</a></li>
+                                    <li class="active"><a href="#approve" data-toggle="tab">Approve</a></li>
+                                    <li><a href="#disapprove" data-toggle="tab">Dissaprove</a></li>
                                 </ul>
-                                <div class="panel panel-default">
-                                    <div class="panel-heading"><strong style="color: #f0ad4e;font-size:medium;">List</strong></div>
-                                    <div class="panel-body">
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <?php if($type == "list"): ?>
-                                                    <a href="#document_form" data-link="<?php echo asset('form/cdov1/form'); ?>" class="btn btn-success" data-dismiss="modal" data-backdrop="static" data-toggle="modal" data-target="#document_form" style="background-color:darkmagenta;color: white;"><i class="fa fa-plus"></i> Create new</a>
-                                                <?php endif; ?>
-                                            </div>
-                                        </div>
-                                        <br />
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <?php if(isset($cdo) and count($cdo) >0): ?>
-                                                    <div class="table-responsive">
-                                                        <table class="table table-list table-hover table-striped">
-                                                            <thead>
-                                                            <tr>
-                                                                <th></th>
-                                                                <th class="text-center">Route #</th>
-                                                                <th class="text-center">Prepared Date</th>
-                                                                <?php if(\Illuminate\Support\Facades\Auth::user()->usertype): ?>
-                                                                <th class="text-center">Prepared Name</th>
-                                                                <?php else: ?>
-                                                                <th class="text-center">Document Type</th>
-                                                                <?php endif; ?>
-                                                                <th class="text-center">Subject</th>
-                                                            </tr>
-                                                            </thead>
-                                                            <tbody style="font-size: 10pt;">
-                                                            <?php foreach($cdo as $row): ?>
-                                                                <tr>
-                                                                    <td><a href="#track" data-link="<?php echo asset('form/track/'.$row->route_no); ?>" data-route="<?php echo $row->route_no; ?>" data-toggle="modal" class="btn btn-sm btn-success col-sm-12" style="background-color:darkmagenta;color:white;"><i class="fa fa-line-chart"></i> Track</a></td>
-                                                                    <td><a class="title-info" data-backdrop="static" data-route="<?php echo $row->route_no; ?>" data-link="<?php echo asset('/form/info/'.$row->route_no.'/cdo'); ?>" href="#document_info" data-toggle="modal"><?php echo $row->route_no; ?></a></td>
-                                                                    <td><?php echo date('M d, Y',strtotime($row->prepared_date)); ?><br><?php echo date('h:i:s A',strtotime($row->prepared_date)); ?></td>
-                                                                    <?php if(\Illuminate\Support\Facades\Auth::user()->usertype): ?>
-                                                                    <td><?php echo pdoController::user_search1($row['prepared_name'])['fname'].' '.pdoController::user_search1($row['prepared_name'])['mname'].' '.pdoController::user_search1($row['prepared_name'])['lname']; ?></td>
-                                                                    <?php else: ?>
-                                                                    <td>CTO</td>
-                                                                    <?php endif; ?>
-                                                                    <td><?php echo $row->subject; ?></td>
-                                                                </tr>
-                                                            <?php endforeach; ?>
-                                                            </tbody>
-                                                        </table>
+                                <div class="tab-content">
+                                    <?php /*APPROVE*/ ?>
+                                    <div class="active tab-pane" id="approve">
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading"><strong style="color: #f0ad4e;font-size:medium;">List</strong></div>
+                                            <div class="panel-body">
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <?php if($type == "list"): ?>
+                                                            <a href="#document_form" data-link="<?php echo asset('form/cdov1/form'); ?>" class="btn btn-success" data-dismiss="modal" data-backdrop="static" data-toggle="modal" data-target="#document_form" style="background-color:darkmagenta;color: white;"><i class="fa fa-plus"></i> Create new</a>
+                                                        <?php endif; ?>
                                                     </div>
-                                                    <?php echo $cdo->links(); ?>
-
-                                                <?php else: ?>
-                                                    <div class="alert alert-danger" role="alert">Documents records are empty.</div>
-                                                <?php endif; ?>
+                                                </div>
+                                                <br />
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="ajax_approve">
+                                                            <?php echo $__env->make('cdo.cdo_approve', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
+
+                                    <?php /*DISAPPROVE*/ ?>
+                                    <div class="tab-pane" id="disapprove">
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading"><strong style="color: #f0ad4e;font-size:medium;">List</strong></div>
+                                            <div class="panel-body">
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <?php if($type == "list"): ?>
+                                                            <a href="#document_form" data-link="<?php echo asset('form/cdov1/form'); ?>" class="btn btn-success" data-dismiss="modal" data-backdrop="static" data-toggle="modal" data-target="#document_form" style="background-color:darkmagenta;color: white;"><i class="fa fa-plus"></i> Create new</a>
+                                                        <?php endif; ?>
+                                                    </div>
+                                                </div>
+                                                <br />
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="ajax_disapprove">
+                                                            <?php echo $__env->make('cdo.cdo_disapprove', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
                                 </div>
+
                             </div>
                         </div>
                     </div>
@@ -117,7 +114,6 @@
 
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('js'); ?>
-
     <script>
         $("#inclusive3").daterangepicker();
         $('.input-daterange input').each(function() {
@@ -168,6 +164,47 @@
             $doc_type = 'CDO';
             ?>
         });
+
+        var type = 'approve';
+        $("a[href='#approve']").on("click",function(){
+            type = 'approve'
+        });
+        $("a[href='#disapprove']").on("click",function(){
+            type = 'disapprove'
+        });
+
+        $(window).on('hashchange', function() {
+            if (window.location.hash) {
+                var page = window.location.hash.replace('#', '');
+                if (page == Number.NaN || page <= 0) {
+                    return false;
+                } else {
+                    getPosts(page);
+                }
+            }
+        });
+        $(document).ready(function() {
+            $(document).on('click', '.pagination a', function (e) {
+                getPosts($(this).attr('href').split('page=')[1]);
+                e.preventDefault();
+            });
+        });
+        function getPosts(page) {
+            $.ajax({
+                url : '?type='+type+'&page=' + page,
+                dataType: 'json',
+            }).done(function (data) {
+                if(type == 'approve')
+                    $('.ajax_approve').html(data);
+                else if(type == 'disapprove')
+                    $('.ajax_disapprove').html(data);
+
+                location.hash = page;
+            }).fail(function (data) {
+                console.log(data.responseText);
+                console.log('Posts could not be loaded.');
+            });
+        }
     </script>
 <?php $__env->stopSection(); ?>
 <?php echo $__env->make('layouts.app', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

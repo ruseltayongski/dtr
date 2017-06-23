@@ -12,15 +12,23 @@ class cdoController extends BaseController
         $keyword = Session::get('keyword');
 
         if(Auth::user()->usertype){
-            $cdo = cdo::where(function($q) use ($keyword){
-                $q->where("route_no","like","%$keyword%")
-                    ->orWhere("subject","like","%$keyword%");
+            $cdo[0] = cdo::where('approved_status',0)
+                ->where(function($q) use ($keyword){
+                    $q->where("route_no","like","%$keyword%")
+                        ->orWhere("subject","like","%$keyword%");
             })
                 ->orderBy('id','desc')
-                ->paginate(10);
+                ->paginate(2);
+            $cdo[1] = cdo::where('approved_status',1)
+                ->where(function($q) use ($keyword){
+                    $q->where("route_no","like","%$keyword%")
+                        ->orWhere("subject","like","%$keyword%");
+                })
+                ->orderBy('id','desc')
+                ->paginate(2);
             $type = "pending";
         } else {
-            $cdo = cdo::where('prepared_name',pdoController::user_search(Auth::user()->userid)['id'])
+            $cdo[1] = cdo::where('prepared_name',pdoController::user_search(Auth::user()->userid)['id'])
                 ->where(function($q) use ($keyword){
                     $q->where("route_no","like","%$keyword%")
                         ->orWhere("subject","like","%$keyword%");
@@ -30,6 +38,14 @@ class cdoController extends BaseController
             $type = "list";
         }
 
+        if (Request::ajax()) {
+            if(Input::get('type') == 'approve')
+                $view = 'cdo.cdo_approve';
+            elseif(Input::get('type') == 'disapprove')
+                $view = 'cdo.cdo_disapprove';
+
+            return Response::json(View::make($view, ["cdo" => $cdo,"type" => $type])->render());
+        }
         return View::make('cdo.cdo_list',["cdo" => $cdo,"type" => $type]);
     }
 

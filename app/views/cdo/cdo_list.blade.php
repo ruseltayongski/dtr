@@ -1,5 +1,6 @@
 @extends('layouts.app')
 @section('content')
+
     <div class="col-md-12 wrapper">
         <div class="alert alert-jim">
             <h3 class="page-header">Compensatory Time Off
@@ -53,60 +54,57 @@
                                     <li class="active"><a href="#approve" data-toggle="tab">Approve</a></li>
                                     <li><a href="#disapprove" data-toggle="tab">Dissaprove</a></li>
                                 </ul>
-                                <div class="panel panel-default">
-                                    <div class="panel-heading"><strong style="color: #f0ad4e;font-size:medium;">List</strong></div>
-                                    <div class="panel-body">
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                @if($type == "list")
-                                                    <a href="#document_form" data-link="{{ asset('form/cdov1/form') }}" class="btn btn-success" data-dismiss="modal" data-backdrop="static" data-toggle="modal" data-target="#document_form" style="background-color:darkmagenta;color: white;"><i class="fa fa-plus"></i> Create new</a>
-                                                @endif
-                                            </div>
-                                        </div>
-                                        <br />
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                @if(isset($cdo) and count($cdo) >0)
-                                                    <div class="table-responsive">
-                                                        <table class="table table-list table-hover table-striped">
-                                                            <thead>
-                                                            <tr>
-                                                                <th></th>
-                                                                <th class="text-center">Route #</th>
-                                                                <th class="text-center">Prepared Date</th>
-                                                                @if(\Illuminate\Support\Facades\Auth::user()->usertype)
-                                                                <th class="text-center">Prepared Name</th>
-                                                                @else
-                                                                <th class="text-center">Document Type</th>
-                                                                @endif
-                                                                <th class="text-center">Subject</th>
-                                                            </tr>
-                                                            </thead>
-                                                            <tbody style="font-size: 10pt;">
-                                                            @foreach($cdo as $row)
-                                                                <tr>
-                                                                    <td><a href="#track" data-link="{{ asset('form/track/'.$row->route_no) }}" data-route="{{ $row->route_no }}" data-toggle="modal" class="btn btn-sm btn-success col-sm-12" style="background-color:darkmagenta;color:white;"><i class="fa fa-line-chart"></i> Track</a></td>
-                                                                    <td><a class="title-info" data-backdrop="static" data-route="{{ $row->route_no }}" data-link="{{ asset('/form/info/'.$row->route_no.'/cdo') }}" href="#document_info" data-toggle="modal">{{ $row->route_no }}</a></td>
-                                                                    <td>{{ date('M d, Y',strtotime($row->prepared_date)) }}<br>{{ date('h:i:s A',strtotime($row->prepared_date)) }}</td>
-                                                                    @if(\Illuminate\Support\Facades\Auth::user()->usertype)
-                                                                    <td>{{ pdoController::user_search1($row['prepared_name'])['fname'].' '.pdoController::user_search1($row['prepared_name'])['mname'].' '.pdoController::user_search1($row['prepared_name'])['lname'] }}</td>
-                                                                    @else
-                                                                    <td>CTO</td>
-                                                                    @endif
-                                                                    <td>{{ $row->subject }}</td>
-                                                                </tr>
-                                                            @endforeach
-                                                            </tbody>
-                                                        </table>
+                                <div class="tab-content">
+                                    {{--APPROVE--}}
+                                    <div class="active tab-pane" id="approve">
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading"><strong style="color: #f0ad4e;font-size:medium;">List</strong></div>
+                                            <div class="panel-body">
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        @if($type == "list")
+                                                            <a href="#document_form" data-link="{{ asset('form/cdov1/form') }}" class="btn btn-success" data-dismiss="modal" data-backdrop="static" data-toggle="modal" data-target="#document_form" style="background-color:darkmagenta;color: white;"><i class="fa fa-plus"></i> Create new</a>
+                                                        @endif
                                                     </div>
-                                                    {{ $cdo->links() }}
-                                                @else
-                                                    <div class="alert alert-danger" role="alert">Documents records are empty.</div>
-                                                @endif
+                                                </div>
+                                                <br />
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="ajax_approve">
+                                                            @include('cdo.cdo_approve')
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
+
+                                    {{--DISAPPROVE--}}
+                                    <div class="tab-pane" id="disapprove">
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading"><strong style="color: #f0ad4e;font-size:medium;">List</strong></div>
+                                            <div class="panel-body">
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        @if($type == "list")
+                                                            <a href="#document_form" data-link="{{ asset('form/cdov1/form') }}" class="btn btn-success" data-dismiss="modal" data-backdrop="static" data-toggle="modal" data-target="#document_form" style="background-color:darkmagenta;color: white;"><i class="fa fa-plus"></i> Create new</a>
+                                                        @endif
+                                                    </div>
+                                                </div>
+                                                <br />
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="ajax_disapprove">
+                                                            @include('cdo.cdo_disapprove')
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
                                 </div>
+
                             </div>
                         </div>
                     </div>
@@ -117,7 +115,6 @@
 
 @endsection
 @section('js')
-
     <script>
         $("#inclusive3").daterangepicker();
         $('.input-daterange input').each(function() {
@@ -168,5 +165,46 @@
             $doc_type = 'CDO';
             ?>
         });
+
+        var type = 'approve';
+        $("a[href='#approve']").on("click",function(){
+            type = 'approve'
+        });
+        $("a[href='#disapprove']").on("click",function(){
+            type = 'disapprove'
+        });
+
+        $(window).on('hashchange', function() {
+            if (window.location.hash) {
+                var page = window.location.hash.replace('#', '');
+                if (page == Number.NaN || page <= 0) {
+                    return false;
+                } else {
+                    getPosts(page);
+                }
+            }
+        });
+        $(document).ready(function() {
+            $(document).on('click', '.pagination a', function (e) {
+                getPosts($(this).attr('href').split('page=')[1]);
+                e.preventDefault();
+            });
+        });
+        function getPosts(page) {
+            $.ajax({
+                url : '?type='+type+'&page=' + page,
+                dataType: 'json',
+            }).done(function (data) {
+                if(type == 'approve')
+                    $('.ajax_approve').html(data);
+                else if(type == 'disapprove')
+                    $('.ajax_disapprove').html(data);
+
+                location.hash = page;
+            }).fail(function (data) {
+                console.log(data.responseText);
+                console.log('Posts could not be loaded.');
+            });
+        }
     </script>
 @endsection

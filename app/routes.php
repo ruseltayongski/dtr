@@ -226,4 +226,5 @@ Route::get('create/users', function() {
 Route::get('example',function(){
 	return View::make('prCreated');
 });
+
 ?>
