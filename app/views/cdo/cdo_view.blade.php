@@ -162,7 +162,7 @@
                             <th colspan="2">RECOMENDATION:</th>
                         </tr>
                         <tr>
-                            <td class="col-sm-6"><input type="checkbox" name="approval" id="approval" onclick="approval_check()" class="form-control input-sm"
+                            <td class="col-sm-6"><input type="checkbox" onclick="approval_check($(this))" name="approval" id="approval" class="form-control input-sm"
                                 <?php
                                         if($data['type'] == 'add')
                                             echo 'disabled';
@@ -185,7 +185,7 @@
                             <td>Approval</td>
                         </tr>
                         <tr>
-                            <td class="col-sm-6"><input type="checkbox" name="disapproval" id="disapproval" onclick="disapproval_check()" class="form-control input-sm"
+                            <td class="col-sm-6"><input type="checkbox" name="disapproval" id="disapproval" onclick="disapproval_check($(this))" class="form-control input-sm"
                                 <?php
                                         if($data['type'] == 'add')
                                             echo 'disabled';
@@ -280,6 +280,7 @@
     </div>
 </form>
 </body>
+
 <script>
     $('.chosen-select-static').chosen();
     $('.datepickercalendar').datepicker({
@@ -296,18 +297,18 @@
         $('.btn-submit').attr("disabled", true);
     });
 
-    function approval_check(){
-        if($("#approval").is(":checked")){
-            $("#disapproval").attr('checked',false);
-        } else {
-            $("#disapproval").attr('checked',true);
+    function approval_check(data){
+        if(data.is(":checked")){
+            $('input[name=disapproval]').attr('checked', false);
+        } else if(data.is(":not(:checked)")){
+            $('input[name=disapproval]').attr('checked', true);
         }
     }
-    function disapproval_check(){
-        if($("#disapproval").is(":checked")){
-            $("#approval").attr('checked',false);
+    function disapproval_check(data){
+        if(data.is(":checked")){
+            $('input[name=approval]').attr('checked', false);
         } else {
-            $("#approval").attr('checked',true);
+            $('input[name=approval]').attr('checked', true);
         }
     }
 </script>
