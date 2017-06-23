@@ -38,10 +38,10 @@ class DtrController extends BaseController
                 $query3 = "INSERT IGNORE INTO users(fname, lname, username,designation,division,section,password, created_at, updated_at) VALUES";
                 $pass = "";
                 $emptype = "";
+                $default_pass = Hash::make('123');
                 for ($i = 1; $i < count($data); $i++) {
                     try {
                         $employee = explode(',', $data[$i]);
-
 
                         $id = trim($employee[0], "\" ");
                         $id = ltrim($id, "\" ");
@@ -69,7 +69,7 @@ class DtrController extends BaseController
                                 $emptype = "JO";
                             }
 
-                            $query2 .= "('" . $col1 . "','" . $f . "','" . $l . "','1','". $col1 . "','" . $col1 . "','" . $emptype . "','0','".$col1 ."',NOW(),NOW()),";
+                            $query2 .= "('" . $col1 . "','" . $f . "','" . $l . "','1','". $col1 . "','" . $default_pass . "','" . $emptype . "','0','".$col1 ."',NOW(),NOW()),";
                             $query3 .= "('" . $f . "','" . $l . "','" . $col1 . "','". '111' . "','". '6' . "','". '42' . "','" . $col1 . "',NOW(),NOW()),";
                         }
                     } catch (Exception $ex) {

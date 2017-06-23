@@ -159,7 +159,6 @@
                                                     <td class="text-center"><a href="#user" data-id="<?php echo $user->id; ?>" data-link="<?php echo asset('user/edit'); ?>" class="text-bold"><?php echo $user->fname ." ". $user->mname." ".$user->lname; ?></a></td>
                                                     <td class="text-center">
                                                         <span class="text-bold"><?php echo $user->description; ?></span>
-
                                                     </td>
                                                     <td class="text-center"><button data-id="<?php echo $user->userid; ?>" type="button" class="btn btn-info btn-xs change_sched">Change</button></td>
                                                 </tr>

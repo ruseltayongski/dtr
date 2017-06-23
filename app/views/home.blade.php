@@ -161,7 +161,6 @@
                                                     <td class="text-center"><a href="#user" data-id="{{ $user->id }}" data-link="{{ asset('user/edit') }}" class="text-bold">{{ $user->fname ." ". $user->mname." ".$user->lname }}</a></td>
                                                     <td class="text-center">
                                                         <span class="text-bold">{{ $user->description }}</span>
-
                                                     </td>
                                                     <td class="text-center"><button data-id="{{ $user->userid }}" type="button" class="btn btn-info btn-xs change_sched">Change</button></td>
                                                 </tr>
