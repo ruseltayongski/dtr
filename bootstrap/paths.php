@@ -54,4 +54,7 @@ return array(
 
 	'storage' => __DIR__.'/../app/storage',
 
+
+	'FPDF' => __DIR__.'/FPDF',
+
 );

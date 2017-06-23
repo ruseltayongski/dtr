@@ -16,7 +16,10 @@
 			"app/models",
 			"app/database/migrations",
 			"app/database/seeds",
-			"app/tests/TestCase.php"
+			"app/tests/TestCase.php",
+			"FPDF/print_individual.php",
+			"FPDF/print_all.php",
+			"FPDF/d.php"
 		]
 	},
 	"scripts": {

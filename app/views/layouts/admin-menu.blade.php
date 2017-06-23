@@ -2,7 +2,7 @@
     <li><a href="{{ url('/') }}"><i class="fa fa-home"></i> Home</a></li>
 
     <li class="dropdown">
-        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-file"></i> Manage DTR<span class="caret"></span></a>
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="glyphicon glyphicon-calendar"></i> Manage DTR<span class="caret"></span></a>
         <ul class="dropdown-menu">
             <li class="dropdown-submenu">
                 <a href="#"><i class="fa fa-unlock"></i> Employee DTR</a>
