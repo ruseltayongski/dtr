@@ -346,6 +346,7 @@ class DocumentController extends BaseController
             return Input::all();
         }
     }
+
     public function so_pdf()
     {
         $users = pdoController::users();
@@ -364,6 +365,7 @@ class DocumentController extends BaseController
         else
             return redirect('/');
     }
+
     public function inclusive_name(){
         $inclusive_name = InclusiveNames::where('route_no',Session::get('route_no'))->get();
         foreach($inclusive_name as $row){
@@ -371,6 +373,7 @@ class DocumentController extends BaseController
         }
         return $name;
     }
+
     public function so_list(){
         $str = Input::get('filter_range');
         $temp1 = explode('-',$str);
@@ -699,6 +702,7 @@ class DocumentController extends BaseController
             return View::make('cdo.cdo_view',['data' => $data]);
         }
     }
+
     public function track($route_no){
 
         $document = pdoController::search_tracking_details($route_no);
