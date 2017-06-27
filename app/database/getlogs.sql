@@ -8,7 +8,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `GETLOGS`(IN AMIN VARCHAR(10), IN AM
     DETERMINISTIC
 BEGIN
 
-DECLARE A VARCHAR(10);
+
 
 
 SELECT DISTINCT e.userid, datein,holiday,remark, 
