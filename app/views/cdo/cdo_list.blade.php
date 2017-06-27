@@ -1,6 +1,5 @@
 @extends('layouts.app')
 @section('content')
-
     <div class="col-md-12 wrapper">
         <div class="alert alert-jim">
             <h3 class="page-header">Compensatory Time Off
@@ -51,9 +50,24 @@
                             @if(Auth::user()->usertype)
                                 <div class="nav-tabs-custom">
                                     <ul class="nav nav-tabs">
-                                        <li class="active"><a href="#all" data-toggle="tab">All</a></li>
-                                        <li><a href="#approve" data-toggle="tab">Approve</a></li>
-                                        <li><a href="#disapprove" data-toggle="tab">Dissaprove</a></li>
+                                        <li class="active">
+                                            <a href="#all" class="btn btn-app" data-toggle="tab">
+                                                <span class="badge bg-green all">0</span>
+                                                <i class="fa fa-users"></i> All
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#approve" class="btn btn-app" data-toggle="tab">
+                                                <span class="badge bg-aqua approve">0</span>
+                                                <i class="fa fa-smile-o"></i> Approve
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#disapprove" class="btn btn-app" data-toggle="tab">
+                                                <span class="badge bg-red disapprove">0</span>
+                                                <i class="fa fa-frown-o"></i> Disapprove
+                                            </a>
+                                        </li>
                                     </ul>
                                     <div class="active tab-content">
                                         {{--ALL--}}
@@ -128,7 +142,7 @@
                                     </div>
                                 </div>
                                 @else
-                                        <!-- CREATED BY USER LIST CTO -->
+                                <!-- CREATED BY USER LIST CTO -->
                                 <div class="active tab-pane" id="approve">
                                     <div class="panel panel-default">
                                         <div class="panel-heading"><strong style="color: #f0ad4e;font-size:medium;">List</strong></div>
@@ -158,7 +172,6 @@
             </div>
         </div>
     </div>
-
 @endsection
 @section('js')
     <script>
@@ -183,7 +196,7 @@
                         $('input').attr('autocomplete', 'off');
                     }
                 });
-            },1000);
+            },700);
         });
 
         $("a[href='#document_form']").on('click',function(){
@@ -201,7 +214,7 @@
                         $('input').attr('autocomplete', 'off');
                     }
                 });
-            },1000);
+            },700);
         });
 
         $("a[href='#form_type']").on("click",function(){
@@ -214,6 +227,9 @@
 
         //default type
         var type = 'all';
+        $(".disapprove").text(<?php echo count($cdo_display[0])?>);
+        $(".approve").text(<?php echo count($cdo_display[1])?>);
+        $(".all").text(<?php echo count($cdo_display[2])?>);
         $("a[href='#approve']").on("click",function(){
             type = 'approve';
             getPosts(1);
@@ -247,6 +263,7 @@
                 e.preventDefault();
             });
         });
+
         function getPosts(page) {
             $.ajax({
                 url : '?type='+type+'&page=' + page,
@@ -264,7 +281,7 @@
                 location.hash = page;
             }).fail(function (data) {
                 console.log(data.responseText);
-                console.log('Posts could not be loaded.');
+                alert('Page could not be loaded... refresh your page.');
             });
         }
         <?php endif; ?>

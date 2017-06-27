@@ -8,11 +8,25 @@ class cdoController extends BaseController
     }
 
     public function cdo_list(){
-        Session::put('page',null);
         Session::put('keyword',Input::get('keyword'));
+        Session::put('page_all',null);
         $keyword = Session::get('keyword');
-
         if(Auth::user()->usertype){
+            $cdo_display[0] = cdo::where('approved_status',0)
+                ->where(function($q) use ($keyword){
+                    $q->where("route_no","like","%$keyword%")
+                        ->orWhere("subject","like","%$keyword%");
+                })->get();
+            $cdo_display[1] = cdo::where('approved_status',1)
+                ->where(function($q) use ($keyword){
+                    $q->where("route_no","like","%$keyword%")
+                        ->orWhere("subject","like","%$keyword%");
+                })->get();
+            $cdo_display[2] = cdo::where(function($q) use ($keyword){
+                $q->where("route_no","like","%$keyword%")
+                    ->orWhere("subject","like","%$keyword%");
+                })->get();
+
             $cdo[0] = cdo::where('approved_status',0)
                 ->where(function($q) use ($keyword){
                     $q->where("route_no","like","%$keyword%")
@@ -46,17 +60,21 @@ class cdoController extends BaseController
         }
 
         if (Request::ajax()) {
-            Session::put('page',Input::get('page'));
-            if(Input::get('type') == 'approve')
+            if(Input::get('type') == 'approve') {
                 $view = 'cdo.cdo_approve';
-            elseif(Input::get('type') == 'disapprove')
+                Session::put('page_approve',Input::get('page'));
+            }
+            elseif(Input::get('type') == 'disapprove') {
                 $view = 'cdo.cdo_disapprove';
-            elseif(Input::get('type') == 'all')
+                Session::put('page_disapprove',Input::get('page'));
+            }
+            elseif(Input::get('type') == 'all') {
                 $view = 'cdo.cdo_all';
-
-            return Response::json(View::make($view, ["cdo" => $cdo,"type" => $type])->render());
+                Session::put('page_all',Input::get('page'));
+            }
+            return Response::json(View::make($view, ["cdo" => $cdo,"type" => $type,"cdo_display" => $cdo_display])->render());
         }
-        return View::make('cdo.cdo_list',["cdo" => $cdo,"type" => $type]);
+        return View::make('cdo.cdo_list',["cdo" => $cdo,"type" => $type,"cdo_display" => $cdo_display]);
     }
 
     public function cdov1($pdf = null){
@@ -156,25 +174,48 @@ class cdoController extends BaseController
             }
             $cdo->save();
             $keyword = '';
+
+            Session::put('cdo_display','tayong');
+            $cdo_display = cdo::where('approved_status',1)
+                ->where(function($q) use ($keyword){
+                    $q->where("route_no","like","%$keyword%")
+                        ->orWhere("subject","like","%$keyword%");
+                })->get();
+            Session::put('cdo_display',$cdo_display);
+
+            $cdo[0] = cdo::where('approved_status',0)
+                ->where(function($q) use ($keyword){
+                    $q->where("route_no","like","%$keyword%")
+                        ->orWhere("subject","like","%$keyword%");
+                })
+                ->orderBy('id','desc')
+                ->paginate(2);
+            $cdo[1] = cdo::where('approved_status',1)
+                ->where(function($q) use ($keyword){
+                    $q->where("route_no","like","%$keyword%")
+                        ->orWhere("subject","like","%$keyword%");
+                })
+                ->orderBy('id','desc')
+                ->paginate(2);
             $cdo[2] = cdo::where(function($q) use ($keyword){
                 $q->where("route_no","like","%$keyword%")
                     ->orWhere("subject","like","%$keyword%");
             })
                 ->orderBy('id','desc')
                 ->paginate(2);
-            if(Request::ajax()) {
-                if($type == 'approve')
-                    $view = 'cdo.cdo_approve';
-                elseif($type == 'disapprove')
-                    $view = 'cdo.cdo_disapprove';
-                elseif($type == 'all')
-                    $view = 'cdo.cdo_all';
 
+            if(Request::ajax()) {
+                if($type == 'approve') {
+                    $view = 'cdo.cdo_approve';
+                }
+                elseif($type == 'disapprove') {
+                    $view = 'cdo.cdo_disapprove';
+                }
+                elseif($type == 'all') {
+                    $view = 'cdo.cdo_all';
+                }
                 return Response::json(View::make($view, ["cdo" => $cdo,"type" => $type])->render());
-            } else {
-                return 'walley';
             }
-            //return Response::json(View::make('cdo.cdo_all', ["cdo" => $cdo,"type" => $type])->render());
         } else {
             $route_no = Session::get('route_no');
             $prepared_date = date('Y-m-d',strtotime(Input::get('prepared_date'))).' '.date('H:i:s');

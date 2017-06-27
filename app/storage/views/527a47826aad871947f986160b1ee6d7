@@ -264,5 +264,10 @@
     <strong style="color:white;">Loading.....</strong>
 </center>
 
+<center class="modal fade" tabindex="-1" role="dialog" id="data_table">
+    <img src="<?php echo asset('public/img/spin.gif'); ?>" width="150" style="padding:10px; color: whitesmoke;">
+    <br />
+    <strong style="color:white;">Loading.....</strong>
+</center>
 
 
