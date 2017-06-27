@@ -257,7 +257,7 @@ class AdminController extends BaseController
         {
             $sched = Input::get('sched');
             $pdo = DB::connection()->getPdo();
-            $query = "SELECT u.userid,CONCAT(u.fname,' ',u.lname)as name , w.description FROM users u LEFT JOIN work_sched w ON u.sched = w.id WHERE u.usertype = '0' AND u.sched = '". $sched ."' ORDER  BY u.fname";
+            $query = "SELECT CONCAT('<b>',u.userid,'</b>') as userid ,CONCAT('<b>',u.fname,' ',u.lname,'</b>') as name, CONCAT('<b>',w.am_in,' to ', w.pm_out,'</b>') as sched , w.description FROM users u LEFT JOIN work_sched w ON u.sched = w.id WHERE u.usertype = '0' AND u.sched = '". $sched ."' ORDER  BY u.fname";
             $st = $pdo->prepare($query);
             $st->execute();
             $row = $st->fetchAll(PDO::FETCH_ASSOC);
@@ -265,5 +265,40 @@ class AdminController extends BaseController
                 return $row;
             }
         }
+    }
+
+    public function delete()
+    {
+        if(Input::get('date_range')) {
+            $str = Input::get('date_range');
+            $temp1 = explode('-',$str);
+            $temp2 = array_slice($temp1, 0, 1);
+            $tmp = implode(',', $temp2);
+            $date_from = date('Y-m-d',strtotime($tmp));
+            $temp3 = array_slice($temp1, 1, 1);
+            $tmp = implode(',', $temp3);
+            $date_to = date('Y-m-d',strtotime($tmp));
+        }
+        if(Input::get('userid') and Input::get('date_range')) {
+            $dtr = DB::table('dtr_file')
+                ->where('userid', '=', Input::get('userid'))
+                ->whereBetween('datein', array($date_from, $date_to));
+            if(isset($dtr) and count($dtr) > 0) {
+                $dtr->delete();
+                return Redirect::to('index')->with('msg_sched', "Time logs between $date_from and $date_to was removed for userid : ". Input::get('userid'));
+            } else {
+                return Redirect::to('index')->with('msg_sched', "Nothing to delete.");
+            }
+        } else if (Input::get('date_range')) {
+            $dtr = DB::table('dtr_file')
+                ->whereBetween('datein', array($date_from, $date_to));
+            if(isset($dtr) and count($dtr) > 0) {
+                $dtr->delete();
+                return Redirect::to('index')->with('msg_sched', "Time logs between $date_from and $date_to was removed.");
+            } else {
+                return Redirect::to('index')->with('msg_sched', "Nothing to delete.");
+            }
+        }
+
     }
 }

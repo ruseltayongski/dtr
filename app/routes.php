@@ -35,6 +35,7 @@ Route::get('schedule/flixe', 'AdminController@flexi_group');
 Route::get('datatables', 'AdminController@datatables');
 Route::get('filter/flixe','AdminController@filter_flixe');
 Route::get('work-schedule/group', 'AdminController@show_group');
+Route::post('delete/attendance', 'AdminController@delete');
 Route::match(['GET','POST'], 'reset/password', 'PasswordController@reset_password');
 
 Route::match(array('GET','POST'), 'print-monthly', 'PrintController@print_monthly');
