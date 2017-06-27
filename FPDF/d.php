@@ -13,7 +13,6 @@ echo $interval->days;
 exit();*/
 
 
-
 require('dbconn.php');
 
 require('fpdf.php');

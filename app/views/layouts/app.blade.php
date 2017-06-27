@@ -45,8 +45,10 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('public/assets/datepicer/css/bootstrap-datepicker3.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ asset('public/assets/datepicer/css/bootstrap-datepicker3.standalone.css') }}" />
     <script src="{{ asset('public/assets/js/jquery.min.js') }}"></script>
+    <script src="{{ asset('public/plugin/datatables/datatables.min.js') }}"></script>
     <!-- SELECT 2 -->
     <link rel="stylesheet" type="text/css" href="{{ asset('public/plugin/select2/select2.min.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ asset('public/plugin/datatables/datatables.min.css') }}" />
 
     <style>
 

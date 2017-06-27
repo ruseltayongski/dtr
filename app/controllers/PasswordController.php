@@ -61,4 +61,20 @@ class PasswordController extends BaseController
             return Redirect::to('resetpass')->with('not_match','Current password invalid');
         }
     }
+    public function reset_password()
+    {
+        if(Request::method() == 'GET') {
+            return View::make('users.reset_pass');
+        }
+        if(Request::method() == 'POST') {
+            $user = Users::where('userid', '=', Input::get('userid'))->first();
+            if(isset($user) and count($user) > 0) {
+                $user->password = Hash::make('123');
+                $user->save();
+                return Redirect::to('reset/password')->with('msg', 'Password was reset to 123 for user : '. $user->fname . ' ' .$user->lname);
+            } else {
+                return Redirect::to('reset/password')->with('msg', 'No records found for userid : ' . Input::get('userid'));
+            }
+        }
+    }
 }

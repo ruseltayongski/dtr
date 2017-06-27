@@ -182,9 +182,9 @@ class AdminController extends BaseController
                 $user->sched = Input::get('schedule_id');
                 $user->save();
                 if($user->emptype == "REG") {
-                    return Redirect::to('list/regular')->with('msg_sched',"Employee $user->fname $user->lname working schedule is change to $sched->description");
+                    return Redirect::to('index')->with('msg_sched',"Employee $user->fname $user->lname working schedule is change to $sched->description");
                 } else {
-                    return Redirect::to('list/job-order')->with('msg_sched',"Employee $user->fname $user->lname working schedule is change to $sched->description");
+                    return Redirect::to('index')->with('msg_sched',"Employee $user->fname $user->lname working schedule is change to $sched->description");
 
                 }
             }
@@ -243,6 +243,27 @@ class AdminController extends BaseController
                 ->orderBy('fname', 'ASC')
                 ->paginate(20);
             return View::make('users.flixe')->with('scheds', $scheds)->with('users', $users);
+        }
+    }
+
+    public function show_group()
+    {
+        $scheds = WorkScheds::all();
+        return View::make('users.flixe_datatable')->with('scheds',$scheds);
+    }
+    public function datatables()
+    {
+        if(Input::has('sched'))
+        {
+            $sched = Input::get('sched');
+            $pdo = DB::connection()->getPdo();
+            $query = "SELECT u.userid,CONCAT(u.fname,' ',u.lname)as name , w.description FROM users u LEFT JOIN work_sched w ON u.sched = w.id WHERE u.usertype = '0' AND u.sched = '". $sched ."' ORDER  BY u.fname";
+            $st = $pdo->prepare($query);
+            $st->execute();
+            $row = $st->fetchAll(PDO::FETCH_ASSOC);
+            if(isset($row) and count($row) > 0) {
+                return $row;
+            }
         }
     }
 }
