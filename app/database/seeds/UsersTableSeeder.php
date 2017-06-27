@@ -11,11 +11,10 @@ class UsersTableSeeder extends Seeder
     public function run()
     {
         $user = new Users();
-        $user->username = "admin";
-        $user->fname = 'Lourence Rex';
-        $user->lname = 'Traya';
-        $user->mname = 'B.';
-        $user->password = 'admin';
+        $user->username = "hr_admin";
+        $user->fname = 'DOH HR';
+        $user->lname = 'DOH_HR';
+        $user->password = 'hr_admin';
         $user->usertype = 1;
         $user->save();
     }
