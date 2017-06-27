@@ -42,70 +42,116 @@
                                     </form>
                                 </div>
                             </div>
-
                         </div>
                     </div>
                 </div>
                 <div class="col-md-8">
                     <div class="row">
                         <div class="col-md-12">
-                            <div class="nav-tabs-custom">
-                                <ul class="nav nav-tabs">
-                                    <li class="active"><a href="#approve" data-toggle="tab">Approve</a></li>
-                                    <li><a href="#disapprove" data-toggle="tab">Dissaprove</a></li>
-                                </ul>
-                                <div class="tab-content">
-                                    {{--APPROVE--}}
-                                    <div class="active tab-pane" id="approve">
-                                        <div class="panel panel-default">
-                                            <div class="panel-heading"><strong style="color: #f0ad4e;font-size:medium;">List</strong></div>
-                                            <div class="panel-body">
-                                                <div class="row">
-                                                    <div class="col-md-12">
-                                                        @if($type == "list")
-                                                            <a href="#document_form" data-link="{{ asset('form/cdov1/form') }}" class="btn btn-success" data-dismiss="modal" data-backdrop="static" data-toggle="modal" data-target="#document_form" style="background-color:darkmagenta;color: white;"><i class="fa fa-plus"></i> Create new</a>
-                                                        @endif
+                            @if(Auth::user()->usertype)
+                                <div class="nav-tabs-custom">
+                                    <ul class="nav nav-tabs">
+                                        <li class="active"><a href="#all" data-toggle="tab">All</a></li>
+                                        <li><a href="#approve" data-toggle="tab">Approve</a></li>
+                                        <li><a href="#disapprove" data-toggle="tab">Dissaprove</a></li>
+                                    </ul>
+                                    <div class="active tab-content">
+                                        {{--ALL--}}
+                                        <div class="active tab-pane" id="all">
+                                            <div class="panel panel-default">
+                                                <div class="panel-heading"><strong style="color: #f0ad4e;font-size:medium;">List</strong></div>
+                                                <div class="panel-body">
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            @if($type == "list")
+                                                                <a href="#document_form" data-link="{{ asset('form/cdov1/form') }}" class="btn btn-success" data-dismiss="modal" data-backdrop="static" data-toggle="modal" data-target="#document_form" style="background-color:darkmagenta;color: white;"><i class="fa fa-plus"></i> Create new</a>
+                                                            @endif
+                                                        </div>
+                                                    </div>
+                                                    <br />
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <div class="ajax_all">
+                                                                @include('cdo.cdo_all')
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                                <br />
-                                                <div class="row">
-                                                    <div class="col-md-12">
-                                                        <div class="ajax_approve">
-                                                            @include('cdo.cdo_approve')
+                                            </div>
+                                        </div>
+                                        {{--APPROVE--}}
+                                        <div class="tab-pane" id="approve">
+                                            <div class="panel panel-default">
+                                                <div class="panel-heading"><strong style="color: #f0ad4e;font-size:medium;">List</strong></div>
+                                                <div class="panel-body">
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            @if($type == "list")
+                                                                <a href="#document_form" data-link="{{ asset('form/cdov1/form') }}" class="btn btn-success" data-dismiss="modal" data-backdrop="static" data-toggle="modal" data-target="#document_form" style="background-color:darkmagenta;color: white;"><i class="fa fa-plus"></i> Create new</a>
+                                                            @endif
+                                                        </div>
+                                                    </div>
+                                                    <br />
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <div class="ajax_approve">
+                                                                @include('cdo.cdo_approve')
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {{--DISAPPROVE--}}
+                                        <div class="tab-pane" id="disapprove">
+                                            <div class="panel panel-default">
+                                                <div class="panel-heading"><strong style="color: #f0ad4e;font-size:medium;">List</strong></div>
+                                                <div class="panel-body">
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            @if($type == "list")
+                                                                <a href="#document_form" data-link="{{ asset('form/cdov1/form') }}" class="btn btn-success" data-dismiss="modal" data-backdrop="static" data-toggle="modal" data-target="#document_form" style="background-color:darkmagenta;color: white;"><i class="fa fa-plus"></i> Create new</a>
+                                                            @endif
+                                                        </div>
+                                                    </div>
+                                                    <br />
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <div class="ajax_disapprove">
+                                                                @include('cdo.cdo_disapprove')
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-
-                                    {{--DISAPPROVE--}}
-                                    <div class="tab-pane" id="disapprove">
-                                        <div class="panel panel-default">
-                                            <div class="panel-heading"><strong style="color: #f0ad4e;font-size:medium;">List</strong></div>
-                                            <div class="panel-body">
-                                                <div class="row">
-                                                    <div class="col-md-12">
-                                                        @if($type == "list")
-                                                            <a href="#document_form" data-link="{{ asset('form/cdov1/form') }}" class="btn btn-success" data-dismiss="modal" data-backdrop="static" data-toggle="modal" data-target="#document_form" style="background-color:darkmagenta;color: white;"><i class="fa fa-plus"></i> Create new</a>
-                                                        @endif
-                                                    </div>
-                                                </div>
-                                                <br />
-                                                <div class="row">
-                                                    <div class="col-md-12">
-                                                        <div class="ajax_disapprove">
-                                                            @include('cdo.cdo_disapprove')
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
                                 </div>
-
-                            </div>
+                                @else
+                                        <!-- CREATED BY USER LIST CTO -->
+                                <div class="active tab-pane" id="approve">
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading"><strong style="color: #f0ad4e;font-size:medium;">List</strong></div>
+                                        <div class="panel-body">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    @if($type == "list")
+                                                        <a href="#document_form" data-link="{{ asset('form/cdov1/form') }}" class="btn btn-success" data-dismiss="modal" data-backdrop="static" data-toggle="modal" data-target="#document_form" style="background-color:darkmagenta;color: white;"><i class="fa fa-plus"></i> Create new</a>
+                                                    @endif
+                                                </div>
+                                            </div>
+                                            <br />
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="ajax_approve">
+                                                        @include('cdo.cdo_approve')
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -166,14 +212,25 @@
             ?>
         });
 
-        var type = 'approve';
+        //default type
+        var type = 'all';
         $("a[href='#approve']").on("click",function(){
-            type = 'approve'
+            type = 'approve';
+            getPosts(1);
+            <?php Session::put('keyword',null); ?>
         });
         $("a[href='#disapprove']").on("click",function(){
-            type = 'disapprove'
+            type = 'disapprove';
+            getPosts(1);
+            <?php Session::put('keyword',null); ?>
+        });
+        $("a[href='#all']").on("click",function(){
+            type = 'all';
+            getPosts(1);
+            <?php Session::put('keyword',null); ?>
         });
 
+        <?php if(Auth::user()->usertype): ?>
         $(window).on('hashchange', function() {
             if (window.location.hash) {
                 var page = window.location.hash.replace('#', '');
@@ -195,16 +252,21 @@
                 url : '?type='+type+'&page=' + page,
                 dataType: 'json',
             }).done(function (data) {
-                if(type == 'approve')
+                if(type == 'approve'){
                     $('.ajax_approve').html(data);
-                else if(type == 'disapprove')
+                }
+                else if(type == 'disapprove'){
                     $('.ajax_disapprove').html(data);
-
+                }
+                else if(type == 'all'){
+                    $('.ajax_all').html(data);
+                }
                 location.hash = page;
             }).fail(function (data) {
                 console.log(data.responseText);
                 console.log('Posts could not be loaded.');
             });
         }
+        <?php endif; ?>
     </script>
 @endsection

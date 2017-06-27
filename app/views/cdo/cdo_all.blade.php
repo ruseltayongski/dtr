@@ -1,4 +1,5 @@
-@if(isset($cdo[1]) and count($cdo[1]) >0)
+<span id="cdo_updatev1" data-link="{{ asset('cdo_updatev1') }}"></span>
+@if(isset($cdo[2]) and count($cdo[2]) >0)
     <div class="table-responsive">
         <table class="table table-list table-hover table-striped">
             <thead>
@@ -12,13 +13,11 @@
                     <th class="text-center">Document Type</th>
                 @endif
                 <th class="text-center">Subject</th>
-                @if(Auth::user()->usertype)
-                    <th class="text-center">Option</th>
-                @endif
+                <th class="text-center">Option</th>
             </tr>
             </thead>
             <tbody style="font-size: 10pt;">
-            @foreach($cdo[1] as $row)
+            @foreach($cdo[2] as $row)
                 <tr>
                     <td><a href="#track" data-link="{{ asset('form/track/'.$row->route_no) }}" data-route="{{ $row->route_no }}" data-toggle="modal" class="btn btn-sm btn-success col-sm-12" style="background-color:darkmagenta;color:white;"><i class="fa fa-line-chart"></i> Track</a></td>
                     <td><a class="title-info" data-backdrop="static" data-route="{{ $row->route_no }}" data-link="{{ asset('/form/info/'.$row->route_no.'/cdo') }}" href="#document_info" data-toggle="modal">{{ $row->route_no }}</a></td>
@@ -29,21 +28,54 @@
                         <td>CTO</td>
                     @endif
                     <td>{{ $row->subject }}</td>
-                    @if(Auth::user()->usertype)
-                        <td><button type="submit" class="btn btn-danger" style="color:white;"><i class="fa fa-user-times"></i> Click to dissaprove</button></td>
+                    @if($row->approved_status == 1)
+                        <td><button type="button" value="{{ $row->id }}" onclick="approved_status($(this))" class="btn btn-danger" style="color:white;"><i class="fa fa-check-square"></i> Click to disapprove</button></td>
+                    @else
+                        <td><button type="button" value="{{ $row->id }}" onclick="approved_status($(this))" class="btn btn-info" style="color:white;"><i class="fa fa-check-square"></i> Click to approve</button></td>
                     @endif
                 </tr>
             @endforeach
             </tbody>
         </table>
     </div>
-    {{ $cdo[1]->links() }}
+    {{ $cdo[2]->links() }}
 @else
     <div class="alert alert-danger" role="alert">Documents records are empty.</div>
 @endif
 
-
 <script>
+    //tracking history of the document
+    $("a[href='#track']").on('click',function(){
+        $('.track_history').html(loadingState);
+        var route_no = $(this).data('route');
+        var url = $(this).data('link');
+
+        $('#track_route_no').val('Loading...');
+        setTimeout(function(){
+            $('#track_route_no').val(route_no);
+            $.ajax({
+                url: url,
+                type: 'GET',
+                success: function(data) {
+                    $('.track_history').html(data);
+                }
+            });
+        },1000);
+    });
+
+    function approved_status(data){
+        var page = "<?php echo Session::get('page') ?>";
+        var url = $("#cdo_updatev1").data('link')+'/'+data.val()+'/all?page='+page;
+        var json = {
+            'sample':'sample'
+        };
+        $.post(url,json,function(result){
+            Lobibox.notify('info',{
+                msg:'Successfull!'
+            });
+            $('.ajax_all').html(result);
+        });
+    }
     //document information
     $("a[href='#document_info']").on('click',function(){
         var route_no = $(this).data('route');
@@ -63,20 +95,6 @@
             });
         },1000);
     });
-
-    function approved_status(data){
-        var page = "<?php echo Session::get('page') ?>";
-        var url = $("#cdo_updatev1").data('link')+'/'+data.val()+'/all?page='+page;
-        var json = {
-            'sample':'sample'
-        };
-        $.post(url,json,function(result){
-            Lobibox.notify('info',{
-                msg:'Successfull!'
-            });
-            $('.ajax_all').html(result);
-        });
-    }
 
     $("a[href='#document_form']").on('click',function(){
         $('.modal-title').html('CTO');
