@@ -66,10 +66,12 @@
    <script>
 
        $(document).ready(function(){
+           $('#data_table').modal('show');
            var url = '{{ asset('datatables') }}';
            var data = 'sched=1';
            $.get(url,data,function(data){
                $('#group_datatables').DataTable({
+                   pageLength : 25,
                    data : data,
                    columns : [
                        { data : 'userid' },
@@ -77,7 +79,7 @@
                        { data : 'description' }
                     ]
                });
-
+               $('#data_table').modal('hide');
            });
            $('.form-filter').submit(function(e) {
                 e.preventDefault();
