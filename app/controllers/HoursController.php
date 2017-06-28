@@ -16,7 +16,7 @@ class HoursController extends BaseController
 
     public function create()
     {
-        $hours = WorkScheds::paginate(10);
+        $hours = DB::table('work_sched')->paginate(10);
         return View::make('hour.worksched')->with('hours',$hours);
     }
 

@@ -21,7 +21,8 @@ class GenerateDTRController extends BaseController
 
     public function list_jo_dtr()
     {
-        $lists = PdfFiles::where('type','JO')
+        $lists = DB::table('generated_pdf')
+            ->where('type','=','JO')
             ->where('is_filtered','!=','1')
             ->orderBy('id', 'DESC')
             ->paginate(20);
@@ -56,8 +57,9 @@ class GenerateDTRController extends BaseController
     }
     public function list_regular_dtr()
     {
-
-        $lists = PdfFiles::where('type','REG')
+        $lists = DB::table('generated_pdf')
+            ->where('type','=','REG')
+            ->where('is_filtered','!=','1')
             ->orderBy('id','DESC')
             ->paginate(20);
         return View::make('dtr.dtr_list_regular')->with('lists',$lists);

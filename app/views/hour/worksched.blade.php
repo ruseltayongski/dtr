@@ -19,7 +19,7 @@
                 <strong>{{ Session::get('new_hour') }}</strong>
             </div>
         @endif
-        @if(isset($hours) and count($hours))
+        @if(count($hours))
 
             <div class="table-responsive">
                 <table class="table table-list table-hover table-striped">
@@ -58,14 +58,6 @@
         @endif
     </div>
 
-@endsection
-@section('plugin')
-    <script src="{{ asset('resources/plugin/daterangepicker/moment.min.js') }}"></script>
-    <script src="{{ asset('resources/plugin/daterangepicker/daterangepicker.js') }}"></script>
-@endsection
-
-@section('css')
-    <link href="{{ asset('resources/plugin/daterangepicker/daterangepicker-bs3.css') }}" rel="stylesheet">
 @endsection
 @section('js')
     @parent

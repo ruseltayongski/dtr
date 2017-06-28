@@ -59,7 +59,7 @@
                             <div class="clearfix"></div>
                             <div class="page-divider"></div>
 
-                            @if(isset($lists) and count($lists) >0)
+                            @if(count($lists))
                                 <div class="table-responsive">
                                     <table class="table table-list table-hover table-striped">
                                         <thead>
@@ -99,14 +99,6 @@
     </div>
 
 
-@endsection
-@section('plugin')
-    <script src="{{ asset('resources/plugin/daterangepicker/moment.min.js') }}"></script>
-    <script src="{{ asset('resources/plugin/daterangepicker/daterangepicker.js') }}"></script>
-@endsection
-
-@section('css')
-    <link href="{{ asset('resources/plugin/daterangepicker/daterangepicker-bs3.css') }}" rel="stylesheet">
 @endsection
 @section('js')
     @parent
