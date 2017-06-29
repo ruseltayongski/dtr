@@ -104,6 +104,7 @@
     function click_all(type){
         var url = "<?php echo asset('click_all');?>"+"/"+type.val();
         $.get(url,function(result){
+            console.log(result);
             if(type.val() == 'disapprove'){
                 $('.ajax_approve').html(loadingState);
                 setTimeout(function(){

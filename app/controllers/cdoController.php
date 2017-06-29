@@ -193,16 +193,14 @@ class cdoController extends BaseController
         }
         $cdo_count['disapprove'] = cdo::where('approved_status',0)->get();
         $cdo_count['approve'] = cdo::where('approved_status',1)->get();
-        /*if($type == "approve"){
-            foreach($cdo_count['approve'] as $row){
-                $this->dtr_file($row['start_date'],$row['end_date'],$row['prepared_name']);
-            }
-        }*/
+
         return Response::json(array(
-                "disapprove" => count($cdo_count['disapprove']),
-                "approve" => count($cdo_count['approve']),
-                "view" => View::make($view,["cdo" => $cdo])->render()
+            count($cdo_count['disapprove']),
+            count($cdo_count['approve']),
+            "view" => View::make($view,["cdo" => $cdo])->render()
         ));
+
+
     }
 
     public function dtr_file($start_date,$end_date,$prepared_name){
