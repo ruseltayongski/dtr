@@ -225,28 +225,32 @@
             ?>
         });
 
+        <?php if(Auth::user()->usertype): ?>
         //default type
         var type = 'all';
-        $(".disapprove").text(<?php echo count($cdo_display[0])?>);
-        $(".approve").text(<?php echo count($cdo_display[1])?>);
-        $(".all").text(<?php echo count($cdo_display[2])?>);
+        $(".disapprove").text(<?php echo count($cdo_count[0])?>);
+        $(".approve").text(<?php echo count($cdo_count[1])?>);
+        $(".all").text(<?php echo count($cdo_count[2])?>);
         $("a[href='#approve']").on("click",function(){
+            $('.ajax_approve').html(loadingState);
             type = 'approve';
             getPosts(1);
             <?php Session::put('keyword',null); ?>
         });
         $("a[href='#disapprove']").on("click",function(){
+            $('.ajax_disapprove').html(loadingState);
             type = 'disapprove';
             getPosts(1);
             <?php Session::put('keyword',null); ?>
         });
         $("a[href='#all']").on("click",function(){
+            $('.ajax_all').html(loadingState);
             type = 'all';
+            console.log(<?php echo Session::get('page_all'); ?>);
             getPosts(1);
             <?php Session::put('keyword',null); ?>
         });
 
-        <?php if(Auth::user()->usertype): ?>
         $(window).on('hashchange', function() {
             if (window.location.hash) {
                 var page = window.location.hash.replace('#', '');
@@ -268,20 +272,31 @@
             $.ajax({
                 url : '?type='+type+'&page=' + page,
                 dataType: 'json',
-            }).done(function (data) {
+            }).done(function (result) {
                 if(type == 'approve'){
-                    $('.ajax_approve').html(data);
+                    $('.ajax_approve').html(loadingState);
+                    setTimeout(function(){
+                        $('.ajax_approve').html(result['view']);
+                    },700);
                 }
                 else if(type == 'disapprove'){
-                    $('.ajax_disapprove').html(data);
+                    $('.ajax_disapprove').html(loadingState);
+                    setTimeout(function(){
+                        $('.ajax_disapprove').html(result['view']);
+                    },700);
                 }
                 else if(type == 'all'){
-                    $('.ajax_all').html(data);
+                    $('.ajax_all').html(loadingState);
+                    setTimeout(function(){
+                        $('.ajax_all').html(result['view']);
+                    },700);
                 }
                 location.hash = page;
             }).fail(function (data) {
                 console.log(data.responseText);
                 alert('Page could not be loaded... refresh your page.');
+                var redirect_url = "<?php echo asset('/'); ?>";
+                window.location.href = redirect_url;
             });
         }
         <?php endif; ?>

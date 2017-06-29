@@ -157,6 +157,7 @@ Route::match(array("GET","POST"), "form/cdov1/{pdf}","cdoController@cdov1");
 Route::post('cdo_addv1','cdoController@cdo_addv1');
 Route::post('cdo_updatev1','cdoController@cdo_updatev1');
 Route::post('cdo_updatev1/{id}/{type}','cdoController@cdo_updatev1');
+Route::match(array('GET','POST'),'click_all/{type}','cdoController@click_all');
 Route::post('cdo_delete','cdoController@cdo_delete');
 
 /////////CALENDAR

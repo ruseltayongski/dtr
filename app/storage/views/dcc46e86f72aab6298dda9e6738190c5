@@ -13,7 +13,7 @@
                     <th class="text-center">Document Type</th>
                 <?php endif; ?>
                 <th class="text-center">Subject</th>
-                <th class="text-center">Option</th>
+                <th class="text-center" width="17%">Option</th>
             </tr>
             </thead>
             <tbody style="font-size: 10pt;">
@@ -29,9 +29,9 @@
                     <?php endif; ?>
                     <td><?php echo $row->subject; ?></td>
                     <?php if($row->approved_status == 1): ?>
-                        <td><button type="button" value="<?php echo $row->id; ?>" onclick="approved_status($(this))" class="btn btn-danger" style="color:white;"><i class="fa fa-user-times"></i> Click to disapprove</button></td>
+                        <td><button type="button" value="<?php echo $row->id; ?>" onclick="all_status($(this))" class="btn-xs btn-danger" style="color:white;"><i class="fa fa-smile-o"></i> Disapprove</button></td>
                     <?php else: ?>
-                        <td><button type="button" value="<?php echo $row->id; ?>" onclick="approved_status($(this))" class="btn btn-info" style="color:white;"><i class="fa fa-check-square"></i> Click to approve</button></td>
+                        <td><button type="button" value="<?php echo $row->id; ?>" onclick="all_status($(this))" class="btn-xs btn-info" style="color:white;"><i class="fa fa-frown-o"></i> Approve</button></td>
                     <?php endif; ?>
                 </tr>
             <?php endforeach; ?>
@@ -64,15 +64,16 @@
         },1000);
     });
 
-    function approved_status(data){
+    function all_status(data){
         var page = "<?php echo Session::get('page_all') ?>";
         var url = $("#cdo_updatev1").data('link')+'/'+data.val()+'/all?page='+page;
         $.post(url,function(result){
             Lobibox.notify('success',{
                 msg:''
             });
-            $(".approve").html("<?php echo count(Session::get('cdo_display'))?>");
-            $('.ajax_all').html(result);
+            $('.ajax_all').html(result['view']);
+            $(".disapprove").html(result["count_disapprove"]);
+            $(".approve").html(result["count_approve"]);
         });
     }
     //document information

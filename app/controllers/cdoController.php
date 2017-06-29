@@ -9,20 +9,19 @@ class cdoController extends BaseController
 
     public function cdo_list(){
         Session::put('keyword',Input::get('keyword'));
-        Session::put('page_all',null);
         $keyword = Session::get('keyword');
         if(Auth::user()->usertype){
-            $cdo_display[0] = cdo::where('approved_status',0)
+            $cdo_count[0] = cdo::where('approved_status',0)
                 ->where(function($q) use ($keyword){
                     $q->where("route_no","like","%$keyword%")
                         ->orWhere("subject","like","%$keyword%");
                 })->get();
-            $cdo_display[1] = cdo::where('approved_status',1)
+            $cdo_count[1] = cdo::where('approved_status',1)
                 ->where(function($q) use ($keyword){
                     $q->where("route_no","like","%$keyword%")
                         ->orWhere("subject","like","%$keyword%");
                 })->get();
-            $cdo_display[2] = cdo::where(function($q) use ($keyword){
+            $cdo_count[2] = cdo::where(function($q) use ($keyword){
                 $q->where("route_no","like","%$keyword%")
                     ->orWhere("subject","like","%$keyword%");
                 })->get();
@@ -57,6 +56,7 @@ class cdoController extends BaseController
                 ->orderBy('id','desc')
                 ->paginate(2);
             $type = "list";
+            return View::make('cdo.cdo_list',["cdo" => $cdo,"type" => $type]);
         }
 
         if (Request::ajax()) {
@@ -72,9 +72,17 @@ class cdoController extends BaseController
                 $view = 'cdo.cdo_all';
                 Session::put('page_all',Input::get('page'));
             }
-            return Response::json(View::make($view, ["cdo" => $cdo,"type" => $type,"cdo_display" => $cdo_display])->render());
+            return Response::json(array(
+                count($cdo_count[0]),
+                count($cdo_count[1]),
+                count($cdo_count[2]),
+                count($cdo[1]),
+                "view" => View::make($view, ["cdo" => $cdo])->render()
+            ));
         }
-        return View::make('cdo.cdo_list',["cdo" => $cdo,"type" => $type,"cdo_display" => $cdo_display]);
+        if(Auth::user()->usertype){
+            return View::make('cdo.cdo_list',["cdo" => $cdo,"type" => $type,"cdo_count" => $cdo_count]);
+        }
     }
 
     public function cdov1($pdf = null){
@@ -164,6 +172,32 @@ class cdoController extends BaseController
         return Redirect::to('form/cdo_list');
     }
 
+    public function click_all($type=null){
+        if($type == 'approve') {
+            $view = 'cdo.cdo_approve';
+            $status = 0;
+            $update = 1;
+            //APPEND IN DISAPPROVE VIEW
+            $cdo[0] = cdo::where("approved_status",$status)->update(["approved_status" => $update]);
+        }
+        elseif($type == 'disapprove') {
+            $view = 'cdo.cdo_disapprove';
+            $status = 1;
+            $update = 0;
+            //APPEND IN APPROVE VIEW
+            $cdo[1] = cdo::where("approved_status",$status)->update(["approved_status" => $update]);
+        }
+
+        $cdo_count[0] = cdo::where('approved_status',0)->get();
+        $cdo_count[1] = cdo::where('approved_status',1)->get();
+
+        return Response::json(array(
+                count($cdo_count[0]),
+                count($cdo_count[1]),
+                "view" => View::make($view,["cdo" => $cdo])->render()
+        ));
+    }
+
     public function cdo_updatev1($id = null,$type = null){
         if($id){
             $cdo = cdo::where('id',$id)->first();
@@ -175,13 +209,9 @@ class cdoController extends BaseController
             $cdo->save();
             $keyword = '';
 
-            Session::put('cdo_display','tayong');
-            $cdo_display = cdo::where('approved_status',1)
-                ->where(function($q) use ($keyword){
-                    $q->where("route_no","like","%$keyword%")
-                        ->orWhere("subject","like","%$keyword%");
-                })->get();
-            Session::put('cdo_display',$cdo_display);
+            $cdo_count[0] = cdo::where('approved_status',0)->get();
+            $cdo_count[1] = cdo::where('approved_status',1)->get();
+            $cdo_count[2] = cdo::all();
 
             $cdo[0] = cdo::where('approved_status',0)
                 ->where(function($q) use ($keyword){
@@ -214,7 +244,13 @@ class cdoController extends BaseController
                 elseif($type == 'all') {
                     $view = 'cdo.cdo_all';
                 }
-                return Response::json(View::make($view, ["cdo" => $cdo,"type" => $type])->render());
+                return Response::json(array(
+                    "count_disapprove" => count($cdo_count[0]),
+                    "count_approve" => count($cdo_count[1]),
+                    "paginate_disapprove" => count($cdo[0]),
+                    "paginate_approve" => count($cdo[1]),
+                    "view" => View::make($view,["cdo" => $cdo,"type" => $type])->render()
+                ));
             }
         } else {
             $route_no = Session::get('route_no');
@@ -330,7 +366,7 @@ class cdoController extends BaseController
         if(Auth::user()->usertype)
             $id = 'HRIS-ADMIN';
         else
-            $id = pdoController::user_search(Auth::user()->userid)['id'].'tayong';
+            $id = pdoController::user_search(Auth::user()->userid)['id'];
 
         $route_no = Session::get('route_no');
 
