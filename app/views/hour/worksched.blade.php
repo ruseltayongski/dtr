@@ -57,20 +57,6 @@
             </div>
         @endif
     </div>
-
-@endsection
-@section('js')
-    @parent
-    <script>
-        var input = $('#input-a');
-        input.clockpicker({
-            autoclose: true,
-            placement : 'top',
-            align : 'left',
-            donetext : 'Ok',
-            'default' : '12:00'
-        });
-    </script>
 @endsection
 
 

@@ -24,15 +24,7 @@
             <li class="divider"></li>
             <li><a href="{{ url('calendar') }}"><i class="fa fa-calendar"></i> Holidays Calendar</a></li>
             <li class="divider"></li>
-            <li class="dropdown-submenu">
-                <a href="#"><i class="fa fa-user"></i> Employees</a>
-                <ul class="dropdown-menu">
-                    <li><a href="{{ asset('list/job-order') }}">Job Order</a></li>
-                    <div class="divider"></div>
-                    <li><a href="{{ asset('list/regular') }}">Regular</a></li>
-                    <div class="divider"></div>
-                </ul>
-            </li>
+            <li><a href="{{ url('employees') }}"><i class="fa fa-users" aria-hidden="true"></i> Employees</a></li>
             <li class="divider"></li>
             <li><a href="{{ url('attendance') }}"><i class="glyphicon glyphicon-time"></i> Attendance</a></li>
             <li class="divider"></li>
