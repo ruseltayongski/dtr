@@ -11,7 +11,7 @@
                     <div class="panel panel-default">
                         <div class="panel-heading"><strong style="color: #f0ad4e;font-size:medium;">Group Lists</strong></div>
                         <div class="panel-body">
-                            <form class="form-inline form-filter"  method="GET" >
+                            <form class="form-inline form-filter" method="GET" >
                                 <div class="form-group">
                                     <div class="input-group">
                                         <select class="form-control col-sm-5" name="sched" id="work_sched">
@@ -23,9 +23,6 @@
                                             @endif
                                         </select>
                                     </div>
-                                    <button name="filter_range" class="btn btn-success form-control" value="Filter">
-                                        <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Filters
-                                    </button>
                                 </div>
                             </form>
                             <div class="clearfix"></div>
@@ -37,6 +34,7 @@
                                         <th>User ID</th>
                                         <th>Name </th>
                                         <th>Work Schedule</th>
+                                        <th>Time</th>
                                     </tr>
                                     </thead>
                                     <tbody id="td_td">
@@ -53,14 +51,6 @@
 
     <span id="data_link" data-link="{{ asset('change/work-schedule') }}" />
 @endsection
-@section('plugin')
-    <script src="{{ asset('resources/plugin/daterangepicker/moment.min.js') }}"></script>
-    <script src="{{ asset('resources/plugin/daterangepicker/daterangepicker.js') }}"></script>
-@endsection
-
-@section('css')
-    <link href="{{ asset('resources/plugin/daterangepicker/daterangepicker-bs3.css') }}" rel="stylesheet">
-@endsection
 @section('js')
     @parent
    <script>
@@ -76,24 +66,26 @@
                    columns : [
                        { data : 'userid' },
                        { data : 'name' },
-                       { data : 'description' }
+                       { data : 'description' },
+                       { data : 'sched'}
                     ]
                });
                $('#data_table').modal('hide');
            });
-           $('.form-filter').submit(function(e) {
-                e.preventDefault();
+           $('#work_sched').change(function(e) {
                 var sched = $("#work_sched").val();
                 var data = 'sched=' + sched;
                $.get(url,data,function(data){
                    $('#data_table').modal('show');
                    $('#group_datatables').DataTable().clear().destroy();
                    $('#group_datatables').DataTable({
+                       pageLength : 25,
                        data : data,
                        columns : [
                            { data : 'userid' },
                            { data : 'name' },
-                           { data : 'description' }
+                           { data : 'description' },
+                           { data : 'sched' }
                        ]
                    });
                    $('#data_table').modal('hide');

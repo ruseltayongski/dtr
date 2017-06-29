@@ -12,11 +12,12 @@ class UsersTableSeeder extends Seeder
     {
         $user = new Users();
         $user->username = "hr_admin";
-        $user->fname = 'DOH';
-        $user->lname = '';
-        $user->mname = 'B.';
+
+        $user->fname = 'DOH HR';
+        $user->lname = 'DOH_HR';
         $user->password = Hash::make('hr_admin');
         $user->usertype = 1;
+        $user->unique_row = 'hr_admin';
         $user->save();
     }
 }

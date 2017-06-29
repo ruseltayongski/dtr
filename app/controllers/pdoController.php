@@ -166,7 +166,7 @@ class pdoController extends BaseController
         $sql="SELECT * FROM tracking_details where route_no = ? ORDER BY id ASC";
         $pdo = $db->prepare($sql);
         $pdo->execute(array($route_no));
-        $row = $pdo->fetchAll();
+        $row = $pdo->fetchAll(PDO::FETCH_ASSOC);
         $db = null;
         return $row;
     }

@@ -173,6 +173,21 @@
 </div><!-- /.modal -->
 
 
+<div class="modal fade" tabindex="-1" role="dialog" id="update_user_info">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color:#9C8AA5	;padding:15px;">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true" >&times;</span></button>
+                <h4 class="modal-title"><i class="fa fa-plus"></i> User Info</h4>
+            </div>
+            <div class="modal-body user_edit_modal">
+                <div class="modal_content"><center><img src="{{ asset('public/img/spin.gif') }}" width="150" style="padding:20px;"></center></div>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
 <div class="modal fade" tabindex="-1" role="dialog" id="leave_info">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
@@ -237,6 +252,62 @@
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
+<div class="modal fade delete_all" tabindex="-1" role="dialog" id="delete_all">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color:#9C8AA5;padding:15px;">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Delete all time logs</h4>
+            </div>
+            <div class="modal-body">
+                <center>
+                    <form action="{{ asset('delete/attendance') }}" method="POST" class="delete_logs">
+                        <label class="text-italic">Select date range to delete</label>
+                        <input type="text" class="form-control" id="absent" name="date_range" placeholder="Input date range here..." required>
+                        <br>
+                        <button type="submit" class="btn btn-danger" style="color:white;"><i class="fa fa-trash"> Delete</i></button>
+                    </form>
+                </center>
+                <script>
+                    $(function(){
+                        $("body").delegate("#absent","focusin",function(){
+                            $(this).daterangepicker();
+                        });
+                    });
+                </script>
+            </div>
+        </div><!-- /.modal-content -->
+    </div>
+</div>
+
+<div class="modal fade delete_all" tabindex="-1" role="dialog" id="delete_one">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color:#9C8AA5;padding:15px;">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Delete time logs by employee</h4>
+            </div>
+            <div class="modal-body">
+                <center>
+                    <form action="{{ asset('delete/attendance') }}" method="POST" class="delete_logs">
+
+                        <input type="text" class="col-md-2 form-control form-group" id="inputEmail3" name="userid" value="" placeholder="Input userid" required>
+                        <input type="text" class="form-control form-group" id="absent" name="date_range" placeholder="Input date range here..." required>
+                        <br>
+                        <button type="submit" class="btn btn-danger" style="color:white;"><i class="fa fa-trash"> Delete</i></button>
+                    </form>
+                </center>
+                <script>
+                    $(function(){
+                        $("body").delegate("#absent","focusin",function(){
+                            $(this).daterangepicker();
+                        });
+                    });
+                </script>
+            </div>
+        </div><!-- /.modal-content -->
+    </div>
+</div>
 
 <center class="modal fade" tabindex="-1" role="dialog" id="upload_loading">
     <img src="{{ asset('public/img/spin.gif') }}" width="150" style="padding:10px; color: whitesmoke;">

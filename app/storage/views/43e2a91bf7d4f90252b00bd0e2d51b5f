@@ -1,8 +1,8 @@
 <?php $__env->startSection('content'); ?>
-<?php if(Session::has('message')): ?>
+<?php if(Session::has('msg_sched')): ?>
     <div class="col-md-12 wrapper">
         <div class="alert alert-success" role="alert">
-            <?php echo Session::get('message'); ?>
+            <?php echo Session::get('msg_sched'); ?>
 
         </div>
     </div>

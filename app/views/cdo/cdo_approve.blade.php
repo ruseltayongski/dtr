@@ -21,7 +21,7 @@
             @foreach($cdo[1] as $row)
                 <tr>
                     <td><a href="#track" data-link="{{ asset('form/track/'.$row->route_no) }}" data-route="{{ $row->route_no }}" data-toggle="modal" class="btn btn-sm btn-success col-sm-12" style="background-color:darkmagenta;color:white;"><i class="fa fa-line-chart"></i> Track</a></td>
-                    <td><a class="title-info" data-backdrop="static" data-route="{{ $row->route_no }}" data-link="{{ asset('/form/info/'.$row->route_no.'/cdo') }}" href="#document_info" data-toggle="modal">{{ $row->route_no }}</a></td>
+                    <td><a class="title-info" data-backdrop="static" data-route="{{ $row->route_no }}" style="color: #f0ad4e;" data-link="{{ asset('/form/info/'.$row->route_no.'/cdo') }}" href="#document_info" data-toggle="modal">{{ $row->route_no }}</a></td>
                     <td>{{ date('M d, Y',strtotime($row->prepared_date)) }}<br>{{ date('h:i:s A',strtotime($row->prepared_date)) }}</td>
                     @if(\Illuminate\Support\Facades\Auth::user()->usertype)
                         <td>{{ pdoController::user_search1($row['prepared_name'])['fname'].' '.pdoController::user_search1($row['prepared_name'])['mname'].' '.pdoController::user_search1($row['prepared_name'])['lname'] }}</td>
@@ -30,7 +30,7 @@
                     @endif
                     <td>{{ $row->subject }}</td>
                     @if(Auth::user()->usertype)
-                        <td><button type="submit" class="btn btn-danger" style="color:white;"><i class="fa fa-user-times"></i> Click to dissaprove</button></td>
+                        <td><button type="submit" class="btn btn-danger" onclick="approved_status($(this))" style="color:white;"><i class="fa fa-user-times"></i> Click to dissaprove</button></td>
                     @endif
                 </tr>
             @endforeach
@@ -41,7 +41,6 @@
 @else
     <div class="alert alert-danger" role="alert">Documents records are empty.</div>
 @endif
-
 
 <script>
     //document information
@@ -63,20 +62,6 @@
             });
         },1000);
     });
-
-    function approved_status(data){
-        var page = "<?php echo Session::get('page') ?>";
-        var url = $("#cdo_updatev1").data('link')+'/'+data.val()+'/all?page='+page;
-        var json = {
-            'sample':'sample'
-        };
-        $.post(url,json,function(result){
-            Lobibox.notify('info',{
-                msg:'Successfull!'
-            });
-            $('.ajax_all').html(result);
-        });
-    }
 
     $("a[href='#document_form']").on('click',function(){
         $('.modal-title').html('CTO');

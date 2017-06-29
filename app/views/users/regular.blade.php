@@ -68,14 +68,6 @@
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
 @endsection
-@section('plugin')
-    <script src="{{ asset('resources/plugin/daterangepicker/moment.min.js') }}"></script>
-    <script src="{{ asset('resources/plugin/daterangepicker/daterangepicker.js') }}"></script>
-@endsection
-
-@section('css')
-    <link href="{{ asset('resources/plugin/daterangepicker/daterangepicker-bs3.css') }}" rel="stylesheet">
-@endsection
 @section('js')
     @parent
     <script>

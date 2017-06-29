@@ -75,9 +75,9 @@ return array(
 		'pgsql' => array(
 			'driver'   => 'pgsql',
 			'host'     => 'localhost',
-			'database' => 'forge',
-			'username' => 'forge',
-			'password' => '',
+			'database' => 'dohdtr',
+			'username' => 'postgres',
+			'password' => 'hahahehe',
 			'charset'  => 'utf8',
 			'prefix'   => '',
 			'schema'   => 'public',

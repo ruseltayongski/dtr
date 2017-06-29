@@ -125,6 +125,10 @@ class CalendarController extends BaseController
 
     public function calendar_update()
     {
+        if(Auth::user()->usertype == "0")
+        {
+            return;
+        }
         ///RUSEL
         $start_date = Input::get('start');
         $calendar = Calendars::where('event_id',Input::get('event_id'))->first();

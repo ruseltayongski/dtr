@@ -4,6 +4,12 @@
         .align{
             text-align: center;
         }
+        .align-right{
+            text-align: right;
+        }
+        .align-left{
+            text-align: left;
+        }
         .new-times-roman{
             font-family: "Times New Roman", Times, serif;
             font-size: 11.5pt;
@@ -21,6 +27,8 @@
 </head>
 <body>
 <form action="{{ $data['asset'] }}" method="POST" class="form-submit">
+    <!-- iCheck -->
+    <link rel="stylesheet" href="../../plugins/iCheck/square/blue.css">
     <div class="clearfix"></div>
     <div class="new-times-roman table-responsive">
         <table cellpadding="0" cellspacing="0">
@@ -162,50 +170,52 @@
                             <th colspan="2">RECOMENDATION:</th>
                         </tr>
                         <tr>
-                            <td class="col-sm-6"><input type="checkbox" onclick="approval_check($(this))" name="approval" id="approval" class="form-control input-sm"
+                            <td class="col-sm-3 align-right">
+                                <input type="checkbox" name="approval" id="approval" class="form-control input-lg"
                                 <?php
-                                        if($data['type'] == 'add')
-                                            echo 'disabled';
-                                        else{
-                                            if($data['cdo']['approved_status'] == 1){
-                                                if(\Illuminate\Support\Facades\Auth::user()->usertype)
-                                                    echo 'checked';
-                                                else
-                                                    echo 'disabled checked';
-                                            }
-                                            else{
-                                                if(\Illuminate\Support\Facades\Auth::user()->usertype)
-                                                    echo '';
-                                                else
-                                                    echo 'disabled';
-                                            }
+                                    if($data['type'] == 'add')
+                                        echo 'disabled';
+                                    else{
+                                        if($data['cdo']['approved_status'] == 1){
+                                            if(\Illuminate\Support\Facades\Auth::user()->usertype)
+                                                echo 'checked';
+                                            else
+                                                echo 'disabled checked';
                                         }
-                                        ?>>
+                                        else{
+                                            if(\Illuminate\Support\Facades\Auth::user()->usertype)
+                                                echo '';
+                                            else
+                                                echo 'disabled';
+                                        }
+                                    }
+                                ?>>
                             </td>
-                            <td>Approval</td>
+                            <td class="align-left">Approval</td>
                         </tr>
                         <tr>
-                            <td class="col-sm-6"><input type="checkbox" name="disapproval" id="disapproval" onclick="disapproval_check($(this))" class="form-control input-sm"
+                            <td class="col-sm-3 align-right">
+                                <input type="checkbox" style="color: black;" name="disapproval" id="disapproval" class="form-control input-lg"
                                 <?php
-                                        if($data['type'] == 'add')
-                                            echo 'disabled';
-                                        else{
-                                            if($data['cdo']['approved_status'] == 0){
-                                                if(\Illuminate\Support\Facades\Auth::user()->usertype)
-                                                    echo 'checked';
-                                                else
-                                                    echo 'disabled';
-                                            }
-                                            else{
-                                                if(\Illuminate\Support\Facades\Auth::user()->usertype)
-                                                    echo '';
-                                                else
-                                                    echo 'disabled';
-                                            }
+                                    if($data['type'] == 'add')
+                                        echo 'disabled';
+                                    else{
+                                        if($data['cdo']['approved_status'] == 0){
+                                            if(\Illuminate\Support\Facades\Auth::user()->usertype)
+                                                echo 'checked';
+                                            else
+                                                echo 'disabled';
                                         }
-                                        ?>>
+                                        else{
+                                            if(\Illuminate\Support\Facades\Auth::user()->usertype)
+                                                echo '';
+                                            else
+                                                echo 'disabled';
+                                        }
+                                    }
+                                ?>>
                             </td>
-                            <td>Disapproval</td>
+                            <td class="align-left">Disapproval</td>
                         </tr>
                     </table>
                 </td>
@@ -280,7 +290,8 @@
     </div>
 </form>
 </body>
-
+<!-- iCheck -->
+<script src="../../plugins/iCheck/icheck.min.js"></script>
 <script>
     $('.chosen-select-static').chosen();
     $('.datepickercalendar').datepicker({
@@ -297,18 +308,18 @@
         $('.btn-submit').attr("disabled", true);
     });
 
-    function approval_check(data){
-        if(data.is(":checked")){
-            $('input[name=disapproval]').attr('checked', false);
-        } else if(data.is(":not(:checked)")){
-            $('input[name=disapproval]').attr('checked', true);
-        }
-    }
-    function disapproval_check(data){
-        if(data.is(":checked")){
-            $('input[name=approval]').attr('checked', false);
-        } else {
-            $('input[name=approval]').attr('checked', true);
-        }
-    }
+    $('input[name=approval]').on('ifChecked', function(event){
+        $('input[name="disapproval"]').iCheck('uncheck');
+    });
+    $('input[name=disapproval]').on('ifChecked', function(event){
+        $('input[name="approval"]').iCheck('uncheck');
+    });
+
+    $(function () {
+        $('input').iCheck({
+            checkboxClass: 'icheckbox_square-blue',
+            radioClass: 'iradio_square-blue',
+            increaseArea: '20%' // optional
+        });
+    });
 </script>
