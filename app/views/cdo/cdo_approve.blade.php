@@ -1,4 +1,4 @@
-@if(isset($cdo[1]) and count($cdo[1]) >0)
+@if(isset($cdo['approve']) and count($cdo['approve']) >0)
     <div class="table-responsive" style="margin-top: -20px;">
         <label style="padding-bottom: 10px;">Check to select all to disapprove </label>
         <input type="checkbox" id="click_disapprove">
@@ -9,7 +9,7 @@
                 <th></th>
                 <th class="text-center">Route #</th>
                 <th class="text-center">Prepared Date</th>
-                @if(\Illuminate\Support\Facades\Auth::user()->usertype)
+                @if(Auth::user()->usertype)
                     <th class="text-center">Prepared Name</th>
                 @else
                     <th class="text-center">Document Type</th>
@@ -21,12 +21,12 @@
             </tr>
             </thead>
             <tbody style="font-size: 10pt;">
-            @foreach($cdo[1] as $row)
+            @foreach($cdo['approve'] as $row)
                 <tr>
                     <td><a href="#track" data-link="{{ asset('form/track/'.$row->route_no) }}" data-route="{{ $row->route_no }}" data-toggle="modal" class="btn btn-sm btn-success col-sm-12" style="background-color:darkmagenta;color:white;"><i class="fa fa-line-chart"></i> Track</a></td>
                     <td><a class="title-info" data-backdrop="static" data-route="{{ $row->route_no }}" style="color: #f0ad4e;" data-link="{{ asset('/form/info/'.$row->route_no.'/cdo') }}" href="#document_info" data-toggle="modal">{{ $row->route_no }}</a></td>
                     <td>{{ date('M d, Y',strtotime($row->prepared_date)) }}<br>{{ date('h:i:s A',strtotime($row->prepared_date)) }}</td>
-                    @if(\Illuminate\Support\Facades\Auth::user()->usertype)
+                    @if(Auth::user()->usertype)
                         <td>{{ pdoController::user_search1($row['prepared_name'])['fname'].' '.pdoController::user_search1($row['prepared_name'])['mname'].' '.pdoController::user_search1($row['prepared_name'])['lname'] }}</td>
                     @else
                         <td>CTO</td>
@@ -40,9 +40,9 @@
             </tbody>
         </table>
     </div>
-    {{ $cdo[1]->links() }}
+    {{ $cdo['approve']->links() }}
 @else
-    <div class="alert alert-danger" role="alert"><span style="color:red;">Documents records are empty.</span></div>
+    <div class="alert alert-danger" role="alert" style="color: red"><span style="color:red;">Documents records are empty.</span></div>
 @endif
 
 <script>

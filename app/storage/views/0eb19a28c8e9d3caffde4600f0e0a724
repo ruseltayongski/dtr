@@ -1,7 +1,7 @@
 <html lang="en">
 <title>CTO</title>
 <head>
-    <link href="{{ asset('public/assets/css/print.css') }}" rel="stylesheet">
+    <link href="<?php echo asset('public/assets/css/print.css'); ?>" rel="stylesheet">
     <style>
         html {
             margin-top: 0px;
@@ -72,14 +72,14 @@
     </style>
 </head>
 <body>
-@for($i=0;$i<2;$i++)
+<?php for($i=0;$i<2;$i++): ?>
     <div class="new-times-roman" style="margin-top:<?php if($i == 1) echo '3.5%'; else echo '0%'; ?>">
-        @if($i == 1)
+        <?php if($i == 1): ?>
             <hr>
-        @endif
+        <?php endif; ?>
         <table class="letter-head" cellpadding="0" cellspacing="0">
             <tr>
-                <td id="border" class="align"><img src="{{ asset('public/img/doh.png') }}" width="100"></td>
+                <td id="border" class="align"><img src="<?php echo asset('public/img/doh.png'); ?>" width="100"></td>
                 <td width="90%" id="border">
                     <div class="align small-text" style="margin-top:-10px;font-size: 10pt">
                         Republic of the Philippines<br>
@@ -90,18 +90,18 @@
                         <strong>APPLICATION FOR COMPENSATORY TIME OFF</strong>
                     </div>
                 </td>
-                <td id="border" class="align"><img src="{{ asset('public/img/ro7.png') }}" width="100"></td>
+                <td id="border" class="align"><img src="<?php echo asset('public/img/ro7.png'); ?>" width="100"></td>
             </tr>
         </table>
         <hr>
         <table width="100%">
             <tr>
                 <td id="border" width="7%">Section:</td>
-                <td id="border"><u>{{ $data['section'] }}</u></td>
+                <td id="border"><u><?php echo $data['section']; ?></u></td>
                 <td id="border" width="7%">Cluster:</td>
-                <td id="border"><u>{{ $data['division'] }}</u></td>
+                <td id="border"><u><?php echo $data['division']; ?></u></td>
                 <td id="border" width="10%">Prepared Date:</td>
-                <td id="border"><u>{{ date('M d, Y',strtotime($data['cdo']['prepared_date'])) }}<br>{{ date('h:i:s A',strtotime($data['cdo']['prepared_date'])) }}</u></td>
+                <td id="border"><u><?php echo date('M d, Y',strtotime($data['cdo']['prepared_date'])); ?><br><?php echo date('h:i:s A',strtotime($data['cdo']['prepared_date'])); ?></u></td>
             </tr>
         </table>
         <table width="100%">
@@ -113,19 +113,19 @@
                             <td><b>Position</b></td>
                         </tr>
                         <tr>
-                            <td>{{ $data['name'] }}</td>
-                            <td>{{ $data['position'] }}</td>
+                            <td><?php echo $data['name']; ?></td>
+                            <td><?php echo $data['position']; ?></td>
                         </tr>
                     </table>
                 </td>
                 <td id="border">
                     <table class="letter-head" cellpadding="0" cellspacing="0">
                         <tr>
-                            <td id="border" colspan="2">NUMBER OF WORKING DAY/S APPLIED FOR: <u>{{ $data['cdo']['working_days'] }} Days</u></td>
+                            <td id="border" colspan="2">NUMBER OF WORKING DAY/S APPLIED FOR: <u><?php echo $data['cdo']['working_days']; ?> Days</u></td>
                         </tr>
                         <tr>
                             <td id="border" width="30%">Inclusive Dates:</td>
-                            <td id="border"><u>{{ date('M d, Y',strtotime($data['cdo']['start'])).' to '.date('M d, Y',strtotime('-1 day',strtotime($data['cdo']['end']))) }}</u></td>
+                            <td id="border"><u><?php echo date('M d, Y',strtotime($data['cdo']['start'])).' to '.date('M d, Y',strtotime('-1 day',strtotime($data['cdo']['end']))); ?></u></td>
                         </tr>
                     </table>
                 </td>
@@ -144,9 +144,9 @@
                             <td><b>Remaining Balance</b></td>
                         </tr>
                         <tr>
-                            <td>@if($data['cdo']['beginning_balance'] != null) {{ $data['cdo']['beginning_balance'] }} @else.@endif</td>
-                            <td>@if($data['cdo']['less_applied_for'] != null) {{ $data['cdo']['less_applied_for'] }} @else.@endif</td>
-                            <td>@if($data['cdo']['remaining_balance'] != null) {{ $data['cdo']['remaining_balance'] }} @else.@endif</td>
+                            <td><?php if($data['cdo']['beginning_balance'] != null): ?> <?php echo $data['cdo']['beginning_balance']; ?> <?php else: ?>.<?php endif; ?></td>
+                            <td><?php if($data['cdo']['less_applied_for'] != null): ?> <?php echo $data['cdo']['less_applied_for']; ?> <?php else: ?>.<?php endif; ?></td>
+                            <td><?php if($data['cdo']['remaining_balance'] != null): ?> <?php echo $data['cdo']['remaining_balance']; ?> <?php else: ?>.<?php endif; ?></td>
                         </tr>
                     </table>
                 </td>
@@ -156,7 +156,7 @@
                             <td colspan="2" id="border">RECOMENDATION:</td>
                         </tr>
                         <tr>
-                            <td class="align-right" id="border">@if($data['cdo']['approved_status'] == 1)<div style="font-family: DejaVu Sans, sans-serif;font-size: 14pt">[✔]</div>@else[&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;]@endif</td>
+                            <td class="align-right" id="border"><?php if($data['cdo']['approved_status'] == 1): ?><div style="font-family: DejaVu Sans, sans-serif;font-size: 14pt">[✔]</div><?php else: ?>[&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;]<?php endif; ?></td>
                             <td id="border">Approval</td>
                         </tr>
                         <tr>
@@ -178,9 +178,9 @@
                 </td>
                 <td class="align">
                     <table width="100%">
-                        <tr><td class="align"><u>&nbsp;&nbsp;{{ $data['section_head']['fname'].' '.$data['section_head']['mname'].' '.$data['section_head']['lname'] }}&nbsp;&nbsp;</u></td></tr>
+                        <tr><td class="align"><u>&nbsp;&nbsp;<?php echo $data['section_head']['fname'].' '.$data['section_head']['mname'].' '.$data['section_head']['lname']; ?>&nbsp;&nbsp;</u></td></tr>
                         <tr><td class="align">Immediate Supervisor</td></tr>
-                        <tr><td class="align"><br><u>&nbsp;&nbsp;{{ $data['division_head']['fname'].' '.$data['division_head']['mname'].' '.$data['division_head']['lname'] }}&nbsp;&nbsp;</u></td></tr>
+                        <tr><td class="align"><br><u>&nbsp;&nbsp;<?php echo $data['division_head']['fname'].' '.$data['division_head']['mname'].' '.$data['division_head']['lname']; ?>&nbsp;&nbsp;</u></td></tr>
                         <tr><td class="align">Division/Cluster Chief</td></tr>
                     </table>
                 </td>
@@ -189,9 +189,9 @@
         <hr>
         <div style="position:absolute; left: 30%;" class="align">
             <?php echo DNS1D::getBarcodeHTML(Session::get('route_no'),"C39E",1,28) ?>
-            <font class="route_no">{{ Session::get('route_no') }}</font>
+            <font class="route_no"><?php echo Session::get('route_no'); ?></font>
         </div>
     </div>
-@endfor
+<?php endfor; ?>
 </body>
 </html>

@@ -1,5 +1,5 @@
 <span id="cdo_updatev1" data-link="{{ asset('cdo_updatev1') }}"></span>
-@if(isset($cdo[2]) and count($cdo[2]) >0)
+@if(isset($cdo['all']) and count($cdo['all']) >0)
     <div class="table-responsive">
         <table class="table table-list table-hover table-striped">
             <thead>
@@ -17,7 +17,7 @@
             </tr>
             </thead>
             <tbody style="font-size: 10pt;">
-            @foreach($cdo[2] as $row)
+            @foreach($cdo['all'] as $row)
                 <tr>
                     <td><a href="#track" data-link="{{ asset('form/track/'.$row->route_no) }}" data-route="{{ $row->route_no }}" data-toggle="modal" class="btn btn-sm btn-success col-sm-12" style="background-color:darkmagenta;color:white;"><i class="fa fa-line-chart"></i> Track</a></td>
                     <td><a class="title-info" data-backdrop="static" data-route="{{ $row->route_no }}" data-link="{{ asset('/form/info/'.$row->route_no.'/cdo') }}" href="#document_info" data-toggle="modal" style="color: #f0ad4e;">{{ $row->route_no }}</a></td>
@@ -38,9 +38,9 @@
             </tbody>
         </table>
     </div>
-    {{ $cdo[2]->links() }}
+    {{ $cdo['all']->links() }}
 @else
-    <div class="alert alert-danger" role="alert">Documents records are empty.</div>
+    <div class="alert alert-danger" role="alert"><span style="color:red;">Documents records are empty.</span></div>
 @endif
 
 <script>

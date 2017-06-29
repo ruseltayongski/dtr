@@ -1,4 +1,4 @@
-@if(isset($cdo[0]) and count($cdo[0]) >0)
+@if(isset($cdo['disapprove']) and count($cdo['disapprove']) >0)
     <div class="table-responsive" style="margin-top: -20px;">
         <label style="padding-bottom: 10px;">Check to select all to approve </label>
         <input type="checkbox" id="click_approve">
@@ -19,7 +19,7 @@
             </tr>
             </thead>
             <tbody style="font-size: 10pt;">
-            @foreach($cdo[0] as $row)
+            @foreach($cdo['disapprove'] as $row)
                 <tr>
                     <td><a href="#track" data-link="{{ asset('form/track/'.$row->route_no) }}" data-route="{{ $row->route_no }}" data-toggle="modal" class="btn btn-sm btn-success col-sm-12" style="background-color:darkmagenta;color:white;"><i class="fa fa-line-chart"></i> Track</a></td>
                     <td><a class="title-info" data-backdrop="static" data-route="{{ $row->route_no }}" style="color: #f0ad4e;" data-link="{{ asset('/form/info/'.$row->route_no.'/cdo') }}" href="#document_info" data-toggle="modal">{{ $row->route_no }}</a></td>
@@ -36,7 +36,7 @@
             </tbody>
         </table>
     </div>
-    {{ $cdo[0]->links() }}
+    {{ $cdo['disapprove']->links() }}
 @else
     <div class="alert alert-danger" role="alert"><span style="color:red;">Documents records are empty.</span></div>
 @endif
@@ -110,8 +110,8 @@
                         msg:'Disapprove!'
                     });
                     $('.ajax_approve').html(result['view']);
-                    $(".disapprove").html(result[0]);
-                    $(".approve").html(result[1]);
+                    $(".disapprove").html(result['disapprove']);
+                    $(".approve").html(result['approve']);
                 },700);
             }
             else if(type.val() == 'approve'){
@@ -121,8 +121,8 @@
                         msg:'Approve!'
                     });
                     $('.ajax_disapprove').html(result['view']);
-                    $(".disapprove").html(result[0]);
-                    $(".approve").html(result[1]);
+                    $(".disapprove").html(result['disapprove']);
+                    $(".approve").html(result['approve']);
                 },700);
             }
         });
