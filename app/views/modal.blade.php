@@ -85,7 +85,7 @@
             </div>
             <div class="modal-body">
                 <div class="alert alert-danger">
-                    <strong>Are you sure you want to delete this office order?</strong>
+                    <span style="color:indianred">Are you sure you want to delete this {{ $doc_type }}?</span>
                 </div>
             </div>
             <div class="modal-footer">

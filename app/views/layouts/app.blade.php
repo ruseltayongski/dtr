@@ -48,6 +48,8 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('public/plugin/datatables/datatables.min.css') }}" />
     <script src="{{ asset('public/plugin/datatables/datatables.min.js') }}"></script>
     @endif
+    <!-- iCheck -->
+    <link rel="stylesheet" href="{{ asset('public/plugin/iCheck/square/blue.css') }}">
     <!-- SELECT 2 -->
     <link rel="stylesheet" type="text/css" href="{{ asset('public/plugin/select2/select2.min.css') }}" />
     @if(isset(Request::segments()[1]))
@@ -158,6 +160,9 @@
 
 <script src="{{ asset('public/plugin/fullcalendar/moment.js') }}"></script>
 <script src="{{ asset('public/plugin/fullcalendar/fullcalendar.min.js') }}"></script>
+
+<!-- iCheck -->
+<script src="{{ asset('public/plugin/iCheck/icheck.min.js') }}"></script>
 
 
 @section('js')

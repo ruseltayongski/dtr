@@ -9,39 +9,38 @@ class cdoController extends BaseController
 
     public function cdo_list(){
         Session::put('keyword',Input::get('keyword'));
-        Session::put('page_all',null);
         $keyword = Session::get('keyword');
         if(Auth::user()->usertype){
-            $cdo_display[0] = cdo::where('approved_status',0)
+            $cdo_count[0] = cdo::where('approved_status',0)
                 ->where(function($q) use ($keyword){
                     $q->where("route_no","like","%$keyword%")
                         ->orWhere("subject","like","%$keyword%");
                 })->get();
-            $cdo_display[1] = cdo::where('approved_status',1)
+            $cdo_count[1] = cdo::where('approved_status',1)
                 ->where(function($q) use ($keyword){
                     $q->where("route_no","like","%$keyword%")
                         ->orWhere("subject","like","%$keyword%");
                 })->get();
-            $cdo_display[2] = cdo::where(function($q) use ($keyword){
+            $cdo_count[2] = cdo::where(function($q) use ($keyword){
                 $q->where("route_no","like","%$keyword%")
                     ->orWhere("subject","like","%$keyword%");
                 })->get();
 
-            $cdo[0] = cdo::where('approved_status',0)
+            $cdo['disapprove'] = cdo::where('approved_status',0)
                 ->where(function($q) use ($keyword){
                     $q->where("route_no","like","%$keyword%")
                         ->orWhere("subject","like","%$keyword%");
                 })
                 ->orderBy('id','desc')
                 ->paginate(2);
-            $cdo[1] = cdo::where('approved_status',1)
+            $cdo['approve'] = cdo::where('approved_status',1)
                 ->where(function($q) use ($keyword){
                     $q->where("route_no","like","%$keyword%")
                         ->orWhere("subject","like","%$keyword%");
                 })
                 ->orderBy('id','desc')
                 ->paginate(2);
-            $cdo[2] = cdo::where(function($q) use ($keyword){
+            $cdo['all'] = cdo::where(function($q) use ($keyword){
                 $q->where("route_no","like","%$keyword%")
                     ->orWhere("subject","like","%$keyword%");
             })
@@ -49,14 +48,14 @@ class cdoController extends BaseController
                 ->paginate(2);
             $type = "pending";
         } else {
-            $cdo[1] = cdo::where('prepared_name',pdoController::user_search(Auth::user()->userid)['id'])
+            $cdo['my_cdo'] = cdo::where('prepared_name',pdoController::user_search(Auth::user()->userid)['id'])
                 ->where(function($q) use ($keyword){
                     $q->where("route_no","like","%$keyword%")
                         ->orWhere("subject","like","%$keyword%");
                 })
                 ->orderBy('id','desc')
                 ->paginate(2);
-            $type = "list";
+            return View::make('cdo.cdo_list',["cdo" => $cdo]);
         }
 
         if (Request::ajax()) {
@@ -72,27 +71,41 @@ class cdoController extends BaseController
                 $view = 'cdo.cdo_all';
                 Session::put('page_all',Input::get('page'));
             }
-            return Response::json(View::make($view, ["cdo" => $cdo,"type" => $type,"cdo_display" => $cdo_display])->render());
+            return Response::json(array(
+                count($cdo_count[0]),
+                count($cdo_count[1]),
+                count($cdo_count[2]),
+                "view" => View::make($view, ["cdo" => $cdo])->render()
+            ));
         }
-        return View::make('cdo.cdo_list',["cdo" => $cdo,"type" => $type,"cdo_display" => $cdo_display]);
+        if(Auth::user()->usertype){
+            return View::make('cdo.cdo_list',["cdo" => $cdo,"type" => $type,"cdo_count" => $cdo_count]);
+        }
     }
 
     public function cdov1($pdf = null){
         $cdo = cdo::where('route_no',Session::get('route_no'))->first();
-        if($pdf == 'pdf')
+        if($pdf == 'pdf') {
             $name = pdoController::user_search1($cdo->prepared_name);
-        else
+        }
+        else {
             $name = pdoController::user_search(Auth::user()->userid);
-
+        }
         $position = pdoController::designation_search($name['designation'])['description'];
         $section = pdoController::search_section($name['section'])['description'];
         $division = pdoController::search_division($name['division'])['description'];
-        foreach(pdoController::section() as $row){
-            $section_head[] = pdoController::user_search1($row['head']);
+        if($pdf == 'pdf'){
+            $section_head = pdoController::user_search1($cdo['immediate_supervisor']);
+            $division_head = pdoController::user_search1($cdo['division_chief']);
+        } else{
+            foreach(pdoController::section() as $row){
+                $section_head[] = pdoController::user_search1($row['head']);
+            }
+            foreach(pdoController::division() as $row){
+                $division_head[] = pdoController::user_search1($row['head']);
+            }
         }
-        foreach(pdoController::division() as $row){
-            $division_head[] = pdoController::user_search1($row['head']);
-        }
+
         $data = array(
             "cdo" => $cdo,
             "type" => "add",
@@ -132,7 +145,7 @@ class cdoController extends BaseController
         date_add($enddate, date_interval_create_from_date_string('1days'));
         $end_date = date_format($enddate, 'Y-m-d');
         $subject = Input::get('subject');
-        $working_days = floor(strtotime($end_date) / (60 * 60 * 24)) - floor(strtotime($start_date) / (60 * 60 * 24)) - 1;
+        $working_days = floor(strtotime($end_date) / (60 * 60 * 24)) - floor(strtotime($start_date) / (60 * 60 * 24));
 
         //ADD CDO
         $cdo = new cdo();
@@ -164,24 +177,88 @@ class cdoController extends BaseController
         return Redirect::to('form/cdo_list');
     }
 
+    public function click_all($type=null){
+        if($type == 'approve') {
+            $view = 'cdo.cdo_approve';
+            $status = 0;
+            $update = 1;
+            $cdo['approve'] = cdo::where("approved_status",$status)->update(["approved_status" => $update]);
+        }
+        elseif($type == 'disapprove') {
+            $view = 'cdo.cdo_disapprove';
+            $status = 1;
+            $update = 0;
+
+            $cdo['disapprove'] = cdo::where("approved_status",$status)->update(["approved_status" => $update]);
+        }
+        $cdo_count['disapprove'] = cdo::where('approved_status',0)->get();
+        $cdo_count['approve'] = cdo::where('approved_status',1)->get();
+        /*if($type == "approve"){
+            foreach($cdo_count['approve'] as $row){
+                $this->dtr_file($row['start_date'],$row['end_date'],$row['prepared_name']);
+            }
+        }*/
+        return Response::json(array(
+                "disapprove" => count($cdo_count['disapprove']),
+                "approve" => count($cdo_count['approve']),
+                "view" => View::make($view,["cdo" => $cdo])->render()
+        ));
+    }
+
+    public function dtr_file($start_date,$end_date,$prepared_name){
+        $dtr_enddate  = date('Y-m-d',(strtotime ( '-1 day' , strtotime ($end_date))));
+
+        $f = new DateTime($start_date.' '. '00:00:00');
+        $t = new DateTime($dtr_enddate.' '. '00:00:00');
+
+        $interval = $f->diff($t);
+
+        $datein = '';
+        $f_from = explode('-',$start_date);
+        $startday = $f_from[2];
+        $j = 0;
+        while($j <= $interval->days) {
+
+            $time = array('08:00:00','12:00:00','13:00:00','18:00:00');
+            $datein = $f_from[0].'-'.$f_from[1] .'-'. $startday;
+
+            for($i = 0; $i < count($time); $i++):
+                $details = new DtrDetails();
+                $details->userid = pdoController::user_search1($prepared_name)['username'];
+                $details->datein = $datein;
+                $details->time = $time[$i];
+                $details->event = 'IN';
+                $details->remark = 'CTO';
+                $details->edited = '1';
+                $details->holiday = '002';
+
+                $details->save();
+            endfor;
+
+            $startday = $startday + 1;
+            $j++;
+        }
+    }
+
     public function cdo_updatev1($id = null,$type = null){
         if($id){
             $cdo = cdo::where('id',$id)->first();
+            //delete dtr file
+            DtrDetails::where('holiday','=', '002')
+                ->whereBetween('datein',array($cdo->start,$cdo->end))
+                ->delete();
             if($cdo->approved_status){
                 $cdo->approved_status = 0;
             } else {
                 $cdo->approved_status = 1;
+                $this->dtr_file($cdo->start,$cdo->end,$cdo->prepared_name);
             }
             $cdo->save();
             $keyword = '';
 
-            Session::put('cdo_display','tayong');
-            $cdo_display = cdo::where('approved_status',1)
-                ->where(function($q) use ($keyword){
-                    $q->where("route_no","like","%$keyword%")
-                        ->orWhere("subject","like","%$keyword%");
-                })->get();
-            Session::put('cdo_display',$cdo_display);
+            $cdo_count[0] = cdo::where('approved_status',0)->get();
+            $cdo_count[1] = cdo::where('approved_status',1)->get();
+            $cdo_count[2] = cdo::all();
 
             $cdo[0] = cdo::where('approved_status',0)
                 ->where(function($q) use ($keyword){
@@ -214,7 +291,13 @@ class cdoController extends BaseController
                 elseif($type == 'all') {
                     $view = 'cdo.cdo_all';
                 }
-                return Response::json(View::make($view, ["cdo" => $cdo,"type" => $type])->render());
+                return Response::json(array(
+                    "count_disapprove" => count($cdo_count[0]),
+                    "count_approve" => count($cdo_count[1]),
+                    "paginate_disapprove" => count($cdo[0]),
+                    "paginate_approve" => count($cdo[1]),
+                    "view" => View::make($view,["cdo" => $cdo,"type" => $type])->render()
+                ));
             }
         } else {
             $route_no = Session::get('route_no');
@@ -330,7 +413,7 @@ class cdoController extends BaseController
         if(Auth::user()->usertype)
             $id = 'HRIS-ADMIN';
         else
-            $id = pdoController::user_search(Auth::user()->userid)['id'].'tayong';
+            $id = pdoController::user_search(Auth::user()->userid)['id'];
 
         $route_no = Session::get('route_no');
 

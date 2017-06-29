@@ -149,17 +149,41 @@
                                         <div class="panel-body">
                                             <div class="row">
                                                 <div class="col-md-12">
-                                                    @if($type == "list")
-                                                        <a href="#document_form" data-link="{{ asset('form/cdov1/form') }}" class="btn btn-success" data-dismiss="modal" data-backdrop="static" data-toggle="modal" data-target="#document_form" style="background-color:darkmagenta;color: white;"><i class="fa fa-plus"></i> Create new</a>
-                                                    @endif
+                                                    <a href="#document_form" data-link="{{ asset('form/cdov1/form') }}" class="btn btn-success" data-dismiss="modal" data-backdrop="static" data-toggle="modal" data-target="#document_form" style="background-color:darkmagenta;color: white;"><i class="fa fa-plus"></i> Create new</a>
                                                 </div>
                                             </div>
                                             <br />
                                             <div class="row">
                                                 <div class="col-md-12">
-                                                    <div class="ajax_approve">
-                                                        @include('cdo.cdo_approve')
-                                                    </div>
+                                                    @if(isset($cdo['my_cdo']) and count($cdo['my_cdo']) >0)
+                                                        <div class="table-responsive">
+                                                            <table class="table table-list table-hover table-striped">
+                                                                <thead>
+                                                                <tr>
+                                                                    <th></th>
+                                                                    <th class="text-center">Route #</th>
+                                                                    <th class="text-center">Prepared Date</th>
+                                                                    <th class="text-center">Document Type</th>
+                                                                    <th class="text-center">Subject</th>
+                                                                </tr>
+                                                                </thead>
+                                                                <tbody style="font-size: 10pt;">
+                                                                @foreach($cdo["my_cdo"] as $row)
+                                                                    <tr>
+                                                                        <td><a href="#track" data-link="{{ asset('form/track/'.$row->route_no) }}" data-route="{{ $row->route_no }}" data-toggle="modal" class="btn btn-sm btn-success col-sm-12" style="background-color:darkmagenta;color:white;"><i class="fa fa-line-chart"></i> Track</a></td>
+                                                                        <td><a class="title-info" data-backdrop="static" data-route="{{ $row->route_no }}" style="color: #f0ad4e;" data-link="{{ asset('/form/info/'.$row->route_no.'/cdo') }}" href="#document_info" data-toggle="modal">{{ $row->route_no }}</a></td>
+                                                                        <td>{{ date('M d, Y',strtotime($row->prepared_date)) }}<br>{{ date('h:i:s A',strtotime($row->prepared_date)) }}</td>
+                                                                        <td>CTO</td>
+                                                                        <td>{{ $row->subject }}</td>
+                                                                    </tr>
+                                                                @endforeach
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                        {{ $cdo['my_cdo']->links() }}
+                                                    @else
+                                                        <div class="alert alert-danger" role="alert" style="color: red"><span style="color:red;">Documents records are empty.</span></div>
+                                                    @endif
                                                 </div>
                                             </div>
                                         </div>
@@ -225,28 +249,32 @@
             ?>
         });
 
+        <?php if(Auth::user()->usertype): ?>
         //default type
         var type = 'all';
-        $(".disapprove").text(<?php echo count($cdo_display[0])?>);
-        $(".approve").text(<?php echo count($cdo_display[1])?>);
-        $(".all").text(<?php echo count($cdo_display[2])?>);
+        $(".disapprove").text(<?php echo count($cdo_count[0])?>);
+        $(".approve").text(<?php echo count($cdo_count[1])?>);
+        $(".all").text(<?php echo count($cdo_count[2])?>);
         $("a[href='#approve']").on("click",function(){
+            $('.ajax_approve').html(loadingState);
             type = 'approve';
             getPosts(1);
             <?php Session::put('keyword',null); ?>
         });
         $("a[href='#disapprove']").on("click",function(){
+            $('.ajax_disapprove').html(loadingState);
             type = 'disapprove';
             getPosts(1);
             <?php Session::put('keyword',null); ?>
         });
         $("a[href='#all']").on("click",function(){
+            $('.ajax_all').html(loadingState);
             type = 'all';
+            console.log(<?php echo Session::get('page_all'); ?>);
             getPosts(1);
             <?php Session::put('keyword',null); ?>
         });
 
-        <?php if(Auth::user()->usertype): ?>
         $(window).on('hashchange', function() {
             if (window.location.hash) {
                 var page = window.location.hash.replace('#', '');
@@ -268,20 +296,31 @@
             $.ajax({
                 url : '?type='+type+'&page=' + page,
                 dataType: 'json',
-            }).done(function (data) {
+            }).done(function (result) {
                 if(type == 'approve'){
-                    $('.ajax_approve').html(data);
+                    $('.ajax_approve').html(loadingState);
+                    setTimeout(function(){
+                        $('.ajax_approve').html(result['view']);
+                    },700);
                 }
                 else if(type == 'disapprove'){
-                    $('.ajax_disapprove').html(data);
+                    $('.ajax_disapprove').html(loadingState);
+                    setTimeout(function(){
+                        $('.ajax_disapprove').html(result['view']);
+                    },700);
                 }
                 else if(type == 'all'){
-                    $('.ajax_all').html(data);
+                    $('.ajax_all').html(loadingState);
+                    setTimeout(function(){
+                        $('.ajax_all').html(result['view']);
+                    },700);
                 }
                 location.hash = page;
             }).fail(function (data) {
                 console.log(data.responseText);
                 alert('Page could not be loaded... refresh your page.');
+                var redirect_url = "<?php echo asset('/'); ?>";
+                //window.location.href = redirect_url;
             });
         }
         <?php endif; ?>

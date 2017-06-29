@@ -1,5 +1,8 @@
-@if(isset($cdo[0]) and count($cdo[0]) >0)
-    <div class="table-responsive">
+@if(isset($cdo['disapprove']) and count($cdo['disapprove']) >0)
+    <div class="table-responsive" style="margin-top: -20px;">
+        <label style="padding-bottom: 10px;">Check to select all to approve </label>
+        <input type="checkbox" id="click_approve">
+        <label class="button" style="font-weight: normal !important;"></label>
         <table class="table table-list table-hover table-striped">
             <thead>
             <tr>
@@ -12,11 +15,11 @@
                     <th class="text-center">Document Type</th>
                 @endif
                 <th class="text-center">Subject</th>
-                <th class="text-center">Option</th>
+                <th class="text-center" width="17%">Option</th>
             </tr>
             </thead>
             <tbody style="font-size: 10pt;">
-            @foreach($cdo[0] as $row)
+            @foreach($cdo['disapprove'] as $row)
                 <tr>
                     <td><a href="#track" data-link="{{ asset('form/track/'.$row->route_no) }}" data-route="{{ $row->route_no }}" data-toggle="modal" class="btn btn-sm btn-success col-sm-12" style="background-color:darkmagenta;color:white;"><i class="fa fa-line-chart"></i> Track</a></td>
                     <td><a class="title-info" data-backdrop="static" data-route="{{ $row->route_no }}" style="color: #f0ad4e;" data-link="{{ asset('/form/info/'.$row->route_no.'/cdo') }}" href="#document_info" data-toggle="modal">{{ $row->route_no }}</a></td>
@@ -27,13 +30,13 @@
                         <td>CTO</td>
                     @endif
                     <td>{{ $row->subject }}</td>
-                    <td><button type="submit" class="btn btn-info" style="color:white;"><i class="fa fa-check-square"></i> Click to approve</button></td>
+                    <td><button type="submit" class="btn-xs btn-info" value="{{ $row->id }}" onclick="disapproved_status($(this))" style="color:white;"><i class="fa fa-smile-o"></i> Approve</button></td>
                 </tr>
             @endforeach
             </tbody>
         </table>
     </div>
-    {{ $cdo[0]->links() }}
+    {{ $cdo['disapprove']->links() }}
 @else
     <div class="alert alert-danger" role="alert"><span style="color:red;">Documents records are empty.</span></div>
 @endif
@@ -75,5 +78,68 @@
                 }
             });
         },1000);
+    });
+
+    function disapproved_status(data){
+        var page = "<?php echo Session::get('page_disapprove') ?>";
+        var url = $("#cdo_updatev1").data('link')+'/'+data.val()+'/disapprove?page='+page;
+        $.post(url,function(result){
+            $('.ajax_disapprove').html(loadingState);
+            setTimeout(function(){
+                if(result['count_disapprove'] && !result['paginate_disapprove']){
+                    getPosts(page-1);
+                } else {
+                    $('.ajax_disapprove').html(result['view']);
+                }
+                Lobibox.notify('info',{
+                    msg:'Approve!'
+                });
+                $(".disapprove").html(result["count_disapprove"]);
+                $(".approve").html(result["count_approve"]);
+            },700);
+        });
+    }
+
+    function click_all(type){
+        var url = "<?php echo asset('click_all');?>"+"/"+type.val();
+        $.get(url,function(result){
+            if(type.val() == 'disapprove'){
+                $('.ajax_approve').html(loadingState);
+                setTimeout(function(){
+                    Lobibox.notify('error',{
+                        msg:'Disapprove!'
+                    });
+                    $('.ajax_approve').html(result['view']);
+                    $(".disapprove").html(result['disapprove']);
+                    $(".approve").html(result['approve']);
+                },700);
+            }
+            else if(type.val() == 'approve'){
+                $('.ajax_disapprove').html(loadingState);
+                setTimeout(function(){
+                    Lobibox.notify('info',{
+                        msg:'Approve!'
+                    });
+                    $('.ajax_disapprove').html(result['view']);
+                    $(".disapprove").html(result['disapprove']);
+                    $(".approve").html(result['approve']);
+                },700);
+            }
+        });
+    }
+
+    $(function () {
+        $('input').iCheck({
+            checkboxClass: 'icheckbox_square-blue',
+            radioClass: 'iradio_square-blue',
+            increaseArea: '20%' // optional
+        });
+    });
+
+    $('#click_approve').on('ifChecked', function(event){
+        $(".button").html("<button type='button' value='approve' onclick='click_all($(this))' class='btn-group-sm btn-info'><i class='fa fa-smile-o'></i> Approve all cdo/cto</button>");
+    });
+    $('#click_approve').on('ifUnchecked', function(event){
+        $(".button").html("");
     });
 </script>

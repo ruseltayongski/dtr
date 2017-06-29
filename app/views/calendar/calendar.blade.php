@@ -1,7 +1,4 @@
-
 @extends('layouts.app')
-
-
 @section('content')
     <span id="calendar_holiday" data-link=" {{ asset('calendar_holiday') }} "></span>
     <span id="calendar_id" data-link="{{ asset('calendar_id') }}"></span>
@@ -127,6 +124,7 @@
                     editable: true,
                     eventResize: function(event)
                     {
+                        <?php if(Auth::user()->usertype): ?>
                         var url = $('#calendar_update').data('link');
                         var object = {
                             'type' : 'resize',
@@ -138,10 +136,13 @@
                                 msg:'Successfully Holiday Resized!'
                             });
                         });
+                        <?php else: ?>
+                        event.resizable = false;
+                        <?php endif; ?>
                     },
                     eventRender: function(event, element) {
                         element.append( "<span class='remove_event' style='color: red'><i class='fa fa-remove'></i></span>" );
-                        <?php if(Auth::user()->usertype == '1'): ?>
+                        <?php if(Auth::user()->usertype): ?>
                         element.find(".remove_event").click(function() {
                             Lobibox.confirm({
                                 msg: "Are you sure you want to delete this holiday?",
@@ -165,6 +166,8 @@
                                 }
                             });
                         });
+                        <?php else: ?>
+                        event.editable = false;
                         <?php endif; ?>
                     },
                     eventDrop: function(event,jsEvent) {

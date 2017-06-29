@@ -1,5 +1,5 @@
 <span id="cdo_updatev1" data-link="{{ asset('cdo_updatev1') }}"></span>
-@if(isset($cdo[2]) and count($cdo[2]) >0)
+@if(isset($cdo['all']) and count($cdo['all']) >0)
     <div class="table-responsive">
         <table class="table table-list table-hover table-striped">
             <thead>
@@ -13,11 +13,11 @@
                     <th class="text-center">Document Type</th>
                 @endif
                 <th class="text-center">Subject</th>
-                <th class="text-center">Option</th>
+                <th class="text-center" width="17%">Option</th>
             </tr>
             </thead>
             <tbody style="font-size: 10pt;">
-            @foreach($cdo[2] as $row)
+            @foreach($cdo['all'] as $row)
                 <tr>
                     <td><a href="#track" data-link="{{ asset('form/track/'.$row->route_no) }}" data-route="{{ $row->route_no }}" data-toggle="modal" class="btn btn-sm btn-success col-sm-12" style="background-color:darkmagenta;color:white;"><i class="fa fa-line-chart"></i> Track</a></td>
                     <td><a class="title-info" data-backdrop="static" data-route="{{ $row->route_no }}" data-link="{{ asset('/form/info/'.$row->route_no.'/cdo') }}" href="#document_info" data-toggle="modal" style="color: #f0ad4e;">{{ $row->route_no }}</a></td>
@@ -29,18 +29,18 @@
                     @endif
                     <td>{{ $row->subject }}</td>
                     @if($row->approved_status == 1)
-                        <td><button type="button" value="{{ $row->id }}" onclick="approved_status($(this))" class="btn btn-danger" style="color:white;"><i class="fa fa-user-times"></i> Click to disapprove</button></td>
+                        <td><button type="button" value="{{ $row->id }}" onclick="all_status($(this))" class="btn-xs btn-danger" style="color:white;"><i class="fa fa-smile-o"></i> Disapprove</button></td>
                     @else
-                        <td><button type="button" value="{{ $row->id }}" onclick="approved_status($(this))" class="btn btn-info" style="color:white;"><i class="fa fa-check-square"></i> Click to approve</button></td>
+                        <td><button type="button" value="{{ $row->id }}" onclick="all_status($(this))" class="btn-xs btn-info" style="color:white;"><i class="fa fa-frown-o"></i> Approve</button></td>
                     @endif
                 </tr>
             @endforeach
             </tbody>
         </table>
     </div>
-    {{ $cdo[2]->links() }}
+    {{ $cdo['all']->links() }}
 @else
-    <div class="alert alert-danger" role="alert">Documents records are empty.</div>
+    <div class="alert alert-danger" role="alert"><span style="color:red;">Documents records are empty.</span></div>
 @endif
 
 <script>
@@ -63,15 +63,16 @@
         },1000);
     });
 
-    function approved_status(data){
+    function all_status(data){
         var page = "<?php echo Session::get('page_all') ?>";
         var url = $("#cdo_updatev1").data('link')+'/'+data.val()+'/all?page='+page;
         $.post(url,function(result){
             Lobibox.notify('success',{
                 msg:''
             });
-            $(".approve").html("<?php echo count(Session::get('cdo_display'))?>");
-            $('.ajax_all').html(result);
+            $('.ajax_all').html(result['view']);
+            $(".disapprove").html(result["count_disapprove"]);
+            $(".approve").html(result["count_approve"]);
         });
     }
     //document information
