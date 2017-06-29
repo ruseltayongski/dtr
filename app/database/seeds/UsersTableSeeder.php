@@ -14,7 +14,7 @@ class UsersTableSeeder extends Seeder
         $user->username = "hr_admin";
         $user->fname = 'DOH HR';
         $user->lname = 'DOH_HR';
-        $user->password = 'hr_admin';
+        $user->password = Hash::make('hr_admin');
         $user->usertype = 1;
         $user->save();
     }

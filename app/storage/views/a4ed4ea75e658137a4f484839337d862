@@ -17,7 +17,7 @@
                 <strong><?php echo Session::get('new_hour'); ?></strong>
             </div>
         <?php endif; ?>
-        <?php if(isset($hours) and count($hours)): ?>
+        <?php if(count($hours)): ?>
 
             <div class="table-responsive">
                 <table class="table table-list table-hover table-striped">
@@ -56,28 +56,6 @@
             </div>
         <?php endif; ?>
     </div>
-
-<?php $__env->stopSection(); ?>
-<?php $__env->startSection('plugin'); ?>
-    <script src="<?php echo asset('resources/plugin/daterangepicker/moment.min.js'); ?>"></script>
-    <script src="<?php echo asset('resources/plugin/daterangepicker/daterangepicker.js'); ?>"></script>
-<?php $__env->stopSection(); ?>
-
-<?php $__env->startSection('css'); ?>
-    <link href="<?php echo asset('resources/plugin/daterangepicker/daterangepicker-bs3.css'); ?>" rel="stylesheet">
-<?php $__env->stopSection(); ?>
-<?php $__env->startSection('js'); ?>
-    @parent
-    <script>
-        var input = $('#input-a');
-        input.clockpicker({
-            autoclose: true,
-            placement : 'top',
-            align : 'left',
-            donetext : 'Ok',
-            'default' : '12:00'
-        });
-    </script>
 <?php $__env->stopSection(); ?>
 
 

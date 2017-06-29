@@ -49,14 +49,6 @@
 
     <span id="data_link" data-link="<?php echo asset('change/work-schedule'); ?>" />
 <?php $__env->stopSection(); ?>
-<?php $__env->startSection('plugin'); ?>
-    <script src="<?php echo asset('resources/plugin/daterangepicker/moment.min.js'); ?>"></script>
-    <script src="<?php echo asset('resources/plugin/daterangepicker/daterangepicker.js'); ?>"></script>
-<?php $__env->stopSection(); ?>
-
-<?php $__env->startSection('css'); ?>
-    <link href="<?php echo asset('resources/plugin/daterangepicker/daterangepicker-bs3.css'); ?>" rel="stylesheet">
-<?php $__env->stopSection(); ?>
 <?php $__env->startSection('js'); ?>
     @parent
    <script>

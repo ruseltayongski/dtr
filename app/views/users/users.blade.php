@@ -7,7 +7,7 @@
         </div>
     @endif
     <div class="alert alert-jim" id="inputText">
-        <h2 class="page-header">Job Order Employees</h2>
+        <h2 class="page-header">Employees</h2>
         <form class="form-inline form-accept" action="{{ asset('/search/user/j') }}" method="GET">
             <div class="form-group">
                 <input type="text" name="search" class="form-control" placeholder="Quick Search" autofocus>
@@ -25,22 +25,27 @@
                         <th class="text-center">User ID</th>
                         <th class="text-center">Name </th>
                         <th class="text-center" with="30%">Work Schedule</th>
-                        <th class="text-center">Designation</th>
+                        <th class="text-center">Option</th>
                     </tr>
                     </thead>
                     <tbody>
                     @foreach($users as $user)
-                        @if($user->emptype == 'JO')
-                            <tr>
-                                <td class="text-center"><a href="#user" data-id="{{ $user->userid }}"  class="title-info">{{ $user->userid }}</a></td>
-                                <td class="text-center"><a href="#user" data-id="{{ $user->id }}" data-link="{{ asset('user/edit') }}" class="text-bold">{{ $user->fname ." ". $user->mname." ".$user->lname }}</a></td>
-                                <td class="text-center">
-                                    <span class="text-bold">{{ $user->description }}</span>
-                                    <button data-id="{{ $user->userid }}" type="button" class="btn btn-info btn-xs change_sched">Change</button>
-                                </td>
-                                <td class="text-center">JOB ORDER EMPLOYEE</td>
-                            </tr>
-                        @endif
+                        <tr>
+                            <td class="text-center"><a href="#user" data-id="{{ $user->userid }}"  class="title-info">{{ $user->userid }}</a></td>
+                            <td class="text-center"><a href="#user" data-id="{{ $user->id }}" data-link="{{ asset('user/edit') }}" class="text-bold">{{ $user->fname ." ". $user->mname." ".$user->lname }}</a></td>
+                            <td class="text-center">
+                                <span class="text-bold">{{ $user->description }}</span>
+                                <button data-id="{{ $user->userid }}" type="button" class="btn btn-info btn-xs change_sched">Change</button>
+                            </td>
+                            <td class="text-center">
+                                <div class="btn-group">
+                                    <a href="#edit"  class="btn btn-sm btn-info user_edit" data-toggle="modal" data-target="#update_user_info" data-link="{{ asset('user/edit') }}" data-id="{{ $user->userid }}">
+                                        <i class="fa fa-pencil"></i>  Update
+                                    </a>
+                                </div>
+                                <button type="button" data-id="{{ $user->userid }}" data-link="{{ asset('user/delete') }}" class="btn btn-danger" id="delete_user" onclick="del_user(this);" ><i class="fa fa-trash"></i> Delete</button>
+                            </td>
+                        </tr>
                     @endforeach
                     </tbody>
                 </table>
@@ -68,21 +73,27 @@
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
 @endsection
-@section('plugin')
-    <script src="{{ asset('resources/plugin/daterangepicker/moment.min.js') }}"></script>
-    <script src="{{ asset('resources/plugin/daterangepicker/daterangepicker.js') }}"></script>
-@endsection
 
-@section('css')
-    <link href="{{ asset('resources/plugin/daterangepicker/daterangepicker-bs3.css') }}" rel="stylesheet">
-@endsection
 @section('js')
     @parent
     <script>
         (function($){
+
             $('.form-accept').submit(function(event){
                 $(this).submit();
             });
+
+            $('.user_edit').click(function() {
+
+                var url = $(this).data('link');
+                var id = $(this).data('id');
+                var data = "id=" + id;
+
+                $.get(url,data,function(data){
+                    $('.user_edit_modal').html(data);
+                });
+            });
+
         })($);
         $('.change_sched').click(function(){
             $('#change_schedule').modal({
@@ -99,7 +110,6 @@
             $.get(url,data, function(res){
                 $('#schedule_modal').html(res);
             });
-
         });
     </script>
 @endsection

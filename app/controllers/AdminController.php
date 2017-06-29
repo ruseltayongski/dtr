@@ -74,14 +74,14 @@ class AdminController extends BaseController
         return View::make('home')->with('users',$users);
     }
 
-    public function list_jo()
+    public function list_all()
     {
         $users = DB::table('users')
                     ->leftJoin('work_sched', function($join){
                         $join->on('users.sched','=','work_sched.id');
                     })
+                    ->where('usertype', '=', '0')
                     ->orderBy('fname', 'ASC')
-                    ->where('emptype','=','JO')
                     ->paginate(20);
 
         return View::make('users.users')->with('users',$users);
@@ -105,7 +105,7 @@ class AdminController extends BaseController
 
             return View::make('users.users')->with('users', $users);
         }
-        return Redirect::to('list/job-order');
+        return Redirect::to('employees');
     }
 
     public function search()
@@ -299,6 +299,24 @@ class AdminController extends BaseController
                 return Redirect::to('index')->with('msg_sched', "Nothing to delete.");
             }
         }
+    }
 
+    public function user_edit()
+    {
+        if(Request::method() == 'GET') {
+            $user = DB::table('users')->where('userid', '=', Input::get('id'))->first();
+            Session::put('edit_user', $user->username);
+            return View::make('users.user_edit')->with('user', $user);
+        }
+        if(Request::method() == 'POST') {
+            $user = Users::where('userid', '=', Session::get('edit_user'))->first();
+            $user->fname = Input::get('fname');
+            $user->lname = Input::get('lname');
+            $user->mname = Input::get('mname');
+            $user->username = Input::get('username');
+            $user->save();
+            Session::forget('edit_user');
+            return Redirect::to('employees');
+        }
     }
 }
