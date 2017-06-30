@@ -21,7 +21,7 @@ class GenerateDTRController extends BaseController
     public function download_dtr($id) {
 
         $dtr = PdfFiles::find($id);
-        if(!$dtr) Return Redirect::to('/');
+        if(!$dtr) return Redirect::to('/');
         $file =  public_path().'/pdf-files/'.$dtr->filename;
         return Response::make(file_get_contents($file), 200, [
             'Content-Type' => 'application/pdf',
