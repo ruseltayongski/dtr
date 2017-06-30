@@ -19,7 +19,7 @@ if(Session::has('lists')){
                             </div>
                             <div class="alert-success alert col-md-6 col-lg-offset-3">
                                 <form action="{{ asset('print-monthly') }}" method="POST" id="filter">
-                                    {{ csrf_field() }}
+                                    <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
                                     <div class="btn-group">
                                         <div class="input-group input-daterange" >
                                             <span class="input-group-addon">From</span>

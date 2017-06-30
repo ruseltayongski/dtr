@@ -12,6 +12,7 @@
                             <div class="panel-heading"><strong style="color: #f0ad4e;font-size:medium;">Print all regular dtr</strong></div>
                             <div class="panel-body">
                                 <form action="{{ asset('FPDF/print_all.php') }}" method="POST" id="all_jo">
+                                    {{ csrf_field() }}
                                     <input type="hidden" name="emptype" value="REG" />
                                     <div class="table-responsive">
                                         <table class="table">
@@ -44,6 +45,7 @@
                         <div class="panel-heading"><strong style="color: #f0ad4e;font-size:medium;">PDF document list</strong></div>
                         <div class="panel-body">
                             <form class="form-inline form-accept" action="{{ asset('search/regular') }}" method="GET">
+                                {{ csrf_field() }}
                                 <div class="form-group">
                                     <div class="input-group">
                                         <div class="input-group-addon">

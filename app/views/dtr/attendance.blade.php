@@ -12,6 +12,8 @@
                             <div class="panel-heading"><strong style="color: #f0ad4e;font-size:medium;">Filter Attendance</strong></div>
                             <div class="panel-body">
                                 <form action="{{ asset('attendance/q') }}" method="GET">
+                                <form action="{{ asset('attendance/q') }}" method="GET">
+                                    <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
                                     <div class="table-responsive">
                                         <table class="table">
                                             <tr>

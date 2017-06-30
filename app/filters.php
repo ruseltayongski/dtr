@@ -14,13 +14,9 @@
 
 App::before(function($request)
 {
-	/*if(Request::method() == 'POST') {
-		if (Session::token() != Input::get('_token'))
-		{
-			throw new Illuminate\Session\TokenMismatchException;
-		}
-	}*/
-
+	if ($request->getMethod() === 'POST') {
+		Route::callRouteFilter('csrf', [], '', $request);
+	}
 });
 
 
@@ -116,7 +112,8 @@ Route::filter('csrf', function()
 {
 	if (Session::token() != Input::get('_token'))
 	{
-		throw new Illuminate\Session\TokenMismatchException;
+		return Redirect::to('/');
+		//throw new Illuminate\Session\TokenMismatchException;
 	}
 });
 

@@ -9,6 +9,7 @@
     <div class="alert alert-jim" id="inputText">
         <h2 class="page-header">Regular Employees</h2>
         <form class="form-inline form-accept" action="{{ asset('/search/user/r') }}" method="GET">
+            <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
             <div class="form-group">
                 <input type="text" name="search" class="form-control" placeholder="Quick Search" autofocus>
                 <button type="submit" class="btn btn-default"><i class="fa fa-search"></i> Search</button>

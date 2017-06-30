@@ -35,6 +35,7 @@
       </div><!-- /.login-logo -->
         
       <form role="form" method="POST" action="{{ asset('/') }}">
+          <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
           <p class="has-feedback text-center">
               @if(Session::has('ops'))
                   {{ Session::get('ops') }}

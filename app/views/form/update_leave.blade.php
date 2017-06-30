@@ -12,6 +12,7 @@
                     <div class="row">
                         <div class="col-md-11">
                             <form action="{{ asset('leave/update/save') }}" method="POST">
+                                <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
                                 <input type="hidden" name="id" value="{{ $leave->id }}" />
                                 <div class="row">
                                     <div class="col-md-3">

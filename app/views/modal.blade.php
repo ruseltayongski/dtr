@@ -62,6 +62,7 @@
             </div>
 
             <form action="{{ asset('delete/attendance') }}" method="POST">
+                <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
                 <input type="hidden" name="dtr_id" value="" id="dtr_id_val">
                 <div class="modal-body">
                     Delete attendance ?
@@ -90,6 +91,7 @@
             </div>
             <div class="modal-footer">
                 <form action="{{ $delete }}" method="post">
+                    <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
                     <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> No</button>
                     <button type="submit" name="delete" class="btn btn-danger" ><i class="fa fa-trash"></i> Yes</button>
                 </form>
@@ -262,6 +264,7 @@
             <div class="modal-body">
                 <center>
                     <form action="{{ asset('delete/attendance') }}" method="POST" class="delete_logs">
+                        <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
                         <label class="text-italic">Select date range to delete</label>
                         <input type="text" class="form-control" id="absent" name="date_range" placeholder="Input date range here..." required>
                         <br>
@@ -290,7 +293,7 @@
             <div class="modal-body">
                 <center>
                     <form action="{{ asset('delete/attendance') }}" method="POST" class="delete_logs">
-
+                        <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
                         <input type="text" class="col-md-2 form-control form-group" id="inputEmail3" name="userid" value="" placeholder="Input userid" required>
                         <input type="text" class="form-control form-group" id="absent" name="date_range" placeholder="Input date range here..." required>
                         <br>

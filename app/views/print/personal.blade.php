@@ -19,7 +19,7 @@ if(isset($lists) and count($lists) > 0) {
             <h3 class="page-header">Print Monthly Attendance
             </h3>
             <form class="form-inline" method="POST" action="{{ asset('personal/print/filter') }}" id="searchForm">
-                {{ csrf_field() }}
+                <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
                 <div class="container-fluid">
                     <div class="form-group">
                         <div class="input-group">

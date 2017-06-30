@@ -10,6 +10,7 @@
         <div class="row">
             <div class="col-md-8 col-md-offset-1">
                 <form action="{{ asset('create/work-schedule') }}" method="POST">
+                    <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
                     <input type="hidden" name="doctype" value="INCOMING" />
                     <div class="modal-body">
                         <table class="table table-hover table-form table-striped">

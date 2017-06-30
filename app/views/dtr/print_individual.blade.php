@@ -11,6 +11,7 @@
                 <div class="row">
                     <div class="col-md-11">
                         <form action="{{ asset('FPDF/test.php') }}" method="POST">
+                            <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
                             <div class="row">
                                 <div class="col-md-10">
                                     <div class="form-group">

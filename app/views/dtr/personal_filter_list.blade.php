@@ -69,6 +69,7 @@
                 <div class="modal-body">
                     <div id="response"></div>
                     <form action="{{ asset('personal/filter') }}" method="POST" id="dtr_filter">
+                        <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="input-group">

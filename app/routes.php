@@ -3,6 +3,7 @@
 
 //FOR ADMIN ROUTE GROUP
 
+
 Route::match(array('GET','POST'),'/', 'AdminController@index');
 Route::get('logout', function(){
 	Auth::logout();

@@ -7,6 +7,7 @@
 <span id="inclusive_name_page" data-link="{{ asset('inclusive_name_page') }}"></span>
 <span id="so_append" data-link="{{ asset('so_append') }}"></span>
 <form action="{{ asset('so_addv1') }}" method="POST" class="form-submit">
+    <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
     <table>
         <tr>
             <td class="col-md-1"><img height="130" width="130" src="{{ asset('public/img/ro7.png') }}" /></td>
