@@ -11,14 +11,14 @@
                             <div class="panel panel-default">
                                 <div class="panel-heading"><strong style="color: #f0ad4e;font-size:medium;">Option</strong></div>
                                 <div class="panel-body">
-                                    <form class="form-inline" method="POST" action="{{ asset('form/cdo_list') }}" onsubmit="return searchDocument();" id="searchForm">
+                                    <form class="form-inline" method="POST" action="{{ asset('form/cdo_list') }}" id="searchForm">
                                         <div class="table-responsive">
                                             <table class="table">
                                                 <tr>
                                                     <td class="col-sm-3" style="font-size: 12px;"><strong>Keyword</strong></td>
                                                     <td class="col-sm-1">: </td>
                                                     <td class="col-sm-9">
-                                                        <input type="text" class="col-md-2 form-control" id="inputEmail3" value="{{ Session::get('keyword') }}" name="keyword" placeholder="Route no, Subject">
+                                                        <input type="text" class="col-md-2 form-control" value="{{ Session::get('keyword') }}" name="keyword" placeholder="Route no, Subject">
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -35,7 +35,7 @@
                                                 </tr>
                                             </table>
                                         </div>
-                                        <button type="submit" name="search" class="btn-lg btn-success center-block col-sm-12" data-loading-text="<i class='fa fa-refresh fa-spin'></i> Printing DTR">
+                                        <button type="submit" name="search" id="search" class="btn-lg btn-success center-block col-sm-12" data-loading-text="<i class='fa fa-refresh fa-spin'></i> Printing DTR">
                                             <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Search
                                         </button>
                                     </form>
@@ -252,26 +252,27 @@
         <?php if(Auth::user()->usertype): ?>
         //default type
         var type = 'all';
-        $(".disapprove").text(<?php echo count($cdo_count[0])?>);
-        $(".approve").text(<?php echo count($cdo_count[1])?>);
-        $(".all").text(<?php echo count($cdo_count[2])?>);
+        var keyword = '';
+        $(".disapprove").text(<?php echo count($cdo["count_disapprove"]); ?>);
+        $(".approve").text(<?php echo count($cdo["count_approve"]); ?>);
+        $(".all").text(<?php echo count($cdo["count_all"]); ?>);
         $("a[href='#approve']").on("click",function(){
             $('.ajax_approve').html(loadingState);
             type = 'approve';
-            getPosts(1);
+            getPosts(1,keyword);
             <?php Session::put('keyword',null); ?>
         });
         $("a[href='#disapprove']").on("click",function(){
             $('.ajax_disapprove').html(loadingState);
             type = 'disapprove';
-            getPosts(1);
+            getPosts(1,keyword);
             <?php Session::put('keyword',null); ?>
         });
         $("a[href='#all']").on("click",function(){
             $('.ajax_all').html(loadingState);
             type = 'all';
             console.log(<?php echo Session::get('page_all'); ?>);
-            getPosts(1);
+            getPosts(1,keyword);
             <?php Session::put('keyword',null); ?>
         });
 
@@ -281,20 +282,26 @@
                 if (page == Number.NaN || page <= 0) {
                     return false;
                 } else {
-                    getPosts(page);
+                    getPosts(page,keyword);
                 }
             }
         });
         $(document).ready(function() {
             $(document).on('click', '.pagination a', function (e) {
-                getPosts($(this).attr('href').split('page=')[1]);
+                getPosts($(this).attr('href').split('page=')[1],keyword);
                 e.preventDefault();
             });
         });
 
-        function getPosts(page) {
+        $("#searchForm").submit(function(e) {
+            keyword = $("input[name='keyword']").val();
+            getPosts(1,keyword);
+            return false;
+        });
+
+        function getPosts(page,keyword) {
             $.ajax({
-                url : '?type='+type+'&page=' + page,
+                url : '?type='+type+'&page='+page+"&keyword="+keyword,
                 dataType: 'json',
             }).done(function (result) {
                 if(type == 'approve'){
@@ -320,7 +327,7 @@
                 console.log(data.responseText);
                 alert('Page could not be loaded... refresh your page.');
                 var redirect_url = "<?php echo asset('/'); ?>";
-                //window.location.href = redirect_url;
+                window.location.href = redirect_url;
             });
         }
         <?php endif; ?>

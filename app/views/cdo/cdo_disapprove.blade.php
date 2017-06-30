@@ -1,4 +1,4 @@
-@if(isset($cdo['disapprove']) and count($cdo['disapprove']) >0)
+@if(isset($cdo['paginate_disapprove']) and count($cdo['paginate_disapprove']) >0)
     <div class="table-responsive" style="margin-top: -20px;">
         <label style="padding-bottom: 10px;">Check to select all to approve </label>
         <input type="checkbox" id="click_approve">
@@ -19,7 +19,7 @@
             </tr>
             </thead>
             <tbody style="font-size: 10pt;">
-            @foreach($cdo['disapprove'] as $row)
+            @foreach($cdo['paginate_disapprove'] as $row)
                 <tr>
                     <td><a href="#track" data-link="{{ asset('form/track/'.$row->route_no) }}" data-route="{{ $row->route_no }}" data-toggle="modal" class="btn btn-sm btn-success col-sm-12" style="background-color:darkmagenta;color:white;"><i class="fa fa-line-chart"></i> Track</a></td>
                     <td><a class="title-info" data-backdrop="static" data-route="{{ $row->route_no }}" style="color: #f0ad4e;" data-link="{{ asset('/form/info/'.$row->route_no.'/cdo') }}" href="#document_info" data-toggle="modal">{{ $row->route_no }}</a></td>
@@ -36,7 +36,7 @@
             </tbody>
         </table>
     </div>
-    {{ $cdo['disapprove']->links() }}
+    {{ $cdo['paginate_disapprove']->links() }}
 @else
     <div class="alert alert-danger" role="alert"><span style="color:red;">Documents records are empty.</span></div>
 @endif
@@ -87,8 +87,10 @@
             $('.ajax_disapprove').html(loadingState);
             setTimeout(function(){
                 if(result['count_disapprove'] && !result['paginate_disapprove']){
-                    getPosts(page-1);
+                    console.log("asin1");
+                    getPosts(page-1,'');
                 } else {
+                    console.log("asin2");
                     $('.ajax_disapprove').html(result['view']);
                 }
                 Lobibox.notify('info',{
@@ -103,7 +105,6 @@
     function click_all(type){
         var url = "<?php echo asset('click_all');?>"+"/"+type.val();
         $.get(url,function(result){
-            console.log(result);
             if(type.val() == 'disapprove'){
                 $('.ajax_approve').html(loadingState);
                 setTimeout(function(){

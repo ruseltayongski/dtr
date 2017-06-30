@@ -1,4 +1,4 @@
-@if(isset($cdo['approve']) and count($cdo['approve']) >0)
+@if(isset($cdo['paginate_approve']) and count($cdo['paginate_approve']) >0)
     <div class="table-responsive" style="margin-top: -20px;">
         <label style="padding-bottom: 10px;">Check to select all to disapprove </label>
         <input type="checkbox" id="click_disapprove">
@@ -21,7 +21,7 @@
             </tr>
             </thead>
             <tbody style="font-size: 10pt;">
-            @foreach($cdo['approve'] as $row)
+            @foreach($cdo['paginate_approve'] as $row)
                 <tr>
                     <td><a href="#track" data-link="{{ asset('form/track/'.$row->route_no) }}" data-route="{{ $row->route_no }}" data-toggle="modal" class="btn btn-sm btn-success col-sm-12" style="background-color:darkmagenta;color:white;"><i class="fa fa-line-chart"></i> Track</a></td>
                     <td><a class="title-info" data-backdrop="static" data-route="{{ $row->route_no }}" style="color: #f0ad4e;" data-link="{{ asset('/form/info/'.$row->route_no.'/cdo') }}" href="#document_info" data-toggle="modal">{{ $row->route_no }}</a></td>
@@ -40,7 +40,7 @@
             </tbody>
         </table>
     </div>
-    {{ $cdo['approve']->links() }}
+    {{ $cdo['paginate_approve']->links() }}
 @else
     <div class="alert alert-danger" role="alert" style="color: red"><span style="color:red;">Documents records are empty.</span></div>
 @endif
@@ -91,7 +91,7 @@
             $('.ajax_approve').html(loadingState);
             setTimeout(function(){
                 if(result["count_approve"] && !result['paginate_approve']){
-                    getPosts(page-1);
+                    getPosts(page-1,'');
                 } else {
                     $('.ajax_approve').html(result['view']);
                 }
