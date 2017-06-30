@@ -42,7 +42,6 @@
                             <td><?php echo $hour->pm_out; ?></td>
                             <td>
                                 <a class="btn btn-default" href="<?php echo asset('edit/work-schedule/' . $hour->id); ?>">Update</a>
-                                <a class="btn btn-danger" href="<?php echo asset('delete/work-schedule/' . $hour->id); ?>">Delete</a>
                             </td>
                         </tr>
                     <?php endforeach; ?>

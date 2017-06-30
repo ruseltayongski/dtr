@@ -16,8 +16,7 @@ class PDF extends FPDF
     function form($name,$userid,$date_from,$date_to,$sched)
     {
 
-        $this->Image(__DIR__.'/image/doh2.png', 15, 50,80,80);
-        $this->Image(__DIR__.'/image/doh2.png', 118, 50,80,80);
+
 
 
         $day1 = explode('-',$date_from);
@@ -49,7 +48,6 @@ class PDF extends FPDF
             $s_pm_out = $sched[0]["pm_out"];
 
 
-
             $logs = get_logs($s_am_in,$s_am_out,$s_pm_in,$s_pm_out,$userid,$date_from,$date_to);
 
 
@@ -57,7 +55,8 @@ class PDF extends FPDF
 
 
             } else {
-
+                $this->Image(__DIR__.'/image/doh2.png', 15, 50,80,80);
+                $this->Image(__DIR__.'/image/doh2.png', 118, 50,80,80);
                 $this->SetFont('Arial','',8);
                 $this->SetX(10);
                 $this->Cell(40,10,'Civil Service Form No. 43',0);
@@ -568,8 +567,8 @@ if(isset($row) and count($row) > 0)
     }
 }
 
-$time = rand(1,1000);
-$filename = __DIR__.'/pdf-files/'.$time.'-dtr-'.$date_from .'-'.$date_to.'_.pdf';
+$time = rand(1,10000);
+$filename = __DIR__.'/../public/pdf-files/'.$time.'-dtr-'.$date_from .'-'.$date_to.'_.pdf';
 
 $file =  $time.'-dtr-'.$date_from .'-'.$date_to.'_.pdf';
 save_file_name($file,$date_from,$date_to,$emptype);

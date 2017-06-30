@@ -577,7 +577,7 @@ $emp = userlist($userid);
 
 if(isset($emp) and count($emp) > 0)
 {
-    $pdf->form($emp[0]['fname'] . ' ' . $emp[0]['lname'] . ' ' . $emp[0]['mname'], $emp[0]['userid'], $date_from, $date_to,$emp[0]['sched']);
+    $pdf->form($emp[0]['lname'] . ', ' . $emp[0]['fname'] . ' ' . $emp[0]['mname'], $emp[0]['userid'], $date_from, $date_to,$emp[0]['sched']);
     $pdf->SetEmpname($emp[0]['fname'] . ' ' . $emp[0]['lname'] . ' ' . $emp[0]['mname']);
     $pdf->SetTitle($emp[0]['fname'] . ' ' . $emp[0]['lname'] . ' ' . $emp[0]['mname']);
 } else {

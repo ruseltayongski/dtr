@@ -79,7 +79,7 @@
                                                 <td class="text-center"><strong><a href="#"><?php echo $list->time_created; ?> </a> </strong></td>
                                                 <td class="text-center"><strong><a href="#"><?php echo $list->type; ?></a> </strong></td>
                                                 <td class="text-center">
-                                                    <a class="btn btn-success"  href="<?php echo asset('').'/FPDF/pdf-files/'.$list->filename; ?>">View</a>
+                                                    <a class="btn btn-success"  href="<?php echo asset('dtr/'.$list->id); ?>">View</a>
                                                 </td>
                                             </tr>
                                         <?php endforeach; ?>

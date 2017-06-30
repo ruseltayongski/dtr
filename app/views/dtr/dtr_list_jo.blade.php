@@ -81,7 +81,7 @@
                                                 <td class="text-center"><strong><a href="#">{{ $list->time_created }} </a> </strong></td>
                                                 <td class="text-center"><strong><a href="#">{{ $list->type }}</a> </strong></td>
                                                 <td class="text-center">
-                                                    <a class="btn btn-success"  href="{{ asset('').'/FPDF/pdf-files/'.$list->filename }}">View</a>
+                                                    <a class="btn btn-success"  href="{{ asset('dtr/'.$list->id) }}">View</a>
                                                 </td>
                                             </tr>
                                         @endforeach

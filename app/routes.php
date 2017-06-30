@@ -11,6 +11,9 @@ Route::get('logout', function(){
 	return Redirect::to('/');
 });
 
+
+Route::get('dtr/{id}', 'GenerateDTRController@download_dtr');
+
 Route::get('home', function(){
 	Session::forget('f_from');
 	Session::forget('f_to');

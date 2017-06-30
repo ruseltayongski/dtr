@@ -44,7 +44,6 @@
                             <td>{{ $hour->pm_out }}</td>
                             <td>
                                 <a class="btn btn-default" href="{{ asset('edit/work-schedule/' . $hour->id) }}">Update</a>
-                                <a class="btn btn-danger" href="{{ asset('delete/work-schedule/' . $hour->id) }}">Delete</a>
                             </td>
                         </tr>
                     @endforeach
