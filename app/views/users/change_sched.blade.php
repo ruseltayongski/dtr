@@ -1,6 +1,7 @@
 <div class="row">
     <div class="col-sm-12">
         <form action="{{ asset('change/work-schedule') }}" method="POST">
+            <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
             <div class="modal-body">
                 <table class="table table-hover table-form table-striped">
                     <tr>

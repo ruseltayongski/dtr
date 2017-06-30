@@ -10,6 +10,7 @@
                 <div class="row">
                     <div class="col-md-8">
                         <form action="{{ asset('add/user') }}" method="POST" class="form-horizontal">
+                            <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
                             <div class="form-group">
                                 <label for="inputEmail3" class="col-sm-3 control-label">Userid</label>
                                 <div class="col-sm-9">

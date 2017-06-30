@@ -12,6 +12,7 @@
                         <div class="panel-heading"><strong style="color: #f0ad4e;font-size:medium;">Group Lists</strong></div>
                         <div class="panel-body">
                             <form class="form-inline form-filter" action="{{ asset('filter/flixe') }}" method="GET" >
+                                <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
                                 <div class="form-group">
                                     <div class="input-group">
                                         <select class="form-control col-sm-5" name="sched" id="work_sched">

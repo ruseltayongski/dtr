@@ -12,6 +12,7 @@
                             <div class="panel-heading"><strong style="color: #f0ad4e;font-size:medium;">Option</strong></div>
                             <div class="panel-body">
                                 <form class="form-inline" method="POST" action="{{ asset('form/so_list') }}" id="searchForm">
+                                    <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
                                     <div class="table-responsive">
                                         <table class="table">
                                             <tr>

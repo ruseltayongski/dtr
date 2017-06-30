@@ -12,6 +12,7 @@
                             <div class="panel-heading"><strong style="color: #f0ad4e;font-size:medium;">Print all job order dtr</strong></div>
                             <div class="panel-body">
                                 <form action="{{ asset('FPDF/print_all.php') }}" method="POST" id="all_jo">
+                                    <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
                                     <input type="hidden" name="emptype" value="JO" />
                                     <div class="table-responsive">
                                         <table class="table">
@@ -44,6 +45,7 @@
                         <div class="panel-heading"><strong style="color: #f0ad4e;font-size:medium;">PDF document list</strong></div>
                         <div class="panel-body">
                             <form class="form-inline form-accept" action="{{ asset('search/jo') }}" method="GET">
+                                <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
                                 <div class="form-group">
                                     <div class="input-group">
                                         <div class="input-group-addon">
@@ -79,7 +81,7 @@
                                                 <td class="text-center"><strong><a href="#">{{ $list->time_created }} </a> </strong></td>
                                                 <td class="text-center"><strong><a href="#">{{ $list->type }}</a> </strong></td>
                                                 <td class="text-center">
-                                                    <a class="btn btn-success"  href="{{ asset('').'/FPDF/pdf-files/'.$list->filename }}">View</a>
+                                                    <a class="btn btn-success"  href="{{ asset('dtr/'.$list->id) }}">View</a>
                                                 </td>
                                             </tr>
                                         @endforeach

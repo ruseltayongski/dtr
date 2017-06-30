@@ -300,5 +300,9 @@
             });
 
         });
+        $('.delete_logs').submit(function(){
+            $('.delete_all').modal('hide');
+            $('#data_table').modal('show');
+        });
     </script>
 @endsection

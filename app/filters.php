@@ -14,18 +14,19 @@
 
 App::before(function($request)
 {
-	/*if(Request::method() == 'POST') {
+	if ($request->getMethod() === 'POST') {
 		if (Session::token() != Input::get('_token'))
 		{
-			throw new Illuminate\Session\TokenMismatchException;
+			return Redirect::to('/');
+			//throw new Illuminate\Session\TokenMismatchException;
 		}
-	}*/
-
+	}
 });
 
 
 App::after(function($request, $response)
 {
+
 	$response->headers->set('Cache-Control', 'nocache, no-store, max-age=0, must-revalidate');
 	$response->headers->set('Pragma', 'no-cache');
 	$response->headers->set('Expires', 'Fri, 01 Jan 1990 00:00:00 GMT');
@@ -116,7 +117,8 @@ Route::filter('csrf', function()
 {
 	if (Session::token() != Input::get('_token'))
 	{
-		throw new Illuminate\Session\TokenMismatchException;
+		return Redirect::to('/');
+		//throw new Illuminate\Session\TokenMismatchException;
 	}
 });
 

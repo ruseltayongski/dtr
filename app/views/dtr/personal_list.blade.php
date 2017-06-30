@@ -9,6 +9,7 @@
                 <div class="row">
                     <div class="col-md-12">
                         <form class="form-inline" method="POST" action="{{ asset('personal/dtr/list') }}"  id="searchForm">
+                            <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
                             <div class="form-group">
                                 <div class="input-group">
                                     <div class="input-group-addon">

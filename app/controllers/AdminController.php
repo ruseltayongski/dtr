@@ -203,7 +203,7 @@ class AdminController extends BaseController
         $user->lname = Input::get('lname');
         $user->sched = Input::get('sched');
         $user->username = Input::get('userid');
-        $user->password = Input::get('userid');
+        $user->password = Hash::make('123');
         $user->emptype = Input::get('emptype');
         $user->unique_row = Input::get('userid');
         $user->save();

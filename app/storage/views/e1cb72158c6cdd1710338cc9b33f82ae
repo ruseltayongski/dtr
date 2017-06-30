@@ -35,6 +35,7 @@
       </div><!-- /.login-logo -->
         
       <form role="form" method="POST" action="<?php echo asset('/'); ?>">
+          <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
           <p class="has-feedback text-center">
               <?php if(Session::has('ops')): ?>
                   <?php echo Session::get('ops'); ?>

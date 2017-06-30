@@ -1,5 +1,5 @@
 <form action="{{ asset('create/flixe') }}" method="POST">
-    {{ csrf_field() }}
+    <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
     <div class="modal-body">
         <table class="table table-hover table-form table-striped">
             <tr>

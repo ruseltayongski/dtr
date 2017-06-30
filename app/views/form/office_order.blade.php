@@ -9,6 +9,7 @@
                 <div class="row">
                     <div class="col-md-11">
                         <form action="{{ asset('form/so') }}" method="POST" id="form_route" class="form-submit">
+                            <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
                             <div class="table-responsive">
                                 <table class="table">
                                     <tr>

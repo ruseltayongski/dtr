@@ -1,5 +1,6 @@
 @if(isset($user))
     <form action="{{ asset('user/edit') }}" method="POST" id="create">
+        <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
         <input type="hidden" name="id" value="6" />
         <div class="modal-body">
             <table class="table table-hover table-form table-striped">

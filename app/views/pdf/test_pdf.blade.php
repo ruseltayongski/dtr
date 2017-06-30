@@ -350,8 +350,8 @@
                 </div>
             </div>
         </td>
-        <td style="width: 50%;">
-            <div style="padding: 8px;width:100%;">
+        <td colspan="2">
+            <div style="padding: 8px;">
                 <strong>(7b) RECOMMENDATION</strong>
                 <br />
                 <table>
@@ -382,7 +382,6 @@
                     <tr>
                         <td>&nbsp;</td>
                         <td>
-                            It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution.
                         </td>
                     </tr>
                 </table>

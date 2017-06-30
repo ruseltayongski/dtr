@@ -3,12 +3,16 @@
 
 //FOR ADMIN ROUTE GROUP
 
+
 Route::match(array('GET','POST'),'/', 'AdminController@index');
 Route::get('logout', function(){
 	Auth::logout();
 	Session::flush();
 	return Redirect::to('/');
 });
+
+
+Route::get('dtr/{id}', 'GenerateDTRController@download_dtr');
 
 Route::get('home', function(){
 	Session::forget('f_from');

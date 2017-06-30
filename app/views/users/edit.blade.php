@@ -1,6 +1,6 @@
 
 <form action="" method="POST" id="create">
-    {{ csrf_field() }}
+    <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
     <input type="hidden" name="id" value="{{ $user->id }}" />
     <div class="modal-body">
         <table class="table table-hover table-form table-striped">

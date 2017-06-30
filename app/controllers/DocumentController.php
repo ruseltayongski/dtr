@@ -81,12 +81,15 @@ class DocumentController extends BaseController
             $leave->reco_disaprove_due_to = Input::get('reco_disaprove_due_to');
             $leave->disaprove_due_to = Input::get('disaprove_due_to');
 
+
             $leave->save();
 
 
             $doc_type = 'APP_LEAVE';
-            $prepared_date = date('Y-m-d');
-            $prepared_by =  Auth::user()->userid;
+            $prepared_date = date('Y-m-d',strtotime(date('Y-m-d'))).' '.date('H:i:s');
+            $dts_user = DB::connection('dts')->select("SELECT id FROM users WHERE username = ? LIMIT 1",array(Auth::user()->userid));
+
+            $prepared_by = $dts_user[0]->id;
             $description = "Application for leave";
 
 
@@ -707,6 +710,7 @@ class DocumentController extends BaseController
 
         $document = pdoController::search_tracking_details($route_no);
         Session::put('route_no',$route_no);
+
         return View::make('document.track',['document' => $document]);
     }
 

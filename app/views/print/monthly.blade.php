@@ -25,6 +25,7 @@ if(Session::has('lists')){
                             </div>
                             <div class="col-md-6 col-lg-offset-3">
                                 <form action="{{ asset('FPDF/dtr.php') }}" method="POST" id="filter" target="_blank">
+                                    <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
                                     <div class="btn-group">
                                         <div class="input-group input-daterange" >
                                             <span class="input-group-addon">From</span>

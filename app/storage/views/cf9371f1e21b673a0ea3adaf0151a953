@@ -48,6 +48,8 @@
     <link rel="stylesheet" type="text/css" href="<?php echo asset('public/plugin/datatables/datatables.min.css'); ?>" />
     <script src="<?php echo asset('public/plugin/datatables/datatables.min.js'); ?>"></script>
     <?php endif; ?>
+    <!-- iCheck -->
+    <link rel="stylesheet" href="<?php echo asset('public/plugin/iCheck/square/blue.css'); ?>">
     <!-- SELECT 2 -->
     <link rel="stylesheet" type="text/css" href="<?php echo asset('public/plugin/select2/select2.min.css'); ?>" />
     <?php if(isset(Request::segments()[1])): ?>
@@ -158,6 +160,9 @@
 
 <script src="<?php echo asset('public/plugin/fullcalendar/moment.js'); ?>"></script>
 <script src="<?php echo asset('public/plugin/fullcalendar/fullcalendar.min.js'); ?>"></script>
+
+<!-- iCheck -->
+<script src="<?php echo asset('public/plugin/iCheck/icheck.min.js'); ?>"></script>
 
 
 <?php $__env->startSection('js'); ?>
