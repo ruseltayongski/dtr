@@ -319,4 +319,17 @@ class AdminController extends BaseController
             return Redirect::to('employees');
         }
     }
+    public function print_employees()
+    {
+        if(Input::has('emp_type')) {
+            $users = DB::table('users')->where('emptype', '=', Input::get('emp_type'))
+                        ->orderBy('lname', 'ASC')
+                        ->get();
+            $type = Input::get('emp_type');
+            $display = View::make("pdf.employees")->with('users',$users)->with('type', $type);
+            $pdf = App::make('dompdf');
+            $pdf->loadHTML($display);
+            return $pdf->stream();
+        }
+    }
 }

@@ -12,8 +12,6 @@ $interval = $f->diff($t);
 echo $interval->days;
 exit();*/
 
-use \Milon\Barcode\DNS1D;
-
 
 require('dbconn.php');
 
@@ -505,6 +503,9 @@ class PDF extends FPDF
                             $this->Cell(10,0,'IN-CHARGE',0,0,'C');
                             $this->SetX(150);
                             $this->Cell(10,0,'IN-CHARGE',0,0,'C');
+
+
+
                         }
                     }
                 }

@@ -36,8 +36,8 @@
         <td colspan="3" style="border-style:Solid;text-align: center; font-size:medium; ">APPLICATION FOR LEAVE</td>
     </tr>
     <tr>
-        <td colspan="1" style="border-style:Solid;">(1.) OFFICE/AGENCY <br /><b> <?php echo $leave->office_agency; ?></b></td>
-        <td colspan="2" style="border-style:Solid;">2. NAME (Last) (First) ( M. .)
+        <td colspan="1" style="border-style:Solid; vertical-align: top;">(1.) OFFICE/AGENCY <br /><b> <?php echo $leave->office_agency; ?></b></td>
+        <td colspan="2" style="border-style:Solid; vertical-align: top;">2. NAME (Last) (First) ( M. .)
             <div style="padding: 8px;">
                 <span class="col-sm-3">&nbsp;</span>
                 <span class="col-sm-3 tab1"><b><?php echo $leave->lastname; ?></b></span>
@@ -55,7 +55,11 @@
         <td colspan="3" style="border-style:Solid;text-align: center; font-size: medium;"> DETAILS OF APPLICATION</td>
     </tr>
     <tr>
-        <td colspan="2" style="border-style:Solid;">6a) TYPE OF LEAVE</td><td colspan="1" style="border-style:Solid;">6b) WHERE LEAVE WILL BE SPENT:</td>
+        <td colspan="2" style="border-style:Solid;">
+            6a) TYPE OF LEAVE
+
+        </td>
+        <td colspan="1" style="border-style:Solid;">6b) WHERE LEAVE WILL BE SPENT:</td>
     </tr>
     <tr>
         <td colspan="3" style="border-style:Solid;">DETAILS OF ACTION ON APPLICATION</td>
