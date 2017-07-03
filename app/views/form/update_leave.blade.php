@@ -57,7 +57,7 @@
                                     <div class="col-md-4">
                                         <div class="form-group has-success">
                                             <label class="control-label" for="inputSuccess1">(5.)Salary (Monthly)</label>
-                                            <input type="text" class="form-control" id="inputSuccess1" name="salary" value="{{ sprintf("%.2f",$leave->salary)  }}">
+                                            <input type="text" class="form-control" id="inputSuccess1" name="salary" value="{{ sprintf("%.2f",$leave->salary)  }}" onkeypress='validate(event)'>
                                         </div>
                                     </div>
                                 </div>
@@ -274,5 +274,16 @@
                 }
             });
         });
+
+        function validate(evt) {
+            var theEvent = evt || window.event;
+            var key = theEvent.keyCode || theEvent.which;
+            key = String.fromCharCode( key );
+            var regex = /[0-9]|\./;
+            if( !regex.test(key) ) {
+                theEvent.returnValue = false;
+                if(theEvent.preventDefault) theEvent.preventDefault();
+            }
+        }
     </script>
 @endsection

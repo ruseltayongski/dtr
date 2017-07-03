@@ -173,6 +173,8 @@ Route::post('calendar_save','CalendarController@calendar_save');
 Route::get('calendar_delete/{event_id}','CalendarController@calendar_delete');
 Route::post('calendar_update','CalendarController@calendar_update');
 
+
+Route::get('print/employee', 'AdminController@print_employees');
 /////////PDF
 Route::get('pdf/v1/{size}', function($size){
 	$display = View::make("pdf.pdf",['size'=>$size]);
