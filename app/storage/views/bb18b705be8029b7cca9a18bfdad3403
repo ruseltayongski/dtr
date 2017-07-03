@@ -89,6 +89,7 @@
         var page = "<?php echo Session::get('page_approve') ?>";
         var url = $("#cdo_updatev1").data('link')+'/'+data.val()+'/approve?page='+page;
         $.post(url,function(result){
+            console.log(result);
             $('.ajax_approve').html(loadingState);
             setTimeout(function(){
                 if(result["count_approve"] && !result['paginate_approve']){
