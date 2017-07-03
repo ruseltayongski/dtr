@@ -10,6 +10,7 @@
                             <div class="panel-heading"><strong style="color: #f0ad4e;font-size:medium;">Print all regular dtr</strong></div>
                             <div class="panel-body">
                                 <form action="<?php echo asset('FPDF/print_all.php'); ?>" method="POST" id="all_jo">
+                                    <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
                                     <input type="hidden" name="emptype" value="REG" />
                                     <div class="table-responsive">
                                         <table class="table">
@@ -42,6 +43,7 @@
                         <div class="panel-heading"><strong style="color: #f0ad4e;font-size:medium;">PDF document list</strong></div>
                         <div class="panel-body">
                             <form class="form-inline form-accept" action="<?php echo asset('search/regular'); ?>" method="GET">
+                                <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
                                 <div class="form-group">
                                     <div class="input-group">
                                         <div class="input-group-addon">
@@ -77,7 +79,7 @@
                                                 <td class="text-center"><strong><a href="#"><?php echo $list->time_created; ?> </a> </strong></td>
                                                 <td class="text-center"><strong><a href="#"><?php echo $list->type; ?></a> </strong></td>
                                                 <td class="text-center">
-                                                    <a class="btn btn-success"  href="<?php echo asset('').'/FPDF/pdf-files/'.$list->filename; ?>">View</a>
+                                                    <a class="btn btn-success"  href="<?php echo asset('dtr/'.$list->id); ?>">View</a>
                                                 </td>
                                             </tr>
                                         <?php endforeach; ?>
