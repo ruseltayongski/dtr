@@ -26,13 +26,13 @@
     </style>
 </head>
 <body>
-<form action="{{ $data['asset'] }}" method="POST" class="form-submit">
-    <input type="hidden" value="{{ csrf_token() }}" name="_token">
+<form action="<?php echo $data['asset']; ?>" method="POST" class="form-submit">
+    <input type="hidden" value="<?php echo csrf_token(); ?>" name="_token">
     <div class="clearfix"></div>
     <div class="new-times-roman table-responsive">
         <table cellpadding="0" cellspacing="0">
             <tr>
-                <td class="align"><img src="{{ asset('public/img/doh.png') }}" width="100"></td>
+                <td class="align"><img src="<?php echo asset('public/img/doh.png'); ?>" width="100"></td>
                 <td width="90%" >
                     <div class="align small-text">
                         Republic of the Philippines<br>
@@ -43,7 +43,7 @@
                         <strong>APPLICATION FOR COMPENSATORY TIME OFF</strong>
                     </div>
                 </td>
-                <td class="align"><img src="{{ asset('public/img/ro7.png') }}" width="100"></td>
+                <td class="align"><img src="<?php echo asset('public/img/ro7.png'); ?>" width="100"></td>
             </tr>
         </table>
         <br>
@@ -55,7 +55,7 @@
                         <div class="input-group-addon">
                             <i class="fa fa-universal-access"></i>
                         </div>
-                        <input type="text" value="{{ $data['section'] }}" class="form-control" readonly>
+                        <input type="text" value="<?php echo $data['section']; ?>" class="form-control" readonly>
                     </div>
                 </td>
                 <td class="col-sm-1">Cluster: </td>
@@ -64,7 +64,7 @@
                         <div class="input-group-addon">
                             <i class="fa fa-universal-access"></i>
                         </div>
-                        <input type="text" value="{{ $data['division'] }}" class="form-control" readonly>
+                        <input type="text" value="<?php echo $data['division']; ?>" class="form-control" readonly>
                     </div>
                 </td>
             </tr>
@@ -100,11 +100,13 @@
                         <tr>
                             <td>
                                 <i class="fa fa-user"></i>
-                                {{ $data['name'] }}
+                                <?php echo $data['name']; ?>
+
                             </td>
                             <td>
                                 <i class="fa fa-user-secret"></i>
-                                {{ $data['position'] }}
+                                <?php echo $data['position']; ?>
+
                             </td>
                         </tr>
                     </table>
@@ -142,19 +144,19 @@
                             <td>Remaining Balance</td>
                         </tr>
                         <tr>
-                            <td><input type="text" value="{{ $data['cdo']['beginning_balance'] }}" class="form-control" name="beginning_balance" maxlength="15"
+                            <td><input type="text" value="<?php echo $data['cdo']['beginning_balance']; ?>" class="form-control" name="beginning_balance" maxlength="15"
                                 <?php
                                 if($data['type'] == 'add' || !\Illuminate\Support\Facades\Auth::user()->usertype)
                                     echo 'disabled';
                                 ?>>
                             </td>
-                            <td><input type="text" value="{{ $data['cdo']['less_applied_for'] }}" class="form-control" name="less_applied" maxlength="15"
+                            <td><input type="text" value="<?php echo $data['cdo']['less_applied_for']; ?>" class="form-control" name="less_applied" maxlength="15"
                                 <?php
                                 if($data['type'] == 'add' || !\Illuminate\Support\Facades\Auth::user()->usertype)
                                     echo 'disabled';
                                 ?>>
                             </td>
-                            <td><input type="text" value="{{ $data['cdo']['remaining_balance'] }}" class="form-control" name="remaining_balance" maxlength="15"
+                            <td><input type="text" value="<?php echo $data['cdo']['remaining_balance']; ?>" class="form-control" name="remaining_balance" maxlength="15"
                                 <?php
                                 if($data['type'] == 'add' || !\Illuminate\Support\Facades\Auth::user()->usertype)
                                     echo 'disabled';
@@ -234,16 +236,16 @@
                         <tr>
                             <td class="align">
                                 <select  class="chosen-select-static form-control" name="immediate_supervisor" required>
-                                    @if($data['type'] == 'update')
-                                        <option value="{{ $data['section_head'][0]['id'] }}">{{ $data['section_head'][0]['fname'].' '.$data['section_head'][0]['mname'].' '.$data['section_head'][0]['lname'] }}</option>
-                                    @endif
-                                    @foreach($data['section_head'] as $section_head)
-                                        @if($data['section_head'][0]['id'] != $section_head['id'] and $data['type'] == 'update')
-                                            <option value="{{ $section_head['id'] }}">{{ $section_head['fname'].' '.$section_head['mname'].' '.$section_head['lname'] }}</option>
-                                        @elseif($data['type'] == 'add')
-                                            <option value="{{ $section_head['id'] }}">{{ $section_head['fname'].' '.$section_head['mname'].' '.$section_head['lname'] }}</option>
-                                        @endif
-                                    @endforeach
+                                    <?php if($data['type'] == 'update'): ?>
+                                        <option value="<?php echo $data['section_head'][0]['id']; ?>"><?php echo $data['section_head'][0]['fname'].' '.$data['section_head'][0]['mname'].' '.$data['section_head'][0]['lname']; ?></option>
+                                    <?php endif; ?>
+                                    <?php foreach($data['section_head'] as $section_head): ?>
+                                        <?php if($data['section_head'][0]['id'] != $section_head['id'] and $data['type'] == 'update'): ?>
+                                            <option value="<?php echo $section_head['id']; ?>"><?php echo $section_head['fname'].' '.$section_head['mname'].' '.$section_head['lname']; ?></option>
+                                        <?php elseif($data['type'] == 'add'): ?>
+                                            <option value="<?php echo $section_head['id']; ?>"><?php echo $section_head['fname'].' '.$section_head['mname'].' '.$section_head['lname']; ?></option>
+                                        <?php endif; ?>
+                                    <?php endforeach; ?>
                                 </select>
                             </td>
                         </tr>
@@ -252,16 +254,16 @@
                             <td class="align">
                                 <br><br>
                                 <select  class="form-control" name="division_chief" required>
-                                    @if($data['type'] == 'update')
-                                        <option value="{{ $data['division_head'][0]['id'] }}">{{ $data['division_head'][0]['fname'].' '.$data['division_head'][0]['mname'].' '.$data['division_head'][0]['lname'] }}</option>
-                                    @endif
-                                    @foreach($data['division_head'] as $division_head)
-                                        @if($data['division_head'][0]['id'] != $division_head['id'] and $data['type'] == 'update')
-                                            <option value="{{ $division_head['id'] }}">{{ $division_head['fname'].' '.$division_head['mname'].' '.$division_head['lname'] }}</option>
-                                        @elseif($data['type'] == 'add')
-                                            <option value="{{ $division_head['id'] }}">{{ $division_head['fname'].' '.$division_head['mname'].' '.$division_head['lname'] }}</option>
-                                        @endif
-                                    @endforeach
+                                    <?php if($data['type'] == 'update'): ?>
+                                        <option value="<?php echo $data['division_head'][0]['id']; ?>"><?php echo $data['division_head'][0]['fname'].' '.$data['division_head'][0]['mname'].' '.$data['division_head'][0]['lname']; ?></option>
+                                    <?php endif; ?>
+                                    <?php foreach($data['division_head'] as $division_head): ?>
+                                        <?php if($data['division_head'][0]['id'] != $division_head['id'] and $data['type'] == 'update'): ?>
+                                            <option value="<?php echo $division_head['id']; ?>"><?php echo $division_head['fname'].' '.$division_head['mname'].' '.$division_head['lname']; ?></option>
+                                        <?php elseif($data['type'] == 'add'): ?>
+                                            <option value="<?php echo $division_head['id']; ?>"><?php echo $division_head['fname'].' '.$division_head['mname'].' '.$division_head['lname']; ?></option>
+                                        <?php endif; ?>
+                                    <?php endforeach; ?>
                                 </select>
                             </td>
                         </tr>
@@ -271,25 +273,25 @@
             </tr>
         </table>
         <hr>
-        @if($data['type'] == "update")
+        <?php if($data['type'] == "update"): ?>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
                 <button type="button" class="btn btn-danger" data-dismiss="modal" data-toggle="modal" data-target="#deleteDocument" style="color:white"><i class="fa fa-trash"></i> Remove</button>
                 <button type="button" class="btn btn-success" data-dismiss="modal" style="color:white" data-toggle="modal" data-target="#paperSize"><i class="fa fa-barcode"></i> Barcode v1</button>
-                <a target="_blank" href="{{ asset('pdf/track') }}" class="btn btn-success" style="color:white"><i class="fa fa-barcode"></i> Barcode v2</a>
-                <a target="_blank" href="{{ asset('form/cdov1/pdf') }}" class="btn btn-success" style="color:white"><i class="fa fa-barcode"></i> Barcode v3</a>
-                @if(!$data['cdo']['approved_status'])
+                <a target="_blank" href="<?php echo asset('pdf/track'); ?>" class="btn btn-success" style="color:white"><i class="fa fa-barcode"></i> Barcode v2</a>
+                <a target="_blank" href="<?php echo asset('form/cdov1/pdf'); ?>" class="btn btn-success" style="color:white"><i class="fa fa-barcode"></i> Barcode v3</a>
+                <?php if(!$data['cdo']['approved_status']): ?>
                     <button type="submit" class="btn btn-primary btn-submit" style="color:white"><i class="fa fa-pencil"></i> Update</button>
-                @else
+                <?php else: ?>
                     <button onclick="warning()" type="button" class="btn btn-primary btn-submit" style="color:white"><i class="fa fa-pencil"></i> Update</button>
-                @endif
+                <?php endif; ?>
             </div>
-        @else
+        <?php else: ?>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Cancel</button>
                 <button type="submit" class="btn btn-success btn-submit" style="color:white;"><i class="fa fa-send"></i> Submit</button>
             </div>
-        @endif
+        <?php endif; ?>
     </div>
 </form>
 </body>

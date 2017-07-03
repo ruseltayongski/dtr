@@ -1,15 +1,14 @@
-@extends('layouts.app')
-@section('content')
+<?php $__env->startSection('content'); ?>
     <div class="col-md-12 wrapper">
         <div class="box box-info">
             <div class="box-header with-border">
                 <h3 class="box-title">Office Order</h3>
             </div>
-            <input type="hidden" name="inclusive_name" value="{{ $inclusive_name[0] }}"/>
-            <span id="inclusive_name_page" data-link="{{ asset('inclusive_name_page') }}"></span>
-            <span id="so_append" data-link="{{ asset('so_append') }}"></span>
-            <form action="{{ asset('so_addv1') }}" method="POST" class="form-submit form-horizontal">
-                <input type="hidden" name="_token" value="{{ csrf_token() }}">
+            <input type="hidden" name="inclusive_name" value="<?php echo $inclusive_name[0]; ?>"/>
+            <span id="inclusive_name_page" data-link="<?php echo asset('inclusive_name_page'); ?>"></span>
+            <span id="so_append" data-link="<?php echo asset('so_append'); ?>"></span>
+            <form action="<?php echo asset('so_addv1'); ?>" method="POST" class="form-submit form-horizontal">
+                <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
                 <div class="box-body">
                     <div class="form-group">
                         <label for="prepared_by" class="col-sm-2 control-label">Prepared By</label>
@@ -29,7 +28,7 @@
                                 <div class="input-group-addon">
                                     <i class="fa fa-calendar-plus-o"></i>
                                 </div>
-                                <input class="form-control datepickercalendar" value="{{ date('m/d/Y') }}" name="prepared_date" required>
+                                <input class="form-control datepickercalendar" value="<?php echo date('m/d/Y'); ?>" name="prepared_date" required>
                             </div>
                         </div>
                     </div>
@@ -48,9 +47,9 @@
                         <label class="col-sm-2 control-label">Inclusive Name</label>
                         <div class="col-sm-10">
                             <select class="form-control select2" name="inclusive_name[]" multiple="multiple" data-placeholder="Select a name" required>
-                                @foreach($users as $row)
-                                    <option value="{{ $row['id'] }}">{{ $row['fname'].' '.$row['mname'].' '.$row['lname'] }}</option>
-                                @endforeach
+                                <?php foreach($users as $row): ?>
+                                    <option value="<?php echo $row['id']; ?>"><?php echo $row['fname'].' '.$row['mname'].' '.$row['lname']; ?></option>
+                                <?php endforeach; ?>
                             </select>
                         </div>
                     </div>
@@ -82,7 +81,7 @@
                     </div>
 
                     <div class="modal-footer">
-                        <a href="{{ asset('/form/so_list') }}" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Cancel</a>
+                        <a href="<?php echo asset('/form/so_list'); ?>" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Cancel</a>
                         <button type="submit" class="btn btn-success btn-submit" style="color:white;"><i class="fa fa-send"></i> Submit</button>
                     </div>
 
@@ -91,8 +90,8 @@
         </div>
     </div>
 
-@endsection
-@section('js')
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('js'); ?>
     <script>
         $('.datepickercalendar').datepicker({
             autoclose: true
@@ -134,4 +133,6 @@
 
     </script>
 
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.app', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

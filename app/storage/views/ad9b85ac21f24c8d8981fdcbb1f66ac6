@@ -1,5 +1,4 @@
-@extends('layouts.app')
-@section('content')
+<?php $__env->startSection('content'); ?>
 <div class="col-md-12 wrapper">
     <div class="alert alert-jim">
         <h3 class="page-header">Office Order
@@ -11,7 +10,7 @@
                         <div class="panel panel-default">
                             <div class="panel-heading"><strong style="color: #f0ad4e;font-size:medium;">Option</strong></div>
                             <div class="panel-body">
-                                <form class="form-inline" method="POST" action="{{ asset('form/so_list') }}" id="searchForm">
+                                <form class="form-inline" method="POST" action="<?php echo asset('form/so_list'); ?>" id="searchForm">
                                     <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
                                     <div class="table-responsive">
                                         <table class="table">
@@ -19,7 +18,7 @@
                                                 <td class="col-sm-2" style="font-size: 12px;"><strong>Keyword</strong></td>
                                                 <td class="col-sm-1">: </td>
                                                 <td class="col-sm-9">
-                                                    <input type="text" class="col-md-2 form-control" value="{{ Session::get('keyword') }}" id="inputEmail3" name="keyword" placeholder="Route no, Subject">
+                                                    <input type="text" class="col-md-2 form-control" value="<?php echo Session::get('keyword'); ?>" id="inputEmail3" name="keyword" placeholder="Route no, Subject">
                                                 </td>
                                             </tr>
                                         </table>
@@ -42,16 +41,16 @@
                             <div class="panel-body">
                                 <div class="row">
                                     <div class="col-md-12">
-                                        @if(!Auth::user()->usertype)
+                                        <?php if(!Auth::user()->usertype): ?>
                                             <a class="btn btn-success" data-dismiss="modal" data-backdrop="static" data-toggle="modal" data-target="#form_type" style="background-color: darkmagenta;color: white"><i class="fa fa-plus"></i> Create new</a>
-                                        @endif
-                                        {{--<a href="#document_form" data-link="{{ asset('form/sov1') }}" class="btn btn-success" data-dismiss="modal" data-backdrop="static" data-toggle="modal" data-target="#document_form" style="background-color:darkmagenta;color: white;"><i class="fa fa-plus"></i> Create new</a>--}}
+                                        <?php endif; ?>
+                                        <?php /*<a href="#document_form" data-link="<?php echo asset('form/sov1'); ?>" class="btn btn-success" data-dismiss="modal" data-backdrop="static" data-toggle="modal" data-target="#document_form" style="background-color:darkmagenta;color: white;"><i class="fa fa-plus"></i> Create new</a>*/ ?>
                                     </div>
                                 </div>
                                 <br />
                                 <div class="row">
                                     <div class="col-md-12">
-                                        @if(isset($office_order) and count($office_order) >0)
+                                        <?php if(isset($office_order) and count($office_order) >0): ?>
                                             <div class="table-responsive">
                                                 <table class="table table-list table-hover table-striped">
                                                     <thead>
@@ -59,37 +58,38 @@
                                                         <th class="text-center"></th>
                                                         <th class="text-center">Route #</th>
                                                         <th class="text-center">Prepared Date</th>
-                                                        @if(\Illuminate\Support\Facades\Auth::user()->usertype)
+                                                        <?php if(\Illuminate\Support\Facades\Auth::user()->usertype): ?>
                                                         <th class="text-center">Prepared Name</th>
-                                                        @else
+                                                        <?php else: ?>
                                                         <th class="text-center">Document Type</th>
-                                                        @endif
+                                                        <?php endif; ?>
                                                         <th class="text-center">Subject</th>
                                                     </tr>
                                                     </thead>
                                                     <tbody style="font-size: 10pt;">
-                                                    @foreach($office_order as $so)
+                                                    <?php foreach($office_order as $so): ?>
                                                         <tr>
-                                                            <td class="text-center"><a href="#track" data-link="{{ asset('form/track/'.$so->route_no) }}" data-route="{{ $so->route_no }}" data-toggle="modal" class="btn btn-sm btn-success col-sm-12" style="background-color: darkmagenta;color: white;"><i class="fa fa-line-chart"></i> Track</a></td>
+                                                            <td class="text-center"><a href="#track" data-link="<?php echo asset('form/track/'.$so->route_no); ?>" data-route="<?php echo $so->route_no; ?>" data-toggle="modal" class="btn btn-sm btn-success col-sm-12" style="background-color: darkmagenta;color: white;"><i class="fa fa-line-chart"></i> Track</a></td>
                                                             <td class="text-center">
-                                                                <a class="title-info" style="color: #f0ad4e;" data-route="{{ $so->route_no }}" data-backdrop="static" data-link="{{ asset('/form/info/'.$so->route_no.'/office_order') }}" href="#document_info" data-toggle="modal">{{ $so->route_no }}</a>
+                                                                <a class="title-info" style="color: #f0ad4e;" data-route="<?php echo $so->route_no; ?>" data-backdrop="static" data-link="<?php echo asset('/form/info/'.$so->route_no.'/office_order'); ?>" href="#document_info" data-toggle="modal"><?php echo $so->route_no; ?></a>
                                                             </td>
-                                                            <td class="text-center">{{ date('M d, Y',strtotime($so->prepared_date)) }}<br>{{ date('h:i:s A',strtotime($so->prepared_date)) }}</td>
-                                                            @if(Auth::user()->usertype)
-                                                            <td>{{ pdoController::user_search1($so['prepared_by'])['fname'].' '.pdoController::user_search1($so['prepared_by'])['mname'].' '.pdoController::user_search1($so['prepared_by'])['lname'] }}</td>
-                                                            @else
+                                                            <td class="text-center"><?php echo date('M d, Y',strtotime($so->prepared_date)); ?><br><?php echo date('h:i:s A',strtotime($so->prepared_date)); ?></td>
+                                                            <?php if(Auth::user()->usertype): ?>
+                                                            <td><?php echo pdoController::user_search1($so['prepared_by'])['fname'].' '.pdoController::user_search1($so['prepared_by'])['mname'].' '.pdoController::user_search1($so['prepared_by'])['lname']; ?></td>
+                                                            <?php else: ?>
                                                             <td class="text-center">Office Order</td>
-                                                            @endif
-                                                            <td class="text-center">{{ $so->subject }}</td>
+                                                            <?php endif; ?>
+                                                            <td class="text-center"><?php echo $so->subject; ?></td>
                                                         </tr>
-                                                    @endforeach
+                                                    <?php endforeach; ?>
                                                     </tbody>
                                                 </table>
                                             </div>
-                                            {{ $office_order->links() }}
-                                        @else
+                                            <?php echo $office_order->links(); ?>
+
+                                        <?php else: ?>
                                             <div class="alert alert-danger" role="alert"><span style="color:red;">Documents records are empty.</span></div>
-                                        @endif
+                                        <?php endif; ?>
                                     </div>
                                 </div>
 
@@ -102,8 +102,8 @@
     </div>
 </div>
 
-@endsection
-@section('js')
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('js'); ?>
     <script>
         $('.input-daterange input').each(function() {
             $(this).datepicker("clearDates");
@@ -158,4 +158,6 @@
         $('#inclusive3').daterangepicker();
     </script>
 
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.app', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
