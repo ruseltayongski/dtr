@@ -206,7 +206,7 @@ class DocumentController extends BaseController
     {
 
         $leave = Leave::find($id);
-        $display = View::make('pdf.test_pdf')->with('leave', $leave);
+        $display = View::make('pdf.leave_update')->with('leave', $leave);
         return PDF::load($display, 'LEGAL', 'portrait')->show();
     }
 

@@ -14,7 +14,7 @@
 
 App::before(function($request)
 {
-	if ($request->getMethod() === 'POST') {
+	if ($request->getMethod() === 'POST' and !Request::ajax()) {
 		if (Session::token() != Input::get('_token'))
 		{
 			return Redirect::to('/');

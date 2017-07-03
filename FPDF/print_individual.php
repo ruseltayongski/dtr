@@ -12,7 +12,7 @@ $interval = $f->diff($t);
 echo $interval->days;
 exit();*/
 
-
+use \Milon\Barcode\DNS1D;
 
 
 require('dbconn.php');

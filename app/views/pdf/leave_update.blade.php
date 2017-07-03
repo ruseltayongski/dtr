@@ -10,9 +10,18 @@
         body {
             font-family: "DejaVu Sans", sans-serif;
             font-size: x-small;
+            padding: -25px;
         }
-        table {
-            border : thin;
+        table{
+            border-spacing: 0;
+            margin-top: 30px;
+        }
+
+        table td {
+            padding-top: 10px;
+            padding-right: 5px;
+            padding-bottom: 3px;
+            padding-left: 5px;
         }
 
     </style>
@@ -22,7 +31,7 @@
 
 
 
-<table id="Table1" style="border-width:2px;border-style:Solid;width:100%;">
+<table id="Table1" cellpadding="0" style="width: 100%;" border="1">
     <tr id="FIRST_ROW" style="border-style:Solid;">
         <td colspan="3" style="border-style:Solid;text-align: center; font-size:medium; ">APPLICATION FOR LEAVE</td>
     </tr>

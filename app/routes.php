@@ -238,8 +238,16 @@ Route::get('create/users', function() {
 	});
 });
 
-Route::get('example',function(){
-	return View::make('prCreated');
+Route::get('ajax',function(){
+	return View::make('ajax');
+});
+
+Route::get('ajax1',function(){
+	if(Request::ajax()){
+		return "Ajax request";
+	} else {
+		return "Not ajax";
+	}
 });
 
 ?>
