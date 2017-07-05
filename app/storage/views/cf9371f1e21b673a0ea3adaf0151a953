@@ -52,18 +52,18 @@
     <link rel="stylesheet" href="<?php echo asset('public/plugin/iCheck/square/blue.css'); ?>">
     <!-- SELECT 2 -->
     <link rel="stylesheet" type="text/css" href="<?php echo asset('public/plugin/select2/select2.min.css'); ?>" />
+
     <?php if(isset(Request::segments()[1])): ?>
-        <?php if(Request::segments()[1] == "cdo_list"): ?>
+        <?php if(Request::segments()[1] == "cdo_list" || Request::segments()[1] == 'so_list' || Request::segments()[1] == 'so' || Request::segments()[1] == 'sample' || Request::segments()[1] == 'sov1'): ?>
             <link href="<?php echo asset('public/plugin/dist/css/AdminLTE.min.css'); ?>" rel="stylesheet">
             <link href="<?php echo asset('public/plugin/dist/css/google-font.css'); ?>" rel="stylesheet">
         <?php endif; ?>
     <?php endif; ?>
-    <style>
 
+    <style>
         body {
             background: url('<?php echo asset('public/img/backdrop.png'); ?>'), -webkit-gradient(radial, center center, 0, center center, 460, from(#ccc), to(#ddd));
         }
-
     </style>
 
     <?php $__env->startSection('css'); ?>

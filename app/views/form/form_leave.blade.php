@@ -43,7 +43,7 @@
                                     <div class="col-md-4">
                                         <div class="form-group has-success  input-daterange">
                                             <label class="control-label" for="inputSuccess1">(3.) Date of Filling</label>
-                                            <input type="text" class="form-control" name="date_filling" value="{{ date("Y-m-d") }}" disabled>
+                                            <input type="text" class="form-control" name="date_filling" value="{{ date("Y-m-d") }}" readonly>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
@@ -55,7 +55,7 @@
                                     <div class="col-md-4">
                                         <div class="form-group has-success">
                                             <label class="control-label" for="inputSuccess1">(5.)Salary (Monthly)</label>
-                                            <input type="text" class="form-control" id="inputSuccess1" name="salary">
+                                            <input type="text" class="form-control" id="inputSuccess1" name="salary" onkeypress='validate(event)'>
                                         </div>
                                     </div>
                                 </div>
@@ -267,5 +267,16 @@
                 $('.sic_dis').prop('disabled', false);
             }
         });
+
+        function validate(evt) {
+            var theEvent = evt || window.event;
+            var key = theEvent.keyCode || theEvent.which;
+            key = String.fromCharCode( key );
+            var regex = /[0-9]|\./;
+            if( !regex.test(key) ) {
+                theEvent.returnValue = false;
+                if(theEvent.preventDefault) theEvent.preventDefault();
+            }
+        }
     </script>
 @endsection

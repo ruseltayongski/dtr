@@ -17,6 +17,7 @@
 			"app/database/migrations",
 			"app/database/seeds",
 			"app/tests/TestCase.php",
+			"FPDF/",
 			"FPDF/print_individual.php",
 			"FPDF/print_all.php",
 			"FPDF/d.php"

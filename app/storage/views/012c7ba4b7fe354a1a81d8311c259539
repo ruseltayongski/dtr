@@ -26,6 +26,8 @@
             <li class="divider"></li>
             <li><a href="<?php echo url('employees'); ?>"><i class="fa fa-users" aria-hidden="true"></i> Employees</a></li>
             <li class="divider"></li>
+            <li><a href="#print" aria-hidden="true" data-toggle="modal" data-target="#print_emp"><i class="fa fa-print" ></i> Print Employee</a></li>
+            <li class="divider"></li>
             <li><a href="<?php echo url('attendance'); ?>"><i class="glyphicon glyphicon-time"></i> Attendance</a></li>
             <li class="divider"></li>
             <li class="dropdown-submenu">

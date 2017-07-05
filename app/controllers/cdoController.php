@@ -357,8 +357,9 @@ class cdoController extends BaseController
                 $approved_status = 0;
                 //delete dtr file
                 $this->dtr_delete_cto($info->start,$info->end);
-            } else {
-                //standard user mo update
+            }
+            else{
+                //STANDAR USER
                 $approved_status = 0;
             }
 
@@ -421,7 +422,5 @@ class cdoController extends BaseController
         Session::put('deleted',true);
         return Redirect::to('form/cdo_list');
     }
-    public function cdo_view(Request $request){
-        return view('cdo.cdo_view');
-    }
+
 }

@@ -84,6 +84,7 @@
         var page = "<?php echo Session::get('page_disapprove') ?>";
         var url = $("#cdo_updatev1").data('link')+'/'+data.val()+'/disapprove?page='+page;
         $.post(url,function(result){
+            console.log(url);
             $('.ajax_disapprove').html(loadingState);
             setTimeout(function(){
                 if(result['count_disapprove'] && !result['paginate_disapprove']){

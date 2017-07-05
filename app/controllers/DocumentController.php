@@ -38,7 +38,7 @@ class DocumentController extends BaseController
             $leave->lastname = Input::get('lastname');
             $leave->firstname = Input::get('firstname');
             $leave->middlename = Input::get('middlename');
-            $date_filling = explode('/', Input::get('date_filling'));
+
 
             $leave->date_filling = Input::get('date_filling');
 
@@ -772,10 +772,10 @@ class DocumentController extends BaseController
                     endfor;
                 }
             }
+            Session::put('absent','true');
             return Redirect::back();
 
         }
-        Session::put('absent','true');
         return View::make('form.absent');
     }
 

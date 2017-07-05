@@ -177,7 +177,7 @@
             });
         }
 
-        function remove(id){
+        function remove_row(id){
             $("#"+id.val()).remove();
         }
 

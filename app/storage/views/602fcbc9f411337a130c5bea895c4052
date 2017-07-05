@@ -1,4 +1,4 @@
-<?php if(isset($cdo['approve']) and count($cdo['approve']) >0): ?>
+<?php if(isset($cdo['paginate_approve']) and count($cdo['paginate_approve']) >0): ?>
     <div class="table-responsive" style="margin-top: -20px;">
         <label style="padding-bottom: 10px;">Check to select all to disapprove </label>
         <input type="checkbox" id="click_disapprove">
@@ -21,7 +21,7 @@
             </tr>
             </thead>
             <tbody style="font-size: 10pt;">
-            <?php foreach($cdo['approve'] as $row): ?>
+            <?php foreach($cdo['paginate_approve'] as $row): ?>
                 <tr>
                     <td><a href="#track" data-link="<?php echo asset('form/track/'.$row->route_no); ?>" data-route="<?php echo $row->route_no; ?>" data-toggle="modal" class="btn btn-sm btn-success col-sm-12" style="background-color:darkmagenta;color:white;"><i class="fa fa-line-chart"></i> Track</a></td>
                     <td><a class="title-info" data-backdrop="static" data-route="<?php echo $row->route_no; ?>" style="color: #f0ad4e;" data-link="<?php echo asset('/form/info/'.$row->route_no.'/cdo'); ?>" href="#document_info" data-toggle="modal"><?php echo $row->route_no; ?></a></td>
@@ -40,7 +40,7 @@
             </tbody>
         </table>
     </div>
-    <?php echo $cdo['approve']->links(); ?>
+    <?php echo $cdo['paginate_approve']->links(); ?>
 
 <?php else: ?>
     <div class="alert alert-danger" role="alert" style="color: red"><span style="color:red;">Documents records are empty.</span></div>
@@ -89,10 +89,11 @@
         var page = "<?php echo Session::get('page_approve') ?>";
         var url = $("#cdo_updatev1").data('link')+'/'+data.val()+'/approve?page='+page;
         $.post(url,function(result){
+            console.log(result);
             $('.ajax_approve').html(loadingState);
             setTimeout(function(){
                 if(result["count_approve"] && !result['paginate_approve']){
-                    getPosts(page-1);
+                    getPosts(page-1,'');
                 } else {
                     $('.ajax_approve').html(result['view']);
                 }

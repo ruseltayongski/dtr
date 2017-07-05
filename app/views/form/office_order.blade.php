@@ -1,5 +1,10 @@
 @extends('layouts.app')
 @section('content')
+    <style>
+        .table-info tr td:first-child {
+            color: #2b542c;
+        }
+    </style>
     <span id="so_append" data-link="{{ asset('so_append') }}"></span>
     <span id="inclusive_name_page" data-link="{{ asset('inclusive_name_page') }}"></span>
     <div class="col-md-12 wrapper">
@@ -10,7 +15,7 @@
                     <div class="col-md-11">
                         <form action="{{ asset('form/so') }}" method="POST" id="form_route" class="form-submit">
                             <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
-                            <div class="table-responsive">
+                            <div class="table-responsive" style="color:#444;">
                                 <table class="table">
                                     <tr>
                                         <td class="col-md-1"><img height="130" width="130" src="{{ asset('public/img/doh.png') }}" /></td>
@@ -118,15 +123,7 @@
         </div>
     </div>
 @endsection
-@section('css')
-    @parent
-    <style>
-        .underline {
-            border-bottom: 1px solid #000000;
-            width: 50px;
-        }
-    </style>
-@endsection
+
 @section('js')
     @parent
     <script>
@@ -154,7 +151,7 @@
             });
         }
 
-        function remove(id){
+        function remove_row(id){
             $("#"+id.val()).remove();
         }
 

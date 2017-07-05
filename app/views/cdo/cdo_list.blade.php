@@ -12,25 +12,14 @@
                                 <div class="panel-heading"><strong style="color: #f0ad4e;font-size:medium;">Option</strong></div>
                                 <div class="panel-body">
                                     <form class="form-inline" method="POST" action="{{ asset('form/cdo_list') }}" id="searchForm">
+                                        <input type="hidden" name="_token" value="{{ csrf_token(); }}">
                                         <div class="table-responsive">
                                             <table class="table">
                                                 <tr>
-                                                    <td class="col-sm-3" style="font-size: 12px;"><strong>Keyword</strong></td>
+                                                    <td class="col-sm-2" style="font-size: 12px;"><strong>Keyword</strong></td>
                                                     <td class="col-sm-1">: </td>
                                                     <td class="col-sm-9">
-                                                        <input type="text" class="col-md-2 form-control" value="{{ Session::get('keyword') }}" name="keyword" placeholder="Route no, Subject">
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="col-sm-3" style="font-size: 12px;"><strong>Dates</strong></td>
-                                                    <td class="col-sm-1"> :</td>
-                                                    <td class="col-sm-9">
-                                                        <div class="input-group">
-                                                            <div class="input-group-addon">
-                                                                <i class="fa fa-calendar"></i>
-                                                            </div>
-                                                            <input type="text" class="form-control" id="inclusive3" name="filter_range" placeholder="Input date range here...">
-                                                        </div>
+                                                        <input type="text" class="form-control" value="{{ Session::get('keyword') }}" style="width:100%;" name="keyword" placeholder="Route no, Subject">
                                                     </td>
                                                 </tr>
                                             </table>
@@ -165,6 +154,7 @@
                                                                     <th class="text-center">Prepared Date</th>
                                                                     <th class="text-center">Document Type</th>
                                                                     <th class="text-center">Subject</th>
+                                                                    <th class="text-center">Approved Status</th>
                                                                 </tr>
                                                                 </thead>
                                                                 <tbody style="font-size: 10pt;">
@@ -175,6 +165,11 @@
                                                                         <td>{{ date('M d, Y',strtotime($row->prepared_date)) }}<br>{{ date('h:i:s A',strtotime($row->prepared_date)) }}</td>
                                                                         <td>CTO</td>
                                                                         <td>{{ $row->subject }}</td>
+                                                                        @if($row->approved_status)
+                                                                            <td class="text-center"><span class="label label-info"><i class="fa fa-smile-o"></i> Approved </span></td>
+                                                                        @else
+                                                                            <td class="text-center"><span class="label label-danger"><i class="fa fa-frown-o"></i> Disapprove </span></td>
+                                                                        @endif
                                                                     </tr>
                                                                 @endforeach
                                                                 </tbody>
