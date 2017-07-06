@@ -41,7 +41,7 @@ Route::get('filter/flixe','AdminController@filter_flixe');
 Route::get('work-schedule/group', 'AdminController@show_group');
 Route::post('delete/attendance', 'AdminController@delete');
 Route::match(['GET','POST'], 'reset/password', 'PasswordController@reset_password');
-
+Route::post('user/delete', 'AdminController@delete_user');
 Route::match(['GET','POST'],'user/edit', 'AdminController@user_edit');
 
 Route::match(array('GET','POST'), 'print-monthly', 'PrintController@print_monthly');

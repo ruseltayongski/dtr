@@ -43,6 +43,7 @@ class PasswordController extends BaseController
                 return Redirect::to('resetpass')->with('error', $validator->messages());
             }
             $user = User::find(Auth::user()->id);
+
             if(Hash::check(Input::get('current_password'),$user->password)){
                 $user->password = Hash::make(Input::get('password_confirmation'));
                 $user->save();

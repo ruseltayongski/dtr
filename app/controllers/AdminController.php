@@ -332,4 +332,18 @@ class AdminController extends BaseController
             return $pdf->stream();
         }
     }
+
+    public function delete_user()
+    {
+        if(Input::has('userid')) {
+            $id = Input::get('userid');
+            $user = Users::where('userid', '=', $id)->first();
+            if(count($user)) {
+                $name = $user->lname . ", " . $user->fname;
+                $user->delete();
+                return Redirect::to('employees')->with('name', $name . " was removed.");
+            }
+        }
+        return Redirect::to('employees');
+    }
 }

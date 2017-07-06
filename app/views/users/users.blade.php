@@ -1,9 +1,10 @@
 @extends('layouts.app')
 
 @section('content')
-    @if(Session::has('msg_sched'))
+    @if(Session::has('name'))
         <div class="alert alert-success">
-            <strong>{{ Session::get('msg_sched') }}</strong>
+
+            <strong> <i class="fa fa-check-square-o" aria-hidden="true"></i> {{ Session::get('name') }}</strong>
         </div>
     @endif
     <div class="alert alert-jim" id="inputText">
@@ -44,7 +45,7 @@
                                         <i class="fa fa-pencil"></i>  Update
                                     </a>
                                 </div>
-                                <button type="button" data-id="{{ $user->userid }}" data-link="{{ asset('user/delete') }}" class="btn btn-danger" id="delete_user" onclick="del_user(this);" ><i class="fa fa-trash"></i> Delete</button>
+                                <button data-id="{{ $user->userid }}" class="btn btn-danger delete_userid"><i class="fa fa-trash"></i> Delete</button>
                             </td>
                         </tr>
                     @endforeach
@@ -112,6 +113,16 @@
                 $('#schedule_modal').html(res);
             });
         });
+        $('.delete_userid').click(function(){
+            var id = $(this).data('id');
+            $('#del_userid_input').val('');
+            $('#del_userid_input').val(id);
+            var e_id =  $('#del_userid_input').val();
+            console.log(e_id);
+            $('#delete_user_modal').modal('show');
+
+        });
+
     </script>
 @endsection
 

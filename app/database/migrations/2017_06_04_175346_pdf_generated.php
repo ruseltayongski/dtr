@@ -23,6 +23,8 @@ class PdfGenerated extends Migration {
 			$table->string('generated',10)->nullable();
 			$table->string('is_filtered',10)->nullable();
 			$table->string('empid', 10)->nullable();
+			$table->index('date_from');
+			$table->index('date_to');
 			$table->rememberToken();
 			$table->timestamps();
 		});
