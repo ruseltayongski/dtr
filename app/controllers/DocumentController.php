@@ -251,11 +251,12 @@ class DocumentController extends BaseController
         return Redirect::to('form/so_list');
     }
 
-    public function so()
+    /*public function so()
     {
         if(Request::method() == 'GET'){
+            $prepared_by = pdoController::user_search(Auth::user()->userid)['id'];
             $users = pdoController::users();
-            return View::make('form.office_order',['users'=>$users]);
+            return View::make('form.office_order',['users'=>$users,"prepared_by" => json_encode($prepared_by)]);
         }
         else if(Request::method() == 'POST'){
             $route_no = date('Y-') . pdoController::user_search(Auth::user()->userid)['id'] . date('mdHis');
@@ -335,7 +336,7 @@ class DocumentController extends BaseController
 
             return Redirect::to('form/so_list');
         }
-    }
+    }*/
 
     public function so_view()
     {
@@ -410,21 +411,25 @@ class DocumentController extends BaseController
         return View::make('form.office_order_list')->with('office_order',$office_order);
     }
 
-    public function sov1()
+    public function sov1($version = null)
     {
         $prepared_by = pdoController::user_search(Auth::user()->userid)['id'];
         $users = pdoController::users();
         foreach($users as $row){
             $all_user[] = $row['id'];
         }
-        return View::make('form.office_orderv1',['users'=>$users,'prepared_by'=>json_encode($prepared_by),"all_user" => json_encode($all_user)]);
+        return View::make('form.office_orderv1',[
+            'users'=>$users,
+            'prepared_by'=>json_encode($prepared_by),
+            "all_user" => json_encode($all_user),"version" => $version
+        ]);
     }
 
     public function so_append(){
         return View::make('form.office_order_append');
     }
 
-    public function so_addv1(){
+    public function so_add(){
         $route_no = date('Y-') . pdoController::user_search(Auth::user()->userid)['id'] . date('mdHis');
         $doc_type = 'OFFICE_ORDER';
         $prepared_date = date('Y-m-d',strtotime(Input::get('prepared_date'))).' '.date('H:i:s');
@@ -438,7 +443,13 @@ class DocumentController extends BaseController
         $office_order->subject = Input::get('subject');
         $office_order->prepared_by = $prepared_by;
         $office_order->prepared_date = $prepared_date;
-        $office_order->version = 1;
+        $office_order->version = Input::get('version');
+        if(Input::get('version') == 2):
+        $office_order->header_body = Input::get('header_body');
+        $office_order->footer_body = Input::get('footer_body');
+        $office_order->approved_by = Input::get('approved_by');
+        endif;
+        $office_order->approved_status = 0;
         $office_order->save();
 
         //ADD INCLUSIVE NAME

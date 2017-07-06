@@ -163,35 +163,22 @@
 <div class="modal fade" tabindex="-1" role="dialog" id="form_type" style="z-index:999991;">
     <div class="modal-dialog modal-sm" role="document">
         <div class="modal-content">
-            <div class="modal-header" style="background-color:#9C8AA5	;padding:15px;">
+            <div class="modal-header" style="background-color:#9C8AA5;padding:15px;">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4><i class="fa fa-file-pdf-o"></i> Select Form Type</h4>
             </div>
             <div class="modal-body text-center">
                 <div class="col-xs-4" style="left: 10%">
-                     <a href="#document_form" data-dismiss="modal" data-link="<?php if(isset($asset)) echo $asset; ?>" data-backdrop="static" data-toggle="modal" data-target="#document_form" class="text-success">
+                     <a href="#document_form" data-dismiss="modal" data-link="<?php if(isset($asset)) echo $asset.'/1'; ?>" data-backdrop="static" data-toggle="modal" data-target="#document_form" class="text-success">
                         <i class="fa fa-file-pdf-o fa-5x"></i><br>
                         <i>Form V1</i>
                     </a>
-                    <!-- <a href="sov1" class="text-success">
-                        <i class="fa fa-file-pdf-o fa-5x"></i><br>
-                        <i>Form V1</i>
-                    </a> -->
                 </div>
                 <div class="col-xs-4" style="left: 25%;">
-                    <?php if(isset($doc_type)): ?>
-                        <?php if($doc_type == 'CDO'): ?>
-                            <a href="#" onclick="soon()" class="text-info">
-                                <i class="fa fa-file-pdf-o fa-5x"></i><br>
-                                <i>Form V2</i>
-                            </a>
-                        <?php else: ?>
-                            <a href="so" class="text-info">
-                                <i class="fa fa-file-pdf-o fa-5x"></i><br>
-                                <i>Form V2</i>
-                            </a>
-                        <?php endif; ?>
-                    <?php endif; ?>
+                    <a href="#document_form" data-dismiss="modal" data-link="<?php if(isset($asset)) echo $asset.'/2'; ?>" data-backdrop="static" data-toggle="modal" data-target="#document_form" class="text-info">
+                        <i class="fa fa-file-pdf-o fa-5x"></i><br>
+                        <i>Form V2</i>
+                    </a>
                 </div>
             </div>
             <div class="clearfix"></div>
