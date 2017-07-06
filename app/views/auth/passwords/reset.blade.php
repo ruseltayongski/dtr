@@ -28,6 +28,7 @@
 
                 <div class="panel-body">
                     <form class="form-horizontal" role="form" method="POST" action="{{ asset('resetpass')  }}">
+                        <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
                         <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
                             <label for="email" class="col-md-4 control-label">Current password</label>
 

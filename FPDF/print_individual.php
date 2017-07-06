@@ -3,7 +3,6 @@
 <?php
 
 
-
 /*$f = new DateTime('2017-01-01'.' '. '24:00:00');
 $t = new DateTime('2017-01-05'.' '. '24:00:00');
 
@@ -504,6 +503,10 @@ class PDF extends FPDF
                             $this->SetX(150);
                             $this->Cell(10,0,'IN-CHARGE',0,0,'C');
 
+                           /* $generator = new Picqer\Barcode\BarcodeGeneratorHTML();
+                          //  $this->Cell(10,0,$generator->getBarcode('081231723897', $generator::TYPE_CODE_128),0,0,'C');
+                            $html = new PDF_HTML();
+                            $html->WriteHTML($generator->getBarcode('081231723897', $generator::TYPE_CODE_128));*/
 
 
                         }
@@ -541,6 +544,7 @@ class PDF extends FPDF
 $pdf = new PDF('P','mm','A4');
 $pdf->AliasNbPages();
 $pdf->AddPage();
+
 
 $pdf->Image(__DIR__.'/image/doh2.png', 15, 50,80,80);
 $pdf->Image(__DIR__.'/image/doh2.png', 118, 50,80,80);

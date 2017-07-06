@@ -16,27 +16,15 @@
                                     <div class="table-responsive">
                                         <table class="table">
                                             <tr>
-                                                <td class="col-sm-3" style="font-size: 12px;"><strong>Keyword</strong></td>
+                                                <td class="col-sm-2" style="font-size: 12px;"><strong>Keyword</strong></td>
                                                 <td class="col-sm-1">: </td>
                                                 <td class="col-sm-9">
                                                     <input type="text" class="col-md-2 form-control" value="{{ Session::get('keyword') }}" id="inputEmail3" name="keyword" placeholder="Route no, Subject">
                                                 </td>
                                             </tr>
-                                            <tr>
-                                                <td class="col-sm-3" style="font-size: 12px;"><strong>Dates</strong></td>
-                                                <td class="col-sm-1"> :</td>
-                                                <td class="col-sm-9">
-                                                    <div class="input-group">
-                                                        <div class="input-group-addon">
-                                                            <i class="fa fa-calendar"></i>
-                                                        </div>
-                                                        <input type="text" class="form-control" id="inclusive3" name="filter_range" placeholder="Input date range here...">
-                                                    </div>
-                                                </td>
-                                            </tr>
                                         </table>
                                     </div>
-                                    <button type="submit"  class="btn-lg btn-success center-block col-sm-12" id="print" data-loading-text="<i class='fa fa-refresh fa-spin'></i> Printing DTR">
+                                    <button type="submit" class="btn-lg btn-success center-block col-sm-12" id="print" data-loading-text="<i class='fa fa-refresh fa-spin'></i> Printing DTR">
                                         <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Search
                                     </button>
                                 </form>
@@ -54,7 +42,7 @@
                             <div class="panel-body">
                                 <div class="row">
                                     <div class="col-md-12">
-                                        @if(!\Illuminate\Support\Facades\Auth::user()->usertype)
+                                        @if(!Auth::user()->usertype)
                                             <a class="btn btn-success" data-dismiss="modal" data-backdrop="static" data-toggle="modal" data-target="#form_type" style="background-color: darkmagenta;color: white"><i class="fa fa-plus"></i> Create new</a>
                                         @endif
                                         {{--<a href="#document_form" data-link="{{ asset('form/sov1') }}" class="btn btn-success" data-dismiss="modal" data-backdrop="static" data-toggle="modal" data-target="#document_form" style="background-color:darkmagenta;color: white;"><i class="fa fa-plus"></i> Create new</a>--}}
@@ -83,9 +71,11 @@
                                                     @foreach($office_order as $so)
                                                         <tr>
                                                             <td class="text-center"><a href="#track" data-link="{{ asset('form/track/'.$so->route_no) }}" data-route="{{ $so->route_no }}" data-toggle="modal" class="btn btn-sm btn-success col-sm-12" style="background-color: darkmagenta;color: white;"><i class="fa fa-line-chart"></i> Track</a></td>
-                                                            <td class="text-center"><a class="title-info" data-route="{{ $so->route_no }}" data-backdrop="static" data-link="{{ asset('/form/info/'.$so->route_no.'/office_order') }}" href="#document_info" data-toggle="modal">{{ $so->route_no }}</a></td>
+                                                            <td class="text-center">
+                                                                <a class="title-info" style="color: #f0ad4e;" data-route="{{ $so->route_no }}" data-backdrop="static" data-link="{{ asset('/form/info/'.$so->route_no.'/office_order') }}" href="#document_info" data-toggle="modal">{{ $so->route_no }}</a>
+                                                            </td>
                                                             <td class="text-center">{{ date('M d, Y',strtotime($so->prepared_date)) }}<br>{{ date('h:i:s A',strtotime($so->prepared_date)) }}</td>
-                                                            @if(\Illuminate\Support\Facades\Auth::user()->usertype)
+                                                            @if(Auth::user()->usertype)
                                                             <td>{{ pdoController::user_search1($so['prepared_by'])['fname'].' '.pdoController::user_search1($so['prepared_by'])['mname'].' '.pdoController::user_search1($so['prepared_by'])['lname'] }}</td>
                                                             @else
                                                             <td class="text-center">Office Order</td>
@@ -98,7 +88,7 @@
                                             </div>
                                             {{ $office_order->links() }}
                                         @else
-                                            <div class="alert alert-danger" role="alert">Documents records are empty.</div>
+                                            <div class="alert alert-danger" role="alert"><span style="color:red;">Documents records are empty.</span></div>
                                         @endif
                                     </div>
                                 </div>
@@ -114,7 +104,6 @@
 
 @endsection
 @section('js')
-    @parent
     <script>
         $('.input-daterange input').each(function() {
             $(this).datepicker("clearDates");

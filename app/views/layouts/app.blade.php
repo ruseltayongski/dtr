@@ -52,18 +52,18 @@
     <link rel="stylesheet" href="{{ asset('public/plugin/iCheck/square/blue.css') }}">
     <!-- SELECT 2 -->
     <link rel="stylesheet" type="text/css" href="{{ asset('public/plugin/select2/select2.min.css') }}" />
+
     @if(isset(Request::segments()[1]))
-        @if(Request::segments()[1] == "cdo_list")
+        @if(Request::segments()[1] == "cdo_list" || Request::segments()[1] == 'so_list' || Request::segments()[1] == 'so' || Request::segments()[1] == 'sample' || Request::segments()[1] == 'sov1')
             <link href="{{ asset('public/plugin/dist/css/AdminLTE.min.css') }}" rel="stylesheet">
             <link href="{{ asset('public/plugin/dist/css/google-font.css') }}" rel="stylesheet">
         @endif
     @endif
-    <style>
 
+    <style>
         body {
             background: url('{{ asset('public/img/backdrop.png') }}'), -webkit-gradient(radial, center center, 0, center center, 460, from(#ccc), to(#ddd));
         }
-
     </style>
 
     @section('css')

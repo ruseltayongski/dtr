@@ -78,7 +78,6 @@
 </table>
 
 
-
 <div style="padding: 4px; text-align: center;">
     <strong>{{ $leave->route_no }}</strong>
     <br />

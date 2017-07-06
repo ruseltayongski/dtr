@@ -772,10 +772,10 @@ class DocumentController extends BaseController
                     endfor;
                 }
             }
+            Session::put('absent','true');
             return Redirect::back();
 
         }
-        Session::put('absent','true');
         return View::make('form.absent');
     }
 

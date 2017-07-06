@@ -27,6 +27,7 @@
 </head>
 <body>
 <form action="{{ $data['asset'] }}" method="POST" class="form-submit">
+    <input type="hidden" value="{{ csrf_token() }}" name="_token">
     <div class="clearfix"></div>
     <div class="new-times-roman table-responsive">
         <table cellpadding="0" cellspacing="0">
@@ -277,7 +278,11 @@
                 <button type="button" class="btn btn-success" data-dismiss="modal" style="color:white" data-toggle="modal" data-target="#paperSize"><i class="fa fa-barcode"></i> Barcode v1</button>
                 <a target="_blank" href="{{ asset('pdf/track') }}" class="btn btn-success" style="color:white"><i class="fa fa-barcode"></i> Barcode v2</a>
                 <a target="_blank" href="{{ asset('form/cdov1/pdf') }}" class="btn btn-success" style="color:white"><i class="fa fa-barcode"></i> Barcode v3</a>
-                <button type="submit" class="btn btn-primary btn-submit" style="color:white"><i class="fa fa-pencil"></i> Update</button>
+                @if(!$data['cdo']['approved_status'])
+                    <button type="submit" class="btn btn-primary btn-submit" style="color:white"><i class="fa fa-pencil"></i> Update</button>
+                @else
+                    <button onclick="warning()" type="button" class="btn btn-primary btn-submit" style="color:white"><i class="fa fa-pencil"></i> Update</button>
+                @endif
             </div>
         @else
             <div class="modal-footer">
@@ -318,4 +323,11 @@
             increaseArea: '20%' // optional
         });
     });
+
+    function warning(){
+        Lobibox.alert('info', //AVAILABLE TYPES: "error", "info", "success", "warning"
+        {
+            msg: "Cannot update if your CTO is already approved.."
+        });
+    }
 </script>
