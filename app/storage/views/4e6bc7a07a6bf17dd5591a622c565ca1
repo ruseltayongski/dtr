@@ -4,21 +4,21 @@
         color: #2b542c;
     }
 </style>
-<span id="so_append" data-link="{{ asset('so_append') }}"></span>
-<form action="@if($info->doc_type == 'OFFICE_ORDER') {{ asset('so_updatev1') }} @else {{ asset('cdo_updatev1') }} @endif" method="post" class="form-submit">
-    <input type="hidden" value="{{ csrf_token() }}" name="_token">
+<span id="so_append" data-link="<?php echo asset('so_append'); ?>"></span>
+<form action="<?php if($info->doc_type == 'OFFICE_ORDER'): ?> <?php echo asset('so_updatev1'); ?> <?php else: ?> <?php echo asset('cdo_updatev1'); ?> <?php endif; ?>" method="post" class="form-submit">
+    <input type="hidden" value="<?php echo csrf_token(); ?>" name="_token">
     <div class="table-responsive">
         <table>
             <tr>
-                <td class="col-md-1"><img height="130" width="130" src="{{ asset('public/img/ro7.png') }}" /></td>
+                <td class="col-md-1"><img height="130" width="130" src="<?php echo asset('public/img/ro7.png'); ?>" /></td>
                 <td class="col-lg-10" style="text-align: center;">
                     Repulic of the Philippines <br />
                     <strong>DEPARTMENT OF HEALTH REGIONAL OFFICE NO. VII</strong><br />
                     Osmeña Boulevard, Cebu City, 6000 Philippines <br />
                     Regional Director's Office Tel. No. (032) 253-635-6355 Fax No. (032) 254-0109 <br />
-                    Official Website:<a target="_blank" href="http://www.ro7.doh.gov.ph"><u>http://www.ro7.doh.gov.ph</u></a> Email Address: dohro7{{ '@' }}gmail.com
+                    Official Website:<a target="_blank" href="http://www.ro7.doh.gov.ph"><u>http://www.ro7.doh.gov.ph</u></a> Email Address: dohro7<?php echo '@'; ?>gmail.com
                 </td>
-                <td class="col-md-10"><img height="130" width="130" src="{{ asset('public/img/ro7.png') }}" /> </td>
+                <td class="col-md-10"><img height="130" width="130" src="<?php echo asset('public/img/ro7.png'); ?>" /> </td>
             </tr>
         </table>
         <table class="table table-hover table-striped table-info">
@@ -42,7 +42,7 @@
                         <div class="input-group-addon">
                             <i class="fa fa-calendar-plus-o"></i>
                         </div>
-                        <input class="form-control datepickercalendar" value="{{ date('m/d/Y',strtotime($info->prepared_date)) }}" name="prepared_date" <?php if($info->version == 1)echo 'required';else echo'disabled';?>>
+                        <input class="form-control datepickercalendar" value="<?php echo date('m/d/Y',strtotime($info->prepared_date)); ?>" name="prepared_date" <?php if($info->version == 1)echo 'required';else echo'disabled';?>>
                     </div>
                 </td>
             </tr>
@@ -54,11 +54,11 @@
                         <div class="input-group-addon">
                             <i class="fa fa-book"></i>
                         </div>
-                        <textarea class="form-control" name="subject" rows="3" style="resize:none;" <?php if($info->version == 1)echo 'required';else echo'disabled';?>>{{ $info->subject }}</textarea>
+                        <textarea class="form-control" name="subject" rows="3" style="resize:none;" <?php if($info->version == 1)echo 'required';else echo'disabled';?>><?php echo $info->subject; ?></textarea>
                     </div>
                 </td>
             </tr>
-            @if($info->version == 1)
+            <?php if($info->version == 1): ?>
                 <tr>
                     <td class="col-sm-3"><label>Check to select all employee</label></td>
                     <td class="col-sm-1">:</td>
@@ -73,9 +73,9 @@
                         <div class="name_loading"></div>
                         <div class="inclusive_name">
                             <select class="form-control select2" name="inclusive_name[]" multiple="multiple" data-placeholder="Select a name" required>
-                                @foreach($users as $row)
-                                    <option value="{{ $row['id'] }}">{{ $row['fname'].' '.$row['mname'].' '.$row['lname'] }}</option>
-                                @endforeach
+                                <?php foreach($users as $row): ?>
+                                    <option value="<?php echo $row['id']; ?>"><?php echo $row['fname'].' '.$row['mname'].' '.$row['lname']; ?></option>
+                                <?php endforeach; ?>
                             </select>
                         </div>
                     </td>
@@ -85,7 +85,7 @@
                 $count = 1;
                 foreach($inclusive_date as $row):
                 ?>
-                <tr id="{{ $count }}">
+                <tr id="<?php echo $count; ?>">
                     <td class="col-sm-3"><label>Inclusive Date and Area </label></td>
                     <td class="col-sm-1"><strong>:</strong></td>
                     <td class="col-sm-8">
@@ -93,12 +93,12 @@
                             <div class="input-group-addon">
                                 <i class="fa fa-calendar"></i>
                             </div>
-                            <input type="text" class="form-control" style="width: 40%;" value="{{ date('m/d/Y',strtotime($row->start)).' - '.date('m/d/Y',strtotime('-1 day',strtotime($row->end))) }}" id="{{ 'inclusive'.$count }}" name="inclusive[]" placeholder="Input date range here..." required>
+                            <input type="text" class="form-control" style="width: 40%;" value="<?php echo date('m/d/Y',strtotime($row->start)).' - '.date('m/d/Y',strtotime('-1 day',strtotime($row->end))); ?>" id="<?php echo 'inclusive'.$count; ?>" name="inclusive[]" placeholder="Input date range here..." required>
                             <div class="input-group">
                                 <div class="input-group-addon">
                                     <i class="fa fa-location-arrow"></i>
                                 </div>
-                                <textarea name="area[]" class="form-control" rows="1" cols="30" placeholder="Input your area here..." style="resize: none;width: 100%;" required>{{ $row->area }}</textarea>
+                                <textarea name="area[]" class="form-control" rows="1" cols="30" placeholder="Input your area here..." style="resize: none;width: 100%;" required><?php echo $row->area; ?></textarea>
                             </div>
                         </div>
                     </td>
@@ -107,7 +107,7 @@
                 $count++;
                 endforeach;
                 ?>
-                <input type="hidden" value="{{ $count }}" id="date_count">
+                <input type="hidden" value="<?php echo $count; ?>" id="date_count">
                 </tbody>
                 <tr>
                     <td class="col-sm-3"></td>
@@ -116,33 +116,33 @@
                         <button class="btn-xs btn-primary pull-right" type="button" style="color: white" onclick="add_inclusive();"><i class="fa fa-plus"></i> Add inclusive date</button>
                     </td>
                 </tr>
-            @endif
+            <?php endif; ?>
         </table>
-        @if($info->version == 1)
+        <?php if($info->version == 1): ?>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
-                @if($info->approved_status)
+                <?php if($info->approved_status): ?>
                 <button type="button" onclick="warning('update')" class="btn btn-primary btn-submit" style="color:white"><i class="fa fa-pencil"></i> Update</button>
                 <a href="#" onclick="warning('proceed')" class="btn btn-info" style="color:white"><i class="fa fa-file"></i> Proceed form into v2</a>
-                @else
+                <?php else: ?>
                 <button type="submit" class="btn btn-primary btn-submit" style="color:white"><i class="fa fa-pencil"></i> Update</button>
-                <a href="{{ asset('form/so_view') }}" class="btn btn-info" style="color:white"><i class="fa fa-file"></i> Proceed form into v2</a>
-                @endif
+                <a href="<?php echo asset('form/so_view'); ?>" class="btn btn-info" style="color:white"><i class="fa fa-file"></i> Proceed form into v2</a>
+                <?php endif; ?>
                 <button type="button" class="btn btn-success" data-dismiss="modal" style="color:white" data-toggle="modal" data-target="#paperSize"><i class="fa fa-barcode"></i> Barcode v1</button>
-                <a target="_blank" href="{{ asset('pdf/track') }}" class="btn btn-success" style="color:white"><i class="fa fa-barcode"></i> Barcode v2</a>
+                <a target="_blank" href="<?php echo asset('pdf/track'); ?>" class="btn btn-success" style="color:white"><i class="fa fa-barcode"></i> Barcode v2</a>
                 <a onclick="warning()" class="btn btn-success" style="color:white"><i class="fa fa-barcode"></i> Barcode v3</a>
-                <button type="button" data-route="{{ $info->route_no }}" data-link="{{ asset('/form/info/'.$info->route_no) }}" style="color:white" class="btn btn-danger" data-dismiss="modal" data-toggle="modal" data-target="#deleteDocument"><i class="fa fa-trash"></i> Remove</button>
+                <button type="button" data-route="<?php echo $info->route_no; ?>" data-link="<?php echo asset('/form/info/'.$info->route_no); ?>" style="color:white" class="btn btn-danger" data-dismiss="modal" data-toggle="modal" data-target="#deleteDocument"><i class="fa fa-trash"></i> Remove</button>
             </div>
-        @else
+        <?php else: ?>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
                 <button type="button" class="btn btn-danger" data-dismiss="modal" data-toggle="modal" data-target="#deleteDocument" style="color:white"><i class="fa fa-trash"></i> Remove</button>
-                <a href="{{ asset('form/so_view') }}" class="btn btn-warning" style="color:white"><i class="fa fa-barcode"></i> View Document</a>
+                <a href="<?php echo asset('form/so_view'); ?>" class="btn btn-warning" style="color:white"><i class="fa fa-barcode"></i> View Document</a>
                 <button type="button" class="btn btn-success" data-dismiss="modal" style="color:white" data-toggle="modal" data-target="#paperSize"><i class="fa fa-barcode"></i> Barcode v1</button>
-                <a target="_blank" href="{{ asset('pdf/track') }}" class="btn btn-success" style="color:white"><i class="fa fa-barcode"></i> Barcode v2</a>
-                <a href="{{ asset('/form/so_pdf') }}" target="_blank" class="btn btn-success" style="color:white"><i class="fa fa-barcode"></i> Barcode v3</a>
+                <a target="_blank" href="<?php echo asset('pdf/track'); ?>" class="btn btn-success" style="color:white"><i class="fa fa-barcode"></i> Barcode v2</a>
+                <a href="<?php echo asset('/form/so_pdf'); ?>" target="_blank" class="btn btn-success" style="color:white"><i class="fa fa-barcode"></i> Barcode v3</a>
             </div>
-        @endif
+        <?php endif; ?>
     </div>
 </form>
 <script>

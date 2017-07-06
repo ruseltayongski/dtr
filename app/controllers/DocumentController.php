@@ -412,22 +412,12 @@ class DocumentController extends BaseController
 
     public function sov1()
     {
-        $inclusive_name = $this->inclusive_name_page();
+        $prepared_by = pdoController::user_search(Auth::user()->userid)['id'];
         $users = pdoController::users();
-        return View::make('form.office_orderv1',['users'=>$users,'inclusive_name'=>$inclusive_name]);
-    }
-
-    public function inclusive_name_page(){
-        $name[] = pdoController::user_search(Auth::user()->userid)['id'];
-        return $name;
-    }
-
-    public function inclusive_name_view(){
-        $inclusive_name = inclusiveNames::where('route_no',Session::get('route_no'))->get();
-        foreach($inclusive_name as $row){
-            $name[] = $row['user_id'];
+        foreach($users as $row){
+            $all_user[] = $row['id'];
         }
-        return $name;
+        return View::make('form.office_orderv1',['users'=>$users,'prepared_by'=>json_encode($prepared_by),"all_user" => json_encode($all_user)]);
     }
 
     public function so_append(){
@@ -666,13 +656,27 @@ class DocumentController extends BaseController
         return InclusiveNames::where('user_id',Auth::user()->userid)->get();
     }
 
+
+    public function inclusive_name_view(){
+        foreach(inclusiveNames::where('route_no',Session::get('route_no'))->get() as $row){
+            $inclusive_name[] = $row['user_id'];
+        }
+        return $inclusive_name;
+    }
+
     public function show($route_no,$doc_type=null){
         Session::put('route_no',$route_no);
         if($doc_type == 'office_order'){
             $users = pdoController::users();
+            foreach(inclusiveNames::where('route_no',$route_no)->get() as $row){
+                $inclusive_name[] = $row['user_id'];
+            }
+            foreach($users as $row){
+                $all_user[] = $row['id'];
+            }
             $info = OfficeOrders::where('route_no',$route_no)->get()->first();
             $inclusive_date = Calendars::where('route_no',$route_no)->get();
-            return View::make('document.info',['users'=>$users,'info'=>$info,'inclusive_date'=>$inclusive_date]);
+            return View::make('document.info',['users'=>$users,'info'=>$info,'inclusive_date'=>$inclusive_date,'inclusive_name' => json_encode($inclusive_name),"all_user" => json_encode($all_user)]);
         } else {
             $cdo = cdo::where('route_no',$route_no)->get()->first();
             if(Auth::user()->usertype)
