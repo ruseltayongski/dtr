@@ -251,11 +251,12 @@ class DocumentController extends BaseController
         return Redirect::to('form/so_list');
     }
 
-    public function so()
+    /*public function so()
     {
         if(Request::method() == 'GET'){
+            $prepared_by = pdoController::user_search(Auth::user()->userid)['id'];
             $users = pdoController::users();
-            return View::make('form.office_order',['users'=>$users]);
+            return View::make('form.office_order',['users'=>$users,"prepared_by" => json_encode($prepared_by)]);
         }
         else if(Request::method() == 'POST'){
             $route_no = date('Y-') . pdoController::user_search(Auth::user()->userid)['id'] . date('mdHis');
@@ -335,7 +336,7 @@ class DocumentController extends BaseController
 
             return Redirect::to('form/so_list');
         }
-    }
+    }*/
 
     public function so_view()
     {
@@ -417,14 +418,18 @@ class DocumentController extends BaseController
         foreach($users as $row){
             $all_user[] = $row['id'];
         }
-        return View::make('form.office_orderv1',['users'=>$users,'prepared_by'=>json_encode($prepared_by),"all_user" => json_encode($all_user)]);
+        return View::make('form.office_orderv1',[
+            'users'=>$users,
+            'prepared_by'=>json_encode($prepared_by),
+            "all_user" => json_encode($all_user)
+        ]);
     }
 
     public function so_append(){
         return View::make('form.office_order_append');
     }
 
-    public function so_addv1(){
+    public function so_add(){
         $route_no = date('Y-') . pdoController::user_search(Auth::user()->userid)['id'] . date('mdHis');
         $doc_type = 'OFFICE_ORDER';
         $prepared_date = date('Y-m-d',strtotime(Input::get('prepared_date'))).' '.date('H:i:s');
@@ -438,7 +443,13 @@ class DocumentController extends BaseController
         $office_order->subject = Input::get('subject');
         $office_order->prepared_by = $prepared_by;
         $office_order->prepared_date = $prepared_date;
-        $office_order->version = 1;
+        $office_order->version = Input::get('version');
+        if(Input::get('version') == 2):
+        $office_order->header_body = Input::get('header_body');
+        $office_order->footer_body = Input::get('footer_body');
+        $office_order->approved_by = Input::get('approved_by');
+        endif;
+        $office_order->approved_status = 0;
         $office_order->save();
 
         //ADD INCLUSIVE NAME
@@ -508,14 +519,23 @@ class DocumentController extends BaseController
         $prepared_by =  pdoController::user_search(Auth::user()->userid)['id'];
         $description = Input::get('subject');
 
+        $header_body = '';
+        $footer_body = '';
+        $approved_by = '';
+        if(Input::get('version') == 2):
+            $header_body = Input::get('header_body');
+            $footer_body = Input::get('footer_body');
+            $approved_by = Input::get('approved_by');
+        endif;
         //update office order
         OfficeOrders::where('route_no',$route_no)
             ->update([
+                'prepared_date' => Input::get('prepared_date'),
                 'subject' => Input::get('subject'),
-                'header_body' => Input::get('header_body'),
-                'footer_body' => Input::get('footer_body'),
-                'approved_by' => Input::get('approved_by'),
-                'version' => 2
+                'header_body' => $header_body,
+                'footer_body' => $footer_body,
+                'approved_by' => $approved_by,
+                'version' => Input::get('version')
             ]);
         //
 
@@ -580,7 +600,7 @@ class DocumentController extends BaseController
         return Redirect::back();
     }
 
-    public function so_updatev1(){
+    /*public function so_updatev1(){
         $route_no = Session::get('route_no');
         $doc_type = 'OFFICE_ORDER';
         $prepared_date = date('Y-m-d',strtotime(Input::get('prepared_date'))).' '.date('H:i:s');
@@ -649,7 +669,7 @@ class DocumentController extends BaseController
         Session::put('updated',true);
 
         return Redirect::to('form/so_list');
-    }
+    }*/
 
     public static function check_calendar()
     {
@@ -676,7 +696,13 @@ class DocumentController extends BaseController
             }
             $info = OfficeOrders::where('route_no',$route_no)->get()->first();
             $inclusive_date = Calendars::where('route_no',$route_no)->get();
-            return View::make('document.info',['users'=>$users,'info'=>$info,'inclusive_date'=>$inclusive_date,'inclusive_name' => json_encode($inclusive_name),"all_user" => json_encode($all_user)]);
+            return View::make('document.info',[
+                'users'=>$users,
+                'info'=>$info,
+                'inclusive_date'=>$inclusive_date,
+                'inclusive_name' => json_encode($inclusive_name),
+                "all_user" => json_encode($all_user)
+            ]);
         } else {
             $cdo = cdo::where('route_no',$route_no)->get()->first();
             if(Auth::user()->usertype)

@@ -43,9 +43,9 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         @if(!Auth::user()->usertype)
-                                            <a class="btn btn-success" data-dismiss="modal" data-backdrop="static" data-toggle="modal" data-target="#form_type" style="background-color: darkmagenta;color: white"><i class="fa fa-plus"></i> Create new</a>
+                                            {{--<a class="btn btn-success" data-dismiss="modal" data-backdrop="static" data-toggle="modal" data-target="#form_type" style="background-color: darkmagenta;color: white"><i class="fa fa-plus"></i> Create new</a>--}}
+                                            <a href="#document_form" data-link="{{ asset('form/sov1') }}" class="btn btn-success" data-dismiss="modal" data-backdrop="static" data-toggle="modal" data-target="#document_form" style="background-color:darkmagenta;color: white;"><i class="fa fa-plus"></i> Create new</a>
                                         @endif
-                                        {{--<a href="#document_form" data-link="{{ asset('form/sov1') }}" class="btn btn-success" data-dismiss="modal" data-backdrop="static" data-toggle="modal" data-target="#document_form" style="background-color:darkmagenta;color: white;"><i class="fa fa-plus"></i> Create new</a>--}}
                                     </div>
                                 </div>
                                 <br />
@@ -59,19 +59,20 @@
                                                         <th class="text-center"></th>
                                                         <th class="text-center">Route #</th>
                                                         <th class="text-center">Prepared Date</th>
-                                                        @if(\Illuminate\Support\Facades\Auth::user()->usertype)
+                                                        @if(Auth::user()->usertype)
                                                         <th class="text-center">Prepared Name</th>
                                                         @else
                                                         <th class="text-center">Document Type</th>
                                                         @endif
                                                         <th class="text-center">Subject</th>
+                                                        <th class="text-center">Approved Status</th>
                                                     </tr>
                                                     </thead>
                                                     <tbody style="font-size: 10pt;">
                                                     @foreach($office_order as $so)
                                                         <tr>
                                                             <td class="text-center"><a href="#track" data-link="{{ asset('form/track/'.$so->route_no) }}" data-route="{{ $so->route_no }}" data-toggle="modal" class="btn btn-sm btn-success col-sm-12" style="background-color: darkmagenta;color: white;"><i class="fa fa-line-chart"></i> Track</a></td>
-                                                            <td class="text-center">
+                                                            <td>
                                                                 <a class="title-info" style="color: #f0ad4e;" data-route="{{ $so->route_no }}" data-backdrop="static" data-link="{{ asset('/form/info/'.$so->route_no.'/office_order') }}" href="#document_info" data-toggle="modal">{{ $so->route_no }}</a>
                                                             </td>
                                                             <td class="text-center">{{ date('M d, Y',strtotime($so->prepared_date)) }}<br>{{ date('h:i:s A',strtotime($so->prepared_date)) }}</td>
@@ -81,6 +82,11 @@
                                                             <td class="text-center">Office Order</td>
                                                             @endif
                                                             <td class="text-center">{{ $so->subject }}</td>
+                                                            @if($so->approved_status)
+                                                                <td class="text-center"><span class="label label-info"><i class="fa fa-smile-o"></i> Approved </span></td>
+                                                            @else
+                                                                <td class="text-center"><span class="label label-danger"><i class="fa fa-frown-o"></i> Disapprove </span></td>
+                                                            @endif
                                                         </tr>
                                                     @endforeach
                                                     </tbody>
@@ -130,7 +136,7 @@
 
         $("a[href='#document_form']").on('click',function(e){
             //$('#form_type').modal({show: false});
-            $('.modal-title').html('Office Order');
+            $('.modal-title').html('Office Order. Form Version 1');
             $('.modal_content').html(loadingState);
             var url = $(this).data('link');
             setTimeout(function(){

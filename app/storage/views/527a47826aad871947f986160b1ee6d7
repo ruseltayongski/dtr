@@ -163,35 +163,22 @@
 <div class="modal fade" tabindex="-1" role="dialog" id="form_type" style="z-index:999991;">
     <div class="modal-dialog modal-sm" role="document">
         <div class="modal-content">
-            <div class="modal-header" style="background-color:#9C8AA5	;padding:15px;">
+            <div class="modal-header" style="background-color:#9C8AA5;padding:15px;">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4><i class="fa fa-file-pdf-o"></i> Select Form Type</h4>
             </div>
             <div class="modal-body text-center">
                 <div class="col-xs-4" style="left: 10%">
-                     <a href="#document_form" data-dismiss="modal" data-link="<?php if(isset($asset)) echo $asset; ?>" data-backdrop="static" data-toggle="modal" data-target="#document_form" class="text-success">
+                     <a href="#document_form" data-dismiss="modal" data-link="<?php if(isset($asset)) echo $asset.'/1'; ?>" data-backdrop="static" data-toggle="modal" data-target="#document_form" class="text-success">
                         <i class="fa fa-file-pdf-o fa-5x"></i><br>
                         <i>Form V1</i>
                     </a>
-                    <!-- <a href="sov1" class="text-success">
-                        <i class="fa fa-file-pdf-o fa-5x"></i><br>
-                        <i>Form V1</i>
-                    </a> -->
                 </div>
                 <div class="col-xs-4" style="left: 25%;">
-                    <?php if(isset($doc_type)): ?>
-                        <?php if($doc_type == 'CDO'): ?>
-                            <a href="#" onclick="soon()" class="text-info">
-                                <i class="fa fa-file-pdf-o fa-5x"></i><br>
-                                <i>Form V2</i>
-                            </a>
-                        <?php else: ?>
-                            <a href="so" class="text-info">
-                                <i class="fa fa-file-pdf-o fa-5x"></i><br>
-                                <i>Form V2</i>
-                            </a>
-                        <?php endif; ?>
-                    <?php endif; ?>
+                    <a href="#document_form" data-dismiss="modal" data-link="<?php if(isset($asset)) echo $asset.'/2'; ?>" data-backdrop="static" data-toggle="modal" data-target="#document_form" class="text-info">
+                        <i class="fa fa-file-pdf-o fa-5x"></i><br>
+                        <i>Form V2</i>
+                    </a>
                 </div>
             </div>
             <div class="clearfix"></div>
@@ -200,19 +187,6 @@
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
-<div class="modal fade" tabindex="-1" role="dialog" id="document_info">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header" style="background-color:#9C8AA5;padding:15px;">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true" >&times;</span></button>
-                <h4 class="modal-title"><i class="fa fa-plus"></i> Office Order</h4>
-            </div>
-            <div class="modal-body">
-                <div class="modal_content"><center><img src="<?php echo asset('public/img/spin.gif'); ?>" width="150" style="padding:20px;"></center></div>
-            </div>
-        </div>
-    </div>
-</div>
 
 <div class="modal fade" tabindex="-1" role="dialog" id="update_user_info">
     <div class="modal-dialog modal-lg" role="document">
@@ -228,7 +202,6 @@
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
-
 <div class="modal fade" tabindex="-1" role="dialog" id="leave_info">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
@@ -243,6 +216,19 @@
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
+<div class="modal fade" tabindex="-1" role="dialog" id="document_info" style="overflow-y:scroll;">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color:#9C8AA5;padding:15px;">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true" >&times;</span></button>
+                <h4 class="modal-title"><i class="fa fa-plus"></i> Office Order</h4>
+            </div>
+            <div class="modal-body">
+                <div class="modal_content"><center><img src="<?php echo asset('public/img/spin.gif'); ?>" width="150" style="padding:20px;"></center></div>
+            </div>
+        </div>
+    </div>
+</div>
 
 <div class="modal fade" tabindex="-1" role="dialog" id="document_form" style="overflow-y:scroll;">
     <div class="modal-dialog modal-lg" role="document">
@@ -350,6 +336,33 @@
         </div><!-- /.modal-content -->
     </div>
 </div>
+
+<div class="modal fade" tabindex="-1" role="dialog" id="delete_user_modal">
+    <div class="modal-dialog modal-sm" role="document">
+
+        <div class="modal-content">
+            <div class="modal-header" style="background-color:#9C8AA5;color: white;">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title"><i class="fa fa-question-circle"></i> DTS Says:</h4>
+            </div>
+            <div class="modal-body">
+                <div class="alert alert-danger">
+                    <span style="color:indianred">Are you sure you want to remove?</span>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <form action="<?php echo asset('user/delete'); ?>" method="POST">
+                    <input type="hidden" name="userid" value="" id="del_userid_input" />
+                    <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
+                    <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> No</button>
+                    <button type="submit" name="delete" class="btn btn-danger" ><i class="fa fa-trash"></i> Yes</button>
+                </form>
+
+            </div>
+        </div><!-- /.modal-content -->
+
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 
 <center class="modal fade" tabindex="-1" role="dialog" id="upload_loading">
     <img src="<?php echo asset('public/img/spin.gif'); ?>" width="150" style="padding:10px; color: whitesmoke;">

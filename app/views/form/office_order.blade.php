@@ -6,11 +6,10 @@
         }
     </style>
     <span id="so_append" data-link="{{ asset('so_append') }}"></span>
-    <span id="inclusive_name_page" data-link="{{ asset('inclusive_name_page') }}"></span>
     <div class="col-md-12 wrapper">
-        <div class="alert alert-jim">
-            <h3>Office Order</h3>
-            <div class="container">
+        <div class="box box-info">
+            <div class="box-body">
+                <h3>Office Order</h3>
                 <div class="row">
                     <div class="col-md-11">
                         <form action="{{ asset('form/so') }}" method="POST" id="form_route" class="form-submit">
@@ -49,8 +48,10 @@
                                     </tr>
                                     <tr>
                                         <td colspan="3">
-                                            <span><label>Header Body:</label><small style="color:red;">required field</small></span>
-                                            <textarea class="form-control" id="textarea" name="header_body" rows="8" style="resize:none;" required></textarea>
+                                            <div style="color: red">
+                                                <span><label>Header Body:</label><small style="color:red;">required field</small></span>
+                                                <textarea class="form-control" id="textarea" name="header_body" rows="8" style="resize:none;" required></textarea>
+                                            </div>
                                         </td>
                                     </tr>
                                     <tr>
@@ -127,6 +128,7 @@
 @section('js')
     @parent
     <script>
+        $("#textarea3").wysihtml5();
         $('.chosen-select-static').chosen();
         $("#textarea").wysihtml5();
         $("#textarea1").wysihtml5();
@@ -155,11 +157,7 @@
             $("#"+id.val()).remove();
         }
 
-        $.get($('#inclusive_name_page').data('link'),function(result){
-            $('.select2').select2({}).select2('val', result);
-            //$('select').val(result).trigger('change');
-            console.log(result);
-        });
+        $('select').val(<?php echo $prepared_by;?>).trigger('change');
 
         $('.form-submit').on('submit',function(){
             $('.btn-submit').attr("disabled", true);
