@@ -252,4 +252,8 @@ Route::get('ajax1',function(){
 	}
 });
 
+Route::get('time', function(){
+
+});
+
 ?>
