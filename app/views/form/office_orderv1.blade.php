@@ -6,7 +6,7 @@
     <span id="so_append" data-link="{{ asset('so_append') }}"></span>
     <form action="{{ asset('so_add') }}" method="POST" class="form-submit form-horizontal">
         <input type="hidden" name="_token" value="{{ csrf_token(); }}">
-        <input type="hidden" name="version" value="{{ $version }}">
+        <input type="hidden" name="version" value="1">
         <div class="col-md-12 wrapper">
             <div class="row" style="text-align: center;">
                 <div class="col-sm-2">
@@ -25,17 +25,6 @@
             </div>
             <div class="box box-info">
                 <div class="box-body">
-                    <div class="form-group">
-                        <label for="prepared_by" class="col-sm-3 control-label">Prepared By</label>
-                        <div class="col-sm-9">
-                            <div class="input-group">
-                                <div class="input-group-addon">
-                                    <i class="fa fa-bookmark"></i>
-                                </div>
-                                <input type="text" class="form-control" value="{{ pdoController::user_search(Auth::user()->userid)['fname'].' '.pdoController::user_search(Auth::user()->userid)['mname'].' '.pdoController::user_search(Auth::user()->userid)['lname'] }}" readonly>
-                            </div>
-                        </div>
-                    </div>
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Prepared date</label>
                         <div class="col-sm-9">
@@ -58,14 +47,15 @@
                             </div>
                         </div>
                     </div>
-                    @if($version == 2)
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label">Header Body</label>
-                        <div class="col-sm-9">
-                            <textarea class="form-control wysihtml5" name="header_body" rows="3" style="resize:none;" required></textarea>
+                    <div class="proceed_loading"></div>
+                    <div class="proceed">
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Header Body</label>
+                            <div class="col-sm-9">
+                                <textarea class="form-control wysihtml5" name="header_body" rows="3" style="resize:none;" required>.</textarea>
+                            </div>
                         </div>
                     </div>
-                    @endif
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Check to select all employee</label>
                         <div class="col-sm-9">
@@ -111,11 +101,12 @@
                             <button class="btn-xs btn-primary pull-right" type="button" style="color: white" onclick="add_inclusive();"><i class="fa fa-plus"></i> Add inclusive date</button>
                         </div>
                     </div>
-                    @if($version == 2)
+                    <div class="proceed_loading"></div>
+                    <div class="proceed">
                         <div class="form-group">
                             <label class="col-sm-3 control-label">Entitled Body</label>
                             <div class="col-sm-9">
-                                <textarea class="form-control wysihtml5_1" name="footer_body" rows="3" style="resize:none;" required></textarea>
+                                <textarea class="form-control wysihtml5_1" name="footer_body" rows="3" style="resize:none;" required>.</textarea>
                             </div>
                         </div>
                         <div class="form-group">
@@ -125,6 +116,7 @@
                                     <div class="input-group-addon">
                                         <i class="fa fa-thumbs-up"></i>
                                     </div>
+                                    <input type="hidden" value="Jaime S. Bernadas, MD, MGM, CESO III" id="get_director">
                                     <select name="approved_by" id="approved_by" class="form-control" onchange="approved($(this))" required>
                                         <option value="Jaime S. Bernadas, MD, MGM, CESO III">Jaime S. Bernadas, MD, MGM, CESO III</option>
                                         <option value="Ruben S. Siapno,MD,MPH">Ruben S. Siapno,MD,MPH</option>
@@ -143,22 +135,34 @@
                                 </div>
                             </div>
                         </div>
-                    @endif
+                    </div>
                 </div>
             </div>
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Cancel</button>
+            <a href="#" class="btn btn-info" onclick="proceed()" style="color:white"><i class="fa fa-file"></i> Proceed form into v2</a>
             <button type="submit" class="btn btn-success btn-submit" style="color:white;"><i class="fa fa-send"></i> Submit</button>
         </div>
     </form>
 <script>
+    $(".proceed").hide();
+    function proceed(){
+        $('.modal-title').html('Office Order. Form Version 2');
+        $(".proceed_loading").html(loadingState);
+        $('input[name=version]').val("2");
+        setTimeout(function(){
+            $(".proceed_loading").html('');
+            $(".proceed").show()
+        },700);
+    }
     $(".wysihtml5").wysihtml5();
     $(".wysihtml5_1").wysihtml5();
     $('.datepickercalendar').datepicker({
         autoclose: true
     });
     $(".select2").select2();
+    $('.select2').val(<?php echo $prepared_by;?>).trigger('change');
     $(function(){
         $("body").delegate("#inclusive1","focusin",function(){
             $(this).daterangepicker();
@@ -186,6 +190,7 @@
         }
     }
 
+    approved($("#get_director"));
     function approved(data){
         if(data.val() == 'Jaime S. Bernadas, MD, MGM, CESO III')
             $(".director").val('Director IV');
@@ -207,12 +212,11 @@
         });
     });
 
-    $('select').val(<?php echo $prepared_by;?>).trigger('change');
     $('input[name=all_employee]').on('ifChecked', function(event){
         $(".name_loading").html(loadingState);
         $(".inclusive_name").hide();
         setTimeout(function(){
-            $('select').val(<?php echo $all_user?>).trigger('change');
+            $('.select2').val(<?php echo $all_user?>).trigger('change');
             $(".name_loading").html('');
             $(".inclusive_name").show();
         },700);
@@ -222,7 +226,7 @@
         $(".name_loading").html(loadingState);
         $(".inclusive_name").hide();
         setTimeout(function(){
-            $('select').val(<?php echo $prepared_by?>).trigger('change');
+            $('.select2').val(<?php echo $prepared_by?>).trigger('change');
             $(".name_loading").html('');
             $(".inclusive_name").show()
         },700);

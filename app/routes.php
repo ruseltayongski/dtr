@@ -142,7 +142,6 @@ Route::match(array('GET','POST'), 'form/so', 'DocumentController@so');
 Route::match(array('GET','POST'), 'form/so_view', 'DocumentController@so_view');
 Route::match(array('GET','POST'), 'form/so_list', 'DocumentController@so_list');
 Route::match(array('GET','POST'), 'form/sov1', 'DocumentController@sov1');
-Route::match(array('GET','POST'), 'form/sov1/{version}', 'DocumentController@sov1');
 Route::get('inclusive_name_page', 'DocumentController@inclusive_name_page');
 Route::get('inclusive_name_view', 'DocumentController@inclusive_name_view');
 Route::post('so_add','DocumentController@so_add');
