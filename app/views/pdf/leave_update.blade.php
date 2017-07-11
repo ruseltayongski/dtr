@@ -57,8 +57,10 @@
     <tr>
         <td colspan="2" style="border-style:Solid;">
             6a) TYPE OF LEAVE
-            <table>
+            <table border="1">
                 <tr>
+                    <td></td>
+                </tr>
             </table>
         </td>
         <td colspan="1" style="border-style:Solid;">6b) WHERE LEAVE WILL BE SPENT:</td>

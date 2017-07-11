@@ -96,6 +96,7 @@ Route::match(array('GET','POST'),'form/leave','DocumentController@leave');
 Route::get('form/leave/all', 'DocumentController@all_leave');
 Route::get('leave/get/{id}','DocumentController@get_leave');
 Route::get('leave/print/{id}', 'DocumentController@print_leave');
+Route::get('leave/print/v1/{id}', 'DocumentController@print_a');
 Route::get('leave/update/{id}', 'DocumentController@edit_leave');
 Route::post('leave/update/save', 'DocumentController@save_edit_leave');
 Route::get('leave/delete/{id}', 'DocumentController@delete_leave');
