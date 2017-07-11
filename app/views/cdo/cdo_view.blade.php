@@ -40,7 +40,7 @@
                         Osmeña Boulevard, Cebu City, 6000 Philippines<br>
                         Regional Director’s Office Tel. No. (032) 253-6355 Fax No. (032) 254-0109<br>
                         Official Website: http://www.ro7.doh.gov.ph Email Address: dohro7@gmail.com<br>
-                        <strong>APPLICATION FOR COMPENSATORY TIME OFF</strong>
+                        5:12 PM 7/10/2017
                     </div>
                 </td>
                 <td class="align"><img src="{{ asset('public/img/ro7.png') }}" width="100"></td>
@@ -78,7 +78,7 @@
                         <input class="form-control datepickercalendar" value="<?php if(isset($data['cdo']['prepared_date'])) echo date('m/d/Y',strtotime($data['cdo']['prepared_date'])); else echo date('m/d/Y'); ?>" name="prepared_date" required>
                     </div>
                 </td>
-                <td class="col-sm-1">Subject</td>
+                <td class="col-sm-1">Subject:</td>
                 <td>
                     <div class="input-group">
                         <div class="input-group-addon">
@@ -144,21 +144,21 @@
                         <tr>
                             <td><input type="text" value="{{ $data['cdo']['beginning_balance'] }}" class="form-control" name="beginning_balance" maxlength="15"
                                 <?php
-                                if($data['type'] == 'add' || !\Illuminate\Support\Facades\Auth::user()->usertype)
-                                    echo 'disabled';
-                                ?>>
+                                        if($data['type'] == 'add' || !\Illuminate\Support\Facades\Auth::user()->usertype)
+                                            echo 'disabled';
+                                        ?>>
                             </td>
                             <td><input type="text" value="{{ $data['cdo']['less_applied_for'] }}" class="form-control" name="less_applied" maxlength="15"
                                 <?php
-                                if($data['type'] == 'add' || !\Illuminate\Support\Facades\Auth::user()->usertype)
-                                    echo 'disabled';
-                                ?>>
+                                        if($data['type'] == 'add' || !\Illuminate\Support\Facades\Auth::user()->usertype)
+                                            echo 'disabled';
+                                        ?>>
                             </td>
                             <td><input type="text" value="{{ $data['cdo']['remaining_balance'] }}" class="form-control" name="remaining_balance" maxlength="15"
                                 <?php
-                                if($data['type'] == 'add' || !\Illuminate\Support\Facades\Auth::user()->usertype)
-                                    echo 'disabled';
-                                ?>>
+                                        if($data['type'] == 'add' || !\Illuminate\Support\Facades\Auth::user()->usertype)
+                                            echo 'disabled';
+                                        ?>>
                             </td>
                         </tr>
                     </table>
@@ -172,23 +172,23 @@
                             <td class="col-sm-3 align-right">
                                 <input type="checkbox" name="approval" id="approval" class="form-control input-lg"
                                 <?php
-                                    if($data['type'] == 'add')
-                                        echo 'disabled';
-                                    else{
-                                        if($data['cdo']['approved_status'] == 1){
-                                            if(\Illuminate\Support\Facades\Auth::user()->usertype)
-                                                echo 'checked';
-                                            else
-                                                echo 'disabled checked';
-                                        }
+                                        if($data['type'] == 'add')
+                                            echo 'disabled';
                                         else{
-                                            if(\Illuminate\Support\Facades\Auth::user()->usertype)
-                                                echo '';
-                                            else
-                                                echo 'disabled';
+                                            if($data['cdo']['approved_status'] == 1){
+                                                if(\Illuminate\Support\Facades\Auth::user()->usertype)
+                                                    echo 'checked';
+                                                else
+                                                    echo 'disabled checked';
+                                            }
+                                            else{
+                                                if(\Illuminate\Support\Facades\Auth::user()->usertype)
+                                                    echo '';
+                                                else
+                                                    echo 'disabled';
+                                            }
                                         }
-                                    }
-                                ?>>
+                                        ?>>
                             </td>
                             <td class="align-left">Approval</td>
                         </tr>
@@ -196,23 +196,23 @@
                             <td class="col-sm-3 align-right">
                                 <input type="checkbox" style="color: black;" name="disapproval" id="disapproval" class="form-control input-lg"
                                 <?php
-                                    if($data['type'] == 'add')
-                                        echo 'disabled';
-                                    else{
-                                        if($data['cdo']['approved_status'] == 0){
-                                            if(\Illuminate\Support\Facades\Auth::user()->usertype)
-                                                echo 'checked';
-                                            else
-                                                echo 'disabled';
-                                        }
+                                        if($data['type'] == 'add')
+                                            echo 'disabled';
                                         else{
-                                            if(\Illuminate\Support\Facades\Auth::user()->usertype)
-                                                echo '';
-                                            else
-                                                echo 'disabled';
+                                            if($data['cdo']['approved_status'] == 0){
+                                                if(\Illuminate\Support\Facades\Auth::user()->usertype)
+                                                    echo 'checked';
+                                                else
+                                                    echo 'disabled';
+                                            }
+                                            else{
+                                                if(\Illuminate\Support\Facades\Auth::user()->usertype)
+                                                    echo '';
+                                                else
+                                                    echo 'disabled';
+                                            }
                                         }
-                                    }
-                                ?>>
+                                        ?>>
                             </td>
                             <td class="align-left">Disapproval</td>
                         </tr>
@@ -326,8 +326,8 @@
 
     function warning(){
         Lobibox.alert('info', //AVAILABLE TYPES: "error", "info", "success", "warning"
-        {
-            msg: "Cannot update if your CTO is already approved.."
-        });
+                {
+                    msg: "Cannot update if your CTO is already approved.."
+                });
     }
 </script>
