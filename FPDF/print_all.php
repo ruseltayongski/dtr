@@ -16,9 +16,6 @@ class PDF extends FPDF
     function form($name,$userid,$date_from,$date_to,$sched)
     {
 
-
-
-
         $day1 = explode('-',$date_from);
         $day2 = explode('-',$date_to);
 
@@ -48,15 +45,16 @@ class PDF extends FPDF
             $s_pm_out = $sched[0]["pm_out"];
 
 
-            $logs = get_logs($s_am_in,$s_am_out,$s_pm_in,$s_pm_out,$userid,$date_from,$date_to);
 
+            $logs = get_logs($s_am_in,$s_am_out,$s_pm_in,$s_pm_out,$userid,$date_from,$date_to);
 
             if(count($logs) <= 0) {
 
-
             } else {
+
                 $this->Image(__DIR__.'/image/doh2.png', 15, 50,80,80);
                 $this->Image(__DIR__.'/image/doh2.png', 118, 50,80,80);
+
                 $this->SetFont('Arial','',8);
                 $this->SetX(10);
                 $this->Cell(40,10,'Civil Service Form No. 43',0);
@@ -199,6 +197,11 @@ class PDF extends FPDF
                                     $tmp = $am_out;
                                     $am_out = $pm_in;
                                     $pm_in = $tmp;
+                                }
+                            }
+                            if($am_in and !$am_out and $pm_in and $pm_out) {
+                                if($pm_in > $pm_out) {
+                                    $pm_in = null;
                                 }
                             }
 
@@ -494,6 +497,7 @@ class PDF extends FPDF
                             $this->Cell(10,0,'IN-CHARGE',0,0,'C');
                             $this->SetX(150);
                             $this->Cell(10,0,'IN-CHARGE',0,0,'C');
+
                         }
                     }
                 }
@@ -558,6 +562,11 @@ $pdf->AddPage();
 $pdf->SetFont('Arial','',12);
 $pdf->SetTitle('DTR report From : ' . date('Y-m-d', strtotime($date_from)) .'---'.date('Y-m-d', strtotime($date_to)));
 $row = userlist($emptype);
+
+
+
+//$query = "select count(*) from dtr_file where datein between $date_from and  $date_to";
+
 if(isset($row) and count($row) > 0)
 {
     for($i = 0; $i < count($row); $i++)

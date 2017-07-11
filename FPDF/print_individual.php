@@ -60,7 +60,6 @@ class PDF extends FPDF
 
             $logs = get_logs($s_am_in,$s_am_out,$s_pm_in,$s_pm_out,$userid,$date_from,$date_to);
 
-
             if(count($logs) <= 0) {
 
             } else {
@@ -207,6 +206,11 @@ class PDF extends FPDF
                                     $tmp = $am_out;
                                     $am_out = $pm_in;
                                     $pm_in = $tmp;
+                                }
+                            }
+                            if($am_in and !$am_out and $pm_in and $pm_out) {
+                                if($pm_in > $pm_out) {
+                                    $pm_in = null;
                                 }
                             }
 
@@ -502,12 +506,6 @@ class PDF extends FPDF
                             $this->Cell(10,0,'IN-CHARGE',0,0,'C');
                             $this->SetX(150);
                             $this->Cell(10,0,'IN-CHARGE',0,0,'C');
-
-                           /* $generator = new Picqer\Barcode\BarcodeGeneratorHTML();
-                          //  $this->Cell(10,0,$generator->getBarcode('081231723897', $generator::TYPE_CODE_128),0,0,'C');
-                            $html = new PDF_HTML();
-                            $html->WriteHTML($generator->getBarcode('081231723897', $generator::TYPE_CODE_128));*/
-
 
                         }
                     }
