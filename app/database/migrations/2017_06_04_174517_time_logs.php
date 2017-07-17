@@ -22,12 +22,11 @@ class TimeLogs extends Migration {
 			$table->string('holiday',30)->nullable();
 
 			$table->primary(array('userid','datein', 'time','event',));
-			//$table->index('dtr_id');
+
 			$table->index('userid');
 			$table->index('datein');
 			$table->index('time');
 			$table->index('event');
-			$table->index('edited');
 			$table->index('holiday');
 
 
