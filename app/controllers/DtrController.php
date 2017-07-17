@@ -33,7 +33,7 @@ class DtrController extends BaseController
                 $data = explode(PHP_EOL, $dtr);
 
                 $pdo = DB::connection()->getPdo();
-                $query1 = "INSERT INTO dtr_file(userid, datein, time, event,remark, edited, created_at, updated_at) VALUES";
+                $query1 = "INSERT IGNORE INTO dtr_file(userid, datein, time, event,remark, edited, created_at, updated_at) VALUES";
                 $query2 = "INSERT IGNORE INTO users(userid, fname, lname, sched, username, password, emptype, usertype,unique_row,created_at,updated_at) VALUES ";
                 $query3 = "INSERT IGNORE INTO users(fname, lname, username,designation,division,section,password, created_at, updated_at) VALUES";
                 $pass = "";

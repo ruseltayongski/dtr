@@ -23,6 +23,12 @@
             padding-bottom: 3px;
             padding-left: 5px;
         }
+        table#type_leave tr td {
+            padding-top: 0px;
+            padding-right: 0px;
+            padding-bottom: 0px;
+            padding-left: 0px;
+        }
 
     </style>
 </head>
@@ -55,15 +61,201 @@
         <td colspan="3" style="border-style:Solid;text-align: center; font-size: medium;"> DETAILS OF APPLICATION</td>
     </tr>
     <tr>
-        <td colspan="2" style="border-style:Solid;">
-            6a) TYPE OF LEAVE
-            <table border="1">
+        <td colspan="2" style="border-style:solid;">
+            <table border="1" style="width: 90%;margin-top:-27px;" id="type_leave">
                 <tr>
-                    <td></td>
+                    <td colspan="2"><b>6a) TYPE OF LEAVE</b></td>
                 </tr>
+                <tr>
+                    <td style="width: 25%;text-align: right;">
+                        @if($leave->leave_type == "Vication")
+                            <strong><span style="font-family: DejaVu Sans;">&#10004; </span></strong>
+                        @else
+                            <span style="text-decoration: underline;width: 10px;" aria-hidden="true">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                        @endif
+                    </td>
+                    <td><strong>VACATION</strong></td>
+                </tr>
+                <tr>
+                    <td style="width: 25%;text-align: right;">
+                        @if($leave->leave_type == "To_sake_employement")
+                            <strong><span style="font-family: DejaVu Sans;">&#10004; </span></strong>
+                        @else
+                            <span style="text-decoration: underline;width: 10px;" aria-hidden="true">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                        @endif
+                    </td>
+                    <td><strong>TO SAKE EMPLOYEMENT</strong></td>
+                </tr>
+                <tr>
+                    <td style="width: 25%;text-align: right;">
+                        @if($leave->leave_type == "Others")
+                            <strong><span style="font-family: DejaVu Sans;">&#10004; </span></strong>
+                        @else
+                            <span style="text-decoration: underline;width: 10px;" aria-hidden="true">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                        @endif
+                    </td>
+                    <td><strong>OTHERS (specify)</strong></td>
+                </tr>
+                <tr>
+                    <td>&nbsp;</td>
+                    <td>
+                        @if(isset($leave->leave_type_others_1))
+                            <span class="tab2"><em>{{  $leave->leave_type_others_1 }}</em></span>
+                        @endif
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 25%;text-align: right;">
+                        @if($leave->leave_type == "Sick")
+                            <strong><span style="font-family: DejaVu Sans;">&#10004; </span></strong>
+                        @else
+                            <span style="text-decoration: underline;width: 10px;" aria-hidden="true">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                        @endif
+                    </td>
+                    <td><strong>SICK</strong></td>
+                </tr>
+                <tr>
+                    <td style="width: 25%;text-align: right;">
+                        @if($leave->leave_type == "Maternity")
+                            <strong><span style="font-family: DejaVu Sans;">&#10004; </span></strong>
+                        @else
+                            <span style="text-decoration: underline;width: 10px;" aria-hidden="true">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                        @endif
+                    </td>
+                    <td><strong>MATERNITY</strong></td>
+                </tr>
+                <tr>
+                    <td style="width: 25%;text-align: right;">
+                        @if($leave->leave_type == "Others2")
+                            <b><span style="font-family: DejaVu Sans;">&#10004; </span></b>
+                        @else
+                            <span style="text-decoration: underline;width: 10px;" aria-hidden="true">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                        @endif
+                    </td>
+                    <td><strong>OTHERS (specify)</strong></td>
+                </tr>
+                <tr>
+                    <td>&nbsp;</td>
+                    <td>
+                        @if(isset($leave->leave_type_others_2))
+                            <span class="tab2"><em>{{  $leave->leave_type_others_2 }}</em></span>
+                        @endif
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2"><b>(6c) NUMBER OF WORKING DAYS APPLIED FOR :</b></td>
+                </tr>
+                </tbody>
             </table>
         </td>
-        <td colspan="1" style="border-style:Solid;">6b) WHERE LEAVE WILL BE SPENT:</td>
+        <td colspan="1" style="border-style:Solid;">
+            <table border="1" style="width: 90%;margin-top:-10px;" id="type_leave">
+                <tr>
+                    <td colspan="2"><b>6b) WHERE LEAVE WILL BE SPENT:</b></td>
+                </tr>
+                <tr>
+                    <td colspan="2"><b style="margin-left: 20px;">(1) In case of vacation leave</b></td>
+                </tr>
+                <tr>
+                    <td style="width: 25%;text-align: right;">
+                        @if($leave->vication_loc == "local")
+                            <strong><span style="font-family: DejaVu Sans;">&#10004; </span></strong>
+                        @else
+                            <span style="text-decoration: underline;width: 10px;" aria-hidden="true">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                        @endif
+                    </td>
+                    <td><strong> Within the Philippines</strong></td>
+                </tr>
+                <tr>
+                    <td style="width: 25%;text-align: right;">
+                        @if($leave->vication_loc == "abroad")
+                            <strong><span style="font-family: DejaVu Sans;">&#10004; </span></strong>
+                        @else
+                            <span style="text-decoration: underline;width: 10px;" aria-hidden="true">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                        @endif
+                    </td>
+                    <td><strong>Abroad (specify)</strong></td>
+                </tr>
+                <tr>
+                    <td colspan="2"><b style="margin-left: 20px;">(2) In case of sick leave</b></td>
+                </tr>
+                <tr>
+                    <td style="width: 25%;text-align: right;">
+                        @if($leave->sick_loc == "in_hostpital")
+                            <strong><span style="font-family: DejaVu Sans;">&#10004; </span></strong>
+                        @else
+                            <span style="text-decoration: underline;width: 10px;" aria-hidden="true">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                        @endif
+                    </td>
+                    <td><strong>In Hospital (Specify)</strong></td>
+                </tr>
+                <tr>
+                    <td style="width: 25%;text-align: right;">&nbsp;</td>
+                    <td>
+                        <em>
+                            @if(isset($leave->in_hospital_specify))
+                                {{ $leave->in_hospital_specify }}
+                            @else
+                                <strong><hr /></strong>
+                            @endif
+                        </em>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 25%;text-align: right;">
+                        @if($leave->sick_loc == "out_patient")
+                            <strong><span style="font-family: DejaVu Sans;">&#10004; </span></strong>
+                        @else
+                            <span style="text-decoration: underline;width: 10px;" aria-hidden="true">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                        @endif
+                    </td>
+                    <td><strong>Out-patient (specify)</strong></td>
+                </tr>
+                <tr>
+                    <td>&nbsp;</td>
+                    <td>
+                        <em>
+                            @if(isset($leave->out_patient_specify))
+                                {{ $leave->out_patient_specify }}
+                            @else
+                                <strong><hr /></strong>
+                            @endif
+                        </em>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2"><b>6d) COMMUTATION</b></td>
+                </tr>
+                <tr>
+                    <td style="width: 25%;text-align: right;">
+                        @if($leave->com_requested == "yes")
+                            <strong><span style="font-family: DejaVu Sans;">&#10004; </span></strong>
+                        @else
+                            <span style="text-decoration: underline;width: 10px;" aria-hidden="true">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+
+                        @endif
+                    </td>
+                    <td><strong>Requested</strong></td>
+                </tr>
+                <tr>
+                    <td style="width: 25%;text-align: right;">
+                        @if($leave->com_requested == "no")
+                            <strong><span style="font-family: DejaVu Sans;">&#10004; </span></strong>
+                        @else
+                            <span style="text-decoration: underline;width: 10px;" aria-hidden="true">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+
+                        @endif
+                    </td>
+                    <td><strong>Not Requested</strong></td>
+                </tr>
+                <tr>
+                    <td colspan="2" style="text-align: center;">
+
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </td>
     </tr>
     <tr>
         <td colspan="3" style="border-style:Solid;">DETAILS OF ACTION ON APPLICATION</td>

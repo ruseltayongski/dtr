@@ -548,6 +548,10 @@ $date_from = '';
 $date_to = '';
 $userid = '';
 
+$pdf->Image(__DIR__.'/image/doh2.png', 15, 50,80,80);
+$pdf->Image(__DIR__.'/image/doh2.png', 118, 50,80,80);
+
+
 
 if(isset($_GET['id']) and isset($_GET['userid'])) {
     $date = date_range($_GET['id']);
