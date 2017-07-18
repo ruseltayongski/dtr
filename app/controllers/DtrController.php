@@ -83,7 +83,7 @@ class DtrController extends BaseController
                     }
                 }
 
-                $filename = Input::file('dtr_file')->getClientOriginalName();
+               /* $filename = Input::file('dtr_file')->getClientOriginalName();
 
                 Input::file('dtr_file')->move($path, $filename);
 
@@ -93,7 +93,7 @@ class DtrController extends BaseController
                 $actatek->date_created = $date;
                 $actatek->time_created = $time;
 
-                $actatek->save();
+                $actatek->save();*/
 
                 $query1 .= "('','','','','','',NOW(),NOW())";
 

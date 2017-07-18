@@ -8,6 +8,9 @@
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <meta name="description" content="">
     <meta name="author" content="">
+    <meta name="author" content="Lourence Rex B. Traya">
+    <meta name="author" content="Rusel Tayong">
+    <meta name="author" content="Department of Health Region 7">
     <link rel="icon" href="{{ asset('public/img/favicon.png') }}">
     <meta http-equiv="cache-control" content="max-age=0" />
     <title>HRIS</title>

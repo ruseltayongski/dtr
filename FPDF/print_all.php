@@ -53,6 +53,7 @@ class PDF extends FPDF
                 $this->Image(__DIR__.'/image/doh2.png', 15, 50,80,80);
                 $this->Image(__DIR__.'/image/doh2.png', 118, 50,80,80);
                 include_once('empty_dtr.php');
+                exit();
             } else {
                 $this->Image(__DIR__.'/image/doh2.png', 15, 50,80,80);
                 $this->Image(__DIR__.'/image/doh2.png', 118, 50,80,80);
@@ -579,7 +580,6 @@ $pdf->AddPage();
 $pdf->SetFont('Arial','',12);
 $pdf->SetTitle('DTR report From : ' . date('Y-m-d', strtotime($date_from)) .'---'.date('Y-m-d', strtotime($date_to)));
 $row = userlist($emptype);
-
 
 
 //$query = "select count(*) from dtr_file where datein between $date_from and  $date_to";

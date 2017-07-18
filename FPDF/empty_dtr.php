@@ -105,7 +105,6 @@ $hol_index = 0;
         $r1 >= 1 && $r1 < 10 ? $zero='0' : $zero = '';
         $datein = $day1[0]."-".$day1[1]."-".$zero.$r1;
 
-
         $day_name = date('D', strtotime($datein));
 
         $am_in = '';
@@ -283,34 +282,53 @@ $hol_index = 0;
             $this->Cell(10,2,'     of arrival and departure from the office.',0,0,'C');
             $this->SetX(129);
             $this->Cell(10,2,'     of arrival and departure from the office.',0,0,'C');
+
+
+            $this->Ln();
+            $this->Ln();
             $this->Ln();
 
             $this->SetFont('Arial','BU',8);
-            $this->SetX(50);
-            $this->Cell(5,10,'                                                                                                              ',0,0,'C');
-            $this->SetX(153);
-            $this->Cell(5,10,'                                                                                                              ',0,0,'C');
+
+            $this->SetX(9);
+            $this->Cell(90,10,$name,0,0,'C');
+
+            $this->SetX(9);
+            $this->Cell(90,10,'                                                                                                                  ',0,0,'C');
+
+            $this->SetX(112);
+            $this->Cell(90,10,$name,0,0,'C');
+
+
+            $this->SetX(112);
+            $this->Cell(90,10,'                                                                                                                  ',0,0,'C');
             $this->Ln();
 
             $this->SetFont('Arial','',8);
-            $this->SetX(49);
-            $this->Cell(10,0,'Verified as to the prescribed office hours',0,0,'C');
-            $this->SetX(153);
-            $this->Cell(10,0,'Verified as to the prescribed office hours',0,0,'C');
+            $this->SetX(9);
+            $this->Cell(90,0,'Verified as to the prescribed office hours',0,0,'C');
+
+
+            $this->SetX(112);
+            $this->Cell(90,0,'Verified as to the prescribed office hours',0,0,'C');
             $this->Ln();
 
             $this->SetFont('Arial','BU',8);
-            $this->SetX(50);
-            $this->Cell(5,10,'                                                                                                             ',0,0,'C');
-            $this->SetX(153);
-            $this->Cell(5,10,'                                                                                                             ',0,0,'C');
+
+            $this->SetX(9);
+            $this->Cell(90,20,'                                                                                                                  ',0,0,'C');
+
+            $this->SetX(112);
+            $this->Cell(90,20,'                                                                                                                   ',0,0,'C');
             $this->Ln();
 
             $this->SetFont('Arial','',8);
-            $this->SetX(45);
-            $this->Cell(10,0,'IN-CHARGE',0,0,'C');
-            $this->SetX(150);
-            $this->Cell(10,0,'IN-CHARGE',0,0,'C');
+
+            $this->SetX(9);
+            $this->Cell(90,0,'IN-CHARGE',0,0,'C');
+
+            $this->SetX(112);
+            $this->Cell(90,0,'IN-CHARGE',0,0,'C');
 
         }
 
