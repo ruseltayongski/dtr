@@ -129,8 +129,6 @@ class DtrController extends BaseController
     }
 
 
-
-
     public function delete()
     {
         $dtr = DtrDetails::where('dtr_id', Input::get('dtr_id'))->first();
