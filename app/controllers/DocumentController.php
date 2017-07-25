@@ -210,6 +210,12 @@ class DocumentController extends BaseController
         return PDF::load($display, 'LEGAL', 'portrait')->show();
     }
 
+    public function print_a($id)
+    {
+        $leave = Leave::find($id);
+        $display = View::make('pdf.test_pdf')->with('leave', $leave);
+        return PDF::load($display, 'LEGAL', 'portrait')->show();
+    }
     public function list_print()
     {
         $display = View::make('pdf.personal_dtr');

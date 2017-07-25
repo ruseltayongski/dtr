@@ -162,7 +162,7 @@
                 </tr>
                 </tbody>
             </table>
-            <strong>(6c) NUMBER OF WORKING DAYS APPLIED <br /> FOR :
+            <strong>(6c) NUMBER OF WORKING DAYS APPLIED FOR :
                 @if(isset($leave->applied_num_days))
                     <span style="text-decoration: underline;" class="tab2">{{ $leave->applied_num_days }}</span>
                 @endif
@@ -200,9 +200,7 @@
                     @endif
                 </td>
                 <td>
-                    <strong class="col-sm-6">
-                        Abroad (specify)
-                    </strong>
+                    <strong>Abroad (specify)</strong>
                 </td>
             </tr>
             <tr>

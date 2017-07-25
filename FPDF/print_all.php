@@ -50,11 +50,13 @@ class PDF extends FPDF
 
             if(count($logs) <= 0) {
 
-            } else {
-
                 $this->Image(__DIR__.'/image/doh2.png', 15, 50,80,80);
                 $this->Image(__DIR__.'/image/doh2.png', 118, 50,80,80);
-
+                include_once('empty_dtr.php');
+                exit();
+            } else {
+                $this->Image(__DIR__.'/image/doh2.png', 15, 50,80,80);
+                $this->Image(__DIR__.'/image/doh2.png', 118, 50,80,80);
                 $this->SetFont('Arial','',8);
                 $this->SetX(10);
                 $this->Cell(40,10,'Civil Service Form No. 43',0);
@@ -470,33 +472,49 @@ class PDF extends FPDF
                             $this->SetX(129);
                             $this->Cell(10,2,'     of arrival and departure from the office.',0,0,'C');
                             $this->Ln();
-
+                            $this->Ln();
+                            $this->Ln();
                             $this->SetFont('Arial','BU',8);
-                            $this->SetX(50);
-                            $this->Cell(5,10,'                                                                                                              ',0,0,'C');
-                            $this->SetX(153);
-                            $this->Cell(5,10,'                                                                                                              ',0,0,'C');
+
+                            $this->SetX(9);
+                            $this->Cell(90,10,$name,0,0,'C');
+
+                            $this->SetX(9);
+                            $this->Cell(90,10,'                                                                                                                  ',0,0,'C');
+
+                            $this->SetX(112);
+                            $this->Cell(90,10,$name,0,0,'C');
+
+
+                            $this->SetX(112);
+                            $this->Cell(90,10,'                                                                                                                  ',0,0,'C');
                             $this->Ln();
 
                             $this->SetFont('Arial','',8);
-                            $this->SetX(49);
-                            $this->Cell(10,0,'Verified as to the prescribed office hours',0,0,'C');
-                            $this->SetX(153);
-                            $this->Cell(10,0,'Verified as to the prescribed office hours',0,0,'C');
+                            $this->SetX(9);
+                            $this->Cell(90,0,'Verified as to the prescribed office hours',0,0,'C');
+
+
+                            $this->SetX(112);
+                            $this->Cell(90,0,'Verified as to the prescribed office hours',0,0,'C');
                             $this->Ln();
 
                             $this->SetFont('Arial','BU',8);
-                            $this->SetX(50);
-                            $this->Cell(5,10,'                                                                                                             ',0,0,'C');
-                            $this->SetX(153);
-                            $this->Cell(5,10,'                                                                                                             ',0,0,'C');
+
+                            $this->SetX(9);
+                            $this->Cell(90,20,'                                                                                                                  ',0,0,'C');
+
+                            $this->SetX(112);
+                            $this->Cell(90,20,'                                                                                                                   ',0,0,'C');
                             $this->Ln();
 
                             $this->SetFont('Arial','',8);
-                            $this->SetX(45);
-                            $this->Cell(10,0,'IN-CHARGE',0,0,'C');
-                            $this->SetX(150);
-                            $this->Cell(10,0,'IN-CHARGE',0,0,'C');
+
+                            $this->SetX(9);
+                            $this->Cell(90,0,'IN-CHARGE',0,0,'C');
+
+                            $this->SetX(112);
+                            $this->Cell(90,0,'IN-CHARGE',0,0,'C');
 
                         }
                     }
@@ -562,7 +580,6 @@ $pdf->AddPage();
 $pdf->SetFont('Arial','',12);
 $pdf->SetTitle('DTR report From : ' . date('Y-m-d', strtotime($date_from)) .'---'.date('Y-m-d', strtotime($date_to)));
 $row = userlist($emptype);
-
 
 
 //$query = "select count(*) from dtr_file where datein between $date_from and  $date_to";
@@ -637,6 +654,7 @@ function userlist($emptype)
 function save_file_name($filename,$date_from,$date_to,$emtype)
 {
     $pdo = conn();
+    date_default_timezone_set("Asia/Manila");
     $time = date("h:i:sa");
     $date = date("Y-m-d");
     $query = "INSERT INTO generated_pdf(filename,date_created,time_created,date_from,date_to,created_at,updated_at,type,is_filtered)";

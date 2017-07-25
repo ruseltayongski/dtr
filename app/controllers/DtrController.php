@@ -27,13 +27,19 @@ class DtrController extends BaseController
 
             if (Input::hasFile('dtr_file')) {
 
+                $path = base_path() . '/public/ACTATEK/';
+                $time = date("h:i:sa");
+                $date = date("Y-m-d");
+
+
+
                 $file = Input::file('dtr_file');
                 ini_set('max_execution_time', 0);
                 $dtr = file_get_contents($file);
                 $data = explode(PHP_EOL, $dtr);
 
                 $pdo = DB::connection()->getPdo();
-                $query1 = "INSERT INTO dtr_file(userid, datein, time, event,remark, edited, created_at, updated_at) VALUES";
+                $query1 = "INSERT IGNORE INTO dtr_file(userid, datein, time, event,remark, edited, created_at, updated_at) VALUES";
                 $query2 = "INSERT IGNORE INTO users(userid, fname, lname, sched, username, password, emptype, usertype,unique_row,created_at,updated_at) VALUES ";
                 $query3 = "INSERT IGNORE INTO users(fname, lname, username,designation,division,section,password, created_at, updated_at) VALUES";
                 $pass = "";
@@ -77,7 +83,20 @@ class DtrController extends BaseController
                     }
                 }
 
+               /* $filename = Input::file('dtr_file')->getClientOriginalName();
+
+                Input::file('dtr_file')->move($path, $filename);
+
+                $actatek = new Actateks();
+
+                $actatek->filename = $filename;
+                $actatek->date_created = $date;
+                $actatek->time_created = $time;
+
+                $actatek->save();*/
+
                 $query1 .= "('','','','','','',NOW(),NOW())";
+
 
                 $query2 .= "('','','','','','','','','',NOW(),NOW())";
 
@@ -108,8 +127,6 @@ class DtrController extends BaseController
             ->paginate(30);
         return view('dashboard.dtrlist')->with('lists', $lists);
     }
-
-
 
 
     public function delete()

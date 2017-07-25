@@ -55,10 +55,14 @@ class PersonalController extends Controller
         }
 
 
+
         if(Session::has('from') and Session::has('to')) {
+
 
             $f_from = Session::get('from');
             $f_to = Session::get('to');
+
+
 
             $lists = DB::table('dtr_file')
                 ->leftJoin('users', function($join){

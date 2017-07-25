@@ -57,11 +57,10 @@ class PDF extends FPDF
             $s_pm_out = $sched[0]["pm_out"];
 
 
-
             $logs = get_logs($s_am_in,$s_am_out,$s_pm_in,$s_pm_out,$userid,$date_from,$date_to);
 
             if(count($logs) <= 0) {
-
+                include_once('empty_dtr.php');
             } else {
 
                 $this->SetFont('Arial','',8);
@@ -478,34 +477,52 @@ class PDF extends FPDF
                             $this->Cell(10,2,'     of arrival and departure from the office.',0,0,'C');
                             $this->SetX(129);
                             $this->Cell(10,2,'     of arrival and departure from the office.',0,0,'C');
+
+                            $this->Ln();
+                            $this->Ln();
                             $this->Ln();
 
                             $this->SetFont('Arial','BU',8);
-                            $this->SetX(50);
-                            $this->Cell(5,10,'                                                                                                              ',0,0,'C');
-                            $this->SetX(153);
-                            $this->Cell(5,10,'                                                                                                              ',0,0,'C');
+
+                            $this->SetX(9);
+                            $this->Cell(90,10,$name,0,0,'C');
+
+                            $this->SetX(9);
+                            $this->Cell(90,10,'                                                                                                                  ',0,0,'C');
+
+                            $this->SetX(112);
+                            $this->Cell(90,10,$name,0,0,'C');
+
+
+                            $this->SetX(112);
+                            $this->Cell(90,10,'                                                                                                                  ',0,0,'C');
                             $this->Ln();
 
                             $this->SetFont('Arial','',8);
-                            $this->SetX(49);
-                            $this->Cell(10,0,'Verified as to the prescribed office hours',0,0,'C');
-                            $this->SetX(153);
-                            $this->Cell(10,0,'Verified as to the prescribed office hours',0,0,'C');
+                            $this->SetX(9);
+                            $this->Cell(90,0,'Verified as to the prescribed office hours',0,0,'C');
+
+
+                            $this->SetX(112);
+                            $this->Cell(90,0,'Verified as to the prescribed office hours',0,0,'C');
                             $this->Ln();
 
                             $this->SetFont('Arial','BU',8);
-                            $this->SetX(50);
-                            $this->Cell(5,10,'                                                                                                             ',0,0,'C');
-                            $this->SetX(153);
-                            $this->Cell(5,10,'                                                                                                             ',0,0,'C');
+
+                            $this->SetX(9);
+                            $this->Cell(90,20,'                                                                                                                  ',0,0,'C');
+
+                            $this->SetX(112);
+                            $this->Cell(90,20,'                                                                                                                   ',0,0,'C');
                             $this->Ln();
 
                             $this->SetFont('Arial','',8);
-                            $this->SetX(45);
-                            $this->Cell(10,0,'IN-CHARGE',0,0,'C');
-                            $this->SetX(150);
-                            $this->Cell(10,0,'IN-CHARGE',0,0,'C');
+
+                            $this->SetX(9);
+                            $this->Cell(90,0,'IN-CHARGE',0,0,'C');
+
+                            $this->SetX(112);
+                            $this->Cell(90,0,'IN-CHARGE',0,0,'C');
 
                         }
                     }

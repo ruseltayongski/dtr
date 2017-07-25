@@ -13,7 +13,6 @@ class TimeLogs extends Migration {
 	public function up()
 	{
 		Schema::create('dtr_file', function($table) {
-			$table->increments('dtr_id');
 			$table->string('userid',200)->nullable();
 			$table->date('datein')->nullable();
 			$table->time('time')->nullable();
@@ -21,13 +20,19 @@ class TimeLogs extends Migration {
 			$table->string('remark',200)->nullable();
 			$table->string('edited',10)->nullable();
 			$table->string('holiday',30)->nullable();
-			$table->index('dtr_id');
+
+			$table->primary(array('userid','datein', 'time','event',));
+
 			$table->index('userid');
 			$table->index('datein');
 			$table->index('time');
 			$table->index('event');
-			$table->index('edited');
 			$table->index('holiday');
+
+
+			/*//$table->unique('datein');
+			$table->unique('time');
+			$table->unique('event');*/
 			$table->timestamps();
 			$table->softDeletes();
 		});

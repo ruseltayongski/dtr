@@ -165,7 +165,7 @@
                                                         <div class="has-success">
                                                             <div class="checkbox">
                                                                 <label>
-                                                                    <input type="radio" id="checkboxSuccess" class="vic_dis" value="local" name="vication_loc">
+                                                                    <input type="radio" id="checkboxSuccess" class="vic_dis vic_dis_radio" value="local" name="vication_loc">
                                                                     Within the Philippines
                                                                 </label>
                                                             </div>
@@ -173,14 +173,14 @@
                                                         <div class="has-success">
                                                             <div class="checkbox">
                                                                 <label>
-                                                                    <input type="radio" id="checkboxSuccess" class="vic_dis" value="abroad" name="vication_loc">
+                                                                    <input type="radio" id="checkboxSuccess" class="vic_dis vic_dis_radio" value="abroad" name="vication_loc">
                                                                     Abroad (specify)
                                                                 </label>
                                                             </div>
                                                         </div>
                                                         <div class="has-success">
                                                             <div class="form-group has-success">
-                                                                <textarea type="text" class="form-control vic_dis" maxlength="200" id="inputSuccess1" name="abroad_others"></textarea>
+                                                                <textarea type="text" class="form-control vic_dis vic_dis_radio" maxlength="200" id="inputSuccess1" name="abroad_others"></textarea>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -197,7 +197,7 @@
                                                         <div class="has-success">
                                                             <div class="checkbox">
                                                                 <label>
-                                                                    <input type="radio" id="checkboxSuccess"  class="sic_dis" value="in_hostpital" name="sick_loc">
+                                                                    <input type="radio" id="checkboxSuccess"  class="sic_dis sic_dis_radio" value="in_hostpital" name="sick_loc">
                                                                     In Hospital (sepecify)
                                                                     <input type="text"  name="in_hospital_specify" class="sic_dis" />
                                                                 </label>
@@ -206,7 +206,7 @@
                                                         <div class="has-success">
                                                             <div class="checkbox">
                                                                 <label>
-                                                                    <input type="radio" id="checkboxSuccess" value="out_patient" name="sick_loc" class="sic_dis">
+                                                                    <input type="radio" id="checkboxSuccess" value="out_patient" name="sick_loc sic_dis_radio" class="sic_dis">
                                                                     Out-patient (sepecify)
                                                                     <input type="text" name="out_patient_specify" class="sic_dis" />
                                                                 </label>
@@ -252,6 +252,7 @@
 
         $('#inc_date').daterangepicker();
         $('input[name="leave_type"]').change(function(){
+
             var val = this.value;
 
 
@@ -266,6 +267,13 @@
             } else {
                 $('.sic_dis').prop('disabled', false);
             }
+
+           if(val == "To_sake_employement") {
+                if(this.getAttribute("type") == "radio") {
+                    $('.sic_dis_radio').prop("checked", true);
+                    $('.vic_dis_radio').prop("checked", true);
+                }
+           }
         });
 
         function validate(evt) {
