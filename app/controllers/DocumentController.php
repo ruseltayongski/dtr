@@ -25,6 +25,7 @@ class DocumentController extends BaseController
         }
         if(Request::method() == 'POST') {
 
+            
 
             $route_no = date('Y-') . Auth::user()->userid . date('mdHis');
 
