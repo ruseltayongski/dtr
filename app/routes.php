@@ -252,8 +252,8 @@ Route::get('ajax1',function(){
 	}
 });
 
-Route::get('time', function(){
-
+Route::get('payroll/login', function(){
+	
 });
 
 ?>

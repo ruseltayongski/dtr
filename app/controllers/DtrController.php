@@ -27,10 +27,7 @@ class DtrController extends BaseController
 
             if (Input::hasFile('dtr_file')) {
 
-                $path = base_path() . '/public/ACTATEK/';
-                $time = date("h:i:sa");
-                $date = date("Y-m-d");
-
+        
 
 
                 $file = Input::file('dtr_file');

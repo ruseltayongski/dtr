@@ -53,7 +53,7 @@ class PDF extends FPDF
                 $this->Image(__DIR__.'/image/doh2.png', 15, 50,80,80);
                 $this->Image(__DIR__.'/image/doh2.png', 118, 50,80,80);
                 include_once('empty_dtr.php');
-                exit();
+            
             } else {
                 $this->Image(__DIR__.'/image/doh2.png', 15, 50,80,80);
                 $this->Image(__DIR__.'/image/doh2.png', 118, 50,80,80);

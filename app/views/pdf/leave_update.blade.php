@@ -102,7 +102,6 @@
                         @if(isset($leave->leave_type_others_1))
                             <span class="tab2"><em>{{  $leave->leave_type_others_1 }}</em></span>
                         @endif
-                    </td>
                 </tr>
                 <tr>
                     <td style="width: 25%;text-align: right;">
