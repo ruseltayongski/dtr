@@ -286,6 +286,74 @@ class PersonalController extends Controller
 
     public function absent_description()
     {
+        $temp1 = explode('-',Input::get('date_range'));
 
+        $from = date('Y-m-d',strtotime($temp1[0]));
+        $end_date = date('Y-m-d',strtotime($temp1[1]));
+
+        $f = new DateTime($from.' '. '24:00:00');
+        $t = new DateTime($end_date.' '. '24:00:00');
+
+
+
+        $interval = $f->diff($t);
+
+        $datein = '';
+        $f_from = explode('-',$from);
+        $startday = $f_from[2];
+        $j = 0;
+        while($j <= $interval->days) {
+
+            $datein = $f_from[0].'-'.$f_from[1] .'-'. $startday;
+
+            $details = new DtrDetails();
+            $details->userid = Auth::user()->userid;
+            $details->datein = $datein;
+            $details->time = '08:00:00';
+            $details->event = 'IN';
+            $details->remark = Input::get('description');
+            $details->edited = '1';
+            $details->holiday = '006';
+
+            $details->save();
+
+            $details = new DtrDetails();
+            $details->userid =  Auth::user()->userid;
+            $details->datein = $datein;
+            $details->time = '12:00:00';
+            $details->event = 'OUT';
+            $details->remark = Input::get('description');
+            $details->edited = '1';
+            $details->holiday = '006';
+
+            $details->save();
+
+            $details = new DtrDetails();
+            $details->userid =  Auth::user()->userid;
+            $details->datein = $datein;
+            $details->time = '13:00:00';
+            $details->event = 'IN';
+            $details->remark = Input::get('description');
+            $details->edited = '1';
+            $details->holiday = '006';
+
+            $details->save();
+
+            $details = new DtrDetails();
+            $details->userid =  Auth::user()->userid;
+            $details->datein = $datein;
+            $details->time = '18:00:00';
+            $details->event = 'OUT';
+            $details->remark = Input::get('description');
+            $details->edited = '1';
+            $details->holiday = '006';
+
+            $details->save();
+
+            $startday = $startday + 1;
+            $j++;
+        }
+
+        return Redirect::to('personal/index')->with('msg','New absences created');
     }
 }
