@@ -79,6 +79,7 @@
                                                         <th class="text-center">Attendance Time</th>
                                                         <th class="text-center">Event Type</th>
                                                         <th class="text-center">Remarks</th>
+                                                        <th><span class="glyphicon glyphicon-asterisk" aria-hidden="true"></span></th>
                                                     </tr>
                                                     </thead>
                                                     <tbody>
@@ -94,6 +95,16 @@
                                                             <td class="text-center"><strong><a href="#"><?php echo $list->event; ?></a> </strong></td>
                                                             <td class="text-center">
                                                                <strong><a href="#"><?php echo $list->remark; ?></a> </strong>
+                                                            </td>
+                                                            <td>
+                                                                <?php if($list->edited == "1"): ?>
+                                                                    <a class="btn btn-danger" href="<?php echo asset('delete/edited/logs/'.$list->userid .'/'. $list->datein .'/'. $list->time .'/'. $list->event); ?>">
+                                                                        <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                                                                    </a>
+                                                                <?php else: ?>
+                                                                    <span>-----</span>
+                                                                <?php endif; ?>
+
                                                             </td>
                                                         </tr>
                                                     <?php endforeach; ?>

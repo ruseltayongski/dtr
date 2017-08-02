@@ -271,4 +271,21 @@ class PersonalController extends Controller
         }
     }
 
+    public function delete_logs($userid,$datein,$time,$event)
+    {
+        $pdo = DB::connection()->getPdo();
+        $st = $pdo->prepare("DELETE FROM dtr_file WHERE userid=? AND datein=? AND time=? AND event=? AND edited = 1");
+        $st->execute(array(
+            $userid,
+            $datein,
+            $time,
+            $event
+        ));
+        return Redirect::to('personal/index');
+    }
+
+    public function absent_description()
+    {
+
+    }
 }

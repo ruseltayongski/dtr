@@ -82,6 +82,7 @@
                                                         <th class="text-center">Attendance Time</th>
                                                         <th class="text-center">Event Type</th>
                                                         <th class="text-center">Remarks</th>
+                                                        <th><span class="glyphicon glyphicon-asterisk" aria-hidden="true"></span></th>
                                                     </tr>
                                                     </thead>
                                                     <tbody>
@@ -97,6 +98,16 @@
                                                             <td class="text-center"><strong><a href="#">{{ $list->event }}</a> </strong></td>
                                                             <td class="text-center">
                                                                <strong><a href="#">{{ $list->remark }}</a> </strong>
+                                                            </td>
+                                                            <td>
+                                                                @if($list->edited == "1")
+                                                                    <a class="btn btn-danger" href="{{ asset('delete/edited/logs/'.$list->userid .'/'. $list->datein .'/'. $list->time .'/'. $list->event) }}">
+                                                                        <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                                                                    </a>
+                                                                @else
+                                                                    <span>-----</span>
+                                                                @endif
+
                                                             </td>
                                                         </tr>
                                                     @endforeach

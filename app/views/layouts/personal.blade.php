@@ -17,6 +17,10 @@
                     <li>
                         <a href="#" onclick="absent($(this));" data-link="{{ asset('form/absent') }}" data-dismiss="modal" data-backdrop="static"> Create absent</a>
                     </li>
+                    <li class="divider"></li>
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#absent_desc" >Create absent description</a>
+                    </li>
                 </ul>
             </li>
             <li class="divider"></li>
