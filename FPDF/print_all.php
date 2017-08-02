@@ -295,6 +295,13 @@ class PDF extends FPDF
                                     $pm_out = '';
                                     $late = '';
                                     $ut = '480';
+                                } else if($log['holiday'] == '006') {
+                                    $am_in = '';
+                                    $am_out = $log['remark'];
+                                    $pm_in = '';
+                                    $pm_out = '';
+                                    $late = '';
+                                    $ut = '480';
                                 }
                             }
                         } else {

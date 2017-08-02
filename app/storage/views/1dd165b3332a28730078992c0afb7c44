@@ -14,7 +14,7 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="panel panel-default">
-                            <div class="panel-heading"><strong style="color: #f0ad4e;font-size:medium;">Generate all logs</strong></div>
+                            <div class="panel-heading"><strong style="color: #f0ad4e;font-size:medium;">Generate DTR | All Employee</strong></div>
                             <div class="panel-body">
                                 <form action="<?php echo asset('FPDF/print_all.php'); ?>" method="POST" id="print_all">
                                     <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
