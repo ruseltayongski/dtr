@@ -95,7 +95,7 @@ Route::post('personal/filter/save', 'PersonalController@save_filtered');
 Route::match(['get','post'], 'edit/personal/attendance/{id?}', 'PersonalController@edit_attendance');
 Route::match(array('GET','POST'),'/personal/add/logs', 'PersonalController@add_logs');
 Route::post('create/absent/description', 'PersonalController@absent_description');
-
+Route::post('delete/user/created/logs','PersonalController@delete_created_logs');
 
 
 //DOCUMENTS

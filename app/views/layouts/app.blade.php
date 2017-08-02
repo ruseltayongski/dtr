@@ -206,6 +206,14 @@
     </script>
     <?php Session::forget('absent'); ?>
 @endif
-
+@if(Session::get('msg'))
+    <script>
+        var msg = <?php echo "'". Session::get('msg') ."';"; ?>
+        Lobibox.notify('info',{
+            msg:msg
+        });
+    </script>
+    <?php Session::forget('msg'); ?>
+@endif
 </body>
 </html>

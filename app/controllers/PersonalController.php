@@ -356,4 +356,21 @@ class PersonalController extends Controller
 
         return Redirect::to('personal/index')->with('msg','New absences created');
     }
+
+    public function delete_created_logs()
+    {
+        $temp1 = explode('-',Input::get('date_range'));
+        $from = date('Y-m-d',strtotime($temp1[0]));
+        $end_date = date('Y-m-d',strtotime($temp1[1]));
+
+        $logs = DB::table('dtr_file')
+                ->where('edited','=','1')
+                ->whereBetween('datein', array($from,$end_date))->delete();
+
+        if(count($logs) > 0)
+        {
+            return Redirect::to('personal/index')->with('msg', "User created time logs between $from and $end_date successfully deleted");
+        }
+        return Redirect::to('personal/index');
+    }
 }

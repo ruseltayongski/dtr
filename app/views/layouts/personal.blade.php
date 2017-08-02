@@ -21,6 +21,10 @@
                     <li>
                         <a href="#" data-toggle="modal" data-target="#absent_desc" >Create absent description</a>
                     </li>
+                    <li class="divider"></li>
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#delete_edited" >Delete user created logs</a>
+                    </li>
                 </ul>
             </li>
             <li class="divider"></li>
