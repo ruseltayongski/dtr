@@ -19,7 +19,7 @@
                     </li>
                     <li class="divider"></li>
                     <li>
-                        <a href="#" data-toggle="modal" data-target="#absent_desc" >Create absent description</a>
+                        <a href="#" data-toggle="modal" data-target="#absent_desc" >Create absence description</a>
                     </li>
                     <li class="divider"></li>
                     <li>
