@@ -213,6 +213,10 @@ class PDF extends FPDF
                                 }
                             }
 
+                            if( ! ($pm_out >= $s_pm_in)) {
+                                $pm_out = null;
+                            }
+
                             if(isset($am_in)) {
                                 $a = explode('_', $am_in);
                                 $e1 = $a[1];
