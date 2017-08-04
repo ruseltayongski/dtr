@@ -15,11 +15,7 @@
                     <li><a href="{{ asset('/personal/add/logs') }}">Create time log</a></li>
                     <li class="divider"></li>
                     <li>
-                        <a href="#" onclick="absent($(this));" data-link="{{ asset('form/absent') }}" data-dismiss="modal" data-backdrop="static"> Create absent</a>
-                    </li>
-                    <li class="divider"></li>
-                    <li>
-                        <a href="#" data-toggle="modal" data-target="#absent_desc" >Create absence description</a>
+                        <a href="#create-absent" data-toggle="modal" data-target="#absent_desc" id="create-absent" data-link="{{ asset('create/absent/description') }}">Create absence description</a>
                     </li>
                     <li class="divider"></li>
                     <li>

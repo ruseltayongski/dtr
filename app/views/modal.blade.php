@@ -160,6 +160,7 @@
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
+
 <div class="modal fade" tabindex="-1" role="dialog" id="form_type" style="z-index:999991;">
     <div class="modal-dialog modal-sm" role="document">
         <div class="modal-content">
@@ -365,7 +366,7 @@
 </div><!-- /.modal -->
 
 <div class="modal fade" tabindex="-1" role="dialog" id="absent_desc">
-    <div class="modal-dialog modal-sm" role="document">
+    <div class="modal-dialog modal-md" role="document">
         <div class="modal-content" id="schedule_modal">
             <div class="modal-header" style="background-color:#9C8AA5;color: white;">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -373,21 +374,13 @@
             </div>
             <div class="modal-body center">
                 <center>
-                    <form action="{{ asset('create/absent/description') }}" method="POST" class="delete_logs">
-                        <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
-                        <input type="text" class="col-md-2 form-control form-group" id="inputEmail3" name="description" maxlength="26" value="" placeholder="Absent Description" required>
-                        <input type="text" class="form-control form-group" id="absent" name="date_range" placeholder="Input date range here..." required>
-                        <br>
-                        <button type="submit" class="btn btn-success" style="color:white;">Submit</button>
-                    </form>
+                    <img src="{{ asset('public/img/spin.gif') }}" class="align-center center loading" width="150" style="padding:10px; color: whitesmoke;">
                 </center>
-                <script>
-                    $(function(){
-                        $("body").delegate("#absent","focusin",function(){
-                            $(this).daterangepicker();
-                        });
-                    });
-                </script>
+                <div class="row">
+                    <div class="col-sm-12 modal_content">
+
+                    </div>
+                </div>
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->

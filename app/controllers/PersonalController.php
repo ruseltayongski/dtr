@@ -79,35 +79,6 @@ class PersonalController extends Controller
             return View::make('employee.index')->with('lists',$lists);
         }
     }
-    public function edit_attendance($id = null)
-    {
-
-        if(Request::method() == 'GET') {
-            if(isset($id)) {
-                Session::put('dtr_id',$id);
-            }
-            $dtr = DtrDetails::where('dtr_id', $id)->first();
-            return View::make('employee.edit_attendance')->with('dtr',$dtr);
-        }
-        if(Request::method() == 'POST') {
-            if(Session::has('dtr_id')) {
-                $dtr_id = Session::get('dtr_id');
-                $dtr = DtrDetails::where('dtr_id', $dtr_id)->first();
-                $dtr->time = Input::get('time');
-                $time = explode(':', Input::get('time'));
-                $dtr->time_h = array_key_exists(0, $time) == true ?trim($time[0], "\" ") : null;
-                $dtr->time_m = array_key_exists(1, $time) == true ?trim($time[1], "\" ") : null;
-                $dtr->time_s = array_key_exists(2, $time) == true ? trim($time[2], "\" ") : null;
-                $dtr->event = Input::get('event');
-                $dtr->terminal = Input::get('terminal');
-                $dtr->remark = Input::get('remarks');
-                $dtr->edited = "1";
-                $dtr->save();
-                Session::forget('dtr_id');
-                return Redirect::to('personal/index');
-            }
-        }
-    }
 
     public function personal_dtrlist()
     {
@@ -286,75 +257,82 @@ class PersonalController extends Controller
 
     public function absent_description()
     {
-        $temp1 = explode('-',Input::get('date_range'));
-
-        $from = date('Y-m-d',strtotime($temp1[0]));
-        $end_date = date('Y-m-d',strtotime($temp1[1]));
-
-        $f = new DateTime($from.' '. '24:00:00');
-        $t = new DateTime($end_date.' '. '24:00:00');
-
-
-
-        $interval = $f->diff($t);
-
-        $datein = '';
-        $f_from = explode('-',$from);
-        $startday = $f_from[2];
-        $j = 0;
-        while($j <= $interval->days) {
-
-            $datein = $f_from[0].'-'.$f_from[1] .'-'. $startday;
-
-            $details = new DtrDetails();
-            $details->userid = Auth::user()->userid;
-            $details->datein = $datein;
-            $details->time = '08:00:00';
-            $details->event = 'IN';
-            $details->remark = Input::get('description');
-            $details->edited = '1';
-            $details->holiday = '006';
-
-            $details->save();
-
-            $details = new DtrDetails();
-            $details->userid =  Auth::user()->userid;
-            $details->datein = $datein;
-            $details->time = '12:00:00';
-            $details->event = 'OUT';
-            $details->remark = Input::get('description');
-            $details->edited = '1';
-            $details->holiday = '006';
-
-            $details->save();
-
-            $details = new DtrDetails();
-            $details->userid =  Auth::user()->userid;
-            $details->datein = $datein;
-            $details->time = '13:00:00';
-            $details->event = 'IN';
-            $details->remark = Input::get('description');
-            $details->edited = '1';
-            $details->holiday = '006';
-
-            $details->save();
-
-            $details = new DtrDetails();
-            $details->userid =  Auth::user()->userid;
-            $details->datein = $datein;
-            $details->time = '18:00:00';
-            $details->event = 'OUT';
-            $details->remark = Input::get('description');
-            $details->edited = '1';
-            $details->holiday = '006';
-
-            $details->save();
-
-            $startday = $startday + 1;
-            $j++;
+        if(Request::method() == "GET"){
+            return View::make('employee.absent');
         }
 
-        return Redirect::to('personal/index')->with('msg','New absences created');
+        if(Request::method() == "POST") {
+
+            return Input::all();
+            $temp1 = explode('-',Input::get('date_range'));
+
+            $from = date('Y-m-d',strtotime($temp1[0]));
+            $end_date = date('Y-m-d',strtotime($temp1[1]));
+
+            $f = new DateTime($from.' '. '24:00:00');
+            $t = new DateTime($end_date.' '. '24:00:00');
+
+
+
+            $interval = $f->diff($t);
+
+            $datein = '';
+            $f_from = explode('-',$from);
+            $startday = $f_from[2];
+            $j = 0;
+            while($j <= $interval->days) {
+
+                $datein = $f_from[0].'-'.$f_from[1] .'-'. $startday;
+
+                $details = new DtrDetails();
+                $details->userid = Auth::user()->userid;
+                $details->datein = $datein;
+                $details->time = '08:00:00';
+                $details->event = 'IN';
+                $details->remark = Input::get('description');
+                $details->edited = '1';
+                $details->holiday = '006';
+
+                $details->save();
+
+                $details = new DtrDetails();
+                $details->userid =  Auth::user()->userid;
+                $details->datein = $datein;
+                $details->time = '12:00:00';
+                $details->event = 'OUT';
+                $details->remark = Input::get('description');
+                $details->edited = '1';
+                $details->holiday = '006';
+
+                $details->save();
+
+                $details = new DtrDetails();
+                $details->userid =  Auth::user()->userid;
+                $details->datein = $datein;
+                $details->time = '13:00:00';
+                $details->event = 'IN';
+                $details->remark = Input::get('description');
+                $details->edited = '1';
+                $details->holiday = '006';
+
+                $details->save();
+
+                $details = new DtrDetails();
+                $details->userid =  Auth::user()->userid;
+                $details->datein = $datein;
+                $details->time = '18:00:00';
+                $details->event = 'OUT';
+                $details->remark = Input::get('description');
+                $details->edited = '1';
+                $details->holiday = '006';
+
+                $details->save();
+
+                $startday = $startday + 1;
+                $j++;
+            }
+            return Redirect::to('personal/index')->with('msg','New absences created');
+        }
     }
 
     public function delete_created_logs()

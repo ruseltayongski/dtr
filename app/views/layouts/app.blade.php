@@ -167,7 +167,35 @@
 <!-- iCheck -->
 <script src="{{ asset('public/plugin/iCheck/icheck.min.js') }}"></script>
 
+<script>
+    $('#create-absent').click(function(){
+        var url = $(this).data('link');
+        $('.modal_content').html('');
+        $('.loading').show();
+        setTimeout(function (){
+            $.get(url, function(data){
+                $('.loading').hide();
+                $('.modal_content').html(data);
 
+            });
+        },1000);
+    });
+
+    function select_absent(element)
+    {
+
+        var val = $(element).val();
+        if(val == "SO")
+        {
+
+            $('#desc').removeAttr('disabled');
+        } else if(val == "LEAVE") {
+            $('#desc').prop('disabled',true);
+        } else if(val == "CTO") {
+
+        }
+    }
+</script>
 @section('js')
 
 @show
