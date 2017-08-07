@@ -14,8 +14,15 @@
                     <li class="divider"></li>
                     <li><a href="<?php echo asset('/personal/add/logs'); ?>">Create time log</a></li>
                     <li class="divider"></li>
-                    <li>
-                        <a href="#create-absent" data-toggle="modal" data-target="#absent_desc" id="create-absent" data-link="<?php echo asset('create/absent/description'); ?>">Create absence description</a>
+                    <li class="dropdown-submenu">
+                        <a href="#create-absent">Create absence</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#" class="create-absent" data-toggle="modal" data-target="#absent_desc" data-link="<?php echo asset('create/absent/description?t=SO'); ?>">OFFICE ORDER</a></li>
+                            <li class="divider"></li>
+                            <li><a href="#" class="create-absent" data-toggle="modal" data-target="#absent_desc" data-link="<?php echo asset('create/absent/description?t=LEAVE'); ?>">LEAVE</a> </li>
+                            <li class="divider"></li>
+                            <li><a href="#" class="create-absent" data-toggle="modal" data-target="#absent_desc" data-link="<?php echo asset('create/absent/description?t=CTO'); ?>">CTO</a> </li>
+                        </ul>
                     </li>
                     <li class="divider"></li>
                     <li>

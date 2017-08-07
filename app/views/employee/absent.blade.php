@@ -4,37 +4,28 @@
 
         <div class="alert alert-warning error-alert" role="alert"><strong id="error"></strong></div>
         <table class="table table-hover table-form table-striped">
-            <tr>
-                <td class="col-sm-3"><label>Absent Type</label></td>
-                <td class="col-sm-1">:</td>
-                <td class="col-sm-8">
-                    <select name="absent_type" class="form-control" id="absent_type_select" required onchange="select_absent(this);">
-                        <option value="" selected >Select absent type</option>
-                        @foreach(AbsentTypes::all() as $absent)
-                            <option value="{{ $absent->code }}">{{ $absent->desc }}</option>
-                        @endforeach
-                    </select>
-                </td>
-            </tr>
-            <tr class="description_tr_desc">
-                <td class="col-sm-3"><label>Enter SO #</label></td>
-                <td class="col-sm-1">:</td>
-                <td class="col-sm-8">
-                    <input type="text" id="desc" disabled="true" name="description" class="form-control" placeholder="OFFICE ORDER NO. ONLY"  onkeypress="return isNumber(event)">
-                </td>
-            </tr>
-            <tr class="description_tr_leave">
-                <td class="col-sm-3"><label>Leave Type</label></td>
-                <td class="col-sm-1">:</td>
-                <td class="col-sm-8">
-                    <select name="leave_type" id="leave_type_select"  class="form-control" disabled="true" >
-                        <option value="0" selected>Select leave type</option>
-                        @foreach(DB::table('leave_type')->get() as $leave)
-                            <option value="{{ $leave->code }}">{{ $leave->desc }}</option>
-                        @endforeach
-                    </select>
-                </td>
-            </tr>
+            @if(Session::get('type') == "SO")
+                <tr class="description_tr_desc">
+                    <td class="col-sm-3"><label>Enter SO #</label></td>
+                    <td class="col-sm-1">:</td>
+                    <td class="col-sm-8">
+                        <input type="text" id="desc"  name="so" class="form-control" placeholder="OFFICE ORDER NO. ONLY"  onkeypress="return isNumber(event)">
+                    </td>
+                </tr>
+            @elseif(Session::get('type') == "LEAVE")
+                <tr class="description_tr_leave">
+                    <td class="col-sm-3"><label>Leave Type</label></td>
+                    <td class="col-sm-1">:</td>
+                    <td class="col-sm-8">
+                        <select name="leave_type" id="leave_type_select"  class="form-control" >
+                            <option value="0" selected>Select leave type</option>
+                            @foreach(DB::table('leave_type')->get() as $leave)
+                                <option value="{{ $leave->desc }}">{{ $leave->desc }}</option>
+                            @endforeach
+                        </select>
+                    </td>
+                </tr>
+            @endif
             <tr>
                 <td class="col-sm-3"><label>Dates</label></td>
                 <td class="col-sm-1">:</td>

@@ -257,13 +257,21 @@ class PersonalController extends Controller
 
     public function absent_description()
     {
+        $remarks = null;
         if(Request::method() == "GET"){
+            Session::put('type', Input::get('t'));
             return View::make('employee.absent');
         }
 
         if(Request::method() == "POST") {
-
-            return Input::all();
+            $type = Session::get('type');
+            if($type == "SO"){
+                $remarks = "SO #: ".Input::get('so');
+            } elseif($type == "LEAVE") {
+                $remarks = Input::get('leave_type');
+            } elseif($type == "CTO") {
+                $remarks = $type;
+            }
             $temp1 = explode('-',Input::get('date_range'));
 
             $from = date('Y-m-d',strtotime($temp1[0]));
@@ -289,7 +297,7 @@ class PersonalController extends Controller
                 $details->datein = $datein;
                 $details->time = '08:00:00';
                 $details->event = 'IN';
-                $details->remark = Input::get('description');
+                $details->remark = $remarks;
                 $details->edited = '1';
                 $details->holiday = '006';
 
@@ -300,7 +308,7 @@ class PersonalController extends Controller
                 $details->datein = $datein;
                 $details->time = '12:00:00';
                 $details->event = 'OUT';
-                $details->remark = Input::get('description');
+                $details->remark = $remarks;
                 $details->edited = '1';
                 $details->holiday = '006';
 
@@ -311,7 +319,7 @@ class PersonalController extends Controller
                 $details->datein = $datein;
                 $details->time = '13:00:00';
                 $details->event = 'IN';
-                $details->remark = Input::get('description');
+                $details->remark = $remarks;
                 $details->edited = '1';
                 $details->holiday = '006';
 
@@ -322,7 +330,7 @@ class PersonalController extends Controller
                 $details->datein = $datein;
                 $details->time = '18:00:00';
                 $details->event = 'OUT';
-                $details->remark = Input::get('description');
+                $details->remark = $remarks;
                 $details->edited = '1';
                 $details->holiday = '006';
 

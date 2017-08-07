@@ -168,7 +168,7 @@
 <script src="{{ asset('public/plugin/iCheck/icheck.min.js') }}"></script>
 
 <script>
-    $('#create-absent').click(function(){
+    $('.create-absent').click(function(){
         var url = $(this).data('link');
         $('.modal_content').html('');
         $('.loading').show();
