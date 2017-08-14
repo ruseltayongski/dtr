@@ -1,7 +1,4 @@
-
-@extends('layouts.app')
-
-@section('content')
+<?php $__env->startSection('content'); ?>
     <div class="col-md-12 wrapper">
         <div class="alert alert-jim">
             <div class="row">
@@ -11,18 +8,18 @@
                             <div class="panel panel-default">
                                 <div class="panel-heading"><strong style="color: #f0ad4e;font-size:medium;">Print individual DTR</strong></div>
                                 <div class="panel-body">
-                                    <form action="{{ asset('FPDF/print_individual.php') }}" method="POST" id="print_pdf">
+                                    <form action="<?php echo asset('FPDF/print_individual.php'); ?>" method="POST" id="print_pdf">
                                         <div class="table-responsive">
                                             <table class="table">
                                                 <tr>
                                                     <td class="col-sm-3"><strong>User ID </strong></td>
                                                     <td class="col-sm-1">: </td>
                                                     <td class="col-sm-9">
-                                                        @if(Auth::user()->usertype == "1")
+                                                        <?php if(Auth::user()->usertype == "1"): ?>
                                                             <input type="text" class="col-md-2 form-control" id="inputEmail3" name="userid" value="" required>
-                                                        @else
-                                                            <input type="text" readonly class="col-md-2 form-control" id="inputEmail3" name="userid" value="{{ Auth::user()->userid }}" required>
-                                                        @endif
+                                                        <?php else: ?>
+                                                            <input type="text" readonly class="col-md-2 form-control" id="inputEmail3" name="userid" value="<?php echo Auth::user()->userid; ?>" required>
+                                                        <?php endif; ?>
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -55,7 +52,7 @@
                             <div class="panel-body">
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <form class="form-inline" method="GET" action="{{ asset('personal/search') }}"  id="searchForm">
+                                        <form class="form-inline" method="GET" action="<?php echo asset('personal/search'); ?>"  id="searchForm">
                                             <div class="form-group">
                                                 <div class="input-group">
                                                     <div class="input-group-addon">
@@ -73,7 +70,7 @@
                                 <br />
                                 <div class="row">
                                     <div class="col-md-12">
-                                        @if(isset($lists) and count($lists) >0)
+                                        <?php if(isset($lists) and count($lists) >0): ?>
                                             <div class="table-responsive">
                                                 <table class="table table-list table-hover table-striped">
                                                     <thead>
@@ -86,38 +83,39 @@
                                                     </tr>
                                                     </thead>
                                                     <tbody>
-                                                    @foreach($lists as $list)
+                                                    <?php foreach($lists as $list): ?>
                                                         <tr>
                                                             <td class="text-center">
                                                                 <a href="#">
-                                                                    <strong>{{ $list->datein }}</strong>
+                                                                    <strong><?php echo $list->datein; ?></strong>
                                                                 </a>
 
                                                             </td>
-                                                            <td class="text-center"><strong><a href="#"> {{ $list->time }}</a></strong></td>
-                                                            <td class="text-center"><strong><a href="#">{{ $list->event }}</a> </strong></td>
+                                                            <td class="text-center"><strong><a href="#"> <?php echo $list->time; ?></a></strong></td>
+                                                            <td class="text-center"><strong><a href="#"><?php echo $list->event; ?></a> </strong></td>
                                                             <td class="text-center">
-                                                               <strong><a href="#">{{ $list->remark }}</a> </strong>
+                                                               <strong><a href="#"><?php echo $list->remark; ?></a> </strong>
                                                             </td>
                                                             <td>
-                                                                @if($list->edited == "1")
-                                                                    <a class="btn btn-danger" href="{{ asset('delete/edited/logs/'.$list->userid .'/'. $list->datein .'/'. $list->time .'/'. $list->event) }}">
+                                                                <?php if($list->edited == "1"): ?>
+                                                                    <a class="btn btn-danger" href="<?php echo asset('delete/edited/logs/'.$list->userid .'/'. $list->datein .'/'. $list->time .'/'. $list->event); ?>">
                                                                         <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
                                                                     </a>
-                                                                @else
+                                                                <?php else: ?>
                                                                     <span>-----</span>
-                                                                @endif
+                                                                <?php endif; ?>
 
                                                             </td>
                                                         </tr>
-                                                    @endforeach
+                                                    <?php endforeach; ?>
                                                     </tbody>
                                                 </table>
                                             </div>
-                                            {{ $lists->links() }}
-                                        @else
+                                            <?php echo $lists->links(); ?>
+
+                                        <?php else: ?>
                                             <div class="alert alert-danger" role="alert">DTR records are empty.</div>
-                                        @endif
+                                        <?php endif; ?>
 
                                     </div>
                                 </div>
@@ -129,9 +127,9 @@
         </div>
     </div>
 
-@endsection
+<?php $__env->stopSection(); ?>
 
-@section('js')
+<?php $__env->startSection('js'); ?>
     @parent
 
     <script>
@@ -152,4 +150,5 @@
 
 
     </script>
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.app', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

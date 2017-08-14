@@ -167,7 +167,35 @@
 <!-- iCheck -->
 <script src="{{ asset('public/plugin/iCheck/icheck.min.js') }}"></script>
 
+<script>
+    $('.create-absent').click(function(){
+        var url = $(this).data('link');
+        $('.modal_content').html('');
+        $('.loading').show();
+        setTimeout(function (){
+            $.get(url, function(data){
+                $('.loading').hide();
+                $('.modal_content').html(data);
 
+            });
+        },1000);
+    });
+
+    function select_absent(element)
+    {
+
+        var val = $(element).val();
+        if(val == "SO")
+        {
+
+            $('#desc').removeAttr('disabled');
+        } else if(val == "LEAVE") {
+            $('#desc').prop('disabled',true);
+        } else if(val == "CTO") {
+
+        }
+    }
+</script>
 @section('js')
 
 @show
@@ -206,6 +234,14 @@
     </script>
     <?php Session::forget('absent'); ?>
 @endif
-
+@if(Session::get('msg'))
+    <script>
+        var msg = <?php echo "'". Session::get('msg') ."';"; ?>
+        Lobibox.notify('info',{
+            msg:msg
+        });
+    </script>
+    <?php Session::forget('msg'); ?>
+@endif
 </body>
 </html>

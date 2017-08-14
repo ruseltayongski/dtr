@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class DtrTable extends Migration {
+class AbsentType extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -12,13 +12,12 @@ class DtrTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('dtr_table', function($table){
+		Schema::create('absent_type',function($table){
 			$table->increments('id');
-			$table->string('desc')->nullable();
-			$table->date('date_from')->nullable();
-			$table->date('date_to')->nullable();
-			$table->string('name')->nullable();
+			$table->string('code',10)->nullable();
+			$table->string('desc',20)->nullable();
 			$table->timestamps();
+			$table->softDeletes();
 		});
 	}
 
@@ -29,7 +28,7 @@ class DtrTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('dtr_table');
+		Schema::drop('absent_type');
 	}
 
 }

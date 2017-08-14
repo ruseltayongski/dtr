@@ -1,40 +1,39 @@
-@extends('layouts.app')
-
-@section('content')
+<?php $__env->startSection('content'); ?>
     <div class="col-md-12 wrapper">
         <div class="alert alert-jim">
-            <h3 class="page-header">Create Application for Leave
+            <h3 class="page-header">Edit Application for Leave
             </h3>
             <div class="panel panel-default">
                 <div class="panel-heading text-center"><strong style="color: #f0ad4e;font-size:medium;">Fill up leave form</strong></div>
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-md-11">
-                            <form action="{{ asset('form/leave') }}" method="POST">
+                            <form action="<?php echo asset('leave/update/save'); ?>" method="POST">
                                 <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
+                                <input type="hidden" name="id" value="<?php echo $leave->id; ?>" />
                                 <div class="row">
                                     <div class="col-md-3">
                                         <div class="form-group has-success">
                                             <label class="control-label" for="inputSuccess1">(1.) Office/Agency</label>
-                                            <input type="text" class="form-control" id="inputSuccess1" name="office_agency" value="DOH 7">
+                                            <input type="text" class="form-control" id="inputSuccess1" name="office_agency" value="<?php echo $leave->office_agency; ?>">
                                         </div>
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group has-success">
                                             <label class="control-label" for="inputSuccess1">(2.)  Last Name</label>
-                                            <input type="text" class="form-control" id="inputSuccess1" name="lastname" value="{{ $user->lname }}">
+                                            <input type="text" class="form-control" id="inputSuccess1" name="lastname" value="<?php echo $leave->lastname; ?>">
                                         </div>
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group has-success">
                                             <label class="control-label" for="inputSuccess1">First Name</label>
-                                            <input type="text" class="form-control" id="inputSuccess1" name="firstname" value="{{ $user->fname }}">
+                                            <input type="text" class="form-control" id="inputSuccess1" name="firstname" value="<?php echo $leave->firstname; ?>">
                                         </div>
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group has-success">
                                             <label class="control-label" for="inputSuccess1">Middle Name</label>
-                                            <input type="text" class="form-control" id="inputSuccess1" name="middlename" value="{{ $user->mname }}">
+                                            <input type="text" class="form-control" id="inputSuccess1" name="middlename" value="<?php echo $leave->middlename; ?>">
                                         </div>
                                     </div>
                                 </div>
@@ -43,19 +42,19 @@
                                     <div class="col-md-4">
                                         <div class="form-group has-success  input-daterange">
                                             <label class="control-label" for="inputSuccess1">(3.) Date of Filling</label>
-                                            <input type="text" class="form-control" name="date_filling" value="{{ date("Y-m-d") }}" readonly>
+                                            <input type="text" class="form-control" name="date_filling" value="<?php echo $leave->date_filling; ?>">
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group has-success">
                                             <label class="control-label" for="inputSuccess1">(4.)  Position</label>
-                                            <input type="text" class="form-control" id="inputSuccess1" name="position">
+                                            <input type="text" class="form-control" id="inputSuccess1" name="position" value="<?php echo $leave->position; ?>">
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group has-success">
                                             <label class="control-label" for="inputSuccess1">(5.)Salary (Monthly)</label>
-                                            <input type="text" class="form-control" id="inputSuccess1" name="salary" onkeypress='validate(event)'>
+                                            <input type="text" class="form-control" id="inputSuccess1" name="salary" value="<?php echo sprintf("%.2f",$leave->salary); ?>" onkeypress='validate(event)'>
                                         </div>
                                     </div>
                                 </div>
@@ -67,14 +66,14 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="alert alert-success">
-                                            <strong>(6a) TYPE OF LEAVE</strong>
+                                            <strong>(6a) Type of Leave</strong>
                                             <div class="row">
                                                 <div class="col-md-12">
                                                     <div class="form-group">
                                                         <div class="has-success">
                                                             <div class="checkbox">
                                                                 <label>
-                                                                    <input type="radio" id="checkboxSuccess" value="Vication" name="leave_type">
+                                                                    <input type="radio" id="checkboxSuccess" value="Vication" name="leave_type" <?php echo ($leave->leave_type == 'Vication') ? ' checked' : ''; ?> >
                                                                     Vacation
                                                                 </label>
                                                             </div>
@@ -82,7 +81,7 @@
                                                         <div class="has-success">
                                                             <div class="checkbox">
                                                                 <label>
-                                                                    <input type="radio" id="checkboxSuccess" value="To_sake_employement" name="leave_type">
+                                                                    <input type="radio" id="checkboxSuccess" value="To_sake_employement" name="leave_type" <?php echo $leave->leave_type == "To_sake_employement" ? ' checked' : ''; ?>>
                                                                     To seek employement
                                                                 </label>
                                                             </div>
@@ -90,14 +89,14 @@
                                                         <div class="has-success">
                                                             <div class="checkbox">
                                                                 <label>
-                                                                    <input type="radio" id="radio_others" value="Others" name="leave_type" />
+                                                                    <input type="radio" id="radio_others" value="Others" name="leave_type" <?php echo $leave->leave_type == "Others" ? ' checked' : ''; ?>/>
                                                                     Others(Specify)
                                                                 </label>
                                                             </div>
                                                         </div>
                                                         <div class="has-success">
                                                             <div class="form-group has-success">
-                                                                <textarea type="text" class="form-control others1_txt" maxlength="" id="inputSuccess1" name="leave_type_others_1"></textarea>
+                                                                <textarea type="text" class="form-control" maxlength="200" id="inputSuccess1" name="leave_type_others_1"><?php echo $leave->leave_type_others_1; ?></textarea>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -109,7 +108,7 @@
                                                         <div class="has-success">
                                                             <div class="checkbox">
                                                                 <label>
-                                                                    <input type="radio" id="checkboxSuccess" value="Sick" name="leave_type" />
+                                                                    <input type="radio" id="checkboxSuccess" value="Sick" name="leave_type" <?php echo $leave->leave_type == "Sick" ? ' checked' : ''; ?> />
                                                                     Sick
                                                                 </label>
                                                             </div>
@@ -117,7 +116,7 @@
                                                         <div class="has-success">
                                                             <div class="checkbox">
                                                                 <label>
-                                                                    <input type="radio" id="checkboxSuccess" value="Maternity" name="leave_type" />
+                                                                    <input type="radio" id="checkboxSuccess" value="Maternity" name="leave_type" <?php echo $leave->leave_type == "Maternity" ? ' checked' : ''; ?> />
                                                                     Maternity
                                                                 </label>
                                                             </div>
@@ -125,14 +124,14 @@
                                                         <div class="has-success">
                                                             <div class="checkbox">
                                                                 <label>
-                                                                    <input type="radio" id="checkboxSuccess" value="Others2" name="leave_type">
+                                                                    <input type="radio" id="checkboxSuccess" value="Others2" name="leave_type" <?php echo $leave->leave_type == "Others2" ? ' checked' : ''; ?>>
                                                                     Others(Specify)
                                                                 </label>
                                                             </div>
                                                         </div>
                                                         <div class="has-success">
                                                             <div class="form-group has-success">
-                                                                <textarea type="text" class="form-control others2_txt" maxlength="200" id="inputSuccess1" name="leave_type_others_2"></textarea>
+                                                                <textarea type="text" class="form-control" maxlength="200" id="inputSuccess1" name="leave_type_others_2"><?php echo $leave->leave_type_others_2; ?></textarea>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -165,7 +164,7 @@
                                                         <div class="has-success">
                                                             <div class="checkbox">
                                                                 <label>
-                                                                    <input type="radio" id="checkboxSuccess" class="vic_dis vic_dis_radio" value="local" name="vication_loc">
+                                                                    <input type="radio" id="checkboxSuccess" class="vis_dis" value="local" name="vication_loc" <?php echo $leave->vication_loc == "local" ? ' checked' : ''; ?>>
                                                                     Within the Philippines
                                                                 </label>
                                                             </div>
@@ -173,14 +172,14 @@
                                                         <div class="has-success">
                                                             <div class="checkbox">
                                                                 <label>
-                                                                    <input type="radio" id="checkboxSuccess" class="vic_dis vic_dis_radio" value="abroad" name="vication_loc">
+                                                                    <input type="radio" id="checkboxSuccess" class="vis_dis" value="abroad" name="vication_loc" <?php echo $leave->vication_loc == "abroad" ? ' checked' : ''; ?> >
                                                                     Abroad (specify)
                                                                 </label>
                                                             </div>
                                                         </div>
                                                         <div class="has-success">
                                                             <div class="form-group has-success">
-                                                                <textarea type="text" class="form-control vic_dis vic_dis_txt" maxlength="200" id="inputSuccess1" name="abroad_others"></textarea>
+                                                                <textarea type="text" class="form-control vis_dis" maxlength="200" id="inputSuccess1" name="abroad_others"><?php echo $leave->abroad_others; ?></textarea>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -197,18 +196,18 @@
                                                         <div class="has-success">
                                                             <div class="checkbox">
                                                                 <label>
-                                                                    <input type="radio" id="checkboxSuccess"  class="sic_dis sic_dis_radio" value="in_hostpital" name="sick_loc">
+                                                                    <input type="radio" id="checkboxSuccess" class="sic_dis" value="in_hostpital" name="sick_loc" <?php echo $leave->sick_loc == "in_hostpital" ? ' checked' : ''; ?>>
                                                                     In Hospital (sepecify)
-                                                                    <input type="text"  name="in_hospital_specify" class="sic_dis sic_dis_txt" id="in_hos_txt" />
+                                                                    <input type="text"  name="in_hospital_specify" class="sic_dis"/>
                                                                 </label>
                                                             </div>
                                                         </div>
                                                         <div class="has-success">
                                                             <div class="checkbox">
                                                                 <label>
-                                                                    <input type="radio" id="checkboxSuccess" value="out_patient" name="sick_loc" class="sic_dis sic_dis_radio">
+                                                                    <input type="radio" id="checkboxSuccess" class="sic_dis" value="out_patient" name="sick_loc" <?php echo $leave->sick_loc == "out_patient" ? ' checked' : ''; ?>>
                                                                     Out-patient (sepecify)
-                                                                    <input type="text" name="out_patient_specify" class="sic_dis sic_dis_txt" id="out_hos_txt" />
+                                                                    <input type="text" name="out_patient_specify" class="sic_dis"/>
                                                                 </label>
                                                             </div>
                                                         </div>
@@ -219,11 +218,11 @@
                                             <div class="has-success">
                                                 <div class="checkbox">
                                                     <label>
-                                                        <input type="radio" id="checkboxSuccess" value="yes" name="com_requested">
+                                                        <input type="radio" id="checkboxSuccess" value="yes" name="com_requested" <?php echo $leave->com_requested == "yes" ? ' checked' : ''; ?>>
                                                         Requested
                                                     </label>
                                                     <label>
-                                                        <input type="radio" id="checkboxSuccess" value="no" name="com_requested">
+                                                        <input type="radio" id="checkboxSuccess" value="no" name="com_requested" <?php echo $leave->com_requested == "no" ? ' checked' : ''; ?>>
                                                         Not Requested
                                                     </label>
                                                 </div>
@@ -245,118 +244,33 @@
             </div>
         </div>
     </div>
-@endsection
-@section('js')
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('js'); ?>
     @parent
     <script>
+        $('.input-daterange input').each(function() {
+            $(this).datepicker({
+                format: 'yyyy/mm/dd'
+            });
 
-        $('#inc_date').daterangepicker();
-        $('input[name="leave_type"]').change(function(){
+            $('#inc_date').daterangepicker();
+            $('input[name="leave_type"]').change(function(){
+                var val = this.value;
 
-            var val = this.value;
-        
-            if(val == "Vication") 
-            {
-                vic_radio_txt(false,false,'');
-                sick_radio_txt(true,false,'');
-                others1_txt(true,'');
-                others2_txt(true,'');
 
-            } else if(val == "To_sake_employement") 
-            {
-                vic_radio_txt(true,false,'');
-                sick_radio_txt(true,false,'');
-                others1_txt(true,'');
-                others2_txt(true,'');
+                if(val != "Vication") {
+                    $('.vic_dis').prop('disabled', true);
+                } else {
+                    $('.vic_dis').prop('disabled', false);
+                }
 
-            } else if(val == "Others")
-            {
-                vic_radio_txt(true,false,'');
-                sick_radio_txt(true,false,'');
-                others1_txt(false,'');
-                others2_txt(true,'');
-            } else if(val == "Sick") 
-            {
-                vic_radio_txt(true,false,'');
-                sick_radio_txt(false,false,'');
-                others1_txt(true,'');
-                others2_txt(true,'');
-
-            } else if(val == "Maternity")
-            {
-                vic_radio_txt(true,false,'');
-                sick_radio_txt(true,false,'');
-                others1_txt(true,'');
-                others2_txt(true,'');
-            } else if(val == "Others2")
-            {
-                vic_radio_txt(true,false,'');
-                sick_radio_txt(true,false,'');
-                others1_txt(true,'');
-                others2_txt(false,'');
-            }
-            
+                if(val != "Sick") {
+                    $('.sic_dis').prop('disabled', true);
+                } else {
+                    $('.sic_dis').prop('disabled', false);
+                }
+            });
         });
-
-       $('input[name="vication_loc"]').change(function(){
-            var val = this.value;
-            if(val == "local")
-            {
-                $('.vic_dis_txt').prop('disabled', true).val('');
-            } else if(val == "abroad"){
-                $('.vic_dis_txt').prop('disabled', false).val('');
-
-            }
-       });
-
-       $('input[name="in_hostpital"]').change(function(){
-            var val = this.attr('checked');
-            alert(val);
-       });
-    
-        $('input[name="sick_loc"]').change(function(){
-            var val = this.value;
-            if(val == "in_hostpital")
-            {
-                $('#in_hos_txt').prop('disabled', false).val('');
-                $('#out_hos_txt').prop('disabled',true).val('');
-            }else if(val == "out_patient")
-            {
-                $('#out_hos_txt').prop('disabled',false).val('');
-                $('#in_hos_txt').prop('disabled', true).val('');
-            }
-        }); 
-
-         $('#in_hos_txt').prop('disabled', true);
-         $('#out_hos_txt').prop('disabled',true);
-        function vic_radio_txt(state,checked,txt_val)
-        {
-            $('.vic_dis').prop('disabled', state);
-            $('.vic_dis_txt').val(txt_val);
-            $('.vic_dis_txt').prop('disabled', state);
-            $('.vic_dis_radio').prop('checked', checked);
-        }
-        function sick_radio_txt(state,checked,txt_val)
-        {
-             $('.sic_dis').prop('disabled', state);
-             $('.sic_dis_radio').prop('disabled', state);
-             $('.sic_dis_radio').prop('checked', checked);
-             $('.sic_dis_txt').val(state);
-             $('.sic_dis_txt').val(txt_val);   
-        }
-
-        function others1_txt(state,txt_val)
-        {
-            $('.others1_txt').val(txt_val);
-            $('.others1_txt').prop('disabled', state);
-            
-        }
-        function others2_txt(state,txt_val)
-        {
-            $('.others2_txt').val(txt_val);
-            $('.others2_txt').prop('disabled', state);
-        }
-
 
         function validate(evt) {
             var theEvent = evt || window.event;
@@ -369,4 +283,5 @@
             }
         }
     </script>
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.app', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

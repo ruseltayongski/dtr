@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class Actatek extends Migration {
+class LeaveType extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -12,13 +12,10 @@ class Actatek extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('actatek', function($table){
-
+		Schema::create('leave_type', function($table){
 			$table->increments('id');
-			$table->string('filename');
-			$table->date('date_created');
-			$table->time('time_created');
-			$table->index('date_created');
+			$table->string('code')->nullable();
+			$table->string('desc')->nullable();
 			$table->timestamps();
 			$table->softDeletes();
 		});
@@ -31,7 +28,7 @@ class Actatek extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('actatek');
+		Schema::drop('leave_type');
 	}
 
 }

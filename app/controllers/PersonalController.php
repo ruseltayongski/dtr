@@ -79,35 +79,6 @@ class PersonalController extends Controller
             return View::make('employee.index')->with('lists',$lists);
         }
     }
-    public function edit_attendance($id = null)
-    {
-
-        if(Request::method() == 'GET') {
-            if(isset($id)) {
-                Session::put('dtr_id',$id);
-            }
-            $dtr = DtrDetails::where('dtr_id', $id)->first();
-            return View::make('employee.edit_attendance')->with('dtr',$dtr);
-        }
-        if(Request::method() == 'POST') {
-            if(Session::has('dtr_id')) {
-                $dtr_id = Session::get('dtr_id');
-                $dtr = DtrDetails::where('dtr_id', $dtr_id)->first();
-                $dtr->time = Input::get('time');
-                $time = explode(':', Input::get('time'));
-                $dtr->time_h = array_key_exists(0, $time) == true ?trim($time[0], "\" ") : null;
-                $dtr->time_m = array_key_exists(1, $time) == true ?trim($time[1], "\" ") : null;
-                $dtr->time_s = array_key_exists(2, $time) == true ? trim($time[2], "\" ") : null;
-                $dtr->event = Input::get('event');
-                $dtr->terminal = Input::get('terminal');
-                $dtr->remark = Input::get('remarks');
-                $dtr->edited = "1";
-                $dtr->save();
-                Session::forget('dtr_id');
-                return Redirect::to('personal/index');
-            }
-        }
-    }
 
     public function personal_dtrlist()
     {
@@ -271,4 +242,121 @@ class PersonalController extends Controller
         }
     }
 
+    public function delete_logs($userid,$datein,$time,$event)
+    {
+        $pdo = DB::connection()->getPdo();
+        $st = $pdo->prepare("DELETE FROM dtr_file WHERE userid=? AND datein=? AND time=? AND event=? AND edited = 1");
+        $st->execute(array(
+            $userid,
+            $datein,
+            $time,
+            $event
+        ));
+        return Redirect::to('personal/index');
+    }
+
+    public function absent_description()
+    {
+        $remarks = null;
+        if(Request::method() == "GET"){
+            Session::put('type', Input::get('t'));
+            return View::make('employee.absent');
+        }
+
+        if(Request::method() == "POST") {
+            $type = Session::get('type');
+            if($type == "SO"){
+                $remarks = "SO #: ".Input::get('so');
+            } elseif($type == "LEAVE") {
+                $remarks = Input::get('leave_type');
+            } elseif($type == "CTO") {
+                $remarks = $type;
+            }
+            $temp1 = explode('-',Input::get('date_range'));
+
+            $from = date('Y-m-d',strtotime($temp1[0]));
+            $end_date = date('Y-m-d',strtotime($temp1[1]));
+
+            $f = new DateTime($from.' '. '24:00:00');
+            $t = new DateTime($end_date.' '. '24:00:00');
+
+
+
+            $interval = $f->diff($t);
+
+            $datein = '';
+            $f_from = explode('-',$from);
+            $startday = $f_from[2];
+            $j = 0;
+            while($j <= $interval->days) {
+
+                $datein = $f_from[0].'-'.$f_from[1] .'-'. $startday;
+
+                $details = new DtrDetails();
+                $details->userid = Auth::user()->userid;
+                $details->datein = $datein;
+                $details->time = '08:00:00';
+                $details->event = 'IN';
+                $details->remark = $remarks;
+                $details->edited = '1';
+                $details->holiday = '006';
+
+                $details->save();
+
+                $details = new DtrDetails();
+                $details->userid =  Auth::user()->userid;
+                $details->datein = $datein;
+                $details->time = '12:00:00';
+                $details->event = 'OUT';
+                $details->remark = $remarks;
+                $details->edited = '1';
+                $details->holiday = '006';
+
+                $details->save();
+
+                $details = new DtrDetails();
+                $details->userid =  Auth::user()->userid;
+                $details->datein = $datein;
+                $details->time = '13:00:00';
+                $details->event = 'IN';
+                $details->remark = $remarks;
+                $details->edited = '1';
+                $details->holiday = '006';
+
+                $details->save();
+
+                $details = new DtrDetails();
+                $details->userid =  Auth::user()->userid;
+                $details->datein = $datein;
+                $details->time = '18:00:00';
+                $details->event = 'OUT';
+                $details->remark = $remarks;
+                $details->edited = '1';
+                $details->holiday = '006';
+
+                $details->save();
+
+                $startday = $startday + 1;
+                $j++;
+            }
+            return Redirect::to('personal/index')->with('msg','New absences created');
+        }
+    }
+
+    public function delete_created_logs()
+    {
+        $temp1 = explode('-',Input::get('date_range'));
+        $from = date('Y-m-d',strtotime($temp1[0]));
+        $end_date = date('Y-m-d',strtotime($temp1[1]));
+
+        $logs = DB::table('dtr_file')
+                ->where('edited','=','1')
+                ->whereBetween('datein', array($from,$end_date))->delete();
+
+        if(count($logs) > 0)
+        {
+            return Redirect::to('personal/index')->with('msg', "User created time logs between $from and $end_date successfully deleted");
+        }
+        return Redirect::to('personal/index');
+    }
 }

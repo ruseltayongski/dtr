@@ -63,6 +63,9 @@ class PDF extends FPDF
                 include_once('empty_dtr.php');
             } else {
 
+                $this->Image(__DIR__.'/image/doh2.png', 15, 50,80,80);
+                $this->Image(__DIR__.'/image/doh2.png', 118, 50,80,80);
+
                 $this->SetFont('Arial','',8);
                 $this->SetX(10);
                 $this->Cell(40,10,'Civil Service Form No. 43',0);
@@ -213,6 +216,10 @@ class PDF extends FPDF
                                 }
                             }
 
+                            if( ! ($pm_out >= $s_pm_in)) {
+                                $pm_out = null;
+                            }
+
                             if(isset($am_in)) {
                                 $a = explode('_', $am_in);
                                 $e1 = $a[1];
@@ -301,6 +308,13 @@ class PDF extends FPDF
                                     $pm_out = '';
                                     $late = '';
                                     $ut = '480';
+                                } else if($log['holiday'] == '006') {
+                                    $am_in = '';
+                                    $am_out = $log['remark'];
+                                    $pm_in = '';
+                                    $pm_out = '';
+                                    $late = '';
+                                    $ut = '480';
                                 }
                             }
                         } else {
@@ -327,7 +341,7 @@ class PDF extends FPDF
 
                         if($day_name == 'Sat' || $day_name == 'Sun' AND $am_in == '') $am_out = 'DAY OFF';
                         if(isset($e1) and $e1 == "1"){
-                            $this->SetFont('Arial','U',8);
+                            $this->SetFont('Arial','IU',8);
                         } else {
                             $this->SetFont('Arial','',8);
                         }
@@ -339,7 +353,7 @@ class PDF extends FPDF
                         $this->SetFont('Arial','',8);
                         if($day_name == 'Sat' || $day_name == 'Sun' AND $am_in == '' AND $am_out == '') $am_out = 'DAY OFF';
                         if(isset($e2) and $e2 == "1"){
-                            $this->SetFont('Arial','U',8);
+                            $this->SetFont('Arial','IU',8);
                         } else {
                             $this->SetFont('Arial','',8);
                         }
@@ -349,7 +363,7 @@ class PDF extends FPDF
 
                         if($day_name == 'Sat' || $day_name == 'Sun' AND $am_in == '' AND $am_out == '' AND $pm_in == '') $am_out = 'DAY OFF';
                         if(isset($e3) and $e3 == "1"){
-                            $this->SetFont('Arial','U',8);
+                            $this->SetFont('Arial','IU',8);
                         } else {
                             $this->SetFont('Arial','',8);
                         }
@@ -359,7 +373,7 @@ class PDF extends FPDF
 
                         if($day_name == 'Sat' || $day_name == 'Sun' AND $am_in == '' AND $am_out == '' AND $pm_in == '' AND $pm_out == '') $am_out = 'DAY OFF';
                         if(isset($e4) and $e4 == "1") {
-                            $this->SetFont('Arial','U',8);
+                            $this->SetFont('Arial','IU',8);
                         } else {
                             $this->SetFont('Arial','',8);
                         }
@@ -382,7 +396,7 @@ class PDF extends FPDF
                         $this->Cell(9,5,$day_name,'');
 
                         if(isset($e1) and $e1 == "1"){
-                            $this->SetFont('Arial','U',8);
+                            $this->SetFont('Arial','IU',8);
                         } else {
                             $this->SetFont('Arial','',8);
                         }
@@ -390,7 +404,7 @@ class PDF extends FPDF
                         $this->SetTextColor(0,0,0);
 
                         if(isset($e2) and $e2 == "1"){
-                            $this->SetFont('Arial','U',8);
+                            $this->SetFont('Arial','IU',8);
                         } else {
                             $this->SetFont('Arial','',8);
                         }
@@ -398,7 +412,7 @@ class PDF extends FPDF
                         $this->SetTextColor(0,0,0);
 
                         if(isset($e3) and $e3 == "1"){
-                            $this->SetFont('Arial','U',8);
+                            $this->SetFont('Arial','IU',8);
                         } else {
                             $this->SetFont('Arial','',8);
                         }
@@ -406,7 +420,7 @@ class PDF extends FPDF
                         $this->SetTextColor(0,0,0);
 
                         if(isset($e4) and $e4 == "1"){
-                            $this->SetFont('Arial','U',8);
+                            $this->SetFont('Arial','IU',8);
                         } else {
                             $this->SetFont('Arial','',8);
                         }
@@ -561,8 +575,7 @@ $pdf->AliasNbPages();
 $pdf->AddPage();
 
 
-$pdf->Image(__DIR__.'/image/doh2.png', 15, 50,80,80);
-$pdf->Image(__DIR__.'/image/doh2.png', 118, 50,80,80);
+
 
 $pdf->SetFont('Arial','',12);
 $date_from = '';

@@ -52,6 +52,10 @@ Route::get('work-schedule' ,'HoursController@create');
 Route::match(array('GET','POST'), 'create/work-schedule', 'HoursController@work_schedule');
 Route::match(array('GET','POST') , 'edit/work-schedule/{id}' ,'HoursController@edit_schedule');
 Route::match(array('GET','POST') , 'edit/attendance/{id?}', 'DtrController@edit_attendance');
+Route::get('delete/edited/logs/{userid}/{datein}/{time}/{event}','PersonalController@delete_logs');
+
+
+
 Route::get('attendance','DtrController@attendance');
 Route::get('attendance/q', 'DtrController@filter_attendance');
 Route::match(array('GET','POST'),'resetpass', 'PasswordController@change_password');
@@ -90,6 +94,9 @@ Route::post('personal/filter', 'PersonalController@emp_filtered');
 Route::post('personal/filter/save', 'PersonalController@save_filtered');
 Route::match(['get','post'], 'edit/personal/attendance/{id?}', 'PersonalController@edit_attendance');
 Route::match(array('GET','POST'),'/personal/add/logs', 'PersonalController@add_logs');
+Route::match(['GET','POST'],'create/absent/description', 'PersonalController@absent_description');
+Route::post('delete/user/created/logs','PersonalController@delete_created_logs');
+
 
 //DOCUMENTS
 Route::match(array('GET','POST'),'form/leave','DocumentController@leave');
@@ -252,8 +259,8 @@ Route::get('ajax1',function(){
 	}
 });
 
-Route::get('time', function(){
-
+Route::get('payroll/login', function(){
+	
 });
 
 ?>

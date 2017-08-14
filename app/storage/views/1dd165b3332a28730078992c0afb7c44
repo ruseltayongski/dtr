@@ -1,14 +1,12 @@
-
-@extends('layouts.app')
-
-@section('content')
-@if(Session::has('msg_sched'))
+<?php $__env->startSection('content'); ?>
+<?php if(Session::has('msg_sched')): ?>
     <div class="col-md-12 wrapper">
         <div class="alert alert-success" role="alert">
-            {{ Session::get('msg_sched') }}
+            <?php echo Session::get('msg_sched'); ?>
+
         </div>
     </div>
-@endif
+<?php endif; ?>
 <div class="col-md-12 wrapper">
     <div class="alert alert-jim">
         <div class="row">
@@ -18,7 +16,7 @@
                         <div class="panel panel-default">
                             <div class="panel-heading"><strong style="color: #f0ad4e;font-size:medium;">Generate DTR | All Employee</strong></div>
                             <div class="panel-body">
-                                <form action="{{ asset('FPDF/print_all.php') }}" method="POST" id="print_all">
+                                <form action="<?php echo asset('FPDF/print_all.php'); ?>" method="POST" id="print_all">
                                     <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
                                     <div class="table-responsive">
                                         <table class="table">
@@ -59,7 +57,7 @@
                         <div class="panel panel-default">
                             <div class="panel-heading"><strong style="color: #f0ad4e;font-size:medium;">Print individual DTR</strong></div>
                             <div class="panel-body">
-                                <form action="{{ asset('FPDF/print_individual.php') }}" method="POST" id="print_one">
+                                <form action="<?php echo asset('FPDF/print_individual.php'); ?>" method="POST" id="print_one">
                                     <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
                                     <div class="table-responsive">
                                         <table class="table">
@@ -67,11 +65,11 @@
                                                 <td class="col-sm-3"><strong>User ID </strong></td>
                                                 <td class="col-sm-1">: </td>
                                                 <td class="col-sm-9">
-                                                    @if(Auth::user()->usertype == "1")
+                                                    <?php if(Auth::user()->usertype == "1"): ?>
                                                         <input type="text" class="col-md-2 form-control" id="inputEmail3" name="userid" value="" required>
-                                                    @else
-                                                        <input type="text" readonly class="col-md-2 form-control" id="inputEmail3" name="userid" value="{{ Auth::user()->userid }}" required>
-                                                    @endif
+                                                    <?php else: ?>
+                                                        <input type="text" readonly class="col-md-2 form-control" id="inputEmail3" name="userid" value="<?php echo Auth::user()->userid; ?>" required>
+                                                    <?php endif; ?>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -101,7 +99,7 @@
                         <div class="panel panel-default">
                             <div class="panel-heading"><strong style="color: #f0ad4e;font-size:medium;">Upload time logs</strong></div>
                             <div class="panel-body">
-                                <form id="form_upload" action="{{ asset('admin/upload') }}" method="POST" enctype="multipart/form-data">
+                                <form id="form_upload" action="<?php echo asset('admin/upload'); ?>" method="POST" enctype="multipart/form-data">
                                     <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
                                     <h3 style="font-weight: bold;" class="text-center">Upload a file</h3>
                                     <div class="modal-body">
@@ -133,7 +131,7 @@
                         <div class="panel panel-default">
                             <div class="panel-heading"><strong style="color: #f0ad4e;font-size:medium;">Employee list</strong></div>
                             <div class="panel-body">
-                                <form class="form-inline form-accept" action="{{ asset('/search') }}" method="GET">
+                                <form class="form-inline form-accept" action="<?php echo asset('/search'); ?>" method="GET">
                                     <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
                                     <div class="form-group">
                                         <input type="text" name="search" class="form-control" placeholder="Quick Search" autofocus>
@@ -143,7 +141,7 @@
                                 <div class="clearfix"></div>
                                 <div class="page-divider"></div>
 
-                                @if(isset($users) and count($users) > 0)
+                                <?php if(isset($users) and count($users) > 0): ?>
                                     <div class="table-responsive">
                                         <table class="table table-list table-hover table-striped">
                                             <thead>
@@ -155,26 +153,27 @@
                                             </tr>
                                             </thead>
                                             <tbody>
-                                            @foreach($users as $user)
+                                            <?php foreach($users as $user): ?>
                                                 <tr>
-                                                    <td class="text-center"><a href="#user" data-id="{{ $user->userid }}"  class="title-info">{{ $user->userid }}</a></td>
-                                                    <td class="text-center"><a href="#user" data-id="{{ $user->id }}" data-link="{{ asset('user/edit') }}" class="text-bold">{{ $user->fname ." ". $user->mname." ".$user->lname }}</a></td>
+                                                    <td class="text-center"><a href="#user" data-id="<?php echo $user->userid; ?>"  class="title-info"><?php echo $user->userid; ?></a></td>
+                                                    <td class="text-center"><a href="#user" data-id="<?php echo $user->id; ?>" data-link="<?php echo asset('user/edit'); ?>" class="text-bold"><?php echo $user->fname ." ". $user->mname." ".$user->lname; ?></a></td>
                                                     <td class="text-center">
-                                                        <span class="text-bold">{{ $user->description }}</span>
+                                                        <span class="text-bold"><?php echo $user->description; ?></span>
                                                     </td>
-                                                    <td class="text-center"><button data-id="{{ $user->userid }}" type="button" class="btn btn-info btn-xs change_sched">Change</button></td>
+                                                    <td class="text-center"><button data-id="<?php echo $user->userid; ?>" type="button" class="btn btn-info btn-xs change_sched">Change</button></td>
                                                 </tr>
-                                            @endforeach
+                                            <?php endforeach; ?>
                                             </tbody>
                                         </table>
                                     </div>
-                                    <span id="data_link" data-link="{{ asset('change/work-schedule') }}" />
-                                    {{ $users->links() }}
-                                @else
+                                    <span id="data_link" data-link="<?php echo asset('change/work-schedule'); ?>" />
+                                    <?php echo $users->links(); ?>
+
+                                <?php else: ?>
                                     <div class="alert alert-danger">
                                         <strong><i class="fa fa-times fa-lg"></i>No users found.</strong>
                                     </div>
-                                @endif
+                                <?php endif; ?>
                             </div>
                         </div>
                     </div>
@@ -185,9 +184,9 @@
     </div>
 </div>
 
-@endsection
+<?php $__env->stopSection(); ?>
 
-@section('js')
+<?php $__env->startSection('js'); ?>
 @parent
 
     <script>
@@ -305,4 +304,5 @@
             $('#data_table').modal('show');
         });
     </script>
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.app', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

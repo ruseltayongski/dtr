@@ -27,12 +27,6 @@ class DtrController extends BaseController
 
             if (Input::hasFile('dtr_file')) {
 
-                $path = base_path() . '/public/ACTATEK/';
-                $time = date("h:i:sa");
-                $date = date("Y-m-d");
-
-
-
                 $file = Input::file('dtr_file');
                 ini_set('max_execution_time', 0);
                 $dtr = file_get_contents($file);
@@ -83,17 +77,7 @@ class DtrController extends BaseController
                     }
                 }
 
-               /* $filename = Input::file('dtr_file')->getClientOriginalName();
 
-                Input::file('dtr_file')->move($path, $filename);
-
-                $actatek = new Actateks();
-
-                $actatek->filename = $filename;
-                $actatek->date_created = $date;
-                $actatek->time_created = $time;
-
-                $actatek->save();*/
 
                 $query1 .= "('','','','','','',NOW(),NOW())";
 
