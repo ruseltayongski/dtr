@@ -18,6 +18,17 @@
                                 </div>
                             </div>
                             <div class="form-group">
+                                <label for="inputEmail3" class="col-sm-3 control-label">User Type</label>
+                                <div class="col-sm-9">
+                                    <select name="usertype" class="form-control" id="">
+                                        <option value="">Select Usertype</option>
+                                        <option value="0">Cebu Employee</option>
+                                        <option value="2">Bohol Employee</option>
+                                        <option value="3">Negros Employee</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
                                 <label for="inputEmail3" class="col-sm-3 control-label">Firstname</label>
                                 <div class="col-sm-9">
                                     <input type="text" class="form-control" id="inputEmail3" name="fname" placeholder="Firstname" required>

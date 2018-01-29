@@ -205,6 +205,7 @@ class AdminController extends BaseController
         $user->username = Input::get('userid');
         $user->password = Hash::make('123');
         $user->emptype = Input::get('emptype');
+        $user->usertype = Input::get('usertype');
         $user->unique_row = Input::get('userid');
         $user->save();
         return Redirect::to('/');
