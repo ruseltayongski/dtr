@@ -23,7 +23,7 @@ DETERMINISTIC
 
 		FROM dtr_file d LEFT JOIN users e
 				ON d.userid = e.userid and datein = d.datein
-					 or (datein between DATE_FROM AND DATE_TO and holiday = '001')
+					
 					 or (datein between DATE_FROM AND DATE_TO and holiday = '002' and d.userid = e.userid)
 					 or (datein between DATE_FROM AND DATE_TO and holiday = '003' and d.userid = e.userid)
 					 or (datein between DATE_FROM AND DATE_TO and holiday = '004' and d.userid = e.userid)

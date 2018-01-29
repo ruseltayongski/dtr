@@ -46,15 +46,15 @@ class PDF extends FPDF
         $log = "";
         $holidays = "";
         $pdo = conn();
-        $query = "SELECT * FROM work_sched WHERE id = '".$sched ."'";
+        $query = "SELECT * FROM work_sched WHERE id = '".$sched ."' LIMIT 1";
         $st = $pdo->prepare($query);
         $st->execute();
-        $sched = $st->fetchAll(PDO::FETCH_ASSOC);
+        $sched = $st->fetch(PDO::FETCH_ASSOC);
         if(isset($sched) and count($sched) > 0) {
-            $s_am_in = $sched[0]["am_in"];
-            $s_am_out =  $sched[0]["am_out"];
-            $s_pm_in = $sched[0]["pm_in"];
-            $s_pm_out = $sched[0]["pm_out"];
+            $s_am_in = $sched["am_in"];
+            $s_am_out =  $sched["am_out"];
+            $s_pm_in = $sched["pm_in"];
+            $s_pm_out = $sched["pm_out"];
 
 
             $logs = get_logs($s_am_in,$s_am_out,$s_pm_in,$s_pm_out,$userid,$date_from,$date_to);
@@ -62,6 +62,9 @@ class PDF extends FPDF
             if(count($logs) <= 0) {
                 include_once('empty_dtr.php');
             } else {
+
+                $this->Image(__DIR__.'/image/doh2.png', 15, 50,80,80);
+                $this->Image(__DIR__.'/image/doh2.png', 118, 50,80,80);
 
                 $this->SetFont('Arial','',8);
                 $this->SetX(10);
@@ -254,7 +257,11 @@ class PDF extends FPDF
                             }
                             if(!$log['holiday'] == '001' OR !$log['holiday'] == '003' OR !$log['holiday'] == '002') {
 
-                                $late = late($s_am_in,$s_pm_in,$am_in,$pm_in,$log['datein']);
+                                if($day_name == 'Mon') {
+                                    $late = late('08:00:00',$s_pm_in,$am_in,$pm_in,$log['datein']);
+                                } else {
+                                    $late = late($s_am_in,$s_pm_in,$am_in,$pm_in,$log['datein']);
+                                }
                                 if($late != '' or $late != null)
                                 {
                                     $late_total = $late_total + $late;
@@ -336,7 +343,7 @@ class PDF extends FPDF
                         $this->Cell(8,5,$day_name,'');
 
 
-                        if($day_name == 'Sat' || $day_name == 'Sun' AND $am_in == '') $am_out = 'DAY OFF';
+                        //if($day_name == 'Sat' || $day_name == 'Sun' AND $am_in == '') $am_out = 'DAY OFF';
                         if(isset($e1) and $e1 == "1"){
                             $this->SetFont('Arial','IU',8);
                         } else {
@@ -572,8 +579,7 @@ $pdf->AliasNbPages();
 $pdf->AddPage();
 
 
-$pdf->Image(__DIR__.'/image/doh2.png', 15, 50,80,80);
-$pdf->Image(__DIR__.'/image/doh2.png', 118, 50,80,80);
+
 
 $pdf->SetFont('Arial','',12);
 $date_from = '';
@@ -734,10 +740,7 @@ function late($s_am_in,$s_pm_in,$am_in,$pm_in,$datein)
 
 function undertime($s_am_in,$s_pm_in,$am_in,$pm_in,$s_am_out,$s_pm_out,$am_out,$pm_out,$datein)
 {
-
-    $hour = '';
-    $min = '';
-    $total = '';
+    $total = null;
 
     if($am_in == '' and $am_out == '') {
         $a = new DateTime($datein.' '. $s_am_in);

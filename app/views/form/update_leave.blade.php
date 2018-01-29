@@ -99,7 +99,7 @@
                                                         </div>
                                                         <div class="has-success">
                                                             <div class="form-group has-success">
-                                                                <textarea type="text" class="form-control" maxlength="200" id="inputSuccess1" name="leave_type_others_1">{{ $leave->leave_type_others_1 }}</textarea>
+                                                                <textarea type="text" class="form-control others1_txt" maxlength="200" id="inputSuccess1" name="leave_type_others_1">{{ $leave->leave_type_others_1 }}</textarea>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -134,7 +134,7 @@
                                                         </div>
                                                         <div class="has-success">
                                                             <div class="form-group has-success">
-                                                                <textarea type="text" class="form-control" maxlength="200" id="inputSuccess1" name="leave_type_others_2">{{ $leave->leave_type_others_2 }}</textarea>
+                                                                <textarea type="text" class="form-control others2_txt" maxlength="200" id="inputSuccess1" name="leave_type_others_2">{{ $leave->leave_type_others_2 }}</textarea>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -251,29 +251,139 @@
 @section('js')
     @parent
     <script>
-        $('.input-daterange input').each(function() {
-            $(this).datepicker({
-                format: 'yyyy/mm/dd'
-            });
+        $('#inc_date').daterangepicker();
+        $('textarea[name="abroad_others"').prop('disabled',true);
+        $('.others1_txt').prop('disabled',true);
+        $('.others2_txt').prop('disabled',true);
+        $('.sic_dis').prop('disabled',true).val('');
+        $('input[name="leave_type"]').change(function(){
 
-            $('#inc_date').daterangepicker();
-            $('input[name="leave_type"]').change(function(){
-                var val = this.value;
+            var val = this.value;
+        
+            if(val == "Vication") 
+            {
+                // DISABLED
+                $('.others1_txt').prop('disabled',true);
+                $('.others1_txt').val('');
+                $('.others2_txt').prop('disabled',true);
+                $('.others2_txt').val('');
+                //ENABLE
+                $('.vis_dis').prop('disabled',false);
+                
+            } else if(val == "To_sake_employement")
+            {
+                $('.vis_dis').prop('disabled',true);
+                $('.vis_dis').prop('checked',false);
+                $('.vis_dis').val('');
+                vic_radio_txt(true,false,'');
+                sick_radio_txt(true,false,'');
+                others1_txt(true,'');
+                others2_txt(true,'');
 
+            } else if(val == "Others")
+            {
+                vic_radio_txt(true,false,'');
+                sick_radio_txt(true,false,'');
+                others1_txt(false,'');
+                others2_txt(true,'');
+                $('.vis_dis').prop('disabled',true);
+                $('.vis_dis').prop('checked',false);
+                $('.vis_dis').val('');
+            } else if(val == "Sick") 
+            {
+                $('.vis_dis').prop('disabled',true);
+                $('.vis_dis').prop('checked',false);
+                $('.vis_dis').val('');
+                vic_radio_txt(true,false,'');
+                sick_radio_txt(false,false,'');
+                others1_txt(true,'');
+                others2_txt(true,'');
 
-                if(val != "Vication") {
-                    $('.vic_dis').prop('disabled', true);
-                } else {
-                    $('.vic_dis').prop('disabled', false);
-                }
-
-                if(val != "Sick") {
-                    $('.sic_dis').prop('disabled', true);
-                } else {
-                    $('.sic_dis').prop('disabled', false);
-                }
-            });
+            } else if(val == "Maternity")
+            {
+                $('.vis_dis').prop('disabled',true);
+                $('.vis_dis').prop('checked',false);
+                $('.vis_dis').val('');
+                vic_radio_txt(true,false,'');
+                sick_radio_txt(true,false,'');
+                others1_txt(true,'');
+                others2_txt(true,'');
+            } else if(val == "Others2")
+            {
+                vic_radio_txt(true,false,'');
+                sick_radio_txt(true,false,'');
+                others1_txt(true,'');
+                others2_txt(false,'');
+                $('.vis_dis').prop('disabled',true);
+                $('.vis_dis').prop('checked',false);
+                $('.vis_dis').val('');
+                $('.sic_dis').prop('checked',false);
+                $('.sic_dis').val('');
+            }
+            
         });
+
+       $('input[name="vication_loc"]').change(function(){
+            var val = this.value;
+           
+            if(val == "local")
+            {
+                alert("Hello");
+                $('textarea[name="abroad_others"').val('');
+                $('textarea[name="abroad_others"').prop('disabled',true);
+                
+            } else if(val == "abroad"){
+                $('textarea[name="abroad_others"').prop('disabled',false);
+            }
+       });
+
+       $('input[name="in_hostpital"]').change(function(){
+            var val = this.attr('checked');
+            alert(val);
+       });
+    
+        $('input[name="sick_loc"]').change(function(){
+            var val = this.value;
+            if(val == "in_hostpital")
+            {
+                $('#in_hos_txt').prop('disabled', false).val('');
+                $('#out_hos_txt').prop('disabled',true).val('');
+            }else if(val == "out_patient")
+            {
+                $('#out_hos_txt').prop('disabled',false).val('');
+                $('#in_hos_txt').prop('disabled', true).val('');
+            }
+        }); 
+
+         $('#in_hos_txt').prop('disabled', true);
+         $('#out_hos_txt').prop('disabled',true);
+        function vic_radio_txt(state,checked,txt_val)
+        {
+            $('.vic_dis').prop('disabled', state);
+            $('.vic_dis_txt').val(txt_val);
+            $('.vic_dis_txt').prop('disabled', state);
+            $('.vic_dis_radio').prop('checked', checked);
+        }
+        function sick_radio_txt(state,checked,txt_val)
+        {
+             $('.sic_dis').prop('disabled', state);
+             $('.sic_dis_radio').prop('disabled', state);
+             $('.sic_dis_radio').prop('checked', checked);
+             $('.sic_dis_txt').val(state);
+             $('.sic_dis_txt').val(txt_val);   
+        }
+
+        function others1_txt(state,txt_val)
+        {
+            $('.others1_txt').val(txt_val);
+            $('.others1_txt').prop('disabled', state);
+            
+        }
+        function others2_txt(state,txt_val)
+        {
+            $('.others2_txt').val(txt_val);
+            $('.others2_txt').prop('disabled', state);
+        }
 
         function validate(evt) {
             var theEvent = evt || window.event;

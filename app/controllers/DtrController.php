@@ -70,7 +70,7 @@ class DtrController extends BaseController
                             }
 
                             $query2 .= "('" . $col1 . "','" . $f . "','" . $l . "','1','". $col1 . "','" . $default_pass . "','" . $emptype . "','0','".$col1 ."',NOW(),NOW()),";
-                            $query3 .= "('" . $f . "','" . $l . "','" . $col1 . "','". '111' . "','". '6' . "','". '42' . "','" . $default_pass . "',NOW(),NOW()),";
+                            $query3 .= "('" . $f . "','" . $l . "','" . $col1 . "','". '6' . "','". '6' . "','". '00' . "','" . $default_pass . "',NOW(),NOW()),";
                         }
                     } catch (Exception $ex) {
                         return Redirect::to('index');
@@ -80,7 +80,6 @@ class DtrController extends BaseController
 
 
                 $query1 .= "('','','','','','',NOW(),NOW())";
-
 
                 $query2 .= "('','','','','','','','','',NOW(),NOW())";
 

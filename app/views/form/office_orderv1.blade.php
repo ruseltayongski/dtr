@@ -52,7 +52,7 @@
                         <div class="form-group">
                             <label class="col-sm-3 control-label">Header Body</label>
                             <div class="col-sm-9">
-                                <textarea class="form-control wysihtml5" name="header_body" rows="3" style="resize:none;" required>.</textarea>
+                                <textarea class="form-control wysihtml5" name="header_body" rows="3" required>.</textarea>
                             </div>
                         </div>
                     </div>
@@ -106,7 +106,7 @@
                         <div class="form-group">
                             <label class="col-sm-3 control-label">Entitled Body</label>
                             <div class="col-sm-9">
-                                <textarea class="form-control wysihtml5_1" name="footer_body" rows="3" style="resize:none;" required>.</textarea>
+                                <textarea class="form-control wysihtml5_1" name="footer_body" rows="3" required>.</textarea>
                             </div>
                         </div>
                         <div class="form-group">
@@ -119,6 +119,7 @@
                                     <input type="hidden" value="Jaime S. Bernadas, MD, MGM, CESO III" id="get_director">
                                     <select name="approved_by" id="approved_by" class="form-control" onchange="approved($(this))" required>
                                         <option value="Jaime S. Bernadas, MD, MGM, CESO III">Jaime S. Bernadas, MD, MGM, CESO III</option>
+                                        <option value="SOPHIA MANCAO MD, DPSP">SOPHIA MANCAO MD, DPSP</option>
                                         <option value="Ruben S. Siapno,MD,MPH">Ruben S. Siapno,MD,MPH</option>
                                     </select>
                                 </div>
@@ -196,6 +197,8 @@
             $(".director").val('Director IV');
         else if(data.val() == 'Ruben S. Siapno,MD,MPH')
             $(".director").val('Director III');
+        else if(data.val() == 'SOPHIA MANCAO MD, DPSP')
+        	$(".director").val('OIC - Director III');
         else
             $(".director").val('');
     }

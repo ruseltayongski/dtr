@@ -25,8 +25,6 @@ class DocumentController extends BaseController
         }
         if(Request::method() == 'POST') {
 
-            
-
             $route_no = date('Y-') . Auth::user()->userid . date('mdHis');
 
             
@@ -117,7 +115,6 @@ class DocumentController extends BaseController
             DB::connection('dts')->insert($sql,$data);
 
             Session::put('added',true);
-
 
             return Redirect::to('form/leave/all')->with('message','New application for leave created.');
 

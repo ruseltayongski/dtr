@@ -60,7 +60,7 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Header Body</label>
                         <div class="col-sm-9">
-                            <textarea class="form-control wysihtml5" name="header_body" rows="3" style="resize:none;" required>{{ $info->header_body }}</textarea>
+                            <textarea class="form-control wysihtml5" name="header_body" rows="5" required>{{ $info->header_body }}</textarea>
                         </div>
                     </div>
                 @endif
@@ -157,7 +157,7 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Entitled Body</label>
                         <div class="col-sm-9">
-                            <textarea class="form-control wysihtml5_1" name="footer_body" rows="3" style="resize:none;" required>{{ $info->footer_body }}</textarea>
+                            <textarea class="form-control wysihtml5_1" name="footer_body" rows="5" required>{{ $info->footer_body }}</textarea>
                         </div>
                     </div>
                     <div class="form-group">
@@ -171,14 +171,20 @@
                                 <select name="approved_by" id="approved_by" class="form-control" onchange="approved($(this))" required>
                                     @if($info->version == 1)
                                         <option value="">Select Name</option>
-                                        <option value="Ruben S. Siapno,MD,MPH">Ruben S. Siapno,MD,MPH</option>
                                         <option value="Jaime S. Bernadas, MD, MGM, CESO III">Jaime S. Bernadas, MD, MGM, CESO III</option>
+                                        <option value="Ruben S. Siapno,MD,MPH">Ruben S. Siapno,MD,MPH</option>
+                                        <option value="SOPHIA MANCAO MD, DPSP">SOPHIA MANCAO MD, DPSP</option>
                                     @else
                                         <option value="{{ $info->approved_by }}">{{ $info->approved_by }}</option>
                                         @if($info->approved_by == 'Jaime S. Bernadas, MD, MGM, CESO III')
+                                            <option value="SOPHIA MANCAO MD, DPSP">SOPHIA MANCAO MD, DPSP</option>
                                             <option value="Ruben S. Siapno,MD,MPH">Ruben S. Siapno,MD,MPH</option>
-                                        @else
+                                        @elseif($info->approved_by == 'SOPHIA MANCAO MD, DPSP')    
                                             <option value="Jaime S. Bernadas, MD, MGM, CESO III">Jaime S. Bernadas, MD, MGM, CESO III</option>
+                                            <option value="Ruben S. Siapno,MD,MPH">Ruben S. Siapno,MD,MPH</option>
+                                        @elseif($info->approved_by == 'Ruben S. Siapno,MD,MPH')    
+                                            <option value="Jaime S. Bernadas, MD, MGM, CESO III">Jaime S. Bernadas, MD, MGM, CESO III</option>
+                                            <option value="SOPHIA MANCAO MD, DPSP">SOPHIA MANCAO MD, DPSP</option>
                                         @endif
                                     @endif
                                 </select>
@@ -322,6 +328,8 @@
             $(".director").val('Director IV');
         else if(data.val() == 'Ruben S. Siapno,MD,MPH')
             $(".director").val('Director III');
+        else if(data.val() == 'SOPHIA MANCAO MD, DPSP')
+            $(".director").val('OIC - Director III');
         else
             $(".director").val('');
     }

@@ -16,7 +16,7 @@ $item_no = 1;
             font-size:x-small;
             font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
         }
-        #border{
+        #no-border{
             border-collapse: collapse;
             border: none;
         }
@@ -49,9 +49,13 @@ $item_no = 1;
         }
         .table1 {
             width: 100%;
+            padding-left: 10px;
         }
         .table1 td {
             border:1px solid #000;
+        }
+        #padding-bottom {
+            padding-bottom: 10px;
         }
         .footer {
             width: 100%;
@@ -59,7 +63,7 @@ $item_no = 1;
             position: fixed;
         }
         .footer {
-            bottom: 15px;
+            bottom: 35px;
         }
         .pagenum:before {
             content: counter(page);
@@ -75,7 +79,7 @@ $item_no = 1;
 </head>
 <div class="footer">
     <hr>
-    <div style="position:absolute; left: 30%;" class="align">
+    <div style="position:absolute; left: 25%;" class="align">
         <?php echo DNS1D::getBarcodeHTML(Session::get('route_no'),"C39E",1,28) ?>
         <font class="route_no">{{ Session::get('route_no') }}</font>
     </div>
@@ -84,8 +88,8 @@ $item_no = 1;
 <div class="new-times-roman">
     <table class="letter-head" cellpadding="0" cellspacing="0">
         <tr>
-            <td id="border" class="align"><img src="{{ asset('public/img/doh.png') }}" width="100"></td>
-            <td width="90%" id="border">
+            <td id="no-border" class="align"><img src="{{ asset('public/img/doh.png') }}" width="100"></td>
+            <td width="90%" id="no-border">
                 <div class="align small-text" style="margin-top:-10px;font-size: 10.5pt">
                     Republic of the Philippines<br>
                     <strong>DEPARTMENT OF HEALTH REGIONAL OFFICE VII</strong><br>
@@ -94,76 +98,84 @@ $item_no = 1;
                     Official Website: http://www.ro7.doh.gov.ph Email Address: dohro7@gmail.com<br>
                 </div>
             </td>
-            <td id="border" class="align"><img src="{{ asset('public/img/ro7.png') }}" width="100"></td>
+            <td id="no-border" class="align"><img src="{{ asset('public/img/ro7.png') }}" width="100"></td>
         </tr>
     </table>
     <hr>
 
     <table class="letter-head" cellpadding="0" cellspacing="0">
         <tr>
-            <td colspan="4" id="border">{{ date('d M Y',strtotime($office_order->prepared_date)) }}</td>
+            <td colspan="4" id="no-border">{{ date('d M Y',strtotime($office_order->prepared_date)) }}</td>
         </tr>
         <tr>
-            <td colspan="4" id="border"><b>OFFICE ORDER&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)</b></td>
+            <td colspan="1" id="no-border" width="20%"><b>OFFICE ORDER</b></td>
+            <td colspan="3" id="no-border" width="80%">)</td>
         </tr>
         <tr>
-            <td colspan="4" id="border">No.<h2 style="display: inline;"><u>&nbsp;&nbsp;&nbsp;{{ sprintf('%04u',$office_order->id) }}&nbsp;&nbsp;&nbsp;</u></h2>{{ 's,'.date('Y',strtotime($office_order->prepared_date)) }}&nbsp;&nbsp;<b>)</b></td>
+            <td colspan="1" id="no-border" width="20%">No.<h2 style="display: inline;"><u>&nbsp;&nbsp;&nbsp;<!-- {{ sprintf('%04u',$office_order->id) }} -->&nbsp;&nbsp;&nbsp;</u></h2>{{ 's,'.date('Y',strtotime($office_order->prepared_date)) }}&nbsp;&nbsp;<b></b></td>
+            <td colspan="3" id="no-border" width="80%">)</td>
         </tr>
         <tr>
-            <td colspan="4" id="border"><b>SUBJECT:</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<u>{{ $office_order->subject }}</u></td>
+            <td colspan="1" id="no-border" class="align-top" width="20%"><b>SUBJECT</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<u></u></td>
+            <td colspan="3" id="no-border" width="80%">:<u>{{ $office_order->subject }}</u></td>
         </tr>
         <tr>
-            <td colspan="4" id="border">{{ nl2br($office_order->header_body) }}</td>
+            <td colspan="4" id="no-border">{{ nl2br($office_order->header_body) }}</td>
         </tr>
-        <tr>
-            <td width="20%" id="border"></td>
-            <td id="border"><b>Name</b></td>
-            <td id="border"><b>Designation</b></td>
-            <td width="20%" id="border"></td>
+    </table>
+    <table class="table1" cellpadding="0" cellspacing="0">    
+     	<tr>
+            <td id="no-border">
+            	<b>
+            		<div id="padding-bottom">Name</div>
+            	</b>
+            </td>
+            <td id="no-border">
+            	<b>
+            		<div id="padding-bottom">Designation</div>
+            	</b>
+            </td>
         </tr>
+
         <?php $count = 0; ?>
         @foreach($name as $row)
             <?php $count++; ?>
             <tr>
-                <td width="20%" id="border"></td>
-                <td id="border">{{ $count.'. '.$row['fname'].' '.$row['mname'].' '.$row['lname'] }}</td>
-                <td id="border">{{ pdoController::designation_search($row['designation'])['description'] }}</td>
-                <td width="20%" id="border"></td>
+                <td id="no-border">{{ $count.'. '.$row['fname'].' '.$row['mname'].' '.$row['lname'] }}</td>
+                <td id="no-border">{{ pdoController::designation_search($row['designation'])['description'] }}</td>
             </tr>
         @endforeach
     </table>
-    <!--
+    <!-- <br>
     <table class="letter-head" cellpadding="0" cellspacing="0">
         <tr>
-            <td width="20%" id="border"></td>
             <td><b>Dates</b></td>
             <td><b>Areas</b></td>
-            <td width="20%" id="border"></td>
         </tr>
         @foreach($inclusive_date as $row)
             <tr>
-                <td width="20%" id="border"></td>
-                <td>{{ date('M d, Y',strtotime($row->start)).' to '.date('M d, Y',strtotime('-1 day',strtotime($row->end))) }}</td>
+                <td>{{ date('M d',strtotime($row->start)).' to '.date('M d, Y',strtotime('-1 day',strtotime($row->end))) }}</td>
                 <td>{{ $row->area }}</td>
-                <td width="20%" id="border"></td>
             </tr>
         @endforeach
-    </table>jessa joy laniba
-    -->
+    </table> -->
+    
     <table class="letter-head" cellpadding="0" cellspacing="0">
         <tr>
-            <td colspan="3" id="border">{{ nl2br($office_order->footer_body) }}</td>
+            <td colspan="3" id="no-border">{{ nl2br($office_order->footer_body) }}</td>
         </tr>
         <tr>
-            <td id="border"></td>
+            <td id="no-border"></td>
         </tr>
         <tr>
-            <td colspan="3" id="border">
-                <b><u>
-                        {{ $office_order->approved_by }}
-                    </u></b><br>
+            <td colspan="3" id="no-border">
+                <b>
+                    {{ $office_order->approved_by }}
+                </b><br>
                 @if($office_order->approved_by == 'Jaime S. Bernadas, MD, MGM, CESO III')
                     Director IV
+                @elseif($office_order->approved_by == 'SOPHIA MANCAO MD, DPSP')
+                    OIC - Director III    
                 @else
                     Director III
                 @endif
