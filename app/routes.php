@@ -28,6 +28,9 @@ Route::match(array('GET','POST'), 'admin/upload', 'DtrController@upload');
 Route::match(array('GET','POST'),'search', 'DtrController@search');
 Route::match(array('GET','POST'), 'add/attendance', 'DtrController@create_attendance');
 Route::get('employees','AdminController@list_all');
+Route::match(array('GET','POST'),'beginning_balance','cdoController@beginning_balance');
+Route::match(array('GET','POST'),'update_bbalance','cdoController@update_bbalance');
+
 Route::get('list/regular', 'AdminController@list_regular');
 Route::match(array('GET','POST'), 'change/work-schedule', 'AdminController@change_schedule');
 Route::match(array('GET','POST'), 'print/individual', 'AdminController@print_individual');

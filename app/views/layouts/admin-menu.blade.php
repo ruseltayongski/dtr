@@ -57,6 +57,7 @@
                 <a href="#" data-toggle="dropdown"><i class="fa fa-file"></i> CTO</a>
                 <ul class="dropdown-menu">
                     <li><a href="{{ asset('form/cdo_list') }}"><i class="fa fa-file-text"></i> Pending CTO</a></li>
+                    <li><a href="{{ asset('beginning_balance') }}"><i class="fa fa-user"></i> Beginning Balance</a></li>
                 </ul>
             </li>
         </ul>

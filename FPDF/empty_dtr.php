@@ -1,5 +1,6 @@
 <?php
-
+$this->Image(__DIR__.'/image/doh2.png', 15, 50,80,80);
+$this->Image(__DIR__.'/image/doh2.png', 118, 50,80,80);
 $this->SetFont('Arial','',8);
 $this->SetX(10);
 $this->Cell(40,10,'Civil Service Form No. 43',0);

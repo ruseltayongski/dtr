@@ -12,14 +12,14 @@
                 @else
                     <th class="text-center">Document Type</th>
                 @endif
-                <th class="text-center">Subject</th>
+                <th class="text-center">Beginning Balance</th>
                 <th class="text-center" width="17%">Option</th>
             </tr>
             </thead>
             <tbody style="font-size: 10pt;">
             @foreach($cdo['paginate_all'] as $row)
                 <tr>
-                    <td><a href="#track" data-link="{{ asset('form/track/'.$row->route_no) }}" data-route="{{ $row->route_no }}" data-toggle="modal" class="btn btn-sm btn-success col-sm-12" style="background-color:darkmagenta;color:white;"><i class="fa fa-line-chart"></i> Track</a></td>
+                    <td><a href="#track" data-link="{{ asset('form/track/'.$row->route_no) }}" data-route="{{ $row->route_no }}" data-toggle="modal" class="btn btn-sm btn-success col-sm-12" style="background-color:#9C8AA5;color:white;"><i class="fa fa-line-chart"></i> Track</a></td>
                     <td><a class="title-info" data-backdrop="static" data-route="{{ $row->route_no }}" data-link="{{ asset('/form/info/'.$row->route_no.'/cdo') }}" href="#document_info" data-toggle="modal" style="color: #f0ad4e;">{{ $row->route_no }}</a></td>
                     <td>{{ date('M d, Y',strtotime($row->prepared_date)) }}<br>{{ date('h:i:s A',strtotime($row->prepared_date)) }}</td>
                     @if(\Illuminate\Support\Facades\Auth::user()->usertype)
@@ -27,7 +27,7 @@
                     @else
                         <td>CTO</td>
                     @endif
-                    <td>{{ $row->subject }}</td>
+                    <td class="text-center"><b style="color:green;">@if(InformationPersonal::where('userid',pdoController::user_search1($row['prepared_name'])['username'])->first()->bbalance_cto) {{ InformationPersonal::where('userid',pdoController::user_search1($row['prepared_name'])['username'])->first()->bbalance_cto }} @else 0 @endif</b></td>
                     @if($row->approved_status == 1)
                         <td><button type="button" value="{{ $row->id }}" onclick="all_status($(this))" class="btn-xs btn-danger" style="color:white;"><i class="fa fa-smile-o"></i> Disapprove</button></td>
                     @else
@@ -111,5 +111,7 @@
                 }
             });
         },1000);
+
+        
     });
 </script>

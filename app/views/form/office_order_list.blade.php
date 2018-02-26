@@ -138,7 +138,7 @@
 
         $("a[href='#document_form']").on('click',function(e){
             //$('#form_type').modal({show: false});
-            $('.modal-title').html('Office Order. Form Version 1');
+            $('.modal-title').html('Office Order');
             $('.modal_content').html(loadingState);
             var url = $(this).data('link');
             setTimeout(function(){

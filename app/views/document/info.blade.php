@@ -60,7 +60,7 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Header Body</label>
                         <div class="col-sm-9">
-                            <textarea class="form-control wysihtml5" name="header_body" rows="3" style="resize:none;" required>{{ $info->header_body }}</textarea>
+                            <textarea class="form-control wysihtml5" name="header_body" rows="5" required>{{ $info->header_body }}</textarea>
                         </div>
                     </div>
                 @endif
@@ -88,24 +88,52 @@
                     $count = 1;
                     foreach($inclusive_date as $row):
                     ?>
-                    <div class="form-group" id="{{ $count }}">
-                        <label class="col-sm-3 control-label">Inclusive Date and Area</label>
-                        <div class="col-sm-4">
-                            <div class="input-group">
-                                <div class="input-group-addon">
-                                    <i class="fa fa-calendar"></i>
+                    <div id="{{ $count }}">
+                  
+                        <hr>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Inclusive Date and Area</label>
+                            <div class="col-sm-9">
+                                <div class="input-group">
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-calendar"></i>
+                                    </div>
+                                    <input type="text" class="form-control" value="{{ date('m/d/Y',strtotime($row->start)).' - '.date('m/d/Y',strtotime('-1 day',strtotime($row->end))) }}" id="inclusive1" name="inclusive[]" placeholder="Input date range here..." required>
                                 </div>
-                                <input type="text" class="form-control" value="{{ date('m/d/Y',strtotime($row->start)).' - '.date('m/d/Y',strtotime('-1 day',strtotime($row->end))) }}" id="{{ 'inclusive'.$count }}" name="inclusive[]" placeholder="Input date range here..." required>
                             </div>
                         </div>
-                        <div class="col-sm-5">
-                            <div class="input-group">
-                                <div class="input-group-addon">
-                                    <i class="fa fa-location-arrow"></i>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Area</label>
+                            <div class="col-sm-9">
+                                <div class="input-group">
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-location-arrow"></i>
+                                    </div>
+                                    <textarea name="area[]" id="area1" class="form-control" style="resize: none;" rows="1" placeholder="Input your area here..." required>{{ $row->area }}</textarea>
                                 </div>
-                                <textarea name="area[]" id="area1" class="form-control" style="resize: none;width: 90%" rows="1" placeholder="Input your area here..." required>{{ $row->area }}</textarea>
                             </div>
                         </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">SO Time</label>
+                            <div class="col-sm-9">
+                                <select class="form-control" name="so_time[]" id="so_time">
+                                    @if( $row->so_time == 'wholeday' )
+                                        <option value="wholeday">Whole Day</option>
+                                        <option value="am">Half day / AM</option>
+                                        <option value="pm">Half day / PM</option>
+                                    @elseif( $row->so_time == 'am' )
+                                        <option value="am">Half day / AM</option>
+                                        <option value="pm">Half day / PM</option>
+                                        <option value="wholeday">Whole Day</option>
+                                    @else
+                                        <option value="pm">Half day / PM</option>
+                                        <option value="am">Half day / AM</option>
+                                        <option value="wholeday">Whole Day</option>   
+                                    @endif
+                                </select>
+                            </div>
+                        </div>
+
                     </div>
                     <?php
                     $count++;
@@ -157,7 +185,7 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Entitled Body</label>
                         <div class="col-sm-9">
-                            <textarea class="form-control wysihtml5_1" name="footer_body" rows="3" style="resize:none;" required>{{ $info->footer_body }}</textarea>
+                            <textarea class="form-control wysihtml5_1" name="footer_body" rows="5" required>{{ $info->footer_body }}</textarea>
                         </div>
                     </div>
                     <div class="form-group">
@@ -171,14 +199,20 @@
                                 <select name="approved_by" id="approved_by" class="form-control" onchange="approved($(this))" required>
                                     @if($info->version == 1)
                                         <option value="">Select Name</option>
-                                        <option value="Ruben S. Siapno,MD,MPH">Ruben S. Siapno,MD,MPH</option>
                                         <option value="Jaime S. Bernadas, MD, MGM, CESO III">Jaime S. Bernadas, MD, MGM, CESO III</option>
+                                        <option value="Ruben S. Siapno,MD,MPH">Ruben S. Siapno,MD,MPH</option>
+                                        <option value="SOPHIA MANCAO MD, DPSP">SOPHIA MANCAO MD, DPSP</option>
                                     @else
                                         <option value="{{ $info->approved_by }}">{{ $info->approved_by }}</option>
                                         @if($info->approved_by == 'Jaime S. Bernadas, MD, MGM, CESO III')
+                                            <option value="SOPHIA MANCAO MD, DPSP">SOPHIA MANCAO MD, DPSP</option>
                                             <option value="Ruben S. Siapno,MD,MPH">Ruben S. Siapno,MD,MPH</option>
-                                        @else
+                                        @elseif($info->approved_by == 'SOPHIA MANCAO MD, DPSP')    
                                             <option value="Jaime S. Bernadas, MD, MGM, CESO III">Jaime S. Bernadas, MD, MGM, CESO III</option>
+                                            <option value="Ruben S. Siapno,MD,MPH">Ruben S. Siapno,MD,MPH</option>
+                                        @elseif($info->approved_by == 'Ruben S. Siapno,MD,MPH')    
+                                            <option value="Jaime S. Bernadas, MD, MGM, CESO III">Jaime S. Bernadas, MD, MGM, CESO III</option>
+                                            <option value="SOPHIA MANCAO MD, DPSP">SOPHIA MANCAO MD, DPSP</option>
                                         @endif
                                     @endif
                                 </select>
@@ -322,6 +356,8 @@
             $(".director").val('Director IV');
         else if(data.val() == 'Ruben S. Siapno,MD,MPH')
             $(".director").val('Director III');
+        else if(data.val() == 'SOPHIA MANCAO MD, DPSP')
+            $(".director").val('OIC - Director III');
         else
             $(".director").val('');
     }

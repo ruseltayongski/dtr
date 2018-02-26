@@ -97,6 +97,7 @@
             });
 
         })($);
+
         $('.change_sched').click(function(){
             $('#change_schedule').modal({
                 backdrop: 'static',
@@ -113,6 +114,7 @@
                 $('#schedule_modal').html(res);
             });
         });
+
         $('.delete_userid').click(function(){
             var id = $(this).data('id');
             $('#del_userid_input').val('');
@@ -120,7 +122,6 @@
             var e_id =  $('#del_userid_input').val();
             console.log(e_id);
             $('#delete_user_modal').modal('show');
-
         });
 
     </script>
