@@ -7,6 +7,20 @@ class pdoController extends BaseController
         /*return new PDO("mysql:host=localhost;dbname=dtsv3.0",'root','');*/
         return DB::connection('dts')->getPdo();
     }
+    public static function connect_pis()
+    {
+        return new PDO("mysql:host=localhost;dbname=pis",'root','');
+    }
+    public static function pis()
+    {
+        $db=pdoController::connect_pis();
+        $sql="SELECT * FROM personal_information ORDER BY FNAME ASC";
+        $pdo = $db->prepare($sql);
+        $pdo->execute();
+        $row = $pdo->fetchAll();
+        $db = null;
+        return $row;
+    }
     public static function users()
     {
         $db=pdoController::connect();

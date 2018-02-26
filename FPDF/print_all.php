@@ -45,18 +45,15 @@ class PDF extends FPDF
             $s_pm_out = $sched[0]["pm_out"];
 
 
-
             $logs = get_logs($s_am_in,$s_am_out,$s_pm_in,$s_pm_out,$userid,$date_from,$date_to);
 
             if(count($logs) <= 0) {
+                include_once('empty_dtr.php');
+            } else {
 
                 $this->Image(__DIR__.'/image/doh2.png', 15, 50,80,80);
                 $this->Image(__DIR__.'/image/doh2.png', 118, 50,80,80);
-                include_once('empty_dtr.php');
-            
-            } else {
-                $this->Image(__DIR__.'/image/doh2.png', 15, 50,80,80);
-                $this->Image(__DIR__.'/image/doh2.png', 118, 50,80,80);
+
                 $this->SetFont('Arial','',8);
                 $this->SetX(10);
                 $this->Cell(40,10,'Civil Service Form No. 43',0);
@@ -206,6 +203,7 @@ class PDF extends FPDF
                                     $pm_in = null;
                                 }
                             }
+
                             if( ! ($pm_out >= $s_pm_in)) {
                                 $pm_out = null;
                             }
@@ -246,8 +244,12 @@ class PDF extends FPDF
                                 $e4 = '';
                             }
                             if(!$log['holiday'] == '001' OR !$log['holiday'] == '003' OR !$log['holiday'] == '002') {
-
-                                $late = late($s_am_in,$s_pm_in,$am_in,$pm_in,$log['datein']);
+                                if($day_name == 'Mon') {
+                                    $late = late('08:00:00',$s_pm_in,$am_in,$pm_in,$log['datein']);
+                                } else {
+                                    $late = late($s_am_in,$s_pm_in,$am_in,$pm_in,$log['datein']);
+                                }
+                                
                                 if($late != '' or $late != null)
                                 {
                                     $late_total = $late_total + $late;
@@ -331,7 +333,7 @@ class PDF extends FPDF
 
                         if($day_name == 'Sat' || $day_name == 'Sun' AND $am_in == '') $am_out = 'DAY OFF';
                         if(isset($e1) and $e1 == "1"){
-                            $this->SetFont('Arial','U',8);
+                            $this->SetFont('Arial','IU',8);
                         } else {
                             $this->SetFont('Arial','',8);
                         }
@@ -343,7 +345,7 @@ class PDF extends FPDF
                         $this->SetFont('Arial','',8);
                         if($day_name == 'Sat' || $day_name == 'Sun' AND $am_in == '' AND $am_out == '') $am_out = 'DAY OFF';
                         if(isset($e2) and $e2 == "1"){
-                            $this->SetFont('Arial','U',8);
+                            $this->SetFont('Arial','IU',8);
                         } else {
                             $this->SetFont('Arial','',8);
                         }
@@ -353,7 +355,7 @@ class PDF extends FPDF
 
                         if($day_name == 'Sat' || $day_name == 'Sun' AND $am_in == '' AND $am_out == '' AND $pm_in == '') $am_out = 'DAY OFF';
                         if(isset($e3) and $e3 == "1"){
-                            $this->SetFont('Arial','U',8);
+                            $this->SetFont('Arial','IU',8);
                         } else {
                             $this->SetFont('Arial','',8);
                         }
@@ -363,7 +365,7 @@ class PDF extends FPDF
 
                         if($day_name == 'Sat' || $day_name == 'Sun' AND $am_in == '' AND $am_out == '' AND $pm_in == '' AND $pm_out == '') $am_out = 'DAY OFF';
                         if(isset($e4) and $e4 == "1") {
-                            $this->SetFont('Arial','U',8);
+                            $this->SetFont('Arial','IU',8);
                         } else {
                             $this->SetFont('Arial','',8);
                         }
@@ -386,7 +388,7 @@ class PDF extends FPDF
                         $this->Cell(9,5,$day_name,'');
 
                         if(isset($e1) and $e1 == "1"){
-                            $this->SetFont('Arial','U',8);
+                            $this->SetFont('Arial','IU',8);
                         } else {
                             $this->SetFont('Arial','',8);
                         }
@@ -394,7 +396,7 @@ class PDF extends FPDF
                         $this->SetTextColor(0,0,0);
 
                         if(isset($e2) and $e2 == "1"){
-                            $this->SetFont('Arial','U',8);
+                            $this->SetFont('Arial','IU',8);
                         } else {
                             $this->SetFont('Arial','',8);
                         }
@@ -402,7 +404,7 @@ class PDF extends FPDF
                         $this->SetTextColor(0,0,0);
 
                         if(isset($e3) and $e3 == "1"){
-                            $this->SetFont('Arial','U',8);
+                            $this->SetFont('Arial','IU',8);
                         } else {
                             $this->SetFont('Arial','',8);
                         }
@@ -410,7 +412,7 @@ class PDF extends FPDF
                         $this->SetTextColor(0,0,0);
 
                         if(isset($e4) and $e4 == "1"){
-                            $this->SetFont('Arial','U',8);
+                            $this->SetFont('Arial','IU',8);
                         } else {
                             $this->SetFont('Arial','',8);
                         }
@@ -481,9 +483,11 @@ class PDF extends FPDF
                             $this->Cell(10,2,'     of arrival and departure from the office.',0,0,'C');
                             $this->SetX(129);
                             $this->Cell(10,2,'     of arrival and departure from the office.',0,0,'C');
+
                             $this->Ln();
                             $this->Ln();
                             $this->Ln();
+
                             $this->SetFont('Arial','BU',8);
 
                             $this->SetX(9);
@@ -738,9 +742,8 @@ function late($s_am_in,$s_pm_in,$am_in,$pm_in,$datein)
 function undertime($s_am_in,$s_pm_in,$am_in,$pm_in,$s_am_out,$s_pm_out,$am_out,$pm_out,$datein)
 {
 
-    $hour = '';
-    $min = '';
-    $total = '';
+
+    $total = null;
 
     if($am_in == '' and $am_out == '') {
         $a = new DateTime($datein.' '. $s_am_in);
@@ -754,7 +757,6 @@ function undertime($s_am_in,$s_pm_in,$am_in,$pm_in,$s_am_out,$s_pm_out,$am_out,$
             $hour1 = $hour1 * 60;
         }
         $total += ($hour1 + $min1);
-
     }
 
 
@@ -823,5 +825,6 @@ function undertime($s_am_in,$s_pm_in,$am_in,$pm_in,$s_am_out,$s_pm_out,$am_out,$
     if($total == 0 ) $total = '';
     return $total;
 }
+
 
 ?>

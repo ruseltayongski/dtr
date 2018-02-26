@@ -50,6 +50,7 @@ class CalendarController extends BaseController
             $calendar->backgroundColor = Input::get('backgroundColor');
             $calendar->borderColor = Input::get('borderColor');
             $calendar->status = 1;
+            $calendar->type = 1;
             $calendar->save();
 
             $from = date('Y-m-d',strtotime(Input::get('start')));
@@ -149,6 +150,7 @@ class CalendarController extends BaseController
             $calendar = Calendars::where('event_id',Input::get('event_id'))->first();
             $calendar->start = $start_date;
             $calendar->end = $end_date;
+            $calendar->type = 1;
             $calendar->save();
             //END RUSEL
 
@@ -226,6 +228,7 @@ class CalendarController extends BaseController
                 //RUSEL
                 $calendar = Calendars::where('event_id',Input::get('event_id'))->first();
                 $calendar->end = Input::get('end');
+                $calendar->type = 1;
                 $calendar->save();
                 //END RUSEL
 

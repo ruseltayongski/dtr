@@ -121,7 +121,7 @@
                 <td id="border">
                     <table class="letter-head" cellpadding="0" cellspacing="0">
                         <tr>
-                            <td id="border" colspan="2">NUMBER OF WORKING DAY/S APPLIED FOR: <u>{{ $data['cdo']['working_days'] }} Days</u></td>
+                            <td id="border" colspan="2">NUMBER OF WORKING DAY/S APPLIED FOR: <u>{{ $data['cdo']['working_days'] }} <?php if($data['cdo']['working_days'] > 1) echo 'days'; else echo 'day'; ?></u></td>
                         </tr>
                         <tr>
                             <td id="border" width="30%">Inclusive Dates:</td>

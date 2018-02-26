@@ -2,16 +2,6 @@
 
 <?php
 
-
-/*$f = new DateTime('2017-01-01'.' '. '24:00:00');
-$t = new DateTime('2017-01-05'.' '. '24:00:00');
-
-$interval = $f->diff($t);
-
-echo $interval->days;
-exit();*/
-
-
 require('dbconn.php');
 
 require('fpdf.php');
@@ -46,15 +36,15 @@ class PDF extends FPDF
         $log = "";
         $holidays = "";
         $pdo = conn();
-        $query = "SELECT * FROM work_sched WHERE id = '".$sched ."'";
+        $query = "SELECT * FROM work_sched WHERE id = '".$sched ."' LIMIT 1";
         $st = $pdo->prepare($query);
         $st->execute();
-        $sched = $st->fetchAll(PDO::FETCH_ASSOC);
+        $sched = $st->fetch(PDO::FETCH_ASSOC);
         if(isset($sched) and count($sched) > 0) {
-            $s_am_in = $sched[0]["am_in"];
-            $s_am_out =  $sched[0]["am_out"];
-            $s_pm_in = $sched[0]["pm_in"];
-            $s_pm_out = $sched[0]["pm_out"];
+            $s_am_in = $sched["am_in"];
+            $s_am_out =  $sched["am_out"];
+            $s_pm_in = $sched["pm_in"];
+            $s_pm_out = $sched["pm_out"];
 
 
             $logs = get_logs($s_am_in,$s_am_out,$s_pm_in,$s_pm_out,$userid,$date_from,$date_to);
@@ -62,6 +52,9 @@ class PDF extends FPDF
             if(count($logs) <= 0) {
                 include_once('empty_dtr.php');
             } else {
+
+                $this->Image(__DIR__.'/image/doh2.png', 15, 50,80,80);
+                $this->Image(__DIR__.'/image/doh2.png', 118, 50,80,80);
 
                 $this->SetFont('Arial','',8);
                 $this->SetX(10);
@@ -129,6 +122,8 @@ class PDF extends FPDF
                 $this->SetFont('Arial','',8);
                 $this->SetXY(112,28);
                 $this->Cell(40,10,'For the month of : ',0);
+
+
 
                 $this->SetFont('Arial','B',9);
                 $this->SetXY(135,28);
@@ -252,9 +247,14 @@ class PDF extends FPDF
                                 $pm_out = '';
                                 $e4 = '';
                             }
+
                             if(!$log['holiday'] == '001' OR !$log['holiday'] == '003' OR !$log['holiday'] == '002') {
 
-                                $late = late($s_am_in,$s_pm_in,$am_in,$pm_in,$log['datein']);
+                                if($day_name == 'Mon') {
+                                    $late = late('08:00:00',$s_pm_in,$am_in,$pm_in,$log['datein']);
+                                } else {
+                                    $late = late($s_am_in,$s_pm_in,$am_in,$pm_in,$log['datein']);
+                                }
                                 if($late != '' or $late != null)
                                 {
                                     $late_total = $late_total + $late;
@@ -336,7 +336,64 @@ class PDF extends FPDF
                         $this->Cell(8,5,$day_name,'');
 
 
-                        if($day_name == 'Sat' || $day_name == 'Sun' AND $am_in == '') $am_out = 'DAY OFF';
+                        $cto = null;
+                        $so = null;
+
+                        
+
+                        if(!$am_in AND !$am_out AND $pm_in AND $pm_out){
+                            $cto = GET_CDO_SO($s_am_in,$s_am_out,$s_pm_in,$s_pm_out,$userid,$datein,'GETCDO');
+
+                            if($cto['remark'] == 'CTO'){
+                                $am_out = 'CTO';
+                            } else {
+                                $so = GET_CDO_SO($s_am_in,$s_am_out,$s_pm_in,$s_pm_out,$userid,$datein,'GETSO');
+                                if($so['holiday'] === '003'){
+                                    $am_out = "SO#:".$so['remark'];
+                                }
+                            }
+                            
+                        }
+
+                        if(!$pm_in AND !$pm_out AND $am_in AND $am_out) {
+                            $cto = GET_CDO_SO($s_am_in,$s_am_out,$s_pm_in,$s_pm_out,$userid,$datein,'GETCDO');
+
+                            if($cto['remark'] == 'CTO'){
+                                $pm_out = 'CTO';
+                            } else {
+                                $so = GET_CDO_SO($s_am_in,$s_am_out,$s_pm_in,$s_pm_out,$userid,$datein,'GETSO');
+                                if($so['holiday'] ==='003'){
+                                    $pm_out = "SO#:".$so['remark'];
+                                }
+                            }
+                        }
+
+                        if(!$am_in AND !$am_out AND !$pm_in AND !$pm_out){
+                            $cto = GET_CDO_SO($s_am_in,$s_am_out,$s_pm_in,$s_pm_out,$userid,$datein,'GETCDO');
+
+                            if($cto['remark'] == 'CTO'){
+                                if($cto['time_type'] == 'AM'){
+                                    $am_in = 'CTO';
+                                }elseif($cto['time_type'] == 'PM') {
+                                    $pm_out = 'CTO';
+                                }elseif($cto['time_type'] == 'WH'){
+                                    $am_out = 'CTO';
+                                }
+                            } else {
+                                $so = GET_CDO_SO($s_am_in,$s_am_out,$s_pm_in,$s_pm_out,$userid,$datein,'GETSO');
+                                if($so['holiday'] === '003'){
+                                    if($so['time_type'] == 'WH') {
+                                        $am_out = "SO#:".$so['remark'];
+                                    } elseif($so['time_type'] == 'AM') {
+                                        $am_in = "SO#:".$so['remark'];
+                                    }elseif($so['time_type'] == 'PM') {
+                                        $pm_out = "SO#:".$so['remark'];
+                                    }
+                                }
+                            }
+                        }
+
+                        //if($day_name == 'Sat' || $day_name == 'Sun' AND $am_in == '') $am_out = 'DAY OFF';
                         if(isset($e1) and $e1 == "1"){
                             $this->SetFont('Arial','IU',8);
                         } else {
@@ -572,8 +629,7 @@ $pdf->AliasNbPages();
 $pdf->AddPage();
 
 
-$pdf->Image(__DIR__.'/image/doh2.png', 15, 50,80,80);
-$pdf->Image(__DIR__.'/image/doh2.png', 118, 50,80,80);
+
 
 $pdf->SetFont('Arial','',12);
 $date_from = '';
@@ -642,7 +698,7 @@ function userlist($userid)
     $pdo = conn();
     try {
         $st = $pdo->prepare("SELECT DISTINCT userid,fname,lname,mname,sched FROM users  WHERE usertype != '1' and userid = :id");
-        //$st = $pdo->prepare("SELECT DISTINCT userid,fname,lname,mname FROM users WHERE usertype != '1' and userid !='Unknown User' ORDER BY lname ASC");
+       
         $st->bindParam(":id", $userid);
         $st->execute();
         $row = $st->fetchAll(PDO::FETCH_ASSOC);
@@ -734,10 +790,7 @@ function late($s_am_in,$s_pm_in,$am_in,$pm_in,$datein)
 
 function undertime($s_am_in,$s_pm_in,$am_in,$pm_in,$s_am_out,$s_pm_out,$am_out,$pm_out,$datein)
 {
-
-    $hour = '';
-    $min = '';
-    $total = '';
+    $total = null;
 
     if($am_in == '' and $am_out == '') {
         $a = new DateTime($datein.' '. $s_am_in);
@@ -821,5 +874,20 @@ function undertime($s_am_in,$s_pm_in,$am_in,$pm_in,$s_am_out,$s_pm_out,$am_out,$
     return $total;
 }
 
+function GET_CDO_SO($am_in,$am_out,$pm_in,$pm_out,$id,$datein,$func)
+{
+    $pdo = conn();
+    $query = "CALL $func('". $am_in ."','" . $am_out ."','" . $pm_in ."','" . $pm_out . "','" . $id . "','" . $datein ."')";
+    try
+    {
+        $st = $pdo->prepare($query);
+        $st->execute();
+        $row = $st->fetch(PDO::FETCH_ASSOC);
+    }catch(PDOException $ex){
+        echo $ex->getMessage();
+        exit();
+    }
+    return $row;
+}
 
 ?>

@@ -78,7 +78,7 @@
                         <input class="form-control datepickercalendar" value="<?php if(isset($data['cdo']['prepared_date'])) echo date('m/d/Y',strtotime($data['cdo']['prepared_date'])); else echo date('m/d/Y'); ?>" name="prepared_date" required>
                     </div>
                 </td>
-                <td class="col-sm-1">Subject:</td>
+                <td class="col-sm-1">Reason:</td>
                 <td>
                     <div class="input-group">
                         <div class="input-group-addon">
@@ -125,6 +125,16 @@
                             </td>
                             <td class="col-sm-4">Inlusive Dates</td>
                         </tr>
+                        <tr>
+                            <td>
+                                <select class="form-control cdo_hours" onchange="halfday($(this))" name="cdo_hours">
+                                    <option value='cdo_wholeday'>WHOLEDAY</option>
+                                    <option value='cdo_am'>AM</option>
+                                    <option value='cdo_pm'>PM</option>
+                                </select>
+                            </td>
+                            <td class="col-sm-4">am/pm/wholeday</td>
+                        </tr>
                     </table>
                 </td>
             </tr>
@@ -142,23 +152,28 @@
                             <td>Remaining Balance</td>
                         </tr>
                         <tr>
-                            <td><input type="text" value="{{ $data['cdo']['beginning_balance'] }}" class="form-control" name="beginning_balance" maxlength="15"
-                                <?php
-                                        if($data['type'] == 'add' || !\Illuminate\Support\Facades\Auth::user()->usertype)
-                                            echo 'disabled';
-                                        ?>>
+                            <td>
+                                <input type="text" value="{{ $data['bbalance_cto'] }}" class="form-control beginning_balance" name="beginning_balance" maxlength="15" readonly>
                             </td>
-                            <td><input type="text" value="{{ $data['cdo']['less_applied_for'] }}" class="form-control" name="less_applied" maxlength="15"
-                                <?php
-                                        if($data['type'] == 'add' || !\Illuminate\Support\Facades\Auth::user()->usertype)
-                                            echo 'disabled';
-                                        ?>>
+                            <td>
+                                <input type="text" value="<?php if($data['cdo']['less_applied_for']) echo $data['cdo']['less_applied_for']; else echo 0; ?>" class="form-control less_applied" name="less_applied" maxlength="15" readonly>
                             </td>
-                            <td><input type="text" value="{{ $data['cdo']['remaining_balance'] }}" class="form-control" name="remaining_balance" maxlength="15"
-                                <?php
-                                        if($data['type'] == 'add' || !\Illuminate\Support\Facades\Auth::user()->usertype)
-                                            echo 'disabled';
-                                        ?>>
+                            <td>
+                                <input type="text" value="<?php if(isset($data)) {
+                                        if($data['cdo']['remaining_balance'])
+                                            echo $data['cdo']['remaining_balance'];
+                                        else
+                                            echo 0;
+                                    } else echo $data['bbalance_cto']; ?>" class="form-control remaining_balance" name="remaining_balance" maxlength="15" readonly>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="3">
+                                <div class="alert-info" style="padding: 2%;">
+                                    <span style="color:black;">
+                                        <i class="fa fa-hand-o-right"></i> Note: The CDO/CTO beginning balance(credit) and remaining balance(credit) will be change when it was approve by the cdo/cto point person
+                                    </span>
+                                </div>
                             </td>
                         </tr>
                     </table>
@@ -176,19 +191,13 @@
                                             echo 'disabled';
                                         else{
                                             if($data['cdo']['approved_status'] == 1){
-                                                if(\Illuminate\Support\Facades\Auth::user()->usertype)
-                                                    echo 'checked';
-                                                else
-                                                    echo 'disabled checked';
+                                                echo 'disabled checked';                      
                                             }
                                             else{
-                                                if(\Illuminate\Support\Facades\Auth::user()->usertype)
-                                                    echo '';
-                                                else
-                                                    echo 'disabled';
+                                                echo 'disabled';        
                                             }
                                         }
-                                        ?>>
+                                ?>>
                             </td>
                             <td class="align-left">Approval</td>
                         </tr>
@@ -200,16 +209,10 @@
                                             echo 'disabled';
                                         else{
                                             if($data['cdo']['approved_status'] == 0){
-                                                if(\Illuminate\Support\Facades\Auth::user()->usertype)
-                                                    echo 'checked';
-                                                else
-                                                    echo 'disabled';
+                                                echo 'disabled checked';
                                             }
                                             else{
-                                                if(\Illuminate\Support\Facades\Auth::user()->usertype)
-                                                    echo '';
-                                                else
-                                                    echo 'disabled';
+                                                echo 'disabled';
                                             }
                                         }
                                         ?>>
@@ -278,7 +281,7 @@
                 <button type="button" class="btn btn-success" data-dismiss="modal" style="color:white" data-toggle="modal" data-target="#paperSize"><i class="fa fa-barcode"></i> Barcode v1</button>
                 <a target="_blank" href="{{ asset('pdf/track') }}" class="btn btn-success" style="color:white"><i class="fa fa-barcode"></i> Barcode v2</a>
                 <a target="_blank" href="{{ asset('form/cdov1/pdf') }}" class="btn btn-success" style="color:white"><i class="fa fa-barcode"></i> Barcode v3</a>
-                @if(!$data['cdo']['approved_status'])
+                @if(!$data['cdo']['approved_status'] || Auth::user()->usertype)
                     <button type="submit" class="btn btn-primary btn-submit" style="color:white"><i class="fa fa-pencil"></i> Update</button>
                 @else
                     <button onclick="warning()" type="button" class="btn btn-primary btn-submit" style="color:white"><i class="fa fa-pencil"></i> Update</button>
@@ -299,14 +302,96 @@
         autoclose: true
     });
 
-    $(function(){
+    var cdo_hoursDefault = "<?php echo $data['cdo']['cdo_hours'] ?>";
+    var halfdayFlag1  = true;
+    var halfdayFlag2 = true;
+    if(cdo_hoursDefault == 'cdo_am'){
+        $(".cdo_hours").val($(".cdo_hours option:eq(1)").val());
+        halfdayFlag2 = false;
+    }
+    else if(cdo_hoursDefault == 'cdo_pm') {
+        $(".cdo_hours").val($(".cdo_hours option:eq(2)").val());
+        halfdayFlag2 = false;
+    }
+
+    var rangeFlag = true;
+    var less_applied,remaining_balance,diff,haldayDiff;
+
+    $(function()
+    {
         $("body").delegate("#inclusive1","focusin",function(){
-            $(this).daterangepicker();
+            $(this).daterangepicker({
+                locale: {
+                         format: 'MM/DD/YYYY'
+                        },        
+                }).on('apply.daterangepicker', function(ev, picker) 
+                {
+                    var start = moment(picker.startDate.format('YYYY-MM-DD'));
+                    var end   = moment(picker.endDate.format('YYYY-MM-DD'));
+                    diff = end.diff(start, 'days'); // returns correct number
+                    less_applied = (diff+1)*8;
+                   
+                    console.log(start);
+                    if( less_applied < parseInt($(".beginning_balance").val())+8 ){
+                        $(".less_applied").val(less_applied);
+                    }
+                    else {
+                        Lobibox.alert('error', //AVAILABLE TYPES: "error", "info", "success", "warning"
+                        {
+                            msg: "Your beginning balance(credit) are not enough"
+                        });
+                    }
+                    $(".remaining_balance").val( parseInt($(".beginning_balance").val()) - parseInt($(".less_applied").val()) );
+                    
+                    $(".cdo_hours").val($(".cdo_hours option:first").val());
+                    halfdayFlag1 = true;
+                    halfdayFlag2 = true;
+
+                });
         });
     });
 
+    function halfday(data)
+    {
+        var cdo_hours = data.val();
+      
+        if(cdo_hours == 'cdo_wholeday'){
+            if(halfdayFlag1){
+                $(".less_applied").val( parseInt($(".less_applied").val()) + 4);
+                halfdayFlag1 = false;
+                halfdayFlag2 = true;
+            }
+        } 
+        else {
+            if(halfdayFlag2){
+                $(".less_applied").val( parseInt($(".less_applied").val()) - 4 );
+                halfdayFlag2 = false;
+                halfdayFlag1 = true;
+                wholedayFlag = true;
+            }
+        }
+        $(".remaining_balance").val( parseInt($(".beginning_balance").val()) - parseInt($(".less_applied").val()) );
+
+    }
+
     $('.form-submit').on('submit',function(){
-        $('.btn-submit').attr("disabled", true);
+        console.log(parseInt($(".less_applied").val()));
+
+        <?php if(!Auth::user()->usertype): ?>
+
+        if( parseInt($(".less_applied").val()) <= parseInt($(".beginning_balance").val()) ){
+            $('.btn-submit').attr("disabled", true);
+        }
+        else {
+            Lobibox.alert('error', //AVAILABLE TYPES: "error", "info", "success", "warning"
+            {
+                msg: "Your beginning balance(credit) are not enough"
+            });
+            $("#inclusive1").val('');
+            return false;
+        }
+
+        <?php endif; ?>
     });
 
     $('input[name=approval]').on('ifChecked', function(event){
@@ -326,8 +411,9 @@
 
     function warning(){
         Lobibox.alert('info', //AVAILABLE TYPES: "error", "info", "success", "warning"
-                {
-                    msg: "Cannot update if your CTO is already approved.."
-                });
+        {
+            msg: "Cannot update if your CTO is already approved.."
+        });
     }
+
 </script>

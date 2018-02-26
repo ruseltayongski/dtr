@@ -14,7 +14,7 @@
                 @else
                     <th class="text-center">Document Type</th>
                 @endif
-                <th class="text-center">Subject</th>
+                <th class="text-center">Beginning Balance</th>
                 <th class="text-center" width="17%">Option</th>
             </tr>
             </thead>
@@ -29,7 +29,7 @@
                     @else
                         <td>CTO</td>
                     @endif
-                    <td>{{ $row->subject }}</td>
+                    <td class="text-center"><b style="color:green;">@if(InformationPersonal::where('userid',pdoController::user_search1($row['prepared_name'])['username'])->first()->bbalance_cto) {{ InformationPersonal::where('userid',pdoController::user_search1($row['prepared_name'])['username'])->first()->bbalance_cto }} @else 0 @endif</b></td>
                     <td><button type="submit" class="btn-xs btn-info" value="{{ $row->id }}" onclick="disapproved_status($(this))" style="color:white;"><i class="fa fa-smile-o"></i> Approve</button></td>
                 </tr>
             @endforeach

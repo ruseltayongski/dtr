@@ -258,93 +258,6 @@ class DocumentController extends BaseController
         return Redirect::to('form/so_list');
     }
 
-    /*public function so()
-    {
-        if(Request::method() == 'GET'){
-            $prepared_by = pdoController::user_search(Auth::user()->userid)['id'];
-            $users = pdoController::users();
-            return View::make('form.office_order',['users'=>$users,"prepared_by" => json_encode($prepared_by)]);
-        }
-        else if(Request::method() == 'POST'){
-            $route_no = date('Y-') . pdoController::user_search(Auth::user()->userid)['id'] . date('mdHis');
-            $doc_type = 'OFFICE_ORDER';
-            $prepared_date = date('Y-m-d',strtotime(Input::get('prepared_date'))).' '.date('H:i:s');
-            $prepared_by =  pdoController::user_search(Auth::user()->userid)['id'];
-            $description = Input::get('subject');
-
-            //ADD OFFICE ORDER
-            $office_order = new OfficeOrders();
-            $office_order->route_no = $route_no;
-            $office_order->doc_type = $doc_type;
-            $office_order->subject = Input::get('subject');
-            $office_order->header_body = Input::get('header_body');
-            $office_order->footer_body = Input::get('footer_body');
-            $office_order->approved_by = Input::get('approved_by');
-            $office_order->prepared_by = $prepared_by;
-            $office_order->prepared_date = $prepared_date;
-            $office_order->version = 2;
-            $office_order->save();
-
-            //ADD INCLUSIVE NAME
-            $count = 0;
-            foreach(Input::get('inclusive_name') as $row){
-                $inclusive_name = new InclusiveNames();
-                $inclusive_name->route_no = $route_no;
-                $inclusive_name->user_id = Input::get('inclusive_name')[$count];
-                $inclusive_name->status = 1;
-                $inclusive_name->save();
-                $count++;
-            }
-
-            //ADD CALENDAR
-            $count = 0;
-            foreach(Input::get('inclusive') as $result)
-            {
-                $str = $result;
-                $temp1 = explode('-',$str);
-                $temp2 = array_slice($temp1, 0, 1);
-                $tmp = implode(',', $temp2);
-                $start_date = date('Y-m-d',strtotime($tmp));
-
-                $temp3 = array_slice($temp1, 1, 1);
-                $tmp = implode(',', $temp3);
-                $enddate = date_create(date('Y-m-d',strtotime($tmp)));
-                date_add($enddate, date_interval_create_from_date_string('1days'));
-                $end_date = date_format($enddate, 'Y-m-d');
-
-                $so = new Calendars();
-                $so->route_no = $route_no;
-                $so->title = Input::get('subject');
-                $so->start = $start_date;
-                $so->end = $end_date;
-                $so->area = Input::get('area')[$count];
-                $so->backgroundColor = 'rgb(216, 27, 96)';
-                $so->borderColor = 'rgb(216, 27, 96)';
-                $so->status = 0;
-                $so->save();
-                $count++;
-            }
-            //ADD TRACKING MASTER
-            pdoController::insert_tracking_master($route_no,$doc_type,$prepared_date,$prepared_by,$description);
-
-            //ADD TRACKING DETAILS
-            $date_in = $prepared_date;
-            $received_by = $prepared_by;
-            $delivered_by = $prepared_by;
-            $action = $description;
-            pdoController::insert_tracking_details($route_no,$date_in,$received_by,$delivered_by,$action);
-
-            //ADD SYSTEM LOGS
-            $user_id = $prepared_by;
-            $name = Auth::user()->fname.' '.Auth::user()->mname.' '.Auth::user()->lname;
-            $activity = 'Created';
-            pdoController::insert_system_logs($user_id,$name,$activity,$route_no);
-            Session::put('added',true);
-
-            return Redirect::to('form/so_list');
-        }
-    }*/
-
     public function so_view()
     {
         if(Request::method() == 'GET'){
@@ -445,6 +358,7 @@ class DocumentController extends BaseController
 
         //ADD OFFICE ORDER
         $office_order = new OfficeOrders();
+        $office_order->id = DB::table('office_order')->max('id')+1;
         $office_order->route_no = $route_no;
         $office_order->doc_type = $doc_type;
         $office_order->subject = Input::get('subject');
@@ -452,9 +366,9 @@ class DocumentController extends BaseController
         $office_order->prepared_date = $prepared_date;
         $office_order->version = Input::get('version');
         if(Input::get('version') == 2):
-        $office_order->header_body = Input::get('header_body');
-        $office_order->footer_body = Input::get('footer_body');
-        $office_order->approved_by = Input::get('approved_by');
+            $office_order->header_body = Input::get('header_body');
+            $office_order->footer_body = Input::get('footer_body');
+            $office_order->approved_by = Input::get('approved_by');
         endif;
         $office_order->approved_status = 0;
         $office_order->save();
@@ -492,6 +406,7 @@ class DocumentController extends BaseController
             $so->start = $start_date;
             $so->end = $end_date;
             $so->area = Input::get('area')[$count];
+            $so->so_time = Input::get('so_time')[$count];
             $so->backgroundColor = 'rgb(216, 27, 96)';
             $so->borderColor = 'rgb(216, 27, 96)';
             $so->status = 0;
@@ -737,7 +652,8 @@ class DocumentController extends BaseController
                 "section" => $section,
                 "division" => $division,
                 "section_head" => $section_head,
-                "division_head" => $division_head
+                "division_head" => $division_head,
+                "bbalance_cto" => InformationPersonal::where('userid',$name['username'])->first()->bbalance_cto
             );
             return View::make('cdo.cdo_view',['data' => $data]);
         }

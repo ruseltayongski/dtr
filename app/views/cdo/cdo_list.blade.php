@@ -3,7 +3,29 @@
     <div class="col-md-12 wrapper">
         <div class="box box-info">
             <div class="box-body">
-                <h3 class="page-header">Compensatory Time Off
+                <h3 class="page-header">
+                    <div class="row">
+                        <div class="col-md-6">
+                            Compensatory Time Off
+                        </div>
+                        @if(!Auth::user()->usertype)
+                        <div class="col-md-6">
+                            <div class="alert-info">
+                                <p style="color:black;font-size: 80%;padding: 1%;display:inline-flex;">
+                                    Beginning Balance :
+                                </p> 
+                                <p style="color:green;display:inline-flex;"><?php
+                                        if(InformationPersonal::where('userid',Auth::user()->userid)->first()->bbalance_cto){
+                                            echo InformationPersonal::where('userid',Auth::user()->userid)->first()->bbalance_cto;
+                                        }
+                                        else {
+                                            echo 0;
+                                        } 
+                                ?></p>
+                            </div>
+                        </div>
+                        @endif
+                    </div>
                 </h3>
                 <div class="row">
                     <div class="col-md-4">
@@ -68,7 +90,7 @@
                                                         <div class="row">
                                                             <div class="col-md-12">
                                                                 @if($type == "list")
-                                                                    <a href="#document_form" data-link="{{ asset('form/cdov1/form') }}" class="btn btn-success" data-dismiss="modal" data-backdrop="static" data-toggle="modal" data-target="#document_form" style="background-color:darkmagenta;color: white;"><i class="fa fa-plus"></i> Create new</a>
+                                                                    <a href="#document_form" data-link="{{ asset('form/cdov1/form') }}" class="btn btn-success" data-dismiss="modal" data-backdrop="static" data-toggle="modal" data-target="#document_form" style="background-color: #9C8AA5;color: white;"><i class="fa fa-plus"></i> Create new</a>
                                                                 @endif
                                                             </div>
                                                         </div>
@@ -91,7 +113,7 @@
                                                         <div class="row">
                                                             <div class="col-md-12">
                                                                 @if($type == "list")
-                                                                    <a href="#document_form" data-link="{{ asset('form/cdov1/form') }}" class="btn btn-success" data-dismiss="modal" data-backdrop="static" data-toggle="modal" data-target="#document_form" style="background-color:darkmagenta;color: white;"><i class="fa fa-plus"></i> Create new</a>
+                                                                    <a href="#document_form" data-link="{{ asset('form/cdov1/form') }}" class="btn btn-success" data-dismiss="modal" data-backdrop="static" data-toggle="modal" data-target="#document_form" style="background-color: #9C8AA5;color: white;"><i class="fa fa-plus"></i> Create new</a>
                                                                 @endif
                                                             </div>
                                                         </div>
@@ -114,7 +136,7 @@
                                                         <div class="row">
                                                             <div class="col-md-12">
                                                                 @if($type == "list")
-                                                                    <a href="#document_form" data-link="{{ asset('form/cdov1/form') }}" class="btn btn-success" data-dismiss="modal" data-backdrop="static" data-toggle="modal" data-target="#document_form" style="background-color:darkmagenta;color: white;"><i class="fa fa-plus"></i> Create new</a>
+                                                                    <a href="#document_form" data-link="{{ asset('form/cdov1/form') }}" class="btn btn-success" data-dismiss="modal" data-backdrop="static" data-toggle="modal" data-target="#document_form" style="background-color: #9C8AA5;;color: white;"><i class="fa fa-plus"></i> Create new</a>
                                                                 @endif
                                                             </div>
                                                         </div>
@@ -139,7 +161,7 @@
                                             <div class="panel-body">
                                                 <div class="row">
                                                     <div class="col-md-12">
-                                                        <a href="#document_form" data-link="{{ asset('form/cdov1/form') }}" class="btn btn-success" data-dismiss="modal" data-backdrop="static" data-toggle="modal" data-target="#document_form" style="background-color:darkmagenta;color: white;"><i class="fa fa-plus"></i> Create new</a>
+                                                        <a href="#document_form" data-link="{{ asset('form/cdov1/form') }}" class="btn btn-success" data-dismiss="modal" data-backdrop="static" data-toggle="modal" data-target="#document_form" style="background-color: #9C8AA5;color: white;"><i class="fa fa-plus"></i> Create new</a>
                                                     </div>
                                                 </div>
                                                 <br />
@@ -152,24 +174,22 @@
                                                                     <tr>
                                                                         <th></th>
                                                                         <th class="text-center">Route #</th>
-                                                                        <th class="text-center">Prepared Date</th>
-                                                                        <th class="text-center">Document Type</th>
-                                                                        <th class="text-center">Subject</th>
+                                                                        <th >Prepared Date</th>
+                                                                        <th >Reason</th>
                                                                         <th class="text-center">Approved Status</th>
                                                                     </tr>
                                                                     </thead>
                                                                     <tbody style="font-size: 10pt;">
                                                                     @foreach($cdo["my_cdo"] as $row)
                                                                         <tr>
-                                                                            <td><a href="#track" data-link="{{ asset('form/track/'.$row->route_no) }}" data-route="{{ $row->route_no }}" data-toggle="modal" class="btn btn-sm btn-success col-sm-12" style="background-color:darkmagenta;color:white;"><i class="fa fa-line-chart"></i> Track</a></td>
+                                                                            <td><a href="#track" data-link="{{ asset('form/track/'.$row->route_no) }}" data-route="{{ $row->route_no }}" data-toggle="modal" class="btn btn-sm btn-success col-sm-12" style="background-color:#9C8AA5;color:white;"><i class="fa fa-line-chart"></i> Track</a></td>
                                                                             <td><a class="title-info" data-backdrop="static" data-route="{{ $row->route_no }}" style="color: #f0ad4e;" data-link="{{ asset('/form/info/'.$row->route_no.'/cdo') }}" href="#document_info" data-toggle="modal">{{ $row->route_no }}</a></td>
                                                                             <td>{{ date('M d, Y',strtotime($row->prepared_date)) }}<br>{{ date('h:i:s A',strtotime($row->prepared_date)) }}</td>
-                                                                            <td>CTO</td>
                                                                             <td>{{ $row->subject }}</td>
                                                                             @if($row->approved_status)
                                                                                 <td class="text-center"><span class="label label-info"><i class="fa fa-smile-o"></i> Approved </span></td>
                                                                             @else
-                                                                                <td class="text-center"><span class="label label-danger"><i class="fa fa-frown-o"></i> Disapprove </span></td>
+                                                                                <td class="text-center"><span class="label label-danger"><i class="fa fa-frown-o"></i> Pending to approved.. </span></td>
                                                                             @endif
                                                                         </tr>
                                                                     @endforeach

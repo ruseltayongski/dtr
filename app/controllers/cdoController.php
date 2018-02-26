@@ -32,20 +32,20 @@ class cdoController extends BaseController
                         ->orWhere("subject","like","%$keyword%");
                 })
                 ->orderBy('id','desc')
-                ->paginate(2);
+                ->paginate(10);
             $cdo['paginate_approve'] = cdo::where('approved_status',1)
                 ->where(function($q) use ($keyword){
                     $q->where("route_no","like","%$keyword%")
                         ->orWhere("subject","like","%$keyword%");
                 })
                 ->orderBy('id','desc')
-                ->paginate(2);
+                ->paginate(10);
             $cdo['paginate_all'] = cdo::where(function($q) use ($keyword){
                 $q->where("route_no","like","%$keyword%")
                     ->orWhere("subject","like","%$keyword%");
             })
                 ->orderBy('id','desc')
-                ->paginate(2);
+                ->paginate(10);
             $type = "pending";
 
             if (Request::ajax()) {
@@ -68,11 +68,16 @@ class cdoController extends BaseController
                     "paginate_disapprove" => $cdo["paginate_disapprove"],
                     "paginate_approve" => $cdo["paginate_approve"],
                     "paginate_all" => $cdo["paginate_all"],
-                    "view" => View::make($view,["cdo" => $cdo,"type" => $type])->render()
+                    "view" => View::make($view,[
+                        "cdo" => $cdo,
+                        "type" => $type
+                    ])->render()
                 ));
             }
-
-            return View::make('cdo.cdo_list',["cdo" => $cdo,"type" => $type]);
+            return View::make('cdo.cdo_list',[
+                "cdo" => $cdo,
+                "type" => $type,
+            ]);
 
         } else {
             $cdo['my_cdo'] = cdo::where('prepared_name',pdoController::user_search(Auth::user()->userid)['id'])
@@ -81,22 +86,28 @@ class cdoController extends BaseController
                         ->orWhere("subject","like","%$keyword%");
                 })
                 ->orderBy('id','desc')
-                ->paginate(2);
+                ->paginate(10);
             return View::make('cdo.cdo_list',["cdo" => $cdo]);
         }
     }
 
     public function cdov1($pdf = null){
-        $cdo = cdo::where('route_no',Session::get('route_no'))->first();
+        
         if($pdf == 'pdf') {
+            $cdo = cdo::where('route_no',Session::get('route_no'))->first();
             $name = pdoController::user_search1($cdo->prepared_name);
+            $userid = $name['username'];
         }
         else {
+            $cdo = cdo::where('route_no','dummy')->first();
             $name = pdoController::user_search(Auth::user()->userid);
+            $userid = Auth::user()->userid;
         }
+
         $position = pdoController::designation_search($name['designation'])['description'];
         $section = pdoController::search_section($name['section'])['description'];
         $division = pdoController::search_division($name['division'])['description'];
+
         if($pdf == 'pdf'){
             $section_head = pdoController::user_search1($cdo['immediate_supervisor']);
             $division_head = pdoController::user_search1($cdo['division_chief']);
@@ -118,7 +129,8 @@ class cdoController extends BaseController
             "section" => $section,
             "division" => $division,
             "section_head" => $section_head,
-            "division_head" => $division_head
+            "division_head" => $division_head,
+            "bbalance_cto" => InformationPersonal::where('userid',$userid)->first()->bbalance_cto
         );
         if($pdf == 'pdf') {
             $display = View::make('cdo.cdo_pdf', ["data" => $data]);
@@ -160,6 +172,12 @@ class cdoController extends BaseController
         $cdo->working_days = $working_days;
         $cdo->start = $start_date;
         $cdo->end = $end_date;
+
+        $cdo->beginning_balance = Input::get('beginning_balance');
+        $cdo->less_applied_for = Input::get('less_applied');
+        $cdo->remaining_balance = Input::get('remaining_balance');
+        $cdo->cdo_hours = Input::get('cdo_hours');
+    
         $cdo->immediate_supervisor = Input::get('immediate_supervisor');
         $cdo->division_chief = Input::get('division_chief');
         $cdo->save();
@@ -217,7 +235,7 @@ class cdoController extends BaseController
 
     }
 
-    public function dtr_file($start_date,$end_date,$prepared_name){
+    public function dtr_file($start_date,$end_date,$prepared_name,$cdo_hours = null){
         $dtr_enddate  = date('Y-m-d',(strtotime ( '-1 day' , strtotime ($end_date))));
 
         $f = new DateTime($start_date.' '. '00:00:00');
@@ -228,27 +246,53 @@ class cdoController extends BaseController
         $datein = '';
         $f_from = explode('-',$start_date);
         $startday = $f_from[2];
+        
         $j = 0;
+        $userid = null;
+        $type = null;
+        $time = null;
+        
         while($j <= $interval->days) {
+            if($j == $interval->days){
+                if($cdo_hours == 'cdo_am'){
+                    $time = array('08:00:00','12:00:00');
+                    $type = 'AM';
+                } 
+                elseif($cdo_hours == 'cdo_pm') {
+                    $time = array('13:00:00','17:00:00');
+                    $type = 'PM';
+                }
+            }else {
+                $time = array('08:00:00','12:00:00','13:00:00','18:00:00');
+                $type = 'WH';
+            }
 
-            $time = array('08:00:00','12:00:00','13:00:00','18:00:00');
+            $event = null;
             $datein = $f_from[0].'-'.$f_from[1] .'-'. $startday;
-
+            $userid = pdoController::user_search1($prepared_name)['username'];
+            
             for($i = 0; $i < count($time); $i++):
-                $details = new DtrDetails();
-                $details->userid = pdoController::user_search1($prepared_name)['username'];
+                if($i % 2 === 0)
+                    $event = 'IN';
+                else
+                    $event = 'OUT';
+                //$details = new DtrDetails();
+                $details = new CdoLogs();
+                $details->userid = $userid;
                 $details->datein = $datein;
                 $details->time = $time[$i];
-                $details->event = 'IN';
+                $details->event = $event;
                 $details->remark = 'CTO';
                 $details->edited = '1';
                 $details->holiday = '002';
+                $details->time_type = $type;
 
                 $details->save();
             endfor;
 
             $startday = $startday + 1;
             $j++;
+
         }
     }
     public function dtr_delete_cto($start_date,$end_date){
@@ -257,21 +301,32 @@ class cdoController extends BaseController
             ->whereBetween('datein',array($start_date,$dtr_enddate))
             ->delete();
     }
-    public function cdo_updatev1($id = null,$type = null){
-        if($id){
-            $cdo = cdo::where('id',$id)->first();
-            //delete dtr file
-            $this->dtr_delete_cto($cdo->start,$cdo->end);
 
+    public function cdo_updatev1($id = null,$type = null){
+       
+        if($id){ //AJAX PROCESS
+            $cdo = cdo::where('id',$id)->first();
+            $userid = pdoController::user_search1($cdo->prepared_name)['username'];
+            
             if($cdo->approved_status){
+                InformationPersonal::where('userid',$userid)->update([
+                    "bbalance_cto" => (int)$cdo->remaining_balance + (int)$cdo->less_applied_for
+                ]);
                 $cdo->approved_status = 0;
+                //delete dtr file
+                $this->dtr_delete_cto($cdo->start,$cdo->end);
             } else {
+                InformationPersonal::where('userid',$userid)->update([
+                    "bbalance_cto" => (int)$cdo->beginning_balance - (int)$cdo->less_applied_for
+                ]);
+                
                 $cdo->approved_status = 1;
-                $this->dtr_file($cdo->start,$cdo->end,$cdo->prepared_name);
+                $this->dtr_file($cdo->start,$cdo->end,$cdo->prepared_name,$cdo->cdo_hours);
+                    
             }
             $cdo->save();
-            $keyword = '';
 
+            $keyword = '';
             $cdo["count_disapprove"] = cdo::where('approved_status',0)->get();
             $cdo["count_approve"] = cdo::where('approved_status',1)->get();
             $cdo["count_all"] = cdo::all();
@@ -282,23 +337,23 @@ class cdoController extends BaseController
                         ->orWhere("subject","like","%$keyword%");
                 })
                 ->orderBy('id','desc')
-                ->paginate(2);
+                ->paginate(10);
             $cdo["paginate_approve"] = cdo::where('approved_status',1)
                 ->where(function($q) use ($keyword){
                     $q->where("route_no","like","%$keyword%")
                         ->orWhere("subject","like","%$keyword%");
                 })
                 ->orderBy('id','desc')
-                ->paginate(2);
+                ->paginate(10);
             $cdo["paginate_all"] = cdo::where(function($q) use ($keyword){
                 $q->where("route_no","like","%$keyword%")
                     ->orWhere("subject","like","%$keyword%");
             })
                 ->orderBy('id','desc')
-                ->paginate(2);
+                ->paginate(10);
 
             if(Request::ajax()) {
-                if($type == 'approve') {
+                if($type == 'approve') {    
                     $view = 'cdo.cdo_approve';
                 }
                 elseif($type == 'disapprove') {
@@ -317,10 +372,12 @@ class cdoController extends BaseController
                     "view" => View::make($view,["cdo" => $cdo,"type" => $type])->render()
                 ));
             }
+
         } else {
             $route_no = Session::get('route_no');
             $prepared_date = date('Y-m-d',strtotime(Input::get('prepared_date'))).' '.date('H:i:s');
             $info = cdo::where('route_no',$route_no)->first();
+            $userid = pdoController::user_search1($info['prepared_name'])['username'];
 
             $str = Input::get('inclusive_dates');
             $temp1 = explode('-',$str);
@@ -334,32 +391,17 @@ class cdoController extends BaseController
             date_add($enddate, date_interval_create_from_date_string('1days'));
             $end_date = date_format($enddate, 'Y-m-d');
             $subject = Input::get('subject');
-            $working_days = floor(strtotime($end_date) / (60 * 60 * 24)) - floor(strtotime($start_date) / (60 * 60 * 24)) - 1;
+            $working_days = floor(strtotime($end_date) / (60 * 60 * 24)) - floor(strtotime($start_date) / (60 * 60 * 24));
 
-            if(Auth::user()->usertype){
-                $beginning_balance = Input::get('beginning_balance');
-                $less_applied = Input::get('less_applied');
-                $remaining_balance = Input::get('remaining_balance');
-            } else{
-                $beginning_balance = $info->beginning_balance;
-                $less_applied = $info->less_applied_for;
-                $remaining_balance = $info->remaining_balance;
-            }
+            $beginning_balance = Input::get('beginning_balance');
+            $less_applied = Input::get('less_applied');
+            $remaining_balance = Input::get('remaining_balance');
+            $cdo_hours = Input::get('cdo_hours');
 
-            if(Auth::user()->usertype and Input::get('approval')) {
-                //delete dtr file para ilisan og bag o
-                $this->dtr_delete_cto($info->start,$info->end);
-
+            if( $info->approved_status ) {
                 $approved_status = 1;
-                $this->dtr_file($start_date,$end_date,$info->prepared_name);
-            }
-            elseif(Input::get('disapproval')) {
-                $approved_status = 0;
-                //delete dtr file
-                $this->dtr_delete_cto($info->start,$info->end);
-            }
+            }   
             else{
-                //STANDAR USER
                 $approved_status = 0;
             }
 
@@ -373,9 +415,10 @@ class cdoController extends BaseController
                 "beginning_balance" => $beginning_balance,
                 "less_applied_for" => $less_applied,
                 "remaining_balance" => $remaining_balance,
+                "cdo_hours" => $cdo_hours,
                 "immediate_supervisor" => Input::get('immediate_supervisor'),
                 "division_chief" => Input::get('division_chief'),
-                "approved_status" => $approved_status
+                "approved_status" => $approved_status,
             ]);
 
             //UPDATE TRACKING MASTER
@@ -405,8 +448,7 @@ class cdoController extends BaseController
 
         //delete cdo and dtr file
         $cdo = cdo::where('route_no',$route_no)->first();
-        $details = DtrDetails::where('holiday','=', '002')
-            ->whereBetween('datein',array($cdo->start,$cdo->end));
+        $details = CdoLogs::whereBetween('datein',array($cdo->start,$cdo->end));
         $details->delete();
         $cdo->delete();
 
@@ -421,6 +463,35 @@ class cdoController extends BaseController
 
         Session::put('deleted',true);
         return Redirect::to('form/cdo_list');
+    }
+
+    public function beginning_balance(){
+        Session::put('keyword',Input::get('keyword'));
+        $keyword = Session::get('keyword');
+
+        $pis = InformationPersonal::
+            where('user_status','=','1')
+            ->where(function($q) use ($keyword){
+                $q->where('fname','like',"%$keyword%")
+                    ->orWhere('mname','like',"%$keyword%")
+                    ->orWhere('lname','like',"%$keyword%")
+                    ->orWhere('userid','like',"%$keyword%");
+            })
+                ->orderBy('fname','asc')
+                ->paginate(10);
+        return View::make('cdo.beginning_balance')->with('pis',$pis);
+    }
+
+    public function update_bbalance(){
+        $userid = Input::get('userid');
+        $beginning_balance = Input::get('beginning_balance');
+
+        InformationPersonal::where('userid',$userid)->update([
+            "bbalance_cto" => $beginning_balance 
+        ]);
+
+
+        return Redirect::back();
     }
 
 }

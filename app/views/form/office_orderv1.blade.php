@@ -20,7 +20,7 @@
                     Official Website:<a target="_blank" href="http://www.ro7.doh.gov.ph"><u>http://www.ro7.doh.gov.ph</u></a> Email Address: dohro7{{ '@' }}gmail.com
                 </div>
                 <div class="col-sm-2">
-                    <img height="130" width="130" src="{{ asset('public/img/ro7.png') }}" />
+                    <img height="130" width="130" src="{{ asset('public/img/doh.png') }}" />
                 </div>
             </div>
             <div class="box box-info">
@@ -52,7 +52,7 @@
                         <div class="form-group">
                             <label class="col-sm-3 control-label">Header Body</label>
                             <div class="col-sm-9">
-                                <textarea class="form-control wysihtml5" name="header_body" rows="3" style="resize:none;" required>.</textarea>
+                                <textarea class="form-control wysihtml5" name="header_body" rows="3" required>.</textarea>
                             </div>
                         </div>
                     </div>
@@ -75,10 +75,11 @@
                             </div>
                         </div>
                     </div>
+                    
                     <div class="p_inclusive_date">
                         <div class="form-group">
                             <label class="col-sm-3 control-label">Inclusive Date and Area</label>
-                            <div class="col-sm-4">
+                            <div class="col-sm-9">
                                 <div class="input-group">
                                     <div class="input-group-addon">
                                         <i class="fa fa-calendar"></i>
@@ -86,16 +87,30 @@
                                     <input type="text" class="form-control" id="inclusive1" name="inclusive[]" placeholder="Input date range here..." required>
                                 </div>
                             </div>
-                            <div class="col-sm-5">
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Area</label>
+                            <div class="col-sm-9">
                                 <div class="input-group">
                                     <div class="input-group-addon">
                                         <i class="fa fa-location-arrow"></i>
                                     </div>
-                                    <textarea name="area[]" id="area1" class="form-control" style="resize: none;width: 90%" rows="1" placeholder="Input your area here..." required></textarea>
+                                    <textarea name="area[]" id="area1" class="form-control" style="resize: none;" rows="1" placeholder="Input your area here..." required></textarea>
                                 </div>
                             </div>
                         </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">SO Time</label>
+                            <div class="col-sm-9">
+                                <select class="form-control" name="so_time[]" id="so_time">
+                                    <option value="wholeday">Whole Day</option>
+                                    <option value="am">Half day / AM</option>
+                                    <option value="pm">Half day / PM</option>
+                                </select>
+                            </div>
+                        </div>
                     </div>
+
                     <div class="form-group">
                         <div class="col-sm-12">
                             <button class="btn-xs btn-primary pull-right" type="button" style="color: white" onclick="add_inclusive();"><i class="fa fa-plus"></i> Add inclusive date</button>
@@ -106,7 +121,7 @@
                         <div class="form-group">
                             <label class="col-sm-3 control-label">Entitled Body</label>
                             <div class="col-sm-9">
-                                <textarea class="form-control wysihtml5_1" name="footer_body" rows="3" style="resize:none;" required>.</textarea>
+                                <textarea class="form-control wysihtml5_1" name="footer_body" rows="3" required>.</textarea>
                             </div>
                         </div>
                         <div class="form-group">
@@ -119,6 +134,7 @@
                                     <input type="hidden" value="Jaime S. Bernadas, MD, MGM, CESO III" id="get_director">
                                     <select name="approved_by" id="approved_by" class="form-control" onchange="approved($(this))" required>
                                         <option value="Jaime S. Bernadas, MD, MGM, CESO III">Jaime S. Bernadas, MD, MGM, CESO III</option>
+                                        <option value="SOPHIA MANCAO MD, DPSP">SOPHIA MANCAO MD, DPSP</option>
                                         <option value="Ruben S. Siapno,MD,MPH">Ruben S. Siapno,MD,MPH</option>
                                     </select>
                                 </div>
@@ -141,21 +157,39 @@
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Cancel</button>
-            <a href="#" class="btn btn-info" onclick="proceed()" style="color:white"><i class="fa fa-file"></i> Proceed form into v2</a>
+            <a href="#" class="btn btn-warning btnV1" onclick="proceedv1()" style="color:white"><i class="fa fa-file"></i> Downgrade form into v1</a>
+            <a href="#" class="btn btn-info btnV2" onclick="proceedv2()" style="color:white"><i class="fa fa-file"></i> Proceed form into v2</a>
             <button type="submit" class="btn btn-success btn-submit" style="color:white;"><i class="fa fa-send"></i> Submit</button>
         </div>
     </form>
 <script>
     $(".proceed").hide();
-    function proceed(){
+    $(".btnV1").hide();
+
+    function proceedv1(){
         $('.modal-title').html('Office Order. Form Version 2');
+        $(".proceed_loading").html(loadingState);
+        $('input[name=version]').val("1");
+        setTimeout(function(){
+            $(".proceed_loading").html('');
+            $(".proceed").hide()
+            $(".btnV1").hide();
+            $(".btnV2").show();
+        },700);
+    }
+    function proceedv2(){
+        $('.modal-title').html('Office Order. Form Version 1');
         $(".proceed_loading").html(loadingState);
         $('input[name=version]').val("2");
         setTimeout(function(){
             $(".proceed_loading").html('');
             $(".proceed").show()
+            $(".btnV1").show();
+            $(".btnV2").hide();
         },700);
     }
+
+
     $(".wysihtml5").wysihtml5();
     $(".wysihtml5_1").wysihtml5();
     $('.datepickercalendar').datepicker({
@@ -196,6 +230,8 @@
             $(".director").val('Director IV');
         else if(data.val() == 'Ruben S. Siapno,MD,MPH')
             $(".director").val('Director III');
+        else if(data.val() == 'SOPHIA MANCAO MD, DPSP')
+        	$(".director").val('OIC - Director III');
         else
             $(".director").val('');
     }
