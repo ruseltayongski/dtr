@@ -18,7 +18,6 @@ App::before(function($request)
 		if (Session::token() != Input::get('_token'))
 		{
 			return Redirect::to('/');
-			//throw new Illuminate\Session\TokenMismatchException;
 		}
 	}
 });

@@ -336,6 +336,7 @@ class PDF extends FPDF
                         $this->Cell(8,5,$day_name,'');
 
 
+
                         $cto = null;
                         $so = null;
 
@@ -392,6 +393,7 @@ class PDF extends FPDF
                                 }
                             }
                         }
+
 
                         //if($day_name == 'Sat' || $day_name == 'Sun' AND $am_in == '') $am_out = 'DAY OFF';
                         if(isset($e1) and $e1 == "1"){
