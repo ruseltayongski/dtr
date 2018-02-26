@@ -297,7 +297,7 @@ class cdoController extends BaseController
     }
     public function dtr_delete_cto($start_date,$end_date){
         $dtr_enddate  = date('Y-m-d',(strtotime ( '-1 day' , strtotime ($end_date))));
-        DtrDetails::where('holiday','=', '002')
+        CdoLogs::where('holiday','=', '002')
             ->whereBetween('datein',array($start_date,$dtr_enddate))
             ->delete();
     }

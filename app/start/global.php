@@ -51,8 +51,8 @@ Log::useFiles(storage_path().'/logs/laravel.log');
 App::error(function(Exception $exception, $code)
 {
 
-    return Redirect::to('/');
-	//Log::error($exception);
+    //return Redirect::to('/');
+	Log::error($exception);
 
 });
 
