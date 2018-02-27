@@ -236,7 +236,7 @@
                     <table width="100%">
                         <tr>
                             <td class="align">
-                                <select  class="chosen-select-static form-control" name="immediate_supervisor" required>
+                                <select class="chosen-select-static form-control" name="immediate_supervisor" required>
                                     @if($data['type'] == 'update')
                                         <option value="{{ $data['section_head'][0]['id'] }}">{{ $data['section_head'][0]['fname'].' '.$data['section_head'][0]['mname'].' '.$data['section_head'][0]['lname'] }}</option>
                                     @endif
@@ -254,7 +254,7 @@
                         <tr>
                             <td class="align">
                                 <br><br>
-                                <select  class="form-control" name="division_chief" required>
+                                <select class="form-control" name="division_chief" required>
                                     @if($data['type'] == 'update')
                                         <option value="{{ $data['division_head'][0]['id'] }}">{{ $data['division_head'][0]['fname'].' '.$data['division_head'][0]['mname'].' '.$data['division_head'][0]['lname'] }}</option>
                                     @endif
