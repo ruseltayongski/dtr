@@ -88,24 +88,52 @@
                     $count = 1;
                     foreach($inclusive_date as $row):
                     ?>
-                    <div class="form-group" id="<?php echo $count; ?>">
-                        <label class="col-sm-3 control-label">Inclusive Date and Area</label>
-                        <div class="col-sm-4">
-                            <div class="input-group">
-                                <div class="input-group-addon">
-                                    <i class="fa fa-calendar"></i>
+                    <div id="<?php echo $count; ?>">
+                  
+                        <hr>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Inclusive Date and Area</label>
+                            <div class="col-sm-9">
+                                <div class="input-group">
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-calendar"></i>
+                                    </div>
+                                    <input type="text" class="form-control" value="<?php echo date('m/d/Y',strtotime($row->start)).' - '.date('m/d/Y',strtotime('-1 day',strtotime($row->end))); ?>" id="inclusive1" name="inclusive[]" placeholder="Input date range here..." required>
                                 </div>
-                                <input type="text" class="form-control" value="<?php echo date('m/d/Y',strtotime($row->start)).' - '.date('m/d/Y',strtotime('-1 day',strtotime($row->end))); ?>" id="<?php echo 'inclusive'.$count; ?>" name="inclusive[]" placeholder="Input date range here..." required>
                             </div>
                         </div>
-                        <div class="col-sm-5">
-                            <div class="input-group">
-                                <div class="input-group-addon">
-                                    <i class="fa fa-location-arrow"></i>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Area</label>
+                            <div class="col-sm-9">
+                                <div class="input-group">
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-location-arrow"></i>
+                                    </div>
+                                    <textarea name="area[]" id="area1" class="form-control" style="resize: none;" rows="1" placeholder="Input your area here..." required><?php echo $row->area; ?></textarea>
                                 </div>
-                                <textarea name="area[]" id="area1" class="form-control" style="resize: none;width: 90%" rows="1" placeholder="Input your area here..." required><?php echo $row->area; ?></textarea>
                             </div>
                         </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">SO Time</label>
+                            <div class="col-sm-9">
+                                <select class="form-control" name="so_time[]" id="so_time">
+                                    <?php if( $row->so_time == 'wholeday' ): ?>
+                                        <option value="wholeday">Whole Day</option>
+                                        <option value="am">Half day / AM</option>
+                                        <option value="pm">Half day / PM</option>
+                                    <?php elseif( $row->so_time == 'am' ): ?>
+                                        <option value="am">Half day / AM</option>
+                                        <option value="pm">Half day / PM</option>
+                                        <option value="wholeday">Whole Day</option>
+                                    <?php else: ?>
+                                        <option value="pm">Half day / PM</option>
+                                        <option value="am">Half day / AM</option>
+                                        <option value="wholeday">Whole Day</option>   
+                                    <?php endif; ?>
+                                </select>
+                            </div>
+                        </div>
+
                     </div>
                     <?php
                     $count++;

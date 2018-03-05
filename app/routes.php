@@ -64,6 +64,14 @@ Route::get('attendance/q', 'DtrController@filter_attendance');
 Route::match(array('GET','POST'),'resetpass', 'PasswordController@change_password');
 //Route::post('/', 'PasswordController@save_changes');
 
+//LEAVE PROCCES
+
+Route::get('tracked/leave','AdminController@track_leave');
+Route::post('leave/approval','AdminController@approve_leave');
+Route::get('leave/cancel/{route_no}','AdminController@cancel_leave');
+Route::get('search/leave','AdminController@search_leave');
+
+
 
 //DTR
 

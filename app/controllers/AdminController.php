@@ -205,6 +205,7 @@ class AdminController extends BaseController
         $user->username = Input::get('userid');
         $user->password = Hash::make('123');
         $user->emptype = Input::get('emptype');
+        $user->usertype = Input::get('usertype');
         $user->unique_row = Input::get('userid');
         $user->save();
         return Redirect::to('/');
@@ -345,5 +346,106 @@ class AdminController extends BaseController
             }
         }
         return Redirect::to('employees');
+    }
+
+    public function track_leave()
+    {
+        $leaves = DB::table('leave')->orderBy('created_at','ASC')->paginate(20);
+        return View::make('form.leave_list',['leaves' => $leaves]);
+        
+    }
+    public function approve_leave()
+    {
+        DB::table('leave')->where('route_no','=',Input::get('route_no'))->update(['approve' => 1]);
+        $leave = DB::table('leave')->where('route_no','=',Input::get('route_no'))->first();
+        $from = date('Y-m-d',strtotime($leave->inc_from));
+
+        $end_date = date('Y-m-d',strtotime($leave->inc_to));
+
+        $f = new DateTime($from.' '. '24:00:00');
+        $t = new DateTime($end_date.' '. '24:00:00');
+
+
+        $interval = $f->diff($t);
+        $remarks = "LEAVE";
+        $datein = '';
+        $f_from = explode('-',$from);
+        $startday = $f_from[2];
+        $j = 0;
+        while($j <= $interval->days) {
+
+            $datein = $f_from[0].'-'.$f_from[1] .'-'. $startday;
+
+            $details = new DtrDetails();
+            $details->userid = $leave->userid;
+            $details->datein = $datein;
+            $details->time = '08:00:00';
+            $details->event = 'IN';
+            $details->remark = $remarks;
+            $details->edited = '1';
+            $details->holiday = '006';
+
+            $details->save();
+
+            $details = new DtrDetails();
+            $details->userid =  $leave->userid;
+            $details->datein = $datein;
+            $details->time = '12:00:00';
+            $details->event = 'OUT';
+            $details->remark = $remarks;
+            $details->edited = '1';
+            $details->holiday = '006';
+
+            $details->save();
+
+            $details = new DtrDetails();
+            $details->userid =  $leave->userid;
+            $details->datein = $datein;
+            $details->time = '13:00:00';
+            $details->event = 'IN';
+            $details->remark = $remarks;
+            $details->edited = '1';
+            $details->holiday = '006';
+
+            $details->save();
+
+            $details = new DtrDetails();
+            $details->userid =$leave->userid;
+            $details->datein = $datein;
+            $details->time = '18:00:00';
+            $details->event = 'OUT';
+            $details->remark = $remarks;
+            $details->edited = '1';
+            $details->holiday = '006';
+
+            $details->save();
+            
+            $startday = $startday + 1;
+            $j++;
+        }
+        return Redirect::to('tracked/leave');
+    }
+
+    public function cancel_leave($route_no) {
+        $leave = DB::table('leave')->where('route_no','=',$route_no)->first();
+        DB::table('dtr_file')
+                    ->where('userid','=',$leave->userid)
+                    ->where('edited','=',1)
+                    ->where('holiday','=','006')
+                    ->whereBetween('datein',array($leave->inc_from,$leave->inc_to))
+                    ->delete();
+        DB::table('leave')->where('route_no','=',$route_no)->update(['approve' => 0]);
+        return Redirect::to('tracked/leave');
+    }
+    public function search_leave()
+    {
+        $q = Input::get('q');
+        $leaves = DB::table('leave')
+                        ->where('route_no','LIKE', "%$q%")
+                        ->orWhere('firstname','LIKE',"%$q%")
+                        ->orWhere('lastname','LIKE',"%$q%")
+                        ->orderBy('created_at','ASC')
+                        ->paginate(20);
+        return View::make('form.leave_list',['leaves' => $leaves]);               
     }
 }

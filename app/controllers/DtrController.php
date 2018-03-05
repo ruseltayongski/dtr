@@ -81,7 +81,6 @@ class DtrController extends BaseController
 
                 $query1 .= "('','','','','','',NOW(),NOW())";
 
-
                 $query2 .= "('','','','','','','','','',NOW(),NOW())";
 
                 $query3 .= "('','','','','','','',NOW(),NOW())";
