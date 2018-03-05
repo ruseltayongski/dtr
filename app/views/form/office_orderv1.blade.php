@@ -69,7 +69,7 @@
                             <div class="inclusive_name">
                                 <select class='form-control select2' name='inclusive_name[]' multiple='multiple' data-placeholder='Select a name' required>
                                     @foreach($users as $row)
-                                        <option value='{{ $row['id'] }}'>{{ $row['fname'].' '.$row['mname'].' '.$row['lname'] }}</option>
+                                        <option value='{{ $row->userid }}'>{{ $row->fname.' '.$row->mname.' '.$row->lname }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -134,7 +134,7 @@
                                     <input type="hidden" value="Jaime S. Bernadas, MD, MGM, CESO III" id="get_director">
                                     <select name="approved_by" id="approved_by" class="form-control" onchange="approved($(this))" required>
                                         <option value="Jaime S. Bernadas, MD, MGM, CESO III">Jaime S. Bernadas, MD, MGM, CESO III</option>
-                                        <option value="SOPHIA MANCAO MD, DPSP">SOPHIA MANCAO MD, DPSP</option>
+                                        <option value="Sophia M. Mancao, MD, DPSP">Sophia M. Mancao, MD, DPSP</option>
                                         <option value="Ruben S. Siapno,MD,MPH">Ruben S. Siapno,MD,MPH</option>
                                     </select>
                                 </div>
@@ -230,7 +230,7 @@
             $(".director").val('Director IV');
         else if(data.val() == 'Ruben S. Siapno,MD,MPH')
             $(".director").val('Director III');
-        else if(data.val() == 'SOPHIA MANCAO MD, DPSP')
+        else if(data.val() == 'Sophia M. Mancao, MD, DPSP')
         	$(".director").val('OIC - Director III');
         else
             $(".director").val('');

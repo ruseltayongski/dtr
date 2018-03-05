@@ -77,7 +77,7 @@
                         <div class="inclusive_name">
                             <select class='form-control select2' name='inclusive_name[]' multiple='multiple' data-placeholder='Select a name' required>
                                 <?php foreach($users as $row): ?>
-                                    <option value='<?php echo $row['id']; ?>'><?php echo $row['fname'].' '.$row['mname'].' '.$row['lname']; ?></option>
+                                    <option value='<?php echo $row->userid; ?>'><?php echo $row->fname.' '.$row->mname.' '.$row->lname; ?></option>
                                 <?php endforeach; ?>
                             </select>
                         </div>
@@ -201,18 +201,18 @@
                                         <option value="">Select Name</option>
                                         <option value="Jaime S. Bernadas, MD, MGM, CESO III">Jaime S. Bernadas, MD, MGM, CESO III</option>
                                         <option value="Ruben S. Siapno,MD,MPH">Ruben S. Siapno,MD,MPH</option>
-                                        <option value="SOPHIA MANCAO MD, DPSP">SOPHIA MANCAO MD, DPSP</option>
+                                        <option value="Sophia M. Mancao, MD, DPSP">Sophia M. Mancao, MD, DPSP</option>
                                     <?php else: ?>
                                         <option value="<?php echo $info->approved_by; ?>"><?php echo $info->approved_by; ?></option>
                                         <?php if($info->approved_by == 'Jaime S. Bernadas, MD, MGM, CESO III'): ?>
-                                            <option value="SOPHIA MANCAO MD, DPSP">SOPHIA MANCAO MD, DPSP</option>
+                                            <option value="Sophia M. Mancao, MD, DPSP">Sophia M. Mancao, MD, DPSP</option>
                                             <option value="Ruben S. Siapno,MD,MPH">Ruben S. Siapno,MD,MPH</option>
-                                        <?php elseif($info->approved_by == 'SOPHIA MANCAO MD, DPSP'): ?>    
+                                        <?php elseif($info->approved_by == 'Sophia M. Mancao, MD, DPSP'): ?>
                                             <option value="Jaime S. Bernadas, MD, MGM, CESO III">Jaime S. Bernadas, MD, MGM, CESO III</option>
                                             <option value="Ruben S. Siapno,MD,MPH">Ruben S. Siapno,MD,MPH</option>
                                         <?php elseif($info->approved_by == 'Ruben S. Siapno,MD,MPH'): ?>    
                                             <option value="Jaime S. Bernadas, MD, MGM, CESO III">Jaime S. Bernadas, MD, MGM, CESO III</option>
-                                            <option value="SOPHIA MANCAO MD, DPSP">SOPHIA MANCAO MD, DPSP</option>
+                                            <option value="Sophia M. Mancao, MD, DPSP">Sophia M. Mancao, MD, DPSP</option>
                                         <?php endif; ?>
                                     <?php endif; ?>
                                 </select>

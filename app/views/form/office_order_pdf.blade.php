@@ -86,6 +86,9 @@ $item_no = 1;
 </div>
 <body>
 <div class="new-times-roman">
+    <div style="position:absolute;margin-left: 182px;margin-top: 208px;">
+        <b>:</b>
+    </div>
     <table class="letter-head" cellpadding="0" cellspacing="0">
         <tr>
             <td id="no-border" class="align"><img src="{{ asset('public/img/doh.png') }}" width="100"></td>
@@ -102,22 +105,34 @@ $item_no = 1;
         </tr>
     </table>
     <hr>
-
     <table class="letter-head" cellpadding="0" cellspacing="0">
         <tr>
-            <td colspan="4" id="no-border">{{ date('d M Y',strtotime($office_order->prepared_date)) }}</td>
+            <td colspan="4" id="no-border">
+                <?php
+                    $monthA=array(array("Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec")
+                    ,array("January","Febuary","March","April","May","June","July","August","September","October","November","December"));
+                    $m=date('M',strtotime($office_order->prepared_date));
+                    for($i=0;$i<count($monthA[0]);$i++){
+                        if($m==$monthA[0][$i]){
+                            $pos=$i;
+                            break;
+                        }
+                    }
+                    echo str_replace( $m,$monthA[1][$pos],date('d M Y',strtotime($office_order->prepared_date)) );
+                ?>
+            </td>
         </tr>
         <tr>
-            <td colspan="1" id="no-border" width="20%"><b>OFFICE ORDER</b></td>
-            <td colspan="3" id="no-border" width="80%">)</td>
+            <td colspan="1" id="no-border" width="25%"><b>OFFICE ORDER</b></td>
+            <td colspan="3" id="no-border" width="75%">)</td>
         </tr>
         <tr>
-            <td colspan="1" id="no-border" width="20%">No.<h2 style="display: inline;"><u>&nbsp;&nbsp;&nbsp;<!-- {{ sprintf('%04u',$office_order->id) }} -->&nbsp;&nbsp;&nbsp;</u></h2>{{ 's.,'.date('Y',strtotime($office_order->prepared_date)) }}&nbsp;&nbsp;<b></b></td>
-            <td colspan="3" id="no-border" width="80%">)</td>
+            <td colspan="1" id="no-border" width="25%">No.<h2 style="display: inline;"><u>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<!-- {{ sprintf('%04u',$office_order->id) }} --></u></h2>{{ 's., '.date('Y',strtotime($office_order->prepared_date)) }}&nbsp;&nbsp;<b></b></td>
+            <td colspan="3" id="no-border" width="75%">)</td>
         </tr>
         <tr>
-            <td colspan="1" id="no-border" class="align-top" width="20%"><b>SUBJECT:</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<u></u></td>
-            <td colspan="3" id="no-border" width="80%">:<u>{{ $office_order->subject }}</u></td>
+            <td colspan="1" id="no-border" class="align-top" width="25%"><b>SUBJECT:</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<u></u></td>
+            <td colspan="3" id="no-border" width="75%"><u>{{ $office_order->subject }}</u></td>
         </tr>
         <tr>
             <td colspan="4" id="no-border">{{ nl2br($office_order->header_body) }}</td>
@@ -175,7 +190,7 @@ $item_no = 1;
                 @if($office_order->approved_by == 'Jaime S. Bernadas, MD, MGM, CESO III')
                     Director IV
                 @elseif($office_order->approved_by == 'Sophia M. Mancao, MD, DPSP')
-                    OIC, Director III
+                    OIC - Director III
                 @else
                     Director III
                 @endif
