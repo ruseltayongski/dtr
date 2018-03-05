@@ -174,8 +174,8 @@ $item_no = 1;
                 </b><br>
                 @if($office_order->approved_by == 'Jaime S. Bernadas, MD, MGM, CESO III')
                     Director IV
-                @elseif($office_order->approved_by == 'SOPHIA MANCAO MD, DPSP')
-                    OIC - Director III    
+                @elseif($office_order->approved_by == 'Sophia M. Mancao, MD, DPSP')
+                    OIC, Director III
                 @else
                     Director III
                 @endif
