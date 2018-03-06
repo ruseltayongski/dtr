@@ -14,8 +14,16 @@
                     <?php foreach(Session::get('error')->all() as $error): ?>
                         <li><?php echo $error; ?></li>
                     <?php endforeach; ?>
+                    <li>Password must contain at least one uppercase or lowercase letters and one number</li>
                 </ul>
             </div>
+        </div>
+    <?php endif; ?>
+    <?php if(Session::has('pass_change')): ?>
+        <div class="alert alert-success">
+            <span class="glyphicon glyphicon-info-sign"></span>
+            <?php echo Session::get('pass_change'); ?>
+
         </div>
     <?php endif; ?>
     <div class="row">

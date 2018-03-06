@@ -448,3 +448,25 @@
 </center>
 
 
+
+<div class="modal" tabindex="-1" role="dialog" id="modal_leave">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content" id="schedule_modal">
+            <div class="modal-header" style="background-color:#9C8AA5;color: white;">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title"><i class="fa fa-question-circle"></i>Leave Action</h4>
+            </div>
+            <div class="modal-body">
+                <center>
+                    <p>Approve leave application ?</p>
+                    <form action="<?php echo asset('leave/approval'); ?>" method="POST">
+                        <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
+                        <input type="hidden" value="" name="route_no" id="leave_route" />
+                        <input type="submit" class="btn btn-success" value="Approve">
+                        <button type="button" class="btn btn-warning" data-dismiss="modal">Cancel</button>
+                    </form>
+                </center>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

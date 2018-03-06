@@ -24,9 +24,11 @@ class DocumentController extends BaseController
             return View::make('form.form_leave')->with('user',$user);
         }
         if(Request::method() == 'POST') {
-
-            
-
+            if(Auth::check() AND Auth::user()->usertype == 0){
+                if(Auth::user()->pass_change == NULL){
+                    return Redirect::to('resetpass')->with('pass_change','You must change your password for security after your first log in or resseting password');
+                }
+            }
             $route_no = date('Y-') . Auth::user()->userid . date('mdHis');
 
             
@@ -89,7 +91,7 @@ class DocumentController extends BaseController
             $doc_type = 'APP_LEAVE';
             $prepared_date = date('Y-m-d',strtotime(date('Y-m-d'))).' '.date('H:i:s');
             $dts_user = DB::connection('dts')->select("SELECT id FROM users WHERE username = ? LIMIT 1",array(Auth::user()->userid));
-
+           
             $prepared_by = $dts_user[0]->id;
             $description = "Application for leave";
 
@@ -118,7 +120,6 @@ class DocumentController extends BaseController
 
             Session::put('added',true);
 
-
             return Redirect::to('form/leave/all')->with('message','New application for leave created.');
 
         }
@@ -139,6 +140,7 @@ class DocumentController extends BaseController
 
         return Redirect::to('form/leave/all')->with('message','Leave deleted.');
     }
+    
     public function save_edit_leave()
     {
 

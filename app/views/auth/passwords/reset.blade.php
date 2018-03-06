@@ -17,8 +17,15 @@
                     @foreach(Session::get('error')->all() as $error)
                         <li>{{ $error }}</li>
                     @endforeach
+                    <li>Password must contain at least one uppercase or lowercase letters and one number</li>
                 </ul>
             </div>
+        </div>
+    @endif
+    @if(Session::has('pass_change'))
+        <div class="alert alert-success">
+            <span class="glyphicon glyphicon-info-sign"></span>
+            {{ Session::get('pass_change') }}
         </div>
     @endif
     <div class="row">

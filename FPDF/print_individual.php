@@ -180,6 +180,7 @@ class PDF extends FPDF
                             $pm_in = $log['pm_in'];
                             $pm_out = $log['pm_out'];
 
+
                             if($am_in and $am_out and $pm_in and !$pm_out) {
                                 if($am_out > $pm_in) {
                                     $pm_in = null;
@@ -338,8 +339,8 @@ class PDF extends FPDF
 
                         $cto = null;
                         $so = null;
+                        $edited_logs = null;
 
-                        
 
                         if(!$am_in AND !$am_out AND $pm_in AND $pm_out){
                             $cto = GET_CDO_SO($s_am_in,$s_am_out,$s_pm_in,$s_pm_out,$userid,$datein,'GETCDO');
@@ -350,12 +351,34 @@ class PDF extends FPDF
                                 $so = GET_CDO_SO($s_am_in,$s_am_out,$s_pm_in,$s_pm_out,$userid,$datein,'GETSO');
                                 if($so['holiday'] === '003'){
                                     $am_out = "SO#:".$so['remark'];
+                                } else {
+                                    $edited_logs = GET_CDO_SO($s_am_in,$s_am_out,$s_pm_in,$s_pm_out,$userid,$datein,'EDITED_LOGS');
+                                    if($edited_logs) {
+                                        $am_in =  $edited_logs['am_in'];
+                                        $am_out =  $edited_logs['am_out'];
+
+
+                                        if(isset($am_in)) {
+                                            $a = explode('_', $am_in);
+                                            $e1 = $a[1];
+                                            $am_in = $a[0];
+                                        } else {
+                                            $am_in = '';
+                                            $e1 = '';
+                                        }
+
+                                        if(isset($am_out)) {
+                                            $b = explode('_', $am_out);
+                                            $e2 = $b[1];
+                                            $am_out = $b[0];
+                                        } else {
+                                            $am_out = '';
+                                            $e2 = '';
+                                        }
+                                    }
                                 }
                             }
-                            
-                        }
-
-                        if(!$pm_in AND !$pm_out AND $am_in AND $am_out) {
+                        }else if(!$pm_in AND !$pm_out AND $am_in AND $am_out) {
                             $cto = GET_CDO_SO($s_am_in,$s_am_out,$s_pm_in,$s_pm_out,$userid,$datein,'GETCDO');
 
                             if($cto['remark'] == 'CTO'){
@@ -364,11 +387,34 @@ class PDF extends FPDF
                                 $so = GET_CDO_SO($s_am_in,$s_am_out,$s_pm_in,$s_pm_out,$userid,$datein,'GETSO');
                                 if($so['holiday'] ==='003'){
                                     $pm_out = "SO#:".$so['remark'];
+                                } else {
+                                    $edited_logs = GET_CDO_SO($s_am_in,$s_am_out,$s_pm_in,$s_pm_out,$userid,$datein,'EDITED_LOGS');
+                                    if($edited_logs) {
+                                        $pm_in = $edited_logs['pm_in'];
+                                        $pm_out =  $edited_logs['pm_out'];
+
+                                        if(isset($pm_in)) {
+                                            $c = explode('_', $pm_in);
+                                            $e3 = $c[1];
+                                            $pm_in = $c[0];
+                                        } else {
+                                            $pm_in = '';
+                                            $e3 = '';
+                                        }
+
+                                        if(isset($pm_out)) {
+                                            $d = explode('_', $pm_out);
+                                            $e4 = $d[1];
+                                            $pm_out = $d[0];
+                                        } else {
+                                            $pm_out = '';
+                                            $e4 = '';
+                                        }
+                                    }
                                 }
                             }
-                        }
+                        } else if(!$am_in AND !$am_out AND !$pm_in AND !$pm_out){
 
-                        if(!$am_in AND !$am_out AND !$pm_in AND !$pm_out){
                             $cto = GET_CDO_SO($s_am_in,$s_am_out,$s_pm_in,$s_pm_out,$userid,$datein,'GETCDO');
 
                             if($cto['remark'] == 'CTO'){
@@ -380,6 +426,7 @@ class PDF extends FPDF
                                     $am_out = 'CTO';
                                 }
                             } else {
+
                                 $so = GET_CDO_SO($s_am_in,$s_am_out,$s_pm_in,$s_pm_out,$userid,$datein,'GETSO');
                                 if($so['holiday'] === '003'){
                                     if($so['time_type'] == 'WH') {
@@ -389,9 +436,97 @@ class PDF extends FPDF
                                     }elseif($so['time_type'] == 'PM') {
                                         $pm_out = "SO#:".$so['remark'];
                                     }
+                                } else {
+
+                                    $edited_logs = GET_CDO_SO($s_am_in,$s_am_out,$s_pm_in,$s_pm_out,$userid,$datein,'EDITED_LOGS');
+                                    if($edited_logs) {
+                                        $am_in =  $edited_logs['am_in'];
+                                        $am_out =  $edited_logs['am_out'];
+                                        $pm_in =  $edited_logs['pm_in'];
+                                        $pm_out =  $edited_logs['pm_out'];
+
+                                        if(isset($am_in)) {
+                                            $a = explode('_', $am_in);
+                                            $e1 = $a[1];
+                                            $am_in = $a[0];
+                                        } else {
+                                            $am_in = '';
+                                            $e1 = '';
+                                        }
+
+                                        if(isset($am_out)) {
+                                            $b = explode('_', $am_out);
+                                            $e2 = $b[1];
+                                            $am_out = $b[0];
+                                        } else {
+                                            $am_out = '';
+                                            $e2 = '';
+                                        }
+
+                                        if(isset($pm_in)) {
+                                            $c = explode('_', $pm_in);
+                                            $e3 = $c[1];
+                                            $pm_in = $c[0];
+                                        } else {
+                                            $pm_in = '';
+                                            $e3 = '';
+                                        }
+
+                                        if(isset($pm_out)) {
+                                            $d = explode('_', $pm_out);
+                                            $e4 = $d[1];
+                                            $pm_out = $d[0];
+                                        } else {
+                                            $pm_out = '';
+                                            $e4 = '';
+                                        }
+                                    }
+                                }
+                            }
+                        } else if($am_in AND $am_out AND $pm_in AND !$pm_out) {
+                            $edited_logs = GET_CDO_SO($s_am_in,$s_am_out,$s_pm_in,$s_pm_out,$userid,$datein,'EDITED_LOGS');
+                            if($edited_logs) {
+
+                                $pm_out = $edited_logs['pm_out'];
+
+                                if(isset($pm_out)) {
+                                    $d = explode('_', $pm_out);
+                                    $e4 = $d[1];
+                                    $pm_out = $d[0];
+                                } else {
+                                    $pm_out = '';
+                                    $e4 = '';
+                                }
+                            }
+                        }else if($am_in AND !$am_out AND !$pm_in AND $pm_out){
+                            $edited_logs = GET_CDO_SO($s_am_in,$s_am_out,$s_pm_in,$s_pm_out,$userid,$datein,'EDITED_LOGS');
+                            if($edited_logs) {
+
+                                $am_out = $edited_logs['am_out'];
+                                $pm_in = $edited_logs['pm_in'];
+
+                                if(isset($am_out)) {
+                                    $b = explode('_', $am_out);
+                                    $e2 = $b[1];
+                                    $am_out = $b[0];
+                                } else {
+                                    $am_out = '';
+                                    $e2 = '';
+                                }
+
+                                if(isset($pm_in)) {
+                                    $c = explode('_', $pm_in);
+                                    $e3 = $c[1];
+                                    $pm_in = $c[0];
+                                } else {
+                                    $pm_in = '';
+                                    $e3 = '';
                                 }
                             }
                         }
+
+
+
 
                         //if($day_name == 'Sat' || $day_name == 'Sun' AND $am_in == '') $am_out = 'DAY OFF';
                         if(isset($e1) and $e1 == "1"){

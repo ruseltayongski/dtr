@@ -195,7 +195,7 @@ class PersonalController extends Controller
             $date = $date[2] . '-' . $date[0] . '-' . $date[1];
 
             if(Input::has('am_in')) {
-                $dtr = new DtrDetails();
+                $dtr = new EditedLogs();
                 $dtr->userid = Auth::user()->userid;
                 $dtr->datein = $date;
                 $dtr->time = Input::get('am_in');
@@ -206,7 +206,7 @@ class PersonalController extends Controller
             }
 
             if(Input::has('am_out')) {
-                $dtr = new DtrDetails();
+                $dtr = new EditedLogs();
                 $dtr->userid = Auth::user()->userid;
                 $dtr->datein = $date;
                 $dtr->time = Input::get('am_out');
@@ -217,7 +217,7 @@ class PersonalController extends Controller
             }
 
             if(Input::has('pm_in')) {
-                $dtr = new DtrDetails();
+                $dtr = new EditedLogs();
                 $dtr->userid = Auth::user()->userid;
                 $dtr->datein = $date;
                 $dtr->time = Input::get('pm_in');
@@ -228,7 +228,7 @@ class PersonalController extends Controller
             }
 
             if(Input::has('pm_out')) {
-                $dtr = new DtrDetails();
+                $dtr = new EditedLogs();
                 $dtr->userid = Auth::user()->userid;
                 $dtr->datein = $date;
                 $dtr->time = Input::get('pm_out');
@@ -349,7 +349,7 @@ class PersonalController extends Controller
         $from = date('Y-m-d',strtotime($temp1[0]));
         $end_date = date('Y-m-d',strtotime($temp1[1]));
 
-        $logs = DB::table('dtr_file')
+        $logs = DB::table('edited_logs')
                 ->where('edited','=','1')
                 ->whereBetween('datein', array($from,$end_date))->delete();
 

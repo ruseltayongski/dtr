@@ -18,7 +18,6 @@ App::before(function($request)
 		if (Session::token() != Input::get('_token'))
 		{
 			return Redirect::to('/');
-			//throw new Illuminate\Session\TokenMismatchException;
 		}
 	}
 });
@@ -71,6 +70,12 @@ Route::filter('admin' ,function(){
 });
 
 Route::filter('personal', function(){
+
+    if(Auth::check() AND Auth::user()->usertype == 0){
+        if(Auth::user()->pass_change == NULL){
+            return Redirect::to('resetpass')->with('pass_change','You must change your password for security after your first log in or resseting password');
+        }
+    }
 	if(Auth::check() and isset(Auth::user()->userid)) {
 		if(!Auth::user()->usertype == 0) {
 			return Redirect::to('/');
