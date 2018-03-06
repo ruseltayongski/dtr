@@ -57,12 +57,10 @@
                                                         <thead>
                                                         <tr>
                                                             <th class="text-center"></th>
-                                                            <th class="text-center">Route #</th>
-                                                            <th class="text-center">Prepared Date</th>
+                                                            <th class="text-center" width="28%">Route #</th>
+                                                            <th class="text-center" width="15%">Prepared Date</th>
                                                             <?php if(Auth::user()->usertype): ?>
                                                             <th class="text-center">Prepared Name</th>
-                                                            <?php else: ?>
-                                                            <th class="text-center">Document Type</th>
                                                             <?php endif; ?>
                                                             <th class="text-center">Subject</th>
                                                             <th class="text-center">Approved Status</th>
@@ -75,11 +73,9 @@
                                                                 <td>
                                                                     <a class="title-info" style="color: #f0ad4e;" data-route="<?php echo $so->route_no; ?>" data-backdrop="static" data-link="<?php echo asset('/form/info/'.$so->route_no.'/office_order'); ?>" href="#document_info" data-toggle="modal"><?php echo $so->route_no; ?></a>
                                                                 </td>
-                                                                <td class="text-center"><?php echo date('M d, Y',strtotime($so->prepared_date)); ?><br><?php echo date('h:i:s A',strtotime($so->prepared_date)); ?></td>
+                                                                <td class="text-center"><?php echo date('M d, Y',strtotime($so->prepared_date)); ?></td>
                                                                 <?php if(Auth::user()->usertype): ?>
                                                                 <td><?php echo pdoController::user_search1($so['prepared_by'])['fname'].' '.pdoController::user_search1($so['prepared_by'])['mname'].' '.pdoController::user_search1($so['prepared_by'])['lname']; ?></td>
-                                                                <?php else: ?>
-                                                                <td class="text-center">Office Order</td>
                                                                 <?php endif; ?>
                                                                 <td class="text-center"><?php echo $so->subject; ?></td>
                                                                 <?php if($so->approved_status): ?>

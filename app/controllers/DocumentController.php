@@ -281,9 +281,15 @@ class DocumentController extends BaseController
         $inclusive_name = InclusiveNames::where('route_no',Session::get('route_no'))->get();
         $inclusive_date = Calendars::where('route_no',Session::get('route_no'))->get();
         foreach($inclusive_name as $row){
-            $name[] = pdoController::user_search1($row['user_id']);
+            $name[] = InformationPersonal::where('userid','=',$row['userid'])->first();
         }
-        $display = View::make('form.office_order_pdf',['users'=>$users,'office_order'=>$office_order,'inclusive_date'=>$inclusive_date,'name'=>$name]);
+        $display = View::make('form.office_order_pdf',[
+                                        'users'=>$users,
+                                        'office_order'=>$office_order,
+                                        'inclusive_date'=>$inclusive_date,
+                                        'name'=>$name,
+                                        'division'=>pdoController::division()
+                                    ]);
         $pdf = App::make('dompdf');
         $pdf->loadHTML($display)->setPaper('a4','portrait');
 
@@ -322,7 +328,7 @@ class DocumentController extends BaseController
                 ->orderBy('id','desc')
                 ->paginate(10);
         } else {
-            $office_order = OfficeOrders::where('prepared_by',pdoController::user_search(Auth::user()->userid)['id'])
+            $office_order = OfficeOrders::where('prepared_by',Auth::user()->userid)
                 ->where(function($q) use ($keyword){
                     $q->where('route_no','like',"%$keyword%")
                         ->orwhere('subject','like',"%$keyword%");
@@ -365,7 +371,7 @@ class DocumentController extends BaseController
         $office_order->route_no = $route_no;
         $office_order->doc_type = $doc_type;
         $office_order->subject = Input::get('subject');
-        $office_order->prepared_by = $prepared_by;
+        $office_order->prepared_by = Auth::user()->userid;
         $office_order->prepared_date = $prepared_date;
         $office_order->version = Input::get('version');
         if(Input::get('version') == 2):
@@ -472,7 +478,7 @@ class DocumentController extends BaseController
         foreach(Input::get('inclusive_name') as $row){
             $inclusive_name = new InclusiveNames();
             $inclusive_name->route_no = $route_no;
-            $inclusive_name->user_id = Input::get('inclusive_name')[$count];
+            $inclusive_name->userid = Input::get('inclusive_name')[$count];
             $inclusive_name->status = 1;
             $inclusive_name->save();
             $count++;
