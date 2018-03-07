@@ -384,10 +384,12 @@ class PDF extends FPDF
                             $cto = GET_CDO_SO($s_am_in,$s_am_out,$s_pm_in,$s_pm_out,$userid,$datein,'GETCDO');
 
                             if($cto['remark'] == 'CTO'){
+                                $pm_in = 'CTO';
                                 $pm_out = 'CTO';
                             } else {
                                 $so = GET_CDO_SO($s_am_in,$s_am_out,$s_pm_in,$s_pm_out,$userid,$datein,'GETSO');
                                 if($so['holiday'] ==='003'){
+                                    $pm_in = "SO#:".$so['remark'];
                                     $pm_out = "SO#:".$so['remark'];
                                 } else {
                                     $edited_logs = GET_CDO_SO($s_am_in,$s_am_out,$s_pm_in,$s_pm_out,$userid,$datein,'EDITED_LOGS');
@@ -435,7 +437,9 @@ class PDF extends FPDF
                                         $am_out = "SO#:".$so['remark'];
                                     } elseif($so['time_type'] == 'AM') {
                                         $am_in = "SO#:".$so['remark'];
+                                        $am_out = "SO#:".$so['remark'];
                                     }elseif($so['time_type'] == 'PM') {
+                                        $pm_in = "SO#:".$so['remark'];
                                         $pm_out = "SO#:".$so['remark'];
                                     }
                                 } else {
@@ -525,6 +529,55 @@ class PDF extends FPDF
                                     $e3 = '';
                                 }
                             }
+                        } else if(!$am_in AND !$am_out AND $pm_in AND !$pm_out){
+                            $cto = GET_CDO_SO($s_am_in,$s_am_out,$s_pm_in,$s_pm_out,$userid,$datein,'GETCDO');
+
+                            if($cto['remark'] == 'CTO'){
+                                $pm_out = 'CTO';
+                            } else {
+                                $so = GET_CDO_SO($s_am_in,$s_am_out,$s_pm_in,$s_pm_out,$userid,$datein,'GETSO');
+                                if($so['holiday'] === '003'){
+                                    $pm_out = "SO#:".$so['remark'];
+                                } else {
+                                    $edited_logs = GET_CDO_SO($s_am_in,$s_am_out,$s_pm_in,$s_pm_out,$userid,$datein,'EDITED_LOGS');
+                                    if($edited_logs) {
+
+                                        $am_in =  $edited_logs['am_in'];
+                                        $am_out =  $edited_logs['am_out'];
+
+                                        $pm_out =  $edited_logs['pm_out'];
+
+                                        if(isset($am_in)) {
+                                            $a = explode('_', $am_in);
+                                            $e1 = $a[1];
+                                            $am_in = $a[0];
+                                        } else {
+                                            $am_in = '';
+                                            $e1 = '';
+                                        }
+
+                                        if(isset($am_out)) {
+                                            $b = explode('_', $am_out);
+                                            $e2 = $b[1];
+                                            $am_out = $b[0];
+                                        } else {
+                                            $am_out = '';
+                                            $e2 = '';
+                                        }
+
+
+                                        if(isset($pm_out)) {
+                                            $d = explode('_', $pm_out);
+                                            $e4 = $d[1];
+                                            $pm_out = $d[0];
+                                        } else {
+                                            $pm_out = '';
+                                            $e4 = '';
+                                        }
+                                    }
+                                }
+                            }
+
                         }
 
 
