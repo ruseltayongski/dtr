@@ -3,24 +3,24 @@
         color: #2b542c;
     }
 </style>
-<span id="so_append" data-link="{{ asset('so_append') }}"></span>
-<form action="{{ asset('so_update') }}" method="POST" class="form-submit form-horizontal">
-    <input type="hidden" name="_token" value="{{ csrf_token(); }}">
-    <input type="hidden" name="version" value="{{ $info->version }}">
+<span id="so_append" data-link="<?php echo asset('so_append'); ?>"></span>
+<form action="<?php echo asset('so_update'); ?>" method="POST" class="form-submit form-horizontal">
+    <input type="hidden" name="_token" value="<?php echo csrf_token();; ?>">
+    <input type="hidden" name="version" value="<?php echo $info->version; ?>">
     <div class="col-md-12 wrapper">
         <div class="row" style="text-align: center;">
             <div class="col-sm-2">
-                <img height="130" width="130" src="{{ asset('public/img/ro7.png') }}" />
+                <img height="130" width="130" src="<?php echo asset('public/img/ro7.png'); ?>" />
             </div>
             <div class="col-sm-8">
                 Repulic of the Philippines <br />
                 <strong>DEPARTMENT OF HEALTH REGIONAL OFFICE NO. VII</strong><br />
                 Osmeña Boulevard, Cebu City, 6000 Philippines <br />
                 Regional Director's Office Tel. No. (032) 253-635-6355 Fax No. (032) 254-0109 <br />
-                Official Website:<a target="_blank" href="http://www.ro7.doh.gov.ph"><u>http://www.ro7.doh.gov.ph</u></a> Email Address: dohro7{{ '@' }}gmail.com
+                Official Website:<a target="_blank" href="http://www.ro7.doh.gov.ph"><u>http://www.ro7.doh.gov.ph</u></a> Email Address: dohro7<?php echo '@'; ?>gmail.com
             </div>
             <div class="col-sm-2">
-                <img height="130" width="130" src="{{ asset('public/img/ro7.png') }}" />
+                <img height="130" width="130" src="<?php echo asset('public/img/ro7.png'); ?>" />
             </div>
         </div>
         <div class="box box-info">
@@ -32,7 +32,7 @@
                             <div class="input-group-addon">
                                 <i class="fa fa-calendar-plus-o"></i>
                             </div>
-                            <input class="form-control datepickercalendar" value="{{ date('m/d/Y',strtotime($info->prepared_date)) }}" name="prepared_date">
+                            <input class="form-control datepickercalendar" value="<?php echo date('m/d/Y',strtotime($info->prepared_date)); ?>" name="prepared_date">
                         </div>
                     </div>
                 </div>
@@ -43,7 +43,7 @@
                             <div class="input-group-addon">
                                 <i class="fa fa-book"></i>
                             </div>
-                            <textarea class="form-control" name="subject" rows="3" style="resize:none;">{{ $info->subject }}</textarea>
+                            <textarea class="form-control" name="subject" rows="3" style="resize:none;"><?php echo $info->subject; ?></textarea>
                         </div>
                     </div>
                 </div>
@@ -56,14 +56,14 @@
                         </div>
                     </div>
                 </div>
-                @if($info->version == 2)
+                <?php if($info->version == 2): ?>
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Header Body</label>
                         <div class="col-sm-9">
-                            <textarea class="form-control wysihtml5" name="header_body" rows="5" required>{{ $info->header_body }}</textarea>
+                            <textarea class="form-control wysihtml5" name="header_body" rows="5" required><?php echo $info->header_body; ?></textarea>
                         </div>
                     </div>
-                @endif
+                <?php endif; ?>
                 <div class="form-group">
                     <label class="col-sm-3 control-label">Check to select all employee</label>
                     <div class="col-sm-9">
@@ -76,9 +76,9 @@
                         <div class="name_loading"></div>
                         <div class="inclusive_name">
                             <select class='form-control select2' name='inclusive_name[]' multiple='multiple' data-placeholder='Select a name' required>
-                                @foreach($users as $row)
-                                    <option value='{{ $row->userid }}'>{{ $row->fname.' '.$row->mname.' '.$row->lname }}</option>
-                                @endforeach
+                                <?php foreach($users as $row): ?>
+                                    <option value='<?php echo $row->userid; ?>'><?php echo $row->fname.' '.$row->mname.' '.$row->lname; ?></option>
+                                <?php endforeach; ?>
                             </select>
                         </div>
                     </div>
@@ -88,7 +88,7 @@
                     $count = 1;
                     foreach($inclusive_date as $row):
                     ?>
-                    <div id="{{ $count }}">
+                    <div id="<?php echo $count; ?>">
                   
                         <hr>
                         <div class="form-group">
@@ -98,7 +98,7 @@
                                     <div class="input-group-addon">
                                         <i class="fa fa-calendar"></i>
                                     </div>
-                                    <input type="text" class="form-control" value="{{ date('m/d/Y',strtotime($row->start)).' - '.date('m/d/Y',strtotime('-1 day',strtotime($row->end))) }}" id="inclusive1" name="inclusive[]" placeholder="Input date range here..." required>
+                                    <input type="text" class="form-control" value="<?php echo date('m/d/Y',strtotime($row->start)).' - '.date('m/d/Y',strtotime('-1 day',strtotime($row->end))); ?>" id="inclusive1" name="inclusive[]" placeholder="Input date range here..." required>
                                 </div>
                             </div>
                         </div>
@@ -109,7 +109,7 @@
                                     <div class="input-group-addon">
                                         <i class="fa fa-location-arrow"></i>
                                     </div>
-                                    <textarea name="area[]" id="area1" class="form-control" style="resize: none;" rows="1" placeholder="Input your area here..." required>{{ $row->area }}</textarea>
+                                    <textarea name="area[]" id="area1" class="form-control" style="resize: none;" rows="1" placeholder="Input your area here..." required><?php echo $row->area; ?></textarea>
                                 </div>
                             </div>
                         </div>
@@ -117,19 +117,19 @@
                             <label class="col-sm-3 control-label">SO Time</label>
                             <div class="col-sm-9">
                                 <select class="form-control" name="so_time[]" id="so_time">
-                                    @if( $row->so_time == 'wholeday' )
+                                    <?php if( $row->so_time == 'wholeday' ): ?>
                                         <option value="wholeday">Whole Day</option>
                                         <option value="am">Half day / AM</option>
                                         <option value="pm">Half day / PM</option>
-                                    @elseif( $row->so_time == 'am' )
+                                    <?php elseif( $row->so_time == 'am' ): ?>
                                         <option value="am">Half day / AM</option>
                                         <option value="pm">Half day / PM</option>
                                         <option value="wholeday">Whole Day</option>
-                                    @else
+                                    <?php else: ?>
                                         <option value="pm">Half day / PM</option>
                                         <option value="am">Half day / AM</option>
                                         <option value="wholeday">Whole Day</option>   
-                                    @endif
+                                    <?php endif; ?>
                                 </select>
                             </div>
                         </div>
@@ -139,7 +139,7 @@
                     $count++;
                     endforeach;
                     ?>
-                    <input type="hidden" value="{{ $count }}" id="date_count">
+                    <input type="hidden" value="<?php echo $count; ?>" id="date_count">
                 </div>
                 <div class="form-group">
                     <div class="col-sm-12">
@@ -181,40 +181,40 @@
                         </div>
                     </div>
                 </div>
-                @if($info->version == 2)
+                <?php if($info->version == 2): ?>
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Entitled Body</label>
                         <div class="col-sm-9">
-                            <textarea class="form-control wysihtml5_1" name="footer_body" rows="5" required>{{ $info->footer_body }}</textarea>
+                            <textarea class="form-control wysihtml5_1" name="footer_body" rows="5" required><?php echo $info->footer_body; ?></textarea>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-3 control-label">To be approve by</label>
                         <div class="col-sm-9">
-                            <input type="hidden" id="get_director" value="{{ $info->approved_by }}">
+                            <input type="hidden" id="get_director" value="<?php echo $info->approved_by; ?>">
                             <div class="input-group">
                                 <div class="input-group-addon">
                                     <i class="fa fa-thumbs-up"></i>
                                 </div>
                                 <select name="approved_by" id="approved_by" class="form-control" onchange="approved($(this))" required>
-                                    @if($info->version == 1)
+                                    <?php if($info->version == 1): ?>
                                         <option value="">Select Name</option>
                                         <option value="Jaime S. Bernadas, MD, MGM, CESO III">Jaime S. Bernadas, MD, MGM, CESO III</option>
                                         <option value="Ruben S. Siapno,MD,MPH">Ruben S. Siapno,MD,MPH</option>
                                         <option value="Sophia M. Mancao, MD, DPSP">Sophia M. Mancao, MD, DPSP</option>
-                                    @else
-                                        <option value="{{ $info->approved_by }}">{{ $info->approved_by }}</option>
-                                        @if($info->approved_by == 'Jaime S. Bernadas, MD, MGM, CESO III')
+                                    <?php else: ?>
+                                        <option value="<?php echo $info->approved_by; ?>"><?php echo $info->approved_by; ?></option>
+                                        <?php if($info->approved_by == 'Jaime S. Bernadas, MD, MGM, CESO III'): ?>
                                             <option value="Sophia M. Mancao, MD, DPSP">Sophia M. Mancao, MD, DPSP</option>
                                             <option value="Ruben S. Siapno,MD,MPH">Ruben S. Siapno,MD,MPH</option>
-                                        @elseif($info->approved_by == 'Sophia M. Mancao, MD, DPSP')
+                                        <?php elseif($info->approved_by == 'Sophia M. Mancao, MD, DPSP'): ?>
                                             <option value="Jaime S. Bernadas, MD, MGM, CESO III">Jaime S. Bernadas, MD, MGM, CESO III</option>
                                             <option value="Ruben S. Siapno,MD,MPH">Ruben S. Siapno,MD,MPH</option>
-                                        @elseif($info->approved_by == 'Ruben S. Siapno,MD,MPH')    
+                                        <?php elseif($info->approved_by == 'Ruben S. Siapno,MD,MPH'): ?>    
                                             <option value="Jaime S. Bernadas, MD, MGM, CESO III">Jaime S. Bernadas, MD, MGM, CESO III</option>
                                             <option value="Sophia M. Mancao, MD, DPSP">Sophia M. Mancao, MD, DPSP</option>
-                                        @endif
-                                    @endif
+                                        <?php endif; ?>
+                                    <?php endif; ?>
                                 </select>
                             </div>
                         </div>
@@ -230,29 +230,29 @@
                             </div>
                         </div>
                     </div>
-                @endif
+                <?php endif; ?>
             </div>
          </div>
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
-        @if($info->approved_status)
+        <?php if($info->approved_status): ?>
             <button type="button" onclick="warning('update')" class="btn btn-primary btn-submit" style="color:white"><i class="fa fa-pencil"></i> Update</button>
             <a href="#" onclick="warning('proceed')" class="btn btn-info" style="color:white"><i class="fa fa-file"></i> Proceed form into v2</a>
-        @else
+        <?php else: ?>
             <button type="submit" class="btn btn-primary btn-submit" style="color:white"><i class="fa fa-pencil"></i> Update</button>
-            @if($info->version == 1)
+            <?php if($info->version == 1): ?>
             <a href="#" class="btn btn-info" onclick="proceed()" style="color:white"><i class="fa fa-file"></i> Proceed form into v2</a>
-            @endif
-        @endif
+            <?php endif; ?>
+        <?php endif; ?>
         <button type="button" class="btn btn-success" data-dismiss="modal" style="color:white" data-toggle="modal" data-target="#paperSize"><i class="fa fa-barcode"></i> Barcode v1</button>
-        <a target="_blank" href="{{ asset('pdf/track') }}" class="btn btn-success" style="color:white"><i class="fa fa-barcode"></i> Barcode v2</a>
-        @if($info->version == 1)
+        <a target="_blank" href="<?php echo asset('pdf/track'); ?>" class="btn btn-success" style="color:white"><i class="fa fa-barcode"></i> Barcode v2</a>
+        <?php if($info->version == 1): ?>
             <a onclick="warning('barcode')" class="btn btn-success" style="color:white"><i class="fa fa-barcode"></i> Barcode v3</a>
-        @elseif($info->version == 2)
-            <a href="{{ asset('/form/so_pdf') }}" target="_blank" class="btn btn-success" style="color:white"><i class="fa fa-barcode"></i> Barcode v3</a>
-        @endif
-        <button type="button" data-route="{{ $info->route_no }}" data-link="{{ asset('/form/info/'.$info->route_no) }}" style="color:white" class="btn btn-danger" data-dismiss="modal" data-toggle="modal" data-target="#deleteDocument"><i class="fa fa-trash"></i> Remove</button>
+        <?php elseif($info->version == 2): ?>
+            <a href="<?php echo asset('/form/so_pdf'); ?>" target="_blank" class="btn btn-success" style="color:white"><i class="fa fa-barcode"></i> Barcode v3</a>
+        <?php endif; ?>
+        <button type="button" data-route="<?php echo $info->route_no; ?>" data-link="<?php echo asset('/form/info/'.$info->route_no); ?>" style="color:white" class="btn btn-danger" data-dismiss="modal" data-toggle="modal" data-target="#deleteDocument"><i class="fa fa-trash"></i> Remove</button>
     </div>
 </form>
 <script>

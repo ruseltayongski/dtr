@@ -3,24 +3,24 @@
         color: #2b542c;
     }
 </style>
-    <span id="so_append" data-link="{{ asset('so_append') }}"></span>
-    <form action="{{ asset('so_add') }}" method="POST" class="form-submit form-horizontal">
-        <input type="hidden" name="_token" value="{{ csrf_token(); }}">
+    <span id="so_append" data-link="<?php echo asset('so_append'); ?>"></span>
+    <form action="<?php echo asset('so_add'); ?>" method="POST" class="form-submit form-horizontal">
+        <input type="hidden" name="_token" value="<?php echo csrf_token();; ?>">
         <input type="hidden" name="version" value="1">
         <div class="col-md-12 wrapper">
             <div class="row" style="text-align: center;">
                 <div class="col-sm-2">
-                    <img height="130" width="130" src="{{ asset('public/img/ro7.png') }}" />
+                    <img height="130" width="130" src="<?php echo asset('public/img/ro7.png'); ?>" />
                 </div>
                 <div class="col-sm-8">
                     Repulic of the Philippines <br />
                     <strong>DEPARTMENT OF HEALTH REGIONAL OFFICE NO. VII</strong><br />
                     Osmeña Boulevard, Cebu City, 6000 Philippines <br />
                     Regional Director's Office Tel. No. (032) 253-635-6355 Fax No. (032) 254-0109 <br />
-                    Official Website:<a target="_blank" href="http://www.ro7.doh.gov.ph"><u>http://www.ro7.doh.gov.ph</u></a> Email Address: dohro7{{ '@' }}gmail.com
+                    Official Website:<a target="_blank" href="http://www.ro7.doh.gov.ph"><u>http://www.ro7.doh.gov.ph</u></a> Email Address: dohro7<?php echo '@'; ?>gmail.com
                 </div>
                 <div class="col-sm-2">
-                    <img height="130" width="130" src="{{ asset('public/img/doh.png') }}" />
+                    <img height="130" width="130" src="<?php echo asset('public/img/doh.png'); ?>" />
                 </div>
             </div>
             <div class="box box-info">
@@ -32,7 +32,7 @@
                                 <div class="input-group-addon">
                                     <i class="fa fa-calendar-plus-o"></i>
                                 </div>
-                                <input class="form-control datepickercalendar" value="{{ date('m/d/Y') }}" name="prepared_date" required>
+                                <input class="form-control datepickercalendar" value="<?php echo date('m/d/Y'); ?>" name="prepared_date" required>
                             </div>
                         </div>
                     </div>
@@ -68,9 +68,9 @@
                             <div class="name_loading"></div>
                             <div class="inclusive_name">
                                 <select class='form-control select2' name='inclusive_name[]' multiple='multiple' data-placeholder='Select a name' required>
-                                    @foreach($users as $row)
-                                        <option value='{{ $row->userid }}'>{{ $row->fname.' '.$row->mname.' '.$row->lname }}</option>
-                                    @endforeach
+                                    <?php foreach($users as $row): ?>
+                                        <option value='<?php echo $row->userid; ?>'><?php echo $row->fname.' '.$row->mname.' '.$row->lname; ?></option>
+                                    <?php endforeach; ?>
                                 </select>
                             </div>
                         </div>

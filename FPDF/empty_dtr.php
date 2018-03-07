@@ -131,6 +131,64 @@ $hol_index = 0;
         $this->Cell(8,5,$day_name,'');
 
 
+
+        $cto = null;
+        $so = null;
+
+
+
+        if(!$am_in AND !$am_out AND $pm_in AND $pm_out){
+            $cto = GET_CDO_SO($s_am_in,$s_am_out,$s_pm_in,$s_pm_out,$userid,$datein,'GETCDO');
+
+            if($cto['remark'] == 'CTO'){
+                $am_out = 'CTO';
+            } else {
+                $so = GET_CDO_SO($s_am_in,$s_am_out,$s_pm_in,$s_pm_out,$userid,$datein,'GETSO');
+                if($so['holiday'] === '003'){
+                    $am_out = "SO#:".$so['remark'];
+                }
+            }
+
+        }
+
+        if(!$pm_in AND !$pm_out AND $am_in AND $am_out) {
+            $cto = GET_CDO_SO($s_am_in,$s_am_out,$s_pm_in,$s_pm_out,$userid,$datein,'GETCDO');
+
+            if($cto['remark'] == 'CTO'){
+                $pm_out = 'CTO';
+            } else {
+                $so = GET_CDO_SO($s_am_in,$s_am_out,$s_pm_in,$s_pm_out,$userid,$datein,'GETSO');
+                if($so['holiday'] ==='003'){
+                    $pm_out = "SO#:".$so['remark'];
+                }
+            }
+        }
+
+        if(!$am_in AND !$am_out AND !$pm_in AND !$pm_out){
+            $cto = GET_CDO_SO($s_am_in,$s_am_out,$s_pm_in,$s_pm_out,$userid,$datein,'GETCDO');
+
+            if($cto['remark'] == 'CTO'){
+                if($cto['time_type'] == 'AM'){
+                    $am_in = 'CTO';
+                }elseif($cto['time_type'] == 'PM') {
+                    $pm_out = 'CTO';
+                }elseif($cto['time_type'] == 'WH'){
+                    $am_out = 'CTO';
+                }
+            } else {
+                $so = GET_CDO_SO($s_am_in,$s_am_out,$s_pm_in,$s_pm_out,$userid,$datein,'GETSO');
+                if($so['holiday'] === '003'){
+                    if($so['time_type'] == 'WH') {
+                        $am_out = "SO#:".$so['remark'];
+                    } elseif($so['time_type'] == 'AM') {
+                        $am_in = "SO#:".$so['remark'];
+                    }elseif($so['time_type'] == 'PM') {
+                        $pm_out = "SO#:".$so['remark'];
+                    }
+                }
+            }
+        }
+
         if($day_name == 'Sat' || $day_name == 'Sun' AND $am_in == '') $am_out = 'DAY OFF';
         if(isset($e1) and $e1 == "1"){
             $this->SetFont('Arial','U',8);

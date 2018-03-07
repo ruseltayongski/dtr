@@ -1,4 +1,4 @@
-@if(isset($cdo['paginate_approve']) and count($cdo['paginate_approve']) >0)
+<?php if(isset($cdo['paginate_approve']) and count($cdo['paginate_approve']) >0): ?>
     <div class="table-responsive" style="margin-top: -20px;">
         <label style="padding-bottom: 10px;">Check to select all to disapprove </label>
         <input type="checkbox" id="click_disapprove">
@@ -9,41 +9,42 @@
                 <th></th>
                 <th class="text-center">Route #</th>
                 <th class="text-center">Prepared Date</th>
-                @if(Auth::user()->usertype)
+                <?php if(Auth::user()->usertype): ?>
                     <th class="text-center">Prepared Name</th>
-                @else
+                <?php else: ?>
                     <th class="text-center">Document Type</th>
-                @endif
+                <?php endif; ?>
                 <th class="text-center">Beginning Balance</th>
-                @if(Auth::user()->usertype)
+                <?php if(Auth::user()->usertype): ?>
                 <th class="text-center" width="17%">Option</th>
-                @endif
+                <?php endif; ?>
             </tr>
             </thead>
             <tbody style="font-size: 10pt;">
-            @foreach($cdo['paginate_approve'] as $row)
+            <?php foreach($cdo['paginate_approve'] as $row): ?>
                 <tr>
-                    <td><a href="#track" data-link="{{ asset('form/track/'.$row->route_no) }}" data-route="{{ $row->route_no }}" data-toggle="modal" class="btn btn-sm btn-success col-sm-12" style="background-color:darkmagenta;color:white;"><i class="fa fa-line-chart"></i> Track</a></td>
-                    <td><a class="title-info" data-backdrop="static" data-route="{{ $row->route_no }}" style="color: #f0ad4e;" data-link="{{ asset('/form/info/'.$row->route_no.'/cdo') }}" href="#document_info" data-toggle="modal">{{ $row->route_no }}</a></td>
-                    <td>{{ date('M d, Y',strtotime($row->prepared_date)) }}<br>{{ date('h:i:s A',strtotime($row->prepared_date)) }}</td>
-                    @if(Auth::user()->usertype)
-                        <td>{{ pdoController::user_search1($row['prepared_name'])['fname'].' '.pdoController::user_search1($row['prepared_name'])['mname'].' '.pdoController::user_search1($row['prepared_name'])['lname'] }}</td>
-                    @else
+                    <td><a href="#track" data-link="<?php echo asset('form/track/'.$row->route_no); ?>" data-route="<?php echo $row->route_no; ?>" data-toggle="modal" class="btn btn-sm btn-success col-sm-12" style="background-color:darkmagenta;color:white;"><i class="fa fa-line-chart"></i> Track</a></td>
+                    <td><a class="title-info" data-backdrop="static" data-route="<?php echo $row->route_no; ?>" style="color: #f0ad4e;" data-link="<?php echo asset('/form/info/'.$row->route_no.'/cdo'); ?>" href="#document_info" data-toggle="modal"><?php echo $row->route_no; ?></a></td>
+                    <td><?php echo date('M d, Y',strtotime($row->prepared_date)); ?><br><?php echo date('h:i:s A',strtotime($row->prepared_date)); ?></td>
+                    <?php if(Auth::user()->usertype): ?>
+                        <td><?php echo pdoController::user_search1($row['prepared_name'])['fname'].' '.pdoController::user_search1($row['prepared_name'])['mname'].' '.pdoController::user_search1($row['prepared_name'])['lname']; ?></td>
+                    <?php else: ?>
                         <td>CTO</td>
-                    @endif
-                    <td class="text-center"><b style="color:green;">@if(isset(InformationPersonal::where('userid',pdoController::user_search1($row['prepared_name'])['username'])->first()->bbalance_cto)) {{ InformationPersonal::where('userid',pdoController::user_search1($row['prepared_name'])['username'])->first()->bbalance_cto }} @else 0 @endif</b></td>
-                    @if(Auth::user()->usertype)
-                        <td><button type="submit" class="btn-xs btn-danger" value="{{ $row->id }}" onclick="approved_status($(this))" style="color:white;"><i class="fa fa-frown-o"></i> Disapprove</button></td>
-                    @endif
+                    <?php endif; ?>
+                    <td class="text-center"><b style="color:green;"><?php if(isset(InformationPersonal::where('userid',pdoController::user_search1($row['prepared_name'])['username'])->first()->bbalance_cto)): ?> <?php echo InformationPersonal::where('userid',pdoController::user_search1($row['prepared_name'])['username'])->first()->bbalance_cto; ?> <?php else: ?> 0 <?php endif; ?></b></td>
+                    <?php if(Auth::user()->usertype): ?>
+                        <td><button type="submit" class="btn-xs btn-danger" value="<?php echo $row->id; ?>" onclick="approved_status($(this))" style="color:white;"><i class="fa fa-frown-o"></i> Disapprove</button></td>
+                    <?php endif; ?>
                 </tr>
-            @endforeach
+            <?php endforeach; ?>
             </tbody>
         </table>
     </div>
-    {{ $cdo['paginate_approve']->links() }}
-@else
+    <?php echo $cdo['paginate_approve']->links(); ?>
+
+<?php else: ?>
     <div class="alert alert-danger" role="alert" style="color: red"><span style="color:red;">Documents records are empty.</span></div>
-@endif
+<?php endif; ?>
 
 <script>
     //document information

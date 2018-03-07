@@ -235,20 +235,26 @@ class DocumentController extends BaseController
         $prepared_by =  pdoController::user_search(Auth::user()->userid)['id'];
         $route_no = Session::get('route_no');
 
-        OfficeOrders::where('route_no',$route_no)->delete();
-        InclusiveNames::where('route_no',$route_no)->delete();
+        $inclusiveName = InclusiveNames::where('route_no',$route_no)->get();
 
-        //delete calendar and dtr file
-        $calendar = Calendars::where('route_no',$route_no)->first();
-        $details = DtrDetails::where('holiday','003')
-            ->whereBetween('datein',array($calendar->start,$calendar->end));
-        $details->delete();
-        $calendar->delete();
-        ///
-
+        foreach ( $inclusiveName as $inName ) {
+            $calendar = Calendars::where('route_no',$route_no)->get();
+            foreach ( $calendar as $cal )
+            {
+                // delete so logs
+                $details = SoLogs::where('userid','=',pdoController::user_search1($inName->user_id)['username'])->where('holiday','003')
+                    ->whereBetween('datein',array($cal->start,$cal->end));
+                $details->delete();
+            }
+        }
         pdoController::delete_tracking_master($route_no);
         pdoController::delete_tracking_details($route_no);
         //$this->delete_tracking_release($route_no);
+
+        //delete office_order/calendar and inclusive name
+        OfficeOrders::where('route_no',$route_no)->delete();
+        Calendars::where('route_no',$route_no)->delete();
+        InclusiveNames::where('route_no',$route_no)->delete();
 
         //ADD SYSTEM LOGS
         $user_id = $prepared_by;
@@ -280,9 +286,15 @@ class DocumentController extends BaseController
         $inclusive_name = InclusiveNames::where('route_no',Session::get('route_no'))->get();
         $inclusive_date = Calendars::where('route_no',Session::get('route_no'))->get();
         foreach($inclusive_name as $row){
-            $name[] = pdoController::user_search1($row['user_id']);
+            $name[] = InformationPersonal::where('userid','=',$row['userid'])->first();
         }
-        $display = View::make('form.office_order_pdf',['users'=>$users,'office_order'=>$office_order,'inclusive_date'=>$inclusive_date,'name'=>$name]);
+        $display = View::make('form.office_order_pdf',[
+                                        'users'=>$users,
+                                        'office_order'=>$office_order,
+                                        'inclusive_date'=>$inclusive_date,
+                                        'name'=>$name,
+                                        'division'=>pdoController::division()
+                                    ]);
         $pdf = App::make('dompdf');
         $pdf->loadHTML($display)->setPaper('a4','portrait');
 
@@ -321,7 +333,7 @@ class DocumentController extends BaseController
                 ->orderBy('id','desc')
                 ->paginate(10);
         } else {
-            $office_order = OfficeOrders::where('prepared_by',pdoController::user_search(Auth::user()->userid)['id'])
+            $office_order = OfficeOrders::where('prepared_by',Auth::user()->userid)
                 ->where(function($q) use ($keyword){
                     $q->where('route_no','like',"%$keyword%")
                         ->orwhere('subject','like',"%$keyword%");
@@ -335,10 +347,10 @@ class DocumentController extends BaseController
 
     public function sov1()
     {
-        $prepared_by = pdoController::user_search(Auth::user()->userid)['id'];
-        $users = pdoController::users();
+        $prepared_by = Auth::user()->userid;
+        $users = InformationPersonal::get();
         foreach($users as $row){
-            $all_user[] = $row['id'];
+            $all_user[] = $row->userid;
         }
         return View::make('form.office_orderv1',[
             'users'=>$users,
@@ -354,7 +366,7 @@ class DocumentController extends BaseController
     public function so_add(){
         $route_no = date('Y-') . pdoController::user_search(Auth::user()->userid)['id'] . date('mdHis');
         $doc_type = 'OFFICE_ORDER';
-        $prepared_date = date('Y-m-d',strtotime(Input::get('prepared_date'))).' '.date('H:i:s');
+        $prepared_date = date('Y-m-d',strtotime(Input::get('prepared_date')) ).' '.date('H:i:s');
         $prepared_by =  pdoController::user_search(Auth::user()->userid)['id'];
         $description = Input::get('subject');
 
@@ -364,7 +376,7 @@ class DocumentController extends BaseController
         $office_order->route_no = $route_no;
         $office_order->doc_type = $doc_type;
         $office_order->subject = Input::get('subject');
-        $office_order->prepared_by = $prepared_by;
+        $office_order->prepared_by = Auth::user()->userid;
         $office_order->prepared_date = $prepared_date;
         $office_order->version = Input::get('version');
         if(Input::get('version') == 2):
@@ -380,7 +392,7 @@ class DocumentController extends BaseController
         foreach(Input::get('inclusive_name') as $row){
             $inclusive_name = new inclusiveNames();
             $inclusive_name->route_no = $route_no;
-            $inclusive_name->user_id = Input::get('inclusive_name')[$count];
+            $inclusive_name->userid = Input::get('inclusive_name')[$count];
             $inclusive_name->status = 1;
             $inclusive_name->save();
             $count++;
@@ -471,7 +483,7 @@ class DocumentController extends BaseController
         foreach(Input::get('inclusive_name') as $row){
             $inclusive_name = new InclusiveNames();
             $inclusive_name->route_no = $route_no;
-            $inclusive_name->user_id = Input::get('inclusive_name')[$count];
+            $inclusive_name->userid = Input::get('inclusive_name')[$count];
             $inclusive_name->status = 1;
             $inclusive_name->save();
             $count++;
@@ -602,8 +614,8 @@ class DocumentController extends BaseController
 
 
     public function inclusive_name_view(){
-        foreach(inclusiveNames::where('route_no',Session::get('route_no'))->get() as $row){
-            $inclusive_name[] = $row['user_id'];
+        foreach( inclusiveNames::where('route_no',Session::get('route_no') )->get() as $row){
+            $inclusive_name[] = $row->userid;
         }
         return $inclusive_name;
     }
@@ -611,12 +623,12 @@ class DocumentController extends BaseController
     public function show($route_no,$doc_type=null){
         Session::put('route_no',$route_no);
         if($doc_type == 'office_order'){
-            $users = pdoController::users();
+            $users = InformationPersonal::get();
             foreach(inclusiveNames::where('route_no',$route_no)->get() as $row){
-                $inclusive_name[] = $row['user_id'];
+                $inclusive_name[] = $row->userid;
             }
             foreach($users as $row){
-                $all_user[] = $row['id'];
+                $all_user[] = $row->userid;
             }
             $info = OfficeOrders::where('route_no',$route_no)->get()->first();
             $inclusive_date = Calendars::where('route_no',$route_no)->get();
@@ -624,7 +636,7 @@ class DocumentController extends BaseController
                 'users'=>$users,
                 'info'=>$info,
                 'inclusive_date'=>$inclusive_date,
-                'inclusive_name' => json_encode($inclusive_name),
+                    'inclusive_name' => json_encode($inclusive_name),
                 "all_user" => json_encode($all_user)
             ]);
         } else {
