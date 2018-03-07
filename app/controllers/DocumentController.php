@@ -232,8 +232,8 @@ class DocumentController extends BaseController
     //OFFICE ORDER
     public function so_delete()
     {
-        $prepared_by =  pdoController::user_search(Auth::user()->userid)['id'];
         $route_no = Session::get('route_no');
+        $prepared_by = pdoController::user_search1( OfficeOrders::where('route_no',$route_no)->first()->prepared_by )['id'];
 
         $inclusiveName = InclusiveNames::where('route_no',$route_no)->get();
 
