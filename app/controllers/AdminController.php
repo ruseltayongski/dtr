@@ -352,7 +352,7 @@ class AdminController extends BaseController
     {
         $leaves = DB::table('leave')->orderBy('created_at','ASC')->paginate(20);
         return View::make('form.leave_list',['leaves' => $leaves]);
-        
+
     }
     public function approve_leave()
     {
@@ -368,7 +368,7 @@ class AdminController extends BaseController
 
         $interval = $f->diff($t);
         $remarks = "LEAVE";
-        $datein = '';
+
         $f_from = explode('-',$from);
         $startday = $f_from[2];
         $j = 0;
@@ -376,47 +376,47 @@ class AdminController extends BaseController
 
             $datein = $f_from[0].'-'.$f_from[1] .'-'. $startday;
 
-            $details = new DtrDetails();
+            $details = new LeaveLogs();
             $details->userid = $leave->userid;
             $details->datein = $datein;
             $details->time = '08:00:00';
             $details->event = 'IN';
-            $details->remark = $remarks;
+            $details->remark = strtoupper($leave->leave_type)." ".$remarks;
             $details->edited = '1';
-            $details->holiday = '006';
+            $details->holiday = '007';
 
             $details->save();
 
-            $details = new DtrDetails();
+            $details = new LeaveLogs();
             $details->userid =  $leave->userid;
             $details->datein = $datein;
             $details->time = '12:00:00';
             $details->event = 'OUT';
-            $details->remark = $remarks;
+            $details->remark = strtoupper($leave->leave_type)." ".$remarks;
             $details->edited = '1';
-            $details->holiday = '006';
+            $details->holiday = '007';
 
             $details->save();
 
-            $details = new DtrDetails();
+            $details = new LeaveLogs();
             $details->userid =  $leave->userid;
             $details->datein = $datein;
             $details->time = '13:00:00';
             $details->event = 'IN';
-            $details->remark = $remarks;
+            $details->remark = strtoupper($leave->leave_type)." ".$remarks;
             $details->edited = '1';
-            $details->holiday = '006';
+            $details->holiday = '007';
 
             $details->save();
 
-            $details = new DtrDetails();
+            $details = new LeaveLogs();
             $details->userid =$leave->userid;
             $details->datein = $datein;
             $details->time = '18:00:00';
             $details->event = 'OUT';
-            $details->remark = $remarks;
+            $details->remark = strtoupper($leave->leave_type)." ".$remarks;
             $details->edited = '1';
-            $details->holiday = '006';
+            $details->holiday = '007';
 
             $details->save();
             
@@ -428,7 +428,7 @@ class AdminController extends BaseController
 
     public function cancel_leave($route_no) {
         $leave = DB::table('leave')->where('route_no','=',$route_no)->first();
-        DB::table('dtr_file')
+        DB::table('leave_logs')
                     ->where('userid','=',$leave->userid)
                     ->where('edited','=',1)
                     ->where('holiday','=','006')

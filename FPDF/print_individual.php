@@ -349,6 +349,7 @@ class PDF extends FPDF
                             } else {
                                 $so = GET_CDO_SO($s_am_in,$s_am_out,$s_pm_in,$s_pm_out,$userid,$datein,'GETSO');
                                 if($so['holiday'] === '003'){
+                                    $am_in = "SO#:".$so['remark'];
                                     $am_out = "SO#:".$so['remark'];
                                 } else {
                                     $leave = GET_CDO_SO($s_am_in,$s_am_out,$s_pm_in,$s_pm_out,$userid,$datein,'LEAVE_LOGS');
