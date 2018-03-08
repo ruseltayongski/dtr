@@ -27,7 +27,7 @@
                     @else
                         <td>CTO</td>
                     @endif
-                    <td class="text-center"><b style="color:green;">@if(InformationPersonal::where('userid',pdoController::user_search1($row['prepared_name'])['username'])->first()->bbalance_cto) {{ InformationPersonal::where('userid',pdoController::user_search1($row['prepared_name'])['username'])->first()->bbalance_cto }} @else 0 @endif</b></td>
+                    <td class="text-center"><b style="color:green;">@if(isset(InformationPersonal::where('userid',pdoController::user_search1($row['prepared_name'])['username'])->first()->bbalance_cto)) {{ InformationPersonal::where('userid',pdoController::user_search1($row['prepared_name'])['username'])->first()->bbalance_cto }} @else 0 @endif</b></td>
                     @if($row->approved_status == 1)
                         <td><button type="button" value="{{ $row->id }}" onclick="all_status($(this))" class="btn-xs btn-danger" style="color:white;"><i class="fa fa-smile-o"></i> Disapprove</button></td>
                     @else
@@ -112,6 +112,6 @@
             });
         },1000);
 
-        
+
     });
 </script>

@@ -13,14 +13,14 @@
                             <div class="alert-info">
                                 <p style="color:black;font-size: 80%;padding: 1%;display:inline-flex;">
                                     Beginning Balance :
-                                </p> 
+                                </p>
                                 <p style="color:green;display:inline-flex;"><?php
                                         if(InformationPersonal::where('userid',Auth::user()->userid)->first()->bbalance_cto){
                                             echo InformationPersonal::where('userid',Auth::user()->userid)->first()->bbalance_cto;
                                         }
                                         else {
                                             echo 0;
-                                        } 
+                                        }
                                 ?></p>
                             </div>
                         </div>
@@ -35,7 +35,7 @@
                                     <div class="panel-heading"><strong style="color: #f0ad4e;font-size:medium;">Option</strong></div>
                                     <div class="panel-body">
                                         <form class="form-inline" method="POST" action="{{ asset('form/cdo_list') }}" id="searchForm">
-                                            <input type="hidden" name="_token" value="{{ csrf_token(); }}">
+                                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                             <div class="table-responsive">
                                                 <table class="table">
                                                     <tr>

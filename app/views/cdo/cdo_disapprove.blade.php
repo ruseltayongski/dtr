@@ -29,8 +29,10 @@
                     @else
                         <td>CTO</td>
                     @endif
-                    <td class="text-center"><b style="color:green;">@if(InformationPersonal::where('userid',pdoController::user_search1($row['prepared_name'])['username'])->first()->bbalance_cto) {{ InformationPersonal::where('userid',pdoController::user_search1($row['prepared_name'])['username'])->first()->bbalance_cto }} @else 0 @endif</b></td>
-                    <td><button type="submit" class="btn-xs btn-info" value="{{ $row->id }}" onclick="disapproved_status($(this))" style="color:white;"><i class="fa fa-smile-o"></i> Approve</button></td>
+                    <td class="text-center"><b style="color:green;">@if(isset(InformationPersonal::where('userid',pdoController::user_search1($row['prepared_name'])['username'])->first()->bbalance_cto)) {{ InformationPersonal::where('userid',pdoController::user_search1($row['prepared_name'])['username'])->first()->bbalance_cto }} @else 0 @endif</b></td>
+                    @if(Auth::user()->usertype)
+                        <td><button type="submit" class="btn-xs btn-info" value="{{ $row->id }}" onclick="disapproved_status($(this))" style="color:white;"><i class="fa fa-smile-o"></i> Approve</button></td>
+                    @endif
                 </tr>
             @endforeach
             </tbody>

@@ -336,11 +336,10 @@ class PDF extends FPDF
                         $this->Cell(8,5,$day_name,'');
 
 
-
                         $cto = null;
                         $so = null;
 
-                        
+
 
                         if(!$am_in AND !$am_out AND $pm_in AND $pm_out){
                             $cto = GET_CDO_SO($s_am_in,$s_am_out,$s_pm_in,$s_pm_out,$userid,$datein,'GETCDO');
@@ -353,7 +352,7 @@ class PDF extends FPDF
                                     $am_out = "SO#:".$so['remark'];
                                 }
                             }
-                            
+
                         }
 
                         if(!$pm_in AND !$pm_out AND $am_in AND $am_out) {
@@ -393,7 +392,6 @@ class PDF extends FPDF
                                 }
                             }
                         }
-
 
                         //if($day_name == 'Sat' || $day_name == 'Sun' AND $am_in == '') $am_out = 'DAY OFF';
                         if(isset($e1) and $e1 == "1"){
@@ -700,7 +698,7 @@ function userlist($userid)
     $pdo = conn();
     try {
         $st = $pdo->prepare("SELECT DISTINCT userid,fname,lname,mname,sched FROM users  WHERE usertype != '1' and userid = :id");
-       
+
         $st->bindParam(":id", $userid);
         $st->execute();
         $row = $st->fetchAll(PDO::FETCH_ASSOC);

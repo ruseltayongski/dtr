@@ -143,7 +143,7 @@
         </table>
         <table class="table table-hover table-striped">
             <tr>
-                <td class="col-sm-7">
+                <td class="col-sm-12">
                     <table class="table table-list table-hover table-striped">
                         <tr>
                             <td colspan="3"><strong>CERTIFICATION OF COMPENSATORY OVERTIME CREDITS</strong></td>
@@ -181,7 +181,7 @@
                     </table>
                 </td>
                 <td>
-                    <table class="table table-list table-hover table-striped">
+                    <!-- <table class="table table-list table-hover table-striped">
                         <tr>
                             <th colspan="2">RECOMENDATION:</th>
                         </tr>
@@ -221,7 +221,7 @@
                             </td>
                             <td class="align-left">Disapproval</td>
                         </tr>
-                    </table>
+                    </table> -->
                 </td>
             </tr>
         </table>
@@ -238,7 +238,7 @@
                     <table width="100%">
                         <tr>
                             <td class="align">
-                                <select  class="chosen-select-static form-control" name="immediate_supervisor" required>
+                                <select class="chosen-select-static form-control" name="immediate_supervisor" required>
                                     <?php if($data['type'] == 'update'): ?>
                                         <option value="<?php echo $data['section_head'][0]['id']; ?>"><?php echo $data['section_head'][0]['fname'].' '.$data['section_head'][0]['mname'].' '.$data['section_head'][0]['lname']; ?></option>
                                     <?php endif; ?>
@@ -256,7 +256,7 @@
                         <tr>
                             <td class="align">
                                 <br><br>
-                                <select  class="form-control" name="division_chief" required>
+                                <select class="form-control" name="division_chief" required>
                                     <?php if($data['type'] == 'update'): ?>
                                         <option value="<?php echo $data['division_head'][0]['id']; ?>"><?php echo $data['division_head'][0]['fname'].' '.$data['division_head'][0]['mname'].' '.$data['division_head'][0]['lname']; ?></option>
                                     <?php endif; ?>

@@ -6,7 +6,7 @@ $item_no = 1;
 <html>
 <title>Office Order</title>
 <head>
-    <link href="{{ asset('public/assets/css/print.css') }}" rel="stylesheet">
+    <link href="<?php echo asset('public/assets/css/print.css'); ?>" rel="stylesheet">
     <style>
         html {
             margin-top: 10px;
@@ -81,14 +81,14 @@ $item_no = 1;
     <hr>
     <div style="position:absolute; left: 25%;" class="align">
         <?php echo DNS1D::getBarcodeHTML(Session::get('route_no'),"C39E",1,28) ?>
-        <font class="route_no">{{ Session::get('route_no') }}</font>
+        <font class="route_no"><?php echo Session::get('route_no'); ?></font>
     </div>
 </div>
 <body>
 <div class="new-times-roman">
     <table class="letter-head" cellpadding="0" cellspacing="0">
         <tr>
-            <td id="no-border" class="align"><img src="{{ asset('public/img/doh.png') }}" width="100"></td>
+            <td id="no-border" class="align"><img src="<?php echo asset('public/img/doh.png'); ?>" width="100"></td>
             <td width="90%" id="no-border">
                 <div class="align small-text" style="margin-top:-10px;font-size: 10.5pt">
                     Republic of the Philippines<br>
@@ -98,29 +98,29 @@ $item_no = 1;
                     Official Website: http://www.ro7.doh.gov.ph Email Address: dohro7@gmail.com<br>
                 </div>
             </td>
-            <td id="no-border" class="align"><img src="{{ asset('public/img/ro7.png') }}" width="100"></td>
+            <td id="no-border" class="align"><img src="<?php echo asset('public/img/ro7.png'); ?>" width="100"></td>
         </tr>
     </table>
     <hr>
 
     <table class="letter-head" cellpadding="0" cellspacing="0">
         <tr>
-            <td colspan="4" id="no-border">{{ date('d M Y',strtotime($office_order->prepared_date)) }}</td>
+            <td colspan="4" id="no-border"><?php echo date('d M Y',strtotime($office_order->prepared_date)); ?></td>
         </tr>
         <tr>
             <td colspan="1" id="no-border" width="20%"><b>OFFICE ORDER</b></td>
             <td colspan="3" id="no-border" width="80%">)</td>
         </tr>
         <tr>
-            <td colspan="1" id="no-border" width="20%">No.<h2 style="display: inline;"><u>&nbsp;&nbsp;&nbsp;<!-- {{ sprintf('%04u',$office_order->id) }} -->&nbsp;&nbsp;&nbsp;</u></h2>{{ 's.,'.date('Y',strtotime($office_order->prepared_date)) }}&nbsp;&nbsp;<b></b></td>
+            <td colspan="1" id="no-border" width="20%">No.<h2 style="display: inline;"><u>&nbsp;&nbsp;&nbsp;<!-- <?php echo sprintf('%04u',$office_order->id); ?> -->&nbsp;&nbsp;&nbsp;</u></h2><?php echo 's.,'.date('Y',strtotime($office_order->prepared_date)); ?>&nbsp;&nbsp;<b></b></td>
             <td colspan="3" id="no-border" width="80%">)</td>
         </tr>
         <tr>
             <td colspan="1" id="no-border" class="align-top" width="20%"><b>SUBJECT:</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<u></u></td>
-            <td colspan="3" id="no-border" width="80%">:<u>{{ $office_order->subject }}</u></td>
+            <td colspan="3" id="no-border" width="80%">:<u><?php echo $office_order->subject; ?></u></td>
         </tr>
         <tr>
-            <td colspan="4" id="no-border">{{ nl2br($office_order->header_body) }}</td>
+            <td colspan="4" id="no-border"><?php echo nl2br($office_order->header_body); ?></td>
         </tr>
     </table>
     <table class="table1" cellpadding="0" cellspacing="0">    
@@ -138,13 +138,13 @@ $item_no = 1;
         </tr>
 
         <?php $count = 0; ?>
-        @foreach($name as $row)
+        <?php foreach($name as $row): ?>
             <?php $count++; ?>
             <tr>
-                <td id="no-border">{{ $count.'. '.$row['fname'].' '.$row['mname'].' '.$row['lname'] }}</td>
-                <td id="no-border">{{ pdoController::designation_search($row['designation'])['description'] }}</td>
+                <td id="no-border"><?php echo $count.'. '.$row['fname'].' '.$row['mname'].' '.$row['lname']; ?></td>
+                <td id="no-border"><?php echo pdoController::designation_search($row['designation'])['description']; ?></td>
             </tr>
-        @endforeach
+        <?php endforeach; ?>
     </table>
     <!-- <br>
     <table class="letter-head" cellpadding="0" cellspacing="0">
@@ -152,17 +152,17 @@ $item_no = 1;
             <td><b>Dates</b></td>
             <td><b>Areas</b></td>
         </tr>
-        @foreach($inclusive_date as $row)
+        <?php foreach($inclusive_date as $row): ?>
             <tr>
-                <td>{{ date('M d',strtotime($row->start)).' to '.date('M d, Y',strtotime('-1 day',strtotime($row->end))) }}</td>
-                <td>{{ $row->area }}</td>
+                <td><?php echo date('M d',strtotime($row->start)).' to '.date('M d, Y',strtotime('-1 day',strtotime($row->end))); ?></td>
+                <td><?php echo $row->area; ?></td>
             </tr>
-        @endforeach
+        <?php endforeach; ?>
     </table> -->
     
     <table class="letter-head" cellpadding="0" cellspacing="0">
         <tr>
-            <td colspan="3" id="no-border">{{ nl2br($office_order->footer_body) }}</td>
+            <td colspan="3" id="no-border"><?php echo nl2br($office_order->footer_body); ?></td>
         </tr>
         <tr>
             <td id="no-border"></td>
@@ -170,17 +170,16 @@ $item_no = 1;
         <tr>
             <td colspan="3" id="no-border">
                 <b>
-                    <!-- {{ $office_order->approved_by }} -->
-                    Sophia M. Mancao, MD, DPSP
+                    <?php echo $office_order->approved_by; ?>
+
                 </b><br>
-                OIC, Director III
-                <!-- @if($office_order->approved_by == 'Jaime S. Bernadas, MD, MGM, CESO III')
+                <?php if($office_order->approved_by == 'Jaime S. Bernadas, MD, MGM, CESO III'): ?>
                     Director IV
-                @elseif($office_order->approved_by == 'SOPHIA MANCAO MD,DPSP')
+                <?php elseif($office_order->approved_by == 'Sophia M. Mancao, MD, DPSP'): ?>
                     OIC, Director III
-                @else
+                <?php else: ?>
                     Director III
-                @endif -->
+                <?php endif; ?>
             </td>
         </tr>
     </table>

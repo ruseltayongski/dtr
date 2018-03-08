@@ -112,11 +112,11 @@ $item_no = 1;
             <td colspan="3" id="no-border" width="80%">)</td>
         </tr>
         <tr>
-            <td colspan="1" id="no-border" width="20%">No.<h2 style="display: inline;"><u>&nbsp;&nbsp;&nbsp;<!-- <?php echo sprintf('%04u',$office_order->id); ?> -->&nbsp;&nbsp;&nbsp;</u></h2><?php echo 's,'.date('Y',strtotime($office_order->prepared_date)); ?>&nbsp;&nbsp;<b></b></td>
+            <td colspan="1" id="no-border" width="20%">No.<h2 style="display: inline;"><u>&nbsp;&nbsp;&nbsp;<!-- <?php echo sprintf('%04u',$office_order->id); ?> -->&nbsp;&nbsp;&nbsp;</u></h2><?php echo 's.,'.date('Y',strtotime($office_order->prepared_date)); ?>&nbsp;&nbsp;<b></b></td>
             <td colspan="3" id="no-border" width="80%">)</td>
         </tr>
         <tr>
-            <td colspan="1" id="no-border" class="align-top" width="20%"><b>SUBJECT</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<u></u></td>
+            <td colspan="1" id="no-border" class="align-top" width="20%"><b>SUBJECT:</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<u></u></td>
             <td colspan="3" id="no-border" width="80%">:<u><?php echo $office_order->subject; ?></u></td>
         </tr>
         <tr>
@@ -170,16 +170,17 @@ $item_no = 1;
         <tr>
             <td colspan="3" id="no-border">
                 <b>
-                    <?php echo $office_order->approved_by; ?>
-
+                    <!-- <?php echo $office_order->approved_by; ?> -->
+                    Sophia M. Mancao, MD, DPSP
                 </b><br>
-                <?php if($office_order->approved_by == 'Jaime S. Bernadas, MD, MGM, CESO III'): ?>
+                OIC, Director III
+                <!-- <?php if($office_order->approved_by == 'Jaime S. Bernadas, MD, MGM, CESO III'): ?>
                     Director IV
-                <?php elseif($office_order->approved_by == 'SOPHIA MANCAO MD, DPSP'): ?>
-                    OIC - Director III    
+                <?php elseif($office_order->approved_by == 'SOPHIA MANCAO MD,DPSP'): ?>
+                    OIC, Director III
                 <?php else: ?>
                     Director III
-                <?php endif; ?>
+                <?php endif; ?> -->
             </td>
         </tr>
     </table>

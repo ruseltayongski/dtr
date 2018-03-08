@@ -13,7 +13,7 @@
     <meta name="author" content="Department of Health Region 7">
     <link rel="icon" href="<?php echo asset('public/img/favicon.png'); ?>">
     <meta http-equiv="cache-control" content="max-age=0" />
-    <title>HRIS</title>
+    <title>HRMIS</title>
 
     <?php if(Request::segments()[0] == "calendar"): ?>
         <link href="<?php echo asset('public/plugin/fullcalendar/fullcalendar.min.css'); ?>" rel="stylesheet">

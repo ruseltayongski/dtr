@@ -232,23 +232,29 @@ class DocumentController extends BaseController
     //OFFICE ORDER
     public function so_delete()
     {
-        $prepared_by =  pdoController::user_search(Auth::user()->userid)['id'];
-        $route_no = Session::get('route_no');
+      
+      	$route_no = Session::get('route_no');  
+       	$prepared_by = pdoController::user_search1( OfficeOrders::where('route_no',$route_no)->first()->prepared_by )['id'];
 
-        OfficeOrders::where('route_no',$route_no)->delete();
-        InclusiveNames::where('route_no',$route_no)->delete();
+        $inclusiveName = InclusiveNames::where('route_no',$route_no)->get();
 
-        //delete calendar and dtr file
-        $calendar = Calendars::where('route_no',$route_no)->first();
-        $details = DtrDetails::where('holiday','003')
-            ->whereBetween('datein',array($calendar->start,$calendar->end));
-        $details->delete();
-        $calendar->delete();
-        ///
-
+        foreach ( $inclusiveName as $inName ) {
+            $calendar = Calendars::where('route_no',$route_no)->get();
+            foreach ( $calendar as $cal )
+            {
+                // delete so logs
+                $details = SoLogs::where('userid','=',pdoController::user_search1($inName->user_id)['username'])->where('holiday','003')
+                    ->whereBetween('datein',array($cal->start,$cal->end))->delete();    
+            }
+        }
         pdoController::delete_tracking_master($route_no);
         pdoController::delete_tracking_details($route_no);
         //$this->delete_tracking_release($route_no);
+
+        //delete office_order/calendar and inclusive name
+        OfficeOrders::where('route_no',$route_no)->delete();
+        Calendars::where('route_no',$route_no)->delete();
+        InclusiveNames::where('route_no',$route_no)->delete();
 
         //ADD SYSTEM LOGS
         $user_id = $prepared_by;
