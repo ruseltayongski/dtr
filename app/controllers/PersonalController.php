@@ -302,6 +302,7 @@ class PersonalController extends Controller
             $details->event = 'IN';
             $details->remark = $remarks;
             $details->edited = '1';
+            $details->time_type = 'WH';
             $details->holiday = '006';
 
             $details->save();
@@ -313,6 +314,7 @@ class PersonalController extends Controller
             $details->event = 'OUT';
             $details->remark = $remarks;
             $details->edited = '1';
+            $details->time_type = 'WH';
             $details->holiday = '006';
 
             $details->save();
@@ -324,6 +326,7 @@ class PersonalController extends Controller
             $details->event = 'IN';
             $details->remark = $remarks;
             $details->edited = '1';
+            $details->time_type = 'WH';
             $details->holiday = '006';
 
             $details->save();
@@ -335,6 +338,7 @@ class PersonalController extends Controller
             $details->event = 'OUT';
             $details->remark = $remarks;
             $details->edited = '1';
+            $details->time_type = 'WH';
             $details->holiday = '006';
 
             $details->save();
@@ -436,6 +440,7 @@ class PersonalController extends Controller
             $details->event = 'IN';
             $details->remark = $remarks;
             $details->edited = '1';
+            $details->time_type = 'WH';
             $details->holiday = '003';
 
             $details->save();
@@ -448,7 +453,7 @@ class PersonalController extends Controller
             $details->remark = $remarks;
             $details->edited = '1';
             $details->holiday = '003';
-
+            $details->time_type = 'WH';
             $details->save();
 
             $details = new SoLogs();
@@ -458,6 +463,7 @@ class PersonalController extends Controller
             $details->event = 'IN';
             $details->remark = $remarks;
             $details->edited = '1';
+            $details->time_type = 'WH';
             $details->holiday = '003';
 
             $details->save();
@@ -469,6 +475,7 @@ class PersonalController extends Controller
             $details->event = 'OUT';
             $details->remark = $remarks;
             $details->edited = '1';
+            $details->time_type = 'WH';
             $details->holiday = '003';
 
             $details->save();
