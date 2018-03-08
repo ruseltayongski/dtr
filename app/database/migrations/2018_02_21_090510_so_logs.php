@@ -12,31 +12,31 @@ class SoLogs extends Migration {
 	 */
 	public function up()
 	{
-        Schema::create('so_logs', function($table) {
-            $table->string('userid',200)->nullable();
-            $table->date('datein')->nullable();
-            $table->time('time')->nullable();
-            $table->string('event',200)->nullable();
-            $table->string('remark',200)->nullable();
-            $table->string('edited',10)->nullable();
-            $table->string('holiday',30)->nullable();
-            $table->string('type')->nullable();
-            $table->string('desc',30)->nullable();
-            $table->primary(array('userid','datein', 'time','event',));
+                Schema::create('so_logs', function($table) {
+                        $table->string('userid',200)->nullable();
+                        $table->date('datein')->nullable();
+                        $table->time('time')->nullable();
+                        $table->string('event',200)->nullable();
+                        $table->string('remark',200)->nullable();
+                        $table->string('edited',10)->nullable();
+                        $table->string('holiday',30)->nullable();
+                        $table->string('type')->nullable();
+                        $table->string('desc',30)->nullable();
+                        $table->primary(array('userid','datein', 'time','event',));
 
-            $table->index('userid');
-            $table->index('datein');
-            $table->index('time');
-            $table->index('event');
-            $table->index('holiday');
+                        $table->index('userid');
+                        $table->index('datein');
+                        $table->index('time');
+                        $table->index('event');
+                        $table->index('holiday');
 
 
-            /*//$table->unique('datein');
-            $table->unique('time');
-            $table->unique('event');*/
-            $table->timestamps();
-            $table->softDeletes();
-        });
+                        /*//$table->unique('datein');
+                        $table->unique('time');
+                        $table->unique('event');*/
+                        $table->timestamps();
+                        $table->softDeletes();
+                });
 	}
 
 	/**
@@ -46,7 +46,7 @@ class SoLogs extends Migration {
 	 */
 	public function down()
 	{
-        Schema::drop('so_logs');
+                Schema::drop('so_logs');
 	}
 
 }

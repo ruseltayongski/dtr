@@ -27,6 +27,12 @@ include_once 'leave/f5_rows.php';
 
 include_once 'leave/f6_rows.php';
 
+
+$st = $pdo->prepare("SELECT route_no FROM dohdtr.leave WHERE id = ? LIMIT 1");
+$st->execute(array($id));
+$route_no = $st->fetch(PDO::FETCH_ASSOC)['route_no'];
+
+
 include_once 'print_barcode.php';
 
 $pdf->Output();
