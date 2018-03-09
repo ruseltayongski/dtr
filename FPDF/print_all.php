@@ -48,7 +48,7 @@ class PDF extends FPDF
             $logs = get_logs($s_am_in,$s_am_out,$s_pm_in,$s_pm_out,$userid,$date_from,$date_to);
 
             if(count($logs) <= 0) {
-                include_once('empty_dtr.php');
+                //include_once('empty_dtr.php');
             } else {
 
                 $this->Image(__DIR__.'/image/doh2.png', 15, 50,80,80);

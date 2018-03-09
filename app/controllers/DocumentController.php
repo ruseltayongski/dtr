@@ -232,8 +232,9 @@ class DocumentController extends BaseController
     //OFFICE ORDER
     public function so_delete()
     {
+
         $route_no = Session::get('route_no');
-        $prepared_by = pdoController::user_search1( OfficeOrders::where('route_no',$route_no)->first()->prepared_by )['id'];
+        $prepared_by = pdoController::user_search( OfficeOrders::where('route_no',$route_no)->first()->prepared_by )['id'];
 
         $inclusiveName = InclusiveNames::where('route_no',$route_no)->get();
 
@@ -242,9 +243,8 @@ class DocumentController extends BaseController
             foreach ( $calendar as $cal )
             {
                 // delete so logs
-                $details = SoLogs::where('userid','=',pdoController::user_search1($inName->user_id)['username'])->where('holiday','003')
-                    ->whereBetween('datein',array($cal->start,$cal->end));
-                $details->delete();
+                 SoLogs::where('userid','=',pdoController::user_search1($inName->user_id)['username'])->where('holiday','003')
+                    ->whereBetween('datein',array($cal->start,$cal->end))->delete();
             }
         }
         pdoController::delete_tracking_master($route_no);
@@ -392,6 +392,7 @@ class DocumentController extends BaseController
         foreach(Input::get('inclusive_name') as $row){
             $inclusive_name = new inclusiveNames();
             $inclusive_name->route_no = $route_no;
+            $inclusive_name->user_id = pdoController::user_search(Input::get('inclusive_name')[$count])['id'];
             $inclusive_name->userid = Input::get('inclusive_name')[$count];
             $inclusive_name->status = 1;
             $inclusive_name->save();
@@ -483,6 +484,7 @@ class DocumentController extends BaseController
         foreach(Input::get('inclusive_name') as $row){
             $inclusive_name = new InclusiveNames();
             $inclusive_name->route_no = $route_no;
+            $inclusive_name->user_id = pdoController::user_search(Input::get('inclusive_name')[$count])['id'];
             $inclusive_name->userid = Input::get('inclusive_name')[$count];
             $inclusive_name->status = 1;
             $inclusive_name->save();

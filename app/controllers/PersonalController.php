@@ -266,92 +266,248 @@ class PersonalController extends Controller
         if(Request::method() == "POST") {
             $type = Session::get('type');
             if($type == "SO"){
-                $remarks = "SO #: ".Input::get('so');
+                $this->insert_so(Input::get('date_range'),Input::get('so'));
             } elseif($type == "LEAVE") {
-                $remarks = Input::get('leave_type');
+
+                $this->insert_leave(Input::get('date_range'),Input::get('leave_type'));
             } elseif($type == "CTO") {
-                $remarks = $type;
-            }
-            $temp1 = explode('-',Input::get('date_range'));
-
-            $from = date('Y-m-d',strtotime($temp1[0]));
-            $end_date = date('Y-m-d',strtotime($temp1[1]));
-
-            $f = new DateTime($from.' '. '24:00:00');
-            $t = new DateTime($end_date.' '. '24:00:00');
-
-
-
-            $interval = $f->diff($t);
-
-            $datein = '';
-            $f_from = explode('-',$from);
-            $startday = $f_from[2];
-            $j = 0;
-            while($j <= $interval->days) {
-
-                $datein = $f_from[0].'-'.$f_from[1] .'-'. $startday;
-
-                $details = new DtrDetails();
-                $details->userid = Auth::user()->userid;
-                $details->datein = $datein;
-                $details->time = '08:00:00';
-                $details->event = 'IN';
-                $details->remark = $remarks;
-                $details->edited = '1';
-                $details->holiday = '006';
-
-                $details->save();
-
-                $details = new DtrDetails();
-                $details->userid =  Auth::user()->userid;
-                $details->datein = $datein;
-                $details->time = '12:00:00';
-                $details->event = 'OUT';
-                $details->remark = $remarks;
-                $details->edited = '1';
-                $details->holiday = '006';
-
-                $details->save();
-
-                $details = new DtrDetails();
-                $details->userid =  Auth::user()->userid;
-                $details->datein = $datein;
-                $details->time = '13:00:00';
-                $details->event = 'IN';
-                $details->remark = $remarks;
-                $details->edited = '1';
-                $details->holiday = '006';
-
-                $details->save();
-
-                $details = new DtrDetails();
-                $details->userid =  Auth::user()->userid;
-                $details->datein = $datein;
-                $details->time = '18:00:00';
-                $details->event = 'OUT';
-                $details->remark = $remarks;
-                $details->edited = '1';
-                $details->holiday = '006';
-
-                $details->save();
-
-                $startday = $startday + 1;
-                $j++;
+                $this->insert_cto(Input::get('date_range'),'CTO');
             }
             return Redirect::to('personal/index')->with('msg','New absences created');
         }
     }
+    public function insert_cto($daterange,$remarks){
+        $temp1 = explode('-',$daterange);
 
+        $from = date('Y-m-d',strtotime($temp1[0]));
+        $end_date = date('Y-m-d',strtotime($temp1[1]));
+
+        $f = new DateTime($from.' '. '24:00:00');
+        $t = new DateTime($end_date.' '. '24:00:00');
+
+        $interval = $f->diff($t);
+
+
+        $f_from = explode('-',$from);
+        $startday = $f_from[2];
+        $j = 0;
+        while($j <= $interval->days) {
+
+            $datein = $f_from[0].'-'.$f_from[1] .'-'. $startday;
+
+            $details = new CdoLogs();
+            $details->userid = Auth::user()->userid;
+            $details->datein = $datein;
+            $details->time = '08:00:00';
+            $details->event = 'IN';
+            $details->remark = $remarks;
+            $details->edited = '1';
+            $details->holiday = '006';
+
+            $details->save();
+
+            $details = new CdoLogs();
+            $details->userid =  Auth::user()->userid;
+            $details->datein = $datein;
+            $details->time = '12:00:00';
+            $details->event = 'OUT';
+            $details->remark = $remarks;
+            $details->edited = '1';
+            $details->holiday = '006';
+
+            $details->save();
+
+            $details = new CdoLogs();
+            $details->userid =  Auth::user()->userid;
+            $details->datein = $datein;
+            $details->time = '13:00:00';
+            $details->event = 'IN';
+            $details->remark = $remarks;
+            $details->edited = '1';
+            $details->holiday = '006';
+
+            $details->save();
+
+            $details = new CdoLogs();
+            $details->userid =  Auth::user()->userid;
+            $details->datein = $datein;
+            $details->time = '18:00:00';
+            $details->event = 'OUT';
+            $details->remark = $remarks;
+            $details->edited = '1';
+            $details->holiday = '006';
+
+            $details->save();
+
+            $startday = $startday + 1;
+            $j++;
+        }
+    }
+    public function insert_leave($daterange,$remarks){
+        $temp1 = explode('-',$daterange);
+
+        $from = date('Y-m-d',strtotime($temp1[0]));
+        $end_date = date('Y-m-d',strtotime($temp1[1]));
+
+        $f = new DateTime($from.' '. '24:00:00');
+        $t = new DateTime($end_date.' '. '24:00:00');
+
+        $interval = $f->diff($t);
+
+
+        $f_from = explode('-',$from);
+        $startday = $f_from[2];
+        $j = 0;
+        while($j <= $interval->days) {
+
+            $datein = $f_from[0].'-'.$f_from[1] .'-'. $startday;
+
+            $details = new LeaveLogs();
+            $details->userid = Auth::user()->userid;
+            $details->datein = $datein;
+            $details->time = '08:00:00';
+            $details->event = 'IN';
+            $details->remark = $remarks;
+            $details->edited = '1';
+            $details->holiday = '007';
+
+            $details->save();
+
+            $details = new LeaveLogs();
+            $details->userid =  Auth::user()->userid;
+            $details->datein = $datein;
+            $details->time = '12:00:00';
+            $details->event = 'OUT';
+            $details->remark = $remarks;
+            $details->edited = '1';
+            $details->holiday = '007';
+
+            $details->save();
+
+            $details = new LeaveLogs();
+            $details->userid =  Auth::user()->userid;
+            $details->datein = $datein;
+            $details->time = '13:00:00';
+            $details->event = 'IN';
+            $details->remark = $remarks;
+            $details->edited = '1';
+            $details->holiday = '007';
+
+            $details->save();
+
+            $details = new LeaveLogs();
+            $details->userid =  Auth::user()->userid;
+            $details->datein = $datein;
+            $details->time = '18:00:00';
+            $details->event = 'OUT';
+            $details->remark = $remarks;
+            $details->edited = '1';
+            $details->holiday = '007';
+
+            $details->save();
+
+            $startday = $startday + 1;
+            $j++;
+        }
+    }
+    public function insert_so($daterange,$remarks){
+        $temp1 = explode('-',$daterange);
+
+        $from = date('Y-m-d',strtotime($temp1[0]));
+        $end_date = date('Y-m-d',strtotime($temp1[1]));
+
+        $f = new DateTime($from.' '. '24:00:00');
+        $t = new DateTime($end_date.' '. '24:00:00');
+
+        $interval = $f->diff($t);
+
+
+        $f_from = explode('-',$from);
+        $startday = $f_from[2];
+        $j = 0;
+        while($j <= $interval->days) {
+
+            $datein = $f_from[0].'-'.$f_from[1] .'-'. $startday;
+
+            $details = new SoLogs();
+            $details->userid = Auth::user()->userid;
+            $details->datein = $datein;
+            $details->time = '08:00:00';
+            $details->event = 'IN';
+            $details->remark = $remarks;
+            $details->edited = '1';
+            $details->holiday = '003';
+
+            $details->save();
+
+            $details = new SoLogs();
+            $details->userid =  Auth::user()->userid;
+            $details->datein = $datein;
+            $details->time = '12:00:00';
+            $details->event = 'OUT';
+            $details->remark = $remarks;
+            $details->edited = '1';
+            $details->holiday = '003';
+
+            $details->save();
+
+            $details = new SoLogs();
+            $details->userid =  Auth::user()->userid;
+            $details->datein = $datein;
+            $details->time = '13:00:00';
+            $details->event = 'IN';
+            $details->remark = $remarks;
+            $details->edited = '1';
+            $details->holiday = '003';
+
+            $details->save();
+
+            $details = new SoLogs();
+            $details->userid =  Auth::user()->userid;
+            $details->datein = $datein;
+            $details->time = '18:00:00';
+            $details->event = 'OUT';
+            $details->remark = $remarks;
+            $details->edited = '1';
+            $details->holiday = '003';
+
+            $details->save();
+
+            $startday = $startday + 1;
+            $j++;
+        }
+    }
     public function delete_created_logs()
     {
         $temp1 = explode('-',Input::get('date_range'));
         $from = date('Y-m-d',strtotime($temp1[0]));
         $end_date = date('Y-m-d',strtotime($temp1[1]));
 
-        $logs = DB::table('edited_logs')
+        DB::table('edited_logs')
                 ->where('edited','=','1')
+                ->where('userid','=',Auth::user()->userid)
                 ->whereBetween('datein', array($from,$end_date))->delete();
+
+        DB::table('so_logs')
+            ->where('userid','=',Auth::user()->userid)
+            ->whereBetween('datein', array($from,$end_date))->delete();
+
+        DB::table('cdo_logs')
+            ->where('userid','=',Auth::user()->userid)
+            ->whereBetween('datein', array($from,$end_date))->delete();
+
+        DB::table('cdo_logs')
+            ->where('userid','=',Auth::user()->userid)
+            ->whereBetween('datein', array($from,$end_date))->delete();
+
+        DB::table('leave_logs')
+            ->where('userid','=',Auth::user()->userid)
+            ->whereBetween('datein', array($from,$end_date))->delete();
+
+        $logs = DB::table('dtr_file')
+            ->where('edited','=','1')
+            ->where('userid','=',Auth::user()->userid)
+            ->whereBetween('datein', array($from,$end_date))->delete();
 
         if(count($logs) > 0)
         {
