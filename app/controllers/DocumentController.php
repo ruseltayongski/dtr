@@ -341,7 +341,9 @@ class DocumentController extends BaseController
                 ->paginate(10);
         }
         
-        return View::make('form.office_order_list')->with('office_order',$office_order);
+        return View::make('form.office_order_list',[
+                            'office_order' => $office_order
+                        ]);
     }
 
     public function sov1()
