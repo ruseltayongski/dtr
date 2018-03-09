@@ -270,7 +270,8 @@ Route::get('ajax1',function(){
 	}
 });
 
-Route::get('payroll/login', function(){
+Route::get('sologs', function(){
+	return SoLogs::all();
 	
 });
 

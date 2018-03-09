@@ -4,8 +4,8 @@ class pdoController extends BaseController
     //PDO
     public static function connect()
     {
-        /*return new PDO("mysql:host=localhost;dbname=dtsv3.0",'root','');*/
-        return DB::connection('dts')->getPdo();
+        return new PDO("mysql:host=localhost;dbname=dtsv3.0",'root','');
+        //return DB::connection('dts')->getPdo();
     }
     public static function connect_pis()
     {
@@ -33,8 +33,8 @@ class pdoController extends BaseController
     }
     public static function user_search($id)
     {
-        $db=pdoController::connect();
-        $sql="SELECT * FROM USERS WHERE USERNAME = ?";
+        $db= pdoController::connect();
+        $sql="SELECT * FROM USERS WHERE username = ?";
         $pdo = $db->prepare($sql);
         $pdo->execute(array($id));
         $row = $pdo->fetch();

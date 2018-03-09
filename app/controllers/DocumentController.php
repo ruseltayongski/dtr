@@ -232,9 +232,8 @@ class DocumentController extends BaseController
     //OFFICE ORDER
     public function so_delete()
     {
-
-        $route_no = Session::get('route_no');
-        $prepared_by = pdoController::user_search( OfficeOrders::where('route_no',$route_no)->first()->prepared_by )['id'];
+      	$route_no = Session::get('route_no');  
+       	$prepared_by = pdoController::user_search1( OfficeOrders::where('route_no',$route_no)->first()->prepared_by )['id'];
 
         $inclusiveName = InclusiveNames::where('route_no',$route_no)->get();
 
@@ -243,7 +242,7 @@ class DocumentController extends BaseController
             foreach ( $calendar as $cal )
             {
                 // delete so logs
-                 SoLogs::where('userid','=',pdoController::user_search1($inName->user_id)['username'])->where('holiday','003')
+                 SoLogs::where('userid','=',$inName->userid)->where('holiday','003')
                     ->whereBetween('datein',array($cal->start,$cal->end))->delete();
             }
         }
@@ -364,6 +363,7 @@ class DocumentController extends BaseController
     }
 
     public function so_add(){
+
         $route_no = date('Y-') . pdoController::user_search(Auth::user()->userid)['id'] . date('mdHis');
         $doc_type = 'OFFICE_ORDER';
         $prepared_date = date('Y-m-d',strtotime(Input::get('prepared_date')) ).' '.date('H:i:s');

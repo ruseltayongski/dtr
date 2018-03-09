@@ -141,7 +141,7 @@
         </table>
         <table class="table table-hover table-striped">
             <tr>
-                <td class="col-sm-7">
+                <td class="col-sm-12">
                     <table class="table table-list table-hover table-striped">
                         <tr>
                             <td colspan="3"><strong>CERTIFICATION OF COMPENSATORY OVERTIME CREDITS</strong></td>
@@ -179,7 +179,7 @@
                     </table>
                 </td>
                 <td>
-                    <table class="table table-list table-hover table-striped">
+                    <!-- <table class="table table-list table-hover table-striped">
                         <tr>
                             <th colspan="2">RECOMENDATION:</th>
                         </tr>
@@ -219,7 +219,7 @@
                             </td>
                             <td class="align-left">Disapproval</td>
                         </tr>
-                    </table>
+                    </table> -->
                 </td>
             </tr>
         </table>
