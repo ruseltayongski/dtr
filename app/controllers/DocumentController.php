@@ -350,13 +350,15 @@ class DocumentController extends BaseController
     {
         $prepared_by = Auth::user()->userid;
         $users = InformationPersonal::get();
+        $section = Section::get();
         foreach($users as $row){
             $all_user[] = $row->userid;
         }
         return View::make('form.office_orderv1',[
             'users'=>$users,
             'prepared_by'=>json_encode($prepared_by),
-            "all_user" => json_encode($all_user)
+            "all_user" => json_encode($all_user),
+            'section' => $section
         ]);
     }
 
@@ -486,7 +488,7 @@ class DocumentController extends BaseController
         foreach(Input::get('inclusive_name') as $row){
             $inclusive_name = new InclusiveNames();
             $inclusive_name->route_no = $route_no;
-            $inclusive_name->user_id = pdoController::user_search(Input::get('inclusive_name')[$count])['id'];
+            $inclusive_name->user_id = 'null';
             $inclusive_name->userid = Input::get('inclusive_name')[$count];
             $inclusive_name->status = 1;
             $inclusive_name->save();
@@ -628,6 +630,7 @@ class DocumentController extends BaseController
         Session::put('route_no',$route_no);
         if($doc_type == 'office_order'){
             $users = InformationPersonal::get();
+            $inclusive_name = array();
             foreach(inclusiveNames::where('route_no',$route_no)->get() as $row){
                 $inclusive_name[] = $row->userid;
             }
@@ -636,13 +639,16 @@ class DocumentController extends BaseController
             }
             $info = OfficeOrders::where('route_no',$route_no)->get()->first();
             $inclusive_date = Calendars::where('route_no',$route_no)->get();
+            $section = Section::get();
             return View::make('document.info',[
                 'users'=>$users,
                 'info'=>$info,
                 'inclusive_date'=>$inclusive_date,
                     'inclusive_name' => json_encode($inclusive_name),
-                "all_user" => json_encode($all_user)
+                "all_user" => json_encode($all_user),
+                "section" => $section
             ]);
+
         } else {
             $cdo = cdo::where('route_no',$route_no)->get()->first();
             if(Auth::user()->usertype)

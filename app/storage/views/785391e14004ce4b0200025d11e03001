@@ -5,7 +5,7 @@
 </style>
 <span id="so_append" data-link="<?php echo asset('so_append'); ?>"></span>
 <form action="<?php echo asset('so_update'); ?>" method="POST" class="form-submit form-horizontal">
-    <input type="hidden" name="_token" value="<?php echo csrf_token();; ?>">
+    <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
     <input type="hidden" name="version" value="<?php echo $info->version; ?>">
     <div class="col-md-12 wrapper">
         <div class="row" style="text-align: center;">
@@ -43,7 +43,7 @@
                             <div class="input-group-addon">
                                 <i class="fa fa-book"></i>
                             </div>
-                            <textarea class="form-control" name="subject" rows="3" style="resize:none;"><?php echo $info->subject; ?></textarea>
+                            <textarea class="form-control" name="subject" rows="3" style="resize:none;" required><?php echo $info->subject; ?></textarea>
                         </div>
                     </div>
                 </div>
@@ -64,25 +64,61 @@
                         </div>
                     </div>
                 <?php endif; ?>
+
                 <div class="form-group">
-                    <label class="col-sm-3 control-label">Check to select all employee</label>
+                    <label class="col-sm-3 control-label">Check if select all employee (Optional)</label>
                     <div class="col-sm-9">
                         <input type="checkbox" class="form-control" name="all_employee">
+                        &nbsp;&nbsp;<button type="button" class="btn btn-info" onclick="clear_name()" style="color: white">Clear Inclusive Name</button>
                     </div>
                 </div>
+
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">Select section to include (Optional)</label>
+                    <div class="col-sm-9">
+                        <select onchange="selectSection($(this))" class="select2">
+                            <option value="">Select Section</option>
+                            <?php foreach($section as $row): ?>
+                                <option value="<?php echo $row->id; ?>"><?php echo $row->description; ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                </div>
+
                 <div class="form-group">
                     <label class="col-sm-3 control-label">Inclusive Name</label>
                     <div class="col-sm-9">
                         <div class="name_loading"></div>
                         <div class="inclusive_name">
-                            <select class='form-control select2' name='inclusive_name[]' multiple='multiple' data-placeholder='Select a name' required>
+                            <select class='form-control select2 list_inclusive_name' name='inclusive_name[]' multiple='multiple' data-placeholder='Select a name' required>
                                 <?php foreach($users as $row): ?>
                                     <option value='<?php echo $row->userid; ?>'><?php echo $row->fname.' '.$row->mname.' '.$row->lname; ?></option>
                                 <?php endforeach; ?>
                             </select>
                         </div>
+
+                        <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#toggle-pane-88">Simple collapsible</button>
+                        <div id="toggle-pane-88" class="collapse">Rusel</div>
+
+                        <p>
+                            <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                                Link with href
+                            </a>
+                            <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                                Button with data-target
+                            </button>
+                        </p>
+                        <div class="collapse" id="collapseExample">
+                            <div class="card card-body">
+                                Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
+                            </div>
+                        </div>
+
                     </div>
+
                 </div>
+
+
                 <div class="p_inclusive_date">
                     <?php
                     $count = 1;
@@ -256,10 +292,14 @@
     </div>
 </form>
 <script>
+
+
     $('.datepickercalendar').datepicker({
         autoclose: true
     });
     $(".proceed").hide();
+
+
     function proceed(){
         approved($("#proceed_director"));
         $(".proceed_loading").html(loadingState);
@@ -270,11 +310,15 @@
             $(".proceed").show()
         },700);
     }
+
+
     $(".wysihtml5").wysihtml5();
     $(".wysihtml5_1").wysihtml5();
-    $(".select2").select2();
-    $('.select2').val(<?php echo $inclusive_name; ?>).trigger('change');
+    $(".select2").css('width','100%').select2();
     $("#inclusive1").daterangepicker();
+
+
+    $('.list_inclusive_name').val(<?php echo $inclusive_name; ?>).trigger('change');
 
     for(var i = 1; i < $("#date_count").val();i++){
         $(function() {
@@ -283,6 +327,7 @@
             });
         });
     }
+
     var count = $("#date_count").val();
     function add_inclusive(){
         event.preventDefault();
@@ -290,6 +335,7 @@
         var url = $("#so_append").data('link')+"?count="+count;
         $.get(url,function(result){
             $(".p_inclusive_date").append(result);
+            $("."+count).hide().fadeIn();
         });
         $(function() {
             $("body").delegate("#inclusive"+count, "focusin", function(){
@@ -301,7 +347,7 @@
     function remove_row(id){
         //make multiple call to remove
         for(var i=0; i<10; i++){
-            $("#"+id.val()).remove();
+            $("."+id.val()).remove();
         }
     }
 
@@ -321,21 +367,33 @@
         $(".name_loading").html(loadingState);
         $(".inclusive_name").hide();
         setTimeout(function(){
-            $('.select2').val(<?php echo $all_user;?>).trigger('change');
+            $('.list_inclusive_name').val(<?php echo $all_user?>).trigger('change');
             $(".name_loading").html('');
             $(".inclusive_name").show();
-        },700);
+        },500);
     });
 
     $('input[name=all_employee]').on('ifUnchecked', function(event){
         $(".name_loading").html(loadingState);
         $(".inclusive_name").hide();
         setTimeout(function(){
-            $('.select2').val(<?php echo $inclusive_name;?>).trigger('change');
+            $('.list_inclusive_name').val(<?php echo $inclusive_name?>).trigger('change');
             $(".name_loading").html('');
             $(".inclusive_name").show()
-        },700);
+        },500);
     });
+
+    function clear_name()
+    {
+        $('input[name=all_employee]').iCheck('uncheck');
+        $(".name_loading").html(loadingState);
+        $(".inclusive_name").hide();
+        setTimeout(function(){
+            $('.list_inclusive_name').val('').trigger('change');
+            $(".name_loading").html('');
+            $(".inclusive_name").show();
+        },500);
+    }
 
     function warning(data){
         if(data == 'update')
@@ -361,4 +419,24 @@
         else
             $(".director").val('');
     }
+
+    function selectSection(result){
+        $(".name_loading").html(loadingState);
+        $(".inclusive_name").hide();
+        var sectionArray = [];
+        console.log(sectionArray);
+        $.each(<?php echo $users; ?>,function(index,data){
+            if( result.val() == data.section_id ){
+                sectionArray.push(data.userid);
+            }
+        });
+
+        setTimeout(function(){
+            $('.list_inclusive_name').val(sectionArray).trigger('change');
+            $(".name_loading").html('');
+            $(".inclusive_name").show()
+        },500);
+
+    }
+
 </script>

@@ -44,9 +44,8 @@
           <div class="login-box-body">
             <p class="login-box-msg">Sign in to start your session</p>        
               <div class="form-group has-feedback {{ Session::has('ops') ? ' has-error' : '' }}">
-                <input id="username" type="text" placeholder="Login ID" class="form-control" name="username">
+                <input id="username" value="@if(Session::has('username')){{ Session::get('username') }}@endif" type="text" placeholder="Login ID" class="form-control" name="username">
                 <span class="glyphicon glyphicon-user form-control-feedback"></span>
-
               </div>
               <div class="form-group has-feedback{{ Session::has('ops') ? ' has-error' : '' }}">
                 <input id="password" type="password" class="form-control" name="password" placeholder="Password">

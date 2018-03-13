@@ -11,7 +11,7 @@ class cdoController extends BaseController
         Session::put('keyword',Input::get('keyword'));
         $keyword = Session::get('keyword');
         if(Auth::user()->usertype){
-            $cdo["count_disapprove"] = cdo::where('approved_status',0)
+            $cdo["count_pending"] = cdo::where('approved_status',0)
                 ->where(function($q) use ($keyword){
                     $q->where("route_no","like","%$keyword%")
                         ->orWhere("subject","like","%$keyword%");
@@ -26,7 +26,7 @@ class cdoController extends BaseController
                     ->orWhere("subject","like","%$keyword%");
                 })->get();
 
-            $cdo['paginate_disapprove'] = cdo::where('approved_status',0)
+            $cdo['paginate_pending'] = cdo::where('approved_status',0)
                 ->where(function($q) use ($keyword){
                     $q->where("route_no","like","%$keyword%")
                         ->orWhere("subject","like","%$keyword%");
@@ -46,6 +46,7 @@ class cdoController extends BaseController
             })
                 ->orderBy('id','desc')
                 ->paginate(10);
+
             $type = "pending";
 
             if (Request::ajax()) {
@@ -53,19 +54,19 @@ class cdoController extends BaseController
                     $view = 'cdo.cdo_approve';
                     Session::put('page_approve',Input::get('page'));
                 }
-                elseif(Input::get('type') == 'disapprove') {
-                    $view = 'cdo.cdo_disapprove';
-                    Session::put('page_disapprove',Input::get('page'));
+                elseif(Input::get('type') == 'pending') {
+                    $view = 'cdo.cdo_pending';
+                    Session::put('page_pending',Input::get('page'));
                 }
                 elseif(Input::get('type') == 'all') {
                     $view = 'cdo.cdo_all';
                     Session::put('page_all',Input::get('page'));
                 }
                 return Response::json(array(
-                    "count_disapprove" => count($cdo["count_disapprove"]),
+                    "count_pending" => count($cdo["count_pending"]),
                     "count_approve" => count($cdo["count_approve"]),
                     "count_all" => count($cdo["count_all"]),
-                    "paginate_disapprove" => $cdo["paginate_disapprove"],
+                    "paginate_pending" => $cdo["paginate_pending"],
                     "paginate_approve" => $cdo["paginate_approve"],
                     "paginate_all" => $cdo["paginate_all"],
                     "view" => View::make($view,[
@@ -74,6 +75,7 @@ class cdoController extends BaseController
                     ])->render()
                 ));
             }
+
             return View::make('cdo.cdo_list',[
                 "cdo" => $cdo,
                 "type" => $type,
@@ -205,22 +207,22 @@ class cdoController extends BaseController
             $update = 1;
             $cdo['approve'] = cdo::where("approved_status",$status)->update(["approved_status" => $update]);
         }
-        elseif($type == 'disapprove') {
-            $view = 'cdo.cdo_disapprove';
+        elseif($type == 'pending') {
+            $view = 'cdo.cdo_pending';
             $status = 1;
             $update = 0;
 
-            $cdo['disapprove'] = cdo::where("approved_status",$status)->update(["approved_status" => $update]);
+            $cdo['pending'] = cdo::where("approved_status",$status)->update(["approved_status" => $update]);
         }
-        $cdo_count['disapprove'] = cdo::where('approved_status',0)->get();
+        $cdo_count['pending'] = cdo::where('approved_status',0)->get();
         $cdo_count['approve'] = cdo::where('approved_status',1)->get();
 
         if($type == 'approve'){
             foreach($cdo_count['approve'] as $row){
                 $this->dtr_file($row->start,$row->end,$row->prepared_name);
             }
-        } elseif($type == 'disapprove') {
-            foreach($cdo_count['disapprove'] as $row){
+        } elseif($type == 'pending') {
+            foreach($cdo_count['pending'] as $row){
                 DtrDetails::where('holiday','=', '002')
                     ->whereBetween('datein',array($row->start,$row->end))
                     ->delete();
@@ -228,7 +230,7 @@ class cdoController extends BaseController
         }
 
         return Response::json(array(
-            "disapprove" => count($cdo_count['disapprove']),
+            "pending" => count($cdo_count['pending']),
             "approve" => count($cdo_count['approve']),
             "view" => View::make($view,["cdo" => 0])->render()
         ));
@@ -327,11 +329,11 @@ class cdoController extends BaseController
             $cdo->save();
 
             $keyword = '';
-            $cdo["count_disapprove"] = cdo::where('approved_status',0)->get();
+            $cdo["count_pending"] = cdo::where('approved_status',0)->get();
             $cdo["count_approve"] = cdo::where('approved_status',1)->get();
             $cdo["count_all"] = cdo::all();
 
-            $cdo["paginate_disapprove"] = cdo::where('approved_status',0)
+            $cdo["paginate_pending"] = cdo::where('approved_status',0)
                 ->where(function($q) use ($keyword){
                     $q->where("route_no","like","%$keyword%")
                         ->orWhere("subject","like","%$keyword%");
@@ -356,17 +358,17 @@ class cdoController extends BaseController
                 if($type == 'approve') {    
                     $view = 'cdo.cdo_approve';
                 }
-                elseif($type == 'disapprove') {
-                    $view = 'cdo.cdo_disapprove';
+                elseif($type == 'pending') {
+                    $view = 'cdo.cdo_pending';
                 }
                 elseif($type == 'all') {
                     $view = 'cdo.cdo_all';
                 }
                 return Response::json(array(
-                    "count_disapprove" => count($cdo["count_disapprove"]),
+                    "count_pending" => count($cdo["count_pending"]),
                     "count_approve" => count($cdo["count_approve"]),
                     "count_all" => count($cdo["count_all"]),
-                    "paginate_disapprove" => count($cdo["paginate_disapprove"]),
+                    "paginate_pending" => count($cdo["paginate_pending"]),
                     "paginate_approve" => count($cdo["paginate_approve"]),
                     "paginate_all" => count($cdo["paginate_all"]),
                     "view" => View::make($view,["cdo" => $cdo,"type" => $type])->render()

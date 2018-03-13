@@ -3,8 +3,8 @@
 <div class="col-md-12 wrapper">
     <div class="box box-info">
         <div class="box-body">
-            <h3 class="page-header">Office Order
-            </h3>
+            <h3 class="page-header">Office Order</h3>
+
             <div class="row">
                 <div class="col-md-4">
                     <div class="row">
@@ -44,7 +44,6 @@
                                     <div class="row">
                                         <div class="col-md-12">
                                             @if(!Auth::user()->usertype)
-                                                {{--<a class="btn btn-success" data-dismiss="modal" data-backdrop="static" data-toggle="modal" data-target="#form_type" style="background-color: darkmagenta;color: white"><i class="fa fa-plus"></i> Create new</a>--}}
                                                 <a href="#document_form" data-link="{{ asset('form/sov1') }}" class="btn btn-success" data-dismiss="modal" data-backdrop="static" data-toggle="modal" data-target="#document_form" style="background-color:darkmagenta;color: white;"><i class="fa fa-plus"></i> Create new</a>
                                             @endif
                                         </div>
@@ -72,7 +71,7 @@
                                                             <tr>
                                                                 <td class="text-center"><a href="#track" data-link="{{ asset('form/track/'.$so->route_no) }}" data-route="{{ $so->route_no }}" data-toggle="modal" class="btn btn-sm btn-success col-sm-12" style="background-color: darkmagenta;color: white;"><i class="fa fa-line-chart"></i> Track</a></td>
                                                                 <td>
-                                                                    <a class="title-info" style="color: #f0ad4e;" data-route="{{ $so->route_no }}" data-backdrop="static" data-link="{{ asset('/form/info/'.$so->route_no.'/office_order') }}" href="#document_info" data-toggle="modal">{{ $so->route_no }}</a>
+                                                                    <a class="title-info" style="color: #f0ad4e;" data-route="{{ $so->route_no }}" data-backdrop="static" data-link="{{ asset('/form/info/'.$so->route_no.'/office_order') }}" href="#so_info" data-toggle="modal">{{ $so->route_no }}</a>
                                                                 </td>
                                                                 <td class="text-center">{{ date('M d, Y',strtotime($so->prepared_date)) }}</td>
                                                                 @if(Auth::user()->usertype)
@@ -109,6 +108,21 @@
     </div>
 </div>
 
+<div class="modal fade" role="dialog" id="so_info" style="overflow-y:scroll;">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color:#9C8AA5;padding:15px;">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title"><i class="fa fa-plus"></i> Create Document</h4>
+            </div>
+            <div class="modal-body">
+                <div class="modal_content"></div>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
 @endsection
 @section('js')
     <script>
@@ -116,7 +130,7 @@
             $(this).datepicker("clearDates");
         });
         //document information
-        $("a[href='#document_info']").on('click',function(){
+        $("a[href='#so_info']").on('click',function(){
             var route_no = $(this).data('route');
             $('.modal_content').html(loadingState);
             $('.modal-title').html('Route #: '+route_no);
@@ -136,7 +150,6 @@
         });
 
         $("a[href='#document_form']").on('click',function(e){
-            //$('#form_type').modal({show: false});
             $('.modal-title').html('Office Order');
             $('.modal_content').html(loadingState);
             var url = $(this).data('link');
@@ -151,7 +164,7 @@
                         $('input').attr('autocomplete', 'off');
                     }
                 });
-            },700);
+            },500);
         });
 
         $("a[href='#form_type']").on("click",function(){

@@ -1,4 +1,4 @@
-@if(isset($cdo['paginate_disapprove']) and count($cdo['paginate_disapprove']) >0)
+<?php if(isset($cdo['paginate_pending']) and count($cdo['paginate_pending']) >0): ?>
     <div class="table-responsive" style="margin-top: -20px;">
         <label style="padding-bottom: 10px;">Check to select all to approve </label>
         <input type="checkbox" id="click_approve">
@@ -8,40 +8,41 @@
             <tr>
                 <th></th>
                 <th class="text-center">Route #</th>
-                <th class="text-center">Prepared Date</th>
-                @if(\Illuminate\Support\Facades\Auth::user()->usertype)
+                <th class="text-center">Reason</th>
+                <?php if(\Illuminate\Support\Facades\Auth::user()->usertype): ?>
                     <th class="text-center">Prepared Name</th>
-                @else
+                <?php else: ?>
                     <th class="text-center">Document Type</th>
-                @endif
+                <?php endif; ?>
                 <th class="text-center">Beginning Balance</th>
                 <th class="text-center" width="17%">Option</th>
             </tr>
             </thead>
             <tbody style="font-size: 10pt;">
-            @foreach($cdo['paginate_disapprove'] as $row)
+            <?php foreach($cdo['paginate_pending'] as $row): ?>
                 <tr>
-                    <td><a href="#track" data-link="{{ asset('form/track/'.$row->route_no) }}" data-route="{{ $row->route_no }}" data-toggle="modal" class="btn btn-sm btn-success col-sm-12" style="background-color:darkmagenta;color:white;"><i class="fa fa-line-chart"></i> Track</a></td>
-                    <td><a class="title-info" data-backdrop="static" data-route="{{ $row->route_no }}" style="color: #f0ad4e;" data-link="{{ asset('/form/info/'.$row->route_no.'/cdo') }}" href="#document_info" data-toggle="modal">{{ $row->route_no }}</a></td>
-                    <td>{{ date('M d, Y',strtotime($row->prepared_date)) }}<br>{{ date('h:i:s A',strtotime($row->prepared_date)) }}</td>
-                    @if(\Illuminate\Support\Facades\Auth::user()->usertype)
-                        <td>{{ pdoController::user_search1($row['prepared_name'])['fname'].' '.pdoController::user_search1($row['prepared_name'])['mname'].' '.pdoController::user_search1($row['prepared_name'])['lname'] }}</td>
-                    @else
+                    <td><a href="#track" data-link="<?php echo asset('form/track/'.$row->route_no); ?>" data-route="<?php echo $row->route_no; ?>" data-toggle="modal" class="btn btn-sm btn-success col-sm-12" style="background-color:darkmagenta;color:white;"><i class="fa fa-line-chart"></i> Track</a></td>
+                    <td><a class="title-info" data-backdrop="static" data-route="<?php echo $row->route_no; ?>" style="color: #f0ad4e;" data-link="<?php echo asset('/form/info/'.$row->route_no.'/cdo'); ?>" href="#document_info" data-toggle="modal"><?php echo $row->route_no; ?></a></td>
+                    <td><?php echo $row->subject; ?></td>
+                    <?php if(\Illuminate\Support\Facades\Auth::user()->usertype): ?>
+                        <td><?php echo pdoController::user_search1($row['prepared_name'])['fname'].' '.pdoController::user_search1($row['prepared_name'])['mname'].' '.pdoController::user_search1($row['prepared_name'])['lname']; ?></td>
+                    <?php else: ?>
                         <td>CTO</td>
-                    @endif
-                    <td class="text-center"><b style="color:green;">@if(isset(InformationPersonal::where('userid',pdoController::user_search1($row['prepared_name'])['username'])->first()->bbalance_cto)) {{ InformationPersonal::where('userid',pdoController::user_search1($row['prepared_name'])['username'])->first()->bbalance_cto }} @else 0 @endif</b></td>
-                    @if(Auth::user()->usertype)
-                        <td><button type="submit" class="btn-xs btn-info" value="{{ $row->id }}" onclick="disapproved_status($(this))" style="color:white;"><i class="fa fa-smile-o"></i> Approve</button></td>
-                    @endif
+                    <?php endif; ?>
+                    <td class="text-center"><b style="color:green;"><?php if(isset(InformationPersonal::where('userid',pdoController::user_search1($row['prepared_name'])['username'])->first()->bbalance_cto)): ?> <?php echo InformationPersonal::where('userid',pdoController::user_search1($row['prepared_name'])['username'])->first()->bbalance_cto; ?> <?php else: ?> 0 <?php endif; ?></b></td>
+                    <?php if(Auth::user()->usertype): ?>
+                        <td><button type="submit" class="btn-xs btn-info" value="<?php echo $row->id; ?>" onclick="pending_status($(this))" style="color:white;"><i class="fa fa-smile-o"></i> Approve</button></td>
+                    <?php endif; ?>
                 </tr>
-            @endforeach
+            <?php endforeach; ?>
             </tbody>
         </table>
     </div>
-    {{ $cdo['paginate_disapprove']->links() }}
-@else
+    <?php echo $cdo['paginate_pending']->links(); ?>
+
+<?php else: ?>
     <div class="alert alert-danger" role="alert"><span style="color:red;">Documents records are empty.</span></div>
-@endif
+<?php endif; ?>
 
 <script>
     //document information
@@ -82,24 +83,24 @@
         },1000);
     });
 
-    function disapproved_status(data){
-        var page = "<?php echo Session::get('page_disapprove') ?>";
-        var url = $("#cdo_updatev1").data('link')+'/'+data.val()+'/disapprove?page='+page;
+    function pending_status(data){
+        var page = "<?php echo Session::get('page_pending') ?>";
+        var url = $("#cdo_updatev1").data('link')+'/'+data.val()+'/pending?page='+page;
         $.post(url,function(result){
             console.log(url);
-            $('.ajax_disapprove').html(loadingState);
+            $('.ajax_pending').html(loadingState);
             setTimeout(function(){
-                if(result['count_disapprove'] && !result['paginate_disapprove']){
+                if(result['count_pending'] && !result['paginate_pending']){
                     console.log("asin1");
                     getPosts(page-1,'');
                 } else {
                     console.log("asin2");
-                    $('.ajax_disapprove').html(result['view']);
+                    $('.ajax_pending').html(result['view']);
                 }
                 Lobibox.notify('info',{
                     msg:'Approve!'
                 });
-                $(".disapprove").html(result["count_disapprove"]);
+                $(".pending").html(result["count_pending"]);
                 $(".approve").html(result["count_approve"]);
             },700);
         });
@@ -108,25 +109,25 @@
     function click_all(type){
         var url = "<?php echo asset('click_all');?>"+"/"+type.val();
         $.get(url,function(result){
-            if(type.val() == 'disapprove'){
+            if(type.val() == 'pending'){
                 $('.ajax_approve').html(loadingState);
                 setTimeout(function(){
                     Lobibox.notify('error',{
-                        msg:'Disapprove!'
+                        msg:'pending!'
                     });
                     $('.ajax_approve').html(result['view']);
-                    $(".disapprove").html(result['disapprove']);
+                    $(".pending").html(result['pending']);
                     $(".approve").html(result['approve']);
                 },700);
             }
             else if(type.val() == 'approve'){
-                $('.ajax_disapprove').html(loadingState);
+                $('.ajax_pending').html(loadingState);
                 setTimeout(function(){
                     Lobibox.notify('info',{
                         msg:'Approve!'
                     });
-                    $('.ajax_disapprove').html(result['view']);
-                    $(".disapprove").html(result['disapprove']);
+                    $('.ajax_pending').html(result['view']);
+                    $(".pending").html(result['pending']);
                     $(".approve").html(result['approve']);
                 },700);
             }

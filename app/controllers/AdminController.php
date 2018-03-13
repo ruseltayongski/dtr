@@ -47,7 +47,7 @@ class AdminController extends BaseController
                         return Redirect::to('personal/index');
                     }
                 } else {
-                    return Redirect::to('/')->with('ops', 'Invalid Login');
+                    return Redirect::to('/')->with('ops', 'Invalid Login')->with('username',$username);
                 }
             } else {
                 if(Auth::attempt(array('username' => $username, 'password' => $password))) {
@@ -57,7 +57,7 @@ class AdminController extends BaseController
                         return Redirect::to('personal/index');
                     }
                 } else {
-                    return Redirect::to('/')->with('ops','Invalid Login');
+                    return Redirect::to('/')->with('ops','Invalid Login')->with('username',$username);
                 }
             }
         }

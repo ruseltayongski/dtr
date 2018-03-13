@@ -217,7 +217,7 @@
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
-<div class="modal fade" tabindex="-1" role="dialog" id="document_info" style="overflow-y:scroll;">
+<div class="modal fade" role="dialog" id="document_info" style="overflow-y:scroll;">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header" style="background-color:#9C8AA5;padding:15px;">
@@ -225,26 +225,28 @@
                 <h4 class="modal-title"><i class="fa fa-plus"></i> Office Order</h4>
             </div>
             <div class="modal-body">
-                <div class="modal_content"><center><img src="{{ asset('public/img/spin.gif') }}" width="150" style="padding:20px;"></center></div>
+                <div class="modal_content"></div>
             </div>
         </div>
     </div>
 </div>
 
-<div class="modal fade" tabindex="-1" role="dialog" id="document_form" style="overflow-y:scroll;">
-    <div class="modal-dialog modal-lg" role="document">
+<div class="modal fade" role="dialog" id="document_form" style="overflow-y:scroll;">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header" style="background-color:#9C8AA5;padding:15px;">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title"><i class="fa fa-plus"></i> Create Document</h4>
             </div>
             <div class="modal-body">
-                <div class="modal_content"><center><img src="{{ asset('public/img/spin.gif') }}" width="150" style="padding:20px;"></center></div>
+                <div class="modal_content">
+                    <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#toggle-pane-88">Simple collapsible</button>
+                    <div id="toggle-pane-88" class="collapse">Rusel</div>
+                </div>
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
-
 
 <div class="modal fade" tabindex="-1" role="dialog" id="paperSize" style="z-index:999991;">
     <div class="modal-dialog modal-sm" role="document">
