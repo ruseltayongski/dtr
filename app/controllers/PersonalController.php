@@ -522,4 +522,8 @@ class PersonalController extends Controller
         }
         return Redirect::to('personal/index');
     }
+    public function manual()
+    {
+        return View::make('users.manual');
+    }
 }
