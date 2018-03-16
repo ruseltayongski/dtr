@@ -186,7 +186,7 @@
     $(".btnV1").hide();
 
     function proceedv1(){
-        $('.modal-title').html('Office Order. Form Version 2');
+        $('.modal-title').html('Office Order. Form Version 1');
         $(".proceed_loading").html(loadingState);
         $('input[name=version]').val("1");
         setTimeout(function(){
@@ -198,7 +198,7 @@
     }
 
     function proceedv2(){
-        $('.modal-title').html('Office Order. Form Version 1');
+        $('.modal-title').html('Office Order. Form Version 2');
         $(".proceed_loading").html(loadingState);
         $('input[name=version]').val("2");
         setTimeout(function(){
