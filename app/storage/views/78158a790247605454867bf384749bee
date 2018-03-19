@@ -45,6 +45,7 @@
                         <li><a href="<?php echo asset("form/cdo_list"); ?>">CTO</a></li>
                     </ul>
                 </li>
+                
             </ul>
         </li>
     <?php endif; ?>
@@ -56,6 +57,8 @@
             <li><a href="<?php echo url('/logout'); ?>"><i class="fa fa-sign-out"></i>&nbsp;&nbsp; Logout</a></li>
         </ul>
     </li>
+    <li class="divider"></li>
+    <li><a href="<?php echo asset('manual'); ?>"> <i class="glyphicon glyphicon-question-sign"></i> User Manual</a></li>
 </ul>
 <script>
     function absent(data){

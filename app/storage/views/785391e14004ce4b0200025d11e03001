@@ -96,24 +96,6 @@
                                 <?php endforeach; ?>
                             </select>
                         </div>
-
-                        <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#toggle-pane-88">Simple collapsible</button>
-                        <div id="toggle-pane-88" class="collapse">Rusel</div>
-
-                        <p>
-                            <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
-                                Link with href
-                            </a>
-                            <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-                                Button with data-target
-                            </button>
-                        </p>
-                        <div class="collapse" id="collapseExample">
-                            <div class="card card-body">
-                                Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
-                            </div>
-                        </div>
-
                     </div>
 
                 </div>
@@ -134,7 +116,7 @@
                                     <div class="input-group-addon">
                                         <i class="fa fa-calendar"></i>
                                     </div>
-                                    <input type="text" class="form-control" value="<?php echo date('m/d/Y',strtotime($row->start)).' - '.date('m/d/Y',strtotime('-1 day',strtotime($row->end))); ?>" id="inclusive1" name="inclusive[]" placeholder="Input date range here..." required>
+                                    <input type="text" class="form-control" value="<?php echo date('m/d/Y',strtotime($row->start)).' - '.date('m/d/Y',strtotime('-1 day',strtotime($row->end))); ?>" id="inclusive1" name="inclusive[]" placeholder="Input date range here..." readonly>
                                 </div>
                             </div>
                         </div>
