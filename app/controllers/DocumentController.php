@@ -520,6 +520,7 @@ class DocumentController extends BaseController
             $so->start = $start_date;
             $so->end = $end_date;
             $so->area = Input::get('area')[$count];
+            $so->so_time = Input::get('so_time')[$count];
             $so->backgroundColor = 'rgb(216, 27, 96)';
             $so->borderColor = 'rgb(216, 27, 96)';
             $so->status = 0;
