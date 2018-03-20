@@ -52,7 +52,6 @@ App::error(function(Exception $exception, $code)
 {
     //return Redirect::to('/');
 	Log::error($exception);
-
 });
 
 /*

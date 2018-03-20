@@ -9,6 +9,15 @@
             <div class="container">
                 <div class="row">
                     <div class="col-md-11">
+                        <div class="alert alert-info">
+                            <p>If logs you created doesn't display on your dtr, try input AM arrival, AM departure,PM arrival,PM departure to successfully display all created logs. Don't worry logs came from the biometric machine will not be overriden.</p>
+                            <p><strong>You can delete your created logs by going to <em>Manage DTR > My DTR > Delete user created logs.</em> Only logs you create will be deleted.</strong>
+                            <p><strong>Patience is a Virtue</strong></p>
+                            </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-11">
                         <form action="{{ asset('personal/add/logs') }}" method="POST">
                             <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
                             <div class="row">

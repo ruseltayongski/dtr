@@ -58,12 +58,12 @@ class PDF extends FPDF
 
                 $this->SetFont('Arial','',8);
                 $this->SetX(10);
-                $this->Cell(40,10,'Civil Service Form No. 43',0);
+                $this->Cell(40,10,'Civil Service Form No. 48',0);
                 $this->SetX(70);
                 $this->Cell(40,10,'Printed : '. date('Y-m-d'),0);
 
                 $this->SetX(112);
-                $this->Cell(40,10,'Civil Service Form No. 43',0);
+                $this->Cell(40,10,'Civil Service Form No. 48',0);
                 $this->SetX(-40);
                 $this->Cell(40,10,'Printed : '.date('Y-m-d') ,0);
 
@@ -697,6 +697,64 @@ class PDF extends FPDF
                                             } else {
                                                 $pm_out = '';
                                                 $e4 = '';
+                                            }
+                                        }
+                                    }
+
+                                }
+                            }
+                        } else if(!$am_in AND !$am_out AND !$pm_in AND $pm_out){
+                            $cto = GET_CDO_SO($s_am_in,$s_am_out,$s_pm_in,$s_pm_out,$userid,$datein,'GETCDO');
+
+                            if($cto['remark'] == 'CTO'){
+                                $am_in = 'CTO';
+                                $am_out = 'CTO';
+                                $pm_in = 'CTO';
+                            } else {
+                                $so = GET_CDO_SO($s_am_in,$s_am_out,$s_pm_in,$s_pm_out,$userid,$datein,'GETSO');
+                                if($so['holiday'] === '003'){
+                                    $am_in = "SO#:".$so['remark'];
+                                    $am_out = "SO#:".$so['remark'];
+                                    $pm_in = "SO#:".$so['remark'];
+                                } else {
+                                    $leave = GET_CDO_SO($s_am_in,$s_am_out,$s_pm_in,$s_pm_out,$userid,$datein,'LEAVE_LOGS');
+                                    if($leave['holiday'] == '007'){
+                                        $am_in = $leave['remark'];
+                                        $am_out = $leave['remark'];
+                                        $pm_in = $leave['remark'];
+                                    } else {
+                                        $edited_logs = GET_CDO_SO($s_am_in,$s_am_out,$s_pm_in,$s_pm_out,$userid,$datein,'EDITED_LOGS');
+                                        if($edited_logs) {
+                                            $am_in =  $edited_logs['am_in'];
+                                            $am_out =  $edited_logs['am_out'];
+                                            $pm_in =  $edited_logs['pm_in'];
+                                           
+
+                                            if(isset($am_in)) {
+                                                $a = explode('_', $am_in);
+                                                $e1 = $a[1];
+                                                $am_in = $a[0];
+                                            } else {
+                                                $am_in = '';
+                                                $e1 = '';
+                                            }
+
+                                            if(isset($am_out)) {
+                                                $b = explode('_', $am_out);
+                                                $e2 = $b[1];
+                                                $am_out = $b[0];
+                                            } else {
+                                                $am_out = '';
+                                                $e2 = '';
+                                            }
+
+                                            if(isset($pm_in)) {
+                                                $c = explode('_', $pm_in);
+                                                $e3 = $c[1];
+                                                $pm_in = $c[0];
+                                            } else {
+                                                $pm_in = '';
+                                                $e3 = '';
                                             }
                                         }
                                     }

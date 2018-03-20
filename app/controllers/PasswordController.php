@@ -36,7 +36,7 @@ class PasswordController extends BaseController
                 array(
                     'current_password' => 'required',
                     'password_confirmation' => 'same:password',
-                    'password' => 'required|min:10|regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/',
+                    'password' => 'required|min:6|regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/',
                 )
             );
             if($validator->fails()){
