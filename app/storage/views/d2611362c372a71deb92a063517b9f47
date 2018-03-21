@@ -317,35 +317,35 @@
         });
 
         function getPosts(page,keyword) {
-            console.log(type);
             $.ajax({
                 url : '?type='+type+'&page='+page+"&keyword="+keyword,
-                dataType: 'json',
+                type: 'GET',
             }).done(function (result) {
+                console.log(result);
                 if(type == 'approve'){
                     $('.ajax_approve').html(loadingState);
                     setTimeout(function(){
-                        $('.ajax_approve').html(result['view']);
+                        $('.ajax_approve').html(result);
                     },700);
                 }
                 else if(type == 'pending'){
                     $('.ajax_pending').html(loadingState);
                     setTimeout(function(){
-                        $('.ajax_pending').html(result['view']);
+                        $('.ajax_pending').html(result);
                     },700);
                 }
                 else if(type == 'all'){
                     $('.ajax_all').html(loadingState);
                     setTimeout(function(){
-                        $('.ajax_all').html(result['view']);
+                        $('.ajax_all').html(result);
                     },700);
                 }
                 location.hash = page;
             }).fail(function (data) {
                 console.log(data.responseText);
-                //alert('Page could not be loaded... refresh your page.');
+                alert('Page could not be loaded... refresh your page.');
                 var redirect_url = "<?php echo asset('/'); ?>";
-                //window.location.href = redirect_url;
+                window.location.href = redirect_url;
             });
         }
         <?php endif; ?>

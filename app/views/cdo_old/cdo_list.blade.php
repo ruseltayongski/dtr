@@ -62,24 +62,23 @@
                                 @if(Auth::user()->usertype)
                                     <div class="nav-tabs-custom">
                                         <ul class="nav nav-tabs">
-                                            <li class="active">
-                                                <a href="#pending" class="btn btn-app" data-toggle="tab">
-                                                    <span class="badge bg-red pending">0</span>
-                                                    <i class="fa fa-exclamation-circle"></i> Pending
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="#approve" class="btn btn-app" data-toggle="tab">
-                                                    <span class="badge bg-aqua approve">0</span>
-                                                    <i class="fa fa-smile-o"></i> Approve
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="#all" class="btn btn-app" data-toggle="tab">
-                                                    <span class="badge bg-green all">0</span>
-                                                    <i class="fa fa-users"></i> All
-                                                </a>
-                                            </li>
+                                            <?php
+                                            $statusCount = 0;
+                                            $counter = 0;
+                                            $color = ['red','aqua','green'];
+                                            $fa = ['fa-exclamation-circle','fa-smile-o','fa-users'];
+                                            $status = ['pending','approve','all'];
+                                            ?>
+                                            @foreach($status as $row)
+                                                <?php $statusCount++; ?>
+                                                <li class="@if($statusCount == 1){{ 'active' }}@endif">
+                                                    <a href="#{{ $row }}" class="btn btn-app" data-toggle="tab">
+                                                        <span class="badge bg-{{ $color[$counter] }} {{ $row }}">0</span>
+                                                        <i class="fa {{ $fa[$counter] }}"></i> {{ $row }}
+                                                        <?php $counter++; ?>
+                                                    </a>
+                                                </li>
+                                            @endforeach
                                         </ul>
                                         <div class="active tab-content">
                                             {{--PENDING--}}
@@ -105,6 +104,7 @@
                                                     </div>
                                                 </div>
                                             </div>
+
                                             {{--APPROVE--}}
                                             <div class="tab-pane" id="approve">
                                                 <div class="panel panel-default">
@@ -121,7 +121,7 @@
                                                         <div class="row">
                                                             <div class="col-md-12">
                                                                 <div class="ajax_approve">
-                                                                    @include('cdo.cdo_approve')
+
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -144,13 +144,14 @@
                                                         <div class="row">
                                                             <div class="col-md-12">
                                                                 <div class="ajax_all">
-                                                                    @include('cdo.cdo_all')
+
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
+
                                         </div>
                                     </div>
                                     @else
@@ -274,19 +275,16 @@
         $(".approve").text(<?php echo count($cdo["count_approve"]); ?>);
         $(".all").text(<?php echo count($cdo["count_all"]); ?>);
         $("a[href='#approve']").on("click",function(){
-            $('.ajax_approve').html(loadingState);
             type = 'approve';
             getPosts(1,keyword);
             <?php Session::put('keyword',null); ?>
         });
         $("a[href='#pending']").on("click",function(){
-            $('.ajax_pending').html(loadingState);
             type = 'pending';
             getPosts(1,keyword);
             <?php Session::put('keyword',null); ?>
         });
         $("a[href='#all']").on("click",function(){
-            $('.ajax_all').html(loadingState);
             type = 'all';
             console.log(<?php echo Session::get('page_all'); ?>);
             getPosts(1,keyword);
@@ -321,7 +319,8 @@
                 url : '?type='+type+'&page='+page+"&keyword="+keyword,
                 type: 'GET',
             }).done(function (result) {
-                console.log(result);
+
+                
                 if(type == 'approve'){
                     $('.ajax_approve').html(loadingState);
                     setTimeout(function(){
@@ -340,14 +339,17 @@
                         $('.ajax_all').html(result);
                     },700);
                 }
-                location.hash = page;
+
             }).fail(function (data) {
                 console.log(data.responseText);
-                alert('Page could not be loaded... refresh your page.');
+                //alert('Page could not be loaded... refresh your page.');
                 var redirect_url = "<?php echo asset('/'); ?>";
-                window.location.href = redirect_url;
+                //window.location.href = redirect_url;
             });
+
         }
+
+
         <?php endif; ?>
     </script>
 @endsection

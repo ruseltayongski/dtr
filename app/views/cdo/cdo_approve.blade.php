@@ -1,4 +1,4 @@
-@if(isset($paginate) and count($paginate) >0)
+@if(isset($paginate_approve) and count($paginate_approve) >0)
     <div class="table-responsive" style="margin-top: -20px;">
         <label style="padding-bottom: 10px;">Check to select all to pending </label>
         <input type="checkbox" id="click_pending">
@@ -21,7 +21,7 @@
             </tr>
             </thead>
             <tbody style="font-size: 10pt;">
-            @foreach($paginate as $row)
+            @foreach($paginate_approve as $row)
                 <tr>
                     <td><a href="#track" data-link="{{ asset('form/track/'.$row->route_no) }}" data-route="{{ $row->route_no }}" data-toggle="modal" class="btn btn-sm btn-success col-sm-12" style="background-color:darkmagenta;color:white;"><i class="fa fa-line-chart"></i> Track</a></td>
                     <td><a class="title-info" data-backdrop="static" data-route="{{ $row->route_no }}" style="color: #f0ad4e;" data-link="{{ asset('/form/info/'.$row->route_no.'/cdo') }}" href="#document_info" data-toggle="modal">{{ $row->route_no }}</a></td>
@@ -40,7 +40,7 @@
             </tbody>
         </table>
     </div>
-    {{ $paginate->links() }}
+    {{ $paginate_approve->links() }}
 @else
     <div class="alert alert-danger" role="alert" style="color: red"><span style="color:red;">Documents records are empty.</span></div>
 @endif

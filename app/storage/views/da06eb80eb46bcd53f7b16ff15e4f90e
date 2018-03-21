@@ -1,4 +1,4 @@
-<?php if(isset($cdo['paginate_pending']) and count($cdo['paginate_pending']) >0): ?>
+<?php if(isset($paginate_pending) and count($paginate_pending) >0): ?>
     <div class="table-responsive" style="margin-top: -20px;">
         <label style="padding-bottom: 10px;">Check to select all to approve </label>
         <input type="checkbox" id="click_approve">
@@ -19,7 +19,7 @@
             </tr>
             </thead>
             <tbody style="font-size: 10pt;">
-            <?php foreach($cdo['paginate_pending'] as $row): ?>
+            <?php foreach($paginate_pending as $row): ?>
                 <tr>
                     <td><a href="#track" data-link="<?php echo asset('form/track/'.$row->route_no); ?>" data-route="<?php echo $row->route_no; ?>" data-toggle="modal" class="btn btn-sm btn-success col-sm-12" style="background-color:darkmagenta;color:white;"><i class="fa fa-line-chart"></i> Track</a></td>
                     <td><a class="title-info" data-backdrop="static" data-route="<?php echo $row->route_no; ?>" style="color: #f0ad4e;" data-link="<?php echo asset('/form/info/'.$row->route_no.'/cdo'); ?>" href="#document_info" data-toggle="modal"><?php echo $row->route_no; ?></a></td>
@@ -38,7 +38,7 @@
             </tbody>
         </table>
     </div>
-    <?php echo $cdo['paginate_pending']->links(); ?>
+    <?php echo $paginate_pending->links(); ?>
 
 <?php else: ?>
     <div class="alert alert-danger" role="alert"><span style="color:red;">Documents records are empty.</span></div>

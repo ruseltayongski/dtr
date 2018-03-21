@@ -1,7 +1,7 @@
-@if(isset($paginate_pending) and count($paginate_pending) >0)
+@if(isset($paginate) and count($paginate) >0)
     <div class="table-responsive" style="margin-top: -20px;">
-        <label style="padding-bottom: 10px;">Check to select all to approve </label>
-        <input type="checkbox" id="click_approve">
+        <label style="padding-bottom: 10px;">Check to select all to pending </label>
+        <input type="checkbox" id="click_pending">
         <label class="button" style="font-weight: normal !important;"></label>
         <table class="table table-list table-hover table-striped">
             <thead>
@@ -9,38 +9,40 @@
                 <th></th>
                 <th class="text-center">Route #</th>
                 <th class="text-center">Reason</th>
-                @if(\Illuminate\Support\Facades\Auth::user()->usertype)
+                @if(Auth::user()->usertype)
                     <th class="text-center">Prepared Name</th>
                 @else
                     <th class="text-center">Document Type</th>
                 @endif
                 <th class="text-center">Beginning Balance</th>
+                @if(Auth::user()->usertype)
                 <th class="text-center" width="17%">Option</th>
+                @endif
             </tr>
             </thead>
             <tbody style="font-size: 10pt;">
-            @foreach($paginate_pending as $row)
+            @foreach($paginate as $row)
                 <tr>
                     <td><a href="#track" data-link="{{ asset('form/track/'.$row->route_no) }}" data-route="{{ $row->route_no }}" data-toggle="modal" class="btn btn-sm btn-success col-sm-12" style="background-color:darkmagenta;color:white;"><i class="fa fa-line-chart"></i> Track</a></td>
                     <td><a class="title-info" data-backdrop="static" data-route="{{ $row->route_no }}" style="color: #f0ad4e;" data-link="{{ asset('/form/info/'.$row->route_no.'/cdo') }}" href="#document_info" data-toggle="modal">{{ $row->route_no }}</a></td>
                     <td>{{ $row->subject }}</td>
-                    @if(\Illuminate\Support\Facades\Auth::user()->usertype)
+                    @if(Auth::user()->usertype)
                         <td>{{ pdoController::user_search1($row['prepared_name'])['fname'].' '.pdoController::user_search1($row['prepared_name'])['mname'].' '.pdoController::user_search1($row['prepared_name'])['lname'] }}</td>
                     @else
                         <td>CTO</td>
                     @endif
                     <td class="text-center"><b style="color:green;">@if(isset(InformationPersonal::where('userid',pdoController::user_search1($row['prepared_name'])['username'])->first()->bbalance_cto)) {{ InformationPersonal::where('userid',pdoController::user_search1($row['prepared_name'])['username'])->first()->bbalance_cto }} @else 0 @endif</b></td>
                     @if(Auth::user()->usertype)
-                        <td><button type="submit" class="btn-xs btn-info" value="{{ $row->id }}" onclick="pending_status($(this))" style="color:white;"><i class="fa fa-smile-o"></i> Approve</button></td>
+                        <td><button type="submit" class="btn-xs btn-danger" value="{{ $row->id }}" onclick="approved_status($(this))" style="color:white;"><i class="fa fa-ban"></i> Cancel</button></td>
                     @endif
                 </tr>
             @endforeach
             </tbody>
         </table>
     </div>
-    {{ $paginate_pending->links() }}
+    {{ $paginate->links() }}
 @else
-    <div class="alert alert-danger" role="alert"><span style="color:red;">Documents records are empty.</span></div>
+    <div class="alert alert-danger" role="alert" style="color: red"><span style="color:red;">Documents records are empty.</span></div>
 @endif
 
 <script>
@@ -79,57 +81,27 @@
                     $('input').attr('autocomplete', 'off');
                 }
             });
-        },1000);
+        },700);
     });
 
-    function pending_status(data){
-        var page = "<?php echo Session::get('page_pending') ?>";
-        var url = $("#cdo_updatev1").data('link')+'/'+data.val()+'/pending?page='+page;
+    function approved_status(data){
+        var page = "<?php echo Session::get('page_approve') ?>";
+        var url = $("#cdo_updatev1").data('link')+'/'+data.val()+'/approve?page='+page;
         $.post(url,function(result){
-            console.log(url);
-            $('.ajax_pending').html(loadingState);
+            console.log(result);
+            $('.ajax_approve').html(loadingState);
             setTimeout(function(){
-                if(result['count_pending'] && !result['paginate_pending']){
-                    console.log("asin1");
+                if(result["count_approve"] && !result['paginate_approve']){
                     getPosts(page-1,'');
                 } else {
-                    console.log("asin2");
-                    $('.ajax_pending').html(result['view']);
+                    $('.ajax_approve').html(result['view']);
                 }
-                Lobibox.notify('info',{
-                    msg:'Approve!'
-                });
                 $(".pending").html(result["count_pending"]);
                 $(".approve").html(result["count_approve"]);
+                Lobibox.notify('error',{
+                    msg:'CTO CANCELED!'
+                });
             },700);
-        });
-    }
-
-    function click_all(type){
-        var url = "<?php echo asset('click_all');?>"+"/"+type.val();
-        $.get(url,function(result){
-            if(type.val() == 'pending'){
-                $('.ajax_approve').html(loadingState);
-                setTimeout(function(){
-                    Lobibox.notify('error',{
-                        msg:'pending!'
-                    });
-                    $('.ajax_approve').html(result['view']);
-                    $(".pending").html(result['pending']);
-                    $(".approve").html(result['approve']);
-                },700);
-            }
-            else if(type.val() == 'approve'){
-                $('.ajax_pending').html(loadingState);
-                setTimeout(function(){
-                    Lobibox.notify('info',{
-                        msg:'Approve!'
-                    });
-                    $('.ajax_pending').html(result['view']);
-                    $(".pending").html(result['pending']);
-                    $(".approve").html(result['approve']);
-                },700);
-            }
         });
     }
 
@@ -141,10 +113,10 @@
         });
     });
 
-    $('#click_approve').on('ifChecked', function(event){
-        $(".button").html("<button type='button' value='approve' onclick='click_all($(this))' class='btn-group-sm btn-info'><i class='fa fa-smile-o'></i> Approve all cdo/cto</button>");
+    $('#click_pending').on('ifChecked', function(){
+        $(".button").html("<button type='button' value='pending' onclick='click_all($(this))' class='btn-group-sm btn-danger'><i class='fa fa-frown-o'></i> pending all cdo/cto</button>");
     });
-    $('#click_approve').on('ifUnchecked', function(event){
+    $('#click_pending').on('ifUnchecked', function(){
         $(".button").html("");
     });
 </script>
