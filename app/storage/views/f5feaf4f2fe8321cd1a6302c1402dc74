@@ -61,24 +61,24 @@
                                 <?php if(Auth::user()->usertype): ?>
                                     <div class="nav-tabs-custom">
                                         <ul class="nav nav-tabs">
-                                            <li class="active">
-                                                <a href="#pending" class="btn btn-app" data-toggle="tab">
-                                                    <span class="badge bg-red pending">0</span>
-                                                    <i class="fa fa-exclamation-circle"></i> Pending
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="#approve" class="btn btn-app" data-toggle="tab">
-                                                    <span class="badge bg-aqua approve">0</span>
-                                                    <i class="fa fa-smile-o"></i> Approve
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="#all" class="btn btn-app" data-toggle="tab">
-                                                    <span class="badge bg-green all">0</span>
-                                                    <i class="fa fa-users"></i> All
-                                                </a>
-                                            </li>
+                                            <?php
+                                            $statusCount = 0;
+                                            $counter = 0;
+                                            $color = ['red','aqua','green'];
+                                            $fa = ['fa-exclamation-circle','fa-smile-o','fa-users'];
+                                            $status = ['pending','approve','all'];
+                                            ?>
+                                            <?php foreach($status as $row): ?>
+                                                <?php $statusCount++; ?>
+                                                <li class="<?php if($statusCount == 1): ?><?php echo 'active'; ?><?php endif; ?>">
+                                                    <a href="#<?php echo $row; ?>" class="btn btn-app" data-toggle="tab">
+                                                        <span class="badge bg-<?php echo $color[$counter]; ?> <?php echo $row; ?>">0</span>
+                                                        <i class="fa <?php echo $fa[$counter]; ?>"></i> <?php echo $row; ?>
+
+                                                        <?php $counter++; ?>
+                                                    </a>
+                                                </li>
+                                            <?php endforeach; ?>
                                         </ul>
                                         <div class="active tab-content">
                                             <?php /*PENDING*/ ?>
@@ -104,6 +104,7 @@
                                                     </div>
                                                 </div>
                                             </div>
+
                                             <?php /*APPROVE*/ ?>
                                             <div class="tab-pane" id="approve">
                                                 <div class="panel panel-default">
@@ -120,7 +121,7 @@
                                                         <div class="row">
                                                             <div class="col-md-12">
                                                                 <div class="ajax_approve">
-                                                                    <?php echo $__env->make('cdo.cdo_approve', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -143,13 +144,14 @@
                                                         <div class="row">
                                                             <div class="col-md-12">
                                                                 <div class="ajax_all">
-                                                                    <?php echo $__env->make('cdo.cdo_all', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
+
                                         </div>
                                     </div>
                                     <?php else: ?>
@@ -342,9 +344,9 @@
                 location.hash = page;
             }).fail(function (data) {
                 console.log(data.responseText);
-                alert('Page could not be loaded... refresh your page.');
+                //alert('Page could not be loaded... refresh your page.');
                 var redirect_url = "<?php echo asset('/'); ?>";
-                window.location.href = redirect_url;
+                //window.location.href = redirect_url;
             });
         }
         <?php endif; ?>
