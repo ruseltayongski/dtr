@@ -322,6 +322,7 @@
                 url : '?type='+type+'&page='+page+"&keyword="+keyword,
                 dataType: 'json',
             }).done(function (result) {
+                console.log(result['view']);
                 if(type == 'approve'){
                     $('.ajax_approve').html(loadingState);
                     setTimeout(function(){
