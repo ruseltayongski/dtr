@@ -317,6 +317,7 @@
         });
 
         function getPosts(page,keyword) {
+            console.log(type);
             $.ajax({
                 url : '?type='+type+'&page='+page+"&keyword="+keyword,
                 dataType: 'json',
@@ -342,9 +343,9 @@
                 location.hash = page;
             }).fail(function (data) {
                 console.log(data.responseText);
-                alert('Page could not be loaded... refresh your page.');
+                //alert('Page could not be loaded... refresh your page.');
                 var redirect_url = "<?php echo asset('/'); ?>";
-                window.location.href = redirect_url;
+                //window.location.href = redirect_url;
             });
         }
         <?php endif; ?>
