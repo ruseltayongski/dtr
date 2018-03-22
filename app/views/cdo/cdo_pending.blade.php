@@ -1,4 +1,5 @@
-@if(isset($paginate) and count($paginate) >0)
+<span id="cdo_updatev1" data-link="{{ asset('cdo_updatev1') }}"></span>
+@if(isset($paginate_pending) and count($paginate_pending) >0)
     <div class="table-responsive" style="margin-top: -20px;">
         <label style="padding-bottom: 10px;">Check to select all to approve </label>
         <input type="checkbox" id="click_approve">
@@ -19,7 +20,7 @@
             </tr>
             </thead>
             <tbody style="font-size: 10pt;">
-            @foreach($paginate as $row)
+            @foreach($paginate_pending as $row)
                 <tr>
                     <td><a href="#track" data-link="{{ asset('form/track/'.$row->route_no) }}" data-route="{{ $row->route_no }}" data-toggle="modal" class="btn btn-sm btn-success col-sm-12" style="background-color:darkmagenta;color:white;"><i class="fa fa-line-chart"></i> Track</a></td>
                     <td><a class="title-info" data-backdrop="static" data-route="{{ $row->route_no }}" style="color: #f0ad4e;" data-link="{{ asset('/form/info/'.$row->route_no.'/cdo') }}" href="#document_info" data-toggle="modal">{{ $row->route_no }}</a></td>
@@ -38,7 +39,7 @@
             </tbody>
         </table>
     </div>
-    {{ $paginate->links() }}
+    {{ $paginate_pending->links() }}
 @else
     <div class="alert alert-danger" role="alert"><span style="color:red;">Documents records are empty.</span></div>
 @endif
@@ -87,20 +88,25 @@
         var url = $("#cdo_updatev1").data('link')+'/'+data.val()+'/pending?page='+page;
         $.post(url,function(result){
             console.log(url);
-            $('.ajax_pending').html(loadingState);
+            //$('.ajax_pending').html(loadingState);
             setTimeout(function(){
                 if(result['count_pending'] && !result['paginate_pending']){
                     console.log("asin1");
                     getPosts(page-1,'');
                 } else {
                     console.log("asin2");
-                    $('.ajax_pending').html(result['view']);
+                    $('.ajax_pending').html(result);
                 }
                 Lobibox.notify('info',{
                     msg:'Approve!'
                 });
-                $(".pending").html(result["count_pending"]);
-                $(".approve").html(result["count_approve"]);
+
+                var pendingCount = parseInt($(".pending").text()) - 1;
+                var approveCount = parseInt($(".approve").text()) + 1;
+
+                $(".pending").html(pendingCount);
+                $(".approve").html(approveCount);
+
             },700);
         });
     }

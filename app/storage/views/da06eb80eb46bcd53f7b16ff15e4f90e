@@ -1,4 +1,3 @@
-<span id="cdo_updatev1" data-link="<?php echo asset('cdo_updatev1'); ?>"></span>
 <?php if(isset($paginate_pending) and count($paginate_pending) >0): ?>
     <div class="table-responsive" style="margin-top: -20px;">
         <label style="padding-bottom: 10px;">Check to select all to approve </label>
@@ -89,25 +88,20 @@
         var url = $("#cdo_updatev1").data('link')+'/'+data.val()+'/pending?page='+page;
         $.post(url,function(result){
             console.log(url);
-            //$('.ajax_pending').html(loadingState);
+            $('.ajax_pending').html(loadingState);
             setTimeout(function(){
                 if(result['count_pending'] && !result['paginate_pending']){
                     console.log("asin1");
                     getPosts(page-1,'');
                 } else {
                     console.log("asin2");
-                    $('.ajax_pending').html(result);
+                    $('.ajax_pending').html(result['view']);
                 }
                 Lobibox.notify('info',{
                     msg:'Approve!'
                 });
-
-                var pendingCount = parseInt($(".pending").text()) - 1;
-                var approveCount = parseInt($(".approve").text()) + 1;
-
-                $(".pending").html(pendingCount);
-                $(".approve").html(approveCount);
-
+                $(".pending").html(result["count_pending"]);
+                $(".approve").html(result["count_approve"]);
             },700);
         });
     }

@@ -1,4 +1,5 @@
-@if(isset($paginate) and count($paginate) >0)
+<span id="cdo_updatev1" data-link="{{ asset('cdo_updatev1') }}"></span>
+@if(isset($paginate_approve) and count($paginate_approve) >0)
     <div class="table-responsive" style="margin-top: -20px;">
         <label style="padding-bottom: 10px;">Check to select all to pending </label>
         <input type="checkbox" id="click_pending">
@@ -21,7 +22,7 @@
             </tr>
             </thead>
             <tbody style="font-size: 10pt;">
-            @foreach($paginate as $row)
+            @foreach($paginate_approve as $row)
                 <tr>
                     <td><a href="#track" data-link="{{ asset('form/track/'.$row->route_no) }}" data-route="{{ $row->route_no }}" data-toggle="modal" class="btn btn-sm btn-success col-sm-12" style="background-color:darkmagenta;color:white;"><i class="fa fa-line-chart"></i> Track</a></td>
                     <td><a class="title-info" data-backdrop="static" data-route="{{ $row->route_no }}" style="color: #f0ad4e;" data-link="{{ asset('/form/info/'.$row->route_no.'/cdo') }}" href="#document_info" data-toggle="modal">{{ $row->route_no }}</a></td>
@@ -40,7 +41,7 @@
             </tbody>
         </table>
     </div>
-    {{ $paginate->links() }}
+    {{ $paginate_approve->links() }}
 @else
     <div class="alert alert-danger" role="alert" style="color: red"><span style="color:red;">Documents records are empty.</span></div>
 @endif
@@ -87,17 +88,24 @@
     function approved_status(data){
         var page = "<?php echo Session::get('page_approve') ?>";
         var url = $("#cdo_updatev1").data('link')+'/'+data.val()+'/approve?page='+page;
+        console.log(url);
         $.post(url,function(result){
             console.log(result);
-            $('.ajax_approve').html(loadingState);
+            //$('.ajax_approve').html(loadingState);
             setTimeout(function(){
                 if(result["count_approve"] && !result['paginate_approve']){
                     getPosts(page-1,'');
                 } else {
-                    $('.ajax_approve').html(result['view']);
+                    $('.ajax_approve').html(result);
                 }
-                $(".pending").html(result["count_pending"]);
-                $(".approve").html(result["count_approve"]);
+
+                var pendingCount = parseInt($(".pending").text()) + 1;
+                var approveCount = parseInt($(".approve").text()) - 1;
+
+                $(".pending").html(pendingCount);
+                $(".approve").html(approveCount);
+
+
                 Lobibox.notify('error',{
                     msg:'CTO CANCELED!'
                 });

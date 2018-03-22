@@ -62,9 +62,9 @@
                                     <div class="nav-tabs-custom">
                                         <ul class="nav nav-tabs">
                                             <li class="active">
-                                                <a href="#all" class="btn btn-app" data-toggle="tab">
-                                                    <span class="badge bg-green all">0</span>
-                                                    <i class="fa fa-users"></i> All
+                                                <a href="#pending" class="btn btn-app" data-toggle="tab">
+                                                    <span class="badge bg-red pending">0</span>
+                                                    <i class="fa fa-exclamation-circle"></i> Pending
                                                 </a>
                                             </li>
                                             <li>
@@ -74,30 +74,30 @@
                                                 </a>
                                             </li>
                                             <li>
-                                                <a href="#disapprove" class="btn btn-app" data-toggle="tab">
-                                                    <span class="badge bg-red disapprove">0</span>
-                                                    <i class="fa fa-frown-o"></i> Disapprove
+                                                <a href="#all" class="btn btn-app" data-toggle="tab">
+                                                    <span class="badge bg-green all">0</span>
+                                                    <i class="fa fa-users"></i> All
                                                 </a>
                                             </li>
                                         </ul>
                                         <div class="active tab-content">
-                                            <?php /*ALL*/ ?>
-                                            <div class="active tab-pane" id="all">
+                                            <?php /*PENDING*/ ?>
+                                            <div class="active tab-pane" id="pending">
                                                 <div class="panel panel-default">
                                                     <div class="panel-heading"><strong style="color: #f0ad4e;font-size:medium;">List</strong></div>
                                                     <div class="panel-body">
                                                         <div class="row">
                                                             <div class="col-md-12">
                                                                 <?php if($type == "list"): ?>
-                                                                    <a href="#document_form" data-link="<?php echo asset('form/cdov1/form'); ?>" class="btn btn-success" data-dismiss="modal" data-backdrop="static" data-toggle="modal" data-target="#document_form" style="background-color: #9C8AA5;color: white;"><i class="fa fa-plus"></i> Create new</a>
+                                                                    <a href="#document_form" data-link="<?php echo asset('form/cdov1/form'); ?>" class="btn btn-success" data-dismiss="modal" data-backdrop="static" data-toggle="modal" data-target="#document_form" style="background-color: #9C8AA5;;color: white;"><i class="fa fa-plus"></i> Create new</a>
                                                                 <?php endif; ?>
                                                             </div>
                                                         </div>
                                                         <br />
                                                         <div class="row">
                                                             <div class="col-md-12">
-                                                                <div class="ajax_all">
-                                                                    <?php echo $__env->make('cdo.cdo_all', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+                                                                <div class="ajax_pending">
+                                                                    <?php echo $__env->make('cdo.cdo_pending', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -127,23 +127,23 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <?php /*DISAPPROVE*/ ?>
-                                            <div class="tab-pane" id="disapprove">
+                                            <?php /*ALL*/ ?>
+                                            <div class="tab-pane" id="all">
                                                 <div class="panel panel-default">
                                                     <div class="panel-heading"><strong style="color: #f0ad4e;font-size:medium;">List</strong></div>
                                                     <div class="panel-body">
                                                         <div class="row">
                                                             <div class="col-md-12">
                                                                 <?php if($type == "list"): ?>
-                                                                    <a href="#document_form" data-link="<?php echo asset('form/cdov1/form'); ?>" class="btn btn-success" data-dismiss="modal" data-backdrop="static" data-toggle="modal" data-target="#document_form" style="background-color: #9C8AA5;;color: white;"><i class="fa fa-plus"></i> Create new</a>
+                                                                    <a href="#document_form" data-link="<?php echo asset('form/cdov1/form'); ?>" class="btn btn-success" data-dismiss="modal" data-backdrop="static" data-toggle="modal" data-target="#document_form" style="background-color: #9C8AA5;color: white;"><i class="fa fa-plus"></i> Create new</a>
                                                                 <?php endif; ?>
                                                             </div>
                                                         </div>
                                                         <br />
                                                         <div class="row">
                                                             <div class="col-md-12">
-                                                                <div class="ajax_disapprove">
-                                                                    <?php echo $__env->make('cdo.cdo_disapprove', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+                                                                <div class="ajax_all">
+                                                                    <?php echo $__env->make('cdo.cdo_all', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -268,9 +268,9 @@
 
         <?php if(Auth::user()->usertype): ?>
         //default type
-        var type = 'all';
+        var type = 'pending';
         var keyword = '';
-        $(".disapprove").text(<?php echo count($cdo["count_disapprove"]); ?>);
+        $(".pending").text(<?php echo count($cdo["count_pending"]); ?>);
         $(".approve").text(<?php echo count($cdo["count_approve"]); ?>);
         $(".all").text(<?php echo count($cdo["count_all"]); ?>);
         $("a[href='#approve']").on("click",function(){
@@ -279,9 +279,9 @@
             getPosts(1,keyword);
             <?php Session::put('keyword',null); ?>
         });
-        $("a[href='#disapprove']").on("click",function(){
-            $('.ajax_disapprove').html(loadingState);
-            type = 'disapprove';
+        $("a[href='#pending']").on("click",function(){
+            $('.ajax_pending').html(loadingState);
+            type = 'pending';
             getPosts(1,keyword);
             <?php Session::put('keyword',null); ?>
         });
@@ -319,24 +319,25 @@
         function getPosts(page,keyword) {
             $.ajax({
                 url : '?type='+type+'&page='+page+"&keyword="+keyword,
-                dataType: 'json',
+                type: 'GET',
             }).done(function (result) {
+                console.log(result);
                 if(type == 'approve'){
                     $('.ajax_approve').html(loadingState);
                     setTimeout(function(){
-                        $('.ajax_approve').html(result['view']);
+                        $('.ajax_approve').html(result);
                     },700);
                 }
-                else if(type == 'disapprove'){
-                    $('.ajax_disapprove').html(loadingState);
+                else if(type == 'pending'){
+                    $('.ajax_pending').html(loadingState);
                     setTimeout(function(){
-                        $('.ajax_disapprove').html(result['view']);
+                        $('.ajax_pending').html(result);
                     },700);
                 }
                 else if(type == 'all'){
                     $('.ajax_all').html(loadingState);
                     setTimeout(function(){
-                        $('.ajax_all').html(result['view']);
+                        $('.ajax_all').html(result);
                     },700);
                 }
                 location.hash = page;

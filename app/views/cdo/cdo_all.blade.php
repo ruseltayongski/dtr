@@ -1,5 +1,5 @@
 <span id="cdo_updatev1" data-link="{{ asset('cdo_updatev1') }}"></span>
-@if(isset($paginate) and count($paginate) >0)
+@if(isset($paginate_all) and count($paginate_all) >0)
     <div class="table-responsive">
         <table class="table table-list table-hover table-striped">
             <thead>
@@ -17,7 +17,7 @@
             </tr>
             </thead>
             <tbody style="font-size: 10pt;">
-            @foreach($paginate as $row)
+            @foreach($paginate_all as $row)
                 <tr>
                     <td><a href="#track" data-link="{{ asset('form/track/'.$row->route_no) }}" data-route="{{ $row->route_no }}" data-toggle="modal" class="btn btn-sm btn-success col-sm-12" style="background-color:#9C8AA5;color:white;"><i class="fa fa-line-chart"></i> Track</a></td>
                     <td><a class="title-info" data-backdrop="static" data-route="{{ $row->route_no }}" data-link="{{ asset('/form/info/'.$row->route_no.'/cdo') }}" href="#document_info" data-toggle="modal" style="color: #f0ad4e;">{{ $row->route_no }}</a></td>
@@ -29,16 +29,16 @@
                     @endif
                     <td class="text-center"><b style="color:green;">@if(isset(InformationPersonal::where('userid',pdoController::user_search1($row['prepared_name'])['username'])->first()->bbalance_cto)) {{ InformationPersonal::where('userid',pdoController::user_search1($row['prepared_name'])['username'])->first()->bbalance_cto }} @else 0 @endif</b></td>
                     @if($row->approved_status == 1)
-                        <td><button type="button" value="{{ $row->id }}" onclick="all_status($(this))" class="btn-xs btn-danger" style="color:white;"><i class="fa fa-ban"></i> Cancel</button></td>
+                        <td><button type="button" value="{{ $row->id }}" onclick="all_status($(this),'cancel')" class="btn-xs btn-danger" style="color:white;"><i class="fa fa-ban"></i> Cancel</button></td>
                     @else
-                        <td><button type="button" value="{{ $row->id }}" onclick="all_status($(this))" class="btn-xs btn-info" style="color:white;"><i class="fa fa-frown-o"></i> Approve</button></td>
+                        <td><button type="button" value="{{ $row->id }}" onclick="all_status($(this),'approve')" class="btn-xs btn-info" style="color:white;"><i class="fa fa-frown-o"></i> Approve</button></td>
                     @endif
                 </tr>
             @endforeach
             </tbody>
         </table>
     </div>
-    {{ $paginate->links() }}
+    {{ $paginate_all->links() }}
 @else
     <div class="alert alert-danger" role="alert"><span style="color:red;">Documents records are empty.</span></div>
 @endif
@@ -63,16 +63,35 @@
         },1000);
     });
 
-    function all_status(data){
+    function all_status(data,btnType){
         var page = "<?php echo Session::get('page_all') ?>";
         var url = $("#cdo_updatev1").data('link')+'/'+data.val()+'/all?page='+page;
         $.post(url,function(result){
+
             Lobibox.notify('success',{
                 msg:''
             });
-            $('.ajax_all').html(result['view']);
-            $(".pending").html(result["count_pending"]);
-            $(".approve").html(result["count_approve"]);
+            $('.ajax_all').html(result);
+
+            var pendingCount = $(".pending").text();
+            var approveCount = $(".approve").text();
+
+            if( btnType == 'cancel'){
+                pendingCount++;
+                if( approveCount != 0 ){
+                    approveCount--;
+                }
+
+            }
+            else if(btnType == 'approve') {
+                if( pendingCount != 0 ){
+                    pendingCount--;
+                }
+                approveCount++;
+            }
+
+            $(".pending").html(pendingCount);
+            $(".approve").html(approveCount);
         });
     }
     //document information

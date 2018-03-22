@@ -104,7 +104,6 @@
                                                     </div>
                                                 </div>
                                             </div>
-
                                             {{--APPROVE--}}
                                             <div class="tab-pane" id="approve">
                                                 <div class="panel panel-default">
@@ -151,7 +150,6 @@
                                                     </div>
                                                 </div>
                                             </div>
-
                                         </div>
                                     </div>
                                     @else
@@ -289,7 +287,6 @@
         $("a[href='#all']").on("click",function(){
             $('.ajax_all').html(loadingState);
             type = 'all';
-            console.log(<?php echo Session::get('page_all'); ?>);
             getPosts(1,keyword);
             <?php Session::put('keyword',null); ?>
         });
@@ -320,33 +317,19 @@
         function getPosts(page,keyword) {
             $.ajax({
                 url : '?type='+type+'&page='+page+"&keyword="+keyword,
-                dataType: 'json',
+                type: 'GET',
             }).done(function (result) {
-                console.log(result['view']);
-                if(type == 'approve'){
-                    $('.ajax_approve').html(loadingState);
-                    setTimeout(function(){
-                        $('.ajax_approve').html(result['view']);
-                    },700);
-                }
-                else if(type == 'pending'){
-                    $('.ajax_pending').html(loadingState);
-                    setTimeout(function(){
-                        $('.ajax_pending').html(result['view']);
-                    },700);
-                }
-                else if(type == 'all'){
-                    $('.ajax_all').html(loadingState);
-                    setTimeout(function(){
-                        $('.ajax_all').html(result['view']);
-                    },700);
-                }
-                location.hash = page;
+
+                $('.ajax_'+type).html(loadingState);
+                setTimeout(function(){
+                    $('.ajax_'+type).html(result);
+                },700);
+
             }).fail(function (data) {
                 console.log(data.responseText);
-                //alert('Page could not be loaded... refresh your page.');
+                alert('Page could not be loaded... refresh your page.');
                 var redirect_url = "<?php echo asset('/'); ?>";
-                //window.location.href = redirect_url;
+                window.location.href = redirect_url;
             });
         }
         <?php endif; ?>
