@@ -20,7 +20,7 @@ class Cdo extends Migration {
 			$table->string('route_no','40');
 			$table->text('subject');
 			$table->string('doc_type','15');
-			$table->integer('prepared_name');
+			$table->string('prepared_name',45);
 			$table->datetime('prepared_date');
 			$table->string('working_days','5');
 			$table->text('start');

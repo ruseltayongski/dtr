@@ -84,7 +84,7 @@ class cdoController extends BaseController
 
 
         } else {
-            $cdo['my_cdo'] = cdo::where('prepared_name',pdoController::user_search(Auth::user()->userid)['id'])
+            $cdo['my_cdo'] = cdo::where('prepared_name',Auth::user()->userid)
                 ->where(function($q) use ($keyword){
                     $q->where("route_no","like","%$keyword%")
                         ->orWhere("subject","like","%$keyword%");
@@ -172,7 +172,7 @@ class cdoController extends BaseController
         $cdo->subject = $subject;
         $cdo->doc_type = $doc_type;
         $cdo->prepared_date = $prepared_date;
-        $cdo->prepared_name = $prepared_name;
+        $cdo->prepared_name = Auth::user()->userid;
         $cdo->working_days = $working_days;
         $cdo->start = $start_date;
         $cdo->end = $end_date;
@@ -247,7 +247,7 @@ class cdoController extends BaseController
 
         $interval = $f->diff($t);
 
-        $datein = '';
+
         $f_from = explode('-',$start_date);
         $startday = $f_from[2];
         
@@ -266,6 +266,10 @@ class cdoController extends BaseController
                     $time = array('13:00:00','17:00:00');
                     $type = 'PM';
                 }
+                else {
+                    $time = array('08:00:00','12:00:00','13:00:00','18:00:00');
+                    $type = 'WH';
+                }
             }else {
                 $time = array('08:00:00','12:00:00','13:00:00','18:00:00');
                 $type = 'WH';
@@ -273,7 +277,7 @@ class cdoController extends BaseController
 
             $event = null;
             $datein = $f_from[0].'-'.$f_from[1] .'-'. $startday;
-            $userid = pdoController::user_search1($prepared_name)['username'];
+            $userid = $prepared_name;
             
             for($i = 0; $i < count($time); $i++):
                 if($i % 2 === 0)
@@ -294,7 +298,7 @@ class cdoController extends BaseController
                 $details->save();
             endfor;
 
-            $startday = $startday + 1;
+            $startday++;
             $j++;
 
         }
@@ -310,7 +314,7 @@ class cdoController extends BaseController
        
         if($id){ //AJAX PROCESS
             $cdo = cdo::where('id',$id)->first();
-            $userid = pdoController::user_search1($cdo->prepared_name)['username'];
+            $userid = $cdo->prepared_name;
             
             if($cdo->approved_status){
                 InformationPersonal::where('userid',$userid)->update([
@@ -326,7 +330,6 @@ class cdoController extends BaseController
                 
                 $cdo->approved_status = 1;
                 $this->dtr_file($cdo->start,$cdo->end,$cdo->prepared_name,$cdo->cdo_hours);
-                    
             }
             $cdo->save();
 
@@ -374,7 +377,6 @@ class cdoController extends BaseController
             $route_no = Session::get('route_no');
             $prepared_date = date('Y-m-d',strtotime(Input::get('prepared_date'))).' '.date('H:i:s');
             $info = cdo::where('route_no',$route_no)->first();
-            $userid = pdoController::user_search1($info['prepared_name'])['username'];
 
             $str = Input::get('inclusive_dates');
             $temp1 = explode('-',$str);

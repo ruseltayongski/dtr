@@ -26,11 +26,20 @@
                     <td><a class="title-info" data-backdrop="static" data-route="{{ $row->route_no }}" style="color: #f0ad4e;" data-link="{{ asset('/form/info/'.$row->route_no.'/cdo') }}" href="#document_info" data-toggle="modal">{{ $row->route_no }}</a></td>
                     <td>{{ $row->subject }}</td>
                     @if(\Illuminate\Support\Facades\Auth::user()->usertype)
-                        <td>{{ pdoController::user_search1($row['prepared_name'])['fname'].' '.pdoController::user_search1($row['prepared_name'])['mname'].' '.pdoController::user_search1($row['prepared_name'])['lname'] }}</td>
+                        <td>
+                            <?php
+                                $personal_information = InformationPersonal::where('userid','=',$row['prepared_name'])->first();
+                                echo $personal_information->fname.' '.$personal_information->mname.' '.$personal_information->lname;
+                            ?>
+                        </td>
                     @else
                         <td>CTO</td>
                     @endif
-                    <td class="text-center"><b style="color:green;">@if(isset(InformationPersonal::where('userid',pdoController::user_search1($row['prepared_name'])['username'])->first()->bbalance_cto)) {{ InformationPersonal::where('userid',pdoController::user_search1($row['prepared_name'])['username'])->first()->bbalance_cto }} @else 0 @endif</b></td>
+                    <td class="text-center">
+                        <b style="color:green;">
+                            {{ $personal_information->bbalance_cto }}
+                        </b>
+                    </td>
                     @if(Auth::user()->usertype)
                         <td><button type="submit" class="btn-xs btn-info" value="{{ $row->id }}" onclick="pending_status($(this))" style="color:white;"><i class="fa fa-smile-o"></i> Approve</button></td>
                     @endif

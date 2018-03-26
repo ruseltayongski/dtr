@@ -543,77 +543,6 @@ class DocumentController extends BaseController
         return Redirect::back();
     }
 
-    /*public function so_updatev1(){
-        $route_no = Session::get('route_no');
-        $doc_type = 'OFFICE_ORDER';
-        $prepared_date = date('Y-m-d',strtotime(Input::get('prepared_date'))).' '.date('H:i:s');
-        $prepared_by =  pdoController::user_search(Auth::user()->userid)['id'];
-        $description = Input::get('subject');
-
-        //update office order
-        OfficeOrders::where('route_no',$route_no)->update(['subject' => Input::get('subject')]);
-
-        //delete
-        InclusiveNames::where('route_no',$route_no)->delete();
-        //
-        //ADD INCLUSIVE NAME
-        $count = 0;
-        foreach(Input::get('inclusive_name') as $row){
-            $inclusive_name = new InclusiveNames();
-            $inclusive_name->route_no = $route_no;
-            $inclusive_name->user_id = Input::get('inclusive_name')[$count];
-            $inclusive_name->status = 1;
-            $inclusive_name->save();
-            $count++;
-        }
-
-        //delete
-        Calendars::where('route_no',$route_no)->delete();
-        //
-        //ADD CALENDAR
-        $count = 0;
-        foreach(Input::get('inclusive') as $result)
-        {
-            $str = $result;
-            $temp1 = explode('-',$str);
-            $temp2 = array_slice($temp1, 0, 1);
-            $tmp = implode(',', $temp2);
-            $start_date = date('Y-m-d',strtotime($tmp));
-
-            $temp3 = array_slice($temp1, 1, 1);
-            $tmp = implode(',', $temp3);
-            $enddate = date_create(date('Y-m-d',strtotime($tmp)));
-            date_add($enddate, date_interval_create_from_date_string('1days'));
-            $end_date = date_format($enddate, 'Y-m-d');
-
-            $so = new Calendars();
-            $so->route_no = $route_no;
-            $so->title = Input::get('subject');
-            $so->start = $start_date;
-            $so->end = $end_date;
-            $so->area = Input::get('area')[$count];
-            $so->backgroundColor = 'rgb(216, 27, 96)';
-            $so->borderColor = 'rgb(216, 27, 96)';
-            $so->status = 0;
-            $so->save();
-            $count++;
-        }
-
-        //UPDATE TRACKING MASTER
-        pdoController::update_tracking_master($prepared_date,$description,$route_no);
-        //UPDATE TRACKING DETAILS
-        pdoController::update_tracking_details($description,$route_no);
-
-        //ADD SYSTEM LOGS
-        $user_id = $prepared_by;
-        $name = Auth::user()->fname.' '.Auth::user()->mname.' '.Auth::user()->lname;
-        $activity = 'Updated';
-        pdoController::insert_system_logs($user_id,$name,$activity,$route_no);
-        Session::put('updated',true);
-
-        return Redirect::to('form/so_list');
-    }*/
-
     public static function check_calendar()
     {
         return InclusiveNames::where('user_id',Auth::user()->userid)->get();
@@ -653,13 +582,13 @@ class DocumentController extends BaseController
         } else {
             $cdo = cdo::where('route_no',$route_no)->get()->first();
             if(Auth::user()->usertype)
-                $name = pdoController::user_search1($cdo->prepared_name);
+                $personal_information = InformationPersonal::where('userid','=',$cdo->prepared_name)->first();
             else
-                $name = pdoController::user_search(Auth::user()->userid);
+                $personal_information = InformationPersonal::where('userid','=',Auth::user()->userid)->first();
 
-            $position = pdoController::designation_search($name['designation'])['description'];
-            $section = pdoController::search_section($name['section'])['description'];
-            $division = pdoController::search_division($name['division'])['description'];
+            $position = pdoController::designation_search($personal_information->designation_id)['description'];
+            $section = pdoController::search_section($personal_information->section_id)['description'];
+            $division = pdoController::search_division($personal_information->division_id)['description'];
             $section_head[] = pdoController::user_search1($cdo['immediate_supervisor']);
             $division_head[] = pdoController::user_search1($cdo['division_chief']);
             foreach(pdoController::section() as $row){
@@ -672,13 +601,13 @@ class DocumentController extends BaseController
                 "cdo" => $cdo,
                 "type" => "update",
                 "asset" => asset('cdo_updatev1'),
-                "name" => $name['fname'].' '.$name['mname'].' '.$name['lname'],
+                "name" => $personal_information->fname.' '.$personal_information->mname.' '.$personal_information->lname,
                 "position" => $position,
                 "section" => $section,
                 "division" => $division,
                 "section_head" => $section_head,
                 "division_head" => $division_head,
-                "bbalance_cto" => InformationPersonal::where('userid',$name['username'])->first()->bbalance_cto
+                "bbalance_cto" => $personal_information->bbalance_cto
             );
             return View::make('cdo.cdo_view',['data' => $data]);
         }

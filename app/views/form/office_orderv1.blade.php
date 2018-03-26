@@ -62,7 +62,7 @@
                         <label class="col-sm-3 control-label">Check if select all employee (Optional)</label>
                         <div class="col-sm-9">
                             <input type="checkbox" class="form-control" name="all_employee">
-                            &nbsp;&nbsp;<button type="button" class="btn btn-info" onclick="clear_name()" style="color: white">Clear Inclusive Name</button>
+                            &nbsp;&nbsp;<button type="button" class="btn-xs btn-info" onclick="clear_name()" style="color: white">Clear Inclusive Name</button>
                         </div>
                     </div>
 
