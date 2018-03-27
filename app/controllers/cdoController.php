@@ -99,18 +99,16 @@ class cdoController extends BaseController
         
         if($pdf == 'pdf') {
             $cdo = cdo::where('route_no',Session::get('route_no'))->first();
-            $name = pdoController::user_search1($cdo->prepared_name);
-            $userid = $name['username'];
+            $personal_information = InformationPersonal::where('userid','=',$cdo->prepared_name)->first();
         }
         else {
             $cdo = cdo::where('route_no','dummy')->first();
-            $name = pdoController::user_search(Auth::user()->userid);
-            $userid = Auth::user()->userid;
+            $personal_information = InformationPersonal::where('userid','=',Auth::user()->userid)->first();
         }
 
-        $position = pdoController::designation_search($name['designation'])['description'];
-        $section = pdoController::search_section($name['section'])['description'];
-        $division = pdoController::search_division($name['division'])['description'];
+        $position = pdoController::designation_search($personal_information->designation_id)['description'];
+        $section = pdoController::search_section($personal_information->section_id)['description'];
+        $division = pdoController::search_division($personal_information->division_id)['description'];
 
         if($pdf == 'pdf'){
             $section_head = pdoController::user_search1($cdo['immediate_supervisor']);
@@ -128,13 +126,13 @@ class cdoController extends BaseController
             "cdo" => $cdo,
             "type" => "add",
             "asset" => asset('cdo_addv1'),
-            "name" => $name['fname'].' '.$name['mname'].' '.$name['lname'],
+            "name" => $personal_information->fname.' '.$personal_information->mname.' '.$personal_information->lname,
             "position" => $position,
             "section" => $section,
             "division" => $division,
             "section_head" => $section_head,
             "division_head" => $division_head,
-            "bbalance_cto" => InformationPersonal::where('userid',$userid)->first()->bbalance_cto
+            "bbalance_cto" => $personal_information->bbalance_cto
         );
         if($pdf == 'pdf') {
             $display = View::make('cdo.cdo_pdf', ["data" => $data]);
@@ -315,17 +313,18 @@ class cdoController extends BaseController
         if($id){ //AJAX PROCESS
             $cdo = cdo::where('id',$id)->first();
             $userid = $cdo->prepared_name;
+            $personal_information = InformationPersonal::where('userid','=',$userid)->first();
             
             if($cdo->approved_status){
                 InformationPersonal::where('userid',$userid)->update([
-                    "bbalance_cto" => (int)$cdo->remaining_balance + (int)$cdo->less_applied_for
+                    "bbalance_cto" => (int)$personal_information->bbalance_cto + (int)$cdo->less_applied_for
                 ]);
                 $cdo->approved_status = 0;
                 //delete dtr file
                 $this->dtr_delete_cto($cdo->start,$cdo->end);
             } else {
                 InformationPersonal::where('userid',$userid)->update([
-                    "bbalance_cto" => (int)$cdo->beginning_balance - (int)$cdo->less_applied_for
+                    "bbalance_cto" => (int)$personal_information->bbalance_cto - (int)$cdo->less_applied_for
                 ]);
                 
                 $cdo->approved_status = 1;
