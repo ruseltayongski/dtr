@@ -23,6 +23,10 @@
             font-weight:bold;
             color: #2b542c;
         }
+        select, option {
+            text-align: center;
+            text-align-last: center;
+        }
     </style>
 </head>
 <body>
@@ -177,49 +181,6 @@
                             </td>
                         </tr>
                     </table>
-                </td>
-                <td>
-                    <!-- <table class="table table-list table-hover table-striped">
-                        <tr>
-                            <th colspan="2">RECOMENDATION:</th>
-                        </tr>
-                        <tr>
-                            <td class="col-sm-3 align-right">
-                                <input type="checkbox" name="approval" id="approval" class="form-control input-lg"
-                                <?php
-                                        if($data['type'] == 'add')
-                                            echo 'disabled';
-                                        else{
-                                            if($data['cdo']['approved_status'] == 1){
-                                                echo 'disabled checked';                      
-                                            }
-                                            else{
-                                                echo 'disabled';        
-                                            }
-                                        }
-                                ?>>
-                            </td>
-                            <td class="align-left">Approval</td>
-                        </tr>
-                        <tr>
-                            <td class="col-sm-3 align-right">
-                                <input type="checkbox" style="color: black;" name="disapproval" id="disapproval" class="form-control input-lg"
-                                <?php
-                                        if($data['type'] == 'add')
-                                            echo 'disabled';
-                                        else{
-                                            if($data['cdo']['approved_status'] == 0){
-                                                echo 'disabled checked';
-                                            }
-                                            else{
-                                                echo 'disabled';
-                                            }
-                                        }
-                                        ?>>
-                            </td>
-                            <td class="align-left">Disapproval</td>
-                        </tr>
-                    </table> -->
                 </td>
             </tr>
         </table>
