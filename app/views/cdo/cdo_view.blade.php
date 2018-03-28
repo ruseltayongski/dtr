@@ -23,8 +23,7 @@
             font-weight:bold;
             color: #2b542c;
         }
-        select, option {
-            text-align: center;
+        select {
             text-align-last: center;
         }
     </style>
