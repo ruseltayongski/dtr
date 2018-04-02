@@ -1,3 +1,4 @@
+<span id="cdo_updatev1" data-link="<?php echo asset('cdo_updatev1'); ?>"></span>
 <?php if(isset($paginate_approve) and count($paginate_approve) >0): ?>
     <div class="table-responsive" style="margin-top: -20px;">
         <label style="padding-bottom: 10px;">Check to select all to pending </label>
@@ -88,17 +89,24 @@
     function approved_status(data){
         var page = "<?php echo Session::get('page_approve') ?>";
         var url = $("#cdo_updatev1").data('link')+'/'+data.val()+'/approve?page='+page;
+        console.log(url);
         $.post(url,function(result){
             console.log(result);
-            $('.ajax_approve').html(loadingState);
+            //$('.ajax_approve').html(loadingState);
             setTimeout(function(){
                 if(result["count_approve"] && !result['paginate_approve']){
                     getPosts(page-1,'');
                 } else {
-                    $('.ajax_approve').html(result['view']);
+                    $('.ajax_approve').html(result);
                 }
-                $(".pending").html(result["count_pending"]);
-                $(".approve").html(result["count_approve"]);
+
+                var pendingCount = parseInt($(".pending").text()) + 1;
+                var approveCount = parseInt($(".approve").text()) - 1;
+
+                $(".pending").html(pendingCount);
+                $(".approve").html(approveCount);
+
+
                 Lobibox.notify('error',{
                     msg:'CTO CANCELED!'
                 });
