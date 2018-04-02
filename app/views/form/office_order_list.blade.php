@@ -146,7 +146,7 @@
                         $('input').attr('autocomplete', 'off');
                     }
                 });
-            },700);
+            },500);
         });
 
         $("a[href='#document_form']").on('click',function(e){
