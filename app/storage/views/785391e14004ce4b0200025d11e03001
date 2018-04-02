@@ -410,7 +410,7 @@
             $(".director").val('Director IV');
         else if(data.val() == 'Ruben S. Siapno,MD,MPH')
             $(".director").val('Director III');
-        else if(data.val() == 'SOPHIA MANCAO MD, DPSP')
+        else if(data.val() == 'Sophia M. Mancao, MD, DPSP')
             $(".director").val('OIC - Director III');
         else
             $(".director").val('');
