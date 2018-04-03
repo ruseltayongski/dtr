@@ -477,7 +477,8 @@ class DocumentController extends BaseController
                 'header_body' => $header_body,
                 'footer_body' => $footer_body,
                 'approved_by' => $approved_by,
-                'version' => Input::get('version')
+                'version' => Input::get('version'),
+                'driver' => Input::get('driver')
             ]);
         //
 
