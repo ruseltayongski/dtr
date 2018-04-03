@@ -249,7 +249,7 @@ class PDF extends FPDF
                                 } else {
                                     $late = late($s_am_in,$s_pm_in,$am_in,$pm_in,$log['datein']);
                                 }
-                                
+
                                 if($late != '' or $late != null)
                                 {
                                     $late_total = $late_total + $late;
