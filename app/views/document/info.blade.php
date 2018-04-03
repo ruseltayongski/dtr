@@ -1,6 +1,9 @@
 <style>
-    .table-info tr td:first-child,label {
-        color: #2b542c;
+    .green {
+        color: #11540c;
+    }
+    .orange {
+        color: #d68036;
     }
 </style>
 <span id="so_append" data-link="{{ asset('so_append') }}"></span>
@@ -26,7 +29,7 @@
         <div class="box box-info">
             <div class="box-body">
                 <div class="form-group">
-                    <label class="col-sm-3 control-label">Prepared date</label>
+                    <label class="col-sm-3 control-label green">Prepared date</label>
                     <div class="col-sm-9">
                         <div class="input-group">
                             <div class="input-group-addon">
@@ -37,7 +40,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-sm-3 control-label">Subject</label>
+                    <label class="col-sm-3 control-label green">Subject</label>
                     <div class="col-sm-9">
                         <div class="input-group">
                             <div class="input-group-addon">
@@ -50,7 +53,7 @@
                 <div class="proceed_loading"></div>
                 <div class="proceed">
                     <div class="form-group">
-                        <label class="col-sm-3 control-label">Header Body</label>
+                        <label class="col-sm-3 control-label green">Header Body</label>
                         <div class="col-sm-9">
                             <textarea class="form-control wysihtml5" name="header_body" rows="3" style="resize:none;" required>.</textarea>
                         </div>
@@ -58,7 +61,7 @@
                 </div>
                 @if($info->version == 2)
                     <div class="form-group">
-                        <label class="col-sm-3 control-label">Header Body</label>
+                        <label class="col-sm-3 control-label green">Header Body</label>
                         <div class="col-sm-9">
                             <textarea class="form-control wysihtml5" name="header_body" rows="5" required>{{ $info->header_body }}</textarea>
                         </div>
@@ -66,7 +69,7 @@
                 @endif
 
                 <div class="form-group">
-                    <label class="col-sm-3 control-label">Check if select all employee (Optional)</label>
+                    <label class="col-sm-3 control-label orange">Check if select all employee (Optional)</label>
                     <div class="col-sm-9">
                         <input type="checkbox" class="form-control" name="all_employee">
                         &nbsp;&nbsp;<button type="button" class="btn-xs btn-info" onclick="clear_name()" style="color: white">Clear Inclusive Name</button>
@@ -74,7 +77,7 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="col-sm-3 control-label">Select section to include (Optional)</label>
+                    <label class="col-sm-3 control-label orange">Select section to include (Optional)</label>
                     <div class="col-sm-9">
                         <select onchange="selectSection($(this))" class="select2">
                             <option value="">Select Section</option>
@@ -86,7 +89,7 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="col-sm-3 control-label">Inclusive Name</label>
+                    <label class="col-sm-3 control-label green">Inclusive Name</label>
                     <div class="col-sm-9">
                         <div class="name_loading"></div>
                         <div class="inclusive_name">
@@ -97,7 +100,6 @@
                             </select>
                         </div>
                     </div>
-
                 </div>
 
 
@@ -110,7 +112,7 @@
                   
                         <hr>
                         <div class="form-group">
-                            <label class="col-sm-3 control-label">Inclusive Date and Area</label>
+                            <label class="col-sm-3 control-label green">Inclusive Date and Area</label>
                             <div class="col-sm-9">
                                 <div class="input-group">
                                     <div class="input-group-addon">
@@ -121,7 +123,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-sm-3 control-label">Area</label>
+                            <label class="col-sm-3 control-label green">Area</label>
                             <div class="col-sm-9">
                                 <div class="input-group">
                                     <div class="input-group-addon">
@@ -132,7 +134,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-sm-3 control-label">SO Time</label>
+                            <label class="col-sm-3 control-label green">SO Time</label>
                             <div class="col-sm-9">
                                 <select class="form-control" name="so_time[]" id="so_time">
                                     @if( $row->so_time == 'wholeday' )
@@ -152,6 +154,18 @@
                             </div>
                         </div>
 
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label orange">How many driver you include? (Optional)</label>
+                            <div class="col-sm-9" style="margin-top: 1.2%;">
+                                <div class="input-group">
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-car"></i>
+                                    </div>
+                                    <input type="number" class="form-control" value="{{ $info->driver }}" id="driver" name="driver" required>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                     <?php
                     $count++;
@@ -167,13 +181,13 @@
                 <div class="proceed_loading"></div>
                 <div class="proceed">
                     <div class="form-group">
-                        <label class="col-sm-3 control-label">Entitled Body</label>
+                        <label class="col-sm-3 control-label green">Entitled Body</label>
                         <div class="col-sm-9">
                             <textarea class="form-control wysihtml5_1" name="footer_body" rows="3" style="resize:none;" required>.</textarea>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-3 control-label">To be approve by</label>
+                        <label class="col-sm-3 control-label green">To be approve by</label>
                         <div class="col-sm-9">
                             <input type="hidden" value="Jaime S. Bernadas, MD, MGM, CESO III" id="proceed_director">
                             <div class="input-group">
@@ -188,7 +202,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-3 control-label">Designation</label>
+                        <label class="col-sm-3 control-label green">Designation</label>
                         <div class="col-sm-9">
                             <div class="input-group">
                                 <div class="input-group-addon">
@@ -201,13 +215,13 @@
                 </div>
                 @if($info->version == 2)
                     <div class="form-group">
-                        <label class="col-sm-3 control-label">Entitled Body</label>
+                        <label class="col-sm-3 control-label green">Entitled Body</label>
                         <div class="col-sm-9">
                             <textarea class="form-control wysihtml5_1" name="footer_body" rows="5" required>{{ $info->footer_body }}</textarea>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-3 control-label">To be approve by</label>
+                        <label class="col-sm-3 control-label green">To be approve by</label>
                         <div class="col-sm-9">
                             <input type="hidden" id="get_director" value="{{ $info->approved_by }}">
                             <div class="input-group">
@@ -238,7 +252,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-3 control-label">Designation</label>
+                        <label class="col-sm-3 control-label green">Designation</label>
                         <div class="col-sm-9">
                             <div class="input-group">
                                 <div class="input-group-addon">

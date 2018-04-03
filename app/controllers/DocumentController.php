@@ -389,6 +389,7 @@ class DocumentController extends BaseController
             $office_order->approved_by = Input::get('approved_by');
         endif;
         $office_order->approved_status = 0;
+        $office_order->driver = Input::get('driver');
         $office_order->save();
 
         //ADD INCLUSIVE NAME
@@ -476,7 +477,8 @@ class DocumentController extends BaseController
                 'header_body' => $header_body,
                 'footer_body' => $footer_body,
                 'approved_by' => $approved_by,
-                'version' => Input::get('version')
+                'version' => Input::get('version'),
+                'driver' => Input::get('driver')
             ]);
         //
 
