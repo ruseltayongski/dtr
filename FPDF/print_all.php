@@ -326,6 +326,15 @@ class PDF extends FPDF
                             }
                         }
 
+
+                        if(!$am_in AND !$pm_in AND !$pm_out AND !$am_out){
+                            if($day_name != "Sat" AND $day_name != "Sun"){
+                                $am_in = "";
+                                $am_out = "ABSENT";
+                                $pm_in = "";
+                                $pm_out = "";
+                            }
+                        }
                         $this->SetFont('Arial','',7);
                         $this->Cell(4,5,$r1,'');
                         $this->Cell(8,5,$day_name,'');

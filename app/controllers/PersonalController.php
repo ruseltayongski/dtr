@@ -194,7 +194,11 @@ class PersonalController extends Controller
             $date = explode('/', Input::get('datein'));
             $date = $date[2] . '-' . $date[0] . '-' . $date[1];
             
-            DB::table('edited_logs')->where('datein','=',$date)->delete();
+            DB::table('edited_logs')
+                ->where('datein','=',$date)
+                ->where('userid','=',Auth::user()->userid)
+                ->orWhere('holiday','=','A')
+                ->delete();
             
             if(Input::has('am_in')) {
                 $dtr = new EditedLogs();

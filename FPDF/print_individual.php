@@ -796,7 +796,23 @@ class PDF extends FPDF
                                 }
                             }
                         }
-
+                        if(!$am_in AND !$pm_in AND !$pm_out AND !$am_out){
+                            if($r1 == 29 OR $r1 == 30 ){
+                                $am_in = "";
+                                $am_out = "HOLIDAY";
+                                $pm_in = "";
+                                $pm_out = "";
+                            } else {
+                                if($day_name != "Sat" AND $day_name != "Sun"){
+                                    $am_in = "";
+                                    $am_out = "ABSENT";
+                                    $pm_in = "";
+                                    $pm_out = "";
+                                }
+                                
+                            }
+                        }
+                        
                         //if($day_name == 'Sat' || $day_name == 'Sun' AND $am_in == '') $am_out = 'DAY OFF';
                         if(isset($e1) and $e1 == "1"){
                             $this->SetFont('Arial','IU',8);
@@ -825,7 +841,7 @@ class PDF extends FPDF
                         } else {
                             $this->SetFont('Arial','',8);
                         }
-
+                        
                         $this->Cell(14,5,$pm_in,'',0,'R');
                         $this->SetTextColor(0,0,0);
 
@@ -852,7 +868,7 @@ class PDF extends FPDF
                         $this->SetFont('Arial','',7);
                         $this->Cell(4,5,$r1,'');
                         $this->Cell(9,5,$day_name,'');
-
+                        
                         if(isset($e1) and $e1 == "1"){
                             $this->SetFont('Arial','IUB',8);
                         } else {
