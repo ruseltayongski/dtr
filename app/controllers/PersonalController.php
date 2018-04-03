@@ -194,8 +194,7 @@ class PersonalController extends Controller
             $date = explode('/', Input::get('datein'));
             $date = $date[2] . '-' . $date[0] . '-' . $date[1];
             
-            DB::table('edited_logs')
-                ->where('datein','=',$date)
+            DB::table('edited_logs')->where('datein','=',$date)
                 ->where('userid','=',Auth::user()->userid)
                 ->orWhere('holiday','=','A')
                 ->delete();
@@ -291,7 +290,10 @@ class PersonalController extends Controller
 
         $from = date('Y-m-d',strtotime($temp1[0]));
         $end_date = date('Y-m-d',strtotime($temp1[1]));
-
+        
+        DB::table('cdo_logs')->where('userid','=',Auth::user()->id)
+                ->whereBetween('datein',array($date_from,$date_to))->delete();
+        
         $f = new DateTime($from.' '. '24:00:00');
         $t = new DateTime($end_date.' '. '24:00:00');
 
@@ -363,6 +365,9 @@ class PersonalController extends Controller
         $from = date('Y-m-d',strtotime($temp1[0]));
         $end_date = date('Y-m-d',strtotime($temp1[1]));
 
+        DB::table('leave_logs')->where('userid','=',Auth::user()->id)
+        ->whereBetween('datein',array($from,$end_date))->delete();
+
         $f = new DateTime($from.' '. '24:00:00');
         $t = new DateTime($end_date.' '. '24:00:00');
 
@@ -430,6 +435,8 @@ class PersonalController extends Controller
         $from = date('Y-m-d',strtotime($temp1[0]));
         $end_date = date('Y-m-d',strtotime($temp1[1]));
 
+        DB::table('so_logs')->where('userid','=',Auth::user()->id)
+        ->whereBetween('datein',array($from,$end_date))->delete();
         $f = new DateTime($from.' '. '24:00:00');
         $t = new DateTime($end_date.' '. '24:00:00');
 

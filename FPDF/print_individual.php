@@ -346,22 +346,27 @@ class PDF extends FPDF
 
                             if($cto['remark'] == 'CTO'){
                                 $am_out = 'CTO';
+                                $e2 = "1";
                             } else {
                                 $so = GET_CDO_SO($s_am_in,$s_am_out,$s_pm_in,$s_pm_out,$userid,$datein,'GETSO');
                                 if($so['holiday'] === '003'){
                                     $am_in = "SO#:".$so['remark'];
+                                    $e1 = "1";
                                     $am_out = "SO#:".$so['remark'];
+                                    $e2 = "1";
                                 } else {
                                     $leave = GET_CDO_SO($s_am_in,$s_am_out,$s_pm_in,$s_pm_out,$userid,$datein,'LEAVE_LOGS');
                                     if($leave['holiday'] == '007'){
                                         $am_in = $leave['remark'];
+                                        $e1 ="1";
                                         $am_out = $leave['remark'];
+                                        $e2 = "1";
                                     } else {
                                         $edited_logs = GET_CDO_SO($s_am_in,$s_am_out,$s_pm_in,$s_pm_out,$userid,$datein,'EDITED_LOGS');
                                         if($edited_logs) {
                                             $am_in =  $edited_logs['am_in'];
                                             $am_out =  $edited_logs['am_out'];
-
+                                            
 
                                             if(isset($am_in)) {
                                                 $a = explode('_', $am_in);
@@ -391,17 +396,23 @@ class PDF extends FPDF
 
                             if($cto['remark'] == 'CTO'){
                                 $pm_in = 'CTO';
+                                $e3 = "1";
                                 $pm_out = 'CTO';
+                                $e4 = "1";
                             } else {
                                 $so = GET_CDO_SO($s_am_in,$s_am_out,$s_pm_in,$s_pm_out,$userid,$datein,'GETSO');
                                 if($so['holiday'] ==='003'){
                                     $pm_in = "SO#:".$so['remark'];
+                                    $e3 = "1";
                                     $pm_out = "SO#:".$so['remark'];
+                                    $e4 = "1";
                                 } else {
                                     $leave = GET_CDO_SO($s_am_in,$s_am_out,$s_pm_in,$s_pm_out,$userid,$datein,'LEAVE_LOGS');
                                     if($leave['holiday'] == '007'){
                                         $pm_in = $leave['remark'];
+                                        $e3 = "1";
                                         $pm_out = $leave['remark'];
+                                        $e4 = "1";
                                     } else {
                                         $edited_logs = GET_CDO_SO($s_am_in,$s_am_out,$s_pm_in,$s_pm_out,$userid,$datein,'EDITED_LOGS');
                                         if($edited_logs) {
@@ -437,10 +448,13 @@ class PDF extends FPDF
                             if($cto['remark'] == 'CTO'){
                                 if($cto['time_type'] == 'AM'){
                                     $am_in = 'CTO';
+                                    $e1 = "1";
                                 }elseif($cto['time_type'] == 'PM') {
                                     $pm_out = 'CTO';
+                                    $e4 = "1";
                                 }elseif($cto['time_type'] == 'WH'){
                                     $am_out = 'CTO';
+                                    $e2 = "1";
                                 }
                             } else {
                                 
@@ -448,17 +462,23 @@ class PDF extends FPDF
                                 if($so['holiday'] === '003'){
                                     if($so['time_type'] == 'WH') {
                                         $am_out = "SO#:".$so['remark'];
+                                        $e2 = "1";
                                     } elseif($so['time_type'] == 'AM') {
                                         $am_in = "SO#:".$so['remark'];
+                                        $e1 = "1";
                                         $am_out = "SO#:".$so['remark'];
+                                        $e2 = "1";
                                     }elseif($so['time_type'] == 'PM') {
                                         $pm_in = "SO#:".$so['remark'];
+                                        $e3 = "1";
                                         $pm_out = "SO#:".$so['remark'];
+                                        $e4 = "1";
                                     }
                                 } else {
                                     $leave = GET_CDO_SO($s_am_in,$s_am_out,$s_pm_in,$s_pm_out,$userid,$datein,'LEAVE_LOGS');
                                     if($leave['holiday'] == '007'){
                                         $am_out = $leave['remark'];
+                                        $e2 = "1";
                                     }else {
                                         $edited_logs = GET_CDO_SO($s_am_in,$s_am_out,$s_pm_in,$s_pm_out,$userid,$datein,'EDITED_LOGS');
                                         if($edited_logs) {
@@ -512,14 +532,17 @@ class PDF extends FPDF
 
                             if($cto['remark'] == 'CTO'){
                                 $pm_out = 'CTO';
+                                $e4 = "1";
                             } else {
                                 $so = GET_CDO_SO($s_am_in,$s_am_out,$s_pm_in,$s_pm_out,$userid,$datein,'GETSO');
                                 if($so['holiday'] === '003'){
                                     $pm_out = "SO#:".$so['remark'];
+                                    $e4 = "1";
                                 } else {
                                     $leave = GET_CDO_SO($s_am_in,$s_am_out,$s_pm_in,$s_pm_out,$userid,$datein,'LEAVE_LOGS');
                                     if($leave['holiday'] == '007'){
                                         $pm_out = $leave['remark'];
+                                        $e4 = "1";
                                     }else {
                                         $edited_logs = GET_CDO_SO($s_am_in,$s_am_out,$s_pm_in,$s_pm_out,$userid,$datein,'EDITED_LOGS');
                                         if($edited_logs) {
@@ -544,17 +567,23 @@ class PDF extends FPDF
 
                             if($cto['remark'] == 'CTO'){
                                 $am_out = 'CTO';
+                                $e2 = "1";
                                 $pm_in = 'CTO';
+                                $e3 = "1";
                             } else {
                                 $so = GET_CDO_SO($s_am_in,$s_am_out,$s_pm_in,$s_pm_out,$userid,$datein,'GETSO');
                                 if($so['holiday'] === '003'){
                                     $am_out = "SO#:".$so['remark'];
+                                    $e2 = "1";
                                     $pm_in = "SO#:".$so['remark'];
+                                    $e3 = "1";
                                 } else {
                                     $leave = GET_CDO_SO($s_am_in,$s_am_out,$s_pm_in,$s_pm_out,$userid,$datein,'LEAVE_LOGS');
                                     if($leave['holiday'] == '007'){
                                         $am_out = $leave['remark'];
+                                        $e2 = "1";
                                         $pm_in = $leave['remark'];
+                                        $e3 = "1";
                                     } else {
                                         $edited_logs = GET_CDO_SO($s_am_in,$s_am_out,$s_pm_in,$s_pm_out,$userid,$datein,'EDITED_LOGS');
                                         if($edited_logs) {
@@ -590,20 +619,29 @@ class PDF extends FPDF
 
                             if($cto['remark'] == 'CTO'){
                                 $am_in = 'CTO';
+                                $e1 = "1";
                                 $am_out = 'CTO';
+                                $e2 = "1";
                                 $pm_out = 'CTO';
+                                $e4 = "1";
                             } else {
                                 $so = GET_CDO_SO($s_am_in,$s_am_out,$s_pm_in,$s_pm_out,$userid,$datein,'GETSO');
                                 if($so['holiday'] === '003'){
                                     $am_in = "SO#:".$so['remark'];
+                                    $e1 = "1";
                                     $am_out = "SO#:".$so['remark'];
+                                    $e2 = "1";
                                     $pm_out = "SO#:".$so['remark'];
+                                    $e4 = "1";
                                 } else {
                                     $leave = GET_CDO_SO($s_am_in,$s_am_out,$s_pm_in,$s_pm_out,$userid,$datein,'LEAVE_LOGS');
                                     if($leave['holiday'] == '007'){
                                         $am_in = $leave['remark'];
+                                        $e1 = "1";
                                         $am_out = $leave['remark'];
+                                        $e2 = "1";
                                         $pm_out = $leave['remark'];
+                                        $e4 = "1";
                                     }else {
                                         $edited_logs = GET_CDO_SO($s_am_in,$s_am_out,$s_pm_in,$s_pm_out,$userid,$datein,'EDITED_LOGS');
                                         if($edited_logs) {
@@ -653,18 +691,27 @@ class PDF extends FPDF
                                 $am_out = 'CTO';
                                 $pm_in = 'CTO';
                                 $pm_out = 'CTO';
+                                $e2 = "1";
+                                $e3 = "1";
+                                $e4 = "1";
                             } else {
                                 $so = GET_CDO_SO($s_am_in,$s_am_out,$s_pm_in,$s_pm_out,$userid,$datein,'GETSO');
                                 if($so['holiday'] === '003'){
                                     $am_out = "SO#:".$so['remark'];
                                     $pm_in = "SO#:".$so['remark'];
                                     $pm_out = "SO#:".$so['remark'];
+                                    $e2 = "1";
+                                    $e3 = "1";
+                                    $e4 = "1";
                                 } else {
                                     $leave = GET_CDO_SO($s_am_in,$s_am_out,$s_pm_in,$s_pm_out,$userid,$datein,'LEAVE_LOGS');
                                     if($leave['holiday'] == '007'){
                                         $am_out = $leave['remark'];
                                         $pm_in = $leave['remark'];
                                         $pm_out = $leave['remark'];
+                                        $e2 = "1";
+                                        $e3 = "1";
+                                        $e4 = "1";
                                     } else {
                                         $edited_logs = GET_CDO_SO($s_am_in,$s_am_out,$s_pm_in,$s_pm_out,$userid,$datein,'EDITED_LOGS');
                                         if($edited_logs) {
@@ -708,27 +755,38 @@ class PDF extends FPDF
 
                             if($cto['remark'] == 'CTO'){
                                 $am_in = 'CTO';
+                                $e1 = "1";
                                 $am_out = 'CTO';
+                                $e2 = "1";
                                 $pm_in = 'CTO';
+                                $e3 = "1";
                             } else {
                                 $so = GET_CDO_SO($s_am_in,$s_am_out,$s_pm_in,$s_pm_out,$userid,$datein,'GETSO');
                                 if($so['holiday'] === '003'){
                                     $am_in = "SO#:".$so['remark'];
+                                    $e1 = "1";
                                     $am_out = "SO#:".$so['remark'];
+                                    $e2 = "1";
                                     $pm_in = "SO#:".$so['remark'];
+                                    $e3 = "1";
                                 } else {
                                     $leave = GET_CDO_SO($s_am_in,$s_am_out,$s_pm_in,$s_pm_out,$userid,$datein,'LEAVE_LOGS');
                                     if($leave['holiday'] == '007'){
                                         $am_in = $leave['remark'];
                                         $am_out = $leave['remark'];
                                         $pm_in = $leave['remark'];
+                                        $e1 = "1";
+                                        $e2 = "1";
+                                        $e3 = "1";
                                     } else {
                                         $edited_logs = GET_CDO_SO($s_am_in,$s_am_out,$s_pm_in,$s_pm_out,$userid,$datein,'EDITED_LOGS');
                                         if($edited_logs) {
                                             $am_in =  $edited_logs['am_in'];
                                             $am_out =  $edited_logs['am_out'];
                                             $pm_in =  $edited_logs['pm_in'];
-                                           
+                                            $e1 = "1";
+                                            $e2 = "1";
+                                            $e3 = "1";
 
                                             if(isset($am_in)) {
                                                 $a = explode('_', $am_in);
@@ -765,18 +823,18 @@ class PDF extends FPDF
                             $cto = GET_CDO_SO($s_am_in,$s_am_out,$s_pm_in,$s_pm_out,$userid,$datein,'GETCDO');
                             
                             if($cto['remark'] == 'CTO'){
-                               
                                 $pm_in = 'CTO';
+                                $e3 = "1";
                             } else {
                                 $so = GET_CDO_SO($s_am_in,$s_am_out,$s_pm_in,$s_pm_out,$userid,$datein,'GETSO');
                                 if($so['holiday'] === '003'){
-                                    
                                     $pm_in = "SO#:".$so['remark'];
+                                    $e3 = "1";
                                 } else {
                                     $leave = GET_CDO_SO($s_am_in,$s_am_out,$s_pm_in,$s_pm_out,$userid,$datein,'LEAVE_LOGS');
                                     if($leave['holiday'] == '007'){
-                                       
                                         $pm_in = $leave['remark'];
+                                        $e3 = "1";
                                     } else {
                                         $edited_logs = GET_CDO_SO($s_am_in,$s_am_out,$s_pm_in,$s_pm_out,$userid,$datein,'EDITED_LOGS');
                                         if($edited_logs) {
@@ -796,26 +854,32 @@ class PDF extends FPDF
                                 }
                             }
                         }
+
+                        
                         if(!$am_in AND !$pm_in AND !$pm_out AND !$am_out){
-                            if($r1 == 29 OR $r1 == 30 ){
-                                $am_in = "";
-                                $am_out = "HOLIDAY";
-                                $pm_in = "";
-                                $pm_out = "";
-                            } else {
+                            $hol = 0;
+                            $hol = GET_HOLIDAY($datein);
+                            if($hol == 1){
                                 if($day_name != "Sat" AND $day_name != "Sun"){
                                     $am_in = "";
-                                    $am_out = "ABSENT";
+                                    $am_out = "HOLIDAY";
+                                    $e2 = "1";
                                     $pm_in = "";
                                     $pm_out = "";
                                 }
-                                
+                            }else{
+                                if($day_name != "Sat" AND $day_name != "Sun"){
+                                    $am_in = "";
+                                    $am_out = "ABSENT";
+                                    $e2 = "1";
+                                    $pm_in = "";
+                                    $pm_out = "";
+                                }
                             }
                         }
-                        
                         //if($day_name == 'Sat' || $day_name == 'Sun' AND $am_in == '') $am_out = 'DAY OFF';
                         if(isset($e1) and $e1 == "1"){
-                            $this->SetFont('Arial','IU',8);
+                            $this->SetFont('Arial','IUB',8);
                         } else {
                             $this->SetFont('Arial','',8);
                         }
@@ -1308,6 +1372,28 @@ function GET_CDO_SO($am_in,$am_out,$pm_in,$pm_out,$id,$datein,$func)
         exit();
     }
     return $row;
+}
+
+function GET_HOLIDAY($datein)
+{
+   
+    $pdo = conn();
+    $query = "";
+    $query = "SELECT * FROM edited_logs WHERE datein = '$datein' AND holiday = 'B' AND userid = '001' GROUP BY remark ORDER BY datein";
+    try
+    {
+        $st = $pdo->prepare($query);
+        $st->execute();
+        $row = $st->fetchAll(PDO::FETCH_ASSOC);
+    }catch(PDOException $ex){
+        echo $ex->getMessage();
+        return 0;
+    }
+    if(isset($row) AND count($row > 0)) {
+        return count($row);
+    }
+    return 0;
+    
 }
 
 ?>
