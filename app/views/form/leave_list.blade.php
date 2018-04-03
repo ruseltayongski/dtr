@@ -66,7 +66,7 @@
                                                                 <td class="text-center">{{ $leave->leave_type }}</td>
                                                                 <td class="text-center">
                                                                     @if($leave->approve == 0)
-                                                                        <button type="button" class="btn btn-success btn-lg" id="leave_action" data-route="{{ $leave->route_no }}"><span style="color:yellowgreen;" class="glyphicon glyphicon-remove"></span></button>
+                                                                        <button type="button" class="btn btn-success btn-lg leave_action" data-route="{{ $leave->route_no }}"><span style="color:yellowgreen;" class="glyphicon glyphicon-remove"></span></button>
                                                                     @else
                                                                         <a href="{{ asset('leave/cancel/'.$leave->route_no) }}" class="btn btn-success btn-lg" onclick="return confirm('Do you want to cancel leave application?')"><span class="glyphicon glyphicon-ok"></span></a>
                                                                     @endif
@@ -106,7 +106,7 @@
                 $('.modal-body_leave').html(data);
             });
         });
-        $("#leave_action").click(function(){
+        $(".leave_action").click(function(){
             $('#modal_leave').modal({
                 backdrop: 'static',
                 keyboard: false,

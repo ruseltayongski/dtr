@@ -203,6 +203,7 @@ class PersonalController extends Controller
                 $dtr->time = Input::get('am_in');
                 $dtr->event = "IN";
                 $dtr->edited = "1";
+                $dtr->holiday = "A";
                 $dtr->remark = "WEB CREATED";
                 $dtr->save();
             }
@@ -214,6 +215,7 @@ class PersonalController extends Controller
                 $dtr->time = Input::get('am_out');
                 $dtr->event = "OUT";
                 $dtr->edited = "1";
+                $dtr->holiday = "A";
                 $dtr->remark = "WEB CREATED";
                 $dtr->save();
             }
@@ -224,6 +226,7 @@ class PersonalController extends Controller
                 $dtr->datein = $date;
                 $dtr->time = Input::get('pm_in');
                 $dtr->event = "IN";
+                $dtr->holiday = "A";
                 $dtr->edited = "1";
                 $dtr->remark = "WEB CREATED";
                 $dtr->save();
@@ -235,6 +238,7 @@ class PersonalController extends Controller
                 $dtr->datein = $date;
                 $dtr->time = Input::get('pm_out');
                 $dtr->event = "OUT";
+                $dtr->holiday = "A";
                 $dtr->edited = "1";
                 $dtr->remark = "WEB CREATED";
                 $dtr->save();
@@ -256,7 +260,7 @@ class PersonalController extends Controller
         ));
         return Redirect::to('personal/index');
     }
-
+    
     public function absent_description()
     {
         $remarks = null;

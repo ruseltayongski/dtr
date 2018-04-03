@@ -23,15 +23,25 @@
                     <td><a class="title-info" data-backdrop="static" data-route="<?php echo $row->route_no; ?>" data-link="<?php echo asset('/form/info/'.$row->route_no.'/cdo'); ?>" href="#document_info" data-toggle="modal" style="color: #f0ad4e;"><?php echo $row->route_no; ?></a></td>
                     <td><?php echo $row->subject; ?></td>
                     <?php if(\Illuminate\Support\Facades\Auth::user()->usertype): ?>
-                        <td><?php echo pdoController::user_search1($row['prepared_name'])['fname'].' '.pdoController::user_search1($row['prepared_name'])['mname'].' '.pdoController::user_search1($row['prepared_name'])['lname']; ?></td>
+                        <td>
+                            <?php
+                                $personal_information = InformationPersonal::where('userid','=',$row['prepared_name'])->first();
+                                echo $personal_information->fname.' '.$personal_information->mname.' '.$personal_information->lname;
+                            ?>
+                        </td>
                     <?php else: ?>
                         <td>CTO</td>
                     <?php endif; ?>
-                    <td class="text-center"><b style="color:green;"><?php if(isset(InformationPersonal::where('userid',pdoController::user_search1($row['prepared_name'])['username'])->first()->bbalance_cto)): ?> <?php echo InformationPersonal::where('userid',pdoController::user_search1($row['prepared_name'])['username'])->first()->bbalance_cto; ?> <?php else: ?> 0 <?php endif; ?></b></td>
+                    <td class="text-center">
+                        <b style="color:green;">
+                            <?php echo $personal_information->bbalance_cto; ?>
+
+                        </b>
+                    </td>
                     <?php if($row->approved_status == 1): ?>
-                        <td><button type="button" value="<?php echo $row->id; ?>" onclick="all_status($(this))" class="btn-xs btn-danger" style="color:white;"><i class="fa fa-ban"></i> Cancel</button></td>
+                        <td><button type="button" value="<?php echo $row->id; ?>" onclick="all_status($(this),'cancel')" class="btn-xs btn-danger" style="color:white;"><i class="fa fa-ban"></i> Cancel</button></td>
                     <?php else: ?>
-                        <td><button type="button" value="<?php echo $row->id; ?>" onclick="all_status($(this))" class="btn-xs btn-info" style="color:white;"><i class="fa fa-frown-o"></i> Approve</button></td>
+                        <td><button type="button" value="<?php echo $row->id; ?>" onclick="all_status($(this),'approve')" class="btn-xs btn-info" style="color:white;"><i class="fa fa-frown-o"></i> Approve</button></td>
                     <?php endif; ?>
                 </tr>
             <?php endforeach; ?>
@@ -64,16 +74,35 @@
         },1000);
     });
 
-    function all_status(data){
+    function all_status(data,btnType){
         var page = "<?php echo Session::get('page_all') ?>";
         var url = $("#cdo_updatev1").data('link')+'/'+data.val()+'/all?page='+page;
         $.post(url,function(result){
+
             Lobibox.notify('success',{
                 msg:''
             });
-            $('.ajax_all').html(result['view']);
-            $(".pending").html(result["count_pending"]);
-            $(".approve").html(result["count_approve"]);
+            $('.ajax_all').html(result);
+
+            var pendingCount = $(".pending").text();
+            var approveCount = $(".approve").text();
+
+            if( btnType == 'cancel'){
+                pendingCount++;
+                if( approveCount != 0 ){
+                    approveCount--;
+                }
+
+            }
+            else if(btnType == 'approve') {
+                if( pendingCount != 0 ){
+                    pendingCount--;
+                }
+                approveCount++;
+            }
+
+            $(".pending").html(pendingCount);
+            $(".approve").html(approveCount);
         });
     }
     //document information

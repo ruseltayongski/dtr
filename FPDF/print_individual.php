@@ -443,7 +443,7 @@ class PDF extends FPDF
                                     $am_out = 'CTO';
                                 }
                             } else {
-
+                                
                                 $so = GET_CDO_SO($s_am_in,$s_am_out,$s_pm_in,$s_pm_out,$userid,$datein,'GETSO');
                                 if($so['holiday'] === '003'){
                                     if($so['time_type'] == 'WH') {
@@ -761,8 +761,41 @@ class PDF extends FPDF
 
                                 }
                             }
-                        }
+                        }  else if($am_in AND $am_out AND !$pm_in AND $pm_out){
+                            $cto = GET_CDO_SO($s_am_in,$s_am_out,$s_pm_in,$s_pm_out,$userid,$datein,'GETCDO');
+                            
+                            if($cto['remark'] == 'CTO'){
+                               
+                                $pm_in = 'CTO';
+                            } else {
+                                $so = GET_CDO_SO($s_am_in,$s_am_out,$s_pm_in,$s_pm_out,$userid,$datein,'GETSO');
+                                if($so['holiday'] === '003'){
+                                    
+                                    $pm_in = "SO#:".$so['remark'];
+                                } else {
+                                    $leave = GET_CDO_SO($s_am_in,$s_am_out,$s_pm_in,$s_pm_out,$userid,$datein,'LEAVE_LOGS');
+                                    if($leave['holiday'] == '007'){
+                                       
+                                        $pm_in = $leave['remark'];
+                                    } else {
+                                        $edited_logs = GET_CDO_SO($s_am_in,$s_am_out,$s_pm_in,$s_pm_out,$userid,$datein,'EDITED_LOGS');
+                                        if($edited_logs) {
+                                           
+                                            $pm_in =  $edited_logs['pm_in'];
+                                            if(isset($pm_in)) {
+                                                $c = explode('_', $pm_in);
+                                                $e3 = $c[1];
+                                                $pm_in = $c[0];
+                                            } else {
+                                                $pm_in = '';
+                                                $e3 = '';
+                                            }
+                                        }
+                                    }
 
+                                }
+                            }
+                        }
 
                         //if($day_name == 'Sat' || $day_name == 'Sun' AND $am_in == '') $am_out = 'DAY OFF';
                         if(isset($e1) and $e1 == "1"){
@@ -778,7 +811,7 @@ class PDF extends FPDF
                         $this->SetFont('Arial','',8);
                         if($day_name == 'Sat' || $day_name == 'Sun' AND $am_in == '' AND $am_out == '') $am_out = 'DAY OFF';
                         if(isset($e2) and $e2 == "1"){
-                            $this->SetFont('Arial','IU',8);
+                            $this->SetFont('Arial','IUB',8);
                         } else {
                             $this->SetFont('Arial','',8);
                         }
@@ -788,7 +821,7 @@ class PDF extends FPDF
 
                         if($day_name == 'Sat' || $day_name == 'Sun' AND $am_in == '' AND $am_out == '' AND $pm_in == '') $am_out = 'DAY OFF';
                         if(isset($e3) and $e3 == "1"){
-                            $this->SetFont('Arial','IU',8);
+                            $this->SetFont('Arial','IUB',8);
                         } else {
                             $this->SetFont('Arial','',8);
                         }
@@ -798,7 +831,7 @@ class PDF extends FPDF
 
                         if($day_name == 'Sat' || $day_name == 'Sun' AND $am_in == '' AND $am_out == '' AND $pm_in == '' AND $pm_out == '') $am_out = 'DAY OFF';
                         if(isset($e4) and $e4 == "1") {
-                            $this->SetFont('Arial','IU',8);
+                            $this->SetFont('Arial','IUB',8);
                         } else {
                             $this->SetFont('Arial','',8);
                         }
@@ -821,7 +854,7 @@ class PDF extends FPDF
                         $this->Cell(9,5,$day_name,'');
 
                         if(isset($e1) and $e1 == "1"){
-                            $this->SetFont('Arial','IU',8);
+                            $this->SetFont('Arial','IUB',8);
                         } else {
                             $this->SetFont('Arial','',8);
                         }
@@ -829,7 +862,7 @@ class PDF extends FPDF
                         $this->SetTextColor(0,0,0);
 
                         if(isset($e2) and $e2 == "1"){
-                            $this->SetFont('Arial','IU',8);
+                            $this->SetFont('Arial','IUB',8);
                         } else {
                             $this->SetFont('Arial','',8);
                         }
@@ -837,7 +870,7 @@ class PDF extends FPDF
                         $this->SetTextColor(0,0,0);
 
                         if(isset($e3) and $e3 == "1"){
-                            $this->SetFont('Arial','IU',8);
+                            $this->SetFont('Arial','IUB',8);
                         } else {
                             $this->SetFont('Arial','',8);
                         }
@@ -845,7 +878,7 @@ class PDF extends FPDF
                         $this->SetTextColor(0,0,0);
 
                         if(isset($e4) and $e4 == "1"){
-                            $this->SetFont('Arial','IU',8);
+                            $this->SetFont('Arial','IUB',8);
                         } else {
                             $this->SetFont('Arial','',8);
                         }
