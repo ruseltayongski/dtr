@@ -211,12 +211,57 @@ $item_no = 1;
                             </tr>
                         @endif
                     @endforeach
+                    @if( $row['division_id'] == 6 )
+                        @for( $i = 0; $i < $office_order->driver; $i++ )
+                            <?php $count++; ?>
+                            <tr>
+                                <td id="no-border">{{ $count }}.<b>____________________</b></td>
+                                <td id="no-border">Driver</td>
+                                <td id="no-border">Job Order</td>
+                            </tr>
+                        @endfor
+                    @else
+                        <?php $driverFlag = true; ?>
+                    @endif
                 </table>
                 <br>
                 <?php $flag[$div['id']] = true; ?>
             @endif
         @endforeach
     @endforeach
+
+    @if( $office_order->driver > 0 and isset($driverFlag) )
+        <table class="table1" cellpadding="0" cellspacing="0">
+            <tr>
+                <td colspan="3" id="no-border"><b>{{ Division::find(6)->description }}</b></td>
+            </tr>
+            <tr>
+                <td id="no-border padding-bottom" width="45%">
+                    <i>
+                        Name
+                    </i>
+                </td>
+                <td id="no-border padding-bottom" width="45%">
+                    <i>
+                        Designation
+                    </i>
+                </td>
+                <td id="no-border padding-bottom" width="10%">
+                    <i>
+                        Job Status
+                    </i>
+                </td>
+            </tr>
+            @for( $i = 0; $i < $office_order->driver; $i++ )
+                <?php $count++; ?>
+                <tr>
+                    <td id="no-border">{{ $count }}.<b>____________________</b></td>
+                    <td id="no-border">Driver</td>
+                    <td id="no-border">Job Order</td>
+                </tr>
+            @endfor
+        </table>
+    @endif
 
     @foreach($name as $row)
         @if( $row['division_id'] == '' )

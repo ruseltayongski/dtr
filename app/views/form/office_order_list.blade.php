@@ -6,47 +6,25 @@
             <h3 class="page-header">Office Order</h3>
 
             <div class="row">
-                <div class="col-md-4">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="panel panel-default">
-                                <div class="panel-heading"><strong style="color: #f0ad4e;font-size:medium;">Option</strong></div>
-                                <div class="panel-body">
-                                    <form class="form-inline" method="POST" action="{{ asset('form/so_list') }}" id="searchForm">
-                                        <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
-                                        <div class="table-responsive">
-                                            <table class="table">
-                                                <tr>
-                                                    <td class="col-sm-2" style="font-size: 12px;"><strong>Keyword</strong></td>
-                                                    <td class="col-sm-1">: </td>
-                                                    <td class="col-sm-9">
-                                                        <input type="text" class="col-md-2 form-control" value="{{ Session::get('keyword') }}" id="inputEmail3" name="keyword" style="width: 100%" placeholder="Route no, Subject">
-                                                    </td>
-                                                </tr>
-                                            </table>
-                                        </div>
-                                        <button type="submit" class="btn-lg btn-success center-block col-sm-12" id="print" data-loading-text="<i class='fa fa-refresh fa-spin'></i> Printing DTR">
-                                            <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Search
-                                        </button>
-                                    </form>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-8">
+                <div class="col-md-12">
                     <div class="row">
                         <div class="col-md-12">
                             <div class="panel panel-default">
                                 <div class="panel-heading"><strong style="color: #f0ad4e;font-size:medium;">List</strong></div>
                                 <div class="panel-body">
                                     <div class="row">
-                                        <div class="col-md-12">
+                                        <form class="form-inline" method="POST" action="{{ asset('form/so_list') }}" id="searchForm">
+                                            <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
+                                            <div class="col-md-8">
+                                                <input type="text" class="form-control" value="{{ Session::get('keyword') }}" id="inputEmail3" name="keyword" style="width: 100%" placeholder="Route no, Subject">
+                                            </div>
+                                            <button type="submit" class="btn btn-primary" id="print" data-loading-text="<i class='fa fa-refresh fa-spin'></i> Printing DTR">
+                                                <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Search
+                                            </button>
                                             @if(!Auth::user()->usertype)
-                                                <a href="#document_form" data-link="{{ asset('form/sov1') }}" class="btn btn-success" data-dismiss="modal" data-backdrop="static" data-toggle="modal" data-target="#document_form" style="background-color:darkmagenta;color: white;"><i class="fa fa-plus"></i> Create new</a>
+                                                <a href="#document_form" data-link="{{ asset('form/sov1') }}" class="btn btn-success" data-dismiss="modal" data-backdrop="static" data-toggle="modal" data-target="#document_form" style="background-color:#9C8AA5;color: white;"><i class="fa fa-plus"></i> Create new</a>
                                             @endif
-                                        </div>
+                                        </form>
                                     </div>
                                     <br />
                                     <div class="row">
@@ -57,8 +35,9 @@
                                                         <thead>
                                                         <tr>
                                                             <th class="text-center"></th>
-                                                            <th class="text-center" width="28%">Route #</th>
-                                                            <th class="text-center" width="15%">Prepared Date</th>
+                                                            <th>Route #</th>
+                                                            <th class="text-center">Form</th>
+                                                            <th class="text-center">Prepared Date</th>
                                                             @if(Auth::user()->usertype)
                                                             <th class="text-center">Prepared Name</th>
                                                             @endif
@@ -69,9 +48,16 @@
                                                         <tbody style="font-size: 10pt;">
                                                         @foreach($office_order as $so)
                                                             <tr>
-                                                                <td class="text-center"><a href="#track" data-link="{{ asset('form/track/'.$so->route_no) }}" data-route="{{ $so->route_no }}" data-toggle="modal" class="btn btn-sm btn-success col-sm-12" style="background-color: darkmagenta;color: white;"><i class="fa fa-line-chart"></i> Track</a></td>
+                                                                <td class="text-center"><a href="#track" data-link="{{ asset('form/track/'.$so->route_no) }}" data-route="{{ $so->route_no }}" data-toggle="modal" class="btn btn-sm btn-success col-sm-12" style="background-color:#9C8AA5;color: white;"><i class="fa fa-line-chart"></i> Track</a></td>
                                                                 <td>
                                                                     <a class="title-info" style="color: #f0ad4e;" data-route="{{ $so->route_no }}" data-backdrop="static" data-link="{{ asset('/form/info/'.$so->route_no.'/office_order') }}" href="#so_info" data-toggle="modal">{{ $so->route_no }}</a>
+                                                                </td>
+                                                                <td class="text-center">
+                                                                    @if( $so->version == 1 )
+                                                                        <b style="color: #d6225c"><i>{{ 'VERSION '.$so->version }}</i></b>
+                                                                    @else
+                                                                        <b style="color: #11540c"><I>{{ 'VERSION '.$so->version }}</I></b>
+                                                                    @endif
                                                                 </td>
                                                                 <td class="text-center">{{ date('M d, Y',strtotime($so->prepared_date)) }}</td>
                                                                 @if(Auth::user()->usertype)
