@@ -292,7 +292,7 @@ class PersonalController extends Controller
         $end_date = date('Y-m-d',strtotime($temp1[1]));
         
         DB::table('cdo_logs')->where('userid','=',Auth::user()->id)
-                ->whereBetween('datein',array($date_from,$date_to))->delete();
+                ->whereBetween('datein',array($from,$end_date))->delete();
         
         $f = new DateTime($from.' '. '24:00:00');
         $t = new DateTime($end_date.' '. '24:00:00');

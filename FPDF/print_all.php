@@ -327,17 +327,28 @@ class PDF extends FPDF
                         }
 
                         if(!$am_in AND !$pm_in AND !$pm_out AND !$am_out){
-                            
-                            if($day_name != "Sat" AND $day_name != "Sun"){
-                                $am_in = "";
-                                $am_out = "ABSENT";
-                                $e2 = "1";
-                                $pm_in = "";
-                                $pm_out = "";
+                            $hol = 0;
+                            $hol = GET_HOLIDAY($datein);
+                            if($hol == 1){
+                                if($day_name != "Sat" AND $day_name != "Sun"){
+                                    $am_in = "";
+                                    $am_out = "HOLIDAY";
+                                    $e2 = "1";
+                                    $pm_in = "";
+                                    $pm_out = "";
+                                }
+                            }else{
+                                if($day_name != "Sat" AND $day_name != "Sun"){
+                                    $am_in = "";
+                                    $am_out = "ABSENT";
+                                    $e2 = "1";
+                                    $pm_in = "";
+                                    $pm_out = "";
+                                }
                             }
-                            
                         }
-
+                        
+                        
                         $this->SetFont('Arial','',7);
                         $this->Cell(4,5,$r1,'');
                         $this->Cell(8,5,$day_name,'');
@@ -836,6 +847,28 @@ function undertime($s_am_in,$s_pm_in,$am_in,$pm_in,$s_am_out,$s_pm_out,$am_out,$
     }
     if($total == 0 ) $total = '';
     return $total;
+}
+
+function GET_HOLIDAY($datein)
+{
+   
+    $pdo = conn();
+    $query = "";
+    $query = "SELECT * FROM edited_logs WHERE datein = '$datein' AND holiday = 'B' AND userid = '001' GROUP BY remark ORDER BY datein";
+    try
+    {
+        $st = $pdo->prepare($query);
+        $st->execute();
+        $row = $st->fetchAll(PDO::FETCH_ASSOC);
+    }catch(PDOException $ex){
+        echo $ex->getMessage();
+        return 0;
+    }
+    if(isset($row) AND count($row > 0)) {
+        return count($row);
+    }
+    return 0;
+    
 }
 
 
