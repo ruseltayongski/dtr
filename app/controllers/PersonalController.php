@@ -196,7 +196,7 @@ class PersonalController extends Controller
             
             DB::table('edited_logs')->where('datein','=',$date)
                 ->where('userid','=',Auth::user()->userid)
-                ->orWhere('holiday','=','A')
+                ->where('holiday','=','A')
                 ->delete();
             
             if(Input::has('am_in')) {
