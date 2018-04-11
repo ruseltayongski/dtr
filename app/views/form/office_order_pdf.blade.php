@@ -317,17 +317,15 @@ $item_no = 1;
         <tr>
             <td colspan="3" id="no-border">
                 <b>
-                    <!-- {{ $office_order->approved_by }} -->
-                    Sophia M. Mancao, MD, DPSP
+                    {{ $office_order->approved_by }}
                 </b><br>
-                OIC, Director III
-                <!-- @if($office_order->approved_by == 'Jaime S. Bernadas, MD, MGM, CESO III')
+                @if($office_order->approved_by == 'Jaime S. Bernadas, MD, MGM, CESO III')
                     Director IV
                 @elseif($office_order->approved_by == 'Sophia M. Mancao, MD, DPSP')
                     OIC - Director III
                 @else
                     Director III
-                @endif -->
+                @endif
             </td>
         </tr>
     </table>

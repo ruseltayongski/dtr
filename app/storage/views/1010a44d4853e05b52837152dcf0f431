@@ -317,17 +317,16 @@ $item_no = 1;
         <tr>
             <td colspan="3" id="no-border">
                 <b>
-                    <!-- <?php echo $office_order->approved_by; ?> -->
-                    Sophia M. Mancao, MD, DPSP
+                    <?php echo $office_order->approved_by; ?>
+
                 </b><br>
-                OIC, Director III
-                <!-- <?php if($office_order->approved_by == 'Jaime S. Bernadas, MD, MGM, CESO III'): ?>
+                <?php if($office_order->approved_by == 'Jaime S. Bernadas, MD, MGM, CESO III'): ?>
                     Director IV
                 <?php elseif($office_order->approved_by == 'Sophia M. Mancao, MD, DPSP'): ?>
                     OIC - Director III
                 <?php else: ?>
                     Director III
-                <?php endif; ?> -->
+                <?php endif; ?>
             </td>
         </tr>
     </table>
