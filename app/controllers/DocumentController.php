@@ -282,11 +282,17 @@ class DocumentController extends BaseController
     {
         $users = pdoController::users();
         $office_order = OfficeOrders::where('route_no',Session::get('route_no'))->get()->first();
-        $inclusive_name = InclusiveNames::where('route_no',Session::get('route_no'))->get();
         $inclusive_date = Calendars::where('route_no',Session::get('route_no'))->get();
-        foreach($inclusive_name as $row){
-            $name[] = InformationPersonal::where('userid','=',$row['userid'])->first();
-        }
+        $inclusive_name = InclusiveNames::where('route_no',Session::get('route_no'))->get(['userid']);
+
+        /*return WorkExperience::where('date_to','=','Present')->
+                                whereIn('userid',array_pluck($inclusive_name,'userid'))
+                                ->orderBy('salary_grade','asc')
+                                ->get(['userid']);*/
+
+        $name = InformationPersonal::whereIn('userid',array_pluck($inclusive_name,'userid'))
+                                    ->orderBy('userid','asc')
+                                    ->get();
         $display = View::make('form.office_order_pdf',[
                                         'users'=>$users,
                                         'office_order'=>$office_order,
