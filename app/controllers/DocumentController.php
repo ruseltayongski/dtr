@@ -281,7 +281,7 @@ class DocumentController extends BaseController
     public function so_pdf()
     {
         $users = pdoController::users();
-        $office_order = OfficeOrders::where('route_no',Session::get('route_no'))->get()->first();
+        $office_order = OfficeOrders::where('route_no',Session::get('route_no'))->first();
         $inclusive_date = Calendars::where('route_no',Session::get('route_no'))->get();
 
         $name = InclusiveNames::where('inclusive_name.route_no',Session::get('route_no'))
