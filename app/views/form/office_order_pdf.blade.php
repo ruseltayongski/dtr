@@ -193,13 +193,13 @@ $item_no = 1;
                         </td>
                         <td id="no-border padding-bottom" width="10%">
                             <i>
-                                Job Status
+                                Employment Status
                             </i>
                         </td>
                     </tr>
 
                     @foreach($name as $details)
-                        @if( $div['id'] == $details['division_id'] )
+                        @if( $div['id'] == $details->division_id)
                         <?php
                             $count++;
                             isset( $details->fname ) ? $fname = $details->fname : $fname = 'no fname';
