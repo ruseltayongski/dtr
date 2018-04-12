@@ -170,10 +170,12 @@ $item_no = 1;
         </tr>
     </table>
 
-    <?php $count = 0; ?>
+    <?php
+        $count = 0;
+    ?>
     <?php foreach( $division as $div ): ?>
         <?php foreach($name as $row): ?>
-            <?php if( $div['id'] == $row['division_id'] && !isset($flag[$div['id']]) ): ?>
+            <?php if( $div['id'] == $row->division_id && !isset($flag[$div['id']]) ): ?>
                 <table class="table1" cellpadding="0" cellspacing="0">
                     <tr>
                         <td colspan="3" id="no-border"><b><?php echo $div['description']; ?></b></td>
@@ -196,22 +198,22 @@ $item_no = 1;
                         </td>
                     </tr>
 
-                    <?php foreach($name as $row): ?>
-                        <?php if( $div['id'] == $row['division_id'] ): ?>
+                    <?php foreach($name as $details): ?>
+                        <?php if( $div['id'] == $details['division_id'] ): ?>
                         <?php
                             $count++;
-                            isset( $row['fname'] ) ? $fname = $row['fname'] : $fname = 'no fname';
-                            $row['mname'] != '' ? $mname = strtoupper($row['mname'][0]) : $mname = '';
-                            isset( $row['lname'] ) ? $lname = $row['lname'] : $lname = 'no lname';
+                            isset( $details->fname ) ? $fname = $details->fname : $fname = 'no fname';
+                            $details->mname != '' ? $mname = strtoupper($details->mname[0]) : $mname = '';
+                            isset( $details->lname ) ? $lname = $details->lname : $details = 'no lname';
                         ?>
                             <tr>
                                 <td id="no-border"><?php echo $count.'. '.str_replace('\' ', '\'', ucwords(str_replace('\'', '\' ', strtolower($fname)))).' '.$mname.'. '.str_replace('\' ', '\'', ucwords(str_replace('\'', '\' ', strtolower($lname)))); ?></td>
-                                <td id="no-border"><?php if(isset(pdoController::designation_search($row['designation_id'])['description'])): ?> <?php echo pdoController::designation_search($row['designation_id'])['description']; ?> <?php endif; ?></td>
-                                <td id="no-border"><?php echo $row['job_status']; ?></td>
+                                <td id="no-border"><?php if(isset(pdoController::designation_search($details->designation_id)['description'])): ?> <?php echo pdoController::designation_search($details->designation_id)['description']; ?> <?php endif; ?></td>
+                                <td id="no-border"><?php echo $details->job_status; ?></td>
                             </tr>
                         <?php endif; ?>
                     <?php endforeach; ?>
-                    <?php if( $row['division_id'] == 6 ): ?>
+                    <?php if( $div['id'] == 6 ): ?>
                         <?php for( $i = 0; $i < $office_order->driver; $i++ ): ?>
                             <?php $count++; ?>
                             <tr>
@@ -220,17 +222,16 @@ $item_no = 1;
                                 <td id="no-border">Job Order</td>
                             </tr>
                         <?php endfor; ?>
-                    <?php else: ?>
-                        <?php $driverFlag = true; ?>
+                        <?php $stopDriver = true; ?> <!-- Stop displaying driver in dummy driver table if there was MSD in inclusive name -->
                     <?php endif; ?>
                 </table>
                 <br>
-                <?php $flag[$div['id']] = true; ?>
+                <?php $flag[$div['id']] = true; ?> <!-- To minimize the redundant division id -->
             <?php endif; ?>
         <?php endforeach; ?>
     <?php endforeach; ?>
 
-    <?php if( $office_order->driver > 0 and isset($driverFlag) ): ?>
+    <?php if( $office_order->driver > 0 and !isset($stopDriver) ): ?>
         <table class="table1" cellpadding="0" cellspacing="0">
             <tr>
                 <td colspan="3" id="no-border"><b><?php echo Division::find(6)->description; ?></b></td>

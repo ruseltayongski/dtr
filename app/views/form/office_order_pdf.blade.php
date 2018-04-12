@@ -170,10 +170,12 @@ $item_no = 1;
         </tr>
     </table>
 
-    <?php $count = 0; ?>
+    <?php
+        $count = 0;
+    ?>
     @foreach( $division as $div )
         @foreach($name as $row)
-            @if( $div['id'] == $row['division_id'] && !isset($flag[$div['id']]) )
+            @if( $div['id'] == $row->division_id && !isset($flag[$div['id']]) )
                 <table class="table1" cellpadding="0" cellspacing="0">
                     <tr>
                         <td colspan="3" id="no-border"><b>{{ $div['description'] }}</b></td>
@@ -196,22 +198,22 @@ $item_no = 1;
                         </td>
                     </tr>
 
-                    @foreach($name as $row)
-                        @if( $div['id'] == $row['division_id'] )
+                    @foreach($name as $details)
+                        @if( $div['id'] == $details['division_id'] )
                         <?php
                             $count++;
-                            isset( $row['fname'] ) ? $fname = $row['fname'] : $fname = 'no fname';
-                            $row['mname'] != '' ? $mname = strtoupper($row['mname'][0]) : $mname = '';
-                            isset( $row['lname'] ) ? $lname = $row['lname'] : $lname = 'no lname';
+                            isset( $details->fname ) ? $fname = $details->fname : $fname = 'no fname';
+                            $details->mname != '' ? $mname = strtoupper($details->mname[0]) : $mname = '';
+                            isset( $details->lname ) ? $lname = $details->lname : $details = 'no lname';
                         ?>
                             <tr>
                                 <td id="no-border">{{ $count.'. '.str_replace('\' ', '\'', ucwords(str_replace('\'', '\' ', strtolower($fname)))).' '.$mname.'. '.str_replace('\' ', '\'', ucwords(str_replace('\'', '\' ', strtolower($lname))))}}</td>
-                                <td id="no-border">@if(isset(pdoController::designation_search($row['designation_id'])['description'])) {{ pdoController::designation_search($row['designation_id'])['description'] }} @endif</td>
-                                <td id="no-border">{{ $row['job_status'] }}</td>
+                                <td id="no-border">@if(isset(pdoController::designation_search($details->designation_id)['description'])) {{ pdoController::designation_search($details->designation_id)['description'] }} @endif</td>
+                                <td id="no-border">{{ $details->job_status }}</td>
                             </tr>
                         @endif
                     @endforeach
-                    @if( $row['division_id'] == 6 )
+                    @if( $div['id'] == 6 )
                         @for( $i = 0; $i < $office_order->driver; $i++ )
                             <?php $count++; ?>
                             <tr>
@@ -220,17 +222,16 @@ $item_no = 1;
                                 <td id="no-border">Job Order</td>
                             </tr>
                         @endfor
-                    @else
-                        <?php $driverFlag = true; ?>
+                        <?php $stopDriver = true; ?> <!-- Stop displaying driver in dummy driver table if there was MSD in inclusive name -->
                     @endif
                 </table>
                 <br>
-                <?php $flag[$div['id']] = true; ?>
+                <?php $flag[$div['id']] = true; ?> <!-- To minimize the redundant division id -->
             @endif
         @endforeach
     @endforeach
 
-    @if( $office_order->driver > 0 and isset($driverFlag) )
+    @if( $office_order->driver > 0 and !isset($stopDriver) )
         <table class="table1" cellpadding="0" cellspacing="0">
             <tr>
                 <td colspan="3" id="no-border"><b>{{ Division::find(6)->description }}</b></td>
