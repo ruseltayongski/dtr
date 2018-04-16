@@ -289,7 +289,7 @@ class DocumentController extends BaseController
                             ->join('pis.work_experience','work_experience.userid','=','inclusive_name.userid')
                             ->groupBy('work_experience.userid')
                             ->orderBy('work_experience.monthly_salary','desc')
-                            ->get();
+                            ->get(); // THE NULL WORK EXPERIENCE WILL NOT DISPLAY THE NAME
 
         $display = View::make('form.office_order_pdf',[
                                         'users'=>$users,

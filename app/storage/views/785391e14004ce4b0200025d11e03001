@@ -108,7 +108,7 @@
                     $count = 1;
                     foreach($inclusive_date as $row):
                     ?>
-                    <div id="<?php echo $count; ?>">
+                    <div class="<?php echo $count; ?>">
                   
                         <hr>
                         <div class="form-group">
@@ -135,7 +135,7 @@
                         </div>
                         <div class="form-group">
                             <label class="col-sm-3 control-label green">SO Time</label>
-                            <div class="col-sm-9">
+                            <div class="col-sm-8">
                                 <select class="form-control" name="so_time[]" id="so_time">
                                     <?php if( $row->so_time == 'wholeday' ): ?>
                                         <option value="wholeday">Whole Day</option>
@@ -152,18 +152,11 @@
                                     <?php endif; ?>
                                 </select>
                             </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label orange">How many driver you include? (Optional)</label>
-                            <div class="col-sm-9" style="margin-top: 1.2%;">
-                                <div class="input-group">
-                                    <div class="input-group-addon">
-                                        <i class="fa fa-car"></i>
-                                    </div>
-                                    <input type="number" class="form-control" value="<?php echo $info->driver; ?>" id="driver" name="driver" required>
-                                </div>
+                            <?php if( $count > 1 ): ?>
+                            <div class="col-sm-1" style="margin-top:1%;">
+                                <button type="button" value="<?php echo $count; ?>" onclick="remove_row($(this));" class="btn-xs btn-danger" style="color: white" ><span class="fa fa-close"></span></button>
                             </div>
+                            <?php endif; ?>
                         </div>
 
                     </div>
@@ -171,6 +164,17 @@
                     $count++;
                     endforeach;
                     ?>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label orange">How many driver you include? (Optional)</label>
+                        <div class="col-sm-9" style="margin-top: 1.2%;">
+                            <div class="input-group">
+                                <div class="input-group-addon">
+                                    <i class="fa fa-car"></i>
+                                </div>
+                                <input type="number" class="form-control" value="<?php echo $info->driver; ?>" id="driver" name="driver">
+                            </div>
+                        </div>
+                    </div>
                     <input type="hidden" value="<?php echo $count; ?>" id="date_count">
                 </div>
                 <div class="form-group">
