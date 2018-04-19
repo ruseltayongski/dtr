@@ -282,7 +282,7 @@ class DocumentController extends BaseController
     {
         $users = pdoController::users();
         $office_order = OfficeOrders::where('route_no',Session::get('route_no'))->first();
-        $inclusive_date = Calendars::where('route_no',Session::get('route_no'))->get();
+        $inclusive_dates = Calendars::where('route_no',Session::get('route_no'))->get();
 
         $name = InclusiveNames::where('inclusive_name.route_no',Session::get('route_no'))
                             ->join('pis.personal_information','personal_information.userid','=','inclusive_name.userid')
@@ -294,7 +294,7 @@ class DocumentController extends BaseController
         $display = View::make('form.office_order_pdf',[
                                         'users'=>$users,
                                         'office_order'=>$office_order,
-                                        'inclusive_date'=>$inclusive_date,
+                                        'inclusive_dates'=>$inclusive_dates,
                                         'name'=>$name,
                                         'division'=>pdoController::division()
                                     ]);

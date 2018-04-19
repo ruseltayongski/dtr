@@ -137,7 +137,7 @@
                                 <div class="input-group-addon">
                                     <i class="fa fa-car"></i>
                                 </div>
-                                <input type="number" class="form-control" id="driver" name="driver" required>
+                                <input type="number" class="form-control" id="driver" name="driver">
                             </div>
                         </div>
                     </div>

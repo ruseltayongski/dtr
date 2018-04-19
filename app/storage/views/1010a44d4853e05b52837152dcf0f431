@@ -172,63 +172,80 @@ $item_no = 1;
 
     <?php
         $count = 0;
+        $hrCount = 0;
+        $inclusiveDateLength = count($inclusive_dates);
     ?>
-    <?php foreach( $division as $div ): ?>
-        <?php foreach($name as $row): ?>
-            <?php if( $div['id'] == $row->division_id && !isset($flag[$div['id']]) ): ?>
-                <table class="table1" cellpadding="0" cellspacing="0">
-                    <tr>
-                        <td colspan="3" id="no-border"><b><?php echo $div['description']; ?></b></td>
-                    </tr>
-                    <tr>
-                        <td id="no-border padding-bottom" width="45%">
-                            <i>
-                                Name
-                            </i>
-                        </td>
-                        <td id="no-border padding-bottom" width="45%">
-                            <i>
-                                Designation
-                            </i>
-                        </td>
-                        <td id="no-border padding-bottom" width="10%">
-                            <i>
-                                Employment Status
-                            </i>
-                        </td>
-                    </tr>
-
-                    <?php foreach($name as $details): ?>
-                        <?php if( $div['id'] == $details->division_id): ?>
-                        <?php
-                            $count++;
-                            isset( $details->fname ) ? $fname = $details->fname : $fname = 'no fname';
-                            $details->mname != '' ? $mname = strtoupper($details->mname[0]) : $mname = '';
-                            isset( $details->lname ) ? $lname = $details->lname : $details = 'no lname';
-                        ?>
-                            <tr>
-                                <td id="no-border"><?php echo $count.'. '.str_replace('\' ', '\'', ucwords(str_replace('\'', '\' ', strtolower($fname)))).' '.$mname.'. '.str_replace('\' ', '\'', ucwords(str_replace('\'', '\' ', strtolower($lname)))); ?></td>
-                                <td id="no-border"><?php if(isset(pdoController::designation_search($details->designation_id)['description'])): ?> <?php echo pdoController::designation_search($details->designation_id)['description']; ?> <?php endif; ?></td>
-                                <td id="no-border"><?php echo $details->job_status; ?></td>
-                            </tr>
+    <?php foreach( $inclusive_dates as $inclusive_date ): ?>
+        <?php
+            unset($flag);
+            $dateFlag = true;
+            $dateStartEnd = '- <i>('.'<u>'.date('d M Y',strtotime($inclusive_date->start)).'</u>'.' to '.'<u>'.date('d M Y',strtotime($inclusive_date->end)).'</u>'.')</i>';
+        ?>
+        <?php foreach( $division as $div ): ?>
+            <?php foreach($name as $row): ?>
+                <?php if( $div['id'] == $row->division_id && !isset($flag[$div['id']]) ): ?>
+                    <table class="table1" cellpadding="0" cellspacing="0">
+                        <tr>
+                            <td colspan="3" id="no-border"><b><?php echo $div['description']; ?> <?php echo $dateFlag ? $dateStartEnd : ''; ?></b></td>
+                        </tr>
+                        <tr>
+                            <td id="no-border padding-bottom" width="45%">
+                                <i>
+                                    Name
+                                </i>
+                            </td>
+                            <td id="no-border padding-bottom" width="45%">
+                                <i>
+                                    Designation
+                                </i>
+                            </td>
+                            <td id="no-border padding-bottom" width="10%">
+                                <i>
+                                    Employment Status
+                                </i>
+                            </td>
+                        </tr>
+                        <?php foreach($name as $details): ?>
+                            <?php if( $div['id'] == $details->division_id): ?>
+                            <?php
+                                $count++;
+                                isset( $details->fname ) ? $fname = $details->fname : $fname = 'no fname';
+                                $details->mname != '' ? $mname = strtoupper($details->mname[0]) : $mname = '';
+                                isset( $details->lname ) ? $lname = $details->lname : $details = 'no lname';
+                            ?>
+                                <tr>
+                                    <td id="no-border"><?php echo $count.'. '.str_replace('\' ', '\'', ucwords(str_replace('\'', '\' ', strtolower($fname)))).' '.$mname.'. '.str_replace('\' ', '\'', ucwords(str_replace('\'', '\' ', strtolower($lname)))); ?></td>
+                                    <td id="no-border"><?php if(isset(pdoController::designation_search($details->designation_id)['description'])): ?> <?php echo pdoController::designation_search($details->designation_id)['description']; ?> <?php endif; ?></td>
+                                    <td id="no-border"><?php echo $details->job_status; ?></td>
+                                </tr>
+                            <?php endif; ?>
+                        <?php endforeach; ?>
+                        <?php if( $div['id'] == 6 ): ?>
+                            <?php for( $i = 0; $i < $office_order->driver; $i++ ): ?>
+                                <?php $count++; ?>
+                                <tr>
+                                    <td id="no-border"><?php echo $count; ?>.<b>____________________</b></td>
+                                    <td id="no-border">Driver</td>
+                                    <td id="no-border">Job Order</td>
+                                </tr>
+                            <?php endfor; ?>
+                            <?php $stopDriver = true; ?> <!-- Stop displaying driver in dummy driver table if there was MSD in inclusive name -->
                         <?php endif; ?>
-                    <?php endforeach; ?>
-                    <?php if( $div['id'] == 6 ): ?>
-                        <?php for( $i = 0; $i < $office_order->driver; $i++ ): ?>
-                            <?php $count++; ?>
-                            <tr>
-                                <td id="no-border"><?php echo $count; ?>.<b>____________________</b></td>
-                                <td id="no-border">Driver</td>
-                                <td id="no-border">Job Order</td>
-                            </tr>
-                        <?php endfor; ?>
-                        <?php $stopDriver = true; ?> <!-- Stop displaying driver in dummy driver table if there was MSD in inclusive name -->
-                    <?php endif; ?>
-                </table>
-                <br>
-                <?php $flag[$div['id']] = true; ?> <!-- To minimize the redundant division id -->
-            <?php endif; ?>
+                    </table>
+                    <br>
+                    <?php
+                        $flag[$div['id']] = true;
+                        $dateFlag = false;
+                    ?> <!-- To minimize the redundant division id -->
+                <?php endif; ?>
+            <?php endforeach; ?>
         <?php endforeach; ?>
+        <?php
+            $hrCount++;
+            if($hrCount != $inclusiveDateLength){
+                echo '<hr>';
+            }
+        ?>
     <?php endforeach; ?>
 
     <?php if( $office_order->driver > 0 and !isset($stopDriver) ): ?>
