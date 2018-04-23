@@ -33,9 +33,14 @@ class DtrController extends BaseController
                 $data = explode(PHP_EOL, $dtr);
 
                 $pdo = DB::connection()->getPdo();
+                //DTR
                 $query1 = "INSERT IGNORE INTO dtr_file(userid, datein, time, event,remark, edited, created_at, updated_at) VALUES";
                 $query2 = "INSERT IGNORE INTO users(userid, fname, lname, sched, username, password, emptype, usertype,unique_row,created_at,updated_at) VALUES ";
+                //DTS
                 $query3 = "INSERT IGNORE INTO users(fname, lname, username,designation,division,section,password, created_at, updated_at) VALUES";
+                //PIS
+                $query4 = "INSERT IGNORE INTO personal_information(userid,fname,lname,designation_id,division_id,section_id,user_status,job_status,created_at, updated_at) VALUES";
+                $query5 = "INSERT IGNORE INTO users(username,password,pin,created_at, updated_at) VALUES";
                 $pass = "";
                 $emptype = "";
                 $default_pass = Hash::make('123');
@@ -65,12 +70,19 @@ class DtrController extends BaseController
 
                             if(strlen($col1) > 5) {
                                 $emptype = "REG";
+                                $job_status = 'Permanent';
                             } else {
                                 $emptype = "JO";
+                                $job_status = 'Job Order';
                             }
 
+                            //DTR
                             $query2 .= "('" . $col1 . "','" . $f . "','" . $l . "','1','". $col1 . "','" . $default_pass . "','" . $emptype . "','0','".$col1 ."',NOW(),NOW()),";
+                            //DTS
                             $query3 .= "('" . $f . "','" . $l . "','" . $col1 . "','". '6' . "','". '6' . "','". '42' . "','" . $default_pass . "',NOW(),NOW()),";
+                            //PIS
+                            $query4 .= "('" . $col1 . "','" . $f . "','" . $l . "','". '6' . "','". '6' . "','". '42' . "','". '1' . "','" . $job_status . "',NOW(),NOW()),";
+                            $query5 .= "('" . $col1 . "','" . $default_pass . "','" . '1234' . "',NOW(),NOW()),";
                         }
                     } catch (Exception $ex) {
                         return Redirect::to('index');
@@ -85,13 +97,22 @@ class DtrController extends BaseController
 
                 $query3 .= "('','','','','','','',NOW(),NOW())";
 
+                $query4 .= "('','','','','','','','',NOW(),NOW())";
+
+                $query5 .= "('','','',NOW(),NOW())";
+
+
                 $st = $pdo->prepare($query1);
                 $st->execute();
 
                 $st = $pdo->prepare($query2);
                 $st->execute();
 
+                //DTS
                 DB::connection('dts')->insert($query3);
+                //PIS
+                DB::connection('pis')->insert($query4);
+                DB::connection('pis')->insert($query5);
 
                 $pdo = null;
                 return Redirect::to('index');

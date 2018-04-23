@@ -172,63 +172,80 @@ $item_no = 1;
 
     <?php
         $count = 0;
+        $hrCount = 0;
+        $inclusiveDateLength = count($inclusive_dates);
     ?>
-    @foreach( $division as $div )
-        @foreach($name as $row)
-            @if( $div['id'] == $row->division_id && !isset($flag[$div['id']]) )
-                <table class="table1" cellpadding="0" cellspacing="0">
-                    <tr>
-                        <td colspan="3" id="no-border"><b>{{ $div['description'] }}</b></td>
-                    </tr>
-                    <tr>
-                        <td id="no-border padding-bottom" width="45%">
-                            <i>
-                                Name
-                            </i>
-                        </td>
-                        <td id="no-border padding-bottom" width="45%">
-                            <i>
-                                Designation
-                            </i>
-                        </td>
-                        <td id="no-border padding-bottom" width="10%">
-                            <i>
-                                Employment Status
-                            </i>
-                        </td>
-                    </tr>
-
-                    @foreach($name as $details)
-                        @if( $div['id'] == $details->division_id)
-                        <?php
-                            $count++;
-                            isset( $details->fname ) ? $fname = $details->fname : $fname = 'no fname';
-                            $details->mname != '' ? $mname = strtoupper($details->mname[0]) : $mname = '';
-                            isset( $details->lname ) ? $lname = $details->lname : $details = 'no lname';
-                        ?>
-                            <tr>
-                                <td id="no-border">{{ $count.'. '.str_replace('\' ', '\'', ucwords(str_replace('\'', '\' ', strtolower($fname)))).' '.$mname.'. '.str_replace('\' ', '\'', ucwords(str_replace('\'', '\' ', strtolower($lname))))}}</td>
-                                <td id="no-border">@if(isset(pdoController::designation_search($details->designation_id)['description'])) {{ pdoController::designation_search($details->designation_id)['description'] }} @endif</td>
-                                <td id="no-border">{{ $details->job_status }}</td>
-                            </tr>
+    @foreach( $inclusive_dates as $inclusive_date )
+        <?php
+            unset($flag);
+            $dateFlag = true;
+            $dateStartEnd = '- <i>('.'<u>'.date('d M Y',strtotime($inclusive_date->start)).'</u>'.' to '.'<u>'.date('d M Y',strtotime($inclusive_date->end)).'</u>'.')</i>';
+        ?>
+        @foreach( $division as $div )
+            @foreach($name as $row)
+                @if( $div['id'] == $row->division_id && !isset($flag[$div['id']]) )
+                    <table class="table1" cellpadding="0" cellspacing="0">
+                        <tr>
+                            <td colspan="3" id="no-border"><b>{{ $div['description'] }} {{ $dateFlag ? $dateStartEnd : '' }}</b></td>
+                        </tr>
+                        <tr>
+                            <td id="no-border padding-bottom" width="45%">
+                                <i>
+                                    Name
+                                </i>
+                            </td>
+                            <td id="no-border padding-bottom" width="45%">
+                                <i>
+                                    Designation
+                                </i>
+                            </td>
+                            <td id="no-border padding-bottom" width="10%">
+                                <i>
+                                    Employment Status
+                                </i>
+                            </td>
+                        </tr>
+                        @foreach($name as $details)
+                            @if( $div['id'] == $details->division_id)
+                            <?php
+                                $count++;
+                                isset( $details->fname ) ? $fname = $details->fname : $fname = 'no fname';
+                                $details->mname != '' ? $mname = strtoupper($details->mname[0]) : $mname = '';
+                                isset( $details->lname ) ? $lname = $details->lname : $details = 'no lname';
+                            ?>
+                                <tr>
+                                    <td id="no-border">{{ $count.'. '.str_replace('\' ', '\'', ucwords(str_replace('\'', '\' ', strtolower($fname)))).' '.$mname.'. '.str_replace('\' ', '\'', ucwords(str_replace('\'', '\' ', strtolower($lname))))}}</td>
+                                    <td id="no-border">@if(isset(pdoController::designation_search($details->designation_id)['description'])) {{ pdoController::designation_search($details->designation_id)['description'] }} @endif</td>
+                                    <td id="no-border">{{ $details->job_status }}</td>
+                                </tr>
+                            @endif
+                        @endforeach
+                        @if( $div['id'] == 6 )
+                            @for( $i = 0; $i < $office_order->driver; $i++ )
+                                <?php $count++; ?>
+                                <tr>
+                                    <td id="no-border">{{ $count }}.<b>____________________</b></td>
+                                    <td id="no-border">Driver</td>
+                                    <td id="no-border">Job Order</td>
+                                </tr>
+                            @endfor
+                            <?php $stopDriver = true; ?> <!-- Stop displaying driver in dummy driver table if there was MSD in inclusive name -->
                         @endif
-                    @endforeach
-                    @if( $div['id'] == 6 )
-                        @for( $i = 0; $i < $office_order->driver; $i++ )
-                            <?php $count++; ?>
-                            <tr>
-                                <td id="no-border">{{ $count }}.<b>____________________</b></td>
-                                <td id="no-border">Driver</td>
-                                <td id="no-border">Job Order</td>
-                            </tr>
-                        @endfor
-                        <?php $stopDriver = true; ?> <!-- Stop displaying driver in dummy driver table if there was MSD in inclusive name -->
-                    @endif
-                </table>
-                <br>
-                <?php $flag[$div['id']] = true; ?> <!-- To minimize the redundant division id -->
-            @endif
+                    </table>
+                    <br>
+                    <?php
+                        $flag[$div['id']] = true;
+                        $dateFlag = false;
+                    ?> <!-- To minimize the redundant division id -->
+                @endif
+            @endforeach
         @endforeach
+        <?php
+            $hrCount++;
+            if($hrCount != $inclusiveDateLength){
+                echo '<hr>';
+            }
+        ?>
     @endforeach
 
     @if( $office_order->driver > 0 and !isset($stopDriver) )
