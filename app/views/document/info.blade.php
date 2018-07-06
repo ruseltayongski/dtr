@@ -118,7 +118,7 @@
                                     <div class="input-group-addon">
                                         <i class="fa fa-calendar"></i>
                                     </div>
-                                    <input type="text" class="form-control" value="{{ date('m/d/Y',strtotime($row->start)).' - '.date('m/d/Y',strtotime('-1 day',strtotime($row->end))) }}" id="inclusive1" name="inclusive[]" placeholder="Input date range here..." readonly>
+                                    <input type="text" class="form-control" value="{{ date('m/d/Y',strtotime($row->start)).' - '.date('m/d/Y',strtotime($row->end)) }}" id="inclusive1" name="inclusive[]" placeholder="Input date range here..." readonly>
                                 </div>
                             </div>
                         </div>

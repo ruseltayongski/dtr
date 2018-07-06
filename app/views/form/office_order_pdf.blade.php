@@ -88,25 +88,20 @@ $item_no = 1;
             <?php
                 $preparedDivision = pdoController::search_division(pdoController::user_search($office_order->prepared_by)['division'])['id'];
                 if( isset($preparedDivision) ) {
-                    if($preparedDivision == 3){
+                    if($preparedDivision == 3)
                         $preparedDivision = 'RD / ARD';
-                    }
-                    elseif($preparedDivision == 4){
+                    elseif($preparedDivision == 4)
                         $preparedDivision = 'LHSD';
-                    }
-                    elseif($preparedDivision == 5){
+                    elseif($preparedDivision == 5)
                         $preparedDivision = 'RLED';
-                    }
-                    elseif($preparedDivision == 6){
+                    elseif($preparedDivision == 6)
                         $preparedDivision = 'MSD';
-                    }
-                    else{
+                    else
                         $preparedDivision = 'NoDivision';
-                    }
                 }
-                else {
+                else 
                     $preparedDivision = 'NoDivision';
-                }
+                
 
                 $preparedSection = pdoController::search_section(pdoController::user_search($office_order->prepared_by)['section'])['description'];
                 $preparedName = InformationPersonal::where('userid','=',$office_order->prepared_by)->first()->lname;
@@ -158,7 +153,7 @@ $item_no = 1;
             <td colspan="3" id="no-border" width="75%">)</td>
         </tr>
         <tr>
-            <td colspan="1" id="no-border" width="25%">No.<h2 style="display: inline;"><u>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<!-- {{ sprintf('%04u',$office_order->id) }} --></u></h2>{{ 's., '.date('Y',strtotime($office_order->prepared_date)) }}&nbsp;&nbsp;<b></b></td>
+            <td colspan="1" id="no-border" width="25%">No.<h2 style="display: inline;"><u>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</u></h2>{{ 's., '.date('Y',strtotime($office_order->prepared_date)) }}&nbsp;&nbsp;<b></b></td>
             <td colspan="3" id="no-border" width="75%">)</td>
         </tr>
         <tr>
@@ -174,81 +169,85 @@ $item_no = 1;
         $count = 0;
         $hrCount = 0;
         $inclusiveDateLength = count($inclusive_dates);
-    ?>
-    @foreach( $inclusive_dates as $inclusive_date )
-        <?php
+        $duplicateName = [];
+        foreach( $inclusive_dates as $inclusive_date ) {
             unset($flag);
             $dateFlag = true;
             $dateStartEnd = '- <i>('.'<u>'.date('d M Y',strtotime($inclusive_date->start)).'</u>'.' to '.'<u>'.date('d M Y',strtotime($inclusive_date->end)).'</u>'.')</i>';
+            foreach( $division as $div ) {
+                foreach($name as $row) {
+                    if( $div['id'] == $row->division_id && !isset($flag[$div['id']]) ) {
         ?>
-        @foreach( $division as $div )
-            @foreach($name as $row)
-                @if( $div['id'] == $row->division_id && !isset($flag[$div['id']]) )
-                    <table class="table1" cellpadding="0" cellspacing="0">
-                        <tr>
-                            <td colspan="3" id="no-border"><b>{{ $div['description'] }} {{ $dateFlag ? $dateStartEnd : '' }}</b></td>
-                        </tr>
-                        <tr>
-                            <td id="no-border padding-bottom" width="45%">
-                                <i>
-                                    Name
-                                </i>
-                            </td>
-                            <td id="no-border padding-bottom" width="45%">
-                                <i>
-                                    Designation
-                                </i>
-                            </td>
-                            <td id="no-border padding-bottom" width="10%">
-                                <i>
-                                    Employment Status
-                                </i>
-                            </td>
-                        </tr>
-                        @foreach($name as $details)
-                            @if( $div['id'] == $details->division_id)
+                        <table class="table1" cellpadding="0" cellspacing="0">
+                            <tr>
+                                <td colspan="3" id="no-border"><b>{{ $div['description'] }} {{ $dateFlag ? $dateStartEnd : '' }}</b></td>
+                            </tr>
+                            <tr>
+                                <td id="no-border padding-bottom" width="45%">
+                                    <i>
+                                        Name
+                                    </i>
+                                </td>
+                                <td id="no-border padding-bottom" width="45%">
+                                    <i>
+                                        Designation
+                                    </i>
+                                </td>
+                                <td id="no-border padding-bottom" width="10%">
+                                    <i>
+                                        Employment Status
+                                    </i>
+                                </td>
+                            </tr>
                             <?php
-                                $count++;
-                                isset( $details->fname ) ? $fname = $details->fname : $fname = 'no fname';
-                                $details->mname != '' ? $mname = strtoupper($details->mname[0]) : $mname = '';
-                                isset( $details->lname ) ? $lname = $details->lname : $details = 'no lname';
-                            ?>
-                                <tr>
-                                    <td id="no-border">{{ $count.'. '.str_replace('\' ', '\'', ucwords(str_replace('\'', '\' ', strtolower($fname)))).' '.$mname.'. '.str_replace('\' ', '\'', ucwords(str_replace('\'', '\' ', strtolower($lname))))}}</td>
-                                    <td id="no-border">@if(isset(pdoController::designation_search($details->designation_id)['description'])) {{ pdoController::designation_search($details->designation_id)['description'] }} @endif</td>
-                                    <td id="no-border">{{ $details->job_status }}</td>
-                                </tr>
-                            @endif
-                        @endforeach
-                        @if( $div['id'] == 6 )
-                            @for( $i = 0; $i < $office_order->driver; $i++ )
-                                <?php $count++; ?>
-                                <tr>
-                                    <td id="no-border">{{ $count }}.<b>____________________</b></td>
-                                    <td id="no-border">Driver</td>
-                                    <td id="no-border">Job Order</td>
-                                </tr>
-                            @endfor
-                            <?php $stopDriver = true; ?> <!-- Stop displaying driver in dummy driver table if there was MSD in inclusive name -->
-                        @endif
-                    </table>
-                    <br>
-                    <?php
-                        $flag[$div['id']] = true;
-                        $dateFlag = false;
-                    ?> <!-- To minimize the redundant division id -->
-                @endif
-            @endforeach
-        @endforeach
-        <?php
+                            foreach($name as $details) {
+                                if( $div['id'] == $details->division_id) {
+                                    if(!array_key_exists($details->userid,$duplicateName))
+                                        $count++;
+
+                                    isset( $details->fname ) ? $fname = $details->fname : $fname = 'no fname';
+                                    $details->mname != '' ? $mname = strtoupper($details->mname[0]) : $mname = '';
+                                    isset( $details->lname ) ? $lname = $details->lname : $details = 'no lname';
+                                    $duplicateName[$details->userid] = $details->userid;
+                                ?>
+                                    <tr>
+                                        <td id="no-border">{{ $count.'. '.str_replace('\' ', '\'', ucwords(str_replace('\'', '\' ', strtolower($fname)))).' '.$mname.'. '.str_replace('\' ', '\'', ucwords(str_replace('\'', '\' ', strtolower($lname))))}}</td>
+                                        <td id="no-border">@if(isset(pdoController::designation_search($details->designation_id)['description'])) {{ pdoController::designation_search($details->designation_id)['description'] }} @endif</td>
+                                        <td id="no-border">{{ $details->job_status }}</td>
+                                    </tr>
+                            <?php
+                                }
+                            }
+                            if( $div['id'] == 6 ) {
+                                for( $i = 0; $i < $office_order->driver; $i++ ) {
+                                    $count++;
+                            ?>        
+                                    <tr>
+                                        <td id="no-border">{{ $count }}.<b>____________________</b></td>
+                                        <td id="no-border">Driver</td>
+                                        <td id="no-border">Job Order</td>
+                                    </tr>
+                            <?php
+                                }
+                                $stopDriver = true;
+                            }    
+                            ?>        
+                        </table>
+                        <br>
+    <?php
+                            $flag[$div['id']] = true;
+                            $dateFlag = false; //To minimize the redundant division id 
+                    }
+                }
+            }
+
             $hrCount++;
             if($hrCount != $inclusiveDateLength){
                 echo '<hr>';
             }
-        ?>
-    @endforeach
-
-    @if( $office_order->driver > 0 and !isset($stopDriver) )
+        }
+    if( $office_order->driver > 0 and !isset($stopDriver) ) {        
+    ?>
         <table class="table1" cellpadding="0" cellspacing="0">
             <tr>
                 <td colspan="3" id="no-border"><b>{{ Division::find(6)->description }}</b></td>
@@ -270,19 +269,25 @@ $item_no = 1;
                     </i>
                 </td>
             </tr>
-            @for( $i = 0; $i < $office_order->driver; $i++ )
-                <?php $count++; ?>
+            <?php
+            for( $i = 0; $i < $office_order->driver; $i++ ) {
+                $count++;
+            ?>
                 <tr>
                     <td id="no-border">{{ $count }}.<b>____________________</b></td>
                     <td id="no-border">Driver</td>
                     <td id="no-border">Job Order</td>
                 </tr>
-            @endfor
+            <?php
+            } 
+            ?>   
         </table>
-    @endif
+    <?php
+    }
 
-    @foreach($name as $row)
-        @if( $row['division_id'] == '' )
+    foreach($name as $row) {
+        if( $row['division_id'] == '' ) {
+    ?>    
             <table class="table1" cellpadding="0" cellspacing="0">
                 <tr>
                     <td colspan="3" id="no-border"><b>NO DIVISION</b></td>
@@ -305,25 +310,29 @@ $item_no = 1;
                     </td>
                 </tr>
 
-                @foreach($name as $row)
-                    @if( $row['division_id'] == '' )
-                        <?php
-                        $count++;
-                        isset( $row['fname'] ) ? $fname = $row['fname'] : $fname = 'no fname';
-                        $row['mname'] != '' ? $mname = strtoupper($row['mname'][0]) : $mname = '';
-                        isset( $row['lname'] ) ? $lname = $row['lname'] : $lname = 'no lname';
-                        ?>
-                        <tr>
-                            <td id="no-border">{{ $count.'. '.str_replace('\' ', '\'', ucwords(str_replace('\'', '\' ', strtolower($fname)))).' '.$mname.'. '.str_replace('\' ', '\'', ucwords(str_replace('\'', '\' ', strtolower($lname))))}}</td>
-                            <td id="no-border">@if(isset(pdoController::designation_search($row['designation_id'])['description'])) {{ pdoController::designation_search($row['designation_id'])['description'] }} @endif</td>
-                            <td id="no-border">{{ $row['job_status'] }}</td>
-                        </tr>
-                    @endif
-                @endforeach
+                <?php
+                    foreach($name as $row) {
+                        if( $row['division_id'] == '' ) {
+                            $count++;
+                            isset( $row['fname'] ) ? $fname = $row['fname'] : $fname = 'no fname';
+                            $row['mname'] != '' ? $mname = strtoupper($row['mname'][0]) : $mname = '';
+                            isset( $row['lname'] ) ? $lname = $row['lname'] : $lname = 'no lname';
+                ?>                    
+                            <tr>
+                                <td id="no-border">{{ $count.'. '.str_replace('\' ', '\'', ucwords(str_replace('\'', '\' ', strtolower($fname)))).' '.$mname.'. '.str_replace('\' ', '\'', ucwords(str_replace('\'', '\' ', strtolower($lname))))}}</td>
+                                <td id="no-border">@if(isset(pdoController::designation_search($row['designation_id'])['description'])) {{ pdoController::designation_search($row['designation_id'])['description'] }} @endif</td>
+                                <td id="no-border">{{ $row['job_status'] }}</td>
+                            </tr>
+                <?php
+                    }
+                }    
+                ?>            
             </table>
-            <?php break; ?>
-        @endif
-    @endforeach
+    <?php        
+            break;
+        }
+    }
+    ?>
 
     <table class="letter-head" cellpadding="0" cellspacing="0">
         <tr>
@@ -337,13 +346,14 @@ $item_no = 1;
                 <b>
                     {{ $office_order->approved_by }}
                 </b><br>
-                @if($office_order->approved_by == 'Jaime S. Bernadas, MD, MGM, CESO III')
-                    Director IV
-                @elseif($office_order->approved_by == 'Sophia M. Mancao, MD, DPSP')
-                    OIC - Director III
-                @else
-                    Director III
-                @endif
+                <?php
+                    if($office_order->approved_by == 'Jaime S. Bernadas, MD, MGM, CESO III')
+                        echo 'Director IV';
+                    elseif($office_order->approved_by == 'Sophia M. Mancao, MD, DPSP')
+                        echo 'OIC - Director III';
+                    else
+                        echo 'Director III';
+                ?>
             </td>
         </tr>
     </table>

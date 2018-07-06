@@ -19,7 +19,7 @@
         <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
   </head>
-  <body class="hold-transition login-page">
+  <body class="hold-transition login-page" style="background-color:#E8F5FD;">
     @if(Session::has('ok'))
         <div class="row">
             <div class="alert alert-success text-center">
@@ -31,7 +31,7 @@
       <div class="login-logo">
         <img src="{{ asset('public/img/logo.png') }}" />
         <br />
-        <a href="#"><b>DOHRO7</b>DTR VERSION 2</a>
+        <a href="#" style="font-weight:bolder;">DOHRO7 DTR</a>
       </div><!-- /.login-logo -->
         
       <form role="form" method="POST" action="{{ asset('/') }}">
@@ -44,7 +44,7 @@
           <div class="login-box-body">
             <p class="login-box-msg">Sign in to start your session</p>        
               <div class="form-group has-feedback {{ Session::has('ops') ? ' has-error' : '' }}">
-                <input id="username" value="@if(Session::has('username')){{ Session::get('username') }}@endif" type="text" placeholder="Login ID" class="form-control" name="username">
+                <input id="username" value="@if(Session::has('username')){{ Session::get('username') }}@endif" type="text" placeholder="Login using your ID No." class="form-control" name="username">
                 <span class="glyphicon glyphicon-user form-control-feedback"></span>
               </div>
               <div class="form-group has-feedback{{ Session::has('ops') ? ' has-error' : '' }}">
@@ -58,20 +58,49 @@
                                 <input type="checkbox" name="remember"> Remember Me
                             </label>
                         </div>
+                        <a data-url="{{ asset('open/reset') }}" class="btn btn-info" id="btn_reset">Reset Password</a>
                     </div><!-- /.col -->
                     <div class="col-xs-4">
                         <button type="submit" class="btn btn-primary btn-block btn-flat">Sign In</button>
+                       
                     </div><!-- /.col -->
                 </div> 
             </div><!-- /.login-box-body -->
+      </form>
+      <div class="login-box-body">
+            <h5>Search your ID No. here</h5>
+            <form action="{{ asset('search/id') }}" method="GET">
+                <input type="text" name="q" class="form-control" placeholder="Search using your firstname or lastname">
+            </form>
+            <table class="table">
+                @if(isset($users) AND count($users) > 0)
+                    <tr>
+                        <th>UserID</th>
+                        <th>Employee Name</th>
+                    </tr>
+                    @foreach($users as $user)
+                        <tr>
+                            <td><span style="font-weight:bolder;color:orange;">{{ $user->userid }}</span></td>
+                            <td>{{ $user->fname . " " . $user->lname}}
+                        </tr>
+                    @endforeach
+                @endif
+            </table>
             
-      </form>        
+      </div>
+      
     </div><!-- /.login-box -->
-
+    @include('auth.modal')
     <!-- jQuery 2.1.4 -->
     <script src="{{ asset('public/assets/js/jquery.min.js') }}"></script>
     <!-- Bootstrap 3.3.5 -->
     <script src="{{ asset('public/assets/js/bootstrap.min.js') }}"></script>
+    <script>
+        $("#btn_reset").click(function(e){
+            e.preventDefault();
+            $("#reset_modal").modal("show");
+        });
+    </script>
     <!-- iCheck -->
   </body>
 </html>

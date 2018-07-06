@@ -48,11 +48,11 @@ class PDF extends FPDF
 
 
             $logs = get_logs($s_am_in,$s_am_out,$s_pm_in,$s_pm_out,$userid,$date_from,$date_to);
-
+             
             if(count($logs) <= 0) {
                 include_once('empty_dtr.php');
             } else {
-
+                
                 $this->Image(__DIR__.'/image/doh2.png', 15, 50,80,80);
                 $this->Image(__DIR__.'/image/doh2.png', 118, 50,80,80);
 
@@ -442,7 +442,7 @@ class PDF extends FPDF
                                 }
                             }
                         } else if(!$am_in AND !$am_out AND !$pm_in AND !$pm_out){
-
+                            
                             $cto = GET_CDO_SO($s_am_in,$s_am_out,$s_pm_in,$s_pm_out,$userid,$datein,'GETCDO');
 
                             if($cto['remark'] == 'CTO'){
@@ -853,9 +853,43 @@ class PDF extends FPDF
 
                                 }
                             }
+                        } else if($am_in AND !$am_out AND $pm_in AND $pm_out){
+                            $cto = GET_CDO_SO($s_am_in,$s_am_out,$s_pm_in,$s_pm_out,$userid,$datein,'GETCDO');
+
+                            if($cto['remark'] == 'CTO'){
+                                $am_out = 'CTO';
+                                $e2 = "1";
+                            } else {
+                                $so = GET_CDO_SO($s_am_in,$s_am_out,$s_pm_in,$s_pm_out,$userid,$datein,'GETSO');
+                                if($so['holiday'] === '003'){
+                                    $am_out = "SO#:".$so['remark'];
+                                    $e2 = "1";
+                                } else {
+                                    $leave = GET_CDO_SO($s_am_in,$s_am_out,$s_pm_in,$s_pm_out,$userid,$datein,'LEAVE_LOGS');
+                                    if($leave['holiday'] == '007'){
+                                        $am_out = $leave['remark'];
+                                        $e2 = "1";
+                                    } else {
+                                        $edited_logs = GET_CDO_SO($s_am_in,$s_am_out,$s_pm_in,$s_pm_out,$userid,$datein,'EDITED_LOGS');
+                                        if($edited_logs) {
+                                            $am_out =  $edited_logs['am_out'];
+                                            $e2 = "1";
+
+                                            if(isset($am_out)) {
+                                                $b = explode('_', $am_out);
+                                                $e2 = $b[1];
+                                                $am_out = $b[0];
+                                            } else {
+                                                $am_out = '';
+                                                $e2 = '';
+                                            }
+                                        }
+                                    }
+
+                                }
+                            }
                         }
 
-                        
                         if(!$am_in AND !$pm_in AND !$pm_out AND !$am_out){
                             $hol = 0;
                             $hol = GET_HOLIDAY($datein);
@@ -877,6 +911,67 @@ class PDF extends FPDF
                                 }
                             }
                         }
+                        
+                        if(!$am_in AND !$am_out AND $pm_in AND $pm_out ){
+                            $hol = 0;
+                            $hol = GET_HOLIDAY($datein);
+                            if($hol == 1){
+                                if($day_name != "Sat" AND $day_name != "Sun"){
+                                    $am_in = "HOLIDAY";
+                                    $am_out = "";
+                                    $e1 = "1";
+                                    
+                                }
+                            }else{
+                                if($day_name != "Sat" AND $day_name != "Sun"){
+                                    $am_in = "ABSENT";
+                                    $am_out = "";
+                                    $e1 = "1";
+                                   
+                                }
+                            }
+                        }
+                        
+                        if(!$am_in AND !$am_out AND $pm_in AND !$pm_out ){
+                            $hol = 0;
+                            $hol = GET_HOLIDAY($datein);
+                            if($hol == 1){
+                                if($day_name != "Sat" AND $day_name != "Sun"){
+                                    $am_in = "HOLIDAY";
+                                    $am_out = "";
+                                    $e1 = "1";
+                                    
+                                }
+                            }else{
+                                if($day_name != "Sat" AND $day_name != "Sun"){
+                                    $am_in = "ABSENT";
+                                    $am_out = "";
+                                    $e1 = "1";
+                                   
+                                }
+                            }
+                        }
+
+                        if($am_in AND $am_out AND !$pm_in AND !$pm_out){
+                            $hol = 0;
+                            $hol = GET_HOLIDAY($datein);
+                            if($hol == 1){
+                                if($day_name != "Sat" AND $day_name != "Sun"){
+                                    $pm_in = "";
+                                    $pm_out = "HOLIDAY";
+                                    $e4 = "1";
+                                }
+                            }else{
+                                if($day_name != "Sat" AND $day_name != "Sun"){
+                                    $pm_in = "";
+                                    $pm_out = "ABSENT";
+                                    $e4 = "1";
+                                }
+                            }
+                        }
+
+                        
+                        
                         //if($day_name == 'Sat' || $day_name == 'Sun' AND $am_in == '') $am_out = 'DAY OFF';
                         if(isset($e1) and $e1 == "1"){
                             $this->SetFont('Arial','IUB',8);
@@ -1165,6 +1260,7 @@ function get_logs($am_in,$am_out,$pm_in,$pm_out,$id,$date_from,$date_to)
 
 
     $query = "CALL GETLOGS('". $am_in ."','" . $am_out ."','" . $pm_in ."','" . $pm_out . "','" . $id . "','" . $date_from . "','" . $date_to ."')";
+    
     try
     {
         $st = $pdo->prepare($query);

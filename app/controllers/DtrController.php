@@ -12,7 +12,7 @@ class DtrController extends BaseController
     {
         $this->beforeFilter('admin');
     }
-
+    
     public function upload()
     {
         $f = '';
@@ -24,14 +24,14 @@ class DtrController extends BaseController
         }
         //POST Request
         if (Request::method() == 'POST') {
-
+            //return Redirect::to('home');
             if (Input::hasFile('dtr_file')) {
 
                 $file = Input::file('dtr_file');
                 ini_set('max_execution_time', 0);
                 $dtr = file_get_contents($file);
                 $data = explode(PHP_EOL, $dtr);
-
+                    
                 $pdo = DB::connection()->getPdo();
                 //DTR
                 $query1 = "INSERT IGNORE INTO dtr_file(userid, datein, time, event,remark, edited, created_at, updated_at) VALUES";
@@ -89,8 +89,7 @@ class DtrController extends BaseController
                     }
                 }
 
-
-
+                
                 $query1 .= "('','','','','','',NOW(),NOW())";
 
                 $query2 .= "('','','','','','','','','',NOW(),NOW())";

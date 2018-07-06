@@ -306,15 +306,24 @@ class AdminController extends BaseController
     {
         if(Request::method() == 'GET') {
             $user = DB::table('users')->where('userid', '=', Input::get('id'))->first();
-            Session::put('edit_user', $user->username);
+            Session::put('edit_user', $user->id);
             return View::make('users.user_edit')->with('user', $user);
         }
         if(Request::method() == 'POST') {
-            $user = Users::where('userid', '=', Session::get('edit_user'))->first();
+            $user = Users::where('id', '=', Session::get('edit_user'))->first();
+
+            if(strlen(Input::get('username')) > 5) {
+                $user->emptype = "REG";
+            } else {
+                $user->emptype = "JO";
+            }
+            $user->userid = Input::get('username');
+            $user->unique_row = Input::get('username');
             $user->fname = Input::get('fname');
             $user->lname = Input::get('lname');
             $user->mname = Input::get('mname');
             $user->username = Input::get('username');
+            $user->imei = Input::get('imei');
             $user->save();
             Session::forget('edit_user');
             return Redirect::to('employees');

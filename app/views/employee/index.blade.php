@@ -46,6 +46,47 @@
                                 </div>
                             </div>
                         </div>
+
+                        <div class="col-md-12">
+                            <div class="panel panel-default">
+                                <div class="panel-heading"><strong style="color: #f0ad4e;font-size:medium;">Print individual DTR</strong></div>
+                                <div class="panel-body">
+                                    <form action="{{ asset('FPDF/print_individual.php') }}" method="POST" id="print_pdf">
+                                        <div class="table-responsive">
+                                            <table class="table">
+                                                <tr>
+                                                    <td class="col-sm-3"><strong>User ID </strong></td>
+                                                    <td class="col-sm-1">: </td>
+                                                    <td class="col-sm-9">
+                                                        @if(Auth::user()->usertype == "1")
+                                                            <input type="text" class="col-md-2 form-control" id="inputEmail3" name="userid" value="" required>
+                                                        @else
+                                                            <input type="text" readonly class="col-md-2 form-control" id="inputEmail3" name="userid" value="{{ Auth::user()->userid }}" required>
+                                                        @endif
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="col-sm-3"><strong>Dates</strong></td>
+                                                    <td class="col-sm-1"> :</td>
+                                                    <td class="col-sm-9">
+                                                        <div class="input-group">
+                                                            <div class="input-group-addon">
+                                                                <i class="fa fa-calendar"></i>
+                                                            </div>
+                                                            <input type="text" class="form-control" id="inclusive3" name="filter_range" placeholder="Input date range here..." required>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                        <button type="submit"  class="btn-lg btn-success center-block col-sm-12" id="upload" data-loading-text="<i class='fa fa-refresh fa-spin'></i> Printing DTR">
+                                            <span class="glyphicon glyphicon-print" aria-hidden="true"></span> Print
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
                 <div class="col-md-8">
