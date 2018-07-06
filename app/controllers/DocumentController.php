@@ -381,7 +381,7 @@ class DocumentController extends BaseController
 
         //ADD OFFICE ORDER
         $office_order = new OfficeOrders();
-        $office_order->id = DB::table('office_order')->max('id')+1;
+        //$office_order->id = DB::table('office_order')->max('id')+1;
         $office_order->route_no = $route_no;
         $office_order->doc_type = $doc_type;
         $office_order->subject = Input::get('subject');
@@ -422,7 +422,7 @@ class DocumentController extends BaseController
             $temp3 = array_slice($temp1, 1, 1);
             $tmp = implode(',', $temp3);
             $enddate = date_create(date('Y-m-d',strtotime($tmp)));
-            date_add($enddate, date_interval_create_from_date_string('1days'));
+            //date_add($enddate, date_interval_create_from_date_string('1days'));
             $end_date = date_format($enddate, 'Y-m-d');
 
             $so = new Calendars();
@@ -518,7 +518,7 @@ class DocumentController extends BaseController
             $temp3 = array_slice($temp1, 1, 1);
             $tmp = implode(',', $temp3);
             $enddate = date_create(date('Y-m-d',strtotime($tmp)));
-            date_add($enddate, date_interval_create_from_date_string('1days'));
+            //date_add($enddate, date_interval_create_from_date_string('1days'));
             $end_date = date_format($enddate, 'Y-m-d');
 
             $so = new Calendars();

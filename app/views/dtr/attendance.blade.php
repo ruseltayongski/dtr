@@ -56,7 +56,6 @@
                                     <table class="table table-list table-hover table-striped">
                                         <thead>
                                         <tr>
-                                            <th class="text-center text" style="font-size: smaller;">Row No.</th>
                                             <th class="text-center" style="font-size: smaller;">Userid</th>
                                             <th class="text-center" style="font-size: smaller;">Name</th>
                                             <th class="text-center" style="font-size: smaller;">Date</th>
@@ -68,7 +67,6 @@
                                         <tbody>
                                         @foreach($lists as $list)
                                             <tr>
-                                                <td class="text-center " style="font-size: smaller;"><strong><a href="#">{{ $list->dtr_id }}</a> </strong></td>
                                                 <td class="text-center title-info" style="font-size: smaller;"><strong><a href="#">{{ $list->userid }}</a> </strong> </td>
                                                 <td class="text-center" style="font-size: smaller;"><strong><a href="#">{{ $list->fname ." " .$list->lname }}</a> </strong> </td>
                                                 <td class="text-center" style="font-size: smaller;"><strong><a href="#">{{ $list->datein }} </a> </strong></td>

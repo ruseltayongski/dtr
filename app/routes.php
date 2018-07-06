@@ -208,7 +208,7 @@ Route::get('pdf/track', function(){
 });
 ////// ABSENT
 Route::match(array('GET','POST'), 'form/absent', 'DocumentController@absent');
-
+Route::get('open/reset','RessetPasswordController@reset');
 
 //TEST ROUTES
 Route::get('phpinfo', function() {
@@ -272,7 +272,37 @@ Route::get('ajax1',function(){
 
 Route::get('sologs', function(){
 	return SoLogs::all();
-	
 });
+
+Route::get('search/id',function(){
+	if(!Auth::check()){
+		$keyword = Input::get('q');
+		$users = DB::table('users')
+			->leftJoin('work_sched', function($join){
+				$join->on('users.sched','=','work_sched.id');
+			})
+			->where(function($q) use ($keyword){
+				$q->where('fname','like',"%$keyword%")
+					->orwhere('lname','like',"%$keyword%")
+					->orwhere('userid','like',"%$keyword%");
+			})
+			->where('usertype','=', '0')
+			->orderBy('fname', 'ASC')
+			->paginate(20);
+		return View::make('auth.login',['users' => $users]);
+	} else {
+		return Redirect::to('/');
+	}
+});
+
+
+//MOBILE URL
+
+Route::post('mobile/login','MobileController@login');
+Route::post('mobile/add-logs','MobileController@add_logs');
+Route::post('mobile/add-cto','MobileController@add_cto');
+Route::post('mobile/add-so','MobileController@add_so');
+Route::post('mobile/add-leave','MobileController@add_leave');
+
 
 ?>

@@ -348,6 +348,43 @@ class PDF extends FPDF
                             }
                         }
                         
+                        if(!$am_in AND !$am_out AND $pm_in AND $pm_out ){
+                            $hol = 0;
+                            $hol = GET_HOLIDAY($datein);
+                            if($hol == 1){
+                                if($day_name != "Sat" AND $day_name != "Sun"){
+                                    $am_in = "HOLIDAY";
+                                    $am_out = "";
+                                    $e1 = "1";
+                                    
+                                }
+                            }else{
+                                if($day_name != "Sat" AND $day_name != "Sun"){
+                                    $am_in = "ABSENT";
+                                    $am_out = "";
+                                    $e1 = "1";
+                                   
+                                }
+                            }
+                        }
+                        if($am_in AND $am_out AND !$pm_in AND !$pm_out){
+                            $hol = 0;
+                            $hol = GET_HOLIDAY($datein);
+                            if($hol == 1){
+                                if($day_name != "Sat" AND $day_name != "Sun"){
+                                    $pm_in = "";
+                                    $pm_out = "HOLIDAY";
+                                    $e4 = "1";
+                                }
+                            }else{
+                                if($day_name != "Sat" AND $day_name != "Sun"){
+                                    $pm_in = "";
+                                    $pm_out = "ABSENT";
+                                    $e4 = "1";
+                                }
+                            }
+                        }
+                        
                         
                         $this->SetFont('Arial','',7);
                         $this->Cell(4,5,$r1,'');
@@ -692,7 +729,7 @@ function save_file_name($filename,$date_from,$date_to,$emtype)
 {
     $pdo = conn();
     date_default_timezone_set("Asia/Manila");
-    $time = date("h:i:sa");
+    $time = date("h:i:s");
     $date = date("Y-m-d");
     $query = "INSERT INTO generated_pdf(filename,date_created,time_created,date_from,date_to,created_at,updated_at,type,is_filtered)";
     $query .= " VALUES('".$filename . "','" . $date . "','" . $time . "','". $date_from. "','".$date_to ."',NOW(),NOW(),'". $emtype ."','0')";

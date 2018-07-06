@@ -189,7 +189,7 @@ $hol_index = 0;
             }
         }
 
-        if($day_name == 'Sat' || $day_name == 'Sun' AND $am_in == '') $am_out = 'DAY OFF';
+        //if($day_name == 'Sat' || $day_name == 'Sun' AND $am_in == '') $am_out = 'DAY OFF';
         if(isset($e1) and $e1 == "1"){
             $this->SetFont('Arial','U',8);
         } else {

@@ -190,7 +190,7 @@ class PersonalController extends Controller
             return View::make('dtr.add_time_log');
         }
         if(Request::method() == "POST") {
-
+            
             $date = explode('/', Input::get('datein'));
             $date = $date[2] . '-' . $date[0] . '-' . $date[1];
             
