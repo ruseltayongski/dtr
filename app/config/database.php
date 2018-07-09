@@ -82,6 +82,16 @@ return array(
 			'collation' => 'utf8_unicode_ci',
 			'prefix'    => '',
 		),
+        'dtsv3.0' => array(
+            'driver'    => 'mysql',
+            'host'      => 'localhost',
+            'database'  => 'dtsv3.0',
+            'username'  => 'root',
+            'password'  => '',
+            'charset'   => 'utf8',
+            'collation' => 'utf8_unicode_ci',
+            'prefix'    => '',
+        ),
 		'pgsql' => array(
 			'driver'   => 'pgsql',
 			'host'     => 'localhost',

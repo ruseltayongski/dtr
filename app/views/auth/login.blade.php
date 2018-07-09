@@ -31,7 +31,8 @@
       <div class="login-logo">
         <img src="{{ asset('public/img/logo.png') }}" />
         <br />
-        <a href="#" style="font-weight:bolder;">DOHRO7 DTR</a>
+        <a href="#" style="font-weight:bolder;">DOHRO7 DTR VERSION 4.2</a>
+
       </div><!-- /.login-logo -->
         
       <form role="form" method="POST" action="{{ asset('/') }}">

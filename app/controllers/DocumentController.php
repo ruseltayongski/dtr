@@ -440,14 +440,27 @@ class DocumentController extends BaseController
         }
 
         //ADD TRACKING MASTER
-        pdoController::insert_tracking_master($route_no,$doc_type,$prepared_date,$prepared_by,$description);
+        $tracking_master = new Tracking_Master();
+        $tracking_master->route_no = $route_no;
+        $tracking_master->doc_type = $doc_type;
+        $tracking_master->prepared_date = $prepared_date;
+        $tracking_master->prepared_by = $prepared_by;
+        $tracking_master->description = $description;
+        $tracking_master->save();
 
         //ADD TRACKING DETAILS
         $date_in = $prepared_date;
         $received_by = $prepared_by;
         $delivered_by = $prepared_by;
         $action = $description;
-        pdoController::insert_tracking_details($route_no,$date_in,$received_by,$delivered_by,$action);
+
+        $tracking_details = new Tracking_Details();
+        $tracking_details->route_no = $route_no;
+        $tracking_details->date_in = $date_in;
+        $tracking_details->received_by = $received_by;
+        $tracking_details->delivered_by = $delivered_by;
+        $tracking_details->action = $action;
+        $tracking_details->save();
 
         //ADD SYSTEM LOGS
         $user_id = $prepared_by;
