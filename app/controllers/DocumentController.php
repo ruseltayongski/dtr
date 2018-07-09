@@ -287,6 +287,7 @@ class DocumentController extends BaseController
         $name = InclusiveNames::where('inclusive_name.route_no',Session::get('route_no'))
                             ->join('pis.personal_information','personal_information.userid','=','inclusive_name.userid')
                             ->join('pis.work_experience','work_experience.userid','=','inclusive_name.userid')
+                            ->where('pis.work_experience.date_to','=','Present')
                             ->groupBy('work_experience.userid')
                             ->orderBy('work_experience.monthly_salary','desc')
                             ->get(); // THE NULL WORK EXPERIENCE WILL NOT DISPLAY THE NAME
