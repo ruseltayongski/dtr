@@ -20,7 +20,6 @@ class cdoController extends BaseController
                 $type = 'pending';
             }
 
-
             $cdo["count_pending"] = cdo::where('approved_status',0)
                 ->where(function($q) use ($keyword){
                     $q->where("route_no","like","%$keyword%")
@@ -317,14 +316,14 @@ class cdoController extends BaseController
             
             if($cdo->approved_status){
                 InformationPersonal::where('userid',$userid)->update([
-                    "bbalance_cto" => (int)$personal_information->bbalance_cto + (int)$cdo->less_applied_for
+                    "bbalance_cto" => (float)$personal_information->bbalance_cto + (float)$cdo->less_applied_for
                 ]);
                 $cdo->approved_status = 0;
                 //delete dtr file
                 $this->dtr_delete_cto($cdo->start,$cdo->end);
             } else {
                 InformationPersonal::where('userid',$userid)->update([
-                    "bbalance_cto" => (int)$personal_information->bbalance_cto - (int)$cdo->less_applied_for
+                    "bbalance_cto" => (float)$personal_information->bbalance_cto - (float)$cdo->less_applied_for
                 ]);
                 
                 $cdo->approved_status = 1;
