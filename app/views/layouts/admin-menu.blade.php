@@ -39,6 +39,8 @@
             </li>
             <li class="divider"></li>
             <li><a href="{{ url('add/user') }}"><i class="fa fa-user"></i> Add user</a></li>
+            <li class="divider"></li>
+            <li><a href="{{ url('print/user/logs')}}"><i class="fa fa-print"></i> Print user logs</a>
         </ul>
     </li>
     <li class="dropdown">

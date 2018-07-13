@@ -46,6 +46,8 @@ Route::post('delete/attendance', 'AdminController@delete');
 Route::match(['GET','POST'], 'reset/password', 'PasswordController@reset_password');
 Route::post('user/delete', 'AdminController@delete_user');
 Route::match(['GET','POST'],'user/edit', 'AdminController@user_edit');
+Route::get('print/user/logs','AdminController@print_user_logs');
+
 
 Route::match(array('GET','POST'), 'print-monthly', 'PrintController@print_monthly');
 Route::get('print-monthly/attendance', 'PrintController@print_pdf');

@@ -455,4 +455,8 @@ class AdminController extends BaseController
                         ->paginate(20);
         return View::make('form.leave_list',['leaves' => $leaves]);               
     }
+    public function print_user_logs()
+    {
+        return View::make('print.print_logs');
+    }
 }

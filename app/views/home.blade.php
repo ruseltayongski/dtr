@@ -124,6 +124,79 @@
                         </div>
                     </div>
                 </div>
+                <!-- PRINT LOGS -->
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="panel panel-default">
+                            <div class="panel-heading"><strong style="color: #f0ad4e;font-size:medium;">Print user logs</strong></div>
+                            <div class="panel-body">
+                                <form action="{{ asset('FPDF/print_logs.php') }}" method="POST" id="print_one">
+                                    <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
+                                    <div class="table-responsive">
+                                        <table class="table">
+                                            <tr>
+                                                <td class="col-sm-3"><strong>User ID </strong></td>
+                                                <td class="col-sm-1">: </td>
+                                                <td class="col-sm-9">
+                                                    <input type="text" class="col-md-2 form-control" id="inputEmail3" name="userid">
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="col-sm-3"><strong>Type </strong></td>
+                                                <td class="col-sm-1">: </td>
+                                                <td class="col-sm-9">
+                                                    <select class="form-control input-md" name="emptype">
+                                                        <option value="JO"><strong>Job Order</strong></option>
+                                                        <option value="REG"><strong>Regular</strong></option>
+                                                    </select>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="col-sm-3"><strong>Dates</strong></td>
+                                                <td class="col-sm-1"> :</td>
+                                                <td class="col-sm-9">
+                                                    <div class="input-group">
+                                                        <div class="input-group-addon">
+                                                            <i class="fa fa-calendar"></i>
+                                                        </div>
+                                                        <input type="text" class="form-control" id="inclusive5" name="filter_range" placeholder="Input date range here..." required>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <!--
+                                            <tr>
+                                                <td class="col-sm-3"><strong>TIME </strong></td>
+                                                <td class="col-sm-1">: </td>
+                                                <td class="col-sm-9">
+                                                    <input type="text" class="col-md-2 form-control" id="inputEmail3" name="time">
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="col-sm-3"><strong>IN / OUT </strong></td>
+                                                <td class="col-sm-1">: </td>
+                                                <td class="col-sm-9">
+                                                    <input type="text" class="col-md-2 form-control" id="inputEmail3" name="inout">
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td class="col-sm-3"><strong>Date </strong></td>
+                                                <td class="col-sm-1">: </td>
+                                                <td class="col-sm-9">
+                                                    <input type="date" class="col-md-2 form-control" id="inputEmail3" name="date">
+                                                </td>
+                                            </tr>
+                                        -->
+                                        </table>
+                                    </div>
+                                    <button type="submit"  class="btn-lg btn-success center-block col-sm-12" id="print_one_btn" data-loading-text="<i class='fa fa-refresh fa-spin'></i> Printing DTR">
+                                        <span class="glyphicon glyphicon-print" aria-hidden="true"></span> Print
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="col-md-8">
                 <div class="row">
@@ -264,6 +337,7 @@
         $('#inclusive2').daterangepicker();
         $('#inclusive3').daterangepicker();
         $('#inclusive4').daterangepicker();
+        $('#inclusive5').daterangepicker();
         $('#print_all').submit(function(){
             $('#print').button('loading');
             $('#print_individual').modal({
