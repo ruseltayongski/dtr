@@ -257,6 +257,7 @@
 </form>
 </body>
 <script>
+
     $('.chosen-select-static').chosen();
     $('.datepickercalendar').datepicker({
         autoclose: true
@@ -280,34 +281,67 @@
     $(function()
     {
         $("body").delegate("#inclusive1","focusin",function(){
+            var today = new Date();
+
+            var weekday = new Array(7);
+            weekday[0] = "Sunday";
+            weekday[1] = "Monday";
+            weekday[2] = "Tuesday";
+            weekday[3] = "Wednesday";
+            weekday[4] = "Thursday";
+            weekday[5] = "Friday";
+            weekday[6] = "Saturday";
+
+            var name_of_days = weekday[today.getDay()];
+            var beforeDaysToApply;
+
+            if( name_of_days == "Friday" ){
+                beforeDaysToApply = 5;
+            } else {
+                beforeDaysToApply = 3;
+            }
+
+            var dd = today.getDate()+beforeDaysToApply;
+            var mm = today.getMonth()+1;
+            var yyyy = today.getFullYear();
+            var startDate = mm+'/'+dd+'/'+yyyy;
             $(this).daterangepicker({
                 locale: {
-                         format: 'MM/DD/YYYY'
-                        },        
-                }).on('apply.daterangepicker', function(ev, picker) 
-                {
-                    var start = moment(picker.startDate.format('YYYY-MM-DD'));
-                    var end   = moment(picker.endDate.format('YYYY-MM-DD'));
-                    diff = end.diff(start, 'days'); // returns correct number
-                    less_applied = (diff+1)*8;
-                   
-                    console.log(start);
-                    if( less_applied < parseInt($(".beginning_balance").val())+8 ){
-                        $(".less_applied").val(less_applied);
-                    }
-                    else {
-                        Lobibox.alert('error', //AVAILABLE TYPES: "error", "info", "success", "warning"
-                        {
-                            msg: "Your beginning balance(credit) are not enough"
-                        });
-                    }
-                    $(".remaining_balance").val( parseInt($(".beginning_balance").val()) - parseInt($(".less_applied").val()) );
-                    
-                    $(".cdo_hours").val($(".cdo_hours option:first").val());
-                    halfdayFlag1 = true;
-                    halfdayFlag2 = true;
+                    format: 'MM/DD/YYYY'
+                },
+                minDate: startDate,
+                startDate: startDate,
+                endDate: startDate,
+            }).on('apply.daterangepicker', function(ev, picker)
+            {
+                var start = moment(picker.startDate.format('YYYY-MM-DD'));
+                var end   = moment(picker.endDate.format('YYYY-MM-DD'));
+                diff = end.diff(start, 'days'); // returns correct number
+                less_applied = (diff+1)*8;
 
-                });
+                console.log(start);
+                if( less_applied < parseInt($(".beginning_balance").val())+8 ){
+                    $(".less_applied").val(less_applied);
+                }
+                else {
+                    Lobibox.alert('error', //AVAILABLE TYPES: "error", "info", "success", "warning"
+                    {
+                        msg: "Your beginning balance(credit) are not enough"
+                    });
+                }
+                $(".remaining_balance").val( parseInt($(".beginning_balance").val()) - parseInt($(".less_applied").val()) );
+
+                $(".cdo_hours").val($(".cdo_hours option:first").val());
+                halfdayFlag1 = true;
+                halfdayFlag2 = true;
+
+            });
+            $(".range_inputs").append("" +
+                "<div class='alert-info'>" +
+                    "<h6 style='color: #206ff0;padding-right: 5%;padding-left:5%'>Note: 3 working days before apply</h6>" +
+                "</div>" +
+                "");
+
         });
     });
 
