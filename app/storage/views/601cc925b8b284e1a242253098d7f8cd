@@ -472,3 +472,17 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
+
+<div class="modal" tabindex="-1" role="dialog" id="modal_tardiness">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content" id="schedule_modal">
+            <div class="modal-header" style="background-color:#9C8AA5;color: white;">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title"><i class="fa fa-question-circle"></i></h4>
+            </div>
+            <div class="tardiness-body">
+
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

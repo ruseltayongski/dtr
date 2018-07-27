@@ -24,8 +24,11 @@ class PersonalController extends Controller
     {
 
         $date = explode("-",date("Y-m-d"));
-        $firt_day = "$date[0]-$date[1]-01";
-        $last_day = "$date[0]-$date[1]-31";
+        /*$first_day = "$date[0]-$date[1]-01";
+        $last_day = "$date[0]-$date[1]-31";*/
+        $first_day = date('Y/m/d');
+        $last_day = date('
+        ');
 
         $lists = DB::table('dtr_file')
             ->leftJoin('users', function($join){
@@ -34,7 +37,7 @@ class PersonalController extends Controller
                     ->where('users.userid', '<>', '--');
             })
             ->where('dtr_file.userid', '=', Auth::user()->userid)
-            ->whereBetween('datein', array($firt_day,$last_day))
+            ->whereBetween('datein', array($first_day,$last_day))
             ->orderBy('dtr_file.datein', 'ASC')
             ->orderBy('dtr_file.time', 'ASC')
             ->paginate(20);
@@ -285,6 +288,7 @@ class PersonalController extends Controller
             return Redirect::to('personal/index')->with('msg','New absences created');
         }
     }
+    
     public function insert_cto($daterange,$remarks){
         $temp1 = explode('-',$daterange);
 

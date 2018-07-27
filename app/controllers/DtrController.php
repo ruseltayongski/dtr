@@ -39,7 +39,7 @@ class DtrController extends BaseController
                 //DTS
                 $query3 = "INSERT IGNORE INTO users(fname, lname, username,designation,division,section,password, created_at, updated_at) VALUES";
                 //PIS
-                $query4 = "INSERT IGNORE INTO personal_information(userid,fname,lname,designation_id,division_id,section_id,user_status,job_status,created_at, updated_at) VALUES";
+                $query4 = "INSERT IGNORE INTO personal_information(userid,fname,lname,designation_id,division_id,section_id,user_status,employee_status,job_status,created_at, updated_at) VALUES";
                 $query5 = "INSERT IGNORE INTO users(username,password,pin,created_at, updated_at) VALUES";
                 $pass = "";
                 $emptype = "";
@@ -81,7 +81,7 @@ class DtrController extends BaseController
                             //DTS
                             $query3 .= "('" . $f . "','" . $l . "','" . $col1 . "','". '6' . "','". '6' . "','". '42' . "','" . $default_pass . "',NOW(),NOW()),";
                             //PIS
-                            $query4 .= "('" . $col1 . "','" . $f . "','" . $l . "','". '6' . "','". '6' . "','". '42' . "','". '1' . "','" . $job_status . "',NOW(),NOW()),";
+                            $query4 .= "('" . $col1 . "','" . $f . "','" . $l . "','". '6' . "','". '6' . "','". '42' . "','". '1' . "','" . 'Active' . "','" . $job_status . "',NOW(),NOW()),";
                             $query5 .= "('" . $col1 . "','" . $default_pass . "','" . '1234' . "',NOW(),NOW()),";
                         }
                     } catch (Exception $ex) {
@@ -96,7 +96,7 @@ class DtrController extends BaseController
 
                 $query3 .= "('','','','','','','',NOW(),NOW())";
 
-                $query4 .= "('','','','','','','','',NOW(),NOW())";
+                $query4 .= "('','','','','','','','','',NOW(),NOW())";
 
                 $query5 .= "('','','',NOW(),NOW())";
 
