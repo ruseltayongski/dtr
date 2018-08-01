@@ -42,7 +42,7 @@
             <li class="divider"></li>
             <li><a href="{{ url('print/user/logs')}}"><i class="fa fa-print"></i> Print user logs</a>
             <li class="divider"></li>
-            <li><a href="{{ url('print/mobile/logs')}}">Print Mobile Logs</a></li>
+            <li><a href="{{ url('print/mobile/logs')}}"><i class="fa fa-mobile"></i> Print Mobile Logs</a></li>
             <li class="divider"></li>
             <li><a href="#modal_tardiness" data-link="{{ asset('tardiness') }}" data-dismiss="modal" data-backdrop="static" data-toggle="modal" data-target="#modal_tardiness"><i class="fa fa-arrow-circle-o-right"></i> Tardiness</a>
         </ul>
