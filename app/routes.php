@@ -11,7 +11,6 @@ Route::get('logout', function(){
 	return Redirect::to('/');
 });
 
-
 Route::get('dtr/{id}', 'GenerateDTRController@download_dtr');
 
 Route::get('home', function(){
@@ -76,7 +75,6 @@ Route::get('search/leave','AdminController@search_leave');
 
 
 //DTR
-
 Route::get('dtr/list/jo', 'GenerateDTRController@list_jo_dtr');
 Route::get('search/jo','GenerateDTRController@search_jo_dtr');
 Route::get('dtr/list/regular', 'GenerateDTRController@list_regular_dtr');
@@ -110,6 +108,11 @@ Route::match(array('GET','POST'),'/personal/add/logs', 'PersonalController@add_l
 Route::match(['GET','POST'],'create/absent/description', 'PersonalController@absent_description');
 Route::post('delete/user/created/logs','PersonalController@delete_created_logs');
 
+//TARDINESS
+Route::match(['GET','POST'],'tardiness', 'TardinessController@tardiness');
+Route::match(['GET','POST'],'tardiness_generate', 'TardinessController@tardiness_generate');
+Route::match(['GET','POST'],'tardiness_report', 'TardinessController@tardiness_report');
+Route::get('tardiness_count', 'TardinessController@tardiness_count');
 
 //DOCUMENTS
 Route::match(array('GET','POST'),'form/leave','DocumentController@leave');
@@ -299,7 +302,6 @@ Route::get('search/id',function(){
 
 
 //MOBILE URL
-
 Route::post('mobile/login','MobileController@login');
 Route::post('mobile/add-logs','MobileController@add_logs');
 Route::post('mobile/add-cto','MobileController@add_cto');
