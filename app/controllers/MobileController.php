@@ -16,19 +16,32 @@ class MobileController extends BaseController {
     }
 
     public function add_logs(){
-
+        
         $pdo = DB::connection()->getPdo();
 
         $userid = Input::get('userid');
         $time = Input::get('time');
         $event = Input::get('event');
         $date = Input::get('date');
+        
+            
+            $base= $_POST['image'];
+            $posted_filename = $_POST['filename'];
+            $binary=base64_decode($base);
 
-        $query1 = "INSERT IGNORE INTO dtr_file(userid, datein, time, event,remark, created_at, updated_at) VALUES";
-        $query1 .= "('" . $userid. "','". $date ."','" . $time . "','" . $event . "','MOBILE',NOW(),NOW())";
+           // $filename = $date."_".$event.$userid."_".date('Y-m-d mi');         
+            file_put_contents(public_path().'/logs_image/'.$posted_filename,$binary);
+            
+           // fwrite($file, $binary);
+            //fclose($file);
 
-        $st = $pdo->prepare($query1);
-        $ok = $st->execute();
+            $query1 = "INSERT IGNORE INTO dtr_file(userid, datein, time, event,remark, created_at, updated_at,log_image,edited) VALUES";
+            $query1 .= "('" . $userid. "','". $date ."','" . $time . "','" . $event . "','MOBILE',NOW(),NOW(),'$posted_filename','0')";
+            
+            $st = $pdo->prepare($query1);
+            $ok = $st->execute();
+          
+        
         if($ok){
             return 1;
         }
