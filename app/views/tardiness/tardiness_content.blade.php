@@ -10,7 +10,7 @@
 <br>
 <select name="month" id="month" class="form-control" required>
     @if(isset($monthAppend))
-        <option value="{{ date("n") }}">{{ date("F",strtotime ($monthAppend- date("n")." months")) }}</option>
+        <option value="{{ $monthAppend }}">{{ date("F",strtotime ($monthAppend- date("n")." months")) }}</option>
     @else
         <option value="{{ date("n") }}">{{ date("F") }}</option>
     @endif

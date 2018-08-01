@@ -18,7 +18,7 @@
             $position = $row['position'];
         }
 
-        $pdf->Row(array($GLOBALS['rank'],$row['userid'],$row['name'],$position,$row['employee_status'],$row['tardiness_day'],$row['tardiness_min']));
+        $pdf->Row(array($GLOBALS['rank'],$row['userid'],utf8_decode(str_replace("??","ñ",$row['name'])),$position,$row['employee_status'],$row['tardiness_day'],$row['tardiness_min']));
         $GLOBALS['rank']++;
     }
 

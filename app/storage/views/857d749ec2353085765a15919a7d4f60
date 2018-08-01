@@ -10,7 +10,7 @@
 <br>
 <select name="month" id="month" class="form-control" required>
     <?php if(isset($monthAppend)): ?>
-        <option value="<?php echo date("n"); ?>"><?php echo date("F",strtotime ($monthAppend- date("n")." months")); ?></option>
+        <option value="<?php echo $monthAppend; ?>"><?php echo date("F",strtotime ($monthAppend- date("n")." months")); ?></option>
     <?php else: ?>
         <option value="<?php echo date("n"); ?>"><?php echo date("F"); ?></option>
     <?php endif; ?>
