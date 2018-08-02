@@ -25,6 +25,26 @@ class TardinessController extends Controller
 
     public function tardiness_generate(){
 
+        /*$first = DB::table('edited_logs')
+            ->select('time')
+            ->where("userid","=","0454")
+            ->where("datein","=","2018-05-10")
+            ->where("event","=","in")
+            ->where("time","<","12:00:00");
+
+        $second = DB::table('dtr_file')
+            ->select('time')
+            ->where("userid","=","0454")
+            ->where("datein","=","2018-03-22")
+            ->where("event","=","in")
+            ->where("time","<","12:00:00");
+
+
+        $result = $first->union($second)->orderby('time','asc')->first()->time;
+
+        return $result;*/
+
+
         $personal_information = InformationPersonal::
             leftJoin("dohdtr.work_sched","work_sched.id","=","personal_information.sched")
             ->where("personal_information.userid","!=","admin")
@@ -47,22 +67,29 @@ class TardinessController extends Controller
             $countdays = 0;
             $am_final_am = 0;
             $am_final_pm = 0;
-            $temp_am = 0;
-            $temp_pm = 0;
             for($day=1; $day<=31; $day++ ){
                 $countdays_flag = true;
                 $datein = date('Y-m-d',strtotime(Input::get('year').'-'.Input::get('month').'-'.$day));
 
-                $dtr_all_am = DtrDetails::
-                              where("userid","=",$pi->userid)
-                            ->where("datein","=",$datein)
-                            ->where("event","=","in")
-                            ->where("time","<","12:00:00")
-                            ->first(["time","datein"]);
+
+                $first_am = DB::table('edited_logs')
+                    ->select('time')
+                    ->where("userid","=",$pi->userid)
+                    ->where("datein","=",$datein)
+                    ->where("event","=","in")
+                    ->where("time","<","12:00:00");
+
+                $second_am = DB::table('dtr_file')
+                    ->select('time')
+                    ->where("userid","=",$pi->userid)
+                    ->where("datein","=",$datein)
+                    ->where("event","=","in")
+                    ->where("time","<","12:00:00");
+
+                $dtr_all_am = $first_am->union($second_am)->orderby('time','asc')->first();
 
                 if($dtr_all_am) {
                     if($dtr_all_am->time > substr_replace(substr_replace($pi->am_in, "5", 6,1),"9",7,1)){
-                        $temp_am .= $dtr_all_am->time."|".$dtr_all_am->datein."<br>";
                         $work_sched1_am = strtotime(substr_replace(substr_replace($pi->am_in, "5", 6,1),"9",7,1));
                         $work_sched2_am = strtotime($dtr_all_am->time);
                         $am_get_am = round(abs($work_sched1_am - $work_sched2_am) / 60,2);
@@ -72,17 +99,26 @@ class TardinessController extends Controller
                     }
                 }
 
-                $dtr_all_pm = DtrDetails::
-                        where("userid","=",$pi->userid)
-                            ->where("datein","=",$datein)
-                            ->where("event","=","in")
-                            ->where("time",">=","12:00:00")
-                            ->where("time","<","17:00:00")
-                            ->first(["time","datein"]);
+                $first_pm = DB::table('edited_logs')
+                    ->select('time')
+                    ->where("userid","=",$pi->userid)
+                    ->where("datein","=",$datein)
+                    ->where("event","=","in")
+                    ->where("time",">=","12:00:00")
+                    ->where("time","<","17:00:00");
+
+                $second_pm = DB::table('dtr_file')
+                    ->select('time')
+                    ->where("userid","=",$pi->userid)
+                    ->where("datein","=",$datein)
+                    ->where("event","=","in")
+                    ->where("time",">=","12:00:00")
+                    ->where("time","<","17:00:00");
+
+                $dtr_all_pm = $first_pm ->union($second_pm)->orderby('time','asc')->first();
 
                 if($dtr_all_pm){
                     if($dtr_all_pm->time > substr_replace(substr_replace($pi->pm_in, "5", 6,1),"9",7,1)){
-                        $temp_pm .= $dtr_all_pm->time."|".$dtr_all_pm->datein."<br>";
                         $work_sched1_pm = strtotime(substr_replace(substr_replace($pi->pm_in, "5", 6,1),"9",7,1));
                         $work_sched2_pm = strtotime($dtr_all_pm->time);
                         $am_get_pm = round(abs($work_sched1_pm - $work_sched2_pm) / 60,2);
@@ -94,7 +130,6 @@ class TardinessController extends Controller
 
                 $tardiness_final = $am_final_am + $am_final_pm;
             }
-            //return $temp_pm;
 
             if(
                 !$tardiness_record = Tardiness::where("userid","=",$pi->userid)
