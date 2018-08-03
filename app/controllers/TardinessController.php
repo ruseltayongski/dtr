@@ -25,26 +25,6 @@ class TardinessController extends Controller
 
     public function tardiness_generate(){
 
-        /*$first = DB::table('edited_logs')
-            ->select('time')
-            ->where("userid","=","0454")
-            ->where("datein","=","2018-05-10")
-            ->where("event","=","in")
-            ->where("time","<","12:00:00");
-
-        $second = DB::table('dtr_file')
-            ->select('time')
-            ->where("userid","=","0454")
-            ->where("datein","=","2018-03-22")
-            ->where("event","=","in")
-            ->where("time","<","12:00:00");
-
-
-        $result = $first->union($second)->orderby('time','asc')->first()->time;
-
-        return $result;*/
-
-
         $personal_information = InformationPersonal::
             leftJoin("dohdtr.work_sched","work_sched.id","=","personal_information.sched")
             ->where("personal_information.userid","!=","admin")
