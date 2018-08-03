@@ -1,5 +1,5 @@
-<span id="cdo_updatev1" data-link="{{ asset('cdo_updatev1') }}"></span>
-@if(isset($paginate_pending) and count($paginate_pending) >0)
+<span id="cdo_updatev1" data-link="<?php echo asset('cdo_updatev1'); ?>"></span>
+<?php if(isset($paginate_pending) and count($paginate_pending) >0): ?>
     <div class="table-responsive" style="margin-top: -20px;">
         <label style="padding-bottom: 10px;">Check to select all to approve </label>
         <input type="checkbox" id="click_approve">
@@ -10,48 +10,50 @@
                 <th></th>
                 <th class="text-center">Route #</th>
                 <th class="text-center">Reason</th>
-                @if(\Illuminate\Support\Facades\Auth::user()->usertype)
+                <?php if(\Illuminate\Support\Facades\Auth::user()->usertype): ?>
                     <th class="text-center">Prepared Name</th>
-                @else
+                <?php else: ?>
                     <th class="text-center">Document Type</th>
-                @endif
+                <?php endif; ?>
                 <th class="text-center">Beginning Balance</th>
                 <th class="text-center" width="17%">Option</th>
             </tr>
             </thead>
             <tbody style="font-size: 10pt;">
-            @foreach($paginate_pending as $row)
+            <?php foreach($paginate_pending as $row): ?>
                 <tr>
-                    <td><a href="#track" data-link="{{ asset('form/track/'.$row->route_no) }}" data-route="{{ $row->route_no }}" data-toggle="modal" class="btn btn-sm btn-success col-sm-12" style="background-color:#9C8AA5;color:white;"><i class="fa fa-line-chart"></i> Track</a></td>
-                    <td><a class="title-info" data-backdrop="static" data-route="{{ $row->route_no }}" style="color: #f0ad4e;" data-link="{{ asset('/form/info/'.$row->route_no.'/cdo') }}" href="#document_info" data-toggle="modal">{{ $row->route_no }}</a></td>
-                    <td>{{ $row->subject }}</td>
-                    @if(\Illuminate\Support\Facades\Auth::user()->usertype)
+                    <td><a href="#track" data-link="<?php echo asset('form/track/'.$row->route_no); ?>" data-route="<?php echo $row->route_no; ?>" data-toggle="modal" class="btn btn-sm btn-success col-sm-12" style="background-color:#9C8AA5;color:white;"><i class="fa fa-line-chart"></i> Track</a></td>
+                    <td><a class="title-info" data-backdrop="static" data-route="<?php echo $row->route_no; ?>" style="color: #f0ad4e;" data-link="<?php echo asset('/form/info/'.$row->route_no.'/cdo'); ?>" href="#document_info" data-toggle="modal"><?php echo $row->route_no; ?></a></td>
+                    <td><?php echo $row->subject; ?></td>
+                    <?php if(\Illuminate\Support\Facades\Auth::user()->usertype): ?>
                         <td>
                             <?php
                                 $personal_information = InformationPersonal::where('userid','=',$row['prepared_name'])->first();
                                 echo $personal_information->fname.' '.$personal_information->mname.' '.$personal_information->lname;
                             ?>
                         </td>
-                    @else
+                    <?php else: ?>
                         <td>CTO</td>
-                    @endif
+                    <?php endif; ?>
                     <td class="text-center">
                         <b style="color:green;">
-                            {{ $personal_information->bbalance_cto }}
+                            <?php echo $personal_information->bbalance_cto; ?>
+
                         </b>
                     </td>
-                    @if(Auth::user()->usertype)
-                        <td><button type="submit" class="btn-xs btn-info" value="{{ $row->id }}" onclick="pending_status($(this))" style="color:white;"><i class="fa fa-smile-o"></i> Approve</button></td>
-                    @endif
+                    <?php if(Auth::user()->usertype): ?>
+                        <td><button type="submit" class="btn-xs btn-info" value="<?php echo $row->id; ?>" onclick="pending_status($(this))" style="color:white;"><i class="fa fa-smile-o"></i> Approve</button></td>
+                    <?php endif; ?>
                 </tr>
-            @endforeach
+            <?php endforeach; ?>
             </tbody>
         </table>
     </div>
-    {{ $paginate_pending->links() }}
-@else
+    <?php echo $paginate_pending->links(); ?>
+
+<?php else: ?>
     <div class="alert alert-danger" role="alert"><span style="color:red;">Documents records are empty.</span></div>
-@endif
+<?php endif; ?>
 
 <script>
     //document information

@@ -1,0 +1,147 @@
+<span id="cdo_updatev1" data-link="<?php echo asset('cdo_updatev1'); ?>"></span>
+<?php if(isset($paginate_all) and count($paginate_all) >0): ?>
+    <div class="table-responsive">
+        <table class="table table-list table-hover table-striped">
+            <thead>
+            <tr>
+                <th></th>
+                <th class="text-center">Route #</th>
+                <th class="text-center">Reason</th>
+                <?php if(\Illuminate\Support\Facades\Auth::user()->usertype): ?>
+                    <th class="text-center">Prepared Name</th>
+                <?php else: ?>
+                    <th class="text-center">Document Type</th>
+                <?php endif; ?>
+                <th class="text-center">Beginning Balance</th>
+                <th class="text-center" width="17%">Option</th>
+            </tr>
+            </thead>
+            <tbody style="font-size: 10pt;">
+            <?php foreach($paginate_all as $row): ?>
+                <tr>
+                    <td><a href="#track" data-link="<?php echo asset('form/track/'.$row->route_no); ?>" data-route="<?php echo $row->route_no; ?>" data-toggle="modal" class="btn btn-sm btn-success col-sm-12" style="background-color:#9C8AA5;color:white;"><i class="fa fa-line-chart"></i> Track</a></td>
+                    <td><a class="title-info" data-backdrop="static" data-route="<?php echo $row->route_no; ?>" data-link="<?php echo asset('/form/info/'.$row->route_no.'/cdo'); ?>" href="#document_info" data-toggle="modal" style="color: #f0ad4e;"><?php echo $row->route_no; ?></a></td>
+                    <td><?php echo $row->subject; ?></td>
+                    <?php if(\Illuminate\Support\Facades\Auth::user()->usertype): ?>
+                        <td>
+                            <?php
+                                $personal_information = InformationPersonal::where('userid','=',$row['prepared_name'])->first();
+                                echo $personal_information->fname.' '.$personal_information->mname.' '.$personal_information->lname;
+                            ?>
+                        </td>
+                    <?php else: ?>
+                        <td>CTO</td>
+                    <?php endif; ?>
+                    <td class="text-center">
+                        <b style="color:green;">
+                            <?php echo $personal_information->bbalance_cto; ?>
+
+                        </b>
+                    </td>
+                    <?php if($row->approved_status == 1): ?>
+                        <td><button type="button" value="<?php echo $row->id; ?>" onclick="all_status($(this),'cancel')" class="btn-xs btn-danger" style="color:white;"><i class="fa fa-ban"></i> Cancel</button></td>
+                    <?php else: ?>
+                        <td><button type="button" value="<?php echo $row->id; ?>" onclick="all_status($(this),'approve')" class="btn-xs btn-info" style="color:white;"><i class="fa fa-frown-o"></i> Approve</button></td>
+                    <?php endif; ?>
+                </tr>
+            <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
+    <?php echo $paginate_all->links(); ?>
+
+<?php else: ?>
+    <div class="alert alert-danger" role="alert"><span style="color:red;">Documents records are empty.</span></div>
+<?php endif; ?>
+
+<script>
+    //tracking history of the document
+    $("a[href='#track']").on('click',function(){
+        $('.track_history').html(loadingState);
+        var route_no = $(this).data('route');
+        var url = $(this).data('link');
+
+        $('#track_route_no').val('Loading...');
+        setTimeout(function(){
+            $('#track_route_no').val(route_no);
+            $.ajax({
+                url: url,
+                type: 'GET',
+                success: function(data) {
+                    $('.track_history').html(data);
+                }
+            });
+        },1000);
+    });
+
+    function all_status(data,btnType){
+        var page = "<?php echo Session::get('page_all') ?>";
+        var url = $("#cdo_updatev1").data('link')+'/'+data.val()+'/all?page='+page;
+        $.post(url,function(result){
+
+            Lobibox.notify('success',{
+                msg:''
+            });
+            $('.ajax_all').html(result);
+
+            var pendingCount = $(".pending").text();
+            var approveCount = $(".approve").text();
+
+            if( btnType == 'cancel'){
+                pendingCount++;
+                if( approveCount != 0 ){
+                    approveCount--;
+                }
+
+            }
+            else if(btnType == 'approve') {
+                if( pendingCount != 0 ){
+                    pendingCount--;
+                }
+                approveCount++;
+            }
+
+            $(".pending").html(pendingCount);
+            $(".approve").html(approveCount);
+        });
+    }
+    //document information
+    $("a[href='#document_info']").on('click',function(){
+        var route_no = $(this).data('route');
+        $('.modal_content').html(loadingState);
+        $('.modal-title').html('Route #: '+route_no);
+        var url = $(this).data('link');
+        setTimeout(function(){
+            $.ajax({
+                url: url,
+                type: 'GET',
+                success: function(data) {
+                    $('.modal_content').html(data);
+                    $('#reservation').daterangepicker();
+                    var datePicker = $('body').find('.datepicker');
+                    $('input').attr('autocomplete', 'off');
+                }
+            });
+        },1000);
+    });
+
+    $("a[href='#document_form']").on('click',function(){
+        $('.modal-title').html('CTO');
+        var url = $(this).data('link');
+        $('.modal_content').html(loadingState);
+        setTimeout(function(){
+            $.ajax({
+                url: url,
+                type: 'GET',
+                success: function(data) {
+                    $('.modal_content').html(data);
+                    $('#reservation').daterangepicker();
+                    var datePicker = $('body').find('.datepicker');
+                    $('input').attr('autocomplete', 'off');
+                }
+            });
+        },1000);
+
+
+    });
+</script>
