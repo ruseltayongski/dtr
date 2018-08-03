@@ -28,6 +28,7 @@
                     </div>
                 </h3>
                 <div class="row">
+                    <!--
                     <div class="col-md-4">
                         <div class="row">
                             <div class="col-md-12">
@@ -56,7 +57,8 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-8">
+                    -->
+                    <div class="col-md-12">
                         <div class="row">
                             <div class="col-md-12">
                                 @if(Auth::user()->usertype)
@@ -80,11 +82,25 @@
                                                 </li>
                                             @endforeach
                                         </ul>
+
                                         <div class="active tab-content">
                                             {{--PENDING--}}
                                             <div class="active tab-pane" id="pending">
                                                 <div class="panel panel-default">
-                                                    <div class="panel-heading"><strong style="color: #f0ad4e;font-size:medium;">List</strong></div>
+                                                    <div class="panel-heading">
+                                                        <form class="form-inline" method="POST" action="{{ asset('form/cdo_list') }}" id="searchForm">
+                                                            <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
+                                                            <div class="col-md-8">
+                                                                <input type="text" class="form-control" value="{{ Session::get('keyword') }}" id="inputEmail3" name="keyword" style="width: 100%" placeholder="Route no, Reason">
+                                                            </div>
+                                                            <button type="submit" class="btn btn-primary" name="search" id="search" data-loading-text="<i class='fa fa-refresh fa-spin'></i> Printing DTR">
+                                                                <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Search
+                                                            </button>
+                                                            @if(!Auth::user()->usertype)
+                                                                <a href="#document_form" data-link="{{ asset('form/cdov1/form') }}" class="btn btn-success" data-dismiss="modal" data-backdrop="static" data-toggle="modal" data-target="#document_form" style="background-color:#9C8AA5;color: white;"><i class="fa fa-plus"></i> Create new</a>
+                                                            @endif
+                                                        </form>
+                                                    </div>
                                                     <div class="panel-body">
                                                         <div class="row">
                                                             <div class="col-md-12">
@@ -107,7 +123,20 @@
                                             {{--APPROVE--}}
                                             <div class="tab-pane" id="approve">
                                                 <div class="panel panel-default">
-                                                    <div class="panel-heading"><strong style="color: #f0ad4e;font-size:medium;">List</strong></div>
+                                                    <div class="panel-heading">
+                                                        <form class="form-inline" method="POST" action="{{ asset('form/cdo_list') }}" id="searchForm">
+                                                            <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
+                                                            <div class="col-md-8">
+                                                                <input type="text" class="form-control" value="{{ Session::get('keyword') }}" id="inputEmail3" name="keyword" style="width: 100%" placeholder="Route no, Reason">
+                                                            </div>
+                                                            <button type="submit" class="btn btn-primary" name="search" id="search" data-loading-text="<i class='fa fa-refresh fa-spin'></i> Printing DTR">
+                                                                <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Search
+                                                            </button>
+                                                            @if(!Auth::user()->usertype)
+                                                                <a href="#document_form" data-link="{{ asset('form/cdov1/form') }}" class="btn btn-success" data-dismiss="modal" data-backdrop="static" data-toggle="modal" data-target="#document_form" style="background-color:#9C8AA5;color: white;"><i class="fa fa-plus"></i> Create new</a>
+                                                            @endif
+                                                        </form>
+                                                    </div>
                                                     <div class="panel-body">
                                                         <div class="row">
                                                             <div class="col-md-12">
@@ -130,7 +159,20 @@
                                             {{--ALL--}}
                                             <div class="tab-pane" id="all">
                                                 <div class="panel panel-default">
-                                                    <div class="panel-heading"><strong style="color: #f0ad4e;font-size:medium;">List</strong></div>
+                                                    <div class="panel-heading">
+                                                        <form class="form-inline" method="POST" action="{{ asset('form/cdo_list') }}" id="searchForm">
+                                                            <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
+                                                            <div class="col-md-8">
+                                                                <input type="text" class="form-control" value="{{ Session::get('keyword') }}" id="inputEmail3" name="keyword" style="width: 100%" placeholder="Route no, Reason">
+                                                            </div>
+                                                            <button type="submit" class="btn btn-primary" name="search" id="search" data-loading-text="<i class='fa fa-refresh fa-spin'></i> Printing DTR">
+                                                                <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Search
+                                                            </button>
+                                                            @if(!Auth::user()->usertype)
+                                                                <a href="#document_form" data-link="{{ asset('form/cdov1/form') }}" class="btn btn-success" data-dismiss="modal" data-backdrop="static" data-toggle="modal" data-target="#document_form" style="background-color:#9C8AA5;color: white;"><i class="fa fa-plus"></i> Create new</a>
+                                                            @endif
+                                                        </form>
+                                                    </div>
                                                     <div class="panel-body">
                                                         <div class="row">
                                                             <div class="col-md-12">
@@ -156,14 +198,21 @@
                                     <!-- CREATED BY USER LIST CTO -->
                                     <div class="active tab-pane" id="approve">
                                         <div class="panel panel-default">
-                                            <div class="panel-heading"><strong style="color: #f0ad4e;font-size:medium;">List</strong></div>
-                                            <div class="panel-body">
-                                                <div class="row">
-                                                    <div class="col-md-12">
-                                                        <a href="#document_form" data-link="{{ asset('form/cdov1/form') }}" class="btn btn-success" data-dismiss="modal" data-backdrop="static" data-toggle="modal" data-target="#document_form" style="background-color: #9C8AA5;color: white;"><i class="fa fa-plus"></i> Create new</a>
+                                            <div class="panel-heading">
+                                                <form class="form-inline" method="POST" action="{{ asset('form/cdo_list') }}" id="searchForm">
+                                                    <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
+                                                    <div class="col-md-8">
+                                                        <input type="text" class="form-control" value="{{ Session::get('keyword') }}" id="inputEmail3" name="keyword" style="width: 100%" placeholder="Route no, Reason">
                                                     </div>
-                                                </div>
-                                                <br />
+                                                    <button type="submit" class="btn btn-primary" name="search" id="search" data-loading-text="<i class='fa fa-refresh fa-spin'></i> Printing DTR">
+                                                        <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Search
+                                                    </button>
+                                                    @if(!Auth::user()->usertype)
+                                                        <a href="#document_form" data-link="{{ asset('form/cdov1/form') }}" class="btn btn-success" data-dismiss="modal" data-backdrop="static" data-toggle="modal" data-target="#document_form" style="background-color:#9C8AA5;color: white;"><i class="fa fa-plus"></i> Create new</a>
+                                                    @endif
+                                                </form>
+                                            </div>
+                                            <div class="panel-body">
                                                 <div class="row">
                                                     <div class="col-md-12">
                                                         @if(isset($cdo['my_cdo']) and count($cdo['my_cdo']) >0)

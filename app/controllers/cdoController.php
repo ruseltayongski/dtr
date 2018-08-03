@@ -184,10 +184,22 @@ class cdoController extends BaseController
         $cdo->save();
 
         //ADD TRACKING MASTER
-        pdoController::insert_tracking_master($route_no,$doc_type,$prepared_date,$prepared_name,$subject);
+        $tracking_master = new Tracking_Master();
+        $tracking_master->route_no = $route_no;
+        $tracking_master->doc_type = $doc_type;
+        $tracking_master->prepared_date = $prepared_date;
+        $tracking_master->prepared_by = $prepared_name;
+        $tracking_master->description = $subject;
+        $tracking_master->save();
 
         //ADD TRACKING DETAILS
-        pdoController::insert_tracking_details($route_no,$prepared_date,$prepared_name,$prepared_name,$subject);
+        $tracking_details = new Tracking_Details();
+        $tracking_details->route_no = $route_no;
+        $tracking_details->date_in = $prepared_date;
+        $tracking_details->received_by = $prepared_name;
+        $tracking_details->delivered_by = $prepared_name;
+        $tracking_details->action = $subject;
+        $tracking_details->save();
 
         //ADD SYSTEM LOGS
         $user_id = $prepared_name;

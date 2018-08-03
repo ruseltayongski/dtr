@@ -1,5 +1,5 @@
 
-@if(count($document))
+<?php if(count($document)): ?>
 
     <table class="table table-hover table-striped">
         <thead>
@@ -12,7 +12,7 @@
         </thead>
         <tbody>
         <?php $data = array(); ?>
-        @foreach($document as $doc)
+        <?php foreach($document as $doc): ?>
             <?php
             $user = pdoController::user_search1($doc['received_by']);
             $data['received_by'][] = $user['fname'].' '.$user['lname'];
@@ -23,8 +23,8 @@
             $data['remarks'][] = $doc['action'];
             $data['status'][] = $doc['status'];
             ?>
-        @endforeach
-        @for($i=0;$i<count($data['received_by']);$i++)
+        <?php endforeach; ?>
+        <?php for($i=0;$i<count($data['received_by']);$i++): ?>
             <?php
                 $class = 'text-success';
                 if($data['section'][$i]=='Unconfirmed' || $data['section'][$i]=='Returned')
@@ -33,14 +33,17 @@
                 }
             ?>
             <tr class="<?php echo $class; ?>">
-                <td>{{ $data['received_by'][$i] }}
+                <td><?php echo $data['received_by'][$i]; ?>
+
                     <br>
-                    <em>({{ $data['section'][$i] }})</em>
+                    <em>(<?php echo $data['section'][$i]; ?>)</em>
                 </td>
                 <td>
-                    {{ $data['date_in'][$i] }}
+                    <?php echo $data['date_in'][$i]; ?>
+
                     <br>
-                    {{ $data['time_in'][$i] }}
+                    <?php echo $data['time_in'][$i]; ?>
+
                 </td>
                 <td>
                     <?php
@@ -53,19 +56,20 @@
                         $date = date('Y-m-d H:i:s');
                     }
                     ?>
-                    @if($next && $data['status'][$i]==1)
+                    <?php if($next && $data['status'][$i]==1): ?>
                         Cycle End
-                    @else
-                        {{ ReleaseController::duration($data['date'][$i],$date) }}
-                    @endif
+                    <?php else: ?>
+                        <?php echo ReleaseController::duration($data['date'][$i],$date); ?>
+
+                    <?php endif; ?>
                 </td>
-                <td>{{ nl2br($data['remarks'][$i]) }}</td>
+                <td><?php echo nl2br($data['remarks'][$i]); ?></td>
             </tr>
-        @endfor
+        <?php endfor; ?>
         </tbody>
     </table>
-@else
+<?php else: ?>
     <div class="alert alert-danger">
         <i class="fa fa-times"></i> No tracking history!
     </div>
-@endif
+<?php endif; ?>

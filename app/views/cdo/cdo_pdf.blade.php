@@ -109,10 +109,12 @@
                 <td id="border" width="55%">
                     <table class="letter-head" cellpadding="0" cellspacing="0">
                         <tr>
+                            <td><b>Signature</b></td>
                             <td><b>Name</b></td>
                             <td><b>Position</b></td>
                         </tr>
                         <tr>
+                            <td></td>
                             <td>{{ $data['name'] }}</td>
                             <td>{{ $data['position'] }}</td>
                         </tr>
