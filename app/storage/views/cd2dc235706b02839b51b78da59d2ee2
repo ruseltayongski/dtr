@@ -169,14 +169,14 @@
         </table>
         <table width="100%">
             <tr>
-                <td>
+                <td width="60%">
                     <table width="100%">
                         <tr><td class="align"><strong>THERESA Q. TRAGICO</strong></td></tr>
                         <tr><td class="align">Administrative Officer V</td></tr>
                         <tr><td class="align">Personel Section</td></tr>
                     </table>
                 </td>
-                <td class="align">
+                <td>
                     <table width="100%">
                         <tr><td class="align"><u>&nbsp;&nbsp;<?php echo $data['section_head']['fname'].' '.$data['section_head']['mname'].' '.$data['section_head']['lname']; ?>&nbsp;&nbsp;</u></td></tr>
                         <tr><td class="align">Immediate Supervisor</td></tr>

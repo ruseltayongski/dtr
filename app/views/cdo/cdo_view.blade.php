@@ -329,7 +329,7 @@
                         msg: "Your beginning balance(credit) are not enough"
                     });
                 }
-                $(".remaining_balance").val( parseInt($(".beginning_balance").val()) - parseInt($(".less_applied").val()) );
+                $(".remaining_balance").val( parseFloat($(".beginning_balance").val()) - parseFloat($(".less_applied").val()) );
 
                 $(".cdo_hours").val($(".cdo_hours option:first").val());
                 halfdayFlag1 = true;
