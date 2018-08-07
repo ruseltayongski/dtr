@@ -62,8 +62,13 @@
                                                                 <td class="text-center">{{ date('M d, Y',strtotime($so->prepared_date)) }}</td>
                                                                 @if(Auth::user()->usertype)
                                                                 <td>
-                                                                    <?php $name = InformationPersonal::where('userid','=',$so->prepared_by)->first(); ?>
-                                                                    {{ $name->fname.' '.$name->mname.' '.$name->lname }}
+                                                                    <?php
+                                                                        if($name = InformationPersonal::where('userid','=',$so->prepared_by)->first()){
+                                                                            echo $name->fname.' '.$name->mname.' '.$name->lname;
+                                                                        } else {
+                                                                            echo 'NO NAME';
+                                                                        }
+                                                                    ?>
                                                                 </td>
                                                                 @endif
                                                                 <td class="text-center">{{ $so->subject }}</td>
