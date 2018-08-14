@@ -106,12 +106,12 @@
         </table>
         <table width="100%">
             <tr>
-                <td id="border" width="55%">
+                <td id="border" width="60%">
                     <table class="letter-head" cellpadding="0" cellspacing="0">
                         <tr>
-                            <td><b>Signature</b></td>
-                            <td><b>Name</b></td>
-                            <td><b>Position</b></td>
+                            <td width="3%"><b>Signature</b></td>
+                            <td width="30%"><b>Name</b></td>
+                            <td width="30%"><b>Position</b></td>
                         </tr>
                         <tr>
                             <td></td>
@@ -120,22 +120,28 @@
                         </tr>
                     </table>
                 </td>
-                <td id="border">
-                    <table class="letter-head" cellpadding="0" cellspacing="0">
-                        <tr>
-                            <td id="border" colspan="2">NUMBER OF WORKING DAY/S APPLIED FOR: <u>{{ $data['cdo']['working_days'] }} <?php if($data['cdo']['working_days'] > 1) echo 'days'; else echo 'day'; ?></u></td>
-                        </tr>
-                        <tr>
-                            <td id="border" width="30%">Inclusive Dates:</td>
-                            <td id="border"><u>{{ date('M d, Y',strtotime($data['cdo']['start'])).' to '.date('M d, Y',strtotime('-1 day',strtotime($data['cdo']['end']))) }}</u></td>
-                        </tr>
-                    </table>
+                <td id="border" class="align-top">
+                    <div style="margin-left: 2%">
+                        <b >NUMBER OF WORKING DAY/S APPLIED FOR:</b><br>
+                        <u>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            {{ $data['cdo']['working_days'] }} <?php if($data['cdo']['working_days'] > 1) echo 'days'; else echo 'day'; ?>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        </u>
+                        <br><br>
+                        <b>
+                            INCLUSIVE DATES: <u>{{ date('M d, Y',strtotime($data['cdo']['start'])).' to '.date('M d, Y',strtotime('-1 day',strtotime($data['cdo']['end']))) }} </u>
+                        </b>
+                    </div>
                 </td>
             </tr>
         </table>
-        <table class="letter-head" cellpadding="0" cellspacing="0">
+        <table width="100%">
             <tr>
-                <td id="border">
+                <td id="border" width="60%">
                     <table class="letter-head" cellpadding="0" cellspacing="0">
                         <tr>
                             <td id="border" colspan="3"><b>CERTIFICATION OF COMPENSATORY OVERTIME CREDITS</b></td>
@@ -152,10 +158,10 @@
                         </tr>
                     </table>
                 </td>
-                <td id="border" width="10%">
+                <td id="border" class="align-top">
                     <table class="letter-head" cellpadding="0" cellspacing="0">
                         <tr>
-                            <td colspan="2" id="border">RECOMENDATION:</td>
+                            <td colspan="2" id="border"><b>RECOMENDATION:</b></td>
                         </tr>
                         <tr>
                             <td class="align-right" id="border">@if($data['cdo']['approved_status'] == 1)<div style="font-family: DejaVu Sans, sans-serif;font-size: 14pt">[✔]</div>@else[&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;]@endif</td>
