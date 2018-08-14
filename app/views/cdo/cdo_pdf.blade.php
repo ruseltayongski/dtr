@@ -109,13 +109,13 @@
                 <td id="border" width="60%">
                     <table class="letter-head" cellpadding="0" cellspacing="0">
                         <tr>
-                            <td width="3%"><b>Signature</b></td>
                             <td width="30%"><b>Name</b></td>
+                            <td width="3%"><b>Signature</b></td>
                             <td width="30%"><b>Position</b></td>
                         </tr>
                         <tr>
-                            <td></td>
                             <td>{{ $data['name'] }}</td>
+                            <td></td>
                             <td>{{ $data['position'] }}</td>
                         </tr>
                     </table>
@@ -147,9 +147,21 @@
                             <td id="border" colspan="3"><b>CERTIFICATION OF COMPENSATORY OVERTIME CREDITS</b></td>
                         </tr>
                         <tr>
-                            <td><b>Beginning Balance</b></td>
-                            <td><b>Less Applied for</b></td>
-                            <td><b>Remaining Balance</b></td>
+                            <td>
+                                <b>Beginning Balance</b>
+                                <br>
+                                (In Hours)
+                            </td>
+                            <td>
+                                <b>Less Applied for</b>
+                                <br>
+                                (In Hours)
+                            </td>
+                            <td>
+                                <b>Remaining Balance</b>
+                                <br>
+                                (In Hours)
+                            </td>
                         </tr>
                         <tr>
                             <td>@if($data['cdo']['beginning_balance'] != null) {{ $data['cdo']['beginning_balance'] }} @else.@endif</td>
