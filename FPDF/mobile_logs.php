@@ -208,6 +208,7 @@ foreach($users as $user)
             $day_name = date('D', strtotime($datein));
             $logs = get_user_logs($user['userid'],$datein);
             
+            
             $in = "";
             $out = "";
         
@@ -224,6 +225,8 @@ foreach($users as $user)
             $pdf->Row(array($user['userid'],$name,$datein,$day_name,$in,$out));
         }
     }
+    
+    
 }
 
 
@@ -231,7 +234,7 @@ $pdf->Output();
 
 function get_user_logs($userid,$datein){
     $pdo = conn();
-    $query = "SELECT time,event,remark FROM dtr_file WHERE userid ='$userid' AND datein = '$datein' AND remark ='#FP#'";
+    $query = "SELECT time,event,remark,log_image FROM dtr_file WHERE userid ='$userid' AND datein = '$datein' AND remark ='MOBILE'";
     
     $st = $pdo->prepare($query);
     $st->execute();

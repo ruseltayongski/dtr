@@ -459,4 +459,38 @@ class AdminController extends BaseController
     {
         return View::make('print.print_logs');
     }
+
+    public function print_mobile_logs()
+    {
+        $userid = Input::get('userid');
+
+        $str = $_POST['filter_range'];
+        $temp1 = explode('-',$str);
+        $temp2 = array_slice($temp1, 0, 1);
+        $tmp = implode(',', $temp2);
+        $date_from = date('Y-m-d',strtotime($tmp));
+        $temp3 = array_slice($temp1, 1, 1);
+        $tmp = implode(',', $temp3);
+        $date_to = date('Y-m-d',strtotime($tmp));
+
+        $emptype = Input::get('emptype');
+
+
+        $day1 = explode('-',$date_from);
+        $day2 = explode('-',$date_to);
+        
+        $startday = floor($day1[2]);
+        $endday = $day2[2];
+      
+        $data['date_from'] = $date_from;
+        $data['date_to'] = $date_to;
+        $data['startday'] = $startday;
+        $data['endday'] = $endday;
+        $data['userid'] = $userid;
+        $data['day1'] = $day1;
+        $data['day2'] = $day2;
+        
+        return View::make('print.mobile_logs',['data' => $data]);
+
+    }
 }

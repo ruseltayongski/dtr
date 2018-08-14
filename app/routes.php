@@ -46,7 +46,7 @@ Route::match(['GET','POST'], 'reset/password', 'PasswordController@reset_passwor
 Route::post('user/delete', 'AdminController@delete_user');
 Route::match(['GET','POST'],'user/edit', 'AdminController@user_edit');
 Route::get('print/user/logs','AdminController@print_user_logs');
-
+Route::post('print/mobile/logs','AdminController@print_mobile_logs');
 
 Route::match(array('GET','POST'), 'print-monthly', 'PrintController@print_monthly');
 Route::get('print-monthly/attendance', 'PrintController@print_pdf');
@@ -123,6 +123,9 @@ Route::get('leave/print/a/{id}', 'DocumentController@print_a');
 Route::get('leave/update/{id}', 'DocumentController@edit_leave');
 Route::post('leave/update/save', 'DocumentController@save_edit_leave');
 Route::get('leave/delete/{id}', 'DocumentController@delete_leave');
+
+
+
 
 //ADMIN TRACKED DOCUMENTS
 
