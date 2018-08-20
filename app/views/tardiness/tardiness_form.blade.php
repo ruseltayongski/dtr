@@ -22,10 +22,12 @@
             "_token" : "<?php echo csrf_token(); ?>",
         };
 
+        var monthName = ["","January","February","March","April","May","June","July","August","September","October","November","December"];
+
         $('#tardiness_content').html(loadingState);
         $.post(url,json,function(result){
             $('#tardiness_content').html(result);
-            $('#modal_footer').append('<button type="submit" class="btn btn-success" id="tardiness_view"><i class="ace-icon fa fa-folder bigger-160"></i> View</button>');
+            $('#modal_footer').append('<button type="submit" class="btn btn-success" id="tardiness_view">'+monthName[month]+'</button>');
             Lobibox.notify('info',{
                 msg:'Successfully generated tardiness'
             });

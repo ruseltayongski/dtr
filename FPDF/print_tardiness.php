@@ -54,17 +54,9 @@ require('fpdf.php');
                 if($GLOBALS['rank'] == 0){
                     $this->SetFont('Arial','B',10);
                 }
-                elseif($GLOBALS['rank'] == 1){
+                elseif( $data[5] >= 10 ){
                     $this->SetTextColor(255,0,0);
-                    $this->SetFont('Arial','B',10);
-                }
-                elseif($GLOBALS['rank'] == 2){
-                    $this->SetTextColor(0,0,255);
-                    $this->SetFont('Arial','B',10);
-                }
-                elseif($GLOBALS['rank'] == 3){
-                    $this->SetTextColor(0,128,0);
-                    $this->SetFont('Arial','B',10);
+                    //$this->SetFont('Arial','B',8);
                 }
                 else {
                     $this->SetTextColor(0,0,0);

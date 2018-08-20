@@ -112,9 +112,7 @@ class TardinessController extends Controller
             }
 
             if(
-                !$tardiness_record = Tardiness::where("userid","=",$pi->userid)
-                                                ->where("year","=",Input::get("year"))
-                                                ->where("month","=",Input::get("month"))->first()
+                !$tardiness_record = Tardiness::where("userid","=",$pi->userid)->first()
             ) {
                 $tardiness_record = new Tardiness();
             }
