@@ -29,8 +29,7 @@
     {
         $pdo = pis_con();
         try {
-            //$st = $pdo->prepare("SELECT CAST(tardiness.tardiness_min as DECIMAL(9,2)) tardiness_min,tardiness.userid,tardiness.tardiness_day,personal_information.lname,personal_information.fname,personal_information.mname,personal_information.designation_id,personal_information.division_id,personal_information.section_id FROM `tardiness` left join personal_information on personal_information.userid = tardiness.userid where tardiness.year = ? and tardiness.month = ? order by tardiness_min desc");
-            $st = $pdo->prepare("SELECT CAST(tardiness.tardiness_min as DECIMAL(9,2)) as tardiness_min,userid,name,position,division,section,employee_status,tardiness_day FROM tardiness where year = ? and month = ? and tardiness_day != 0 order by tardiness_day desc,tardiness_min desc");
+            $st = $pdo->prepare("SELECT CAST(tardiness.tardiness_min as DECIMAL(9,2)) as tardiness_min,userid,name,position,division,section,employee_status,cast(tardiness_day as int) as tardiness_day FROM tardiness where year = ? and month = ? and tardiness_day != 0 order by tardiness_day desc,tardiness_min desc");
 
             $st->execute(array($year,$month));
             $row = $st->fetchAll(PDO::FETCH_ASSOC);
