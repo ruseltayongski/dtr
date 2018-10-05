@@ -73,7 +73,7 @@ $item_no = 1;
         }
         .new-times-roman{
             font-family: "Times New Roman", Times, serif;
-            font-size: 11.5pt;
+            font-size: 11pt;
         }
     </style>
 </head>
