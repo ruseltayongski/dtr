@@ -360,7 +360,7 @@ class PDF extends FPDF
                                 }
                             }else{
                                 if($day_name != "Sat" AND $day_name != "Sun"){
-                                    $am_in = "ABSENT";
+                                    $am_in = "HALFDAY";
                                     $am_out = "";
                                     $e1 = "1";
                                    
@@ -379,7 +379,7 @@ class PDF extends FPDF
                             }else{
                                 if($day_name != "Sat" AND $day_name != "Sun"){
                                     $pm_in = "";
-                                    $pm_out = "ABSENT";
+                                    $pm_out = "HALFDAY";
                                     $e4 = "1";
                                 }
                             }
@@ -409,7 +409,7 @@ class PDF extends FPDF
                         } else {
                             $this->SetFont('Arial','',8);
                         }
-
+                        
                         $this->Cell($w[1],5,$am_out,'');
                         $this->SetTextColor(0,0,0);
 
@@ -690,7 +690,7 @@ exit();
 function get_logs($am_in,$am_out,$pm_in,$pm_out,$id,$date_from,$date_to)
 {
     $pdo = conn();
-
+    
 
     $query = "CALL GETLOGS('". $am_in ."','" . $am_out ."','" . $pm_in ."','" . $pm_out . "','" . $id . "','" . $date_from . "','" . $date_to ."')";
     try
@@ -699,7 +699,7 @@ function get_logs($am_in,$am_out,$pm_in,$pm_out,$id,$date_from,$date_to)
         $st->execute();
         $row = $st->fetchAll(PDO::FETCH_ASSOC);
     }catch(PDOException $ex){
-        echo $ex->getMessage();
+        echo $ex->getMessage() . $id;
         exit();
     }
     return $row;

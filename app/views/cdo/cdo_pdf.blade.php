@@ -1,10 +1,10 @@
 <html lang="en">
 <title>CTO</title>
 <head>
-    <link href="{{ asset('public/assets/css/print.css') }}" rel="stylesheet">
+    <link href="{{ realpath(__DIR__ . '/../../..').'/public/assets/css/print.css' }}" rel="stylesheet">
     <style>
         html {
-            margin-top: 0px;
+            margin-top: 20px;
             margin-right: 20px;
             margin-left: 20px;
             margin-bottom: 0px;
@@ -79,18 +79,18 @@
         @endif
         <table class="letter-head" cellpadding="0" cellspacing="0">
             <tr>
-                <td id="border" class="align"><img src="{{ asset('public/img/doh.png') }}" width="100"></td>
+                <td id="border" class="align"><img src="{{ realpath(__DIR__ . '/../../..').'/public/img/doh.png' }}" width="100"></td>
                 <td width="90%" id="border">
                     <div class="align small-text" style="margin-top:-10px;font-size: 10pt">
                         Republic of the Philippines<br>
                         <strong>DEPARTMENT OF HEALTH REGIONAL OFFICE VII</strong><br>
-                        Osmeña Boulevard, Cebu City, 6000 Philippines<br>
+                        Osmeña Boulevard, Cebu City, 6000 Philippines<br> {{ realpath(__DIR__ . '/../../..').'/public/img/doh.png' }} <br>
                         Regional Director’s Office Tel. No. (032) 253-6355 Fax No. (032) 254-0109<br>
                         Official Website: http://www.ro7.doh.gov.ph Email Address: dohro7@gmail.com<br>
                         <strong>APPLICATION FOR COMPENSATORY TIME OFF</strong>
                     </div>
                 </td>
-                <td id="border" class="align"><img src="{{ asset('public/img/ro7.png') }}" width="100"></td>
+                <td id="border" class="align"><img src="{{ realpath(__DIR__ . '/../../..').'/public/img/ro7.png' }}" width="100"></td>
             </tr>
         </table>
         <hr>
