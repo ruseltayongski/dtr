@@ -304,14 +304,24 @@
             var dd = today.getDate()+beforeDaysToApply;
             var mm = today.getMonth()+1;
             var yyyy = today.getFullYear();
-            var startDate = mm+'/'+dd+'/'+yyyy;
+            var startDate,endDate;
+            @if(isset($data['cdo']['end']))
+                startDate = "<?php echo date('m/d/Y',strtotime($data['cdo']['start'])); ?>";
+            @else
+                startDate = mm+'/'+dd+'/'+yyyy;
+            @endif
+            @if(isset($data['cdo']['end']))
+                endDate = "<?php echo date('m/d/Y',strtotime('-1 day',strtotime($data['cdo']['end']))); ?>";
+            @else
+                endDate = mm+'/'+dd+'/'+yyyy;
+            @endif
             $(this).daterangepicker({
                 locale: {
                     format: 'MM/DD/YYYY'
                 },
-                minDate: startDate,
+                minDate: mm+'/'+dd+'/'+yyyy,
                 startDate: startDate,
-                endDate: startDate,
+                endDate: endDate,
             }).on('apply.daterangepicker', function(ev, picker)
             {
                 var start = moment(picker.startDate.format('YYYY-MM-DD'));

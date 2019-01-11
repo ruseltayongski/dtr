@@ -127,18 +127,18 @@
                             &nbsp;&nbsp;&nbsp;
                             <?php
                                 if($data['cdo']['less_applied_for'] == 4){
-                                    echo 'half day';
+                                    echo 'half day ('.strtoupper(explode('_',$data['cdo']['cdo_hours'])[1]).')';
                                 }
                                 else {
                                     if($data['cdo']['less_applied_for'] % 8 == 0){
                                         $halfWord = '';
                                         $minusDay = 0;
                                     } else{
-                                        $halfWord = ' and half';
+                                        $halfWord = ' and half ('.strtoupper(explode('_',$data['cdo']['cdo_hours'])[1]).')';
                                         $minusDay = 1;
                                     }
 
-                                    if($data['cdo']['working_days'] > 1)
+                                    if($data['cdo']['working_days']-$minusDay > 1)
                                         echo $data['cdo']['working_days']-$minusDay.' days'.$halfWord;
                                     else
                                         echo $data['cdo']['working_days']-$minusDay.' day'.$halfWord;
