@@ -124,9 +124,27 @@
                     <div style="margin-left: 2%">
                         <b >NUMBER OF WORKING DAY/S APPLIED FOR:</b><br>
                         <u>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                            {{ $data['cdo']['working_days'] }} <?php if($data['cdo']['working_days'] > 1) echo 'days'; else echo 'day'; ?>
+                            &nbsp;&nbsp;&nbsp;
+                            <?php
+                                if($data['cdo']['less_applied_for'] == 4){
+                                    echo 'half day';
+                                }
+                                else {
+                                    if($data['cdo']['less_applied_for'] % 8 == 0){
+                                        $halfWord = '';
+                                        $minusDay = 0;
+                                    } else{
+                                        $halfWord = ' and half';
+                                        $minusDay = 1;
+                                    }
+
+                                    if($data['cdo']['working_days'] > 1)
+                                        echo $data['cdo']['working_days']-$minusDay.' days'.$halfWord;
+                                    else
+                                        echo $data['cdo']['working_days']-$minusDay.' day'.$halfWord;
+                                }
+
+                            ?>
                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
