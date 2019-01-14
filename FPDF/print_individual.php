@@ -166,7 +166,7 @@ class PDF extends FPDF
     {
         return md5($string, true);
     }
-
+    
     /**
     * Compute O value
     */
@@ -831,9 +831,9 @@ class PDF extends FPDF
                                     if($leave['holiday'] == '007'){
                                         $am_in = $leave['remark'];
                                         $e1 = "1";
-                                        $am_out = $leave['remark'];
+                                        //$am_out = $leave['remark'];
                                         $e2 = "1";
-                                        $pm_out = $leave['remark'];
+                                        //$pm_out = $leave['remark'];
                                         $e4 = "1";
                                     }else {
                                         $edited_logs = GET_CDO_SO($s_am_in,$s_am_out,$s_pm_in,$s_pm_out,$userid,$datein,'EDITED_LOGS');

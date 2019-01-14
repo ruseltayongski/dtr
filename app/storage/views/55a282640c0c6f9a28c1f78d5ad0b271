@@ -126,13 +126,7 @@
         </div><!--/.nav-collapse -->
     </div>
 </nav>
-
-<div class="container">
-    <div class="loading"></div>
-        <?php echo $__env->yieldContent('content'); ?>
-    <div class="clearfix"></div>
-    <?php echo $__env->make('modal', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
-</div> <!-- /container -->
+<?php echo $__env->yieldContent('content'); ?>
 <footer class="footer">
     <div class="container">
         <p>Copyright &copy; 2017 DOH-RO7 All rights reserved</p>
@@ -170,82 +164,9 @@
 
 <!-- iCheck -->
 <script src="<?php echo asset('public/plugin/iCheck/icheck.min.js'); ?>"></script>
-
-<script>
-    $('.create-absent').click(function(){
-        var url = $(this).data('link');
-        $('.modal_content').html('');
-        $('.loading').show();
-        setTimeout(function (){
-            $.get(url, function(data){
-                $('.loading').hide();
-                $('.modal_content').html(data);
-
-            });
-        },1000);
-    });
-
-    function select_absent(element)
-    {
-
-        var val = $(element).val();
-        if(val == "SO")
-        {
-
-            $('#desc').removeAttr('disabled');
-        } else if(val == "LEAVE") {
-            $('#desc').prop('disabled',true);
-        } else if(val == "CTO") {
-
-        }
-    }
-</script>
 <?php $__env->startSection('js'); ?>
 
 <?php echo $__env->yieldSection(); ?>
 
-
-
-<?php if(Session::get('added')): ?>
-    <script>
-        Lobibox.notify('success',{
-            msg:'Successfully Added!'
-        });
-    </script>
-    <?php Session::forget('added'); ?>
-<?php endif; ?>
-<?php if(Session::get('deleted')): ?>
-    <script>
-        Lobibox.notify('error',{
-            msg:'Successfully Deleted!'
-        });
-    </script>
-    <?php Session::forget('deleted'); ?>
-<?php endif; ?>
-<?php if(Session::get('updated')): ?>
-    <script>
-        Lobibox.notify('info',{
-            msg:'Successfully Updated!'
-        });
-    </script>
-    <?php Session::forget('updated'); ?>
-<?php endif; ?>
-<?php if(Session::get('absent')): ?>
-    <script>
-        Lobibox.notify('error',{
-            msg:'Successfully Absent!'
-        });
-    </script>
-    <?php Session::forget('absent'); ?>
-<?php endif; ?>
-<?php if(Session::get('msg')): ?>
-    <script>
-        var msg = <?php echo "'". Session::get('msg') ."';"; ?>
-        Lobibox.notify('info',{
-            msg:msg
-        });
-    </script>
-    <?php Session::forget('msg'); ?>
-<?php endif; ?>
 </body>
 </html>

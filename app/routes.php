@@ -47,7 +47,9 @@ Route::post('user/delete', 'AdminController@delete_user');
 Route::match(['GET','POST'],'user/edit', 'AdminController@user_edit');
 Route::get('print/user/logs','AdminController@print_user_logs');
 Route::post('print/mobile/logs','AdminController@print_mobile_logs');
-
+Route::match(['GET','POST'],'leave/credits','AdminController@leave_credits');
+Route::get('get/regular/employee','AdminController@get_regular_emp');
+Route::get('add_leave_table','AdminController@add_leave_table');
 Route::match(array('GET','POST'), 'print-monthly', 'PrintController@print_monthly');
 Route::get('print-monthly/attendance', 'PrintController@print_pdf');
 Route::match(array('GET','POST'), 'print/employee-attendance', 'PrintController@print_employee');

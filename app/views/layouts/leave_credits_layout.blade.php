@@ -14,7 +14,7 @@
     <link rel="icon" href="{{ asset('public/img/favicon.png') }}">
     <meta http-equiv="cache-control" content="max-age=0" />
     <title>HRMIS</title>
-
+    
     @if(Request::segments()[0] == "calendar")
         <link href="{{ asset('public/plugin/fullcalendar/fullcalendar.min.css') }}" rel="stylesheet">
         <link href="{{ asset('public/plugin/fullcalendar/fullcalendar.print.css') }}" media="print">
@@ -126,13 +126,7 @@
         </div><!--/.nav-collapse -->
     </div>
 </nav>
-
-<div class="container">
-    <div class="loading"></div>
-        @yield('content')
-    <div class="clearfix"></div>
-    @include('modal')
-</div> <!-- /container -->
+@yield('content')
 <footer class="footer">
     <div class="container">
         <p>Copyright &copy; 2017 DOH-RO7 All rights reserved</p>
@@ -170,82 +164,9 @@
 
 <!-- iCheck -->
 <script src="{{ asset('public/plugin/iCheck/icheck.min.js') }}"></script>
-
-<script>
-    $('.create-absent').click(function(){
-        var url = $(this).data('link');
-        $('.modal_content').html('');
-        $('.loading').show();
-        setTimeout(function (){
-            $.get(url, function(data){
-                $('.loading').hide();
-                $('.modal_content').html(data);
-
-            });
-        },1000);
-    });
-
-    function select_absent(element)
-    {
-
-        var val = $(element).val();
-        if(val == "SO")
-        {
-
-            $('#desc').removeAttr('disabled');
-        } else if(val == "LEAVE") {
-            $('#desc').prop('disabled',true);
-        } else if(val == "CTO") {
-
-        }
-    }
-</script>
 @section('js')
 
 @show
 
-
-
-@if(Session::get('added'))
-    <script>
-        Lobibox.notify('success',{
-            msg:'Successfully Added!'
-        });
-    </script>
-    <?php Session::forget('added'); ?>
-@endif
-@if(Session::get('deleted'))
-    <script>
-        Lobibox.notify('error',{
-            msg:'Successfully Deleted!'
-        });
-    </script>
-    <?php Session::forget('deleted'); ?>
-@endif
-@if(Session::get('updated'))
-    <script>
-        Lobibox.notify('info',{
-            msg:'Successfully Updated!'
-        });
-    </script>
-    <?php Session::forget('updated'); ?>
-@endif
-@if(Session::get('absent'))
-    <script>
-        Lobibox.notify('error',{
-            msg:'Successfully Absent!'
-        });
-    </script>
-    <?php Session::forget('absent'); ?>
-@endif
-@if(Session::get('msg'))
-    <script>
-        var msg = <?php echo "'". Session::get('msg') ."';"; ?>
-        Lobibox.notify('info',{
-            msg:msg
-        });
-    </script>
-    <?php Session::forget('msg'); ?>
-@endif
 </body>
 </html>

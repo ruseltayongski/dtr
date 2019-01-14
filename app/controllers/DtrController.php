@@ -32,6 +32,7 @@ class DtrController extends BaseController
                 $dtr = file_get_contents($file);
                 $data = explode(PHP_EOL, $dtr);
                     
+                
                 $pdo = DB::connection()->getPdo();
                 //DTR
                 $query1 = "INSERT IGNORE INTO dtr_file(userid, datein, time, event,remark, edited, created_at, updated_at) VALUES";
@@ -43,30 +44,35 @@ class DtrController extends BaseController
                 $query5 = "INSERT IGNORE INTO users(username,password,pin,created_at, updated_at) VALUES";
                 $pass = "";
                 $emptype = "";
+
                 $default_pass = Hash::make('123');
                 for ($i = 1; $i < count($data); $i++) {
                     try {
                         $employee = explode(',', $data[$i]);
-
-                        $id = trim($employee[0], "\" ");
+                        
+                        $id = trim($employee[1], "\" ");
                         $id = ltrim($id, "\" ");
 
                         if ($id != 'Unknown User') {
-                            $col1 = array_key_exists(0, $employee) == true ? trim($employee[0], "\" ") : null;
+                            //USERID
+                            $col1 = array_key_exists(1, $employee) == true ? trim($employee[1], "\" ") : null;
                            // $pass = Hash::make($col1);
-                            $f = array_key_exists(1, $employee) == true ? trim($employee[1], "\" ") : null;
-                            $l = array_key_exists(2, $employee) == true ? trim($employee[2], "\" ") : null;
-
-                            $col2 = array_key_exists(4, $employee) == true ? trim($employee[4], "\" ") : null;
-                            $col3 = array_key_exists(5, $employee) == true ? trim($employee[5], "\" ") : null;
-
-                            $col4 = array_key_exists(6, $employee) == true ? trim($employee[6], "\" ") : null;
-                            $col5 = array_key_exists(8, $employee) == true ? trim($employee[8], "\" ") : null;
-
+                            //FIRSTNAME
+                            $f = array_key_exists(2, $employee) == true ? trim($employee[2], "\" ") : null;
+                            //LASTNAME
+                            $l = array_key_exists(3, $employee) == true ? trim($employee[3], "\" ") : null;
+                            //DATEIN
+                            $col2 = array_key_exists(5, $employee) == true ? trim($employee[5], "\" ") : null;
+                            //TIMEIN
+                            $col3 = array_key_exists(6, $employee) == true ? trim($employee[6], "\" ") : null;
+                            //EVENT
+                            $col4 = array_key_exists(7, $employee) == true ? trim($employee[7], "\" ") : null;
+                            //REMARKS
+                            $col5 = array_key_exists(9, $employee) == true ? trim($employee[9], "\" ") : null;
+                            
                             $col6 = "0";
-
+                            //$query1 = "INSERT IGNORE INTO dtr_file(userid, datein, time, event,remark, edited, created_at, updated_at) VALUES";
                             $query1 .= "('" . $col1 . "','" . $col2 . "','" . $col3 . "','" . $col4 . "','" . $col5 . "','" . $col6 . "',NOW(),NOW()),";
-
 
                             if(strlen($col1) > 5) {
                                 $emptype = "REG";
@@ -76,7 +82,7 @@ class DtrController extends BaseController
                                 $job_status = 'Job Order';
                             }
 
-                            //DTR
+                            //DTR   
                             $query2 .= "('" . $col1 . "','" . $f . "','" . $l . "','1','". $col1 . "','" . $default_pass . "','" . $emptype . "','0','".$col1 ."',NOW(),NOW()),";
                             //DTS
                             $query3 .= "('" . $f . "','" . $l . "','" . $col1 . "','". '6' . "','". '6' . "','". '42' . "','" . $default_pass . "',NOW(),NOW()),";
@@ -85,10 +91,9 @@ class DtrController extends BaseController
                             $query5 .= "('" . $col1 . "','" . $default_pass . "','" . '1234' . "',NOW(),NOW()),";
                         }
                     } catch (Exception $ex) {
-                        return Redirect::to('index');
+                        //return Redirect::to('index');
                     }
                 }
-
                 
                 $query1 .= "('','','','','','',NOW(),NOW())";
 
@@ -99,7 +104,6 @@ class DtrController extends BaseController
                 $query4 .= "('','','','','','','','','',NOW(),NOW())";
 
                 $query5 .= "('','','',NOW(),NOW())";
-
 
                 $st = $pdo->prepare($query1);
                 $st->execute();

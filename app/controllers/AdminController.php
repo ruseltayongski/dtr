@@ -493,4 +493,26 @@ class AdminController extends BaseController
         return View::make('print.mobile_logs',['data' => $data]);
 
     }
+    public function leave_credits()
+    {
+        if(Request::method() == "GET")
+        {
+            return View::make('users.leave_credits');            
+        }
+    }
+
+    public function get_regular_emp()
+    {
+        $employees = DB::table('users')->where('emptype','=','REG')->get(['lname','fname','mname','userid']);
+        return json_encode($employees);
+    }
+    public function add_leave_table()
+    {
+        Schema::create('leave_credits',function($table){
+            $table->increments('id');
+            $table->string('userid');
+            $table->double('vacation');
+            $table->double('sick');
+        });
+    }
 }

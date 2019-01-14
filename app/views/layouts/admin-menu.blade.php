@@ -52,11 +52,14 @@
         <ul class="dropdown-menu">
             <li>
                 <a href="{{ asset('form/so_list') }}"><i class="fa fa-file"></i> Office Order</a>
-
             </li>
             <li class="divider"></li>
-            <li>
-                <a href="{{ asset('tracked/leave') }}"><i class="fa fa-file"></i> Leave</a>
+            <li class="dropdown-submenu">
+                <a href="#" data-toggle="dropdown"><i class="fa fa-file"></i> Leave</a>
+                <ul class="dropdown-menu">
+                    <li><a href="{{ asset('tracked/leave') }}">Leave Applications</a></li>
+                    <li><a href="{{ asset('leave/credits') }}">Leave Credits</a></li>
+                </ul>
             </li>
             <li class="divider"></li>
             <li class="dropdown-submenu">
