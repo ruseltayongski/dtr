@@ -15,7 +15,7 @@ class CalendarController extends BaseController
 
     public function calendar_holiday()
     {
-        return Calendars::where('status','=',1)->get();
+        return Calendars::where('status','=',1)->orWhere('status','=',2)->get();
     }
 
     public function calendar_delete($event_id){
@@ -31,10 +31,6 @@ class CalendarController extends BaseController
     }
     
     public function calendar_save(){
-        if(Auth::user()->usertype == "0")
-        {
-            return;
-        }
         try
         {
             $calendar = new Calendars();
@@ -49,7 +45,7 @@ class CalendarController extends BaseController
             $calendar->end = $end_date;
             $calendar->backgroundColor = Input::get('backgroundColor');
             $calendar->borderColor = Input::get('borderColor');
-            $calendar->status = 1;
+            $calendar->status = Input::get('status');
             $calendar->type = 1;
             $calendar->save();
 
