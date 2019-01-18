@@ -7,7 +7,7 @@
     <span id="calendar_delete" data-link="{{ asset('calendar_delete') }}"></span>
     <span id="calendar_update" data-link=" {{ asset('calendar_update') }} "></span>
     <span id="calendar_banner" data-link="{{ asset('resources/img/banner.png') }}"></span>
-    <div class="col-md-9 wrapper">
+    <div class="<?php if(Auth::user()->usertype == '1') echo 'col-md-9 wrapper'; else echo 'col-md-12 wrapper'; ?>">
         <div class="alert alert-jim">
 
             <div class="box box-primary">
@@ -20,54 +20,56 @@
         </div>
     </div>
     <!--CREATE EVENT SIDEBAR -->
-    <div class="col-md-3">
-        <div class="box box-solid">
-            <div class="box-header with-border">
-                <h4 class="box-title">Draggable Events</h4>
-            </div>
-            <div class="box-body">
-                <!-- the events -->
-                <div id="external-events"></div>
-            </div>
-            <!-- /.box-body -->
-        </div>
-        <!-- /. box -->
-        <div class="box box-solid">
-            <div class="box-header with-border">
-                <h3 class="box-title">Create Holiday</h3>
-            </div>
-            <div class="box-body">
-                <div class="btn-group" style="width: 100%; margin-bottom: 10px;">
-                    <!--<button type="button" id="color-chooser-btn" class="btn btn-info btn-block dropdown-toggle" data-toggle="dropdown">Color <span class="caret"></span></button>-->
-                    <ul class="fc-color-picker" id="color-chooser">
-                        <li><a class="text-aqua" href="#"><i class="fa fa-square"></i></a></li>
-                        <li><a class="text-blue" href="#"><i class="fa fa-square"></i></a></li>
-                        <li><a class="text-light-blue" href="#"><i class="fa fa-square"></i></a></li>
-                        <li><a class="text-teal" href="#"><i class="fa fa-square"></i></a></li>
-                        <li><a class="text-yellow" href="#"><i class="fa fa-square"></i></a></li>
-                        <li><a class="text-orange" href="#"><i class="fa fa-square"></i></a></li>
-                        <li><a class="text-green" href="#"><i class="fa fa-square"></i></a></li>
-                        <li><a class="text-lime" href="#"><i class="fa fa-square"></i></a></li>
-                        <li><a class="text-red" href="#"><i class="fa fa-square"></i></a></li>
-                        <li><a class="text-purple" href="#"><i class="fa fa-square"></i></a></li>
-                        <li><a class="text-fuchsia" href="#"><i class="fa fa-square"></i></a></li>
-                        <li><a class="text-navy" href="#"><i class="fa fa-square"></i></a></li>
-                    </ul>
+    @if(Auth::user()->usertype == '1')
+        <div class="col-md-3">
+            <div class="box box-solid">
+                <div class="box-header with-border">
+                    <h4 class="box-title">Draggable Events</h4>
                 </div>
-                <!-- /btn-group -->
-                <div class="input-group">
-                    <input id="new-event" type="text" class="form-control" placeholder="Holiday Title">
-
-                    <div class="input-group-btn">
-                        <button id="add-new-event" type="button" class="btn btn-primary btn-flat" style="color: white;">Add</button>
+                <div class="box-body">
+                    <!-- the events -->
+                    <div id="external-events"></div>
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!-- /. box -->
+            <div class="box box-solid">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Create Holiday</h3>
+                </div>
+                <div class="box-body">
+                    <div class="btn-group" style="width: 100%; margin-bottom: 10px;">
+                        <!--<button type="button" id="color-chooser-btn" class="btn btn-info btn-block dropdown-toggle" data-toggle="dropdown">Color <span class="caret"></span></button>-->
+                        <ul class="fc-color-picker" id="color-chooser">
+                            <li><a class="text-aqua" href="#"><i class="fa fa-square"></i></a></li>
+                            <li><a class="text-blue" href="#"><i class="fa fa-square"></i></a></li>
+                            <li><a class="text-light-blue" href="#"><i class="fa fa-square"></i></a></li>
+                            <li><a class="text-teal" href="#"><i class="fa fa-square"></i></a></li>
+                            <li><a class="text-yellow" href="#"><i class="fa fa-square"></i></a></li>
+                            <li><a class="text-orange" href="#"><i class="fa fa-square"></i></a></li>
+                            <li><a class="text-green" href="#"><i class="fa fa-square"></i></a></li>
+                            <li><a class="text-lime" href="#"><i class="fa fa-square"></i></a></li>
+                            <li><a class="text-red" href="#"><i class="fa fa-square"></i></a></li>
+                            <li><a class="text-purple" href="#"><i class="fa fa-square"></i></a></li>
+                            <li><a class="text-fuchsia" href="#"><i class="fa fa-square"></i></a></li>
+                            <li><a class="text-navy" href="#"><i class="fa fa-square"></i></a></li>
+                        </ul>
                     </div>
                     <!-- /btn-group -->
+                    <div class="input-group">
+                        <input id="new-event" type="text" class="form-control" placeholder="Holiday Title">
+
+                        <div class="input-group-btn">
+                            <button id="add-new-event" type="button" class="btn btn-primary btn-flat" style="color: white;">Add</button>
+                        </div>
+                        <!-- /btn-group -->
+                    </div>
+                    <!-- /input-group -->
                 </div>
-                <!-- /input-group -->
             </div>
         </div>
-    </div>
-    @endsection
+    @endif
+@endsection
 @section('js')
     @parent
     <script src="{{ asset('public/assets/js/jquery4.js') }}"></script>
@@ -126,7 +128,7 @@
                         var url = $('#calendar_update').data('link');
                         var object = {
                             'type' : 'resize',
-                            'event_id' : event.event_id,
+                            'event_id' : event.event_id+"<?php echo Auth::user()->userid; ?>",
                             'end' : event.end.format()
                         };
                         $.post(url,object,function(result){
@@ -135,7 +137,7 @@
                             });
                         });
                         <?php else: ?>
-                        event.resizable = false;
+                            event.resizable = false;
                         <?php endif; ?>
                     },
                     eventRender: function(event, element) {
@@ -147,7 +149,7 @@
                                 callback: function ($this, type, ev) {
                                     if(type == 'yes'){
                                         $('#calendar').fullCalendar('removeEvents',event.id);
-                                        var calendar_delete = $('#calendar_delete').data('link')+'/'+event.event_id;
+                                        var calendar_delete = $('#calendar_delete').data('link')+'/'+event.event_id+"<?php echo Auth::user()->userid; ?>";
                                         $.get(calendar_delete,function(){
                                             Lobibox.notify('error',{
                                                 msg:'Successfully Deleted!'
@@ -165,7 +167,7 @@
                             });
                         });
                         <?php else: ?>
-                        event.editable = false;
+                            event.editable = false;
                         <?php endif; ?>
                     },
                     eventDrop: function(event,jsEvent) {
@@ -173,7 +175,7 @@
                         var url = $('#calendar_update').data('link');
                         var object = {
                             'type' : 'drop',
-                            'event_id' : event.event_id,
+                            'event_id' : event.event_id+"<?php echo Auth::user()->userid; ?>",
                             'start' : event.start.format()
                         };
                         $.post(url,object,function(result){
@@ -206,29 +208,16 @@
                         var originalEventObject = $(this).data('eventObject');
 
                         id++;
-                        @if(Auth::user()->usertype)
                         json = {
                             'id' : id,
                             'event_id' : new Date(),
                             'title' : $(this).data('eventObject')['title'],
                             'start' : date.format(),
                             'end' : date.format(),
-                            'status': 1,
                             'backgroundColor' : $(this).css('background-color'),
-                            'borderColor' : $(this).css('border-color')
+                            'borderColor' : $(this).css('border-color'),
+                            'status' : 1
                         };
-                        @else
-                        json = {
-                            'id' : id,
-                            'event_id' : new Date(),
-                            'title' : $(this).data('eventObject')['title'],
-                            'start' : date.format(),
-                            'end' : date.format(),
-                            'status': 2,
-                            'backgroundColor' : $(this).css('background-color'),
-                            'borderColor' : $(this).css('border-color')
-                        };
-                        @endif
                         var url = $('#calendar_save').data('link');
                         $('#calendar').fullCalendar('renderEvent', json, true);
                         $.post(url,json,function(){
@@ -275,5 +264,3 @@
         });
     </script>
 @endsection
-
-
