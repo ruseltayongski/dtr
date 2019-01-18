@@ -9,13 +9,14 @@ class CalendarController extends BaseController
 
     public function calendar()
     {
-
+        //return \DB::connection('mysql')->select("call calendar(0454)");
         return View::make('calendar.calendar');
     }
 
     public function calendar_holiday()
     {
-        return Calendars::where('status','=',1)->orWhere('status','=',2)->get();
+        $userid = Auth::user()->userid;
+        return \DB::connection('mysql')->select("call calendar($userid)");
     }
 
     public function calendar_delete($event_id){
