@@ -44,7 +44,7 @@ class DtrController extends BaseController
                 $query5 = "INSERT IGNORE INTO users(username,password,pin,created_at, updated_at) VALUES";
                 $pass = "";
                 $emptype = "";
-
+                
                 $default_pass = Hash::make('123');
                 for ($i = 1; $i < count($data); $i++) {
                     try {
@@ -105,6 +105,7 @@ class DtrController extends BaseController
 
                 $query5 .= "('','','',NOW(),NOW())";
 
+                return $query1;
                 $st = $pdo->prepare($query1);
                 $st->execute();
 
