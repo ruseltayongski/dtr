@@ -118,16 +118,17 @@ $item_no = 1;
     <table class="letter-head" cellpadding="0" cellspacing="0">
         <tr>
             <td id="no-border" class="align"><img src="<?php echo asset('public/img/doh.png'); ?>" width="100"></td>
-            <td width="90%" id="no-border">
-                <div class="align small-text" style="margin-top:-10px;font-size: 10.5pt">
+            <td width="80%" id="no-border">
+                <div class="align" style="margin-right:20px;font-size: 11pt">
                     Republic of the Philippines<br>
-                    <strong>DEPARTMENT OF HEALTH REGIONAL OFFICE VII</strong><br>
-                    Osmeña Boulevard, Cebu City, 6000 Philippines<br>
+                    DEPARTMENT OF HEALTH<br>
+                    <strong>CENTRAL VISAYAS CENTER for HEALTH DEVELOPMENT</strong><br>
+                    Osmeña Boulevard,Sambag II,Cebu City, 6000 Philippines<br>
                     Regional Director’s Office Tel. No. (032) 253-6355 Fax No. (032) 254-0109<br>
                     Official Website: http://www.ro7.doh.gov.ph Email Address: dohro7@gmail.com<br>
                 </div>
             </td>
-            <td id="no-border" class="align"><img src="<?php echo asset('public/img/ro7.png'); ?>" width="100"></td>
+            <td id="no-border" class="align"></td>
         </tr>
     </table>
     <hr>
