@@ -15,6 +15,21 @@ class MobileController extends BaseController {
         return 0;
     }
 
+    public function loginPis(){
+        $username = Input::get("username");
+        $password = Input::get("password");
+
+        $user = Users::where('username', '=', $username)->first();
+        if(count($user) > 0){
+            if(Auth::attempt(array('username' => $username, 'password' => $password)))
+                return InformationPersonal::where('userid','=',$username)->first();
+            else
+                return "Invalid Account";
+        } else {
+            return "Invalid Account";
+        }
+    }
+
     public function add_logs(){
         
         $pdo = DB::connection()->getPdo();

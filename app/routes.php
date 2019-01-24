@@ -197,6 +197,7 @@ Route::post('cdo_delete','cdoController@cdo_delete');
 /////////CALENDAR
 Route::get('calendar','CalendarController@calendar');
 Route::get('calendar_holiday','CalendarController@calendar_holiday');
+Route::get('calendarEvent/{userid}','CalendarController@calendarEvent');
 Route::post('calendar_save','CalendarController@calendar_save');
 Route::get('calendar_delete/{event_id}','CalendarController@calendar_delete');
 Route::post('calendar_update','CalendarController@calendar_update');
@@ -308,6 +309,7 @@ Route::get('search/id',function(){
 
 //MOBILE URL
 Route::post('mobile/login','MobileController@login');
+Route::post('mobile/loginPis','MobileController@loginPis');
 Route::post('mobile/add-logs','MobileController@add_logs');
 Route::post('mobile/add-cto','MobileController@add_cto');
 Route::post('mobile/add-so','MobileController@add_so');

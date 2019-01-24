@@ -4,7 +4,7 @@ class CalendarController extends BaseController
 {
     public function __construct()
     {
-        $this->beforeFilter('auth');
+        //$this->beforeFilter('auth');
     }
 
     public function calendar()
@@ -16,6 +16,10 @@ class CalendarController extends BaseController
     public function calendar_holiday()
     {
         $userid = Auth::user()->userid;
+        return \DB::connection('mysql')->select("call calendar($userid)");
+    }
+
+    public function calendarEvent($userid){
         return \DB::connection('mysql')->select("call calendar($userid)");
     }
 

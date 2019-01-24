@@ -167,7 +167,7 @@
                                         <option value="Jaime S. Bernadas, MD, MGM, CESO III">Jaime S. Bernadas, MD, MGM, CESO III</option>
                                         <option value="Sophia M. Mancao, MD, DPSP">Sophia M. Mancao, MD, DPSP</option>
                                         <option value="Ruben S. Siapno,MD,MPH">Ruben S. Siapno,MD,MPH</option>
-                                        <option value="Dr. Ellenietta Herundia Maria Victoria Nuñez Gamolo">Dr. Ellenietta Herundia Maria Victoria Nuñez Gamolo</option>
+                                        <option value="Ellenietta HMV N. Gamolo,MD,MPH,CESE">Ellenietta HMV N. Gamolo,MD,MPH,CESE</option>
                                     </select>
                                 </div>
                             </div>
@@ -268,8 +268,8 @@
             $(".director").val('Director IV');
         else if(data.val() == 'Ruben S. Siapno,MD,MPH')
             $(".director").val('Director III');
-        else if(data.val() == 'Sophia M. Mancao, MD, DPSP')
-        	$(".director").val('OIC - Director III');
+        else if(data.val() == 'Ellenietta HMV N. Gamolo,MD,MPH,CESE')
+        	$(".director").val('Director III');
         else
             $(".director").val('');
     }

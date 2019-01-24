@@ -350,8 +350,8 @@ $item_no = 1;
                 <?php
                     if($office_order->approved_by == 'Jaime S. Bernadas, MD, MGM, CESO III')
                         echo 'Director IV';
-                    elseif($office_order->approved_by == 'Sophia M. Mancao, MD, DPSP')
-                        echo 'OIC - Director III';
+                    elseif($office_order->approved_by == 'Ellenietta HMV N. Gamolo,MD,MPH,CESE')
+                        echo 'Director III';
                     else
                         echo 'Director III';
                 ?>
