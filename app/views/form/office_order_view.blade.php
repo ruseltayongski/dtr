@@ -120,6 +120,7 @@
                                                     @if($office_order->approved_by == 'Jaime S. Bernadas, MD, MGM, CESO III')
                                                         <option value="Ruben S. Siapno,MD,MPH">Ruben S. Siapno,MD,MPH</option>
                                                     @else
+                                                        <option value="Ellenietta HMV N. Gamolo,MD,MPH,CESE">Ellenietta HMV N. Gamolo,MD,MPH,CESE</option>
                                                         <option value="Jaime S. Bernadas, MD, MGM, CESO III">Jaime S. Bernadas, MD, MGM, CESO III</option>
                                                     @endif
                                                 @endif
@@ -195,7 +196,7 @@
         function approved(data){
             if(data.val() == 'Jaime S. Bernadas, MD, MGM, CESO III')
                 $("#director").val('Director IV');
-            else if(data.val() == 'Ruben S. Siapno,MD,MPH')
+            else if(data.val() == 'Ellenietta HMV N. Gamolo,MD,MPH,CESE')
                 $("#director").val('Director III');
             else
                 $("#director").val('');
