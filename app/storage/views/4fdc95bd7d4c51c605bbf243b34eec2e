@@ -29,9 +29,9 @@
     <?php endif; ?>
     <div class="login-box">
       <div class="login-logo">
-        <img src="<?php echo asset('public/img/logo.png'); ?>" />
+        <img src="<?php echo asset('public/img/doh.png'); ?>" style="width: 30%" />
         <br />
-        <a href="#" style="font-weight:bolder;">DOHRO7 DTR VERSION 4.2</a>
+        <a href="#" style="font-weight:bolder;"><label style="font-size: 17pt;">DOH-CVCHD DTR 4.2</label></a>
 
       </div><!-- /.login-logo -->
         
