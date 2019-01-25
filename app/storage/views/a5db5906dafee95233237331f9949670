@@ -112,7 +112,7 @@ $item_no = 1;
 </div>
 <body>
 <div class="new-times-roman" style="margin-bottom: 25px;">
-    <div style="position:absolute;margin-left: 182px;margin-top: 220px;">
+    <div style="position:absolute;margin-left: 191px;margin-top: 207px;">
         <b>:</b>
     </div>
     <table class="letter-head" cellpadding="0" cellspacing="0">
