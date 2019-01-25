@@ -6,12 +6,12 @@ $item_no = 1;
 <html>
 <title>Office Order</title>
 <head>
-    <link href="{{ asset('public/assets/css/print.css') }}" rel="stylesheet">
+    <link href="{{ realpath(__DIR__ . '/../../..').'/public/assets/css/print.css' }}" rel="stylesheet">
     <style>
         html {
-            margin-top: 10px;
-            margin-right: 50px;
-            margin-left: 50px;
+            margin-top: 5px;
+            margin-right: 30px;
+            margin-left: 30px;
             margin-bottom: 50px;
             font-size:x-small;
             font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -112,14 +112,14 @@ $item_no = 1;
 </div>
 <body>
 <div class="new-times-roman" style="margin-bottom: 25px;">
-    <div style="position:absolute;margin-left: 182px;margin-top: 208px;">
+    <div style="position:absolute;margin-left: 182px;margin-top: 220px;">
         <b>:</b>
     </div>
     <table class="letter-head" cellpadding="0" cellspacing="0">
         <tr>
             <td id="no-border" class="align"><img src="{{ realpath(__DIR__ . '/../../..').'/public/img/doh.png' }}" width="100"></td>
-            <td width="80%" id="no-border">
-                <div class="align" style="margin-right:20px;font-size: 11pt">
+            <td width="100%" id="no-border">
+                <div class="align" style="font-size: 10.5pt">
                     Republic of the Philippines<br>
                     DEPARTMENT OF HEALTH<br>
                     <strong>CENTRAL VISAYAS CENTER for HEALTH DEVELOPMENT</strong><br>
@@ -128,7 +128,7 @@ $item_no = 1;
                     Official Website: http://www.ro7.doh.gov.ph Email Address: dohro7@gmail.com<br>
                 </div>
             </td>
-            <td id="no-border" class="align"></td>
+            <td id="no-border" class="align"><img src="{{ realpath(__DIR__ . '/../../..').'/public/img/f1.jpg' }}" width="100"></td>
         </tr>
     </table>
     <hr>
@@ -194,7 +194,7 @@ $item_no = 1;
                                         Designation
                                     </i>
                                 </td>
-                                <td id="no-border padding-bottom" width="10%">
+                                <td id="no-border padding-bottom" width="20%">
                                     <i>
                                         Employment Status
                                     </i>
