@@ -20,7 +20,31 @@ class CalendarController extends BaseController
     }
 
     public function calendarEvent($userid){
-        return \DB::connection('mysql')->select("call calendar($userid)");
+        $event = \DB::connection('mysql')->select("call calendar_mobile($userid)");
+        foreach($event as $row){
+
+            $period = new DatePeriod(
+                new DateTime($row->start),
+                new DateInterval('P1D'),
+                new DateTime($row->end."+1 day")
+            );
+
+            foreach ($period as $key => $value) {
+                $data[$value->format('Y-m-d')]["events"][] = $row;
+            }
+
+        }
+
+        $count = 0;
+        foreach($data as $row){
+            $result[] = [
+                "dates" => array_keys($data)[$count],
+                "events" => $row["events"]
+            ];
+            $count++;
+        }
+
+        return $result;
     }
 
     public function calendar_delete($event_id){

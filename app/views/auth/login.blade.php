@@ -14,10 +14,6 @@
     <link rel="icon" href="{{ asset('public/img/favicon.png') }}">
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
   </head>
   <body class="hold-transition login-page" style="background-color:#E8F5FD;">
     @if(Session::has('ok'))
@@ -59,7 +55,9 @@
                                 <input type="checkbox" name="remember"> Remember Me
                             </label>
                         </div>
+                        <!--
                         <a data-url="{{ asset('open/reset') }}" class="btn btn-info" id="btn_reset">Reset Password</a>
+                        -->
                     </div><!-- /.col -->
                     <div class="col-xs-4">
                         <button type="submit" class="btn btn-primary btn-block btn-flat">Sign In</button>
