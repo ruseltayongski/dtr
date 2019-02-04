@@ -22,7 +22,7 @@ class MobileController extends BaseController {
         $user = Users::where('username', '=', $username)->first();
         if(count($user) > 0){
             if(Auth::attempt(array('username' => $username, 'password' => $password)))
-                return InformationPersonal::where('userid','=',$username)->first(["fname","mname","lname","name_extension","section_id"]);
+                return InformationPersonal::where('userid','=',$username)->first(["userid","fname","mname","lname","name_extension","section_id"]);
             else
                 return "Invalid Account";
         } else {
