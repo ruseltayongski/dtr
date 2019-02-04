@@ -16,14 +16,17 @@
                 <img height="130" width="130" src="{{ asset('public/img/ro7.png') }}" />
             </div>
             <div class="col-sm-8">
-                Repulic of the Philippines <br />
-                <strong>DEPARTMENT OF HEALTH REGIONAL OFFICE NO. VII</strong><br />
-                Osmeña Boulevard, Cebu City, 6000 Philippines <br />
-                Regional Director's Office Tel. No. (032) 253-635-6355 Fax No. (032) 254-0109 <br />
-                Official Website:<a target="_blank" href="http://www.ro7.doh.gov.ph"><u>http://www.ro7.doh.gov.ph</u></a> Email Address: dohro7{{ '@' }}gmail.com
+                <div class="align small-text">
+                    Republic of the Philippines<br>
+                    DEPARTMENT OF HEALTH<br>
+                    <strong>CENTRAL VISAYAS CENTER for HEALTH DEVELOPMENT</strong><br>
+                    Osmeña Boulevard,Sambag II,Cebu City, 6000 Philippines<br>
+                    Regional Director’s Office Tel. No. (032) 253-6355 Fax No. (032) 254-0109<br>
+                    Official Website: http://www.ro7.doh.gov.ph Email Address: dohro7@gmail.com<br>
+                </div>
             </div>
             <div class="col-sm-2">
-                <img height="130" width="130" src="{{ asset('public/img/ro7.png') }}" />
+                <img height="130" width="130" src="{{ asset('public/img/f1.jpg') }}" />
             </div>
         </div>
         <div class="box box-info">
