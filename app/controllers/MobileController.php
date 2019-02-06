@@ -19,15 +19,10 @@ class MobileController extends BaseController {
         $username = Input::get("username");
         $password = Input::get("password");
 
-        $user = Users::where('username', '=', $username)->first();
-        if(count($user) > 0){
-            if(Auth::attempt(array('username' => $username, 'password' => $password)))
-                return InformationPersonal::where('userid','=',$username)->first(["userid","fname","mname","lname","name_extension","section_id"]);
-            else
-                return "Invalid Account";
-        } else {
-            return "Invalid Account";
-        }
+        if(Auth::attempt(array('username' => $username, 'password' => $password)))
+            return InformationPersonal::where('userid','=',$username)->first(["userid","fname","mname","lname","name_extension","section_id"]);
+        else
+            return "{}";
     }
 
     public function add_logs(){
