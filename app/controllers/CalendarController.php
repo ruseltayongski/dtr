@@ -15,8 +15,13 @@ class CalendarController extends BaseController
 
     public function calendar_holiday()
     {
-        $userid = Auth::user()->userid;
-        return \DB::connection('mysql')->select("call calendar($userid)");
+        if(Auth::user()->usertype){
+            return Calendars::get();
+        } else {
+            $userid = Auth::user()->userid;
+            return \DB::connection('mysql')->select("call calendar($userid)");
+        }
+
     }
 
     public function calendarEvent($userid){
