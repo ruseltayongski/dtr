@@ -14,7 +14,7 @@ class MobileController extends BaseController {
         }
         return 0;
     }
-
+    
     public function loginPis(){
         $username = Input::get("username");
         $password = Input::get("password");
@@ -33,29 +33,21 @@ class MobileController extends BaseController {
         $time = Input::get('time');
         $event = Input::get('event');
         $date = Input::get('date');
-        
+        $lat = Input::get('latitude');
+        $long = Input::get('longitude');
             
-            $base= $_POST['image'];
-            $posted_filename = $_POST['filename'];
-            $binary=base64_decode($base);
+        $base= $_POST['image'];
+        $posted_filename = $_POST['filename'];
+        $binary=base64_decode($base);
 
-           // $filename = $date."_".$event.$userid."_".date('Y-m-d mi');         
-            file_put_contents(public_path().'/logs_image/'.$posted_filename,$binary);
-            
-           // fwrite($file, $binary);
-            //fclose($file);
-
-            $query1 = "INSERT IGNORE INTO dtr_file(userid, datein, time, event,remark, created_at, updated_at,log_image,edited) VALUES";
-            $query1 .= "('" . $userid. "','". $date ."','" . $time . "','" . $event . "','MOBILE',NOW(),NOW(),'$posted_filename','0')";
-            
-            $st = $pdo->prepare($query1);
-            $ok = $st->execute();
-          
+        file_put_contents(public_path().'/logs_image/'.$posted_filename,$binary);
         
-        if($ok){
-            return 1;
-        }
-        return 0;
+        $query1 = "INSERT IGNORE INTO dtr_file(userid, datein, time, event,remark, created_at, updated_at,log_image,edited,latitude,longitude) VALUES";
+        $query1 .= "('" . $userid. "','". $date ."','" . $time . "','" . $event . "','MOBILE',NOW(),NOW(),'$posted_filename','0','$lat','$long')";
+        
+        $st = $pdo->prepare($query1);
+        $ok = $st->execute();
+        return 1;
     }
     public function add_cto()
     {

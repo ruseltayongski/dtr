@@ -927,7 +927,7 @@ function api_get_logs($userid,$date_from,$date_to) {
     curl_close($curl);
 
     $logs = json_decode($response);
-
+    
     $query1 = "INSERT IGNORE INTO dtr_file(userid, datein, time, event,remark, edited, created_at, updated_at) VALUES";
 
     foreach($logs as $log)

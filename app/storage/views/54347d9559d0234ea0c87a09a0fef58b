@@ -1,0 +1,70 @@
+<?php $__env->startSection('content'); ?>
+<div class="row">    
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading"><strong style="color: #f0ad4e;font-size:medium;">Mobile Logs</strong></div>
+                    <div class="panel-body">
+                        
+                        <div class="table-responsive">
+                            <table class="table table-list table-hover table-striped">
+                                <thead>
+                                <tr>
+                                    <th class="text-center">User ID</th>
+                                    <th class="text-center">Name </th>
+                                    <th class="text-center">Date</th>
+                                    <th class="text-center">Day</th>
+                                    <th class="text-center">Logs</th>
+                                    
+                                </tr>
+                                </thead>
+                                <tbody>
+                                    <?php for($r1 = $data['startday']; $r1 <= $data['endday']; $r1++): ?>
+
+                                        <?php
+                                            $r1 >= 1 && $r1 < 10 ? $zero='0' : $zero = '';
+                                            $datein = $data['day1'][0]."-".$data['day1'][1]."-".$zero.$r1;
+                                            $day_name = date('D', strtotime($datein));
+                                            $logs = DB::table('dtr_file')
+                                                    ->where('userid','=',$data['userid'])
+                                                    ->where('datein','=',$datein)
+                                                    ->where('remark','=','MOBILE')
+                                                    ->get();
+                                            $user = DB::table('users')->where('userid','=',$data['userid'])->first();
+                                        ?>
+
+                                        
+                                        <tr>
+                                            <td class="text-center" style="text-align: center; vertical-align: middle;"><a href="#user"  class="title-info"><?php echo $data['userid']; ?></a></td>
+                                            <td style="text-align: center; vertical-align: middle;"><?php echo $user->fname. " ".$user->lname; ?></td>
+                                            <td class="text-center" style="text-align: center; vertical-align: middle;" ><?php echo $datein; ?></td>
+                                            <td class="text-center" style="text-align: center; vertical-align: middle;" ><?php echo $day_name; ?></td>
+                                            <td class="text-center" >
+                                                <table class="table">
+                                                    <?php foreach($logs as $log): ?>
+                                                        <tr>
+                                                            <td><?php echo $log->time; ?></td>
+                                                            <td><?php echo $log->event; ?></td>
+                                                            <td class="text-center"><a href="<?php echo asset('public/logs_image/'.$log->log_image); ?>" target="_blank"><img src="<?php echo asset('public/logs_image/'.$log->log_image); ?>"></td>
+                                                        </tr>
+                                                    <?php endforeach; ?>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    <?php endfor; ?>
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.app', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
