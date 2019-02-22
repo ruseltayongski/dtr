@@ -347,7 +347,7 @@ class PDF extends FPDF
                                 }
                             }
                         }
-                        
+
                         if(!$am_in AND !$am_out AND $pm_in AND $pm_out ){
                             $hol = 0;
                             $hol = GET_HOLIDAY($datein);
@@ -356,14 +356,14 @@ class PDF extends FPDF
                                     $am_in = "HOLIDAY";
                                     $am_out = "";
                                     $e1 = "1";
-                                    
+
                                 }
                             }else{
                                 if($day_name != "Sat" AND $day_name != "Sun"){
                                     $am_in = "HALFDAY";
                                     $am_out = "";
                                     $e1 = "1";
-                                   
+
                                 }
                             }
                         }
@@ -384,8 +384,8 @@ class PDF extends FPDF
                                 }
                             }
                         }
-                        
-                        
+
+
                         $this->SetFont('Arial','',7);
                         $this->Cell(4,5,$r1,'');
                         $this->Cell(8,5,$day_name,'');
@@ -409,7 +409,7 @@ class PDF extends FPDF
                         } else {
                             $this->SetFont('Arial','',8);
                         }
-                        
+
                         $this->Cell($w[1],5,$am_out,'');
                         $this->SetTextColor(0,0,0);
 
@@ -692,7 +692,7 @@ exit();
 function get_logs($am_in,$am_out,$pm_in,$pm_out,$id,$date_from,$date_to)
 {
     $pdo = conn();
-    
+
 
     $query = "CALL GETLOGS('". $am_in ."','" . $am_out ."','" . $pm_in ."','" . $pm_out . "','" . $id . "','" . $date_from . "','" . $date_to ."')";
     try
@@ -890,7 +890,7 @@ function undertime($s_am_in,$s_pm_in,$am_in,$pm_in,$s_am_out,$s_pm_out,$am_out,$
 
 function GET_HOLIDAY($datein)
 {
-   
+
     $pdo = conn();
     $query = "";
     $query = "SELECT * FROM edited_logs WHERE datein = '$datein' AND holiday = 'B' AND userid = '001' GROUP BY remark ORDER BY datein";
@@ -907,10 +907,10 @@ function GET_HOLIDAY($datein)
         return count($row);
     }
     return 0;
-    
+
 }
 function api_get_logs($userid,$date_from,$date_to) {
-   
+
     $url = "http://192.168.100.81/dtr_api/logs/GetLogs";
 
     $data = [
@@ -918,7 +918,7 @@ function api_get_logs($userid,$date_from,$date_to) {
         "df" => $date_from,
         "dt" => $date_to
     ];
-    
+
     $curl = curl_init($url);
     curl_setopt($curl, CURLOPT_POST, true);
     curl_setopt($curl, CURLOPT_POSTFIELDS, http_build_query($data));

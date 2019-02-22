@@ -99,6 +99,59 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="panel panel-default">
+                            <div class="panel-heading"><strong style="color: #f0ad4e;font-size:medium;">Generate Tardiness</strong></div>
+                            <div class="panel-body">
+                                <form action="{{ asset('FPDF/print_all_tardiness.php') }}" method="POST" id="print_tardiness">
+                                    <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
+                                    <div class="table-responsive">
+                                        <table class="table">
+                                            <tr>
+                                                <td class="col-sm-3"><strong>Division </strong></td>
+                                                <td class="col-sm-1">: </td>
+                                                <td class="col-sm-9">
+                                                    <select name="division" id="" class="form-control">
+                                                        <option value="all">All</option>
+                                                        @foreach(Division::get() as $row)
+                                                            <option value="{{ $row->id }}">{{ $row->description }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="col-sm-3"><strong>Type </strong></td>
+                                                <td class="col-sm-1">: </td>
+                                                <td class="col-sm-9">
+                                                    <select class="form-control input-md" name="emptype">
+                                                        <option value="JO"><strong>Job Order</strong></option>
+                                                        <option value="REG"><strong>Regular</strong></option>
+                                                    </select>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="col-sm-3"><strong>Dates</strong></td>
+                                                <td class="col-sm-1"> :</td>
+                                                <td class="col-sm-9">
+                                                    <div class="input-group">
+                                                        <div class="input-group-addon">
+                                                            <i class="fa fa-calendar"></i>
+                                                        </div>
+                                                        <input type="text" class="form-control" id="inclusiveTardiness" name="filter_range" placeholder="Input date range here..." required>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                    <button type="submit"  class="btn-lg btn-success center-block col-sm-12" id="print_one_btn" data-loading-text="<i class='fa fa-refresh fa-spin'></i> Printing DTR">
+                                        <span class="glyphicon glyphicon-print" aria-hidden="true"></span> Print
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="panel panel-default">
                             <div class="panel-heading"><strong style="color: #f0ad4e;font-size:medium;">Upload time logs</strong></div>
                             <div class="panel-body">
                                 <form id="form_upload" action="{{ asset('admin/upload') }}" method="POST" enctype="multipart/form-data">
@@ -356,6 +409,7 @@
         $('#inclusive4').daterangepicker();
         $('#inclusive5').daterangepicker();
         $('#inclusive6').daterangepicker();
+        $('#inclusiveTardiness').daterangepicker();
         $('#print_all').submit(function(){
             $('#print').button('loading');
             $('#print_individual').modal({
@@ -366,6 +420,16 @@
         });
 
         $('#print_one').submit(function(){
+
+            $('#print_one_btn').button('loading');
+            $('#print_individual').modal({
+                backdrop: 'static',
+                keyboard: false,
+                show: true
+            });
+        });
+
+        $('#print_tardiness').submit(function(){
 
             $('#print_one_btn').button('loading');
             $('#print_individual').modal({
