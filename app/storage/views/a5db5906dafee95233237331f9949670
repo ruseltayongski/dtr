@@ -137,7 +137,7 @@ $item_no = 1;
             <td colspan="4" id="no-border">
                 <?php
                     $monthA=array(array("Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec")
-                    ,array("January","Febuary","March","April","May","June","July","August","September","October","November","December"));
+                    ,array("January","February","March","April","May","June","July","August","September","October","November","December"));
                     $m=date('M',strtotime($office_order->prepared_date));
                     for($i=0;$i<count($monthA[0]);$i++){
                         if($m==$monthA[0][$i]){
@@ -212,7 +212,7 @@ $item_no = 1;
                                     $duplicateName[$details->userid] = $details->userid;
                                 ?>
                                     <tr>
-                                        <td id="no-border"><?php echo $count.'. '.str_replace('\' ', '\'', ucwords(str_replace('\'', '\' ', strtolower($fname)))).' '.$mname.'. '.str_replace('\' ', '\'', ucwords(str_replace('\'', '\' ', strtolower($lname)))); ?></td>
+                                        <td id="no-border"><?php echo $count.' '.$fname.' '.$mname.'. '.$lname; ?></td>
                                         <td id="no-border"><?php if(isset(pdoController::designation_search($details->designation_id)['description'])): ?> <?php echo pdoController::designation_search($details->designation_id)['description']; ?> <?php endif; ?></td>
                                         <td id="no-border"><?php echo $details->job_status; ?></td>
                                     </tr>
@@ -316,11 +316,11 @@ $item_no = 1;
                         if( $row['division_id'] == '' ) {
                             $count++;
                             isset( $row['fname'] ) ? $fname = $row['fname'] : $fname = 'no fname';
-                            $row['mname'] != '' ? $mname = strtoupper($row['mname'][0]) : $mname = '';
+                            $row['mname'] != '' ? $mname = $row['mname'] : $mname = '';
                             isset( $row['lname'] ) ? $lname = $row['lname'] : $lname = 'no lname';
                 ?>                    
                             <tr>
-                                <td id="no-border"><?php echo $count.'. '.str_replace('\' ', '\'', ucwords(str_replace('\'', '\' ', strtolower($fname)))).' '.$mname.'. '.str_replace('\' ', '\'', ucwords(str_replace('\'', '\' ', strtolower($lname)))); ?></td>
+                                <td id="no-border"><?php echo $count.' '.fname.' '.$mname.' '.$lname; ?></td>
                                 <td id="no-border"><?php if(isset(pdoController::designation_search($row['designation_id'])['description'])): ?> <?php echo pdoController::designation_search($row['designation_id'])['description']; ?> <?php endif; ?></td>
                                 <td id="no-border"><?php echo $row['job_status']; ?></td>
                             </tr>

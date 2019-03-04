@@ -246,12 +246,15 @@
                                         <?php if($info->approved_by == 'Jaime S. Bernadas, MD, MGM, CESO III'): ?>
                                             <option value="Sophia M. Mancao, MD, DPSP">Sophia M. Mancao, MD, DPSP</option>
                                             <option value="Ruben S. Siapno,MD,MPH">Ruben S. Siapno,MD,MPH</option>
+                                            <option value="Ellenietta HMV N. Gamolo,MD,MPH,CESE">Ellenietta HMV N. Gamolo,MD,MPH,CESE</option>
                                         <?php elseif($info->approved_by == 'Sophia M. Mancao, MD, DPSP'): ?>
                                             <option value="Jaime S. Bernadas, MD, MGM, CESO III">Jaime S. Bernadas, MD, MGM, CESO III</option>
                                             <option value="Ruben S. Siapno,MD,MPH">Ruben S. Siapno,MD,MPH</option>
+                                            <option value="Ellenietta HMV N. Gamolo,MD,MPH,CESE">Ellenietta HMV N. Gamolo,MD,MPH,CESE</option>
                                         <?php elseif($info->approved_by == 'Ruben S. Siapno,MD,MPH'): ?>
                                             <option value="Jaime S. Bernadas, MD, MGM, CESO III">Jaime S. Bernadas, MD, MGM, CESO III</option>
                                             <option value="Sophia M. Mancao, MD, DPSP">Sophia M. Mancao, MD, DPSP</option>
+                                            <option value="Ellenietta HMV N. Gamolo,MD,MPH,CESE">Ellenietta HMV N. Gamolo,MD,MPH,CESE</option>
                                         <?php else: ?>
                                             <option value="Ellenietta HMV N. Gamolo,MD,MPH,CESE">Ellenietta HMV N. Gamolo,MD,MPH,CESE</option>
                                         <?php endif; ?>

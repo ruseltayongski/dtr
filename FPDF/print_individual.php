@@ -451,7 +451,11 @@ class PDF extends FPDF
                                 {
                                     $late_total = $late_total + $late;
                                 }
-                                $ut = undertime($s_am_in,$s_pm_in,$am_in,$pm_in,$s_am_out,$s_pm_out,$am_out,$pm_out,$datein);
+                                if($day_name == 'Mon'){
+                                    $ut = undertime($s_am_in,$s_pm_in,$am_in,$pm_in,$s_am_out,'05:00:00',$am_out,$pm_out,$datein);
+                                } else {
+                                    $ut = undertime($s_am_in,$s_pm_in,$am_in,$pm_in,$s_am_out,$s_pm_out,$am_out,$pm_out,$datein);
+                                }
                                 if($ut != '' or $ut != null)
                                 {
                                     $ut_total = $ut_total + $ut;
