@@ -9,8 +9,7 @@ require('html2pdf.php');
 if(isset($_POST['html']))
 {
     $pdf = new createPDF();
-    $pdf->run("<h1>Hello World!</h1>");
-    $pdf->run("<h1>Hello Universe!</h1>");
+    $pdf->run($_POST['html']);
 
     // output
     $pdf->Output();

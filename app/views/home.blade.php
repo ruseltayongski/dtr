@@ -109,10 +109,10 @@
                                                 <td class="col-sm-3"><strong>Division </strong></td>
                                                 <td class="col-sm-1">: </td>
                                                 <td class="col-sm-9">
-                                                    <select name="division" id="" class="form-control">
-                                                        <option value="all">All</option>
+                                                    <select name="division" id="tardinessDivision" class="form-control">
+                                                        <option value="all|All">All</option>
                                                         @foreach(Division::get() as $row)
-                                                            <option value="{{ $row->id }}">{{ $row->description }}</option>
+                                                            <option value="{{ $row->id.'|'.$row->description }}">{{ $row->description }}</option>
                                                         @endforeach
                                                     </select>
                                                 </td>
@@ -429,16 +429,6 @@
             });
         });
 
-        $('#print_tardiness').submit(function(){
-
-            $('#print_one_btn').button('loading');
-            $('#print_individual').modal({
-                backdrop: 'static',
-                keyboard: false,
-                show: true
-            });
-        });
-
         $('.change_sched').click(function(){
             $('#change_schedule').modal({
                 backdrop: 'static',
@@ -460,5 +450,6 @@
             $('.delete_all').modal('hide');
             $('#data_table').modal('show');
         });
+
     </script>
 @endsection

@@ -4,7 +4,37 @@ require('fpdf.php');
 ini_set('max_execution_time', 0);
 ini_set('memory_limit','1000M');
 ini_set('max_input_time','300000');
-$GLOBALS['rank'] = 0;
+
+$date_from = '';
+$date_to = '';
+$emptype = '';
+if(isset($_POST['filter_range']) and isset($_POST['emptype'])) {
+    $emptype = $_POST['emptype'];
+    $str = $_POST['filter_range'];
+    $temp1 = explode('-',$str);
+    $temp2 = array_slice($temp1, 0, 1);
+    $tmp = implode(',', $temp2);
+    $date_from = date('Y-m-d',strtotime($tmp));
+    $temp3 = array_slice($temp1, 1, 1);
+    $tmp = implode(',', $temp3);
+    $date_to = date('Y-m-d',strtotime($tmp));
+    $userid = null;
+    api_get_logs($userid,$date_from,$date_to);
+} else {
+    $pdf->SetFont('Arial','B',10);
+    $pdf->SetX(40);
+    $pdf->Cell(10,0,"Something went wrong. Go back to webpage",0,0,'C');
+    $pdf->Output();
+    exit();
+}
+
+if(explode('|',$_POST['division'])[0] == 'all')
+    $divisionQuery = "";
+else
+    $divisionQuery = "and p.division_id = ".explode('|',$_POST['division'])[0];
+
+$employeeList = userlist($emptype,$divisionQuery);
+
 class PDF extends FPDF
 {
     private $empname = "";
@@ -50,9 +80,8 @@ class PDF extends FPDF
         $tmp = implode(',', $temp3);
         $date_to = date('Y-m-d',strtotime($tmp));
         $this->SetFont('Arial','B',9);
-        $this->SetXY(0,40);
-        $this->Cell(210,10,'TARDINESS FROM '.strtoupper(date("F d,Y",strtotime($date_from))).' TO '.strtoupper(date("F d,Y",strtotime($date_to))),0,0,'C');
-
+        $this->SetXY(9,40);
+        $this->Cell(210,10,'('.explode('|',$_POST['division'])[1].') - '.'TARDINESS FROM '.strtoupper(date("F d,Y",strtotime($date_from))).' TO '.strtoupper(date("F d,Y",strtotime($date_to))),0,0,'L');
 
         // Line break
         $this->Ln(10);
@@ -82,8 +111,8 @@ class PDF extends FPDF
         if(isset($data["am_in"]) || isset($data["pm_in"]) || isset($data["late"])){
             $logs .= "        Day           AM IN            PM IN           LATE\n";
             for($j=0;$j<=count($data["am_in"]);$j++){
-                $day = $j+1;
                 if(isset($data["day_name"][$j]) && isset($data["late"][$j]) && !empty($data["late"][$j])){
+                    $day = $data["month_day_logs"][$j];
                     //NOTE: IF IT WAS SATURDAY AND SUNDAY THE WILL NOT APPEAR
                     if($day > 9){
                         $logs .= " ".$day."   ";
@@ -252,6 +281,8 @@ class PDF extends FPDF
             } else {
                 $records["month_of"] = date("M",strtotime($date_from)).' '. $day1[2].'-'.$day2[0];
                 if(isset($logs) and count($logs)) {
+                    unset($month_day_logs);
+                    $month_day_logs = array();
                     unset($am_in_logs);
                     $am_in_logs = array();
                     unset($am_out_logs);
@@ -283,7 +314,7 @@ class PDF extends FPDF
                             }
                         }
                         $day_name = date('D', strtotime($datein));
-                        if($day_name != "Sat" && $day_name != "Sun"){
+                        if($day_name != "Sat" && "Sun"){
                             if($datein == $log_date)
                             {
                                 $am_in = $log['am_in'];
@@ -355,8 +386,7 @@ class PDF extends FPDF
                                     } else {
                                         $late = late($s_am_in,$s_pm_in,$am_in,$pm_in,$log['datein']);
                                     }
-                                    if( $late != '' or $late != null )
-                                    {
+                                    if( $late != '' or $late != null ) {
                                         $late_total = $late_total + $late;
                                         $late_day_total++;
                                     }
@@ -480,6 +510,7 @@ class PDF extends FPDF
                                     }
                                 }
                             }
+                            $month_day_logs[] = $r1;
                             $day_name_logs[] = $day_name;
                             $am_in_logs[] = $am_in;
                             $am_out_logs[] = $am_out;
@@ -501,6 +532,7 @@ class PDF extends FPDF
                 $records["ut"] = $ut_logs;
                 $records["datein"] = $date_in_logs;
                 $records["day_name"] = $day_name_logs;
+                $records["month_day_logs"] = $month_day_logs;
             }
         }
 
@@ -688,36 +720,11 @@ class PDF extends FPDF
 // Page footer
 }
 
-
 $pdf = new PDF('P','mm','A4');
 $pdf->AliasNbPages();
 $pdf->AddPage();
 $pdf->SetFont('Arial','',12);
-$date_from = '';
-$date_to = '';
-$emptype = '';
-if(isset($_POST['filter_range']) and isset($_POST['emptype'])) {
-    $emptype = $_POST['emptype'];
-    $str = $_POST['filter_range'];
-    $temp1 = explode('-',$str);
-    $temp2 = array_slice($temp1, 0, 1);
-    $tmp = implode(',', $temp2);
-    $date_from = date('Y-m-d',strtotime($tmp));
-    $temp3 = array_slice($temp1, 1, 1);
-    $tmp = implode(',', $temp3);
-    $date_to = date('Y-m-d',strtotime($tmp));
-    $userid = null;
-    api_get_logs($userid,$date_from,$date_to);
-} else {
-    $pdf->SetFont('Arial','B',10);
-    $pdf->SetX(40);
-    $pdf->Cell(10,0,"Something went wrong. Go back to webpage",0,0,'C');
-    $pdf->Output();
-    exit();
-}
-
 $pdf->SetFont('Arial','',12);
-$employeeList = userlist($emptype);
 
 include('tayong_fpdf/tardiness.php');
 exit();
@@ -740,12 +747,13 @@ function get_logs($am_in,$am_out,$pm_in,$pm_out,$id,$date_from,$date_to)
     return $row;
 }
 
-function userlist($emptype)
+function userlist($emptype,$divisionQuery)
 {
     $pdo = conn();
     try {
-        $st = $pdo->prepare("SELECT DISTINCT userid,fname,lname,mname,sched FROM users WHERE usertype != '1' and emptype = :emptype ORDER BY lname");
-        //$st = $pdo->prepare("SELECT DISTINCT userid,fname,lname,mname FROM users WHERE usertype != '1' and userid !='Unknown User' ORDER BY lname ASC");
+        $st = $pdo->prepare("SELECT DISTINCT p.userid,p.fname,p.lname,p.mname,u.sched,d.description as division FROM dohdtr.users as u LEFT JOIN pis.personal_information as p on p.userid = u.userid
+                                      LEFT JOIN dts.division as d on d.id = p.division_id
+                                      WHERE u.usertype != '1' and u.emptype = :emptype ".$divisionQuery." ORDER BY p.lname");
         $st->bindParam(":emptype", $emptype);
         $st->execute();
         $row = $st->fetchAll(PDO::FETCH_ASSOC);

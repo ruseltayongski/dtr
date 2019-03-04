@@ -2,6 +2,7 @@
 
     $result = [];
     if(isset($employeeList) and count($employeeList) > 0) {
+        $GLOBALS['division'] = $employeeList[0]['division'];
         for($i = 0; $i < count($employeeList); $i++) {
             $name = $employeeList[$i]['lname'] . ', ' . $employeeList[$i]['fname'] . ' ' . $employeeList[$i]['mname'];
             $result[$i] = $pdf->simplifyDtr(strtoupper(utf8_encode($name)),$employeeList[$i]['userid'], $date_from,$date_to,$employeeList[$i]['sched']);

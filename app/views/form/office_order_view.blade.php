@@ -119,6 +119,7 @@
                                                     <option value="{{ $office_order->approved_by }}">{{ $office_order->approved_by }}</option>
                                                     @if($office_order->approved_by == 'Jaime S. Bernadas, MD, MGM, CESO III')
                                                         <option value="Ruben S. Siapno,MD,MPH">Ruben S. Siapno,MD,MPH</option>
+                                                        <option value="Ellenietta HMV N. Gamolo,MD,MPH,CESE">Ellenietta HMV N. Gamolo,MD,MPH,CESE</option>
                                                     @else
                                                         <option value="Ellenietta HMV N. Gamolo,MD,MPH,CESE">Ellenietta HMV N. Gamolo,MD,MPH,CESE</option>
                                                         <option value="Jaime S. Bernadas, MD, MGM, CESO III">Jaime S. Bernadas, MD, MGM, CESO III</option>
@@ -207,9 +208,9 @@
             if($("#subject").val() && $("#inclusive_name_p").val() && $("#inclusive1").val() && $("#area1").val() && $("#approved_by").val()){
                 if(!$("#textarea").val() || !$("#textarea1").val()){
                     Lobibox.alert('error', //AVAILABLE TYPES: "error", "info", "success", "warning"
-                            {
-                                msg: 'Please input all required field'
-                            });
+                        {
+                            msg: 'Please input all required field'
+                        });
                 }
             }
         }
