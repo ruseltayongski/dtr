@@ -208,9 +208,9 @@
             if($("#subject").val() && $("#inclusive_name_p").val() && $("#inclusive1").val() && $("#area1").val() && $("#approved_by").val()){
                 if(!$("#textarea").val() || !$("#textarea1").val()){
                     Lobibox.alert('error', //AVAILABLE TYPES: "error", "info", "success", "warning"
-                            {
-                                msg: 'Please input all required field'
-                            });
+                        {
+                            msg: 'Please input all required field'
+                        });
                 }
             }
         }

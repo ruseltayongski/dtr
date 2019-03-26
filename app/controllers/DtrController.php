@@ -50,25 +50,25 @@ class DtrController extends BaseController
                     try {
                         $employee = explode(',', $data[$i]);
                         
-                        $id = trim($employee[1], "\" ");
+                        $id = trim($employee[0], "\" ");
                         $id = ltrim($id, "\" ");
 
                         if ($id != 'Unknown User') {
                             //USERID
-                            $col1 = array_key_exists(1, $employee) == true ? trim($employee[1], "\" ") : null;
+                            $col1 = array_key_exists(0, $employee) == true ? trim($employee[0], "\" ") : null;
                            // $pass = Hash::make($col1);
                             //FIRSTNAME
-                            $f = array_key_exists(2, $employee) == true ? trim($employee[2], "\" ") : null;
+                            $f = array_key_exists(1, $employee) == true ? trim($employee[1], "\" ") : null;
                             //LASTNAME
-                            $l = array_key_exists(3, $employee) == true ? trim($employee[3], "\" ") : null;
+                            $l = array_key_exists(2, $employee) == true ? trim($employee[2], "\" ") : null;
                             //DATEIN
-                            $col2 = array_key_exists(5, $employee) == true ? trim($employee[5], "\" ") : null;
+                            $col2 = array_key_exists(4, $employee) == true ? trim($employee[4], "\" ") : null;
                             //TIMEIN
-                            $col3 = array_key_exists(6, $employee) == true ? trim($employee[6], "\" ") : null;
+                            $col3 = array_key_exists(5, $employee) == true ? trim($employee[5], "\" ") : null;
                             //EVENT
-                            $col4 = array_key_exists(7, $employee) == true ? trim($employee[7], "\" ") : null;
+                            $col4 = array_key_exists(6, $employee) == true ? trim($employee[6], "\" ") : null;
                             //REMARKS
-                            $col5 = array_key_exists(9, $employee) == true ? trim($employee[9], "\" ") : null;
+                            $col5 = array_key_exists(8, $employee) == true ? trim($employee[8], "\" ") : null;
                             
                             $col6 = "0";
                             //$query1 = "INSERT IGNORE INTO dtr_file(userid, datein, time, event,remark, edited, created_at, updated_at) VALUES";
@@ -105,7 +105,6 @@ class DtrController extends BaseController
 
                 $query5 .= "('','','',NOW(),NOW())";
 
-                return $query1;
                 $st = $pdo->prepare($query1);
                 $st->execute();
 

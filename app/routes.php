@@ -110,11 +110,6 @@ Route::match(array('GET','POST'),'/personal/add/logs', 'PersonalController@add_l
 Route::match(['GET','POST'],'create/absent/description', 'PersonalController@absent_description');
 Route::post('delete/user/created/logs','PersonalController@delete_created_logs');
 
-//TARDINESS
-Route::match(['GET','POST'],'tardiness', 'TardinessController@tardiness');
-Route::match(['GET','POST'],'tardiness_generate', 'TardinessController@tardiness_generate');
-Route::match(['GET','POST'],'tardiness_report', 'TardinessController@tardiness_report');
-Route::get('tardiness_count', 'TardinessController@tardiness_count');
 
 //DOCUMENTS
 Route::match(array('GET','POST'),'form/leave','DocumentController@leave');
@@ -127,13 +122,8 @@ Route::post('leave/update/save', 'DocumentController@save_edit_leave');
 Route::get('leave/delete/{id}', 'DocumentController@delete_leave');
 
 
-
-
 //ADMIN TRACKED DOCUMENTS
-
 Route::get('tracked/so', 'DocumentController@so_tracking');
-
-
 
 Route::get('list/pdf', 'DocumentController@list_print');
 

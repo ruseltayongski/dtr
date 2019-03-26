@@ -32,6 +32,7 @@ class Employee extends Migration {
 			$table->index('mname');
 			$table->index('emptype');
 			$table->unique('unique_row');
+			$table->string('loc');
 			$table->rememberToken();
 			$table->timestamps();
 		});
