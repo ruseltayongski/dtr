@@ -47,6 +47,7 @@
                                 <div class="col-sm-9">
                                     <select class="form-control" name="emptype" required>
                                         <option value="JO">Job Order</option>
+                                        <option value="REG">Regular</option>
                                     </select>
                                 </div>
                             </div>
