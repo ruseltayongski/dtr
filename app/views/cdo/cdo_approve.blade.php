@@ -116,10 +116,10 @@
                 $(".pending").html(pendingCount);
                 $(".approve").html(approveCount);
 
-
                 Lobibox.notify('error',{
                     msg:'CTO CANCELED!'
                 });
+
             },700);
         });
     }

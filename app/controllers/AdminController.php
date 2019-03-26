@@ -21,44 +21,41 @@ class AdminController extends BaseController
     public function index()
     {
         if(Auth::check()){
-            if(Auth::user()->usertype == '1')
-            {
+            if(Auth::user()->usertype == '1') {
                 return Redirect::to('home');
-            } else {
+            }
+            elseif(Auth::user()->usertype == '2'){
+                return Redirect::to('personal/index');
+            }
+            elseif(Auth::user()->usertype == '3'){
+                return Redirect::to('negrosHomePage');
+            }
+            else {
                 return Redirect::to('personal/index');
             }
         }
         if(!Auth::check() and Request::method() == 'GET') {
             return View::make('auth.login');
         }
-
         if(Request::method() == 'POST') {
             $username = Input::get('username');
             $password = Input::get('password');
-            $user = Users::where('username', '=', $username)
-                        ->where('password', '=', $password)
-                        ->first();
 
-            if(isset($user) and count($user) > 0) {
-                if (Auth::loginUsingId($user->id)) {
-                    if (Auth::user()->usertype == '1') {
-                        return Redirect::to('home');
-                    } else {
-                        return Redirect::to('personal/index');
-                    }
-                } else {
-                    return Redirect::to('/')->with('ops', 'Invalid Login')->with('username',$username);
+            if(Auth::attempt(array('username' => $username, 'password' => $password))) {
+                if(Auth::user()->usertype == '1') {
+                    return Redirect::to('home');
+                }
+                elseif(Auth::user()->usertype == '2'){
+                    return Redirect::to('personal/index');
+                }
+                elseif(Auth::user()->usertype == '3'){
+                    return Redirect::to('negrosHomePage');
+                }
+                else {
+                    return Redirect::to('personal/index');
                 }
             } else {
-                if(Auth::attempt(array('username' => $username, 'password' => $password))) {
-                    if(Auth::user()->usertype == '1') {
-                        return Redirect::to('home');
-                    } else {
-                        return Redirect::to('personal/index');
-                    }
-                } else {
-                    return Redirect::to('/')->with('ops','Invalid Login')->with('username',$username);
-                }
+                return Redirect::to('/')->with('ops','Invalid Login')->with('username',$username);
             }
         }
     }
@@ -195,20 +192,41 @@ class AdminController extends BaseController
     {
         if(Request::method() == "GET") {
             $sched = WorkScheds::all();
-            return View::make('users.adduser')->with('scheds',$sched);
+            $lastUserid = User::where('userid','REGEXP','^[0-9]+$')
+                ->where(DB::raw("LENGTH(userid)"),'<=',4)
+                ->orderBy(DB::raw("CONVERT(SUBSTRING_INDEX(userid,'-',-1),UNSIGNED INTEGER)"),'desc')
+                ->where('emptype','=','JO')
+                ->first()->userid;
+
+            return View::make('users.adduser',[
+                "lastUserid" => $lastUserid
+            ])->with('scheds',$sched);
         }
-        $user = new Users();
-        $user->userid = Input::get('userid');
-        $user->fname = Input::get('fname');
-        $user->lname = Input::get('lname');
-        $user->sched = Input::get('sched');
-        $user->username = Input::get('userid');
-        $user->password = Hash::make('123');
-        $user->emptype = Input::get('emptype');
-        $user->usertype = Input::get('usertype');
-        $user->unique_row = Input::get('userid');
-        $user->save();
-        return Redirect::to('/');
+
+        $check = User::where("userid","=",Input::get('userid'))->first();
+        if(isset($check)){
+            return Redirect::to('add/user')->with('useridExist',"Userid:".Input::get('userid')." Existed!");
+        } else{
+            $user = new Users();
+            $user->userid = Input::get('userid');
+            $user->fname = Input::get('fname');
+            $user->lname = Input::get('lname');
+            $user->sched = Input::get('sched');
+            $user->username = Input::get('userid');
+            $user->password = Hash::make('123');
+            $user->emptype = Input::get('emptype');
+            if(Auth::user()->usertype == 1) { //CEBU ADMIN
+                $usertype = 0; //CEBU USER
+            }
+            elseif(Auth::user()->usertype == 3) { //NEGROS ADMIN
+                $usertype = 2; // NEGROS USER
+            }
+            $user->usertype = $usertype;
+            $user->unique_row = Input::get('userid');
+            $user->save();
+            return Redirect::to('/');
+        }
+
     }
 
     public function flexi_group()

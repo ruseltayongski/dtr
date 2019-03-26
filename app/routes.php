@@ -305,5 +305,14 @@ Route::post('mobile/add-cto','MobileController@add_cto');
 Route::post('mobile/add-so','MobileController@add_so');
 Route::post('mobile/add-leave','MobileController@add_leave');
 
+//NEGROS
+Route::get('negrosHomePage',array('before' => 'auth','uses' => 'NegrosController@negrosHomePage'));
+Route::match(array('GET','POST'), 'negros/upload', 'NegrosController@upload');
+
+
+Route::get('tayong', array('before' => 'rusel', function()
+{
+    return 'You are over 200 years old!';
+}));
 
 ?>

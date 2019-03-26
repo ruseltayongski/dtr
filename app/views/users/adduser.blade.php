@@ -14,7 +14,7 @@
                             <div class="form-group">
                                 <label for="inputEmail3" class="col-sm-3 control-label">Userid</label>
                                 <div class="col-sm-9">
-                                    <input type="text" class="form-control" id="inputEmail3" name="userid" placeholder="Userid" required>
+                                    <input type="text" class="form-control" id="inputEmail3" value="{{ str_pad($lastUserid+1, 4, '0', STR_PAD_LEFT) }}" name="userid" placeholder="Userid">
                                 </div>
                             </div>
                             <div class="form-group">
@@ -43,12 +43,10 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="inputEmail3" class="col-sm-3 control-label">Employee type</label>
+                                <label for="inputEmail3" class="col-sm-3 control-label">Job Status</label>
                                 <div class="col-sm-9">
                                     <select class="form-control" name="emptype" required>
-                                        <option selected disabled>Select type</option>
                                         <option value="JO">Job Order</option>
-                                        <option value="REG">Regular</option>
                                     </select>
                                 </div>
                             </div>
@@ -69,6 +67,12 @@
 @section('js')
     @parent
     <script>
+        @if(Session::has('useridExist'))
+        Lobibox.notify('error', {
+            position: 'center top',
+            msg: "<?php echo Session::get('useridExist'); ?>"
+        });
+        @endif
 
         var input = $('#input-a');
         input.clockpicker({

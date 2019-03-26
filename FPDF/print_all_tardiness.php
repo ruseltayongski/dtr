@@ -273,8 +273,9 @@ class PDF extends FPDF
             $s_am_out =  $sched[0]["am_out"];
             $s_pm_in = $sched[0]["pm_in"];
             $s_pm_out = $sched[0]["pm_out"];
-
             $logs = get_logs($s_am_in,$s_am_out,$s_pm_in,$s_pm_out,$userid,$date_from,$date_to);
+            echo json_encode($logs);
+            break;
             $records["logs"] = $logs;
             if(count($logs) <= 0) {
                 //include_once('empty_dtr.php');
@@ -314,7 +315,7 @@ class PDF extends FPDF
                             }
                         }
                         $day_name = date('D', strtotime($datein));
-                        if($day_name != "Sat" && "Sun"){
+                        if($day_name != "Sat" && $day_name != "Sun"){
                             if($datein == $log_date)
                             {
                                 $am_in = $log['am_in'];
@@ -734,7 +735,7 @@ function get_logs($am_in,$am_out,$pm_in,$pm_out,$id,$date_from,$date_to)
 {
     $pdo = conn();
 
-    $query = "CALL GETLOGS('". $am_in ."','" . $am_out ."','" . $pm_in ."','" . $pm_out . "','" . $id . "','" . $date_from . "','" . $date_to ."')";
+    $query = "CALL test('". $am_in ."','" . $am_out ."','" . $pm_in ."','" . $pm_out . "','" . $id . "','" . $date_from . "','" . $date_to ."')";
     try
     {
         $st = $pdo->prepare($query);
@@ -753,7 +754,9 @@ function userlist($emptype,$divisionQuery)
     try {
         $st = $pdo->prepare("SELECT DISTINCT p.userid,p.fname,p.lname,p.mname,u.sched,d.description as division FROM dohdtr.users as u LEFT JOIN pis.personal_information as p on p.userid = u.userid
                                       LEFT JOIN dts.division as d on d.id = p.division_id
-                                      WHERE u.usertype != '1' and u.emptype = :emptype ".$divisionQuery." ORDER BY p.lname");
+                                      WHERE u.usertype != '1' and u.emptype = :emptype ".$divisionQuery."
+                                      AND u.userid = 0454
+                                      ORDER BY p.lname");
         $st->bindParam(":emptype", $emptype);
         $st->execute();
         $row = $st->fetchAll(PDO::FETCH_ASSOC);
@@ -939,7 +942,7 @@ function GET_HOLIDAY($datein)
 }
 function api_get_logs($userid,$date_from,$date_to) {
 
-    $url = "http://192.168.100.81/dtr_api/logs/GetLogs";
+    /*$url = "http://192.168.100.81/dtr_api/logs/GetLogs";
 
     $data = [
         "userid" => $userid,
@@ -966,7 +969,7 @@ function api_get_logs($userid,$date_from,$date_to) {
 
     $pdo = conn();
     $st = $pdo->prepare($query1);
-    $st->execute();
+    $st->execute();*/
 }
 
 ?>

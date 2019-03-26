@@ -141,7 +141,7 @@
                                             </tr>
                                         </table>
                                     </div>
-                                    <button type="submit"  class="btn-lg btn-success center-block col-sm-12" id="print_one_btn" data-loading-text="<i class='fa fa-refresh fa-spin'></i> Printing DTR">
+                                    <button type="submit" class="btn-lg btn-success center-block col-sm-12" id="print_tardiness_btn" data-loading-text="<i class='fa fa-refresh fa-spin'></i> Printing Tardiness">
                                         <span class="glyphicon glyphicon-print" aria-hidden="true"></span> Print
                                     </button>
                                 </form>
@@ -422,6 +422,15 @@
         $('#print_one').submit(function(){
 
             $('#print_one_btn').button('loading');
+            $('#print_individual').modal({
+                backdrop: 'static',
+                keyboard: false,
+                show: true
+            });
+        });
+
+        $('#print_tardiness').submit(function(){
+            $('#print_tardiness_btn').button('loading');
             $('#print_individual').modal({
                 backdrop: 'static',
                 keyboard: false,

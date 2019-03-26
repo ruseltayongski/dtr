@@ -60,29 +60,32 @@ Route::filter('auth', function()
 });
 
 Route::filter('admin' ,function(){
-	if(Auth::check()) {
-		if(!Auth::user()->usertype == 1) {
-			return Redirect::to('/');
-		}
-	} else {
-		return Redirect::to('/');
+	if(Auth::check() && Auth::user()->usertype == 1) {
+        return Redirect::to('/index');
 	}
 });
 
-Route::filter('personal', function(){
+Route::filter('negros' ,function(){
+    return 'rtayong';
+    if(Auth::check() && Auth::user()->usertype == 3) {
+        return Redirect::to('/negrosHomePage');
+    }
+});
 
-    if(Auth::check() AND Auth::user()->usertype == 0){
+Route::filter('personal', function(){
+    if(Auth::check() AND (Auth::user()->usertype == 0 || Auth::user()->usertype == 2) ){
         if(Auth::user()->pass_change == NULL){
             return Redirect::to('resetpass')->with('pass_change','You must change your password for security after your first log in or resseting password');
         }
     }
-	if(Auth::check() and isset(Auth::user()->userid)) {
-		if(!Auth::user()->usertype == 0) {
-			return Redirect::to('/');
-		}
-	} else {
-		return Redirect::to('/');
-	}
+});
+
+Route::filter('rusel', function()
+{
+    if (Input::get('age') < 200)
+    {
+        return Redirect::to('home');
+    }
 });
 
 Route::filter('auth.basic', function()

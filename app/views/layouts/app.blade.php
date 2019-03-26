@@ -38,7 +38,7 @@
     <link href="{{ asset('public/assets/css/ie10-viewport-bug-workaround.css') }}" rel="stylesheet">
     <!-- Custom styles for this template -->
     <link href="{{ asset('public/assets/css/style.css') }}" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="{{ asset('public/plugin/Lobibox old/lobibox.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ asset('public/plugin/Lobibox new/css/lobibox.css') }}" />
     
     <link href="{{ asset('public/plugin/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css') }}" rel="stylesheet">
     <!-- bootstrap datepicker -->
@@ -92,8 +92,15 @@
             <span class="title-info">Welcome,</span> <span class="title-desc">{{ Auth::user()->fname }} {{ Auth::user()->lname }}</span>
         </div>
         <div class="col-md-4">
-            <span class="title-info">Section:</span>
+            <span class="title-info">Location:</span>
             <span class="title-desc">
+                @if(Auth::user()->usertype == 0 || Auth::user()->usertype == 1)
+                    Cebu
+                @elseif(Auth::user()->usertype == 2 || Auth::user()->usertype == 3)
+                    Negros
+                @elseif(Auth::user()->usertype == 4 || Auth::user()->usertype == 5)
+                    Bohol
+                @endif
             </span>
         </div>
         <div class="col-md-4">
@@ -122,6 +129,10 @@
                 @include('layouts.admin-menu')
             @elseif(Auth::user()->usertype == "0")
                 @include('layouts.personal')
+            @elseif(Auth::user()->usertype == "2")
+                @include('layouts.personal')
+            @elseif(Auth::user()->usertype == "3")
+                @include('layouts.negros-menu-admin')
             @endif
         </div><!--/.nav-collapse -->
     </div>
@@ -145,7 +156,7 @@
 <!-- DATE RANGE SELECT -->
 <script src="{{ asset('public/plugin/daterangepicker/moment.min.js') }}"></script>
 <script src="{{ asset('public/plugin/daterangepicker/daterangepicker.js') }}"></script>
-<script src="{{ asset('public/plugin/Lobibox old/Lobibox.js') }}"></script>
+<script src="{{ asset('public/plugin/Lobibox new/js/Lobibox.js') }}"></script>
 <script src="{{ asset('public/assets/js/jquery-validate.js') }}"></script>
 <script src="{{ asset('public/assets/js/bootstrap.min.js') }}"></script>
 <script src="{{ asset('public/assets/datepicer/js/bootstrap-datepicker.js') }}"></script>

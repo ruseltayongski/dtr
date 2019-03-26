@@ -33,13 +33,12 @@
         
       <form role="form" method="POST" action="{{ asset('/') }}">
           <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
-          <p class="has-feedback text-center">
-              @if(Session::has('ops'))
-                  {{ Session::get('ops') }}
-              @endif
-          </p>
           <div class="login-box-body">
-            <p class="login-box-msg">Sign in to start your session</p>        
+              @if(Session::has('ops'))
+                  <div class="has-feedback text-center alert-danger">
+                      {{ Session::get('ops') }}
+                  </div><br>
+              @endif
               <div class="form-group has-feedback {{ Session::has('ops') ? ' has-error' : '' }}">
                 <input id="username" value="@if(Session::has('username')){{ Session::get('username') }}@endif" type="text" placeholder="Login using your ID No." class="form-control" name="username">
                 <span class="glyphicon glyphicon-user form-control-feedback"></span>
