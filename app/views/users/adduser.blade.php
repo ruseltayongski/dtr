@@ -33,7 +33,7 @@
                                 <label for="inputEmail3" class="col-sm-3 control-label">Work Schedule</label>
                                 <div class="col-sm-9">
                                     <select class="form-control" name="sched" required>
-                                        <option selected disabled>Select Schedule</option>
+                                        <option value="">Select Schedule</option>
                                         @if(isset($scheds) and count($scheds) > 0)
                                             @foreach($scheds as $sched)
                                                 <option value="{{ $sched->id }}">{{ $sched->description }}</option>
