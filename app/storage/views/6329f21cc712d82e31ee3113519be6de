@@ -57,6 +57,7 @@
                                                 <tr>
                                                     <th class="text-center">User ID</th>
                                                     <th class="text-center">Name </th>
+                                                    <th class="text-center">Job Status </th>
                                                     <th class="text-center">Work Schedule</th>
                                                 </tr>
                                                 </thead>
@@ -65,6 +66,9 @@
                                                     <tr>
                                                         <td class="text-center"><a href="#user" data-id="<?php echo $user->userid; ?>"  class="title-info"><?php echo $user->userid; ?></a></td>
                                                         <td class="text-center"><a href="#user" data-id="<?php echo $user->id; ?>" data-link="<?php echo asset('user/edit'); ?>" class="text-bold"><?php echo $user->fname ." ". $user->mname." ".$user->lname; ?></a></td>
+                                                        <td class="text-center">
+                                                            <span class="text-bold text-success"><?php echo $user->emptype; ?></span>
+                                                        </td>
                                                         <td class="text-center">
                                                             <span class="text-bold"><?php echo $user->description; ?></span>
                                                         </td>

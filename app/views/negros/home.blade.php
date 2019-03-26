@@ -60,6 +60,7 @@
                                                 <tr>
                                                     <th class="text-center">User ID</th>
                                                     <th class="text-center">Name </th>
+                                                    <th class="text-center">Job Status </th>
                                                     <th class="text-center">Work Schedule</th>
                                                 </tr>
                                                 </thead>
@@ -68,6 +69,9 @@
                                                     <tr>
                                                         <td class="text-center"><a href="#user" data-id="{{ $user->userid }}"  class="title-info">{{ $user->userid }}</a></td>
                                                         <td class="text-center"><a href="#user" data-id="{{ $user->id }}" data-link="{{ asset('user/edit') }}" class="text-bold">{{ $user->fname ." ". $user->mname." ".$user->lname }}</a></td>
+                                                        <td class="text-center">
+                                                            <span class="text-bold text-success">{{ $user->emptype }}</span>
+                                                        </td>
                                                         <td class="text-center">
                                                             <span class="text-bold">{{ $user->description }}</span>
                                                         </td>
