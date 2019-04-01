@@ -711,7 +711,7 @@ function userlist($emptype)
 {
     $pdo = conn();
     try {
-        $st = $pdo->prepare("SELECT DISTINCT userid,fname,lname,mname,sched FROM users  WHERE usertype != '1' and emptype = :emptype ORDER BY lname ASC");
+        $st = $pdo->prepare("SELECT DISTINCT userid,fname,lname,mname,sched FROM users  WHERE usertype = '0' and emptype = :emptype ORDER BY lname ASC");
         //$st = $pdo->prepare("SELECT DISTINCT userid,fname,lname,mname FROM users WHERE usertype != '1' and userid !='Unknown User' ORDER BY lname ASC");
         $st->bindParam(":emptype", $emptype);
         $st->execute();
