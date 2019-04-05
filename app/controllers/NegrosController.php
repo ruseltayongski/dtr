@@ -132,4 +132,8 @@ class NegrosController extends BaseController
             }
         }
     }
+
+    public function test(){
+        return 'negrosTest!';
+    }
 }
