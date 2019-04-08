@@ -21,7 +21,7 @@ class AdminController extends BaseController
     public function index()
     {
         if(Auth::check()){
-            if(Auth::user()->usertype == '0'){
+            if(Auth::user()->usertype == '0' || Auth::user()->usertype == '2'){
                 return Redirect::to('personal/index');
             }
             elseif(Auth::user()->usertype == '1') {
@@ -39,11 +39,11 @@ class AdminController extends BaseController
             $password = Input::get('password');
 
             if(Auth::attempt(array('username' => $username, 'password' => $password))) {
-                if(Auth::user()->usertype == '1') {
-                    return Redirect::to('home');
-                }
-                elseif(Auth::user()->usertype == '2'){
+                if(Auth::user()->usertype == '0' || Auth::user()->usertype == '2'){
                     return Redirect::to('personal/index');
+                }
+                elseif(Auth::user()->usertype == '1') {
+                    return Redirect::to('home');
                 }
                 elseif(Auth::user()->usertype == '3'){
                     return Redirect::to('negrosHomePage');
