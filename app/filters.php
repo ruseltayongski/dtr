@@ -65,13 +65,6 @@ Route::filter('admin' ,function(){
 	}
 });
 
-Route::filter('negros' ,function(){
-    return 'rtayong';
-    if(Auth::check() && Auth::user()->usertype == 3) {
-        return Redirect::to('/negrosHomePage');
-    }
-});
-
 Route::filter('personal', function(){
     if(Auth::check() AND (Auth::user()->usertype == 0 || Auth::user()->usertype == 2) ){
         if(Auth::user()->pass_change == NULL){
@@ -80,13 +73,10 @@ Route::filter('personal', function(){
     }
 });
 
-Route::filter('rusel', function()
-{
-    if (Input::get('age') < 200)
-    {
-        return Redirect::to('home');
-    }
+Route::filter('negros' ,function(){
+    //return 'negros filter';
 });
+
 
 Route::filter('auth.basic', function()
 {

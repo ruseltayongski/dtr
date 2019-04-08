@@ -330,7 +330,7 @@ class DocumentController extends BaseController
 
         Session::put('keyword',Input::get('keyword'));
         $keyword = Session::get('keyword');
-        if(Auth::user()->usertype){
+        if(Auth::user()->usertype == 1 || Auth::user()->usertype == 3 || Auth::user()->usertype == 5){
             $office_order = OfficeOrders::where(function($q) use ($keyword){
                     $q->where('route_no','like',"%$keyword%")
                         ->orwhere('subject','like',"%$keyword%");
