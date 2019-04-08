@@ -21,7 +21,7 @@
                                                 <button type="submit" class="btn btn-primary" id="print" data-loading-text="<i class='fa fa-refresh fa-spin'></i> Printing DTR">
                                                     <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Search
                                                 </button>
-                                                @if(!Auth::user()->usertype)
+                                                @if(Auth::user()->usertype == 0 || Auth::user()->usertype == 2 || Auth::user()->usertype == 4)
                                                     <a href="#document_form" data-link="{{ asset('form/sov1') }}" class="btn btn-success" data-dismiss="modal" data-backdrop="static" data-toggle="modal" data-target="#document_form" style="background-color:#9C8AA5;color: white;"><i class="fa fa-plus"></i> Create new</a>
                                                 @endif
                                             </form>

@@ -66,7 +66,6 @@ Route::filter('admin' ,function(){
 });
 
 Route::filter('personal', function(){
-    return 'rtayong';
     if(Auth::check() AND (Auth::user()->usertype == 0 || Auth::user()->usertype == 2) ){
         if(Auth::user()->pass_change == NULL){
             return Redirect::to('resetpass')->with('pass_change','You must change your password for security after your first log in or resseting password');
