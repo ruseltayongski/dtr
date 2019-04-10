@@ -127,12 +127,10 @@
         <div id="navbar" class="navbar-collapse collapse">
             <?php if(Auth::user()->usertype == "1"): ?>
                 <?php echo $__env->make('layouts.admin-menu', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
-            <?php elseif(Auth::user()->usertype == "0"): ?>
+            <?php elseif(Auth::user()->usertype == "0" || Auth::user()->usertype == '2' || Auth::user()->usertype == '4'): ?>
                 <?php echo $__env->make('layouts.personal', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
-            <?php elseif(Auth::user()->usertype == "2"): ?>
-                <?php echo $__env->make('layouts.personal', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
-            <?php elseif(Auth::user()->usertype == "3"): ?>
-                <?php echo $__env->make('layouts.negros-menu-admin', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+            <?php elseif(Auth::user()->usertype == "3" || Auth::user()->usertype == '5'): ?>
+                <?php echo $__env->make('layouts.menu-sub-admin', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
             <?php endif; ?>
         </div><!--/.nav-collapse -->
     </div>

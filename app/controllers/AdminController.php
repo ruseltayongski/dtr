@@ -21,14 +21,14 @@ class AdminController extends BaseController
     public function index()
     {
         if(Auth::check()){
-            if(Auth::user()->usertype == '0' || Auth::user()->usertype == '2'){
+            if(Auth::user()->usertype == '0' || Auth::user()->usertype == '2' || Auth::user()->usertype == '4'){
                 return Redirect::to('personal/index');
             }
             elseif(Auth::user()->usertype == '1') {
                 return Redirect::to('home');
             }
-            elseif(Auth::user()->usertype == '3'){
-                return Redirect::to('negrosHomePage');
+            elseif(Auth::user()->usertype == '3' || Auth::user()->usertype == '5'){
+                return Redirect::to('subHome');
             }
         }
         if(!Auth::check() and Request::method() == 'GET') {
@@ -39,14 +39,14 @@ class AdminController extends BaseController
             $password = Input::get('password');
 
             if(Auth::attempt(array('username' => $username, 'password' => $password))) {
-                if(Auth::user()->usertype == '0' || Auth::user()->usertype == '2'){
+                if(Auth::user()->usertype == '0' || Auth::user()->usertype == '2' || Auth::user()->usertype == '4'){
                     return Redirect::to('personal/index');
                 }
                 elseif(Auth::user()->usertype == '1') {
                     return Redirect::to('home');
                 }
-                elseif(Auth::user()->usertype == '3'){
-                    return Redirect::to('negrosHomePage');
+                elseif(Auth::user()->usertype == '3' || Auth::user()->usertype == '5'){
+                    return Redirect::to('subHome');
                 }
             } else {
                 return Redirect::to('/')->with('ops','Invalid Login')->with('username',$username);
