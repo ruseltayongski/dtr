@@ -11,13 +11,6 @@ ini_set('memory_limit','1000M');
 ini_set('max_input_time','300000');
 class AdminController extends BaseController
 {
-    public function __construct()
-    {
-        if(Auth::check())
-        {
-            return Redirect::to('/');
-        }
-    }
     public function index()
     {
         if(Auth::check()){
