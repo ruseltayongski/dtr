@@ -206,9 +206,9 @@ $item_no = 1;
         //if(!array_key_exists($details->userid,$duplicateName))
         $count++;
 
-        isset( $details->fname ) ? $fname = $details->fname : $fname = 'no fname';
+        isset( $details->fname ) ? $fname = $details->fname : $fname = 'no fname in pis';
         $details->mname != '' ? $mname = strtoupper($details->mname[0]) : $mname = '';
-        isset( $details->lname ) ? $lname = $details->lname : $details = 'no lname';
+        isset( $details->lname ) ? $lname = $details->lname : $lname = 'no lname in pis';
         $duplicateName[$details->userid] = $details->userid;
         ?>
         <tr>
