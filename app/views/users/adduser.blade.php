@@ -115,6 +115,12 @@
             $(this).datepicker("clearDates");
         });
 
+        @if(Session::has('userAdded'))
+        Lobibox.notify('success',{
+            msg:"<?php echo Session::get('userAdded'); ?>"
+        });
+        @endif
+
     </script>
 
 @endsection

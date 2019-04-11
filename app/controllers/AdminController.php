@@ -208,10 +208,14 @@ class AdminController extends BaseController
             elseif(Auth::user()->usertype == 3) { //NEGROS ADMIN
                 $usertype = 2; // NEGROS USER
             }
+            elseif(Auth::user()->usertype == 5) { //BOHOL ADMIN
+                $usertype = 4; // BOHOL USER
+            }
             $user->usertype = $usertype;
             $user->unique_row = Input::get('userid');
             $user->save();
-            return Redirect::to('/');
+
+            return Redirect::back()->with('userAdded','Added User');
         }
 
     }

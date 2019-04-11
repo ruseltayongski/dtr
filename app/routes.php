@@ -209,9 +209,8 @@ Route::get('open/reset','RessetPasswordController@reset');
 
 //TEST ROUTES
 Route::get('phpinfo', function() {
-	return phpinfo();
+	return json_encode(phpinfo());
 });
-
 
 Route::get('fpdf', 'PersonalController@rdr_home');
 
