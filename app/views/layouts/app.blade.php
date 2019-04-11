@@ -127,12 +127,10 @@
         <div id="navbar" class="navbar-collapse collapse">
             @if(Auth::user()->usertype == "1")
                 @include('layouts.admin-menu')
-            @elseif(Auth::user()->usertype == "0")
+            @elseif(Auth::user()->usertype == "0" || Auth::user()->usertype == '2' || Auth::user()->usertype == '4')
                 @include('layouts.personal')
-            @elseif(Auth::user()->usertype == "2")
-                @include('layouts.personal')
-            @elseif(Auth::user()->usertype == "3")
-                @include('layouts.negros-menu-admin')
+            @elseif(Auth::user()->usertype == "3" || Auth::user()->usertype == '5')
+                @include('layouts.menu-sub-admin')
             @endif
         </div><!--/.nav-collapse -->
     </div>

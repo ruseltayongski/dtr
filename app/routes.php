@@ -4,7 +4,7 @@
 //FOR ADMIN ROUTE GROUP
 
 
-Route::match(array('GET','POST'),'/', 'AdminController@index');
+
 Route::get('logout', function(){
 	Auth::logout();
 	Session::flush();
@@ -13,13 +13,9 @@ Route::get('logout', function(){
 
 Route::get('dtr/{id}', 'GenerateDTRController@download_dtr');
 
-Route::get('home', function(){
-	Session::forget('f_from');
-	Session::forget('f_to');
-	Session::forget('lists');
-	return Redirect::to('index');
-});
-Route::get('index',array('before' => 'auth','uses' => 'AdminController@home'));
+Route::match(array('GET','POST'),'/', 'AdminController@index');
+Route::get('home',array('before' => 'admin','uses' => 'AdminController@home'));
+
 
 Route::get('rpchallenge', 'PasswordController@change_password');
 
@@ -97,9 +93,9 @@ Route::get('personal/monthly',function() {
 	return Redirect::to('personal/print/monthly');
 });
 
-Route::match(['GET','POST'],'personal/index',array('before' => 'personal','uses' => 'PersonalController@index'));
-Route::get('personal/search', 'PersonalController@search');
+Route::match(['GET','POST'],'personal/index',array('before' => 'standard-user','uses' => 'PersonalController@index'));
 
+Route::get('personal/search', 'PersonalController@search');
 Route::get('/personal/search/filter', 'PersonalController@search_filter');
 Route::get('personal/print/monthly', 'PersonalController@print_monthly');
 Route::post('personal/print/filter' ,'PersonalController@filter');
@@ -233,32 +229,6 @@ Route::get('emptype', function() {
 	});
 });
 
-Route::get('create/users', function() {
-	Schema::create('users', function ($table) {
-		$table->increments('id');
-		$table->string('email')->nullable();
-		$table->string('userid')->nullable();
-		$table->string('fname')->nullable();
-		$table->string('lname')->nullable();
-		$table->string('mname')->nullable();
-		$table->string('sched',10)->nullable();
-		$table->string('username')->unique();
-		$table->string('password')->nullable();
-		$table->string('emptype')->nullable();
-		$table->boolean('usertype')->default(0);
-		$table->string('unique_row');
-		$table->index('id');
-		$table->index('userid');
-		$table->index('fname');
-		$table->index('lname');
-		$table->index('mname');
-		$table->index('emptype');
-		$table->unique('unique_row');
-		$table->rememberToken();
-		$table->timestamps();
-	});
-});
-
 Route::get('ajax',function(){
 	return View::make('ajax');
 });
@@ -305,10 +275,8 @@ Route::post('mobile/add-cto','MobileController@add_cto');
 Route::post('mobile/add-so','MobileController@add_so');
 Route::post('mobile/add-leave','MobileController@add_leave');
 
-//NEGROS
-Route::get('negrosHomePage',array('before' => 'negros','uses' => 'NegrosController@negrosHomePage'));
-Route::match(['GET','POST'], 'negros/upload', 'NegrosController@upload');
-Route::match(['GET','POST'], 'negros/test', 'NegrosController@test');
+//SUB ADMIN - NEGROS AND BOHOL
+Route::get('subHome',array('before' => 'sub','uses' => 'SubController@subHome'));
+Route::post('sub/upload', 'SubController@upload');
 
-Route::when('negros/*', 'negros',['GET','POST']);
 ?>

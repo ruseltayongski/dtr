@@ -181,7 +181,7 @@ $item_no = 1;
     ?>
     <table class="table1" cellpadding="0" cellspacing="0">
         <tr>
-            <td colspan="3" id="no-border"><b>{{ $div['description'] }} {{ $dateFlag ? $dateStartEnd : '' }}</b></td>
+            <td colspan="3" id="no-border"><b>{{ $div['description'] }} {{ $dateFlag ? $dateStartEnd : '' }} - {{ $inclusive_date->area }}</b></td>
         </tr>
         <tr>
             <td id="no-border padding-bottom" width="45%">

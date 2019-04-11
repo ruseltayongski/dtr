@@ -11,7 +11,7 @@
                             <div class="panel panel-default">
                                 <div class="panel-heading"><strong style="color: #f0ad4e;font-size:medium;">Upload time logs</strong></div>
                                 <div class="panel-body">
-                                    <form id="form_upload" action="{{ asset('negros/upload') }}" method="POST" enctype="multipart/form-data">
+                                    <form id="form_upload" action="{{ asset('sub/upload') }}" method="POST" enctype="multipart/form-data">
                                         <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
                                         <h3 style="font-weight: bold;" class="text-center">Upload a file</h3>
                                         <div class="modal-body">
@@ -227,6 +227,12 @@
             $('.delete_all').modal('hide');
             $('#data_table').modal('show');
         });
+
+        @if(Session::has('sub_upload'))
+            Lobibox.notify('success',{
+                msg:"<?php echo Session::get('sub_upload'); ?>"
+            });
+        @endif
 
     </script>
 @endsection

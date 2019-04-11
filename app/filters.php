@@ -61,20 +61,34 @@ Route::filter('auth', function()
 
 Route::filter('admin' ,function(){
 	if(Auth::check() && Auth::user()->usertype == 1) {
-        return Redirect::to('/index');
-	}
+        if(Auth::user()->pass_change == NULL){
+            return Redirect::to('resetpass')->with('pass_change','You must change your password for security after your first log in or resseting password');
+        }
+	} else {
+	    return Redirect::to('/');
+    }
 });
 
-Route::filter('personal', function(){
-    if(Auth::check() AND (Auth::user()->usertype == 0 || Auth::user()->usertype == 2) ){
+Route::filter('sub' ,function(){
+    if(Auth::check() && Auth::user()->usertype == 5) {
         if(Auth::user()->pass_change == NULL){
             return Redirect::to('resetpass')->with('pass_change','You must change your password for security after your first log in or resseting password');
         }
     }
 });
 
-Route::filter('negros' ,function(){
-    //return 'negros filter';
+Route::filter('standard-user', function(){
+    if(Auth::check() AND (Auth::user()->usertype == 0 || Auth::user()->usertype == 2 || Auth::user()->usertype == 4) ){
+        if(Auth::user()->pass_change == NULL){
+            return Redirect::to('resetpass')->with('pass_change','You must change your password for security after your first log in or resseting password');
+        }
+    } else {
+        return Redirect::to('/');
+    }
+});
+
+Route::filter('sub' ,function(){
+    //return 'sub filter';
 });
 
 
