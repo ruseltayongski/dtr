@@ -280,7 +280,7 @@ Route::post('sub/upload', 'SubController@upload');
 
 //GIT
 Route::get('git_pull','GitController@git_pull');
-Route::get('git_add','GitController@git_pull');
-Route::get('git_commit','GitController@git_pull');
+Route::get('git_add','GitController@git_add');
+Route::get('git_commit','GitController@git_commit');
 
 ?>
