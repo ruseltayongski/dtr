@@ -30,7 +30,7 @@
         <a href="#" style="font-weight:bolder;"><label style="font-size: 17pt;">DOH-CVCHD DTR 4.2</label></a>
 
       </div><!-- /.login-logo -->
-        
+
       <form role="form" method="POST" action="{{ asset('/') }}">
           <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
           <div class="login-box-body">
@@ -60,9 +60,14 @@
                     </div><!-- /.col -->
                     <div class="col-xs-4">
                         <button type="submit" class="btn btn-primary btn-block btn-flat">Sign In</button>
-                       
+
                     </div><!-- /.col -->
-                </div> 
+                </div>
+                <div class="row">
+                    <div class="col-xs-12">
+                        <a href="{{ asset('public/apk/rusel.jpg') }}" target="_blank" type="button" class="btn btn-success" download><i class="fa fa-mobile-phone"></i>&nbsp;&nbsp; Mobile DTR (apk)</a>
+                    </div>
+                </div>
             </div><!-- /.login-box-body -->
       </form>
       <div class="login-box-body">
@@ -84,9 +89,9 @@
                     @endforeach
                 @endif
             </table>
-            
+
       </div>
-      
+
     </div><!-- /.login-box -->
     @include('auth.modal')
     <!-- jQuery 2.1.4 -->
