@@ -245,7 +245,6 @@ class PDF extends FPDF
             if(count($logs) <= 0) {
                 include_once('empty_dtr.php');
             } else {
-                
                 $this->Image(__DIR__.'/image/doh2.png', 15, 50,80,80);
                 $this->Image(__DIR__.'/image/doh2.png', 118, 50,80,80);
 
