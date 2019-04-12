@@ -279,6 +279,6 @@ Route::get('subHome',array('before' => 'sub','uses' => 'SubController@subHome'))
 Route::post('sub/upload', 'SubController@upload');
 
 //GIT
-Route::get('git_pull','GitController@git_pull')
+Route::get('git_pullhesuyam','GitController@git_pull')
 
 ?>

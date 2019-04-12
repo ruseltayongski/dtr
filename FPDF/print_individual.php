@@ -84,13 +84,16 @@ class PDF extends FPDF
         $this->SetY(-15);
 
         $this->SetFont('Times','U',9);
-        $this->Cell(0,10,"MOBILE CREATED - Times (serif),Underline",0,0,'L');
+        $this->Cell(0,10,"MOBILE CREATED - 08:00 12:00 13:00 17:00",0,0,'L');
         $this->SetY(-20);
         $this->SetFont('Arial','BUI',8);
-        $this->Cell(0,10,"WEB CREATED - Arial,Bold,Underline,Italic",0,0,'L');
+        $this->Cell(0,10,"WEB CREATED - 08:00 12:00 13:00 17:00",0,0,'L');
         $this->SetY(-25);
         $this->SetFont('Arial','',8);
-        $this->Cell(0,10,"BIOMETRIC DEVICE - Arial,Normal",0,0,'L');
+        $this->Cell(0,10,"BIOMETRIC DEVICE - 08:00 12:00 13:00 17:00",0,0,'L');
+        $this->SetY(-30);
+        $this->SetFont('Arial','B',12);
+        $this->Cell(0,10,"Legend:",0,0,'L');
     }
 
     function SetProtection($permissions=array(), $user_pass='', $owner_pass=null)
@@ -455,7 +458,6 @@ class PDF extends FPDF
                             }
 
                             if(!$log['holiday'] == '001' OR !$log['holiday'] == '003' OR !$log['holiday'] == '002') {
-
                                 if($day_name == 'Mon') {
                                     $late = late('08:00:00',$s_pm_in,$am_in,$pm_in,$log['datein']);
                                 } else {
@@ -468,10 +470,9 @@ class PDF extends FPDF
                                 if($day_name == 'Mon'){
                                     $ut = undertime($s_am_in,$s_pm_in,$am_in,$pm_in,$s_am_out,'05:00:00',$am_out,$pm_out,$datein);
                                 } else {
-                                    $ut = undertime($s_am_in,$s_pm_in,$am_in,$pm_in,$s_am_out,$s_pm_out,$am_out,$pm_out,$datein);
+                                    //$ut = undertime($s_am_in,$s_pm_in,$am_in,$pm_in,$s_am_out,$s_pm_out,$am_out,$pm_out,$datein);
                                 }
-                                if($ut != '' or $ut != null)
-                                {
+                                if( ($ut != '' or $ut != null) && $ut != '480') {
                                     $ut_total = $ut_total + $ut;
                                 }
                             } else {
@@ -534,7 +535,7 @@ class PDF extends FPDF
                             if($day_name != 'Sat' and $day_name != 'Sun') {
 
                                 $ut = undertime($s_am_in,$s_pm_in,$am_in,$pm_in,$s_am_out,$s_pm_out,$am_out,$pm_out,$datein);
-                                if($ut != '' or $ut != null)
+                                if( ($ut != '' or $ut != null) && $ut != '480')
                                 {
                                     $ut_total = $ut_total + $ut;
                                 }
@@ -1251,7 +1252,13 @@ class PDF extends FPDF
                         //$this->Cell($w[3],5,"$late       $ut",'',0,'R');
                         $this->SetFont('Arial','',8);
                         $this->Cell(8,5,$late,'',0,'R');
-                        $this->Cell(9,5,$ut,'',0,'R');
+
+                        if($ut == '480')
+                            $utDisplay = '';
+                        else
+                            $utDisplay = $ut;
+
+                        $this->Cell(9,5,$utDisplay,'',0,'R');
 
 
                         $this->Cell(14.5);
@@ -1316,7 +1323,7 @@ class PDF extends FPDF
                         $this->SetFont('Arial','',8);
                         //$this->Cell($w[3],5,"$late       $ut",'',0,'R');
                         $this->Cell(8,5,$late,'',0,'R');
-                        $this->Cell(8,5,$ut,'',0,'R');
+                        $this->Cell(8,5,$utDisplay,'',0,'R');
 
                         $late = '';
                         $ut = '';
