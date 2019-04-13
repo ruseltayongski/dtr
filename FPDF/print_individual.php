@@ -110,15 +110,15 @@ class PDF extends FPDF
             $owner_pass = uniqid(rand());
         $this->encrypted = true;
         $this->padding = "\x28\xBF\x4E\x5E\x4E\x75\x8A\x41\x64\x00\x4E\x56\xFF\xFA\x01\x08".
-                        "\x2E\x2E\x00\xB6\xD0\x68\x3E\x80\x2F\x0C\xA9\xFE\x64\x53\x69\x7A";
+            "\x2E\x2E\x00\xB6\xD0\x68\x3E\x80\x2F\x0C\xA9\xFE\x64\x53\x69\x7A";
         $this->_generateencryptionkey($user_pass, $owner_pass, $protection);
     }
 
-/****************************************************************************
-*                                                                           *
-*                              Private methods                              *
-*                                                                           *
-****************************************************************************/
+    /****************************************************************************
+     *                                                                           *
+     *                              Private methods                              *
+     *                                                                           *
+     ****************************************************************************/
 
     function _putstream($s)
     {
@@ -137,8 +137,8 @@ class PDF extends FPDF
     }
 
     /**
-    * Compute key depending on object number where the encrypted data is stored
-    */
+     * Compute key depending on object number where the encrypted data is stored
+     */
     function _objectkey($n)
     {
         return substr($this->_md5_16($this->encryption_key.pack('VXxx',$n)),0,10);
@@ -177,16 +177,16 @@ class PDF extends FPDF
     }
 
     /**
-    * Get MD5 as binary string
-    */
+     * Get MD5 as binary string
+     */
     function _md5_16($string)
     {
         return md5($string, true);
     }
-    
+
     /**
-    * Compute O value
-    */
+     * Compute O value
+     */
     function _Ovalue($user_pass, $owner_pass)
     {
         $tmp = $this->_md5_16($owner_pass);
@@ -195,16 +195,16 @@ class PDF extends FPDF
     }
 
     /**
-    * Compute U value
-    */
+     * Compute U value
+     */
     function _Uvalue()
     {
         return RC4($this->encryption_key, $this->padding);
     }
 
     /**
-    * Compute encryption key
-    */
+     * Compute encryption key
+     */
     function _generateencryptionkey($user_pass, $owner_pass, $protection)
     {
         // Pad passwords
@@ -578,7 +578,7 @@ class PDF extends FPDF
                                         if($edited_logs) {
                                             $am_in =  $edited_logs['am_in'];
                                             $am_out =  $edited_logs['am_out'];
-                                            
+
 
                                             if(isset($am_in)) {
                                                 $a = explode('_', $am_in);
@@ -654,7 +654,7 @@ class PDF extends FPDF
                                 }
                             }
                         } else if(!$am_in AND !$am_out AND !$pm_in AND !$pm_out){
-                            
+
                             $cto = GET_CDO_SO($s_am_in,$s_am_out,$s_pm_in,$s_pm_out,$userid,$datein,'GETCDO');
 
                             if($cto['remark'] == 'CTO'){
@@ -669,7 +669,7 @@ class PDF extends FPDF
                                     $e2 = "1";
                                 }
                             } else {
-                                
+
                                 $so = GET_CDO_SO($s_am_in,$s_am_out,$s_pm_in,$s_pm_out,$userid,$datein,'GETSO');
                                 if($so['holiday'] === '003'){
                                     if($so['time_type'] == 'WH') {
@@ -1033,7 +1033,7 @@ class PDF extends FPDF
                             }
                         }  else if($am_in AND $am_out AND !$pm_in AND $pm_out){
                             $cto = GET_CDO_SO($s_am_in,$s_am_out,$s_pm_in,$s_pm_out,$userid,$datein,'GETCDO');
-                            
+
                             if($cto['remark'] == 'CTO'){
                                 $pm_in = 'CTO';
                                 $e3 = "1";
@@ -1050,7 +1050,7 @@ class PDF extends FPDF
                                     } else {
                                         $edited_logs = GET_CDO_SO($s_am_in,$s_am_out,$s_pm_in,$s_pm_out,$userid,$datein,'EDITED_LOGS');
                                         if($edited_logs) {
-                                           
+
                                             $pm_in =  $edited_logs['pm_in'];
                                             if(isset($pm_in)) {
                                                 $c = explode('_', $pm_in);
@@ -1123,7 +1123,7 @@ class PDF extends FPDF
                                 }
                             }
                         }
-                        
+
                         if(!$am_in AND !$am_out AND $pm_in AND $pm_out ){
                             $hol = 0;
                             $hol = GET_HOLIDAY($datein);
@@ -1132,18 +1132,18 @@ class PDF extends FPDF
                                     $am_in = "HOLIDAY";
                                     $am_out = "";
                                     $e1 = "1";
-                                    
+
                                 }
                             }else{
                                 if($day_name != "Sat" AND $day_name != "Sun"){
                                     $am_in = "HALFDAY";
                                     $am_out = "";
                                     $e1 = "1";
-                                   
+
                                 }
                             }
                         }
-                        
+
                         if(!$am_in AND !$am_out AND $pm_in AND !$pm_out ){
                             $hol = 0;
                             $hol = GET_HOLIDAY($datein);
@@ -1152,14 +1152,14 @@ class PDF extends FPDF
                                     $am_in = "HOLIDAY";
                                     $am_out = "";
                                     $e1 = "1";
-                                    
+
                                 }
                             }else{
                                 if($day_name != "Sat" AND $day_name != "Sun"){
                                     $am_in = "ABSENT";
                                     $am_out = "";
                                     $e1 = "1";
-                                   
+
                                 }
                             }
                         }
@@ -1227,7 +1227,7 @@ class PDF extends FPDF
                                 $this->SetFont('Arial','',8);
                             }
                         }
-                        
+
                         $this->Cell(14,5,$pm_in,'',0,'R');
                         $this->SetTextColor(0,0,0);
 
@@ -1265,7 +1265,7 @@ class PDF extends FPDF
                         $this->SetFont('Arial','',7);
                         $this->Cell(4,5,$r1,'');
                         $this->Cell(9,5,$day_name,'');
-                        
+
                         if(isset($e1) and $e1 == "1"){
                             $this->SetFont('Arial','IUB',8);
                         } else {
@@ -1522,7 +1522,7 @@ function get_logs($am_in,$am_out,$pm_in,$pm_out,$id,$date_from,$date_to)
 
 
     $query = "CALL GETLOGS('". $am_in ."','" . $am_out ."','" . $pm_in ."','" . $pm_out . "','" . $id . "','" . $date_from . "','" . $date_to ."')";
-    
+
     try
     {
         $st = $pdo->prepare($query);
@@ -1734,7 +1734,7 @@ function GET_CDO_SO($am_in,$am_out,$pm_in,$pm_out,$id,$datein,$func)
 
 function GET_HOLIDAY($datein)
 {
-   
+
     $pdo = conn();
     $query = "";
     $query = "SELECT * FROM edited_logs WHERE datein = '$datein' AND holiday = 'B' AND userid = '001' GROUP BY remark ORDER BY datein";
@@ -1751,11 +1751,11 @@ function GET_HOLIDAY($datein)
         return count($row);
     }
     return 0;
-    
+
 }
 
 function api_get_logs($userid,$date_from,$date_to) {
-   
+
     $url = "http://192.168.100.81/dtr_api/logs/GetLogs";
 
     $data = [
@@ -1763,7 +1763,7 @@ function api_get_logs($userid,$date_from,$date_to) {
         "df" => $date_from,
         "dt" => $date_to
     ];
-    
+
     $curl = curl_init($url);
     curl_setopt($curl, CURLOPT_POST, true);
     curl_setopt($curl, CURLOPT_POSTFIELDS, http_build_query($data));
@@ -1771,7 +1771,7 @@ function api_get_logs($userid,$date_from,$date_to) {
     $response = curl_exec($curl);
     curl_close($curl);
 
-    
+
     $logs = json_decode($response);
 
     $query1 = "INSERT IGNORE INTO dtr_file(userid, datein, time, event,remark, edited, created_at, updated_at) VALUES";
