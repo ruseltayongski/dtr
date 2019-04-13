@@ -227,8 +227,10 @@ class PDF extends FPDF
 
     function form($name,$userid,$date_from,$date_to,$sched)
     {
-
-        $remark = '';
+        $remark_a = '';
+        $remark_b = '';
+        $remark_c = '';
+        $remark_d = '';
         $day1 = explode('-',$date_from);
         $day2 = explode('-',$date_to);
 
@@ -381,13 +383,10 @@ class PDF extends FPDF
                         $day_name = date('D', strtotime($datein));
                         if($datein == $log_date)
                         {
-
                             $am_in = $log['am_in'];
                             $am_out = $log['am_out'];
                             $pm_in = $log['pm_in'];
                             $pm_out = $log['pm_out'];
-                            $remark = $log['remark'];
-
 
                             if($am_in and $am_out and $pm_in and !$pm_out) {
                                 if($am_out > $pm_in) {
@@ -423,6 +422,7 @@ class PDF extends FPDF
 
                             if(isset($am_in)) {
                                 $a = explode('_', $am_in);
+                                $remark_a = explode('_', $am_in)[2];
                                 $e1 = $a[1];
                                 $am_in = $a[0];
                             } else {
@@ -432,6 +432,7 @@ class PDF extends FPDF
 
                             if(isset($am_out)) {
                                 $b = explode('_', $am_out);
+                                $remark_b = explode('_', $am_out)[2];
                                 $e2 = $b[1];
                                 $am_out = $b[0];
                             } else {
@@ -441,6 +442,7 @@ class PDF extends FPDF
 
                             if(isset($pm_in)) {
                                 $c = explode('_', $pm_in);
+                                $remark_c = explode('_', $pm_in)[2];
                                 $e3 = $c[1];
                                 $pm_in = $c[0];
                             } else {
@@ -450,6 +452,7 @@ class PDF extends FPDF
 
                             if(isset($pm_out)) {
                                 $d = explode('_', $pm_out);
+                                $remark_d = explode('_', $pm_out)[2];
                                 $e4 = $d[1];
                                 $pm_out = $d[0];
                             } else {
@@ -621,9 +624,15 @@ class PDF extends FPDF
                                 } else {
                                     $leave = GET_CDO_SO($s_am_in,$s_am_out,$s_pm_in,$s_pm_out,$userid,$datein,'LEAVE_LOGS');
                                     if($leave['holiday'] == '007'){
-                                        $pm_in = $leave['remark'];
+                                        if($leave['remark'] == "MATERNITY LEAVE"){
+                                            $pm_in = "ML";
+                                            $pm_out = "ML";
+                                        }
+                                        else{
+                                            $pm_in = $leave['remark'];
+                                            $pm_out = $leave['remark'];
+                                        }
                                         $e3 = "1";
-                                        $pm_out = $leave['remark'];
                                         $e4 = "1";
                                     } else {
                                         $edited_logs = GET_CDO_SO($s_am_in,$s_am_out,$s_pm_in,$s_pm_out,$userid,$datein,'EDITED_LOGS');
@@ -1188,7 +1197,7 @@ class PDF extends FPDF
                             $this->SetFont('Arial','IUB',8);
                         } else {
                             //MOBILE AM IN
-                            if($remark == "MOBILE"){
+                            if($remark_a == "MOBILE"){
                                 $this->SetFont('Times','U',9);
                             } else {
                                 $this->SetFont('Arial','',8);
@@ -1206,7 +1215,7 @@ class PDF extends FPDF
                             $this->SetFont('Arial','IUB',8);
                         } else {
                             //MOBILE AM OUT
-                            if($remark == "MOBILE"){
+                            if($remark_b == "MOBILE"){
                                 $this->SetFont('Times','U',9);
                             } else {
                                 $this->SetFont('Arial','',8);
@@ -1221,7 +1230,7 @@ class PDF extends FPDF
                             $this->SetFont('Arial','IUB',8);
                         } else {
                             //MOBILE PM IN
-                            if($remark == "MOBILE"){
+                            if($remark_c == "MOBILE"){
                                 $this->SetFont('Times','U',9);
                             } else {
                                 $this->SetFont('Arial','',8);
@@ -1236,7 +1245,7 @@ class PDF extends FPDF
                             $this->SetFont('Arial','IUB',8);
                         } else {
                             //MOBILE PM OUT
-                            if($remark == "MOBILE"){
+                            if($remark_d == "MOBILE"){
                                 $this->SetFont('Times','U',9);
                             } else {
                                 $this->SetFont('Arial','',8);
@@ -1245,8 +1254,6 @@ class PDF extends FPDF
 
                         $this->Cell(15,5,$pm_out,'',0,'R');
                         $this->SetTextColor(0,0,0);
-
-
 
                         //LATE/UNDERTIME
                         //$this->Cell($w[3],5,"$late       $ut",'',0,'R');
@@ -1270,7 +1277,7 @@ class PDF extends FPDF
                             $this->SetFont('Arial','IUB',8);
                         } else {
                             //MOBILE AM IN
-                            if($remark == "MOBILE"){
+                            if($remark_a == "MOBILE"){
                                 $this->SetFont('Times','U',9);
                             } else {
                                 $this->SetFont('Arial','',8);
@@ -1283,7 +1290,7 @@ class PDF extends FPDF
                             $this->SetFont('Arial','IUB',8);
                         } else {
                             //MOBILE AM OUT
-                            if($remark == "MOBILE"){
+                            if($remark_b == "MOBILE"){
                                 $this->SetFont('Times','U',9);
                             } else {
                                 $this->SetFont('Arial','',8);
@@ -1296,7 +1303,7 @@ class PDF extends FPDF
                             $this->SetFont('Arial','IUB',8);
                         } else {
                             //MOBILE PM IN
-                            if($remark == "MOBILE"){
+                            if($remark_c == "MOBILE"){
                                 $this->SetFont('Times','U',9);
                             } else {
                                 $this->SetFont('Arial','',8);
@@ -1309,7 +1316,7 @@ class PDF extends FPDF
                             $this->SetFont('Arial','IUB',8);
                         } else {
                             //MOBILE PM OUT
-                            if($remark == "MOBILE"){
+                            if($remark_d == "MOBILE"){
                                 $this->SetFont('Times','U',9);
                             } else {
                                 $this->SetFont('Arial','',8);
@@ -1521,7 +1528,7 @@ function get_logs($am_in,$am_out,$pm_in,$pm_out,$id,$date_from,$date_to)
     $pdo = conn();
 
 
-    $query = "CALL GETLOGS('". $am_in ."','" . $am_out ."','" . $pm_in ."','" . $pm_out . "','" . $id . "','" . $date_from . "','" . $date_to ."')";
+    $query = "CALL GETLOGS1('". $am_in ."','" . $am_out ."','" . $pm_in ."','" . $pm_out . "','" . $id . "','" . $date_from . "','" . $date_to ."')";
 
     try
     {
