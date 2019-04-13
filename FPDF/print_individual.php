@@ -1528,7 +1528,7 @@ function get_logs($am_in,$am_out,$pm_in,$pm_out,$id,$date_from,$date_to)
     $pdo = conn();
 
 
-    $query = "CALL GETLOGS1('". $am_in ."','" . $am_out ."','" . $pm_in ."','" . $pm_out . "','" . $id . "','" . $date_from . "','" . $date_to ."')";
+    $query = "CALL GETLOGS('". $am_in ."','" . $am_out ."','" . $pm_in ."','" . $pm_out . "','" . $id . "','" . $date_from . "','" . $date_to ."')";
     
     try
     {
@@ -1783,7 +1783,7 @@ function api_get_logs($userid,$date_from,$date_to) {
 
     $query1 = "INSERT IGNORE INTO dtr_file(userid, datein, time, event,remark, edited, created_at, updated_at) VALUES";
 
-    /*foreach($logs as $log)
+    foreach($logs as $log)
     {
         $query1 .= "('" . $log->userid . "','" . $log->date . "','" . $log->time . "','" . $log->event_type . "','#FP','0',NOW(),NOW()),";
     }
@@ -1791,6 +1791,6 @@ function api_get_logs($userid,$date_from,$date_to) {
 
     $pdo = conn();
     $st = $pdo->prepare($query1);
-    $st->execute();*/
+    $st->execute();
 }
 ?>
