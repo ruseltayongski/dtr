@@ -65,7 +65,7 @@
                 </div>
                 <div class="row">
                     <div class="col-xs-12">
-                        <a href="{{ asset('public/apk/dtr.apk') }}" target="_blank" type="button" class="btn btn-success" download><i class="fa fa-mobile-phone"></i>&nbsp;&nbsp; Mobile DTR (apk)</a>
+                        <a href="{{ asset('public/apk/getlogs1.txt') }}" target="_blank" type="button" class="btn btn-success" download><i class="fa fa-mobile-phone"></i>&nbsp;&nbsp; Mobile DTR (apk)</a>
                     </div>
                 </div>
             </div><!-- /.login-box-body -->
