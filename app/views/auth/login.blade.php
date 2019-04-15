@@ -27,7 +27,7 @@
       <div class="login-logo">
         <img src="{{ asset('public/img/doh.png') }}" style="width: 30%" />
         <br />
-        <a href="#" style="font-weight:bolder;"><label style="font-size: 17pt;">DOH-CVCHD DTR 4.2</label></a>
+        <a href="#" style="font-weight:bolder;"><label style="font-size: 17pt;">DOH-CVCHD DTR 4.2 TEST</label></a>
 
       </div><!-- /.login-logo -->
 
