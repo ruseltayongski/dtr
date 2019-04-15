@@ -5,6 +5,20 @@
         <div class="modal-body">
             <table class="table table-hover table-form table-striped">
                 <tr>
+                    <td class="col-sm-3"><label>Usertype:</label></td>
+                    <td class="col-sm-1">:</td>
+                    <td class="col-sm-8">
+                        <select name="usertype" class="form-control">
+                            <option value="{{ $usertype_default["value"] }}">{{ $usertype_default["description"] }}</option>
+                            @foreach($usertype as $row)
+                                @if($user->usertype != $row["value"])
+                                <option value="{{ $row["value"] }}">{{ $row["description"] }}</option>
+                                @endif
+                            @endforeach
+                        </select>
+                    </td>
+                </tr>
+                <tr>
                     <td class="col-sm-3"><label>First name</label></td>
                     <td class="col-sm-1">:</td>
                     <td class="col-sm-8"><input type="text" name="fname" value="{{ $user->fname }}" class="form-control" required></td>
@@ -26,7 +40,6 @@
                         <input type="text" name="username" value="{{ $user->username }}" class="form-control" onblur="checkUser(this);" data-link="http://localhost:8000/dtsv3.0/check/user"required>
                     </td>
                 </tr>
-
                 <tr>
                     <td class="col-sm-3"><label>IMEI</label></td>
                     <td class="col-sm-1">:</td>
