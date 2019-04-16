@@ -91,28 +91,28 @@
                                     <table class="table table-list table-hover table-striped">
                                         <thead>
                                         <tr>
-                                            <th class="text-center">User ID</th>
-                                            <th class="text-center">Name </th>
-                                            <th class="text-center" with="30%">Work Schedule</th>
-                                            <th class="text-center">Option</th>
+                                            <th style="width: 5%">User ID</th>
+                                            <th >Name </th>
+                                            <th>Work Schedule</th>
+                                            <th>Option</th>
                                         </tr>
                                         </thead>
                                         <tbody>
                                         @foreach($users as $user)
                                             <tr>
-                                                <td class="text-center"><a href="#user" data-id="{{ $user->userid }}"  class="title-info">{{ $user->userid }}</a></td>
-                                                <td class="text-center"><a href="#user" data-id="{{ $user->id }}" data-link="{{ asset('user/edit') }}" class="text-bold">{{ $user->fname ." ". $user->mname." ".$user->lname }}</a></td>
-                                                <td class="text-center">
+                                                <td ><a href="#user" data-id="{{ $user->userid }}"  class="title-info">{{ $user->userid }}</a></td>
+                                                <td ><a href="#user" data-id="{{ $user->id }}" data-link="{{ asset('user/edit') }}" class="text-bold">{{ $user->fname ." ". $user->mname." ".$user->lname }}</a></td>
+                                                <td >
                                                     <span class="text-bold">{{ $user->description }}</span>
                                                     <button data-id="{{ $user->userid }}" type="button" class="btn btn-info btn-xs change_sched">Change</button>
                                                 </td>
-                                                <td class="text-center">
+                                                <td width="5%">
                                                     <div class="btn-group">
-                                                        <a href="#edit"  class="btn btn-sm btn-info user_edit" data-toggle="modal" data-target="#update_user_info" data-link="{{ asset('user/edit') }}" data-id="{{ $user->userid }}">
+                                                        <a href="#edit"  class="btn-sm btn-info user_edit" data-toggle="modal" data-target="#update_user_info" data-link="{{ asset('user/edit') }}" data-id="{{ $user->userid }}">
                                                             <i class="fa fa-pencil"></i>  Update
                                                         </a>
                                                     </div>
-                                                    <button data-id="{{ $user->userid }}" class="btn btn-danger delete_userid"><i class="fa fa-trash"></i> Delete</button>
+                                                    <button data-id="{{ $user->userid }}" class="btn-sm btn-danger delete_userid"><i class="fa fa-trash"></i> Delete</button>
                                                 </td>
                                             </tr>
                                         @endforeach
