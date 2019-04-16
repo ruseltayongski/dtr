@@ -73,7 +73,6 @@ class AdminController extends BaseController
 
     public function search_jo()
     {
-
         if(Input::has('search')) {
             $search = Input::get('search');
 
@@ -87,30 +86,43 @@ class AdminController extends BaseController
                     ->orderBy('users.fname', 'DESC')
                     ->paginate(20);
 
-            return View::make('users.users')->with('users', $users);
+            return Redirect::back()->with('users', $users);
         }
         return Redirect::to('employees');
     }
 
     public function search()
     {
-        if(Input::has('search')) {
-            $keyword = Input::get('search');
-            $users = DB::table('users')
-                ->leftJoin('work_sched', function($join){
-                    $join->on('users.sched','=','work_sched.id');
-                })
-                ->where(function($q) use ($keyword){
-                    $q->where('fname','like',"%$keyword%")
-                        ->orwhere('lname','like',"%$keyword%")
-                        ->orwhere('userid','like',"%$keyword%");
-                })
-                ->where('usertype','=', '0')
-                ->orderBy('fname', 'ASC')
-                ->paginate(20);
-            return View::make('home')->with('users',$users);
+        if(Auth::user()->usertype == 3){
+            $condition = "=";
+            $location = 2;
         }
-        return Redirect::to('index');
+        elseif(Auth::user()->usertype == 5){
+            $condition = "=";
+            $location = 4;
+        } elseif(Auth::user()->usertype = 1) {
+            $condition = "!=";
+            $location = 1;
+        }
+
+        $keyword = Input::get('search');
+        $users = DB::table('users')
+            ->leftJoin('work_sched', function($join){
+                $join->on('users.sched','=','work_sched.id');
+            })
+            ->where(function($q) use ($keyword){
+                $q->where('fname','like',"%$keyword%")
+                    ->orwhere('lname','like',"%$keyword%")
+                    ->orwhere('userid','like',"%$keyword%");
+            })
+            ->where('usertype',$condition,$location)
+            ->orderBy('fname', 'ASC')
+            ->paginate(10);
+
+        return View::make('sub.subHome',[
+            'users' => $users
+        ]);
+
     }
 
     public function search_regular()
@@ -161,16 +173,10 @@ class AdminController extends BaseController
 
         if(Request::method() == "POST") {
             $user = Users::where('userid', '=', Session::get('sched_id'))->first();
-            $sched = WorkScheds::where('id', '=' , Input::get('schedule_id'))->first();
             if(isset($user) and count($user) > 0) {
                 $user->sched = Input::get('schedule_id');
                 $user->save();
-                if($user->emptype == "REG") {
-                    return Redirect::to('index')->with('msg_sched',"Employee $user->fname $user->lname working schedule is change to $sched->description");
-                } else {
-                    return Redirect::to('index')->with('msg_sched',"Employee $user->fname $user->lname working schedule is change to $sched->description");
-
-                }
+                return Redirect::back()->with('updatedSchedule',"Successfully Updated Schedule");
             }
         }
     }
@@ -358,10 +364,15 @@ class AdminController extends BaseController
             $user->mname = Input::get('mname');
             $user->username = Input::get('username');
             $user->imei = Input::get('imei');
-            $user->usertype = Input::get("usertype");
+            if(Auth::user()->usertype == "1")
+                $user->usertype = Input::get("usertype");
+            elseif(Auth::user()->usertype == "3")
+                $user->usertype = "2";
+            elseif(Auth::user()->usertype == "5")
+                $user->usertype = "4";
             $user->save();
             Session::forget('edit_user');
-            return Redirect::to('employees');
+            return Redirect::back()->with('updatedUser',"Successfully Updated User");
         }
     }
     public function print_employees()
@@ -386,10 +397,9 @@ class AdminController extends BaseController
             if(count($user)) {
                 $name = $user->lname . ", " . $user->fname;
                 $user->delete();
-                return Redirect::to('employees')->with('name', $name . " was removed.");
+                return Redirect::back()->with("deletedUser","Successfully Deleted User");
             }
         }
-        return Redirect::to('employees');
     }
 
     public function track_leave()
