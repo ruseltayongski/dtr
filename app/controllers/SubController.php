@@ -22,7 +22,7 @@ class SubController extends BaseController
             })
             ->where('usertype','=',$location)
             ->orderBy('fname', 'ASC')
-            ->paginate(5);
+            ->paginate(10);
         return View::make('sub.subHome')->with('users',$users);
     }
 

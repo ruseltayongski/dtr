@@ -1,4 +1,3 @@
-
 @extends('layouts.app')
 
 @section('content')
@@ -12,7 +11,7 @@
                             <div class="panel panel-default">
                                 <div class="panel-heading"><strong style="color: #f0ad4e;font-size:medium;">Print individual DTR</strong></div>
                                 <div class="panel-body">
-                                    <form action="{{ asset('FPDF/print_individual.php') }}" method="POST" id="print_pdf">
+                                    <form action="{{ asset('FPDF/print_individual.php') }}" autocomplete="off" method="POST" id="print_pdf">
                                         <div class="table-responsive">
                                             <table class="table">
                                                 <tr>
@@ -48,7 +47,7 @@
                             </div>
                         </div>
 
-                        <!--
+                    <!--
                         <div class="col-md-12">
                             <div class="panel panel-default">
                                 <div class="panel-heading"><div style="color: #1560f0;font-size:medium;">Most Punctual Employee</div></div>
@@ -63,8 +62,8 @@
                                                     <th class="col-sm-3">Points</th>
                                                 </tr>
                                                 @foreach(range(0,3) as $index)
-                                                <tr>
-                                                    <td class="col-sm-2"><img src="{{ asset('public/img/gonzales1.jpg') }}" class="img-circle" style="width: 100%" alt="Cinque Terre"></td>
+                        <tr>
+                            <td class="col-sm-2"><img src="{{ asset('public/img/gonzales1.jpg') }}" class="img-circle" style="width: 100%" alt="Cinque Terre"></td>
                                                     <td class="col-sm-2">1</td>
                                                     <td class="col-sm-5 align-text-bottom">Jeswyrne Gonzales</td>
                                                     <td class="col-sm-3">555</td>
@@ -82,13 +81,13 @@
                                                     <td class="col-sm-3">555</td>
                                                 </tr>
                                                 @endforeach
-                                            </table>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
+                            </table>
                         </div>
-                        -->
+                    </form>
+                </div>
+            </div>
+        </div>
+-->
 
                     </div>
                 </div>
@@ -141,7 +140,7 @@
                                                             <td class="text-center"><strong><a href="#"> {{ $list->time }}</a></strong></td>
                                                             <td class="text-center"><strong><a href="#">{{ $list->event }}</a> </strong></td>
                                                             <td class="text-center">
-                                                               <strong><a href="#">{{ $list->remark }}</a> </strong>
+                                                                <strong><a href="#">{{ $list->remark }}</a> </strong>
                                                             </td>
                                                             <td>
                                                                 @if($list->edited == "1")
@@ -192,8 +191,5 @@
                 show: true
             });
         });
-
-
-
     </script>
 @endsection

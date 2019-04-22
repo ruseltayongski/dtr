@@ -284,4 +284,8 @@ Route::get('git_push','GitController@git_push');
 Route::get('git_add','GitController@git_add');
 Route::get('git_commit','GitController@git_commit');
 
+//TIMELOG
+Route::post('filterTimeLog','TimeLogController@filterTimeLog');
+Route::get('timelog','TimeLogController@timelog');
+
 ?>

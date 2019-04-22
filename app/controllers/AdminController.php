@@ -61,56 +61,68 @@ class AdminController extends BaseController
     public function list_all()
     {
         $users = DB::table('users')
-                    ->leftJoin('work_sched', function($join){
-                        $join->on('users.sched','=','work_sched.id');
-                    })
-                    ->where('usertype', '=', '0')
-                    ->orderBy('fname', 'ASC')
-                    ->paginate(20);
+            ->leftJoin('work_sched', function($join){
+                $join->on('users.sched','=','work_sched.id');
+            })
+            ->where('usertype', '=', '0')
+            ->orderBy('fname', 'ASC')
+            ->paginate(20);
 
         return View::make('users.users')->with('users',$users);
     }
 
     public function search_jo()
     {
-
         if(Input::has('search')) {
             $search = Input::get('search');
 
             $users = DB::table('users')
-                    ->leftJoin('work_sched', function($join){
-                        $join->on('users.sched','=','work_sched.id');
-                    })
-                    ->where('users.userid', 'LIKE', "%$search%")
-                    ->orWhere('users.fname', 'LIKE', "%$search%")
-                    ->orWhere('users.lname', 'LIKE', "%$search%")
-                    ->orderBy('users.fname', 'DESC')
-                    ->paginate(20);
+                ->leftJoin('work_sched', function($join){
+                    $join->on('users.sched','=','work_sched.id');
+                })
+                ->where('users.userid', 'LIKE', "%$search%")
+                ->orWhere('users.fname', 'LIKE', "%$search%")
+                ->orWhere('users.lname', 'LIKE', "%$search%")
+                ->orderBy('users.fname', 'DESC')
+                ->paginate(20);
 
-            return View::make('users.users')->with('users', $users);
+            return Redirect::back()->with('users', $users);
         }
         return Redirect::to('employees');
     }
 
     public function search()
     {
-        if(Input::has('search')) {
-            $keyword = Input::get('search');
-            $users = DB::table('users')
-                ->leftJoin('work_sched', function($join){
-                    $join->on('users.sched','=','work_sched.id');
-                })
-                ->where(function($q) use ($keyword){
-                    $q->where('fname','like',"%$keyword%")
-                        ->orwhere('lname','like',"%$keyword%")
-                        ->orwhere('userid','like',"%$keyword%");
-                })
-                ->where('usertype','=', '0')
-                ->orderBy('fname', 'ASC')
-                ->paginate(20);
-            return View::make('home')->with('users',$users);
+        if(Auth::user()->usertype == 3){
+            $condition = "=";
+            $location = 2;
         }
-        return Redirect::to('index');
+        elseif(Auth::user()->usertype == 5){
+            $condition = "=";
+            $location = 4;
+        } elseif(Auth::user()->usertype = 1) {
+            $condition = "!=";
+            $location = 1;
+        }
+
+        $keyword = Input::get('search');
+        $users = DB::table('users')
+            ->leftJoin('work_sched', function($join){
+                $join->on('users.sched','=','work_sched.id');
+            })
+            ->where(function($q) use ($keyword){
+                $q->where('fname','like',"%$keyword%")
+                    ->orwhere('lname','like',"%$keyword%")
+                    ->orwhere('userid','like',"%$keyword%");
+            })
+            ->where('usertype',$condition,$location)
+            ->orderBy('fname', 'ASC')
+            ->paginate(10);
+
+        return View::make('sub.subHome',[
+            'users' => $users
+        ]);
+
     }
 
     public function search_regular()
@@ -118,14 +130,14 @@ class AdminController extends BaseController
         if(Input::has('search')) {
             $search = Input::get('search');
             $regulars = DB::table('users')
-                    ->leftJoin('work_sched', function($join){
-                        $join->on('users.sched','=','work_sched.id');
-                    })
-                    ->where('users.userid', 'LIKE', "%$search%")
-                    ->orWhere('users.fname', 'LIKE', "%$search%")
-                    ->orWhere('users.lname', 'LIKE', "%$search%")
-                    ->orderBy('users.fname', 'DESC')
-                    ->paginate(20);
+                ->leftJoin('work_sched', function($join){
+                    $join->on('users.sched','=','work_sched.id');
+                })
+                ->where('users.userid', 'LIKE', "%$search%")
+                ->orWhere('users.fname', 'LIKE', "%$search%")
+                ->orWhere('users.lname', 'LIKE', "%$search%")
+                ->orderBy('users.fname', 'DESC')
+                ->paginate(20);
             return View::make('users.regular')->with('users', $regulars);
         }
     }
@@ -161,16 +173,10 @@ class AdminController extends BaseController
 
         if(Request::method() == "POST") {
             $user = Users::where('userid', '=', Session::get('sched_id'))->first();
-            $sched = WorkScheds::where('id', '=' , Input::get('schedule_id'))->first();
             if(isset($user) and count($user) > 0) {
                 $user->sched = Input::get('schedule_id');
                 $user->save();
-                if($user->emptype == "REG") {
-                    return Redirect::to('index')->with('msg_sched',"Employee $user->fname $user->lname working schedule is change to $sched->description");
-                } else {
-                    return Redirect::to('index')->with('msg_sched',"Employee $user->fname $user->lname working schedule is change to $sched->description");
-
-                }
+                return Redirect::back()->with('updatedSchedule',"Successfully Updated Schedule");
             }
         }
     }
@@ -311,12 +317,37 @@ class AdminController extends BaseController
         }
     }
 
+    function searchArray( array $array, $search )
+    {
+        while( $array ) {
+            if( isset( $array[ $search ] ) ) return $array[ $search ];
+            $segment = array_shift( $array );
+            if( is_array( $segment ) ) {
+                if( $return = searchArray( $segment, $search ) ) return $return;
+            }
+        }
+        return false;
+    }
+
     public function user_edit()
     {
         if(Request::method() == 'GET') {
+            $usertype = [
+                ["value" => 0,"description" =>"CEBU USER"],
+                ["value" => 1,"description" =>"CEBU ADMIN"],
+                ["value" => 2,"description" =>"NEGROS USER"],
+                ["value" => 3,"description" =>"NEGROS ADMIN"],
+                ["value" => 4,"description" =>"BOHOL USER"],
+                ["value" => 5,"description" =>"BOHOL ADMIN"],
+            ];
+
             $user = DB::table('users')->where('userid', '=', Input::get('id'))->first();
             Session::put('edit_user', $user->id);
-            return View::make('users.user_edit')->with('user', $user);
+            return View::make('users.user_edit',[
+                "user" => $user,
+                "usertype" => $usertype,
+                "usertype_default" => $this->searchArray($usertype,$user->usertype)
+            ]);
         }
         if(Request::method() == 'POST') {
             $user = Users::where('id', '=', Session::get('edit_user'))->first();
@@ -333,17 +364,23 @@ class AdminController extends BaseController
             $user->mname = Input::get('mname');
             $user->username = Input::get('username');
             $user->imei = Input::get('imei');
+            if(Auth::user()->usertype == "1")
+                $user->usertype = Input::get("usertype");
+            elseif(Auth::user()->usertype == "3")
+                $user->usertype = "2";
+            elseif(Auth::user()->usertype == "5")
+                $user->usertype = "4";
             $user->save();
             Session::forget('edit_user');
-            return Redirect::to('employees');
+            return Redirect::back()->with('updatedUser',"Successfully Updated User");
         }
     }
     public function print_employees()
     {
         if(Input::has('emp_type')) {
             $users = DB::table('users')->where('emptype', '=', Input::get('emp_type'))
-                        ->orderBy('lname', 'ASC')
-                        ->get();
+                ->orderBy('lname', 'ASC')
+                ->get();
             $type = Input::get('emp_type');
             $display = View::make("pdf.employees")->with('users',$users)->with('type', $type);
             $pdf = App::make('dompdf');
@@ -360,10 +397,9 @@ class AdminController extends BaseController
             if(count($user)) {
                 $name = $user->lname . ", " . $user->fname;
                 $user->delete();
-                return Redirect::to('employees')->with('name', $name . " was removed.");
+                return Redirect::back()->with("deletedUser","Successfully Deleted User");
             }
         }
-        return Redirect::to('employees');
     }
 
     public function track_leave()
@@ -435,7 +471,7 @@ class AdminController extends BaseController
             $details->holiday = '007';
 
             $details->save();
-            
+
             $startday = $startday + 1;
             $j++;
         }
@@ -445,11 +481,11 @@ class AdminController extends BaseController
     public function cancel_leave($route_no) {
         $leave = DB::table('leave')->where('route_no','=',$route_no)->first();
         DB::table('leave_logs')
-                    ->where('userid','=',$leave->userid)
-                    ->where('edited','=',1)
-                    ->where('holiday','=','006')
-                    ->whereBetween('datein',array($leave->inc_from,$leave->inc_to))
-                    ->delete();
+            ->where('userid','=',$leave->userid)
+            ->where('edited','=',1)
+            ->where('holiday','=','006')
+            ->whereBetween('datein',array($leave->inc_from,$leave->inc_to))
+            ->delete();
         DB::table('leave')->where('route_no','=',$route_no)->update(['approve' => 0]);
         return Redirect::to('tracked/leave');
     }
@@ -457,12 +493,12 @@ class AdminController extends BaseController
     {
         $q = Input::get('q');
         $leaves = DB::table('leave')
-                        ->where('route_no','LIKE', "%$q%")
-                        ->orWhere('firstname','LIKE',"%$q%")
-                        ->orWhere('lastname','LIKE',"%$q%")
-                        ->orderBy('created_at','ASC')
-                        ->paginate(20);
-        return View::make('form.leave_list',['leaves' => $leaves]);               
+            ->where('route_no','LIKE', "%$q%")
+            ->orWhere('firstname','LIKE',"%$q%")
+            ->orWhere('lastname','LIKE',"%$q%")
+            ->orderBy('created_at','ASC')
+            ->paginate(20);
+        return View::make('form.leave_list',['leaves' => $leaves]);
     }
     public function print_user_logs()
     {
@@ -487,10 +523,10 @@ class AdminController extends BaseController
 
         $day1 = explode('-',$date_from);
         $day2 = explode('-',$date_to);
-        
+
         $startday = floor($day1[2]);
         $endday = $day2[2];
-      
+
         $data['date_from'] = $date_from;
         $data['date_to'] = $date_to;
         $data['startday'] = $startday;
@@ -498,7 +534,7 @@ class AdminController extends BaseController
         $data['userid'] = $userid;
         $data['day1'] = $day1;
         $data['day2'] = $day2;
-        
+
         return View::make('print.mobile_logs',['data' => $data]);
 
     }
@@ -506,7 +542,7 @@ class AdminController extends BaseController
     {
         if(Request::method() == "GET")
         {
-            return View::make('users.leave_credits');            
+            return View::make('users.leave_credits');
         }
     }
 

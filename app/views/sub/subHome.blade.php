@@ -9,6 +9,44 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="panel panel-default">
+                                <div class="panel-heading"><strong style="color: #f0ad4e;font-size:medium;">Print individual DTR</strong></div>
+                                <div class="panel-body">
+                                    <form action="{{ asset('FPDF/print_individual.php') }}" method="POST" id="print_one">
+                                        <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
+                                        <div class="table-responsive">
+                                            <table class="table">
+                                                <tr>
+                                                    <td class="col-sm-3"><strong>User ID </strong></td>
+                                                    <td class="col-sm-1">: </td>
+                                                    <td class="col-sm-9">
+                                                        <input type="text" class="col-md-2 form-control" id="inputEmail3" name="userid" value="" required>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="col-sm-3"><strong>Dates</strong></td>
+                                                    <td class="col-sm-1"> :</td>
+                                                    <td class="col-sm-9">
+                                                        <div class="input-group">
+                                                            <div class="input-group-addon">
+                                                                <i class="fa fa-calendar"></i>
+                                                            </div>
+                                                            <input type="text" class="form-control" id="inclusive3" name="filter_range" placeholder="Input date range here..." required>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                        <button type="submit"  class="btn-lg btn-success center-block col-sm-12" id="print_one_btn" data-loading-text="<i class='fa fa-refresh fa-spin'></i> Printing DTR">
+                                            <span class="glyphicon glyphicon-print" aria-hidden="true"></span> Print
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="panel panel-default">
                                 <div class="panel-heading"><strong style="color: #f0ad4e;font-size:medium;">Upload time logs</strong></div>
                                 <div class="panel-body">
                                     <form id="form_upload" action="{{ asset('sub/upload') }}" method="POST" enctype="multipart/form-data">
@@ -37,57 +75,52 @@
                 </div>
                 <div class="col-md-8">
                     <div class="row">
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="panel panel-default">
-                                <div class="panel-heading"><strong style="color: #f0ad4e;font-size:medium;">Employee list</strong></div>
-                                <div class="panel-body">
-                                    <form class="form-inline form-accept" action="{{ asset('/search') }}" method="GET">
-                                        <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
-                                        <div class="form-group">
-                                            <input type="text" name="search" class="form-control" placeholder="Quick Search" autofocus>
-                                            <button type="submit" class="btn btn-default"><i class="fa fa-search"></i> Search</button>
-                                        </div>
-                                    </form>
-                                    <div class="clearfix"></div>
-                                    <div class="page-divider"></div>
-
-                                    @if(isset($users) and count($users) > 0)
-                                        <div class="table-responsive">
-                                            <table class="table table-list table-hover table-striped">
-                                                <thead>
-                                                <tr>
-                                                    <th class="text-center">User ID</th>
-                                                    <th class="text-center">Name </th>
-                                                    <th class="text-center">Job Status </th>
-                                                    <th class="text-center">Work Schedule</th>
-                                                </tr>
-                                                </thead>
-                                                <tbody>
-                                                @foreach($users as $user)
-                                                    <tr>
-                                                        <td class="text-center"><a href="#user" data-id="{{ $user->userid }}"  class="title-info">{{ $user->userid }}</a></td>
-                                                        <td class="text-center"><a href="#user" data-id="{{ $user->id }}" data-link="{{ asset('user/edit') }}" class="text-bold">{{ $user->fname ." ". $user->mname." ".$user->lname }}</a></td>
-                                                        <td class="text-center">
-                                                            <span class="text-bold text-success">{{ $user->emptype }}</span>
-                                                        </td>
-                                                        <td class="text-center">
-                                                            <span class="text-bold">{{ $user->description }}</span>
-                                                        </td>
-                                                    </tr>
-                                                @endforeach
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                        {{ $users->links() }}
-                                    @else
-                                        <div class="alert alert-danger">
-                                            <strong><i class="fa fa-times fa-lg"></i>No users found.</strong>
-                                        </div>
-                                    @endif
+                        <div class="alert alert-jim" id="inputText">
+                            <form class="form-inline form-accept" action="{{ asset('/search') }}" method="GET">
+                                <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
+                                <div class="form-group">
+                                    <input type="text" name="search" class="form-control" placeholder="Quick Search" autofocus>
+                                    <button type="submit" class="btn btn-default"><i class="fa fa-search"></i> Search</button>
                                 </div>
-                            </div>
+                            </form>
+                            <div class="clearfix"></div>
+                            <div class="page-divider"></div>
+
+                            @if(isset($users) and count($users) > 0)
+                                <div class="table-responsive">
+                                    <table class="table table-list table-hover table-striped">
+                                        <thead>
+                                        <tr>
+                                            <th >User ID</th>
+                                            <th >Name </th>
+                                            <th>Work Schedule</th>
+                                            <th></th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        @foreach($users as $user)
+                                            <tr>
+                                                <td ><a href="#user" data-id="{{ $user->userid }}"  class="title-info">{{ $user->userid }}</a></td>
+                                                <td ><a href="#edit" data-id="{{ $user->userid }}" data-toggle="modal" data-target="#update_user_info" data-link="{{ asset('user/edit') }}" class="text-bold user_edit">{{ $user->fname ." ". $user->mname." ".$user->lname }}</a></td>
+                                                <td >
+                                                    <span class="text-bold">{{ $user->description }}</span>
+                                                    <button data-id="{{ $user->userid }}" type="button" class="btn btn-info btn-xs change_sched">Change</button>
+                                                </td>
+                                                <td width="5%">
+                                                    <a href="#" data-id="{{ $user->userid }}" class="delete_userid" style="color: #ff5751"><i class="fa fa-trash"></i></a>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <span id="data_link" data-link="{{ asset('change/work-schedule') }}" />
+                                {{ $users->links() }}
+                            @else
+                                <div class="alert alert-danger">
+                                    <strong><i class="fa fa-times fa-lg"></i>No users found.</strong>
+                                </div>
+                            @endif
                         </div>
                     </div>
 
@@ -228,11 +261,73 @@
             $('#data_table').modal('show');
         });
 
-        @if(Session::has('sub_upload'))
-            Lobibox.notify('success',{
-                msg:"<?php echo Session::get('sub_upload'); ?>"
+        (function($){
+
+            $('.form-accept').submit(function(event){
+                $(this).submit();
             });
+
+            $('.user_edit').click(function() {
+
+                var url = $(this).data('link');
+                var id = $(this).data('id');
+                var data = "id=" + id;
+
+                $.get(url,data,function(data){
+                    $('.user_edit_modal').html(data);
+                });
+            });
+
+        })($);
+
+
+        $('.change_sched').click(function(){
+            $('#change_schedule').modal({
+                backdrop: 'static',
+                keyboard: false,
+                show: true
+            });
+            var url = $('#data_link').data('link');
+
+            var data = {
+                id : $(this).data('id')
+            };
+
+            $.get(url,data, function(res){
+                $('#schedule_modal').html(res);
+            });
+
+        });
+        $('.delete_userid').click(function(){
+            var id = $(this).data('id');
+            $('#del_userid_input').val('');
+            $('#del_userid_input').val(id);
+            var e_id =  $('#del_userid_input').val();
+            console.log(e_id);
+            $('#delete_user_modal').modal('show');
+        });
+
+        @if(Session::has('sub_upload'))
+        Lobibox.notify('success',{
+            msg:"<?php echo Session::get('sub_upload'); ?>"
+        });
         @endif
+        @if(Session::has('updatedUser'))
+        Lobibox.notify('info',{
+            msg:"<?php echo Session::get('updatedUser'); ?>"
+        });
+        @endif
+        @if(Session::has('deletedUser'))
+        Lobibox.notify('info',{
+            msg:"<?php echo Session::get('deletedUser'); ?>"
+        });
+        @endif
+        @if(Session::has('updatedSchedule'))
+        Lobibox.notify('info',{
+            msg:"<?php echo Session::get('updatedSchedule'); ?>"
+        });
+        @endif
+
 
     </script>
 @endsection

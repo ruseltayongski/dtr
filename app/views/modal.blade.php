@@ -80,7 +80,7 @@
 <div class="modal fade" tabindex="-1" role="dialog" id="print_emp">
     <div class="modal-dialog modal-lg" role="document" style="width: 20%;">
         <div class="modal-content">
-            <div class="modal-header" style="background-color:#9C8AA5	;padding:15px;">
+            <div class="modal-header" style="background-color:#9C8AA5   ;padding:15px;">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title"><i class="fa fa-plus"></i>Print Employees</h4>
             </div>
@@ -115,24 +115,24 @@
 <div class="modal fade" tabindex="-1" role="dialog" id="deleteDocument">
     <div class="modal-dialog modal-sm" role="document">
         @if(isset($delete))
-        <div class="modal-content">
-            <div class="modal-header" style="background-color: darkmagenta;color: white;">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title"><i class="fa fa-question-circle"></i> DTS Says:</h4>
-            </div>
-            <div class="modal-body">
-                <div class="alert alert-danger">
-                    <span style="color:indianred">Are you sure you want to delete this {{ $doc_type }}?</span>
+            <div class="modal-content">
+                <div class="modal-header" style="background-color: darkmagenta;color: white;">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title"><i class="fa fa-question-circle"></i> DTS Says:</h4>
                 </div>
-            </div>
-            <div class="modal-footer">
-                <form action="{{ $delete }}" method="post">
-                    <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
-                    <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> No</button>
-                    <button type="submit" name="delete" class="btn btn-danger" ><i class="fa fa-trash"></i> Yes</button>
-                </form>
-            </div>
-        </div><!-- /.modal-content -->
+                <div class="modal-body">
+                    <div class="alert alert-danger">
+                        <span style="color:indianred">Are you sure you want to delete this {{ $doc_type }}?</span>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <form action="{{ $delete }}" method="post">
+                        <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
+                        <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> No</button>
+                        <button type="submit" name="delete" class="btn btn-danger" ><i class="fa fa-trash"></i> Yes</button>
+                    </form>
+                </div>
+            </div><!-- /.modal-content -->
         @endif
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
@@ -170,7 +170,7 @@
             </div>
             <div class="modal-body text-center">
                 <div class="col-xs-4" style="left: 10%">
-                     <a href="#document_form" data-dismiss="modal" data-link="<?php if(isset($asset)) echo $asset.'/1'; ?>" data-backdrop="static" data-toggle="modal" data-target="#document_form" class="text-success">
+                    <a href="#document_form" data-dismiss="modal" data-link="<?php if(isset($asset)) echo $asset.'/1'; ?>" data-backdrop="static" data-toggle="modal" data-target="#document_form" class="text-success">
                         <i class="fa fa-file-pdf-o fa-5x"></i><br>
                         <i>Form V1</i>
                     </a>
@@ -192,7 +192,7 @@
 <div class="modal fade" tabindex="-1" role="dialog" id="update_user_info">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
-            <div class="modal-header" style="background-color:#9C8AA5	;padding:15px;">
+            <div class="modal-header" style="background-color:#9C8AA5   ;padding:15px;">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true" >&times;</span></button>
                 <h4 class="modal-title"><i class="fa fa-plus"></i> User Info</h4>
             </div>
@@ -206,7 +206,7 @@
 <div class="modal fade" tabindex="-1" role="dialog" id="leave_info">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
-            <div class="modal-header" style="background-color:#9C8AA5	;padding:15px;">
+            <div class="modal-header" style="background-color:#9C8AA5   ;padding:15px;">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true" >&times;</span></button>
                 <h4 class="modal-title"><i class="fa fa-plus"></i> Application fo Leave</h4>
             </div>

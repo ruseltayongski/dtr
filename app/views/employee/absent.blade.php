@@ -1,5 +1,5 @@
 <center>
-    <form action="{{ asset('create/absent/description') }}" method="POST" class="add_absent" >
+    <form action="{{ asset('create/absent/description') }}" autocomplete="off" method="POST" class="add_absent" >
         <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
 
         <div class="alert alert-warning error-alert" role="alert"><strong id="error"></strong></div>

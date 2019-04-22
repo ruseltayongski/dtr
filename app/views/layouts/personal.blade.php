@@ -11,8 +11,6 @@
                     <a href="#"><i class="fa fa-unlock"></i>&nbsp;&nbsp; My DTR</a>
                     <ul class="dropdown-menu">
                         <li class="dropdown-submenu">
-                        <li><a href="{{ asset('/personal/dtr/list')  }}">Admin generated DTR</a></li>
-                        <li class="divider"></li>
                         <li><a href="{{ asset('/personal/add/logs') }}">Create time log</a></li>
                         <li class="divider"></li>
                         <li class="dropdown-submenu">
@@ -45,7 +43,10 @@
                         <li><a href="{{ asset("form/cdo_list") }}">CDO</a></li>
                     </ul>
                 </li>
-                
+                <!--
+                <li class="divider"></li>
+                <li><a href="{{ url('timelog') }}"><i class="fa fa-user"></i>&nbsp;&nbsp; Time Log</a></li>
+                -->
             </ul>
         </li>
     @endif
@@ -57,8 +58,6 @@
             <li><a href="{{ url('/logout') }}"><i class="fa fa-sign-out"></i>&nbsp;&nbsp; Logout</a></li>
         </ul>
     </li>
-    <li class="divider"></li>
-    <li><a href="{{ asset('manual') }}"> <i class="glyphicon glyphicon-question-sign"></i> User Manual</a></li>
 </ul>
 <script>
     function absent(data){
