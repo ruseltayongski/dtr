@@ -1,10 +1,10 @@
 <center>
-    <form action="{{ asset('create/absent/description') }}" autocomplete="off" method="POST" class="add_absent" >
+    <form action="<?php echo asset('create/absent/description'); ?>" autocomplete="off" method="POST" class="add_absent" >
         <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
 
         <div class="alert alert-warning error-alert" role="alert"><strong id="error"></strong></div>
         <table class="table table-hover table-form table-striped">
-            @if(Session::get('type') == "SO")
+            <?php if(Session::get('type') == "SO"): ?>
                 <tr class="description_tr_desc">
                     <td class="col-sm-3"><label>Enter SO #</label></td>
                     <td class="col-sm-1">:</td>
@@ -12,20 +12,20 @@
                         <input type="text" id="desc"  name="so" class="form-control" required placeholder="OFFICE ORDER NO. ONLY"  onkeypress="return isNumber(event)">
                     </td>
                 </tr>
-            @elseif(Session::get('type') == "LEAVE")
+            <?php elseif(Session::get('type') == "LEAVE"): ?>
                 <tr class="description_tr_leave">
                     <td class="col-sm-3"><label>Leave Type</label></td>
                     <td class="col-sm-1">:</td>
                     <td class="col-sm-8">
                         <select name="leave_type" id="leave_type_select"  required class="form-control" >
                             <option value="" disabled selected>Select leave type</option>
-                            @foreach(DB::table('leave_type')->get() as $leave)
-                                <option value="{{ $leave->desc }}">{{ $leave->desc }}</option>
-                            @endforeach
+                            <?php foreach(DB::table('leave_type')->get() as $leave): ?>
+                                <option value="<?php echo $leave->desc; ?>"><?php echo $leave->desc; ?></option>
+                            <?php endforeach; ?>
                         </select>
                     </td>
                 </tr>
-            @endif
+            <?php endif; ?>
             <tr>
                 <td class="col-sm-3"><label>Dates</label></td>
                 <td class="col-sm-1">:</td>
