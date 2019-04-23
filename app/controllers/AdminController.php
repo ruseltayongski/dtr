@@ -197,7 +197,7 @@ class AdminController extends BaseController
             ])->with('scheds',$sched);
         }
 
-        $check = User::where("userid","=",Input::get('userid'))->first();
+        $check = InformationPersonal::where("userid","=",Input::get('userid'))->first();
         if(isset($check)){
             return Redirect::to('add/user')->with('useridExist',"Userid:".Input::get('userid')." Existed!");
         } else{
