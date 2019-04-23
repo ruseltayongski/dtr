@@ -273,7 +273,7 @@ Route::post('mobile/add-logs','MobileController@add_logs');
 Route::post('mobile/add-cto','MobileController@add_cto');
 Route::post('mobile/add-so','MobileController@add_so');
 Route::post('mobile/add-leave','MobileController@add_leave');
-Route::post('getCurrentVersion','MobileController@getCurrentVersion');
+Route::post('mobile/getCurrentVersion','MobileController@getCurrentVersion');
 
 //SUB ADMIN - NEGROS AND BOHOL
 Route::get('subHome',array('before' => 'sub','uses' => 'SubController@subHome'));
