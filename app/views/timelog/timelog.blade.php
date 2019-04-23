@@ -6,7 +6,7 @@
         <div class="alert alert-jim">
             <div class="row">
                 <div class="col-md-12">
-                    <form class="form-inline" autocomplete="off" method="POST" action="{{ asset('filterTimeLog') }}" id="submit_logs">
+                    <form class="form-inline" autocomplete="off" method="POST" action="{{ asset('logs/timelog') }}" id="submit_logs">
                         <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
                         <input type="text" class="form-control filter_dates" value="{{ Session::get('filter_dates') }}" id="inclusive3" name="filter_dates" placeholder="Filter Date" required>
                         <button type="submit" class="btn btn-success" id="print">
@@ -14,12 +14,17 @@
                         </button>
                     </form>
                     <br>
-                    <div class="panel panel-default">
-                        <div class="panel-heading"><strong style="color: #f0ad4e;font-size:medium;">Logs</strong></div>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <form action="{{ asset('personal/add/logs') }}" method="POST">
-                                    <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
+                    @if(empty($timeLog))
+                        <div class="alert alert-info">
+                            <p style="color: #1387ff">
+                                No logs record
+                            </p>
+                        </div>
+                    @else
+                        <div class="panel panel-default">
+                            <div class="panel-heading"><strong style="color: #f0ad4e;font-size:medium;">Logs</strong></div>
+                            <div class="row">
+                                <div class="col-md-12">
                                     <table class="table table-list table-hover table-striped">
                                         <tr>
                                             <th>Date In</th>
@@ -29,20 +34,21 @@
                                             <th>PM OUT</th>
                                         </tr>
                                         <tbody class="timelog">
+                                        @foreach($timeLog as $row)
                                         <tr>
-                                            <td><input type="text" value="{{ date('m/d/Y') }}" class="form-control" name="date_in"></td>
-                                            <td><input type="time" class="form-control" name="am_in"></td>
-                                            <td><input type="time" class="form-control" name="am_out"></td>
-                                            <td><input type="time" class="form-control" name="pm_in"></td>
-                                            <td><input type="time" class="form-control" name="pm_out"></td>
+                                            <td>{{ $row->datein }}</td>
+                                            <td>{{ explode('|',$row->time)[0] }}</td>
+                                            <td>{{ explode('|',$row->time)[1] }}</td>
+                                            <td>{{ explode('|',$row->time)[2] }}</td>
+                                            <td>{{ explode('|',$row->time)[3] }}</td>
                                         </tr>
+                                        @endforeach
                                         </tbody>
                                     </table>
-
-                                </form>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    @endif
                 </div>
             </div>
         </div>

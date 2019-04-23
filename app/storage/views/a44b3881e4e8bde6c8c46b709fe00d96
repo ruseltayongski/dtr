@@ -44,7 +44,7 @@
                     </ul>
                 </li>
                 <li class="divider"></li>
-                <li><a href="<?php echo url('timelog'); ?>"><i class="fa fa-user"></i>&nbsp;&nbsp; Time Log</a></li>
+                <li><a href="<?php echo url('logs/timelog'); ?>"><i class="fa fa-user"></i>&nbsp;&nbsp; Time Log</a></li>
             </ul>
         </li>
     <?php endif; ?>

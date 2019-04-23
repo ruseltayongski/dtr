@@ -185,10 +185,11 @@ class AdminController extends BaseController
     {
         if(Request::method() == "GET") {
             $sched = WorkScheds::all();
-            $lastUserid = User::where('userid','REGEXP','^[0-9]+$')
+            $lastUserid = InformationPersonal::where('userid','REGEXP','^[0-9]+$')
                 ->where(DB::raw("LENGTH(userid)"),'<=',4)
+                ->where('userid','<',1000)
                 ->orderBy(DB::raw("CONVERT(SUBSTRING_INDEX(userid,'-',-1),UNSIGNED INTEGER)"),'desc')
-                ->where('emptype','=','JO')
+                ->where('job_status','=','Job Order')
                 ->first()->userid;
 
             return View::make('users.adduser',[
@@ -200,13 +201,15 @@ class AdminController extends BaseController
         if(isset($check)){
             return Redirect::to('add/user')->with('useridExist',"Userid:".Input::get('userid')." Existed!");
         } else{
+            $password = Hash::make('123');
+            //DTR
             $user = new Users();
             $user->userid = Input::get('userid');
             $user->fname = Input::get('fname');
             $user->lname = Input::get('lname');
             $user->sched = Input::get('sched');
             $user->username = Input::get('userid');
-            $user->password = Hash::make('123');
+            $user->password = $password;
             $user->emptype = Input::get('emptype');
             if(Auth::user()->usertype == 1) { //CEBU ADMIN
                 $usertype = 0; //CEBU USER
@@ -220,6 +223,44 @@ class AdminController extends BaseController
             $user->usertype = $usertype;
             $user->unique_row = Input::get('userid');
             $user->save();
+
+            //PIS
+            $personal_information = new InformationPersonal();
+            $personal_information->userid = Input::get('userid');
+            $personal_information->fname = Input::get('fname');
+            $personal_information->lname = Input::get('lname');
+            $personal_information->sched = Input::get('sched');
+            if(Input::get('emptype') == 'REG'){
+                $job_status = 'Permanent';
+                $disbursement_type = "ATM";
+            }
+            else{
+                $job_status = 'Job Order';
+                $disbursement_type = "CASH_CARD";
+            }
+            $personal_information->job_status = $job_status;
+            $personal_information->disbursement_type = $disbursement_type;
+            $personal_information->employee_status = 'Active';
+            $personal_information->user_status = '1';
+            $personal_information->save();
+
+            //PIS USER
+            $user_pis = new UserPis();
+            $user_pis->username = Input::get('userid');
+            $user_pis->password = $password;
+            $user_pis->usertype = 0;
+            $user_pis->pin = 1234;
+            $user_pis->save();
+
+            //DTS USER
+            $user_dts = new UserDts();
+            $user_dts->fname = Input::get('fname');
+            $user_dts->lname = Input::get('lname');
+            $user_dts->username = Input::get('userid');
+            $user_dts->password = $password;
+            $user_dts->user_priv = 0;
+            $user_dts->status = 0;
+            $user_dts->save();
 
             return Redirect::back()->with('userAdded','Added User');
         }

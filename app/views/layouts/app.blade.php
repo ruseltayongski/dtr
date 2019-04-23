@@ -61,7 +61,7 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('public/plugin/select2/select2.min.css') }}" />
 
     @if(isset(Request::segments()[1]))
-        @if(Request::segments()[1] == "cdo_list" || Request::segments()[1] == 'so_list' || Request::segments()[1] == 'so' || Request::segments()[1] == 'sample' || Request::segments()[1] == 'sov1')
+        @if(Request::segments()[1] == "cdo_list" || Request::segments()[1] == 'so_list' || Request::segments()[1] == 'so' || Request::segments()[1] == 'sample' || Request::segments()[1] == 'sov1' || Request::segments()[1] == 'timelog')
             <link href="{{ asset('public/plugin/dist/css/AdminLTE.min.css') }}" rel="stylesheet">
             <link href="{{ asset('public/plugin/dist/css/google-font.css') }}" rel="stylesheet">
         @endif
