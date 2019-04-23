@@ -286,7 +286,7 @@ class MobileController extends BaseController {
     }
 
     public function getCurrentVersion(){
-        return 1;
+        return "3.0";
     }
 }
 
