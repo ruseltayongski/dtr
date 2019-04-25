@@ -50,6 +50,9 @@
 
     <link rel="stylesheet" type="text/css" href="{{ asset('public/assets/datepicer/css/bootstrap-datepicker3.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ asset('public/assets/datepicer/css/bootstrap-datepicker3.standalone.css') }}" />
+
+    <link rel="stylesheet" type="text/css" href="{{ asset('public/plugin/bootstrap3-editable/css/bootstrap-editable.css') }}" />
+
     <script src="{{ asset('public/assets/js/jquery.min.js') }}"></script>
     @if(Request::segments()[0] == "work-schedule")
     <link rel="stylesheet" type="text/css" href="{{ asset('public/plugin/datatables/datatables.min.css') }}" />
@@ -179,6 +182,8 @@
 
 <!-- iCheck -->
 <script src="{{ asset('public/plugin/iCheck/icheck.min.js') }}"></script>
+<script src="{{ asset('public/plugin/bootstrap3-editable/js/bootstrap-editable.js') }}"></script>
+<script src="{{ asset('public/plugin/bootstrap3-editable/js/bootstrap-editable.min.js') }}"></script>
 
 <script>
     $('.create-absent').click(function(){

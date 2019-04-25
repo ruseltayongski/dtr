@@ -1,7 +1,4 @@
-
-@extends('layouts.app')
-
-@section('content')
+<?php $__env->startSection('content'); ?>
     <style>
         u{
             color: #307bff;
@@ -11,21 +8,21 @@
         <div class="alert alert-jim">
             <div class="row">
                 <div class="col-md-12">
-                    <form class="form-inline" autocomplete="off" method="POST" action="{{ asset('logs/timelog') }}" id="submit_logs">
+                    <form class="form-inline" autocomplete="off" method="POST" action="<?php echo asset('logs/timelog'); ?>" id="submit_logs">
                         <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
-                        <input type="text" class="form-control filter_dates" value="{{ Session::get('filter_dates') }}" id="inclusive3" name="filter_dates" placeholder="Filter Date" required>
+                        <input type="text" class="form-control filter_dates" value="<?php echo Session::get('filter_dates'); ?>" id="inclusive3" name="filter_dates" placeholder="Filter Date" required>
                         <button type="submit" class="btn btn-success" id="print">
                             Go
                         </button>
                     </form>
                     <br>
-                    @if(empty($timeLog))
+                    <?php if(empty($timeLog)): ?>
                         <div class="alert alert-info">
                             <p style="color: #1387ff">
                                 No logs record
                             </p>
                         </div>
-                    @else
+                    <?php else: ?>
                         <div class="panel panel-default">
                             <div class="panel-heading"><strong style="color: #f0ad4e;font-size:medium;">Logs</strong></div>
                             <div class="row">
@@ -40,57 +37,57 @@
                                         </tr>
                                         <tbody class="timelog">
                                         <?php $count = 0; ?>
-                                        @foreach($timeLog as $row)
+                                        <?php foreach($timeLog as $row): ?>
                                         <?php $count++; ?>
                                         <tr>
-                                            <td width="10%">{{ $row->datein }}</td>
+                                            <td width="10%"><?php echo $row->datein; ?></td>
                                             <td width="10%">
-                                                @if(explode("_",explode('|',$row->time)[0])[1] == "''")
-                                                    <b><u><span id="{{ $count."am_in" }}">{{ explode("_",explode('|',$row->time)[0])[0] }}</span></u></b>
-                                                @elseif(explode("_",explode('|',$row->time)[0])[1] == "empty")
-                                                    <span style="cursor: pointer;" class="editable" id="{{ $count."am_in" }}"></span>
-                                                @else
-                                                    <span style="cursor: pointer;" class="editable" id="{{ $count."am_in" }}">{{ explode("_",explode('|',$row->time)[0])[0] }}</span>
-                                                @endif
+                                                <?php if(explode("_",explode('|',$row->time)[0])[1] == "''"): ?>
+                                                    <b><u><span id="<?php echo $count."am_in"; ?>"><?php echo explode("_",explode('|',$row->time)[0])[0]; ?></span></u></b>
+                                                <?php elseif(explode("_",explode('|',$row->time)[0])[1] == "empty"): ?>
+                                                    <span style="cursor: pointer;" class="editable" id="<?php echo $count."am_in"; ?>"></span>
+                                                <?php else: ?>
+                                                    <span style="cursor: pointer;" class="editable" id="<?php echo $count."am_in"; ?>"><?php echo explode("_",explode('|',$row->time)[0])[0]; ?></span>
+                                                <?php endif; ?>
                                             </td>
                                             <td width="10%">
-                                                @if(explode("_",explode('|',$row->time)[0])[1] == "''")
-                                                    <b><u><span id="{{ $count."am_in" }}">{{ explode("_",explode('|',$row->time)[1])[0] }}</span></u></b>
-                                                @else
-                                                    <span style="cursor: pointer;" class="editable" id="{{ $count."am_out" }}">{{ explode("_",explode('|',$row->time)[1])[0] }}</span>
-                                                @endif
+                                                <?php if(explode("_",explode('|',$row->time)[0])[1] == "''"): ?>
+                                                    <b><u><span id="<?php echo $count."am_in"; ?>"><?php echo explode("_",explode('|',$row->time)[1])[0]; ?></span></u></b>
+                                                <?php else: ?>
+                                                    <span style="cursor: pointer;" class="editable" id="<?php echo $count."am_out"; ?>"><?php echo explode("_",explode('|',$row->time)[1])[0]; ?></span>
+                                                <?php endif; ?>
                                             </td>
                                             <td width="10%">
-                                                @if(explode("_",explode('|',$row->time)[0])[1] == "''")
-                                                    <b><u><span id="{{ $count."am_in" }}">{{ explode("_",explode('|',$row->time)[2])[0] }}</span></u></b>
-                                                @else
-                                                    <span style="cursor: pointer;" class="editable" id="{{ $count."pm_in" }}">{{ explode("_",explode('|',$row->time)[2])[0] }}</span>
-                                                @endif
+                                                <?php if(explode("_",explode('|',$row->time)[0])[1] == "''"): ?>
+                                                    <b><u><span id="<?php echo $count."am_in"; ?>"><?php echo explode("_",explode('|',$row->time)[2])[0]; ?></span></u></b>
+                                                <?php else: ?>
+                                                    <span style="cursor: pointer;" class="editable" id="<?php echo $count."pm_in"; ?>"><?php echo explode("_",explode('|',$row->time)[2])[0]; ?></span>
+                                                <?php endif; ?>
                                             </td>
                                             <td width="10%">
-                                                @if(explode("_",explode('|',$row->time)[0])[1] == "''")
-                                                    <b><u><span id="{{ $count."am_in" }}">{{ explode("_",explode('|',$row->time)[3])[0] }}</span></u></b>
-                                                @else
-                                                    <span style="cursor: pointer;" class="editable" id="{{ $count."pm_out" }}">{{ explode("_",explode('|',$row->time)[3])[0] }}</span>
-                                                @endif
+                                                <?php if(explode("_",explode('|',$row->time)[0])[1] == "''"): ?>
+                                                    <b><u><span id="<?php echo $count."am_in"; ?>"><?php echo explode("_",explode('|',$row->time)[3])[0]; ?></span></u></b>
+                                                <?php else: ?>
+                                                    <span style="cursor: pointer;" class="editable" id="<?php echo $count."pm_out"; ?>"><?php echo explode("_",explode('|',$row->time)[3])[0]; ?></span>
+                                                <?php endif; ?>
                                             </td>
                                         </tr>
-                                        @endforeach
+                                        <?php endforeach; ?>
                                         </tbody>
                                     </table>
                                 </div>
                             </div>
                         </div>
-                    @endif
+                    <?php endif; ?>
                     <a href="#" id="username" style="color:black" data-type="radiolist"></a>
                 </div>
             </div>
         </div>
     </div>
 
-@endsection
+<?php $__env->stopSection(); ?>
 
-@section('js')
+<?php $__env->startSection('js'); ?>
     @parent
     <script>
         $('#inclusive3').daterangepicker();
@@ -171,15 +168,15 @@
 
             Radiolist.defaults = $.extend({}, $.fn.editabletypes.list.defaults, {
                 /**
-                 @property tpl
-                 @default <div></div>
+                 @property  tpl
+                 @default  <div></div>
                  **/
                 tpl : '<div class="editable-radiolist"></div>',
 
                 /**
-                 @property inputclass, attached to the <label> wrapper instead of the input element
-                 @type string
-                 @default null
+                 @property  inputclass, attached to the <label> wrapper instead of the input element
+                 @type  string
+                 @default  null
                  **/
                 inputclass : '',
 
@@ -192,4 +189,5 @@
     </script>
 
 
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.app', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

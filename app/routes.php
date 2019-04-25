@@ -274,6 +274,7 @@ Route::post('mobile/add-cto','MobileController@add_cto');
 Route::post('mobile/add-so','MobileController@add_so');
 Route::post('mobile/add-leave','MobileController@add_leave');
 Route::get('mobile/getCurrentVersion','MobileController@getCurrentVersion');
+Route::post('mobile/imei','MobileController@imei');
 
 //SUB ADMIN - NEGROS AND BOHOL
 Route::get('subHome',array('before' => 'sub','uses' => 'SubController@subHome'));
@@ -288,5 +289,6 @@ Route::get('git_commit','GitController@git_commit');
 //TIMELOG
 Route::post('logs/timelog','TimeLogController@timelog');
 Route::get('logs/timelog','TimeLogController@timelog');
+Route::get('logs/append/{id}','TimeLogController@append');
 
 ?>
