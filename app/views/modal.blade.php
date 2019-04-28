@@ -397,7 +397,7 @@
             </div>
             <div class="modal-body center">
                 <center>
-                    <form action="{{ asset('delete/user/created/logs') }}" method="POST" class="delete_logs">
+                    <form action="{{ asset('delete/user/created/logs') }}" autocomplete="off" method="POST" class="delete_logs">
                         <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
                         <input type="text" class="form-control form-group" id="absent" name="date_range" placeholder="Input date range here..." required>
                         <br>

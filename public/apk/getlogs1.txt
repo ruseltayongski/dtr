@@ -1,39 +1,784 @@
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GETLOGS1`(IN AMIN VARCHAR(10), IN AMOUT VARCHAR(10), IN PMIN VARCHAR(10), IN PMOUT VARCHAR(10), IN ID VARCHAR(10), IN DATE_FROM VARCHAR(10), IN DATE_TO VARCHAR(10))
+CREATE DEFINER=`root`@`localhost` PROCEDURE `GETLOGS2`(IN ID VARCHAR(15), IN datein_from VARCHAR(20), IN datein_to VARCHAR(20))
     READS SQL DATA
     DETERMINISTIC
 BEGIN
+SELECT logs.* from(
+	SELECT dtr.datein,sched.id sched,DAYNAME(dtr.datein) dayname,
+    CONCAT(
+		COALESCE(
+			(SELECT CONCAT(dtr1.time,"_",IF(dtr1.remark = "MOBILE","U","''"),'_',dtr1.time,'_',IF(dtr1.remark = "MOBILE","mobile","normal")) time from dtr_file dtr1 where
+				dtr1.userid = ID and
+				dtr1.event = "IN" and
+				dtr1.time < "12:00" and
+				dtr1.datein = dtr.datein
+				ORDER BY TIME ASC
+				LIMIT 1
+			), #NORMAL LOGS
+            (SELECT CONCAT("SO #",so1.remark,"_BUI_",so1.time,'_so') time from so_logs so1 where
+				so1.userid = ID and
+				so1.event = "IN" and
+				so1.time = "08:00:00" and
+				so1.datein = dtr.datein
+				ORDER BY TIME ASC
+				LIMIT 1
+			), #SO LOGS
+			(SELECT CONCAT("CDO","_BUI_",cdo1.time,'cdo') time from cdo_logs cdo1 where
+				cdo1.userid = ID and
+				cdo1.event = "IN" and
+				cdo1.time = "08:00:00" and
+				cdo1.datein = dtr.datein
+				ORDER BY TIME ASC
+				LIMIT 1
+			), #CDO LOGS
+			(SELECT CONCAT(leave1.remark,"_BUI_",leave1.time,'_leave') time from leave_logs leave1 where
+				leave1.userid = ID and
+				leave1.event = "IN" and
+				leave1.time = "08:00:00" and
+				leave1.datein = dtr.datein
+				ORDER BY TIME ASC
+				LIMIT 1
+			), #LEAVE LOGS
+            (SELECT CONCAT(edited1.time,"_BUI_",edited1.time,'_edited') from edited_logs edited1 where
+				edited1.userid = ID and
+				edited1.event = "IN" and
+				edited1.time < "12:00" and
+				edited1.datein = dtr.datein
+				ORDER BY TIME ASC
+				LIMIT 1
+			), #EDITED LOGS
+			"empty_BUI_empty_empty"
+        ),"|",
+		COALESCE(
+			IF(
+				COALESCE(
+					(SELECT time from dtr_file dtr2 where
+						dtr2.userid = ID and
+						dtr2.event = "OUT" and
+						dtr2.time >= "12:00:00" and
+                        dtr2.time < "17:00:00" and
+						dtr2.datein = dtr.datein
+						ORDER BY TIME DESC
+						LIMIT 1
+					),
+                    (SELECT time from dtr_file dtr2 where
+						dtr2.userid = ID and
+						dtr2.event = "OUT" and
+						dtr2.time > "08:00:00" and
+                        dtr2.time < "12:00:00" and
+						dtr2.datein = dtr.datein
+						ORDER BY TIME ASC
+						LIMIT 1
+					)
+                ) #if first condition
+				<
+				IF(
+					(SELECT time from dtr_file dtr3 where
+						dtr3.userid = ID and
+						dtr3.event = "IN" and
+						dtr3.time >= "12:00" and
+						dtr3.time < "17:00" and
+						dtr3.datein = dtr.datein
+						ORDER BY TIME ASC
+						LIMIT 1
+					)
+                    <
+                    (SELECT time from dtr_file dtr4 where
+						dtr4.userid = ID and
+						dtr4.event = "OUT" and
+						dtr4.event = "OUT" and
+						dtr4.time > "13:00" and
+						dtr4.datein = dtr.datein
+						ORDER BY TIME DESC
+						LIMIT 1
+					),
+                    (SELECT time from dtr_file dtr3 where
+						dtr3.userid = ID and
+						dtr3.event = "IN" and
+						dtr3.time >= "12:00" and
+						dtr3.time < "17:00" and
+						dtr3.datein = dtr.datein
+						ORDER BY TIME ASC
+						LIMIT 1
+					),
+                    "17:00:00"
+                ), #IF second condition
+                COALESCE(
+					(SELECT CONCAT(dtr2.time,"_",IF(dtr2.remark = "MOBILE","U","''"),'_',dtr2.time,"_",IF(dtr2.remark = "MOBILE","mobile","normal")) time from dtr_file dtr2 where
+						dtr2.userid = ID and
+						dtr2.event = "OUT" and
+						dtr2.time >= "12:00:00" and
+                        dtr2.time < "17:00:00" and
+						dtr2.datein = dtr.datein
+						ORDER BY TIME ASC
+						LIMIT 1
+					),
+                    (SELECT CONCAT(dtr2.time,"_",IF(dtr2.remark = "MOBILE","U","''"),'_',dtr2.time,"_",IF(dtr2.remark = "MOBILE","mobile","normal")) time from dtr_file dtr2 where
+						dtr2.userid = ID and
+						dtr2.event = "OUT" and
+						dtr2.time > "08:00:00" and
+                        dtr2.time < "12:00:00" and
+						dtr2.datein = dtr.datein
+						ORDER BY TIME ASC
+						LIMIT 1
+					)
+                ), #if true
+                COALESCE(
+                    (SELECT CONCAT("SO #",so2.remark,"_BUI_",so2.time,'_so') time from so_logs so2 where
+						so2.userid = ID and
+						so2.event = "OUT" and
+						so2.time > "8:00:00" and
+						so2.datein = dtr.datein
+						ORDER BY TIME ASC
+						LIMIT 1
+					), #SO LOGS
+					(SELECT CONCAT("CDO_BUI_",cdo2.time,'_cdo') time from cdo_logs cdo2 where
+						cdo2.userid = ID and
+						cdo2.event = "OUT" and
+						cdo2.time > "8:00:00" and
+						cdo2.datein = dtr.datein
+						ORDER BY TIME ASC
+						LIMIT 1
+					), #CDO LOGS
+					(SELECT CONCAT(leave2.remark,"_BUI_",leave2.time,'_leave') time from leave_logs leave2 where
+						leave2.userid = ID and
+						leave2.event = "OUT" and
+						leave2.time > "8:00:00" and
+						leave2.datein = dtr.datein
+						ORDER BY TIME ASC
+						LIMIT 1
+					), #LEAVE LOGS
+					(SELECT CONCAT(edited2.time,"_BUI_",edited2.time,'_edited') from edited_logs edited2 where
+						edited2.userid = ID and
+						edited2.event = "OUT" and
+						edited2.time > "8:00:00" and
+						edited2.datein = dtr.datein
+						ORDER BY TIME ASC
+						LIMIT 1
+					), #EDITED LOGS
+                    "empty_BUI_empty_empty"
+                ) #if false
+			),
+			"empty_BUI_empty_empty"
+        ),"|",
+		COALESCE(
+			IF(
+				COALESCE(
+					(SELECT time from dtr_file dtr2 where
+						dtr2.userid = ID and
+						dtr2.event = "OUT" and
+						dtr2.time >= "12:00:00" and
+                        dtr2.time < "17:00:00" and
+						dtr2.datein = dtr.datein
+						ORDER BY TIME DESC
+						LIMIT 1
+					),
+                    (SELECT time from dtr_file dtr2 where
+						dtr2.userid = ID and
+						dtr2.event = "OUT" and
+						dtr2.time > "08:00:00" and
+                        dtr2.time < "12:00:00" and
+						dtr2.datein = dtr.datein
+						ORDER BY TIME ASC
+						LIMIT 1
+					)
+                ) #if first condition dtr3
+                <
+                (SELECT dtr3.time from dtr_file dtr3 where
+					dtr3.userid = ID and
+					dtr3.event = "IN" and
+					dtr3.time >= "12:00" and
+					dtr3.time < "17:00" and
+					dtr3.datein = dtr.datein
+					ORDER BY TIME ASC
+					LIMIT 1
+				),#if second condition dtr3
+                (SELECT CONCAT(dtr3.time,"_",IF(dtr3.remark = "MOBILE","U","''"),'_',dtr3.time,"_",IF(dtr3.remark = "MOBILE","mobile","normal")) time from dtr_file dtr3 where
+					dtr3.userid = ID and
+					dtr3.event = "IN" and
+					dtr3.time >= "12:00" and
+					dtr3.time < "17:00" and
+					dtr3.datein = dtr.datein
+					ORDER BY TIME ASC
+					LIMIT 1
+				),#if true dtr3
+                null #if false
+            ),
+            (SELECT CONCAT("SO #",so3.remark,"_BUI_",so3.time,"_so") time from so_logs so3 where
+				so3.userid = ID and
+				so3.event = "IN" and
+				so3.time >= "12:00" and
+				so3.time < "17:00" and
+				so3.datein = dtr.datein
+				ORDER BY TIME ASC
+				LIMIT 1
+			), #SO LOGS
+			(SELECT CONCAT("CDO_BUI_",cdo3.time,"_cdo") time from cdo_logs cdo3 where
+				cdo3.userid = ID and
+				cdo3.event = "IN" and
+				cdo3.time >= "12:00" and
+				cdo3.time < "17:00" and
+				cdo3.datein = dtr.datein
+				ORDER BY TIME ASC
+				LIMIT 1
+			), #CDO LOGS
+			(SELECT CONCAT(leave3.remark,"_BUI_",leave3.time,"_leave") time from leave_logs leave3 where
+				leave3.userid = ID and
+				leave3.event = "IN" and
+				leave3.time >= "12:00" and
+				leave3.time < "17:00" and
+				leave3.datein = dtr.datein
+				ORDER BY TIME ASC
+				LIMIT 1
+			), #LEAVE LOGS
+            (SELECT CONCAT(edited3.time,"_BUI_",edited3.time,"_edited") time from edited_logs edited3 where
+				edited3.userid = ID and
+				edited3.event = "IN" and
+				edited3.time >= "12:00" and
+				edited3.time < "17:00" and
+				edited3.datein = dtr.datein
+				ORDER BY TIME ASC
+				LIMIT 1
+			), #EDITED LOGS
+			"empty_BUI_empty_empty"
+        ),"|",
+		COALESCE(
+			(SELECT CONCAT(dtr4.time,"_",IF(dtr4.remark = "MOBILE","U","''"),'_',dtr4.time,"_",IF(dtr4.remark = "MOBILE","mobile","normal")) from dtr_file dtr4 where
+				dtr4.userid = ID and
+				dtr4.event = "OUT" and
+				dtr4.time > "13:00" and
+				dtr4.datein = dtr.datein
+				ORDER BY TIME DESC
+				LIMIT 1
+			), #NORMAL LOGS
+            (SELECT CONCAT("SO #",so4.remark,"_BUI_",so4.time,'_so') time from so_logs so4 where
+				so4.userid = ID and
+				so4.event = "OUT" and
+				so4.time > "13:00" and
+				so4.datein = dtr.datein
+				ORDER BY TIME ASC
+				LIMIT 1
+			), #SO LOGS
+			(SELECT CONCAT("CDO_BUI_",cdo4.time,'_cdo') time from cdo_logs cdo4 where
+				cdo4.userid = ID and
+				cdo4.event = "OUT" and
+				cdo4.time > "13:00" and
+				cdo4.datein = dtr.datein
+				ORDER BY TIME ASC
+				LIMIT 1
+			), #CDO LOGS
+			(SELECT CONCAT(leave4.remark,"_BUI_",leave4.time,'_leave') time from leave_logs leave4 where
+				leave4.userid = ID and
+				leave4.event = "OUT" and
+				leave4.time > "13:00" and
+				leave4.datein = dtr.datein
+				ORDER BY TIME ASC
+				LIMIT 1
+			), #LEAVE LOGS
+            (SELECT CONCAT(edited4.time,"_BUI_",edited4.time,'_edited') time from edited_logs edited4 where
+				edited4.userid = ID and
+				edited4.event = "OUT" and
+				edited4.time > "13:00" and
+				edited4.datein = dtr.datein
+				ORDER BY TIME ASC
+				LIMIT 1
+			), #EDITED LOGS
+			"empty_BUI_empty_empty"
+        )
+    ) time, #END CONCAT
+    (
+		COALESCE(
+			GREATEST(
+				TIMESTAMPDIFF(MINUTE,concat(dtr.datein," ","08:00:00"),
+					CONCAT(
+						dtr.datein," ",
+						(SELECT time from dtr_file dtr1 where
+							dtr1.userid = ID and
+							dtr1.event = "IN" and
+							dtr1.time < "12:00" and
+							dtr1.datein = dtr.datein
+							ORDER BY TIME ASC
+							LIMIT 1
+						)
+					)
+				)
+			,0)
+		,0) +
+        COALESCE(
+			GREATEST(
+				TIMESTAMPDIFF(MINUTE,concat(dtr.datein," ","13:00:00"),
+					CONCAT(
+						dtr.datein," ",
+						(SELECT time from dtr_file dtr3 where
+							dtr3.userid = ID and
+							dtr3.event = "IN" and
+							dtr3.time >= "12:00" and
+							dtr3.time < "17:00" and
+							dtr3.datein = dtr.datein
+							ORDER BY TIME ASC
+							LIMIT 1
+						)
+					)
+				)
+			,0)
+		,0)
+    ) late,
+    (
+		COALESCE(
+			GREATEST(
+				TIMESTAMPDIFF(MINUTE,
+					CONCAT(dtr.datein," ",
+						IF(
+							(SELECT time from dtr_file dtr2 where
+								dtr2.userid = ID and
+								dtr2.event = "OUT" and
+								dtr2.time > "8:00" and
+								dtr2.datein = dtr.datein
+								ORDER BY TIME ASC
+								LIMIT 1
+							)
+							<
+							(SELECT time from dtr_file dtr3 where
+								dtr3.userid = ID and
+								dtr3.event = "IN" and
+								dtr3.time >= "12:00" and
+								dtr3.time < "17:00" and
+								dtr3.datein = dtr.datein
+								ORDER BY TIME ASC
+								LIMIT 1
+							)
+							,(SELECT time from dtr_file dtr2 where
+								dtr2.userid = ID and
+								dtr2.event = "OUT" and
+								dtr2.time > "8:00" and
+								dtr2.datein = dtr.datein
+								ORDER BY TIME ASC
+								LIMIT 1
+							), "12:00:00"
+						)
+					),
+					CONCAT(
+						dtr.datein," ","12:00:00"
+					)
+				)
+			,0)
+		,0) +
+        COALESCE(
+			GREATEST(
+				TIMESTAMPDIFF(MINUTE,
+					CONCAT(dtr.datein," ",
+						(SELECT time from dtr_file dtr4 where
+							dtr4.userid = ID and
+							dtr4.event = "OUT" and
+							dtr4.time > "13:00" and
+							dtr4.datein = dtr.datein
+							ORDER BY TIME DESC
+							LIMIT 1
+						)
+					),
+					CONCAT(
+						dtr.datein," ","17:00:00"
+					)
+				)
+			,0)
+		,0)
+    ) undertime
+    from dohdtr.dtr_file dtr
+    left join users user on user.userid = ID
+    left join work_sched sched on sched.id = user.sched
+    where dtr.datein >= datein_from and dtr.datein <= datein_to and dtr.userid = ID
 
+    UNION
 
-
-
-SELECT DISTINCT e.userid, datein,holiday,remark,
-
-	(SELECT  CONCAT(t1.time,'_',t1.edited,'_',t1.remark) FROM dtr_file t1 WHERE userid = d.userid and datein = d.datein and t1.time < AMOUT AND t1.event = 'IN' ORDER BY time ASC  LIMIT 1) as am_in,
-
-	(SELECT  CONCAT(t2.time,'_',t2.edited,'_',t2.remark) FROM dtr_file t2 WHERE userid = d.userid and datein = d.datein and (SELECT  CONCAT(t1.time,'_',t1.edited) FROM dtr_file t1 WHERE userid = d.userid and datein = d.datein and t1.time < AMOUT AND t1.event = 'IN' ORDER BY time ASC  LIMIT 1) and  t2.time < PMIN AND t2.event = 'OUT' AND t2.time > AMIN ORDER BY t2.time DESC LIMIT 1 ) as am_out,
-
-	(SELECT  CONCAT(t3.time,'_',t3.edited,'_',t3.remark) FROM dtr_file t3 WHERE userid = d.userid AND datein = d.datein and t3.time > AMOUT and t3.time < PMOUT AND t3.event = 'IN' ORDER BY t3.time ASC LIMIT 1) as pm_in,
-
-	(SELECT  CONCAT(t4.time,'_',t4.edited,'_',t4.remark) FROM dtr_file t4 WHERE userid = d.userid AND datein = d.datein and t4.time > PMIN AND t4.event = 'OUT'
-
-		AND t4.time > IF((SELECT  CONCAT(t3.time,'_',t3.edited) FROM dtr_file t3 WHERE userid = d.userid AND datein = d.datein and t3.time > AMOUT and t3.time < PMOUT AND t3.event = 'IN' ORDER BY t3.time ASC LIMIT 1),
-        (SELECT  CONCAT(t3.time,'_',t3.edited) FROM dtr_file t3 WHERE userid = d.userid AND datein = d.datein and t3.time > AMOUT and t3.time < PMOUT AND t3.event = 'IN' ORDER BY t3.time ASC LIMIT 1),
-        (0))
-
-    ORDER BY time DESC LIMIT 1) as pm_out
-
-
-FROM dtr_file d LEFT JOIN users e
-	ON d.userid = e.userid and datein = d.datein
-
-    or (datein between DATE_FROM AND DATE_TO and holiday = '002' and d.userid = e.userid)
-    or (datein between DATE_FROM AND DATE_TO and holiday = '003' and d.userid = e.userid)
-    or (datein between DATE_FROM AND DATE_TO and holiday = '004' and d.userid = e.userid)
-    or (datein between DATE_FROM AND DATE_TO and holiday = '005' and d.userid = e.userid)
-WHERE d.datein BETWEEN DATE_FROM AND DATE_TO
-	  AND e.userid = ID
-	group by d.datein
-ORDER BY datein ASC;
+	select * from
+	(select
+		adddate('2010-01-01',t4.i*10000 + t3.i*1000 + t2.i*100 + t1.i*10 + t0.i) datein,
+        "sched",
+        DAYNAME(adddate('2010-01-01',t4.i*10000 + t3.i*1000 + t2.i*100 + t1.i*10 + t0.i)) dayname,
+        (
+			IF(DAYNAME(adddate('2010-01-01',t4.i*10000 + t3.i*1000 + t2.i*100 + t1.i*10 + t0.i))
+				= "Saturday" or DAYNAME(adddate('2010-01-01',t4.i*10000 + t3.i*1000 + t2.i*100 + t1.i*10 + t0.i)) = "Sunday",
+				CONCAT(
+					COALESCE(
+						(SELECT CONCAT("SO #",so1.remark,"_BUI_",so1.time,'_so') time from so_logs so1 where
+							so1.userid = ID and
+							so1.event = "IN" and
+							so1.time = "08:00:00" and
+							so1.datein = adddate('2010-01-01',t4.i*10000 + t3.i*1000 + t2.i*100 + t1.i*10 + t0.i)
+							ORDER BY TIME ASC
+							LIMIT 1
+						), #SO LOGS
+						(SELECT CONCAT("CDO_BUI_",cdo1.time,'_cdo') time from cdo_logs cdo1 where
+							cdo1.userid = ID and
+							cdo1.event = "IN" and
+							cdo1.time = "08:00:00" and
+							cdo1.datein = adddate('2010-01-01',t4.i*10000 + t3.i*1000 + t2.i*100 + t1.i*10 + t0.i)
+							ORDER BY TIME ASC
+							LIMIT 1
+						), #CDO LOGS
+						(SELECT CONCAT(leave1.remark,"_BUI_",leave1.time,'_leave') time from leave_logs leave1 where
+							leave1.userid = ID and
+							leave1.event = "IN" and
+							leave1.time = "08:00:00" and
+							leave1.datein = adddate('2010-01-01',t4.i*10000 + t3.i*1000 + t2.i*100 + t1.i*10 + t0.i)
+							ORDER BY TIME ASC
+							LIMIT 1
+						), #LEAVE LOGS
+						(SELECT CONCAT(edited1.time,"_BUI_",edited1.time,'_edited') time from edited_logs edited1 where
+							edited1.userid = ID and
+							edited1.event = "IN" and
+							edited1.time < "12:00" and
+							edited1.datein = adddate('2010-01-01',t4.i*10000 + t3.i*1000 + t2.i*100 + t1.i*10 + t0.i)
+							ORDER BY TIME ASC
+							LIMIT 1
+						), #EDITED LOGS,
+                        (SELECT "HOLIDAY_BUI_holiday_holiday" time from edited_logs holiday1 where
+							holiday1.userid = "001" and
+							holiday1.event = "IN" and
+							holiday1.time = "08:00:00" and
+							holiday1.datein = adddate('2010-01-01',t4.i*10000 + t3.i*1000 + t2.i*100 + t1.i*10 + t0.i)
+							ORDER BY TIME ASC
+							LIMIT 1
+						), #HOLIDAY LOGS
+                        "DAY OFF_BUI_dayoff_dayoff"
+					),
+                    "|",
+                    COALESCE(
+						(SELECT CONCAT("SO #",so2.remark,"_BUI_",so2.time,'_so') time from so_logs so2 where
+							so2.userid = ID and
+							so2.event = "OUT" and
+							so2.time = "12:00:00" and
+							so2.datein = adddate('2010-01-01',t4.i*10000 + t3.i*1000 + t2.i*100 + t1.i*10 + t0.i)
+							ORDER BY TIME ASC
+							LIMIT 1
+						), #SO LOGS
+						(SELECT CONCAT("CDO_BUI_",cdo2.time,'_cdo') time from cdo_logs cdo2 where
+							cdo2.userid = ID and
+							cdo2.event = "OUT" and
+							cdo2.time = "12:00:00" and
+							cdo2.datein = adddate('2010-01-01',t4.i*10000 + t3.i*1000 + t2.i*100 + t1.i*10 + t0.i)
+							ORDER BY TIME ASC
+							LIMIT 1
+						), #CDO LOGS
+						(SELECT CONCAT(leave2.remark,"_BUI_",leave2.time,'_leave') time from leave_logs leave2 where
+							leave2.userid = ID and
+							leave2.event = "OUT" and
+							leave2.time = "12:00:00" and
+							leave2.datein = adddate('2010-01-01',t4.i*10000 + t3.i*1000 + t2.i*100 + t1.i*10 + t0.i)
+							ORDER BY TIME ASC
+							LIMIT 1
+						), #LEAVE LOGS
+                        IF(
+							(SELECT edited2.time from edited_logs edited2 where
+								edited2.userid = ID and
+								edited2.event = "OUT" and
+								edited2.time > "08:00:00" and
+								edited2.datein = adddate('2010-01-01',t4.i*10000 + t3.i*1000 + t2.i*100 + t1.i*10 + t0.i)
+								ORDER BY TIME ASC
+								LIMIT 1
+							)
+                            <
+                            (SELECT edited3.time from edited_logs edited3 where
+								edited3.userid = ID and
+								edited3.event = "IN" and
+								edited3.time >= "12:00:00" and
+								edited3.time < "17:00:00" and
+								edited3.datein = adddate('2010-01-01',t4.i*10000 + t3.i*1000 + t2.i*100 + t1.i*10 + t0.i)
+								ORDER BY TIME ASC
+								LIMIT 1
+							),
+                            (SELECT CONCAT(edited2.time,"_BUI_",edited2.time,'_edited') from edited_logs edited2 where
+								edited2.userid = ID and
+								edited2.event = "OUT" and
+								edited2.time > "08:00:00" and
+								edited2.datein = adddate('2010-01-01',t4.i*10000 + t3.i*1000 + t2.i*100 + t1.i*10 + t0.i)
+								ORDER BY TIME ASC
+								LIMIT 1
+							),
+                            "DAY OFF_BUI_dayoff_dayoff"
+                        ), #EDITED LOGS
+						"DAY OFF_BUI_dayoff_dayoff"
+					),
+                    "|",
+                    COALESCE(
+						(SELECT CONCAT("SO #",so3.remark,"_BUI_",so3.time,'_so') time from so_logs so3 where
+							so3.userid = ID and
+							so3.event = "IN" and
+							so3.time = "13:00:00" and
+							so3.datein = adddate('2010-01-01',t4.i*10000 + t3.i*1000 + t2.i*100 + t1.i*10 + t0.i)
+							ORDER BY TIME ASC
+							LIMIT 1
+						), #SO LOGS
+						(SELECT CONCAT("CDO_BUI_",cdo3.time,'_cdo') time from cdo_logs cdo3 where
+							cdo3.userid = ID and
+							cdo3.event = "IN" and
+							cdo3.time = "13:00:00" and
+							cdo3.datein = adddate('2010-01-01',t4.i*10000 + t3.i*1000 + t2.i*100 + t1.i*10 + t0.i)
+							ORDER BY TIME ASC
+							LIMIT 1
+						), #CDO LOGS
+						(SELECT CONCAT(leave3.remark,"_BUI_",leave3.time,'_leave') time from leave_logs leave3 where
+							leave3.userid = ID and
+							leave3.event = "IN" and
+							leave3.time = "13:00:00" and
+							leave3.datein = adddate('2010-01-01',t4.i*10000 + t3.i*1000 + t2.i*100 + t1.i*10 + t0.i)
+							ORDER BY TIME ASC
+							LIMIT 1
+						), #LEAVE LOGS
+						(SELECT CONCAT(edited3.time,"_BUI_",edited3.time,'_edited') time from edited_logs edited3 where
+							edited3.userid = ID and
+							edited3.event = "IN" and
+							edited3.time >= "12:00:00" and
+							edited3.time < "17:00:00" and
+							edited3.datein = adddate('2010-01-01',t4.i*10000 + t3.i*1000 + t2.i*100 + t1.i*10 + t0.i)
+							ORDER BY TIME ASC
+							LIMIT 1
+						), #EDITED LOGS
+						"DAY OFF_BUI_dayoff_dayoff"
+					),
+                    "|",
+                    COALESCE(
+						(SELECT CONCAT("SO #",so4.remark,"_BUI_",so4.time,'_so') time from so_logs so4 where
+							so4.userid = ID and
+							so4.event = "OUT" and
+							so4.time = "17:00:00" and
+							so4.datein = adddate('2010-01-01',t4.i*10000 + t3.i*1000 + t2.i*100 + t1.i*10 + t0.i)
+							ORDER BY TIME ASC
+							LIMIT 1
+						), #SO LOGS
+						(SELECT CONCAT("CDO_BUI_",cdo4.time,'_cdo') time from cdo_logs cdo4 where
+							cdo4.userid = ID and
+							cdo4.event = "OUT" and
+							cdo4.time = "17:00:00" and
+							cdo4.datein = adddate('2010-01-01',t4.i*10000 + t3.i*1000 + t2.i*100 + t1.i*10 + t0.i)
+							ORDER BY TIME ASC
+							LIMIT 1
+						), #CDO LOGS
+						(SELECT CONCAT(leave4.remark,"_BUI_",leave4.time,'_leave') time from leave_logs leave4 where
+							leave4.userid = ID and
+							leave4.event = "OUT" and
+							leave4.time = "17:00:00" and
+							leave4.datein = adddate('2010-01-01',t4.i*10000 + t3.i*1000 + t2.i*100 + t1.i*10 + t0.i)
+							ORDER BY TIME ASC
+							LIMIT 1
+						), #LEAVE LOGS
+						(SELECT CONCAT(edited4.time,"_BUI_",edited4.time,'_edited') from edited_logs edited4 where
+							edited4.userid = ID and
+							edited4.event = "OUT" and
+							edited4.time > "13:00:00" and
+							edited4.datein = adddate('2010-01-01',t4.i*10000 + t3.i*1000 + t2.i*100 + t1.i*10 + t0.i)
+							ORDER BY TIME ASC
+							LIMIT 1
+						), #EDITED LOGS
+						"DAY OFF_BUI_dayoff_dayoff"
+					)
+				),
+				CONCAT(
+					COALESCE(
+						(SELECT CONCAT("SO #",so1.remark,"_BUI_",so1.time,'_so') time from so_logs so1 where
+							so1.userid = ID and
+							so1.event = "IN" and
+							so1.time = "08:00:00" and
+							so1.datein = adddate('2010-01-01',t4.i*10000 + t3.i*1000 + t2.i*100 + t1.i*10 + t0.i)
+							ORDER BY TIME ASC
+							LIMIT 1
+						), #SO LOGS
+						(SELECT CONCAT("CDO_BUI_",cdo1.time,'_cdo') time from cdo_logs cdo1 where
+							cdo1.userid = ID and
+							cdo1.event = "IN" and
+							cdo1.time = "08:00:00" and
+							cdo1.datein = adddate('2010-01-01',t4.i*10000 + t3.i*1000 + t2.i*100 + t1.i*10 + t0.i)
+							ORDER BY TIME ASC
+							LIMIT 1
+						), #CDO LOGS
+						(SELECT CONCAT(leave1.remark,"_BUI_",leave1.time,'_leave') time from leave_logs leave1 where
+							leave1.userid = ID and
+							leave1.event = "IN" and
+							leave1.time = "08:00:00" and
+							leave1.datein = adddate('2010-01-01',t4.i*10000 + t3.i*1000 + t2.i*100 + t1.i*10 + t0.i)
+							ORDER BY TIME ASC
+							LIMIT 1
+						), #LEAVE LOGS
+						(SELECT CONCAT(edited1.time,"_BUI_",edited1.time,'_edited') time from edited_logs edited1 where
+							edited1.userid = ID and
+							edited1.event = "IN" and
+							edited1.time < "12:00" and
+							edited1.datein = adddate('2010-01-01',t4.i*10000 + t3.i*1000 + t2.i*100 + t1.i*10 + t0.i)
+							ORDER BY TIME ASC
+							LIMIT 1
+						), #EDITED LOGS
+						"empty_BUI_empty_empty"
+					),
+					"|",
+                    COALESCE(
+						(SELECT CONCAT("SO #",so2.remark,"_BUI_",so2.time,'_so') time from so_logs so2 where
+							so2.userid = ID and
+							so2.event = "OUT" and
+							so2.time = "12:00:00" and
+							so2.datein = adddate('2010-01-01',t4.i*10000 + t3.i*1000 + t2.i*100 + t1.i*10 + t0.i)
+							ORDER BY TIME ASC
+							LIMIT 1
+						), #SO LOGS
+						(SELECT CONCAT("CDO_BUI_",cdo2.time,'_cdo') time from cdo_logs cdo2 where
+							cdo2.userid = ID and
+							cdo2.event = "OUT" and
+							cdo2.time = "12:00:00" and
+							cdo2.datein = adddate('2010-01-01',t4.i*10000 + t3.i*1000 + t2.i*100 + t1.i*10 + t0.i)
+							ORDER BY TIME ASC
+							LIMIT 1
+						), #CDO LOGS
+						(SELECT CONCAT(leave2.remark,"_BUI_",leave2.time,'_leave') time from leave_logs leave2 where
+							leave2.userid = ID and
+							leave2.event = "OUT" and
+							leave2.time = "12:00:00" and
+							leave2.datein = adddate('2010-01-01',t4.i*10000 + t3.i*1000 + t2.i*100 + t1.i*10 + t0.i)
+							ORDER BY TIME ASC
+							LIMIT 1
+						), #LEAVE LOGS
+                        IF(
+							(SELECT edited2.time from edited_logs edited2 where
+								edited2.userid = ID and
+								edited2.event = "OUT" and
+								edited2.time > "08:00:00" and
+								edited2.datein = adddate('2010-01-01',t4.i*10000 + t3.i*1000 + t2.i*100 + t1.i*10 + t0.i)
+								ORDER BY TIME ASC
+								LIMIT 1
+							)
+                            <
+                            (SELECT edited3.time from edited_logs edited3 where
+								edited3.userid = ID and
+								edited3.event = "IN" and
+								edited3.time >= "12:00:00" and
+								edited3.time < "17:00:00" and
+								edited3.datein = adddate('2010-01-01',t4.i*10000 + t3.i*1000 + t2.i*100 + t1.i*10 + t0.i)
+								ORDER BY TIME ASC
+								LIMIT 1
+							),
+                            (SELECT CONCAT(edited2.time,"_BUI_",edited2.time,'_edited') from edited_logs edited2 where
+								edited2.userid = ID and
+								edited2.event = "OUT" and
+								edited2.time > "08:00:00" and
+								edited2.datein = adddate('2010-01-01',t4.i*10000 + t3.i*1000 + t2.i*100 + t1.i*10 + t0.i)
+								ORDER BY TIME ASC
+								LIMIT 1
+							),
+                            COALESCE(
+								(SELECT "HOLIDAY_BUI_' '_holiday" time from edited_logs holiday2 where
+									holiday2.userid = "001" and
+									holiday2.event = "OUT" and
+									holiday2.time = "12:00:00" and
+									holiday2.datein = adddate('2010-01-01',t4.i*10000 + t3.i*1000 + t2.i*100 + t1.i*10 + t0.i)
+									ORDER BY TIME ASC
+									LIMIT 1
+								), #HOLIDAY LOGS
+								"empty_BUI_empty_empty"
+                            )
+                        ), #EDITED LOGS
+						"empty_BUI_empty_empty"
+					),
+                    "|",
+                    COALESCE(
+						(SELECT CONCAT("SO #",so3.remark,"_BUI_",so3.time,'_so') time from so_logs so3 where
+							so3.userid = ID and
+							so3.event = "IN" and
+							so3.time = "13:00:00" and
+							so3.datein = adddate('2010-01-01',t4.i*10000 + t3.i*1000 + t2.i*100 + t1.i*10 + t0.i)
+							ORDER BY TIME ASC
+							LIMIT 1
+						), #SO LOGS
+						(SELECT CONCAT("CDO_BUI_",cdo3.time,'_cdo') time from cdo_logs cdo3 where
+							cdo3.userid = ID and
+							cdo3.event = "IN" and
+							cdo3.time = "13:00:00" and
+							cdo3.datein = adddate('2010-01-01',t4.i*10000 + t3.i*1000 + t2.i*100 + t1.i*10 + t0.i)
+							ORDER BY TIME ASC
+							LIMIT 1
+						), #CDO LOGS
+						(SELECT CONCAT(leave3.remark,"_BUI_",leave3.time,'_leave') time from leave_logs leave3 where
+							leave3.userid = ID and
+							leave3.event = "IN" and
+							leave3.time = "13:00:00" and
+							leave3.datein = adddate('2010-01-01',t4.i*10000 + t3.i*1000 + t2.i*100 + t1.i*10 + t0.i)
+							ORDER BY TIME ASC
+							LIMIT 1
+						), #LEAVE LOGS
+						(SELECT CONCAT(edited3.time,"_BUI_",edited3.time,'_edited') time from edited_logs edited3 where
+							edited3.userid = ID and
+							edited3.event = "IN" and
+							edited3.time >= "12:00:00" and
+							edited3.time < "17:00:00" and
+							edited3.datein = adddate('2010-01-01',t4.i*10000 + t3.i*1000 + t2.i*100 + t1.i*10 + t0.i)
+							ORDER BY TIME ASC
+							LIMIT 1
+						), #EDITED LOGS
+                        (SELECT "HOLIDAY_BUI_' '_holiday" time from edited_logs holiday3 where
+							holiday3.userid = "001" and
+							holiday3.event = "IN" and
+							holiday3.time = "13:00:00" and
+							holiday3.datein = adddate('2010-01-01',t4.i*10000 + t3.i*1000 + t2.i*100 + t1.i*10 + t0.i)
+							ORDER BY TIME ASC
+							LIMIT 1
+						), #HOLIDAY LOGS
+						"empty_BUI_empty_empty"
+					),
+                    "|",
+                    COALESCE(
+						(SELECT CONCAT("SO #",so4.remark,"_BUI_",so4.time,'_so') time from so_logs so4 where
+							so4.userid = ID and
+							so4.event = "OUT" and
+							so4.time > "13:00:00" and
+							so4.datein = adddate('2010-01-01',t4.i*10000 + t3.i*1000 + t2.i*100 + t1.i*10 + t0.i)
+							ORDER BY TIME ASC
+							LIMIT 1
+						), #SO LOGS
+						(SELECT CONCAT("CDO_BUI_",cdo4.time,'_so') time from cdo_logs cdo4 where
+							cdo4.userid = ID and
+							cdo4.event = "OUT" and
+							cdo4.time > "13:00:00" and
+							cdo4.datein = adddate('2010-01-01',t4.i*10000 + t3.i*1000 + t2.i*100 + t1.i*10 + t0.i)
+							ORDER BY TIME ASC
+							LIMIT 1
+						), #CDO LOGS
+						(SELECT CONCAT(leave4.remark,"_BUI_",leave4.time,'_leave') time from leave_logs leave4 where
+							leave4.userid = ID and
+							leave4.event = "OUT" and
+							leave4.time > "13:00:00" and
+							leave4.datein = adddate('2010-01-01',t4.i*10000 + t3.i*1000 + t2.i*100 + t1.i*10 + t0.i)
+							ORDER BY TIME ASC
+							LIMIT 1
+						), #LEAVE LOGS
+						(SELECT CONCAT(edited4.time,"_BUI_",edited4.time,'_edited') from edited_logs edited4 where
+							edited4.userid = ID and
+							edited4.event = "OUT" and
+							edited4.time > "13:00:00" and
+							edited4.datein = adddate('2010-01-01',t4.i*10000 + t3.i*1000 + t2.i*100 + t1.i*10 + t0.i)
+							ORDER BY TIME ASC
+							LIMIT 1
+						), #EDITED LOGS
+                        (SELECT "HOLIDAY_BUI_holiday_holiday" time from edited_logs holiday4 where
+							holiday4.userid = "001" and
+							holiday4.event = "OUT" and
+							holiday4.time > "13:00:00" and
+							holiday4.datein = adddate('2010-01-01',t4.i*10000 + t3.i*1000 + t2.i*100 + t1.i*10 + t0.i)
+							ORDER BY TIME ASC
+							LIMIT 1
+						), #HOLIDAY LOGS
+						"empty_BUI_empty_empty"
+					)
+                )
+			)
+        ) time,
+        "late",
+        "undertime"
+        from
+		(select 0 i union select 1 union select 2 union select 3 union select 4 union select 5 union select 6 union select 7 union select 8 union select 9) t0,
+		(select 0 i union select 1 union select 2 union select 3 union select 4 union select 5 union select 6 union select 7 union select 8 union select 9) t1,
+		(select 0 i union select 1 union select 2 union select 3 union select 4 union select 5 union select 6 union select 7 union select 8 union select 9) t2,
+		(select 0 i union select 1 union select 2 union select 3 union select 4 union select 5 union select 6 union select 7 union select 8 union select 9) t3,
+		(select 0 i union select 1 union select 2 union select 3 union select 4 union select 5 union select 6 union select 7 union select 8 union select 9) t4) fetchDay
+	where fetchDay.datein >= datein_from and fetchDay.datein <= datein_to
+) logs
+group by logs.datein
+order by logs.datein asc;
 
 
 END

@@ -50,6 +50,9 @@
 
     <link rel="stylesheet" type="text/css" href="{{ asset('public/assets/datepicer/css/bootstrap-datepicker3.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ asset('public/assets/datepicer/css/bootstrap-datepicker3.standalone.css') }}" />
+
+    <link rel="stylesheet" type="text/css" href="{{ asset('public/plugin/bootstrap3-editable/css/bootstrap-editable.css') }}" />
+
     <script src="{{ asset('public/assets/js/jquery.min.js') }}"></script>
     @if(Request::segments()[0] == "work-schedule")
     <link rel="stylesheet" type="text/css" href="{{ asset('public/plugin/datatables/datatables.min.css') }}" />
@@ -61,7 +64,7 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('public/plugin/select2/select2.min.css') }}" />
 
     @if(isset(Request::segments()[1]))
-        @if(Request::segments()[1] == "cdo_list" || Request::segments()[1] == 'so_list' || Request::segments()[1] == 'so' || Request::segments()[1] == 'sample' || Request::segments()[1] == 'sov1')
+        @if(Request::segments()[1] == "cdo_list" || Request::segments()[1] == 'so_list' || Request::segments()[1] == 'so' || Request::segments()[1] == 'sample' || Request::segments()[1] == 'sov1' || Request::segments()[1] == 'timelog')
             <link href="{{ asset('public/plugin/dist/css/AdminLTE.min.css') }}" rel="stylesheet">
             <link href="{{ asset('public/plugin/dist/css/google-font.css') }}" rel="stylesheet">
         @endif
@@ -179,6 +182,8 @@
 
 <!-- iCheck -->
 <script src="{{ asset('public/plugin/iCheck/icheck.min.js') }}"></script>
+<script src="{{ asset('public/plugin/bootstrap3-editable/js/bootstrap-editable.js') }}"></script>
+<script src="{{ asset('public/plugin/bootstrap3-editable/js/bootstrap-editable.min.js') }}"></script>
 
 <script>
     $('.create-absent').click(function(){

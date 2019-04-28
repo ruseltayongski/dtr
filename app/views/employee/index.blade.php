@@ -11,18 +11,14 @@
                             <div class="panel panel-default">
                                 <div class="panel-heading"><strong style="color: #f0ad4e;font-size:medium;">Print individual DTR</strong></div>
                                 <div class="panel-body">
-                                    <form action="{{ asset('FPDF/print_individual.php') }}" autocomplete="off" method="POST" id="print_pdf">
+                                    <form action="{{ asset('FPDF/print_individual.php') }}" target="_blank" autocomplete="off" method="POST" id="print_pdf">
                                         <div class="table-responsive">
                                             <table class="table">
                                                 <tr>
                                                     <td class="col-sm-3"><strong>User ID </strong></td>
                                                     <td class="col-sm-1">: </td>
                                                     <td class="col-sm-9">
-                                                        @if(Auth::user()->usertype == "1")
-                                                            <input type="text" class="col-md-2 form-control" id="inputEmail3" name="userid" value="" required>
-                                                        @else
-                                                            <input type="text" readonly class="col-md-2 form-control" id="inputEmail3" name="userid" value="{{ Auth::user()->userid }}" required>
-                                                        @endif
+                                                        <input type="text" readonly class="col-md-2 form-control" id="inputEmail3" name="userid" value="{{ Auth::user()->userid }}" required>
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -46,49 +42,6 @@
                                 </div>
                             </div>
                         </div>
-
-                    <!--
-                        <div class="col-md-12">
-                            <div class="panel panel-default">
-                                <div class="panel-heading"><div style="color: #1560f0;font-size:medium;">Most Punctual Employee</div></div>
-                                <div class="panel-body">
-                                    <form action="{{ asset('FPDF/print_individual.php') }}" method="POST" id="print_pdf">
-                                        <div class="table-responsive">
-                                            <table class="table">
-                                                <tr class="success">
-                                                    <th class="col-sm-2"></th>
-                                                    <th class="col-sm-2">Rank</th>
-                                                    <th class="col-sm-6">Name</th>
-                                                    <th class="col-sm-3">Points</th>
-                                                </tr>
-                                                @foreach(range(0,3) as $index)
-                        <tr>
-                            <td class="col-sm-2"><img src="{{ asset('public/img/gonzales1.jpg') }}" class="img-circle" style="width: 100%" alt="Cinque Terre"></td>
-                                                    <td class="col-sm-2">1</td>
-                                                    <td class="col-sm-5 align-text-bottom">Jeswyrne Gonzales</td>
-                                                    <td class="col-sm-3">555</td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="col-sm-2"><img src="{{ asset('public/img/mayor.jpg') }}" class="img-circle" style="width: 100%" alt="Cinque Terre"></td>
-                                                    <td class="col-sm-2">2</td>
-                                                    <td class="col-sm-5">Asnaui Pangcatan</td>
-                                                    <td class="col-sm-3">555</td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="col-sm-2"><img src="{{ asset('public/img/traya.jpg') }}" class="img-circle" style="width: 100%" alt="Cinque Terre"></td>
-                                                    <td class="col-sm-2">3</td>
-                                                    <td class="col-sm-5">Lourence Rex Traya</td>
-                                                    <td class="col-sm-3">555</td>
-                                                </tr>
-                                                @endforeach
-                            </table>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
--->
-
                     </div>
                 </div>
                 <div class="col-md-8">
@@ -183,13 +136,13 @@
         });
         $('#inclusive3').daterangepicker();
         $('#filter_dates').daterangepicker();
-        $('#print_pdf').submit(function(){
+        /*$('#print_pdf').submit(function(){
             $('#upload').button('loading');
             $('#print_individual').modal({
                 backdrop: 'static',
                 keyboard: false,
                 show: true
             });
-        });
+        });*/
     </script>
 @endsection

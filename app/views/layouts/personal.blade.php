@@ -43,10 +43,8 @@
                         <li><a href="{{ asset("form/cdo_list") }}">CDO</a></li>
                     </ul>
                 </li>
-                <!--
                 <li class="divider"></li>
-                <li><a href="{{ url('timelog') }}"><i class="fa fa-user"></i>&nbsp;&nbsp; Time Log</a></li>
-                -->
+                <li><a href="{{ url('logs/timelog') }}"><i class="fa fa-user"></i>&nbsp;&nbsp; Time Log</a></li>
             </ul>
         </li>
     @endif
