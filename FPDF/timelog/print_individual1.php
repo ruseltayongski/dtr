@@ -10,7 +10,7 @@ class PDF_MC_Table extends FPDF
     function Header()
     {
         // Logo
-        $this->Image(__DIR__.'/../image/doh2.png', 15, 50,80,80);
+        $this->Image(__DIR__.'/../image/doh2.png', 12, 50,80,80);
         $this->Image(__DIR__.'/../image/doh2.png', 118, 50,80,80);
         $this->Ln(5);
     }
@@ -51,14 +51,14 @@ class PDF_MC_Table extends FPDF
         for($i=0;$i<count($data);$i++)
         {
             $w=$this->widths[$i];
-            $a=isset($this->aligns[$i]) ? $this->aligns[$i] : 'L';
+            $a=isset($this->aligns[$i]) ? $this->aligns[$i] : isset(explode('|',$data[$i])[1]) ? explode('|',$data[$i])[1]: '';
             //Save the current position
             $x=$this->GetX();
             $y=$this->GetY();
             //Draw the border
             $this->Rect($x,$y,$w,$h);
             //Print the text
-            $this->MultiCell($w,5,$data[$i],0,$a);
+            $this->MultiCell($w,5,explode('|',$data[$i])[0],0,$a);
             //Put the position to the right of the cell
             $this->SetXY($x+$w,$y);
         }
