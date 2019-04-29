@@ -274,8 +274,6 @@ class PDF extends FPDF
             $s_pm_in = $sched[0]["pm_in"];
             $s_pm_out = $sched[0]["pm_out"];
             $logs = get_logs($s_am_in,$s_am_out,$s_pm_in,$s_pm_out,$userid,$date_from,$date_to);
-            echo json_encode($logs);
-            break;
             $records["logs"] = $logs;
             if(count($logs) <= 0) {
                 //include_once('empty_dtr.php');

@@ -290,6 +290,6 @@ Route::get('git_commit','GitController@git_commit');
 Route::post('logs/timelog','TimeLogController@timelog');
 Route::post('logs/timelog/edit','TimeLogController@edit');
 Route::get('logs/timelog','TimeLogController@timelog');
-Route::get('logs/append/{id}','TimeLogController@append');
+Route::post('logs/timelog/append','TimeLogController@append');
 
 ?>

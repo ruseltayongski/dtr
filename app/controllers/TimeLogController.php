@@ -56,9 +56,13 @@ class TimeLogController extends Controller
         ]);
     }
 
-    public function append($id){
+    public function append(){
         return View::make("timelog.append_timelog",[
-            "id" => $id
+            "elementId" => Input::get('elementId'),
+            "am_in" => Input::get("am_in"),
+            "am_out" => Input::get("am_out"),
+            "pm_in" => Input::get("pm_in"),
+            "pm_out" => Input::get("pm_out")
         ]);
     }
 
@@ -102,79 +106,105 @@ class TimeLogController extends Controller
                 break;
         }
 
+        $time_display = '';
         switch ($log_status_change){ //INSERT
             case "so":
                 $so = new SoLogs();
                 $so->userid = $userid;
                 $so->datein = $datein;
-                if($log_type == "AM_IN")
+                if($log_type == "AM_IN"){
                     $so->time = "08:00:00";
-                elseif($log_type == "AM_OUT")
+                    $time_display = "08:00:00";
+                }
+                elseif($log_type == "AM_OUT"){
                     $so->time = "12:00:00";
-                elseif($log_type == "PM_IN")
+                    $time_display = "12:00:00";
+                }
+                elseif($log_type == "PM_IN"){
                     $so->time = "13:00:00";
-                elseif($log_type == "PM_OUT")
+                    $time_display = "13:00:00";
+                }
+                elseif($log_type == "PM_OUT"){
                     $so->time = "18:00:00";
+                    $time_display = "18:00:00";
+                }
                 $so->event = explode("_",$log_type)[1];
                 $so->remark = explode("#",$edited_display)[1];
                 $so->edited = 1;
                 $so->holiday = 003;
                 $so->save();
 
-                return "added in SO";
+                return "added in SO-".$time_display;
                 break;
             case "cdo":
                 $cdo = new CdoLogs();
                 $cdo->userid = $userid;
                 $cdo->datein = $datein;
-                if($log_type == "AM_IN")
+                if($log_type == "AM_IN"){
                     $cdo->time = "08:00:00";
-                elseif($log_type == "AM_OUT")
+                    $time_display = "08:00:00";
+                }
+                elseif($log_type == "AM_OUT"){
                     $cdo->time = "12:00:00";
-                elseif($log_type == "PM_IN")
+                    $time_display = "12:00:00";
+                }
+                elseif($log_type == "PM_IN"){
                     $cdo->time = "13:00:00";
-                elseif($log_type == "PM_OUT")
+                    $time_display = "13:00:00";
+                }
+                elseif($log_type == "PM_OUT"){
                     $cdo->time = "18:00:00";
+                    $time_display = "18:00:00";
+                }
                 $cdo->event = explode("_",$log_type)[1];
                 $cdo->remark = "CTO";
                 $cdo->edited = 1;
                 $cdo->holiday = 006;
                 $cdo->save();
 
-                return "added in CDO";
+                return "added in CDO-".$time_display;
                 break;
             case "leave":
                 $leave = new LeaveLogs();
                 $leave->userid = $userid;
                 $leave->datein = $datein;
-                if($log_type == "AM_IN")
+                if($log_type == "AM_IN"){
                     $leave->time = "08:00:00";
-                elseif($log_type == "AM_OUT")
+                    $time_display = "08:00:00";
+                }
+                elseif($log_type == "AM_OUT"){
                     $leave->time = "12:00:00";
-                elseif($log_type == "PM_IN")
+                    $time_display = "12:00:00";
+                }
+                elseif($log_type == "PM_IN"){
                     $leave->time = "13:00:00";
-                elseif($log_type == "PM_OUT")
+                    $time_display = "13:00:00";
+                }
+                elseif($log_type == "PM_OUT"){
                     $leave->time = "18:00:00";
+                    $time_display = "18:00:00";
+                }
                 $leave->event = explode("_",$log_type)[1];
                 $leave->remark = $edited_display;
                 $leave->edited = 1;
                 $leave->holiday = 007;
                 $leave->save();
 
-                return "added in LEAVE";
+                return "added in LEAVE-".$time_display;
                 break;
             case "edited":
                 $edited = new EditedLogs();
                 $edited->userid = $userid;
                 $edited->datein = $datein;
                 $edited->time = $edited_display;
+                $time_display = $edited_display;
                 $edited->event = explode("_",$log_type)[1];
                 $edited->remark = "WEB CREATED";
                 $edited->edited = 1;
                 $edited->holiday = 'A';
                 $edited->save();
 
-                return "added in EDITED";
+                return "added in EDITED-".$time_display;
                 break;
         }
 

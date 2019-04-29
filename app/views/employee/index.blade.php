@@ -6,7 +6,6 @@
             <div class="row">
                 <div class="col-md-4">
                     <div class="row">
-
                         <div class="col-md-12">
                             <div class="panel panel-default">
                                 <div class="panel-heading"><strong style="color: #f0ad4e;font-size:medium;">Print individual DTR</strong></div>
@@ -36,7 +35,7 @@
                                             </table>
                                         </div>
                                         <button type="submit"  class="btn-lg btn-success center-block col-sm-12" id="upload" data-loading-text="<i class='fa fa-refresh fa-spin'></i> Printing DTR">
-                                            <span class="glyphicon glyphicon-print" aria-hidden="true"></span> Print
+                                            <span class="glyphicon glyphicon-print" aria-hidden="true"></span> Generate PDF
                                         </button>
                                     </form>
                                 </div>
@@ -114,7 +113,6 @@
                                         @else
                                             <div class="alert alert-danger" role="alert">DTR records are empty.</div>
                                         @endif
-
                                     </div>
                                 </div>
                             </div>
