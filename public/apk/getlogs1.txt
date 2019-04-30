@@ -22,7 +22,7 @@ SELECT logs.* from(
 				ORDER BY TIME ASC
 				LIMIT 1
 			), #SO LOGS
-			(SELECT CONCAT("CDO","_BUI_",cdo1.time,'cdo') time from cdo_logs cdo1 where
+			(SELECT CONCAT("CDO","_BUI_",cdo1.time,'_cdo') time from cdo_logs cdo1 where
 				cdo1.userid = ID and
 				cdo1.event = "IN" and
 				cdo1.time = "08:00:00" and
@@ -80,7 +80,7 @@ SELECT logs.* from(
 						dtr3.datein = dtr.datein
 						ORDER BY TIME ASC
 						LIMIT 1
-					)
+					) #listed if - first condition
                     <
                     (SELECT time from dtr_file dtr4 where
 						dtr4.userid = ID and
@@ -90,7 +90,7 @@ SELECT logs.* from(
 						dtr4.datein = dtr.datein
 						ORDER BY TIME DESC
 						LIMIT 1
-					),
+					), #listed if = second condition
                     (SELECT time from dtr_file dtr3 where
 						dtr3.userid = ID and
 						dtr3.event = "IN" and
@@ -99,8 +99,8 @@ SELECT logs.* from(
 						dtr3.datein = dtr.datein
 						ORDER BY TIME ASC
 						LIMIT 1
-					),
-                    "17:00:00"
+					), #listed if = true dtr3
+                    "17:00:00" #2nd if false
                 ), #IF second condition
                 COALESCE(
 					(SELECT CONCAT(dtr2.time,"_",IF(dtr2.remark = "MOBILE","U","''"),'_',dtr2.time,"_",IF(dtr2.remark = "MOBILE","mobile","normal")) time from dtr_file dtr2 where
@@ -291,14 +291,25 @@ SELECT logs.* from(
 				TIMESTAMPDIFF(MINUTE,concat(dtr.datein," ","08:00:00"),
 					CONCAT(
 						dtr.datein," ",
-						(SELECT time from dtr_file dtr1 where
-							dtr1.userid = ID and
-							dtr1.event = "IN" and
-							dtr1.time < "12:00" and
-							dtr1.datein = dtr.datein
-							ORDER BY TIME ASC
-							LIMIT 1
-						)
+                        COALESCE(
+							(SELECT time from dtr_file dtr1 where
+								dtr1.userid = ID and
+								dtr1.event = "IN" and
+								dtr1.time < "12:00" and
+								dtr1.datein = dtr.datein
+								ORDER BY TIME ASC
+								LIMIT 1
+							), #normal logs
+                            (SELECT time from edited_logs edited1 where
+								edited1.userid = ID and
+								edited1.event = "IN" and
+								edited1.time < "12:00" and
+								edited1.datein = dtr.datein
+								ORDER BY TIME ASC
+								LIMIT 1
+							), #edited logs
+                            0
+                        )
 					)
 				)
 			,0)
@@ -308,7 +319,7 @@ SELECT logs.* from(
 				TIMESTAMPDIFF(MINUTE,concat(dtr.datein," ","13:00:00"),
 					CONCAT(
 						dtr.datein," ",
-						(SELECT time from dtr_file dtr3 where
+						(SELECT time time from dtr_file dtr3 where
 							dtr3.userid = ID and
 							dtr3.event = "IN" and
 							dtr3.time >= "12:00" and
@@ -316,7 +327,16 @@ SELECT logs.* from(
 							dtr3.datein = dtr.datein
 							ORDER BY TIME ASC
 							LIMIT 1
-						)
+						), #normal logs
+                        (SELECT time from edited_logs edited3 where
+							edited3.userid = ID and
+							edited3.event = "IN" and
+							edited3.time >= "12:00" and
+							edited3.time < "17:00" and
+							edited3.datein = dtr.datein
+							ORDER BY TIME ASC
+							LIMIT 1
+						) #EDITED LOGS
 					)
 				)
 			,0)
@@ -353,7 +373,8 @@ SELECT logs.* from(
 								dtr2.datein = dtr.datein
 								ORDER BY TIME ASC
 								LIMIT 1
-							), "12:00:00"
+							),
+                            "12:00:00"
 						)
 					),
 					CONCAT(
@@ -662,7 +683,7 @@ SELECT logs.* from(
 								LIMIT 1
 							),
                             COALESCE(
-								(SELECT "HOLIDAY_BUI_' '_holiday" time from edited_logs holiday2 where
+								(SELECT "HOLIDAY_BUI_holiday_holiday" time from edited_logs holiday2 where
 									holiday2.userid = "001" and
 									holiday2.event = "OUT" and
 									holiday2.time = "12:00:00" and
@@ -710,7 +731,7 @@ SELECT logs.* from(
 							ORDER BY TIME ASC
 							LIMIT 1
 						), #EDITED LOGS
-                        (SELECT "HOLIDAY_BUI_' '_holiday" time from edited_logs holiday3 where
+                        (SELECT "HOLIDAY_BUI_holiday_holiday" time from edited_logs holiday3 where
 							holiday3.userid = "001" and
 							holiday3.event = "IN" and
 							holiday3.time = "13:00:00" and

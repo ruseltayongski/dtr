@@ -49,7 +49,7 @@ class TimeLogController extends Controller
             Session::put("filter_dates",date("m/01/Y - m/d/Y"));
             $date_from = date("Y-m-01");
             $date_to = date("Y-m-d");
-            $timeLog = DB::connection('mysql')->select("call getLogs2('$userid','$date_from','$date_to')");
+            return $timeLog = DB::connection('mysql')->select("call getLogs2('$userid','$date_from','$date_to')");
         }
         return View::make("timelog.timelog",[
             "timeLog" => $timeLog
