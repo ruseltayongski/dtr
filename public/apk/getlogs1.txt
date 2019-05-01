@@ -157,7 +157,7 @@ SELECT logs.* from(
 					), #EDITED LOGS
                     "empty_BUI_empty_empty"
                 ) #if false
-			),
+			), #end if
 			"empty_BUI_empty_empty"
         ),"|",
 		COALESCE(
@@ -288,7 +288,8 @@ SELECT logs.* from(
     (
 		COALESCE(
 			GREATEST(
-				TIMESTAMPDIFF(MINUTE,concat(dtr.datein," ","08:00:00"),
+				TIMESTAMPDIFF(MINUTE,
+					CONCAT(dtr.datein," ","08:00:00"), #1st condition timestamdiff
 					CONCAT(
 						dtr.datein," ",
                         COALESCE(
@@ -310,34 +311,37 @@ SELECT logs.* from(
 							), #edited logs
                             0
                         )
-					)
+					) #2nd condition timetampdiff
 				)
 			,0)
 		,0) +
         COALESCE(
 			GREATEST(
-				TIMESTAMPDIFF(MINUTE,concat(dtr.datein," ","13:00:00"),
+				TIMESTAMPDIFF(MINUTE,
+					CONCAT(dtr.datein," ","13:00:00"), #1st condition timetamppdiff
 					CONCAT(
 						dtr.datein," ",
-						(SELECT time time from dtr_file dtr3 where
-							dtr3.userid = ID and
-							dtr3.event = "IN" and
-							dtr3.time >= "12:00" and
-							dtr3.time < "17:00" and
-							dtr3.datein = dtr.datein
-							ORDER BY TIME ASC
-							LIMIT 1
-						), #normal logs
-                        (SELECT time from edited_logs edited3 where
-							edited3.userid = ID and
-							edited3.event = "IN" and
-							edited3.time >= "12:00" and
-							edited3.time < "17:00" and
-							edited3.datein = dtr.datein
-							ORDER BY TIME ASC
-							LIMIT 1
-						) #EDITED LOGS
-					)
+						COALESCE(
+							(SELECT time time from dtr_file dtr3 where
+								dtr3.userid = ID and
+								dtr3.event = "IN" and
+								dtr3.time >= "12:00" and
+								dtr3.time < "17:00" and
+								dtr3.datein = dtr.datein
+								ORDER BY TIME ASC
+								LIMIT 1
+							), #normal logs
+							(SELECT time from edited_logs edited3 where
+								edited3.userid = ID and
+								edited3.event = "IN" and
+								edited3.time >= "12:00" and
+								edited3.time < "17:00" and
+								edited3.datein = dtr.datein
+								ORDER BY TIME ASC
+								LIMIT 1
+							) #EDITED LOGS
+                        ) #END COALESCE
+					) #2nd condition timetampdiff
 				)
 			,0)
 		,0)
@@ -348,53 +352,125 @@ SELECT logs.* from(
 				TIMESTAMPDIFF(MINUTE,
 					CONCAT(dtr.datein," ",
 						IF(
-							(SELECT time from dtr_file dtr2 where
-								dtr2.userid = ID and
-								dtr2.event = "OUT" and
-								dtr2.time > "8:00" and
-								dtr2.datein = dtr.datein
-								ORDER BY TIME ASC
-								LIMIT 1
-							)
+							COALESCE(
+								(SELECT time from dtr_file dtr2 where
+									dtr2.userid = ID and
+									dtr2.event = "OUT" and
+									dtr2.time >= "12:00:00" and
+									dtr2.time < "17:00:00" and
+									dtr2.datein = dtr.datein
+									ORDER BY TIME DESC
+									LIMIT 1
+								),
+								(SELECT time from dtr_file dtr2 where
+									dtr2.userid = ID and
+									dtr2.event = "OUT" and
+									dtr2.time > "08:00:00" and
+									dtr2.time < "12:00:00" and
+									dtr2.datein = dtr.datein
+									ORDER BY TIME ASC
+									LIMIT 1
+								),
+                                (SELECT time from edited_logs edited2 where
+									edited2.userid = ID and
+									edited2.event = "OUT" and
+									edited2.time > "8:00:00" and
+									edited2.datein = dtr.datein
+									ORDER BY TIME ASC
+									LIMIT 1
+								) #EDITED LOGS
+							) #if first condition
 							<
-							(SELECT time from dtr_file dtr3 where
-								dtr3.userid = ID and
-								dtr3.event = "IN" and
-								dtr3.time >= "12:00" and
-								dtr3.time < "17:00" and
-								dtr3.datein = dtr.datein
-								ORDER BY TIME ASC
-								LIMIT 1
-							)
-							,(SELECT time from dtr_file dtr2 where
-								dtr2.userid = ID and
-								dtr2.event = "OUT" and
-								dtr2.time > "8:00" and
-								dtr2.datein = dtr.datein
-								ORDER BY TIME ASC
-								LIMIT 1
-							),
-                            "12:00:00"
-						)
-					),
+							IF(
+								(SELECT time from dtr_file dtr3 where
+									dtr3.userid = ID and
+									dtr3.event = "IN" and
+									dtr3.time >= "12:00" and
+									dtr3.time < "17:00" and
+									dtr3.datein = dtr.datein
+									ORDER BY TIME ASC
+									LIMIT 1
+								) #listed if - first condition
+								<
+								(SELECT time from dtr_file dtr4 where
+									dtr4.userid = ID and
+									dtr4.event = "OUT" and
+									dtr4.event = "OUT" and
+									dtr4.time > "13:00" and
+									dtr4.datein = dtr.datein
+									ORDER BY TIME DESC
+									LIMIT 1
+								), #listed if = second condition
+								(SELECT time from dtr_file dtr3 where
+									dtr3.userid = ID and
+									dtr3.event = "IN" and
+									dtr3.time >= "12:00" and
+									dtr3.time < "17:00" and
+									dtr3.datein = dtr.datein
+									ORDER BY TIME ASC
+									LIMIT 1
+								), #listed if = true dtr3
+								"17:00:00" #2nd if false
+							), #IF second condition
+							COALESCE(
+								(SELECT time from dtr_file dtr2 where
+									dtr2.userid = ID and
+									dtr2.event = "OUT" and
+									dtr2.time >= "12:00:00" and
+									dtr2.time < "17:00:00" and
+									dtr2.datein = dtr.datein
+									ORDER BY TIME ASC
+									LIMIT 1
+								),
+								(SELECT time from dtr_file dtr2 where
+									dtr2.userid = ID and
+									dtr2.event = "OUT" and
+									dtr2.time > "08:00:00" and
+									dtr2.time < "12:00:00" and
+									dtr2.datein = dtr.datein
+									ORDER BY TIME ASC
+									LIMIT 1
+								),
+                                (SELECT time from edited_logs edited2 where
+									edited2.userid = ID and
+									edited2.event = "OUT" and
+									edited2.time > "8:00:00" and
+									edited2.datein = dtr.datein
+									ORDER BY TIME ASC
+									LIMIT 1
+								) #EDITED LOGS
+							), #if true
+							"12:00:00" #if false
+						) #end if
+					), #1st condition timedifference
 					CONCAT(
 						dtr.datein," ","12:00:00"
-					)
-				)
+					) #2nd condition timedifference
+				) #end time timedifference
 			,0)
 		,0) +
         COALESCE(
 			GREATEST(
 				TIMESTAMPDIFF(MINUTE,
 					CONCAT(dtr.datein," ",
-						(SELECT time from dtr_file dtr4 where
+						COALESCE(
+							(SELECT time from dtr_file dtr4 where
 							dtr4.userid = ID and
 							dtr4.event = "OUT" and
 							dtr4.time > "13:00" and
 							dtr4.datein = dtr.datein
 							ORDER BY TIME DESC
 							LIMIT 1
-						)
+							), #NORMAL LOGS
+							(SELECT time from edited_logs edited4 where
+								edited4.userid = ID and
+								edited4.event = "OUT" and
+								edited4.time > "13:00" and
+								edited4.datein = dtr.datein
+								ORDER BY TIME ASC
+								LIMIT 1
+							) #EDITED LOGS
+                        )
 					),
 					CONCAT(
 						dtr.datein," ","17:00:00"
@@ -787,8 +863,56 @@ SELECT logs.* from(
 					)
                 )
 			)
-        ) time,
-        "late",
+		) time,
+		(
+			COALESCE(
+				GREATEST(
+					TIMESTAMPDIFF(MINUTE,
+						CONCAT(adddate('2010-01-01',t4.i*10000 + t3.i*1000 + t2.i*100 + t1.i*10 + t0.i)," ","08:00:00"), #1st condition timestamdiff
+						CONCAT(
+							adddate('2010-01-01',t4.i*10000 + t3.i*1000 + t2.i*100 + t1.i*10 + t0.i)," ",
+							COALESCE(
+								(SELECT time from edited_logs edited1 where
+									edited1.userid = ID and
+									edited1.event = "IN" and
+									edited1.time < "12:00" and
+									edited1.datein = adddate('2010-01-01',t4.i*10000 + t3.i*1000 + t2.i*100 + t1.i*10 + t0.i)
+									ORDER BY TIME ASC
+									LIMIT 1
+								), #edited logs
+								0
+							)
+						) #2nd condition timetampdiff
+					), #1st condition greatest
+					0 #2nd condition greatest
+				), #1st coalesce
+				0 #2nd coalesce
+			) +
+			COALESCE(
+				GREATEST(
+					TIMESTAMPDIFF(MINUTE,
+						CONCAT(adddate('2010-01-01',t4.i*10000 + t3.i*1000 + t2.i*100 + t1.i*10 + t0.i)," ","13:00:00"), #1st condition timetamppdiff
+						CONCAT(
+							adddate('2010-01-01',t4.i*10000 + t3.i*1000 + t2.i*100 + t1.i*10 + t0.i)," ",
+							COALESCE(
+								(SELECT time from edited_logs edited3 where
+									edited3.userid = ID and
+									edited3.event = "IN" and
+									edited3.time >= "12:00" and
+									edited3.time < "17:00" and
+									edited3.datein = adddate('2010-01-01',t4.i*10000 + t3.i*1000 + t2.i*100 + t1.i*10 + t0.i)
+									ORDER BY TIME ASC
+									LIMIT 1
+								), #EDITED LOGS
+								0
+							)
+						) #2nd condition timetampdiff
+					), #1st condition greatest
+					0 #2nd condition greatest
+				), #1st coalesce
+				0 #2nd coalesce
+			)
+		) late,
         "undertime"
         from
 		(select 0 i union select 1 union select 2 union select 3 union select 4 union select 5 union select 6 union select 7 union select 8 union select 9) t0,

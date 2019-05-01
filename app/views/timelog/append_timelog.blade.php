@@ -24,12 +24,12 @@
                         $min = '12:00:00';
                         $max = '16:59:00';
                         break;
-                    case '':
+                    case 'PM_OUT':
                         if($pm_in == 'empty' || $pm_in == 'dayoff' || $pm_in == 'holiday'){
                             $disabled = "disabled";
                         } else {
                             $min = $pm_in;
-                            $max = '12:59:00';
+                            $max = '23:59:00';
                         }
                     break;
                 }
@@ -39,18 +39,18 @@
     </tr>
     <tr>
         <td >Office Order:</td>
-        <td ><input type="number" style="width: 100%" min="-4" max="9999" id="{{ $elementId.'office_order' }}"></td>
+        <td ><input type="number" style="width: 100%" min="-4" max="9999" id="{{ $elementId.'office_order' }}" {{ $disabled }}></td>
     </tr>
     <tr>
         <td >CDO:</td>
-        <td ><input type="checkbox" name="{{ $elementId.'cdo' }}" style="width: 20%;transform: scale(1.5);" id="{{ $elementId.'cdo' }}"></td>
+        <td ><input type="checkbox" name="{{ $elementId.'cdo' }}" style="width: 20%;transform: scale(1.5);" id="{{ $elementId.'cdo' }}" {{ $disabled }}></td>
     </tr>
     <tr>
         <td >LEAVE:</td>
         <td >
-            <select name="" style="width: 100%" id="{{ $elementId.'leave' }}" class="form-control">
+            <select name="" style="width: 100%" id="{{ $elementId.'leave' }}" class="form-control" {{ $disabled }}>
                 <option value="">Select Leave Type</option>
-                <option value="VACATION LEAVE">VACATION LEAVER</option>
+                <option value="VACATION LEAVE">VACATION LEAVE</option>
                 <option value="SICK LEAVE">SICK LEAVE</option>
                 <option value="PATERNITY LEAVE">PATERNITY LEAVE</option>
                 <option value="MATERNITY LEAVE">MATERNITY LEAVE</option>

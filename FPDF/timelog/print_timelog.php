@@ -61,9 +61,9 @@ if(isset($_POST['filter_range'])){
     $pdf->Row(array("AM|C","PM|C","UNDERTIME|C","","AM|C","PM|C","UNDERTIME|C"));
 
     $pdf->SetFont('Arial','',7.5);
-    $pdf->Row(array("DAY ARRIVAL","DEPARTURE ARRIVAL","DEPARTURE LATE","","DAY ARRIVAL","DEPARTURE ARRIVAL","DEPARTURE LATE"));
+    $pdf->Row(array("DAY ARRIVAL","DEPARTURE ARRIVAL","DEPARTURE LATE","","DAY ARRIVAL","DEPARTURE ARRIVAL","DEPARTURE LATE UT"));
 
-    $pdf->SetWidths(array(14.5,14.5,14.5,14.5,14.5,14.5,$set_size_center,14.5,14.5,14.5,14.5,14.5,14.5,));
+    $pdf->SetWidths(array(14.5,14.5,14.5,14.5,14.5,14.5,$set_size_center,14.5,14.5,14.5,14.5,14.5,14.5));
     $pdf->SetFont('Arial','',7.5);
     foreach($timelog as $row){
         $am_in = explode('_',explode('|',$row['time'])[0])[0];
@@ -71,7 +71,7 @@ if(isset($_POST['filter_range'])){
         $pm_in = explode('_',explode('|',$row['time'])[2])[0];
         $pm_out = explode('_',explode('|',$row['time'])[3])[0];
         $day_name = date('D', strtotime($row['datein']));
-        $pdf->Row(array(explode('-',$row['datein'])[2]."   ".$day_name,$am_in,$am_out,$pm_in,$pm_out,"07:54:00","",explode('-',$row['datein'])[2]."   ".$day_name,$am_in,$am_out,$pm_in,$pm_out,"07:54:00"));
+        $pdf->Row(array(explode('-',$row['datein'])[2]."   ".$day_name,$am_in,$am_out,$pm_in,$pm_out,$row['late'].' '.$row['undertime'],"",explode('-',$row['datein'])[2]."   ".$day_name,$am_in,$am_out,$pm_in,$pm_out,$row['late'].' '.$row['undertime']));
     }
 
 }
