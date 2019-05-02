@@ -43,22 +43,26 @@ class PDF_MC_Table extends FPDF
         //Calculate the height of the row
         $nb=0;
         for($i=0;$i<count($data);$i++)
-            $nb=max($nb,$this->NbLines($this->widths[$i],$data[$i]));
+            $nb=max($nb,$this->NbLines($this->widths[$i],$data[$i]["word"]));
         $h=5*$nb;
         //Issue a page break first if needed
         $this->CheckPageBreak($h);
         //Draw the cells of the row
         for($i=0;$i<count($data);$i++)
         {
+            $this->SetFont('Arial',$data[$i]['font_style'],$data[$i]['font_size']);
+
             $w=$this->widths[$i];
-            $a=isset($this->aligns[$i]) ? $this->aligns[$i] : isset(explode('|',$data[$i])[1]) ? explode('|',$data[$i])[1]: '';
+            $a=isset($this->aligns[$i]) ? $this->aligns[$i] : $data[$i]['position'];
             //Save the current position
             $x=$this->GetX();
             $y=$this->GetY();
             //Draw the border
-            $this->Rect($x,$y,$w,$h);
+            if($data[$i]['border']){
+                $this->Rect($x,$y,$w,$h); //border
+            }
             //Print the text
-            $this->MultiCell($w,5,explode('|',$data[$i])[0],0,$a);
+            $this->MultiCell($w,5,$data[$i]["word"],0,$a);
             //Put the position to the right of the cell
             $this->SetXY($x+$w,$y);
         }
