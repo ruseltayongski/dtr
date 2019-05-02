@@ -44,7 +44,7 @@ if(isset($_POST['filter_range'])){
     $pdf->SetFont('Arial','',8);
     $pdf->Row(array("Civil Service Form No. 48|L","Printed: 2019-04-29|R","","Civil Service Form No. 48|L","Printed: 2019-04-29|R"));
 
-    $pdf->SetWidths(array(86,$set_size_center,86));
+    $pdf->SetWidths(array(87,$set_size_center,87));
     $pdf->SetFont('Arial','',10);
     $pdf->Row(array("DAILY TIME RECORD|C","","DAILY TIME RECORD|C",));
 
@@ -54,10 +54,9 @@ if(isset($_POST['filter_range'])){
     $pdf->SetFont('Arial','',8);
     $pdf->Row(array("For the month of :|L","","For the month of :|L"));
 
-    $pdf->SetWidths(array(86,$set_size_center,86));
     $pdf->Row(array("Official hours for (days A.M. P.M. arrival and departure)|L","","Official hours for (days A.M. P.M. arrival and departure)|L",));
 
-    $pdf->SetWidths(array(28.5,31,28.5,$set_size_center,28.5,31,28.5));
+    $pdf->SetWidths(array(29,29,29,$set_size_center,29,29,29));
     $pdf->Row(array("AM|C","PM|C","UNDERTIME|C","","AM|C","PM|C","UNDERTIME|C"));
 
     $pdf->SetFont('Arial','',7.5);

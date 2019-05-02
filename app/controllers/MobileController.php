@@ -290,14 +290,14 @@ class MobileController extends BaseController {
     }
 
     public function imei(){
-        $user = Users::where("userid",'=',Input::get('userid'))->first();
+        /*$user = Users::where("userid",'=',Input::get('userid'))->first();
         if($user){
             $user->imei = Input::get('imei');
             $user->save();
             return 1;
         } else {
             return 0;
-        }
+        }*/
 
 
     }
