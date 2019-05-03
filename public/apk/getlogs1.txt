@@ -6,7 +6,7 @@ SELECT logs.* from(
 	SELECT dtr.datein,sched.id sched,DAYNAME(dtr.datein) dayname,
     CONCAT(
 		COALESCE(
-			(SELECT CONCAT(dtr1.time,"_",IF(dtr1.remark = "MOBILE","U","''"),'_',dtr1.time,'_',IF(dtr1.remark = "MOBILE","mobile","normal")) time from dtr_file dtr1 where
+			(SELECT CONCAT(dtr1.time,"_",IF(dtr1.remark = "MOBILE","U",""),'_',dtr1.time,'_',IF(dtr1.remark = "MOBILE","mobile","normal")) time from dtr_file dtr1 where
 				dtr1.userid = ID and
 				dtr1.event = "IN" and
 				dtr1.time < "12:00" and
@@ -103,7 +103,7 @@ SELECT logs.* from(
                     "17:00:00" #2nd if false
                 ), #IF second condition
                 COALESCE(
-					(SELECT CONCAT(dtr2.time,"_",IF(dtr2.remark = "MOBILE","U","''"),'_',dtr2.time,"_",IF(dtr2.remark = "MOBILE","mobile","normal")) time from dtr_file dtr2 where
+					(SELECT CONCAT(dtr2.time,"_",IF(dtr2.remark = "MOBILE","U",""),'_',dtr2.time,"_",IF(dtr2.remark = "MOBILE","mobile","normal")) time from dtr_file dtr2 where
 						dtr2.userid = ID and
 						dtr2.event = "OUT" and
 						dtr2.time >= "12:00:00" and
@@ -112,7 +112,7 @@ SELECT logs.* from(
 						ORDER BY TIME ASC
 						LIMIT 1
 					),
-                    (SELECT CONCAT(dtr2.time,"_",IF(dtr2.remark = "MOBILE","U","''"),'_',dtr2.time,"_",IF(dtr2.remark = "MOBILE","mobile","normal")) time from dtr_file dtr2 where
+                    (SELECT CONCAT(dtr2.time,"_",IF(dtr2.remark = "MOBILE","U",""),'_',dtr2.time,"_",IF(dtr2.remark = "MOBILE","mobile","normal")) time from dtr_file dtr2 where
 						dtr2.userid = ID and
 						dtr2.event = "OUT" and
 						dtr2.time > "08:00:00" and
@@ -192,7 +192,7 @@ SELECT logs.* from(
 					ORDER BY TIME ASC
 					LIMIT 1
 				),#if second condition dtr3
-                (SELECT CONCAT(dtr3.time,"_",IF(dtr3.remark = "MOBILE","U","''"),'_',dtr3.time,"_",IF(dtr3.remark = "MOBILE","mobile","normal")) time from dtr_file dtr3 where
+                (SELECT CONCAT(dtr3.time,"_",IF(dtr3.remark = "MOBILE","U",""),'_',dtr3.time,"_",IF(dtr3.remark = "MOBILE","mobile","normal")) time from dtr_file dtr3 where
 					dtr3.userid = ID and
 					dtr3.event = "IN" and
 					dtr3.time >= "12:00" and
@@ -242,7 +242,7 @@ SELECT logs.* from(
 			"empty_BUI_empty_empty"
         ),"|",
 		COALESCE(
-			(SELECT CONCAT(dtr4.time,"_",IF(dtr4.remark = "MOBILE","U","''"),'_',dtr4.time,"_",IF(dtr4.remark = "MOBILE","mobile","normal")) from dtr_file dtr4 where
+			(SELECT CONCAT(dtr4.time,"_",IF(dtr4.remark = "MOBILE","U",""),'_',dtr4.time,"_",IF(dtr4.remark = "MOBILE","mobile","normal")) from dtr_file dtr4 where
 				dtr4.userid = ID and
 				dtr4.event = "OUT" and
 				dtr4.time > "13:00" and
@@ -703,6 +703,14 @@ SELECT logs.* from(
 							ORDER BY TIME ASC
 							LIMIT 1
 						), #EDITED LOGS
+                        (SELECT "HOLIDAY_BUI_holiday_holiday" time from edited_logs holiday1 where
+							holiday1.userid = "001" and
+							holiday1.event = "OUT" and
+							holiday1.time = "12:00:00" and
+							holiday1.datein = adddate('2010-01-01',t4.i*10000 + t3.i*1000 + t2.i*100 + t1.i*10 + t0.i)
+							ORDER BY TIME ASC
+							LIMIT 1
+						), #HOLIDAY LOGS
 						"empty_BUI_empty_empty"
 					),
 					"|",
@@ -757,7 +765,7 @@ SELECT logs.* from(
 								edited2.datein = adddate('2010-01-01',t4.i*10000 + t3.i*1000 + t2.i*100 + t1.i*10 + t0.i)
 								ORDER BY TIME ASC
 								LIMIT 1
-							),
+							), #if true
                             COALESCE(
 								(SELECT "HOLIDAY_BUI_holiday_holiday" time from edited_logs holiday2 where
 									holiday2.userid = "001" and
@@ -768,7 +776,7 @@ SELECT logs.* from(
 									LIMIT 1
 								), #HOLIDAY LOGS
 								"empty_BUI_empty_empty"
-                            )
+                            ) #if false
                         ), #EDITED LOGS
 						"empty_BUI_empty_empty"
 					),

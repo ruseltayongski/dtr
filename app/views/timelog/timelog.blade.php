@@ -53,7 +53,7 @@
                                                 <td >{{ $row->datein }}</td>
                                                 <td>
                                                     <input type="hidden" value="{{ explode("_",explode('|',$row->time)[0])[2] }}" id="{{ $count."ñ"."AM_IN" }}">
-                                                    @if(explode("_",explode('|',$row->time)[0])[1] == "''")
+                                                    @if(empty(explode("_",explode('|',$row->time)[0])[1]))
                                                         <b><u><span>{{ explode("_",explode('|',$row->time)[0])[0] }}</span></u></b>
                                                     @else
                                                         <span style="cursor: pointer;" class="editable" id="<?php echo
@@ -68,7 +68,7 @@
                                                 </td>
                                                 <td>
                                                     <input type="hidden" value="{{ explode("_",explode('|',$row->time)[1])[2] }}" id="{{ $count."ñ"."AM_OUT" }}">
-                                                    @if(explode("_",explode('|',$row->time)[1])[1] == "''")
+                                                    @if(empty(explode("_",explode('|',$row->time)[1])[1]))
                                                         <b><u><span>{{ explode("_",explode('|',$row->time)[1])[0] }}</span></u></b>
                                                     @else
                                                         <span style="cursor: pointer;" class="editable" id="<?php echo
@@ -83,7 +83,7 @@
                                                 </td>
                                                 <td>
                                                     <input type="hidden" value="{{ explode("_",explode('|',$row->time)[2])[2] }}" id="{{ $count."ñ"."PM_IN" }}">
-                                                    @if(explode("_",explode('|',$row->time)[2])[1] == "''")
+                                                    @if(empty(explode("_",explode('|',$row->time)[2])[1]))
                                                         <b><u><span>{{ explode("_",explode('|',$row->time)[2])[0] }}</span></u></b>
                                                     @else
                                                         <span style="cursor: pointer;" class="editable" id="<?php echo
@@ -98,7 +98,7 @@
                                                 </td>
                                                 <td>
                                                     <input type="hidden" value="{{ explode("_",explode('|',$row->time)[3])[2] }}" id="{{ $count."ñ"."PM_OUT" }}">
-                                                    @if(explode("_",explode('|',$row->time)[3])[1] == "''")
+                                                    @if(empty(explode("_",explode('|',$row->time)[3])[1]))
                                                         <b><u><span>{{ explode("_",explode('|',$row->time)[3])[0] }}</span></u></b>
                                                     @else
                                                         <span style="cursor: pointer;" class="editable" id="<?php echo
