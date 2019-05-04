@@ -64,12 +64,16 @@ if(isset($_POST['filter_range'])){
         ["word" => "                  RUSEL T. TAYONG                  ",'font_style' => 'B','font_size'=>10,'border'=>$border,"position"=>'C']
     ));
 
+    $pdf->SetWidths(array(43.5,43.5,$set_size_center,43.5,43.5));
     $pdf->Row(array(
-        ["word" => "For the month of :",'font_style' => '','font_size'=>8,'border'=>$border,"position"=>'C'],
+        ["word" => "For the month of :",'font_style' => '','font_size'=>8,'border'=>$border,"position"=>'R'],
+        ["word" => date('M',strtotime($date_from)).' '.explode('-',$date_from)[2].'-'.explode('-',$date_to)[2].' '.explode('-',$date_from)[0],'font_style' => 'B','font_size'=>9,'border'=>$border,"position"=>'L'],
         ["word" => "",'font_style' => '','font_size'=>8,'border'=>$border,"position"=>'C'],
-        ["word" => "For the month of :",'font_style' => '','font_size'=>8,'border'=>$border,"position"=>'C']
+        ["word" => "For the month of :",'font_style' => '','font_size'=>8,'border'=>$border,"position"=>'R'],
+        ["word" => date('M',strtotime($date_from)).' '.explode('-',$date_from)[2].'-'.explode('-',$date_to)[2].' '.explode('-',$date_from)[0],'font_style' => 'B','font_size'=>9,'border'=>$border,"position"=>'L'],
     ));
 
+    $pdf->SetWidths(array(87,$set_size_center,87));
     $pdf->Row(array(
         ["word" => "Official hours for (days A.M. P.M. arrival and departure)",'font_style' => '','font_size'=>8,'border'=>$border,"position"=>'C'],
         ["word" => "",'font_style' => '','font_size'=>8,'border'=>$border,"position"=>'C'],
@@ -113,19 +117,29 @@ if(isset($_POST['filter_range'])){
         $undertime = str_replace('undertime','',$row['undertime']);
 
         if( ($am_in == 'DAY OFF' && $am_out == 'DAY OFF' && $pm_in == 'DAY OFF' && $pm_out == 'DAY OFF') ||
-            ($am_in == 'HOLIDAY' && $am_out == 'HOLIDAY' && $pm_in == 'HOLIDAY' && $pm_out == 'HOLIDAY')
+            ($am_in == 'HOLIDAY' && $am_out == 'HOLIDAY' && $pm_in == 'HOLIDAY' && $pm_out == 'HOLIDAY') ||
+            ($am_in == 'CDO' && $am_out == 'CDO' && $pm_in == 'CDO' && $pm_out == 'CDO') ||
+            (empty($am_in) && empty($am_out) && empty($pm_in) && empty($pm_out)) ||
+            (strpos( $am_in, 'SO #' ) !== false && strpos( $am_out, 'SO #' ) !== false && strpos( $pm_in, 'SO #' ) !== false && strpos( $pm_out, 'SO #' ) !== false ) ||
+            (strpos( $am_in, 'LEAVE' ) !== false && strpos( $am_out, 'LEAVE' ) !== false && strpos( $pm_in, 'LEAVE' ) !== false && strpos( $pm_out, 'LEAVE' ) !== false)
         ){
+            if(empty($am_in)){
+                $whole_log = 'ABSENT';
+            } else {
+                $whole_log = $am_in;
+            }
             $pdf->SetWidths(array(14.5,58,14.5,$set_size_center,14.5,58,14.5));
             $pdf->Row(array(
                 ["word" => explode('-',$row['datein'])[2]."   ".$day_name,'font_style' => '','font_size'=>7.5,'border'=>$border,"position"=>'C'],
-                ["word" => $am_in,'font_style' => $am_in_style,'font_size'=>7.5,'border'=>$border,"position"=>'C'],
+                ["word" => $whole_log,'font_style' => $am_in_style,'font_size'=>7.5,'border'=>$border,"position"=>'C'],
                 ["word" => $late.' '.$undertime,'font_style' => '','font_size'=>7.5,'border'=>$border,"position"=>'C'],
                 ["word" => "",'font_style' => '','font_size'=>7.5,'border'=>$border,"position"=>'C'],
                 ["word" => explode('-',$row['datein'])[2]."   ".$day_name,'font_style' => '','font_size'=>7.5,'border'=>$border,"position"=>'C'],
-                ["word" => $am_in,'font_style' => $am_in_style,'font_size'=>7.5,'border'=>$border,"position"=>'C'],
+                ["word" => $whole_log,'font_style' => $am_in_style,'font_size'=>7.5,'border'=>$border,"position"=>'C'],
                 ["word" => $late.' '.$undertime,'font_style' => '','font_size'=>7.5,'border'=>$border,"position"=>'C']
             ));
-        } else {
+        } //WHOLE LOG EMPTY AND EDITED
+        else {
             $pdf->SetWidths(array(14.5,14.5,14.5,14.5,14.5,14.5,$set_size_center,14.5,14.5,14.5,14.5,14.5,14.5));
             $pdf->Row(array(
                 ["word" => explode('-',$row['datein'])[2]."   ".$day_name,'font_style' => '','font_size'=>7.5,'border'=>$border,"position"=>'C'],

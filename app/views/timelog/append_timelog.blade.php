@@ -17,12 +17,22 @@
                             $disabled = "disabled";
                         } else {
                             $min = $am_in;
-                            $max = '16:59:00';
+                            if($pm_in == 'empty')
+                                $max = '16:59:00';
+                            else
+                                $max = $pm_in;
                         }
                         break;
                     case 'PM_IN':
-                        $min = '12:00:00';
-                        $max = '16:59:00';
+                        if($am_out == 'empty')
+                            $min = '12:00:00';
+                        else
+                            $min = $am_out;
+
+                        if($pm_out == 'empty')
+                            $max = '16:59:00';
+                        else
+                            $max = $pm_out;
                         break;
                     case 'PM_OUT':
                         if($pm_in == 'empty' || $pm_in == 'dayoff' || $pm_in == 'holiday'){
