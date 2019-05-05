@@ -37,7 +37,7 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="table-responsive">
-                                        <table class="table table-list table-hover table-striped">
+                                        <table class="table table-striped table-hover">
                                             <tr>
                                                 <th width="10%">Date In</th>
                                                 <th width="12%">AM IN</th>
