@@ -60,7 +60,7 @@ SELECT logs.* from(
 						ORDER BY TIME ASC
 						LIMIT 1
 					), #dtr2 normal first coalesce
-					(SELECT time from dtr_file dtr2 where
+                    (SELECT time from dtr_file dtr2 where
 						dtr2.userid = ID and
 						dtr2.event = "OUT" and
 						dtr2.time > "08:00:00" and
@@ -69,56 +69,37 @@ SELECT logs.* from(
 						ORDER BY TIME DESC
 						LIMIT 1
 					), #dtr2 normal second coalesce
-                    (SELECT time from dtr_file dtr2 where
+					(SELECT time from dtr_file dtr2 where
 						dtr2.userid = ID and
 						dtr2.event = "OUT" and
-						dtr2.time >= "12:00:00" and
+						dtr2.time >= "13:00:00" and
 						dtr2.time < "17:00:00" and
 						dtr2.datein = dtr.datein
 						ORDER BY TIME ASC
 						LIMIT 1
 					) #dtr2 normal third coalesce
-                ) #end coalesce
+                )
                 <
-                (SELECT dtr3.time from dtr_file dtr3 where
-					dtr3.userid = ID and
-					dtr3.event = "IN" and
-					dtr3.time >= "12:00:00" and
-					dtr3.time < "17:00:00" and
-					dtr3.datein = dtr.datein
-					ORDER BY TIME ASC
-					LIMIT 1
-				)
-                OR
-                COALESCE(
-					(SELECT time from dtr_file dtr2 where
-						dtr2.userid = ID and
-						dtr2.event = "OUT" and
-						dtr2.time >= "12:00:00" and
-						dtr2.time < "13:00:00" and
-						dtr2.datein = dtr.datein
-						ORDER BY TIME ASC
-						LIMIT 1
-					), #dtr2 normal first coalesce
-					(SELECT time from dtr_file dtr2 where
-						dtr2.userid = ID and
-						dtr2.event = "OUT" and
-						dtr2.time > "08:00:00" and
-						dtr2.time < "12:00:00" and
-						dtr2.datein = dtr.datein
+				COALESCE(
+					(SELECT time from dtr_file dtr3 where
+						dtr3.userid = ID and
+						dtr3.event = "IN" and
+						dtr3.time >= "12:00:00" and
+						dtr3.time < "13:00:00" and
+						dtr3.datein = dtr.datein
 						ORDER BY TIME DESC
 						LIMIT 1
-					), #dtr2 normal second coalesce
-                    (SELECT time from dtr_file dtr2 where
-						dtr2.userid = ID and
-						dtr2.event = "OUT" and
-						dtr2.time >= "12:00:00" and
-						dtr2.time < "17:00:00" and
-						dtr2.datein = dtr.datein
+					),
+                    (SELECT time from dtr_file dtr3 where
+						dtr3.userid = ID and
+						dtr3.event = "IN" and
+						dtr3.time >= "13:00:00" and
+						dtr3.time < "17:00:00" and
+						dtr3.datein = dtr.datein
 						ORDER BY TIME ASC
 						LIMIT 1
-					) #dtr2 normal third coalesce
-                ) IS NULL, #second condition
+					)
+                ),
                 COALESCE(
 					(SELECT CONCAT(dtr2.time,"_",IF(dtr2.remark = "MOBILE","U",""),'_',dtr2.time,'_',IF(dtr2.remark = "MOBILE","mobile","normal")) time from dtr_file dtr2 where
 						dtr2.userid = ID and
@@ -129,26 +110,26 @@ SELECT logs.* from(
 						ORDER BY TIME ASC
 						LIMIT 1
 					), #dtr2 normal first coalesce
-					(SELECT CONCAT(dtr2.time,"_",IF(dtr2.remark = "MOBILE","U",""),'_',dtr2.time,'_',IF(dtr2.remark = "MOBILE","mobile","normal")) time from dtr_file dtr2 where
-						dtr2.userid = ID and
-						dtr2.event = "OUT" and
-						dtr2.time > "08:00:00" and
-						dtr2.time < "12:00:00" and
-						dtr2.datein = dtr.datein
-						ORDER BY TIME DESC
-						LIMIT 1
-					), #dtr2 normal second coalesce
                     (SELECT CONCAT(dtr2.time,"_",IF(dtr2.remark = "MOBILE","U",""),'_',dtr2.time,'_',IF(dtr2.remark = "MOBILE","mobile","normal")) time from dtr_file dtr2 where
 						dtr2.userid = ID and
 						dtr2.event = "OUT" and
-						dtr2.time >= "12:00:00" and
+						dtr2.time > "08:00:00" and
+						dtr2.time < "12:00:00" and
+						dtr2.datein = dtr.datein
+						ORDER BY TIME DESC
+						LIMIT 1
+					), #dtr2 normal second coalesce
+					(SELECT CONCAT(dtr2.time,"_",IF(dtr2.remark = "MOBILE","U",""),'_',dtr2.time,'_',IF(dtr2.remark = "MOBILE","mobile","normal")) time from dtr_file dtr2 where
+						dtr2.userid = ID and
+						dtr2.event = "OUT" and
+						dtr2.time >= "13:00:00" and
 						dtr2.time < "17:00:00" and
 						dtr2.datein = dtr.datein
 						ORDER BY TIME ASC
 						LIMIT 1
 					) #dtr2 normal third coalesce
-                ), #if true
-				null #if false
+                ),
+                NULL
             ),
             (SELECT CONCAT("SO #",so2.remark,"_BUI_",so2.time,'_so') time from so_logs so2 where
 				so2.userid = ID and
@@ -185,14 +166,25 @@ SELECT logs.* from(
 			"empty_BUI_empty_empty"
         ),"|", #dtr 2 result
 		COALESCE(
-			(SELECT CONCAT(dtr3.time,"_",IF(dtr3.remark = "MOBILE","U",""),'_',dtr3.time,"_",IF(dtr3.remark = "MOBILE","mobile","normal")) from dtr_file dtr3 where
-				dtr3.userid = ID and
-				dtr3.event = "IN" and
-				dtr3.time >= "12:00:00" and
-				dtr3.time < "17:00:00" and
-				dtr3.datein = dtr.datein
-				ORDER BY TIME ASC
-				LIMIT 1
+            COALESCE(
+				(SELECT CONCAT(dtr3.time,"_",IF(dtr3.remark = "MOBILE","U",""),'_',dtr3.time,"_",IF(dtr3.remark = "MOBILE","mobile","normal")) time from dtr_file dtr3 where
+					dtr3.userid = ID and
+					dtr3.event = "IN" and
+					dtr3.time >= "12:00:00" and
+					dtr3.time < "13:00:00" and
+					dtr3.datein = dtr.datein
+					ORDER BY TIME DESC
+					LIMIT 1
+				),
+				(SELECT CONCAT(dtr3.time,"_",IF(dtr3.remark = "MOBILE","U",""),'_',dtr3.time,"_",IF(dtr3.remark = "MOBILE","mobile","normal")) time from dtr_file dtr3 where
+					dtr3.userid = ID and
+					dtr3.event = "IN" and
+					dtr3.time >= "13:00:00" and
+					dtr3.time < "17:00:00" and
+					dtr3.datein = dtr.datein
+					ORDER BY TIME ASC
+					LIMIT 1
+				)
 			),
             (SELECT CONCAT("SO #",so3.remark,"_BUI_",so3.time,"_so") time from so_logs so3 where
 				so3.userid = ID and
