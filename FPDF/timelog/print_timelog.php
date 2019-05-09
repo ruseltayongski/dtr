@@ -214,8 +214,14 @@ if(isset($_POST['filter_range'])){
                 ["word" => $late.' '.$undertime,'font_style' => '','font_size'=>7.5,'border'=>$border,"position"=>'C']
             ));
         }
-
     }
+
+    $pdf->SetWidths(array(85,$set_size_center,85));
+    $pdf->Row(array(
+        ["word" => '________________________________________________________','font_style' => '','font_size'=>7.5,'border'=>$border,"position"=>'C'],
+        ["word" => '','font_style' => '','font_size'=>7.5,'border'=>$border,"position"=>'C'],
+        ["word" => '________________________________________________________','font_style' => '','font_size'=>7.5,'border'=>$border,"position"=>'C']
+    ));
 
 
 

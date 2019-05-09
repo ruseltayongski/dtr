@@ -1772,7 +1772,7 @@ function pingAddress($ip) {
 }
 
 function api_get_logs($userid,$date_from,$date_to) {
-    $url = "http://192.168.100.81/dtr_api/logs/GetLogs";
+    /*$url = "http://192.168.100.81/dtr_api/logs/GetLogs";
 
     $data = [
         "userid" => $userid,
@@ -1799,6 +1799,6 @@ function api_get_logs($userid,$date_from,$date_to) {
 
     $pdo = conn();
     $st = $pdo->prepare($query1);
-    $st->execute();
+    $st->execute();*/
 }
 ?>
