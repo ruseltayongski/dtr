@@ -20,10 +20,18 @@ class PDF_MC_Table extends FPDF
     {
         // Position at 1.5 cm from bottom
         $this->SetY(-15);
-        // Arial italic 8
-        $this->SetFont('Arial','I',8);
-        // Page number
-        $this->Cell(0,10,'Page '.$this->PageNo().'/{nb}',0,0,'C');
+
+        $this->SetFont('Times','U',9);
+        $this->Cell(0,10,"MOBILE CREATED - 08:00 12:00 13:00 17:00",0,0,'L');
+        $this->SetY(-20);
+        $this->SetFont('Arial','BUI',8);
+        $this->Cell(0,10,"WEB CREATED - 08:00 12:00 13:00 17:00",0,0,'L');
+        $this->SetY(-25);
+        $this->SetFont('Arial','',8);
+        $this->Cell(0,10,"BIOMETRIC DEVICE - 08:00 12:00 13:00 17:00",0,0,'L');
+        $this->SetY(-30);
+        $this->SetFont('Arial','B',12);
+        $this->Cell(0,10,"Legend:",0,0,'L');
     }
 
     function SetWidths($w)
@@ -38,13 +46,15 @@ class PDF_MC_Table extends FPDF
         $this->aligns=$a;
     }
 
-    function Row($data)
+    function Row($data,$padding_top)
     {
         //Calculate the height of the row
         $nb=0;
-        for($i=0;$i<count($data);$i++)
-            $nb=max($nb,$this->NbLines($this->widths[$i],$data[$i]["word"]));
-        $h=5*$nb;
+        for($i=0;$i<count($data);$i++){
+            $nb=max($nb,$this->NbLines($this->widths[$i],substr($data[$i]["word"], 0, -6)));
+        }
+
+        $h=$padding_top*$nb;
         //Issue a page break first if needed
         $this->CheckPageBreak($h);
         //Draw the cells of the row
@@ -59,10 +69,11 @@ class PDF_MC_Table extends FPDF
             $y=$this->GetY();
             //Draw the border
             if($data[$i]['border']){
+                //$this->Rect($x,$y+4,$w,0); //border
                 $this->Rect($x,$y,$w,$h); //border
             }
             //Print the text
-            $this->MultiCell($w,5,$data[$i]["word"],0,$a);
+            $this->MultiCell($w,5,$data[$i]['word'],0,$a);
             //Put the position to the right of the cell
             $this->SetXY($x+$w,$y);
         }
