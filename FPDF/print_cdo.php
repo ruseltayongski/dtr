@@ -39,7 +39,6 @@ class PDF_MC_Table extends FPDF
 
     function Row($data)
     {
-        $position = 'L';
         //Calculate the height of the row
         $nb=0;
         for($i=0;$i<count($data);$i++)
@@ -50,46 +49,18 @@ class PDF_MC_Table extends FPDF
         //Draw the cells of the row
         for($i=0;$i<count($data);$i++)
         {
-            if($GLOBALS['rank'] == 0){
-                $this->SetFont('Arial','B',10);
-            }
-            elseif($GLOBALS['rank'] == 1){
-                $this->SetTextColor(255,0,0);
-                $this->SetFont('Arial','B',10);
-            }
-            elseif($GLOBALS['rank'] == 2){
-                $this->SetTextColor(0,0,255);
-                $this->SetFont('Arial','B',10);
-            }
-            elseif($GLOBALS['rank'] == 3){
-                $this->SetTextColor(0,128,0);
-                $this->SetFont('Arial','B',10);
-            }
-            else {
-                $this->SetTextColor(0,0,0);
-                $this->SetFont('Arial','',8);
-            }
-
-            if($i == 0 || $i == 5 || $i == 6){
-                $position = 'C';
-            } else {
-                $position = 'L';
-            }
-
             $w=$this->widths[$i];
-            $a=isset($this->aligns[$i]) ? $this->aligns[$i] : $position;
+            $a=isset($this->aligns[$i]) ? $this->aligns[$i] : 'L';
             //Save the current position
             $x=$this->GetX();
             $y=$this->GetY();
             //Draw the border
-
             $this->Rect($x,$y,$w,$h);
             //Print the text
             $this->MultiCell($w,5,$data[$i],0,$a);
             //Put the position to the right of the cell
             $this->SetXY($x+$w,$y);
         }
-
         //Go to the next line
         $this->Ln($h);
     }
@@ -153,7 +124,9 @@ class PDF_MC_Table extends FPDF
     }
 }
 
-$pdf=new PDF_MC_Table();
+$pdf=new PDF_MC_Table('P','mm','A4');
 $pdf->AddPage();
+$pdf->AliasNbPages();
+
 include 'tayong_fpdf/cdo_page1.php';
 ?>

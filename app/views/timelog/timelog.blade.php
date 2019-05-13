@@ -32,7 +32,7 @@
                                     $from = explode('-',Session::get('filter_dates'))[0];
                                     $to = explode('-',Session::get('filter_dates'))[1];
                                 ?>
-                                <strong style="color: #f01786;font-size:medium;">Manage Time Log {{ ' - '.date('F d,Y',strtotime($from)).' to '.date('F d,Y',strtotime($to)) }}</strong>
+                                <strong class="text-blue">Manage Time Log {{ ' - '.date('F d,Y',strtotime($from)).' to '.date('F d,Y',strtotime($to)) }}</strong>
                             </div>
                             <div class="row">
                                 <div class="col-md-12">
@@ -50,7 +50,10 @@
                                             @foreach($timeLog as $row)
                                             <?php $count++; ?>
                                             <tr>
-                                                <td >{{ $row->datein }}</td>
+                                                <td >
+                                                    <strong class="text-green">{{ $row->datein }}</strong><br>
+                                                    <small class="label label-info">({{ $row->dayname }})</small>
+                                                </td>
                                                 <td>
                                                     <input type="hidden" value="{{ explode("_",explode('|',$row->time)[0])[2] }}" id="{{ $count."ñ"."AM_IN" }}">
                                                     @if(empty(explode("_",explode('|',$row->time)[0])[1]))
@@ -63,7 +66,7 @@
                                                             'ñ'.explode("_",explode('|',$row->time)[0])[3].'ñ'.
                                                             "AM_IN"."ñ".
                                                             $count;
-                                                        ?>">{{ explode("_",explode('|',$row->time)[0])[0] }}</span>
+                                                        ?>">{{ strtoupper(explode("_",explode('|',$row->time)[0])[0]) }}</span>
                                                     @endif
                                                 </td>
                                                 <td>
@@ -78,7 +81,7 @@
                                                             'ñ'.explode("_",explode('|',$row->time)[1])[3].'ñ'.
                                                             "AM_OUT"."ñ".
                                                             $count;
-                                                        ?>">{{ explode("_",explode('|',$row->time)[1])[0] }}</span>
+                                                        ?>">{{ strtoupper(explode("_",explode('|',$row->time)[1])[0]) }}</span>
                                                     @endif
                                                 </td>
                                                 <td>
@@ -93,7 +96,7 @@
                                                             'ñ'.explode("_",explode('|',$row->time)[2])[3].'ñ'.
                                                             "PM_IN"."ñ".
                                                             $count;
-                                                        ?>">{{ explode("_",explode('|',$row->time)[2])[0] }}</span>
+                                                        ?>">{{ strtoupper(explode("_",explode('|',$row->time)[2])[0]) }}</span>
                                                     @endif
                                                 </td>
                                                 <td>
@@ -108,7 +111,7 @@
                                                             'ñ'.explode("_",explode('|',$row->time)[3])[3].'ñ'.
                                                             "PM_OUT"."ñ".
                                                             $count;
-                                                        ?>">{{ explode("_",explode('|',$row->time)[3])[0] }}</span>
+                                                        ?>">{{ strtoupper(explode("_",explode('|',$row->time)[3])[0]) }}</span>
                                                     @endif
                                                 </td>
                                             </tr>
@@ -183,6 +186,14 @@
                             log_status_change = "leave";
                             edited_display = leave;
                         }
+                        else if($("#"+this.id+"jobreak").is(':checked')){
+                            log_status_change = "jobreak";
+                            edited_display = "JO BREAK";
+                        }
+                        else if($("#"+this.id+"empty").is(':checked')){
+                            log_status_change = "empty";
+                            edited_display = "EMPTY";
+                        }
                         json = {
                             "userid":userid,
                             "datein":datein,
@@ -196,9 +207,11 @@
                         var url = "<?php echo asset('logs/timelog/edit'); ?>";
                         var input_hidden_element = $("#"+this.id.split("ñ")[5]+"ñ"+log_type);
                         $.post(url,json,function(result){
-                            var input_hidden_time = result.split('-')[1];
+                            var input_hidden_time = result.display_time; //display hidden time for trapping and where purposes
                             input_hidden_element.val(input_hidden_time);
-                            console.log(result);
+                            Lobibox.notify(result.notification,{
+                                msg:result.message
+                            });
                         });
                         $("#"+this.id).html(edited_display);
                     }

@@ -22,7 +22,7 @@ class PDF_MC_Table extends FPDF
         $this->SetY(-15);
 
         $this->SetFont('Times','U',9);
-        $this->Cell(0,10,"MOBILE CREATED - 08:00 12:00 13:00 17:00",0,0,'L');
+        $this->Cell(0,10,"MOBILE DEVICE - 08:00 12:00 13:00 17:00",0,0,'L');
         $this->SetY(-20);
         $this->SetFont('Arial','BUI',8);
         $this->Cell(0,10,"WEB CREATED - 08:00 12:00 13:00 17:00",0,0,'L');
@@ -52,6 +52,7 @@ class PDF_MC_Table extends FPDF
         $nb=0;
         for($i=0;$i<count($data);$i++){
             $nb=max($nb,$this->NbLines($this->widths[$i],substr($data[$i]["word"], 0, -6)));
+            //$nb=max($nb,$this->NbLines($this->widths[$i],$data[$i]["word"]));
         }
 
         $h=$padding_top*$nb;
@@ -69,8 +70,8 @@ class PDF_MC_Table extends FPDF
             $y=$this->GetY();
             //Draw the border
             if($data[$i]['border']){
-                //$this->Rect($x,$y+4,$w,0); //border
-                $this->Rect($x,$y,$w,$h); //border
+                $this->Rect($x,$y+4,$w,0); //border
+                //$this->Rect($x,$y,$w,$h); //border
             }
             //Print the text
             $this->MultiCell($w,5,$data[$i]['word'],0,$a);
@@ -138,6 +139,7 @@ class PDF_MC_Table extends FPDF
         }
         return $nl;
     }
+
 }
 
 $pdf=new PDF_MC_Table('P','mm','A4');

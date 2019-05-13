@@ -101,9 +101,19 @@ class TimeLogController extends Controller
                 EditedLogs::where("userid",$userid)
                     ->where("datein",$datein)
                     ->where("time",$time)
+                    ->where("edited",1)
                     ->where("event",explode("_",$log_type)[1])
                     ->delete();
                 break;
+            case 'jobreak':
+                EditedLogs::where("userid",$userid)
+                    ->where("datein",$datein)
+                    ->where("time",$time)
+                    ->where("edited",2)
+                    ->where("remark","JO BREAK")
+                    ->where("event",explode("_",$log_type)[1])
+                    ->delete();
+            break;
         }
 
         $time_display = '';
@@ -134,7 +144,11 @@ class TimeLogController extends Controller
                 $so->holiday = 003;
                 $so->save();
 
-                return "added in SO-".$time_display;
+                return [
+                    "notification" => "info",
+                    "message" => "Successfully added SO",
+                    "display_time" => $time_display
+                ];
                 break;
             case "cdo":
                 $cdo = new CdoLogs();
@@ -162,7 +176,11 @@ class TimeLogController extends Controller
                 $cdo->holiday = 006;
                 $cdo->save();
 
-                return "added in CDO-".$time_display;
+                return [
+                    "notification" => "info",
+                    "message" => "Successfully added CDO",
+                    "display_time" => $time_display
+                ];
                 break;
             case "leave":
                 $leave = new LeaveLogs();
@@ -190,7 +208,11 @@ class TimeLogController extends Controller
                 $leave->holiday = 007;
                 $leave->save();
 
-                return "added in LEAVE-".$time_display;
+                return [
+                    "notification" => "info",
+                    "message" => "Successfully added LEAVE",
+                    "display_time" => $time_display
+                ];
                 break;
             case "edited":
                 $edited = new EditedLogs();
@@ -204,11 +226,53 @@ class TimeLogController extends Controller
                 $edited->holiday = 'A';
                 $edited->save();
 
-                return "added in EDITED-".$time_display;
+                return [
+                    "notification" => "info",
+                    "message" => "Successfully added LOG",
+                    "display_time" => $time_display
+                ];
+                break;
+            case "jobreak":
+                $jo_break = new EditedLogs();
+                $jo_break->userid = $userid;
+                $jo_break->datein = $datein;
+                if($log_type == "AM_IN"){
+                    $jo_break->time = "08:00:00";
+                    $time_display = "08:00:00";
+                }
+                elseif($log_type == "AM_OUT"){
+                    $jo_break->time = "12:00:00";
+                    $time_display = "12:00:00";
+                }
+                elseif($log_type == "PM_IN"){
+                    $jo_break->time = "13:00:00";
+                    $time_display = "13:00:00";
+                }
+                elseif($log_type == "PM_OUT"){
+                    $jo_break->time = "18:00:00";
+                    $time_display = "18:00:00";
+                }
+                $jo_break->event = explode("_",$log_type)[1];
+                $jo_break->remark = $edited_display;
+                $jo_break->edited = 2;
+                $jo_break->save();
+
+                return [
+                    "notification" => "info",
+                    "message" => "Successfully added JO BREAK",
+                    "display_time" => $time_display
+                ];
+                break;
+            case "empty":
+                return [
+                    "notification" => "warning",
+                    "message" => "Log set empty",
+                    "display_time" => $time_display
+                ];
                 break;
         }
 
-        return "wew";
+        return Input::get();
     }
 
 }
