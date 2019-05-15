@@ -12,6 +12,9 @@ class EditedLogs extends Migration {
 	 */
 	public function up()
 	{
+        if(Schema::hasTable('edited_logs')){
+            return true;
+        }
 		Schema::create('edited_logs', function($table) {
 			$table->string('userid',200)->nullable();
 			$table->date('datein')->nullable();
@@ -36,7 +39,7 @@ class EditedLogs extends Migration {
 			$table->unique('event');*/
 			$table->timestamps();
 			$table->softDeletes();
-	});
+	    });
 	}
 
 	/**

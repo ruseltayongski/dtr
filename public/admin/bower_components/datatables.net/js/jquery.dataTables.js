@@ -9879,7 +9879,7 @@
 	 * from v1.10 onwards the primary interface is camel case. In order to avoid
 	 * breaking backwards compatibility utterly with this change, the Hungarian
 	 * version is still, internally the primary interface, but is is not documented
-	 * - hence the @name tags in each doc comment. This allows a Javascript function
+	 * - hence the @name tags in each doc faq. This allows a Javascript function
 	 * to create a map from Hungarian notation to camel case (going the other direction
 	 * would require each property to be listed, which would at around 3K to the size
 	 * of DataTables, while this method is about a 0.5K hit.

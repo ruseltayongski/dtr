@@ -10,7 +10,7 @@
                             <div class="panel panel-default">
                                 <div class="panel-heading"><strong style="color: #f0ad4e;font-size:medium;">Print individual DTR</strong></div>
                                 <div class="panel-body">
-                                    <form action="{{ asset('FPDF/print_individual.php') }}" target="_blank" autocomplete="off" method="POST" id="print_pdf">
+                                    <form action="{{ asset('FPDF/timelog/print_individual1.php') }}" target="_blank" autocomplete="off" method="POST" id="print_pdf">
                                         <div class="table-responsive">
                                             <table class="table">
                                                 <tr>
@@ -44,80 +44,94 @@
                     </div>
                 </div>
                 <div class="col-md-8">
-                    <div class="col-md-12">
-                        <div class="panel panel-default">
-                            <div class="panel-heading"><strong style="color: #f0ad4e;font-size:medium;">Your current time logs for this month</strong></div>
-                            <div class="panel-body">
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <form class="form-inline" method="GET" action="{{ asset('personal/search') }}"  id="searchForm">
-                                            <div class="form-group">
-                                                <div class="input-group">
-                                                    <div class="input-group-addon">
-                                                        <i class="fa fa-calendar"></i>
-                                                    </div>
-                                                    <input type="text" class="form-control" id="filter_dates" value="{{ "06/16/2018 - 06/30/2018" }}" name="filter_range1" placeholder="Filter date range here..." >
+                    <div class="row">
+                        <div class="col-md-12">
+                            <!-- Box Comment -->
+                            <div class="box box-widget">
+                                <div class="box-header with-border">
+                                    <div class="user-block">
+                                        <img class="img-circle" src="{{ asset('public/img/doh.png') }}" alt="User Image">
+                                        <span class="username"><strong class="text-blue">IT</strong></span>
+                                        <span class="description">FAQs - 08:00 AM 05/16/2019</span>
+                                    </div>
+                                    <!-- /.user-block -->
+                                </div>
+                                <!-- /.box-header -->
+                                <div class="box-body">
+                                    <div class="alert alert-info text-blue">
+                                        New features: Just click here <i class="ace-icon fa fa-hand-o-right"></i> <a href="{{ asset('logs/timelog') }}" target="_blank"><strong class="text-blue">Manage DTR</strong></a>
+                                    </div>
+                                    <!--
+                                    <div class="alert alert-success text-green">
+                                        If you encountered an error, please send us feedback and suggestion. Just comment below <i class="ace-icon fa fa-hand-o-down"></i>
+                                    </div>
+                                    -->
+                                </div>
+
+                                <!-- Chat box -->
+                                <!--
+                                <div class="box-body chat" id="chat-box">
+                                    <div class="comment_append">
+                                        @if(count($comments) > 0)
+                                            @foreach($comments as $com)
+                                            <div class="item">
+                                                <img src="{{ str_replace('dtr','pis',asset('')).'public/upload_picture/picture/'.$com->picture }}" alt="user image" class="online">
+                                                <p class="message">
+                                                    <span href="#" class="name text-blue" style="display: inline;">
+                                                        <small class="text-muted pull-right"><i class="fa fa-clock-o"></i> 2:15</small>
+                                                        {{ Auth::user()->lname.', '.Auth::user()->fname }}
+                                                    </span>
+                                                    {{ $com->description }}<br>
+                                                    <a data-toggle="collapse" class="text-blue" href="#collapse{{ $com->id }}" aria-expanded="false" aria-controls="collapseExample" style="font-size: 8pt"> Reply</a>
+                                                </p>
+                                                <div class="reply_append{{ $com->id }}">
+                                                    @foreach(Reply::where('comment_id','=',$com->id)->get() as $rep)
+                                                        <?php $replyUser = User::where('userid','=',$rep->userid)->first(); ?>
+                                                        <div class="item" style="margin-left:5%;">
+                                                            <img src="{{ str_replace('dtr','pis',asset('')).'public/upload_picture/picture/'.InformationPersonal::where('userid','=',$rep->userid)->first()->picture }}" alt="user image" class="offline">
+                                                            <p class="message">
+                                                            <span href="#" class="name text-blue">
+                                                                <small class="text-muted pull-right"><i class="fa fa-clock-o"></i> 2:15</small>
+                                                                {{ $replyUser->lname.', '.$replyUser->fname }}
+                                                            </span>
+                                                                {{ $rep->description }}
+                                                            </p>
+                                                        </div>
+                                                    @endforeach
                                                 </div>
-                                                <button type="submit" name="filter" class="btn btn-success form-control" value="Filter">
-                                                    <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Filters
-                                                </button>
+                                                <div class="collapse" id="collapse{{ $com->id }}">
+                                                    <div class="box-footer" style="margin-left:5%;">
+                                                        <form action="#" method="post" id="{{ 'submit_reply'.$com->id }}" class="{{ $com->id }} form_reply" autocomplete="off">
+                                                            <img class="img-responsive img-circle img-sm" src="{{ str_replace('dtr','pis',asset('')).'public/upload_picture/picture/'.InformationPersonal::where('userid','=',Auth::user()->userid)->first()->picture }}" alt="Alt Text">
+                                                            <div class="img-push">
+                                                                <input type="text" class="form-control input-sm" value="" id="text_reply{{ $com->id }}" placeholder="Press enter to reply">
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            @endforeach
+                                        @endif
+                                    </div>
+
+                                    <div class="box-footer">
+                                        <form action="#" method="post" class="submit_comment" autocomplete="off">
+                                            <img class="img-responsive img-circle img-sm" src="{{ str_replace('dtr','pis',asset('')).'public/upload_picture/picture/'.InformationPersonal::where('userid','=',Auth::user()->userid)->first()->picture }}" alt="Alt Text">
+                                            <div class="img-push">
+                                                <input type="text" class="form-control input-sm" id="text_comment" placeholder="Press enter to post comment">
                                             </div>
                                         </form>
                                     </div>
+                                    -->
                                 </div>
-                                <br />
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        @if(isset($lists) and count($lists) >0)
-                                            <div class="table-responsive">
-                                                <table class="table table-list table-hover table-striped">
-                                                    <thead>
-                                                    <tr>
-                                                        <th class="text-center">Attendance Date</th>
-                                                        <th class="text-center">Attendance Time</th>
-                                                        <th class="text-center">Event Type</th>
-                                                        <th class="text-center">Remarks</th>
-                                                        <th><span class="glyphicon glyphicon-asterisk" aria-hidden="true"></span></th>
-                                                    </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                    @foreach($lists as $list)
-                                                        <tr>
-                                                            <td class="text-center">
-                                                                <a href="#">
-                                                                    <strong>{{ $list->datein }}</strong>
-                                                                </a>
 
-                                                            </td>
-                                                            <td class="text-center"><strong><a href="#"> {{ $list->time }}</a></strong></td>
-                                                            <td class="text-center"><strong><a href="#">{{ $list->event }}</a> </strong></td>
-                                                            <td class="text-center">
-                                                                <strong><a href="#">{{ $list->remark }}</a> </strong>
-                                                            </td>
-                                                            <td>
-                                                                @if($list->edited == "1")
-                                                                    <a class="btn btn-danger" href="{{ asset('delete/edited/logs/'.$list->userid .'/'. $list->datein .'/'. $list->time .'/'. $list->event) }}">
-                                                                        <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-                                                                    </a>
-                                                                @else
-                                                                    <span>-----</span>
-                                                                @endif
 
-                                                            </td>
-                                                        </tr>
-                                                    @endforeach
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                            {{ $lists->links() }}
-                                        @else
-                                            <div class="alert alert-danger" role="alert">DTR records are empty.</div>
-                                        @endif
-                                    </div>
-                                </div>
                             </div>
+
+                            <!-- /.box -->
                         </div>
-                    </div>
+                        <!-- /.col -->
+                    </div> <!-- END ROW -->
                 </div>
             </div>
         </div>
@@ -134,13 +148,53 @@
         });
         $('#inclusive3').daterangepicker();
         $('#filter_dates').daterangepicker();
-        /*$('#print_pdf').submit(function(){
-            $('#upload').button('loading');
-            $('#print_individual').modal({
-                backdrop: 'static',
-                keyboard: false,
-                show: true
+
+        var count = parseInt("<?php echo count($comments) ?>")+1;
+        console.log(count);
+        $(".submit_comment").submit(function(e){
+            var url = "<?php echo asset('faq/comment_append'); ?>";
+            var json = {
+                "userid" : "<?php echo Auth::user()->userid; ?>",
+                "post_id" : 1,
+                "description" : $("#text_comment").val(),
+                "status" : 1,
+                "count" : count
+            };
+            $.post(url,json,function(result){
+                $("#text_comment").val('');
+                $("#text_comment").focus();
+                $(".comment_append").append(result);
+                $("#"+count).hide().fadeIn();
+                count++;
             });
-        });*/
+            e.preventDefault();
+        });
+
+        var replyCount = parseInt("<?php echo count($replies); ?>")+1;
+        $(".form_reply").each(function(e){
+            $("#"+this.id).submit(function(form){
+                var inputElement = $("#"+this.id).find('input');
+                var ID = this.id;
+                var url = "<?php echo asset('faq/reply_append'); ?>";
+                var json = {
+                    "userid" : "<?php echo Auth::user()->userid; ?>",
+                    "post_id" : 1,
+                    "comment_id" : count,
+                    "description" : inputElement.val(),
+                    "status" : 1,
+                    "count" : replyCount
+                };
+                console.log(json);
+                $.post(url,json,function(result){
+                    inputElement.val('');
+                    $(".reply_append"+ID.split('submit_reply')[1]).append(result);
+                    $("#reply"+replyCount).hide().fadeIn();
+                    replyCount++;
+                    form.preventDefault();
+                });
+
+            });
+        });
+
     </script>
 @endsection

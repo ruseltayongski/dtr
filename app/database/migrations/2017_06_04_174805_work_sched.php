@@ -12,6 +12,9 @@ class WorkSched extends Migration {
 	 */
 	public function up()
 	{
+        if(Schema::hasTable('work_sched')){
+            return true;
+        }
 		Schema::create('work_sched', function($table) {
 			$table->increments('id');
 			$table->string('description');

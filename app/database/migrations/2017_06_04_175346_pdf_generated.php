@@ -12,6 +12,9 @@ class PdfGenerated extends Migration {
 	 */
 	public function up()
 	{
+        if(Schema::hasTable('generated_pdf')){
+            return true;
+        }
 		Schema::create('generated_pdf', function ($table) {
 			$table->increments('id');
 			$table->string('filename')->nullable();

@@ -292,4 +292,8 @@ Route::post('logs/timelog/edit','TimeLogController@edit');
 Route::get('logs/timelog','TimeLogController@timelog');
 Route::post('logs/timelog/append','TimeLogController@append');
 
+//COMMENT
+Route::post('faq/comment_append','FaqController@comment_append');
+Route::post('faq/reply_append','FaqController@reply_append');
+
 ?>

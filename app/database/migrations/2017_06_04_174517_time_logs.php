@@ -12,6 +12,9 @@ class TimeLogs extends Migration {
 	 */
 	public function up()
 	{
+        if(Schema::hasTable('dtr_file')){
+            return true;
+        }
 		Schema::create('dtr_file', function($table) {
 			$table->string('userid',200)->nullable();
 			$table->date('datein')->nullable();

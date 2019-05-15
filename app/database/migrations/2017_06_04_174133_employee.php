@@ -12,6 +12,9 @@ class Employee extends Migration {
 	 */
 	public function up()
 	{
+        if(Schema::hasTable('users')){
+            return true;
+        }
 		Schema::create('users', function ($table) {
 			$table->increments('id');
 			$table->string('email')->nullable();

@@ -12,6 +12,9 @@ class LeaveType extends Migration {
 	 */
 	public function up()
 	{
+        if(Schema::hasTable('leave_type')){
+            return true;
+        }
 		Schema::create('leave_type', function($table){
 			$table->increments('id');
 			$table->string('code')->nullable();

@@ -13,7 +13,7 @@ class Cdo extends Migration {
 	public function up()
 	{
 		if(Schema::hasTable('cdo')){
-			Schem::drop('cdo');
+			return true;
 		}
 		Schema::create('cdo', function(Blueprint $table) {
 			$table->increments('id');

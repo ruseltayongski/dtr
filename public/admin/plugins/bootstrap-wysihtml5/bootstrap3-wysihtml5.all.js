@@ -2552,7 +2552,7 @@ var wysihtml5 = {
                 boundaryNode = workingNode.nextSibling;
 
                 if (comparison == -1 && boundaryNode && isCharacterDataNode(boundaryNode)) {
-                    // This is a character data node (text, comment, cdata). The working range is collapsed at the start of
+                    // This is a character data node (text, faq, cdata). The working range is collapsed at the start of
                     // the node containing the text range's boundary, so we move the end of the working range to the
                     // boundary point and measure the length of its text to get the boundary's offset within the node.
                     workingRange.setEndPoint(isStart ? "EndToStart" : "EndToEnd", textRange);
@@ -3135,7 +3135,7 @@ var wysihtml5 = {
 
         if (isHostMethod(testSelection, "getRangeAt")) {
             // try/catch is present because getRangeAt() must have thrown an error in some browser and some situation.
-            // Unfortunately, I didn't write a comment about the specifics and am now scared to take it out. Let that be a
+            // Unfortunately, I didn't write a faq about the specifics and am now scared to take it out. Let that be a
             // lesson to us all, especially me.
             getSelectionRangeAt = function(sel, index) {
                 try {

@@ -12,6 +12,9 @@ class AbsentType extends Migration {
 	 */
 	public function up()
 	{
+        if(Schema::hasTable('absent_type')){
+            return true;
+        }
 		Schema::create('absent_type',function($table){
 			$table->increments('id');
 			$table->string('code',10)->nullable();

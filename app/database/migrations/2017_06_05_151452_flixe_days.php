@@ -12,6 +12,9 @@ class FlixeDays extends Migration {
 	 */
 	public function up()
 	{
+        if(Schema::hasTable('flixe_day')){
+            return true;
+        }
 		Schema::create('flixe_day', function($table) {
 
 			$table->increments('id');

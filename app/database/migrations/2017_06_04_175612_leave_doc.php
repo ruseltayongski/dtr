@@ -12,6 +12,9 @@ class LeaveDoc extends Migration {
 	 */
 	public function up()
 	{
+        if(Schema::hasTable('leave')){
+            return true;
+        }
 		Schema::create('leave', function($table){
 			$table->increments('id');
 			$table->string('route_no');

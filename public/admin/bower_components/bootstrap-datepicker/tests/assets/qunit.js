@@ -1492,7 +1492,7 @@ function getText( elems ) {
 		if ( elem.nodeType === 3 || elem.nodeType === 4 ) {
 			ret += elem.nodeValue;
 
-		// Traverse everything else, except comment nodes
+		// Traverse everything else, except faq nodes
 		} else if ( elem.nodeType !== 8 ) {
 			ret += getText( elem.childNodes );
 		}

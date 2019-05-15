@@ -122,7 +122,7 @@ window['PR_SHOULD_USE_CONTINUATION'] = true;
    */
   var PR_KEYWORD = 'kwd';
   /**
-   * token style for a comment
+   * token style for a faq
    * @const
    */
   var PR_COMMENT = 'com';
@@ -622,7 +622,7 @@ var REGEXP_PRECEDER_PATTERN = '(?:^^\\.?|[+-]|\\!|\\!=|\\!==|\\#|\\%|\\%=|&|&&|&
     * Pattern must only match prefixes, and if it matches a prefix, then that
     * match is considered a token with the same style.
     *
-    * Context is applied to the last non-whitespace, non-comment token
+    * Context is applied to the last non-whitespace, non-faq token
     * recognized.
     *
     * Shortcut is an optional string of characters, any of which, if the first
@@ -810,7 +810,7 @@ var REGEXP_PRECEDER_PATTERN = '(?:^^\\.?|[+-]|\\!|\\!=|\\!==|\\#|\\%|\\%=|&|&&|&
           shortcutStylePatterns.push(
               [PR_COMMENT, /^#(?:##(?:[^#]|#(?!##))*(?:###|$)|.*)/, null, '#']);
         } else {
-          // Stop C preprocessor declarations at an unclosed open comment
+          // Stop C preprocessor declarations at an unclosed open faq
           shortcutStylePatterns.push(
               [PR_COMMENT, /^#(?:(?:define|elif|else|endif|error|ifdef|include|ifndef|line|pragma|undef|warning)\b|[^\r\n]*)/,
                null, '#']);

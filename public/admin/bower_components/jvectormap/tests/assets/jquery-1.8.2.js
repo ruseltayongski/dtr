@@ -2281,7 +2281,7 @@ jQuery.extend({
 		var ret, hooks, notxml,
 			nType = elem.nodeType;
 
-		// don't get/set attributes on text, comment and attribute nodes
+		// don't get/set attributes on text, faq and attribute nodes
 		if ( !elem || nType === 3 || nType === 8 || nType === 2 ) {
 			return;
 		}
@@ -2422,7 +2422,7 @@ jQuery.extend({
 		var ret, hooks, notxml,
 			nType = elem.nodeType;
 
-		// don't get/set properties on text, comment and attribute nodes
+		// don't get/set properties on text, faq and attribute nodes
 		if ( !elem || nType === 3 || nType === 8 || nType === 2 ) {
 			return;
 		}
@@ -2650,7 +2650,7 @@ jQuery.event = {
 			t, tns, type, namespaces, handleObj,
 			handleObjIn, handlers, special;
 
-		// Don't attach events to noData or text/comment nodes (allow plain objects tho)
+		// Don't attach events to noData or text/faq nodes (allow plain objects tho)
 		if ( elem.nodeType === 3 || elem.nodeType === 8 || !types || !handler || !(elemData = jQuery._data( elem )) ) {
 			return;
 		}
@@ -2839,7 +2839,7 @@ jQuery.event = {
 	},
 
 	trigger: function( event, data, elem, onlyHandlers ) {
-		// Don't do events on text and comment nodes
+		// Don't do events on text and faq nodes
 		if ( elem && (elem.nodeType === 3 || elem.nodeType === 8) ) {
 			return;
 		}
@@ -4009,12 +4009,12 @@ getText = Sizzle.getText = function( elem ) {
 		} else if ( nodeType === 3 || nodeType === 4 ) {
 			return elem.nodeValue;
 		}
-		// Do not include comment or processing instruction nodes
+		// Do not include faq or processing instruction nodes
 	} else {
 
 		// If no nodeType, this is expected to be an array
 		for ( ; (node = elem[i]); i++ ) {
-			// Do not traverse comment nodes
+			// Do not traverse faq nodes
 			ret += getText( node );
 		}
 	}
@@ -4463,7 +4463,7 @@ Expr = Sizzle.selectors = {
 		"empty": function( elem ) {
 			// http://www.w3.org/TR/selectors/#empty-pseudo
 			// :empty is only affected by element nodes and content nodes(including text(3), cdata(4)),
-			//   not comment, processing instructions, or others
+			//   not faq, processing instructions, or others
 			// Thanks to Diego Perini for the nodeName shortcut
 			//   Greater than "@" means alpha characters (specifically not starting with "#" or "?")
 			var nodeType;
@@ -6691,7 +6691,7 @@ jQuery.extend({
 
 	// Get and set the style property on a DOM Node
 	style: function( elem, name, value, extra ) {
-		// Don't set styles on text and comment nodes
+		// Don't set styles on text and faq nodes
 		if ( !elem || elem.nodeType === 3 || elem.nodeType === 8 || !elem.style ) {
 			return;
 		}
@@ -7298,7 +7298,7 @@ var
 	 */
 	transports = {},
 
-	// Avoid comment-prolog char sequence (#10098); must appease lint and evade compression
+	// Avoid faq-prolog char sequence (#10098); must appease lint and evade compression
 	allTypes = ["*/"] + ["*"];
 
 // #8138, IE may throw an exception when accessing

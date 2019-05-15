@@ -4081,7 +4081,7 @@ module.exports = function(Chart) {
 				data: [],
 				dataset: null,
 				controller: null,
-				hidden: null,			// See isDatasetVisible() comment
+				hidden: null,			// See isDatasetVisible() faq
 				xAxisID: null,
 				yAxisID: null
 			};
@@ -5951,7 +5951,7 @@ module.exports = function(Chart) {
 			var ci = this.chart;
 			var meta = ci.getDatasetMeta(index);
 
-			// See controller.isDatasetVisible comment
+			// See controller.isDatasetVisible faq
 			meta.hidden = meta.hidden === null? !ci.data.datasets[index].hidden : null;
 
 			// We hid a dataset ... rerender the chart

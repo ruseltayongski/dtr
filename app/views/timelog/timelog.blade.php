@@ -2,20 +2,20 @@
 @extends('layouts.app')
 
 @section('content')
-    <style>
-        u{
-            color: #307bff;
-        }
-    </style>
     <div class="col-md-12 wrapper">
         <div class="alert alert-jim">
             <div class="row">
                 <div class="col-md-12">
+                    <div class="alert alert-info text-blue">
+                        <i class="ace-icon fa fa-hand-o-right"></i> Note: Just click the timelog to edit<br>
+                        _ _ _ _ _ _ _&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EDITABLE SYMBOL<br>
+                        __________ &nbsp;&nbsp;NOT EDITABLE SYMBOL
+                    </div>
                     <form class="form-inline" autocomplete="off" method="POST" action="{{ asset('logs/timelog') }}" id="submit_logs" style="margin-right: 2%">
                         <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
                         <input type="text" class="form-control filter_dates" value="{{ Session::get('filter_dates') }}" id="inclusive3" name="filter_dates" placeholder="Filter Date" required>
-                        <button type="submit" class="btn btn-success" id="print">
-                            Go
+                        <button type="submit" class="btn btn-primary" id="print">
+                            Generate
                         </button>
                     </form>
                     <br>
@@ -32,7 +32,7 @@
                                     $from = explode('-',Session::get('filter_dates'))[0];
                                     $to = explode('-',Session::get('filter_dates'))[1];
                                 ?>
-                                <strong class="text-blue">Manage Time Log {{ ' - '.date('F d,Y',strtotime($from)).' to '.date('F d,Y',strtotime($to)) }}</strong>
+                                {{--<strong class="text-blue">Manage Time Log {{ ' - '.date('F d,Y',strtotime($from)).' to '.date('F d,Y',strtotime($to)) }}</strong>--}}
                             </div>
                             <div class="row">
                                 <div class="col-md-12">
@@ -52,12 +52,12 @@
                                             <tr>
                                                 <td >
                                                     <strong class="text-green">{{ $row->datein }}</strong><br>
-                                                    <small class="label label-info">({{ $row->dayname }})</small>
+                                                    <small class="text-yellow">({{ $row->dayname }})</small>
                                                 </td>
                                                 <td>
                                                     <input type="hidden" value="{{ explode("_",explode('|',$row->time)[0])[2] }}" id="{{ $count."ñ"."AM_IN" }}">
                                                     @if(empty(explode("_",explode('|',$row->time)[0])[1]))
-                                                        <b><u><span>{{ explode("_",explode('|',$row->time)[0])[0] }}</span></u></b>
+                                                        <b class="text-blue"><u>{{ explode("_",explode('|',$row->time)[0])[0] }}</u></b>
                                                     @else
                                                         <span style="cursor: pointer;" class="editable" id="<?php echo
                                                             Auth::user()->userid.'ñ'.
@@ -72,7 +72,7 @@
                                                 <td>
                                                     <input type="hidden" value="{{ explode("_",explode('|',$row->time)[1])[2] }}" id="{{ $count."ñ"."AM_OUT" }}">
                                                     @if(empty(explode("_",explode('|',$row->time)[1])[1]))
-                                                        <b><u><span>{{ explode("_",explode('|',$row->time)[1])[0] }}</span></u></b>
+                                                        <b class="text-blue"><u>{{ explode("_",explode('|',$row->time)[1])[0] }}</u></b>
                                                     @else
                                                         <span style="cursor: pointer;" class="editable" id="<?php echo
                                                             Auth::user()->userid.'ñ'.
@@ -87,7 +87,7 @@
                                                 <td>
                                                     <input type="hidden" value="{{ explode("_",explode('|',$row->time)[2])[2] }}" id="{{ $count."ñ"."PM_IN" }}">
                                                     @if(empty(explode("_",explode('|',$row->time)[2])[1]))
-                                                        <b><u><span>{{ explode("_",explode('|',$row->time)[2])[0] }}</span></u></b>
+                                                        <b class="text-blue"><u>{{ explode("_",explode('|',$row->time)[2])[0] }}</u></b>
                                                     @else
                                                         <span style="cursor: pointer;" class="editable" id="<?php echo
                                                             Auth::user()->userid.'ñ'.
@@ -102,7 +102,7 @@
                                                 <td>
                                                     <input type="hidden" value="{{ explode("_",explode('|',$row->time)[3])[2] }}" id="{{ $count."ñ"."PM_OUT" }}">
                                                     @if(empty(explode("_",explode('|',$row->time)[3])[1]))
-                                                        <b><u><span>{{ explode("_",explode('|',$row->time)[3])[0] }}</span></u></b>
+                                                        <b class="text-blue"><u>{{ explode("_",explode('|',$row->time)[3])[0] }}</u></b>
                                                     @else
                                                         <span style="cursor: pointer;" class="editable" id="<?php echo
                                                             Auth::user()->userid.'ñ'.

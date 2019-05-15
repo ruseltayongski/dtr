@@ -3016,7 +3016,7 @@ Textarea input
 @extends abstractinput
 @final
 @example
-<a href="#" id="comments" data-type="textarea" data-pk="1">awesome comment!</a>
+<a href="#" id="comments" data-type="textarea" data-pk="1">awesome faq!</a>
 <script>
 $(function(){
     $('#comments').editable({

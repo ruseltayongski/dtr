@@ -924,7 +924,7 @@
 						HELPERS
 
 			- Any method that is not part of the public interface.
-			- Place it underneath this comment block and write its signature like so:
+			- Place it underneath this faq block and write its signature like so:
 
 			  					_fnName : function() {...}
 

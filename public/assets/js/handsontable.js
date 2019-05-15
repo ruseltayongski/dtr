@@ -29652,7 +29652,7 @@ DefaultSettings.prototype = {
    * If `true`, enables the {@link Comments} plugin, which enables an option to apply cell comments through the context menu
    * (configurable with context menu keys `commentsAddEdit`, `commentsRemove`).
    *
-   * To initialize Handsontable with predefined comments, provide cell coordinates and comment text values in a form of an array.
+   * To initialize Handsontable with predefined comments, provide cell coordinates and faq text values in a form of an array.
    *
    * See [Comments](http://docs.handsontable.com/demo-comments_.html) demo for examples.
    *
@@ -29662,7 +29662,7 @@ DefaultSettings.prototype = {
    * @example
    * ```js
    * ...
-   * comments: [{row: 1, col: 1, comment: {value: "Test comment"}}],
+   * comments: [{row: 1, col: 1, faq: {value: "Test faq"}}],
    * ...
    * ```
    */
@@ -41669,7 +41669,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 var dictionary = (_dictionary = {
   languageCode: 'en-US'
-}, _defineProperty(_dictionary, C.CONTEXTMENU_ITEMS_ROW_ABOVE, 'Insert row above'), _defineProperty(_dictionary, C.CONTEXTMENU_ITEMS_ROW_BELOW, 'Insert row below'), _defineProperty(_dictionary, C.CONTEXTMENU_ITEMS_INSERT_LEFT, 'Insert column left'), _defineProperty(_dictionary, C.CONTEXTMENU_ITEMS_INSERT_RIGHT, 'Insert column right'), _defineProperty(_dictionary, C.CONTEXTMENU_ITEMS_REMOVE_ROW, ['Remove row', 'Remove rows']), _defineProperty(_dictionary, C.CONTEXTMENU_ITEMS_REMOVE_COLUMN, ['Remove column', 'Remove columns']), _defineProperty(_dictionary, C.CONTEXTMENU_ITEMS_UNDO, 'Undo'), _defineProperty(_dictionary, C.CONTEXTMENU_ITEMS_REDO, 'Redo'), _defineProperty(_dictionary, C.CONTEXTMENU_ITEMS_READ_ONLY, 'Read only'), _defineProperty(_dictionary, C.CONTEXTMENU_ITEMS_CLEAR_COLUMN, 'Clear column'), _defineProperty(_dictionary, C.CONTEXTMENU_ITEMS_ALIGNMENT, 'Alignment'), _defineProperty(_dictionary, C.CONTEXTMENU_ITEMS_ALIGNMENT_LEFT, 'Left'), _defineProperty(_dictionary, C.CONTEXTMENU_ITEMS_ALIGNMENT_CENTER, 'Center'), _defineProperty(_dictionary, C.CONTEXTMENU_ITEMS_ALIGNMENT_RIGHT, 'Right'), _defineProperty(_dictionary, C.CONTEXTMENU_ITEMS_ALIGNMENT_JUSTIFY, 'Justify'), _defineProperty(_dictionary, C.CONTEXTMENU_ITEMS_ALIGNMENT_TOP, 'Top'), _defineProperty(_dictionary, C.CONTEXTMENU_ITEMS_ALIGNMENT_MIDDLE, 'Middle'), _defineProperty(_dictionary, C.CONTEXTMENU_ITEMS_ALIGNMENT_BOTTOM, 'Bottom'), _defineProperty(_dictionary, C.CONTEXTMENU_ITEMS_FREEZE_COLUMN, 'Freeze column'), _defineProperty(_dictionary, C.CONTEXTMENU_ITEMS_UNFREEZE_COLUMN, 'Unfreeze column'), _defineProperty(_dictionary, C.CONTEXTMENU_ITEMS_BORDERS, 'Borders'), _defineProperty(_dictionary, C.CONTEXTMENU_ITEMS_BORDERS_TOP, 'Top'), _defineProperty(_dictionary, C.CONTEXTMENU_ITEMS_BORDERS_RIGHT, 'Right'), _defineProperty(_dictionary, C.CONTEXTMENU_ITEMS_BORDERS_BOTTOM, 'Bottom'), _defineProperty(_dictionary, C.CONTEXTMENU_ITEMS_BORDERS_LEFT, 'Left'), _defineProperty(_dictionary, C.CONTEXTMENU_ITEMS_REMOVE_BORDERS, 'Remove border(s)'), _defineProperty(_dictionary, C.CONTEXTMENU_ITEMS_ADD_COMMENT, 'Add comment'), _defineProperty(_dictionary, C.CONTEXTMENU_ITEMS_EDIT_COMMENT, 'Edit comment'), _defineProperty(_dictionary, C.CONTEXTMENU_ITEMS_REMOVE_COMMENT, 'Delete comment'), _defineProperty(_dictionary, C.CONTEXTMENU_ITEMS_READ_ONLY_COMMENT, 'Read-only comment'), _defineProperty(_dictionary, C.CONTEXTMENU_ITEMS_MERGE_CELLS, 'Merge cells'), _defineProperty(_dictionary, C.CONTEXTMENU_ITEMS_UNMERGE_CELLS, 'Unmerge cells'), _defineProperty(_dictionary, C.CONTEXTMENU_ITEMS_COPY, 'Copy'), _defineProperty(_dictionary, C.CONTEXTMENU_ITEMS_CUT, 'Cut'), _defineProperty(_dictionary, C.CONTEXTMENU_ITEMS_NESTED_ROWS_INSERT_CHILD, 'Insert child row'), _defineProperty(_dictionary, C.CONTEXTMENU_ITEMS_NESTED_ROWS_DETACH_CHILD, 'Detach from parent'), _defineProperty(_dictionary, C.CONTEXTMENU_ITEMS_HIDE_COLUMN, ['Hide column', 'Hide columns']), _defineProperty(_dictionary, C.CONTEXTMENU_ITEMS_SHOW_COLUMN, ['Show column', 'Show columns']), _defineProperty(_dictionary, C.CONTEXTMENU_ITEMS_HIDE_ROW, ['Hide row', 'Hide rows']), _defineProperty(_dictionary, C.CONTEXTMENU_ITEMS_SHOW_ROW, ['Show row', 'Show rows']), _defineProperty(_dictionary, C.FILTERS_CONDITIONS_NONE, 'None'), _defineProperty(_dictionary, C.FILTERS_CONDITIONS_EMPTY, 'Is empty'), _defineProperty(_dictionary, C.FILTERS_CONDITIONS_NOT_EMPTY, 'Is not empty'), _defineProperty(_dictionary, C.FILTERS_CONDITIONS_EQUAL, 'Is equal to'), _defineProperty(_dictionary, C.FILTERS_CONDITIONS_NOT_EQUAL, 'Is not equal to'), _defineProperty(_dictionary, C.FILTERS_CONDITIONS_BEGINS_WITH, 'Begins with'), _defineProperty(_dictionary, C.FILTERS_CONDITIONS_ENDS_WITH, 'Ends with'), _defineProperty(_dictionary, C.FILTERS_CONDITIONS_CONTAINS, 'Contains'), _defineProperty(_dictionary, C.FILTERS_CONDITIONS_NOT_CONTAIN, 'Does not contain'), _defineProperty(_dictionary, C.FILTERS_CONDITIONS_GREATER_THAN, 'Greater than'), _defineProperty(_dictionary, C.FILTERS_CONDITIONS_GREATER_THAN_OR_EQUAL, 'Greater than or equal to'), _defineProperty(_dictionary, C.FILTERS_CONDITIONS_LESS_THAN, 'Less than'), _defineProperty(_dictionary, C.FILTERS_CONDITIONS_LESS_THAN_OR_EQUAL, 'Less than or equal to'), _defineProperty(_dictionary, C.FILTERS_CONDITIONS_BETWEEN, 'Is between'), _defineProperty(_dictionary, C.FILTERS_CONDITIONS_NOT_BETWEEN, 'Is not between'), _defineProperty(_dictionary, C.FILTERS_CONDITIONS_AFTER, 'After'), _defineProperty(_dictionary, C.FILTERS_CONDITIONS_BEFORE, 'Before'), _defineProperty(_dictionary, C.FILTERS_CONDITIONS_TODAY, 'Today'), _defineProperty(_dictionary, C.FILTERS_CONDITIONS_TOMORROW, 'Tomorrow'), _defineProperty(_dictionary, C.FILTERS_CONDITIONS_YESTERDAY, 'Yesterday'), _defineProperty(_dictionary, C.FILTERS_VALUES_BLANK_CELLS, 'Blank cells'), _defineProperty(_dictionary, C.FILTERS_DIVS_FILTER_BY_CONDITION, 'Filter by condition'), _defineProperty(_dictionary, C.FILTERS_DIVS_FILTER_BY_VALUE, 'Filter by value'), _defineProperty(_dictionary, C.FILTERS_LABELS_CONJUNCTION, 'And'), _defineProperty(_dictionary, C.FILTERS_LABELS_DISJUNCTION, 'Or'), _defineProperty(_dictionary, C.FILTERS_BUTTONS_SELECT_ALL, 'Select all'), _defineProperty(_dictionary, C.FILTERS_BUTTONS_CLEAR, 'Clear'), _defineProperty(_dictionary, C.FILTERS_BUTTONS_OK, 'OK'), _defineProperty(_dictionary, C.FILTERS_BUTTONS_CANCEL, 'Cancel'), _defineProperty(_dictionary, C.FILTERS_BUTTONS_PLACEHOLDER_SEARCH, 'Search'), _defineProperty(_dictionary, C.FILTERS_BUTTONS_PLACEHOLDER_VALUE, 'Value'), _defineProperty(_dictionary, C.FILTERS_BUTTONS_PLACEHOLDER_SECOND_VALUE, 'Second value'), _dictionary);
+}, _defineProperty(_dictionary, C.CONTEXTMENU_ITEMS_ROW_ABOVE, 'Insert row above'), _defineProperty(_dictionary, C.CONTEXTMENU_ITEMS_ROW_BELOW, 'Insert row below'), _defineProperty(_dictionary, C.CONTEXTMENU_ITEMS_INSERT_LEFT, 'Insert column left'), _defineProperty(_dictionary, C.CONTEXTMENU_ITEMS_INSERT_RIGHT, 'Insert column right'), _defineProperty(_dictionary, C.CONTEXTMENU_ITEMS_REMOVE_ROW, ['Remove row', 'Remove rows']), _defineProperty(_dictionary, C.CONTEXTMENU_ITEMS_REMOVE_COLUMN, ['Remove column', 'Remove columns']), _defineProperty(_dictionary, C.CONTEXTMENU_ITEMS_UNDO, 'Undo'), _defineProperty(_dictionary, C.CONTEXTMENU_ITEMS_REDO, 'Redo'), _defineProperty(_dictionary, C.CONTEXTMENU_ITEMS_READ_ONLY, 'Read only'), _defineProperty(_dictionary, C.CONTEXTMENU_ITEMS_CLEAR_COLUMN, 'Clear column'), _defineProperty(_dictionary, C.CONTEXTMENU_ITEMS_ALIGNMENT, 'Alignment'), _defineProperty(_dictionary, C.CONTEXTMENU_ITEMS_ALIGNMENT_LEFT, 'Left'), _defineProperty(_dictionary, C.CONTEXTMENU_ITEMS_ALIGNMENT_CENTER, 'Center'), _defineProperty(_dictionary, C.CONTEXTMENU_ITEMS_ALIGNMENT_RIGHT, 'Right'), _defineProperty(_dictionary, C.CONTEXTMENU_ITEMS_ALIGNMENT_JUSTIFY, 'Justify'), _defineProperty(_dictionary, C.CONTEXTMENU_ITEMS_ALIGNMENT_TOP, 'Top'), _defineProperty(_dictionary, C.CONTEXTMENU_ITEMS_ALIGNMENT_MIDDLE, 'Middle'), _defineProperty(_dictionary, C.CONTEXTMENU_ITEMS_ALIGNMENT_BOTTOM, 'Bottom'), _defineProperty(_dictionary, C.CONTEXTMENU_ITEMS_FREEZE_COLUMN, 'Freeze column'), _defineProperty(_dictionary, C.CONTEXTMENU_ITEMS_UNFREEZE_COLUMN, 'Unfreeze column'), _defineProperty(_dictionary, C.CONTEXTMENU_ITEMS_BORDERS, 'Borders'), _defineProperty(_dictionary, C.CONTEXTMENU_ITEMS_BORDERS_TOP, 'Top'), _defineProperty(_dictionary, C.CONTEXTMENU_ITEMS_BORDERS_RIGHT, 'Right'), _defineProperty(_dictionary, C.CONTEXTMENU_ITEMS_BORDERS_BOTTOM, 'Bottom'), _defineProperty(_dictionary, C.CONTEXTMENU_ITEMS_BORDERS_LEFT, 'Left'), _defineProperty(_dictionary, C.CONTEXTMENU_ITEMS_REMOVE_BORDERS, 'Remove border(s)'), _defineProperty(_dictionary, C.CONTEXTMENU_ITEMS_ADD_COMMENT, 'Add faq'), _defineProperty(_dictionary, C.CONTEXTMENU_ITEMS_EDIT_COMMENT, 'Edit faq'), _defineProperty(_dictionary, C.CONTEXTMENU_ITEMS_REMOVE_COMMENT, 'Delete faq'), _defineProperty(_dictionary, C.CONTEXTMENU_ITEMS_READ_ONLY_COMMENT, 'Read-only faq'), _defineProperty(_dictionary, C.CONTEXTMENU_ITEMS_MERGE_CELLS, 'Merge cells'), _defineProperty(_dictionary, C.CONTEXTMENU_ITEMS_UNMERGE_CELLS, 'Unmerge cells'), _defineProperty(_dictionary, C.CONTEXTMENU_ITEMS_COPY, 'Copy'), _defineProperty(_dictionary, C.CONTEXTMENU_ITEMS_CUT, 'Cut'), _defineProperty(_dictionary, C.CONTEXTMENU_ITEMS_NESTED_ROWS_INSERT_CHILD, 'Insert child row'), _defineProperty(_dictionary, C.CONTEXTMENU_ITEMS_NESTED_ROWS_DETACH_CHILD, 'Detach from parent'), _defineProperty(_dictionary, C.CONTEXTMENU_ITEMS_HIDE_COLUMN, ['Hide column', 'Hide columns']), _defineProperty(_dictionary, C.CONTEXTMENU_ITEMS_SHOW_COLUMN, ['Show column', 'Show columns']), _defineProperty(_dictionary, C.CONTEXTMENU_ITEMS_HIDE_ROW, ['Hide row', 'Hide rows']), _defineProperty(_dictionary, C.CONTEXTMENU_ITEMS_SHOW_ROW, ['Show row', 'Show rows']), _defineProperty(_dictionary, C.FILTERS_CONDITIONS_NONE, 'None'), _defineProperty(_dictionary, C.FILTERS_CONDITIONS_EMPTY, 'Is empty'), _defineProperty(_dictionary, C.FILTERS_CONDITIONS_NOT_EMPTY, 'Is not empty'), _defineProperty(_dictionary, C.FILTERS_CONDITIONS_EQUAL, 'Is equal to'), _defineProperty(_dictionary, C.FILTERS_CONDITIONS_NOT_EQUAL, 'Is not equal to'), _defineProperty(_dictionary, C.FILTERS_CONDITIONS_BEGINS_WITH, 'Begins with'), _defineProperty(_dictionary, C.FILTERS_CONDITIONS_ENDS_WITH, 'Ends with'), _defineProperty(_dictionary, C.FILTERS_CONDITIONS_CONTAINS, 'Contains'), _defineProperty(_dictionary, C.FILTERS_CONDITIONS_NOT_CONTAIN, 'Does not contain'), _defineProperty(_dictionary, C.FILTERS_CONDITIONS_GREATER_THAN, 'Greater than'), _defineProperty(_dictionary, C.FILTERS_CONDITIONS_GREATER_THAN_OR_EQUAL, 'Greater than or equal to'), _defineProperty(_dictionary, C.FILTERS_CONDITIONS_LESS_THAN, 'Less than'), _defineProperty(_dictionary, C.FILTERS_CONDITIONS_LESS_THAN_OR_EQUAL, 'Less than or equal to'), _defineProperty(_dictionary, C.FILTERS_CONDITIONS_BETWEEN, 'Is between'), _defineProperty(_dictionary, C.FILTERS_CONDITIONS_NOT_BETWEEN, 'Is not between'), _defineProperty(_dictionary, C.FILTERS_CONDITIONS_AFTER, 'After'), _defineProperty(_dictionary, C.FILTERS_CONDITIONS_BEFORE, 'Before'), _defineProperty(_dictionary, C.FILTERS_CONDITIONS_TODAY, 'Today'), _defineProperty(_dictionary, C.FILTERS_CONDITIONS_TOMORROW, 'Tomorrow'), _defineProperty(_dictionary, C.FILTERS_CONDITIONS_YESTERDAY, 'Yesterday'), _defineProperty(_dictionary, C.FILTERS_VALUES_BLANK_CELLS, 'Blank cells'), _defineProperty(_dictionary, C.FILTERS_DIVS_FILTER_BY_CONDITION, 'Filter by condition'), _defineProperty(_dictionary, C.FILTERS_DIVS_FILTER_BY_VALUE, 'Filter by value'), _defineProperty(_dictionary, C.FILTERS_LABELS_CONJUNCTION, 'And'), _defineProperty(_dictionary, C.FILTERS_LABELS_DISJUNCTION, 'Or'), _defineProperty(_dictionary, C.FILTERS_BUTTONS_SELECT_ALL, 'Select all'), _defineProperty(_dictionary, C.FILTERS_BUTTONS_CLEAR, 'Clear'), _defineProperty(_dictionary, C.FILTERS_BUTTONS_OK, 'OK'), _defineProperty(_dictionary, C.FILTERS_BUTTONS_CANCEL, 'Cancel'), _defineProperty(_dictionary, C.FILTERS_BUTTONS_PLACEHOLDER_SEARCH, 'Search'), _defineProperty(_dictionary, C.FILTERS_BUTTONS_PLACEHOLDER_VALUE, 'Value'), _defineProperty(_dictionary, C.FILTERS_BUTTONS_PLACEHOLDER_SECOND_VALUE, 'Second value'), _dictionary);
 
 exports.default = dictionary;
 
@@ -45416,7 +45416,7 @@ var META_READONLY = 'readOnly';
  * ...
  * ```
  *
- * To add comments at the table initialization, define the `comment` property in the `cell` config array as in an example below.
+ * To add comments at the table initialization, define the `faq` property in the `cell` config array as in an example below.
  *
  * @example
  *
@@ -45426,8 +45426,8 @@ var META_READONLY = 'readOnly';
  *   date: getData(),
  *   comments: true,
  *   cell: [
- *     {row: 1, col: 1, comment: {value: 'Foo'}},
- *     {row: 2, col: 2, comment: {value: 'Bar'}}
+ *     {row: 1, col: 1, faq: {value: 'Foo'}},
+ *     {row: 2, col: 2, faq: {value: 'Bar'}}
  *   ]
  * });
  *
@@ -45649,7 +45649,7 @@ var Comments = function (_BasePlugin) {
     }
 
     /**
-     * Check if the event target is a cell containing a comment.
+     * Check if the event target is a cell containing a faq.
      *
      * @param {Event} event DOM event
      * @returns {Boolean}
@@ -45664,7 +45664,7 @@ var Comments = function (_BasePlugin) {
     }
 
     /**
-     * Check if the event target is a comment textarea.
+     * Check if the event target is a faq textarea.
      *
      * @param {Event} event DOM event.
      * @returns {Boolean}
@@ -45677,7 +45677,7 @@ var Comments = function (_BasePlugin) {
     }
 
     /**
-     * Set a comment for a cell according to the previously set range (see {@link Comments#setRange}).
+     * Set a faq for a cell according to the previously set range (see {@link Comments#setRange}).
      *
      * @param {String} value Comment contents.
      */
@@ -45686,7 +45686,7 @@ var Comments = function (_BasePlugin) {
     key: 'setComment',
     value: function setComment(value) {
       if (!this.range.from) {
-        throw new Error('Before using this method, first set cell range (hot.getPlugin("comment").setRange())');
+        throw new Error('Before using this method, first set cell range (hot.getPlugin("faq").setRange())');
       }
       var editorValue = this.editor.getValue();
       var comment = '';
@@ -45705,7 +45705,7 @@ var Comments = function (_BasePlugin) {
     }
 
     /**
-     * Set a comment for a cell.
+     * Set a faq for a cell.
      *
      * @param {Number} row Visual row index.
      * @param {Number} col Visual column index.
@@ -45722,7 +45722,7 @@ var Comments = function (_BasePlugin) {
     }
 
     /**
-     * Remove a comment from a cell according to previously set range (see {@link Comments#setRange}).
+     * Remove a faq from a cell according to previously set range (see {@link Comments#setRange}).
      *
      * @param {Boolean} [forceRender = true] If set to `true`, the table will be re-rendered at the end of the operation.
      */
@@ -45733,7 +45733,7 @@ var Comments = function (_BasePlugin) {
       var forceRender = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
 
       if (!this.range.from) {
-        throw new Error('Before using this method, first set cell range (hot.getPlugin("comment").setRange())');
+        throw new Error('Before using this method, first set cell range (hot.getPlugin("faq").setRange())');
       }
 
       this.hot.setCellMeta(this.range.from.row, this.range.from.col, META_COMMENT, void 0);
@@ -45746,7 +45746,7 @@ var Comments = function (_BasePlugin) {
     }
 
     /**
-     * Remove comment from a cell.
+     * Remove faq from a cell.
      *
      * @param {Number} row Visual row index.
      * @param {Number} col Visual column index.
@@ -45765,7 +45765,7 @@ var Comments = function (_BasePlugin) {
     }
 
     /**
-     * Get comment from a cell at the predefined range.
+     * Get faq from a cell at the predefined range.
      */
 
   }, {
@@ -45778,7 +45778,7 @@ var Comments = function (_BasePlugin) {
     }
 
     /**
-     * Get comment from a cell at the provided coordinates.
+     * Get faq from a cell at the provided coordinates.
      *
      * @param {Number} row Visual row index.
      * @param {Number} column Visual column index.
@@ -45791,16 +45791,16 @@ var Comments = function (_BasePlugin) {
     }
 
     /**
-     * Show the comment editor accordingly to the previously set range (see {@link Comments#setRange}).
+     * Show the faq editor accordingly to the previously set range (see {@link Comments#setRange}).
      *
-     * @returns {Boolean} Returns `true` if comment editor was shown.
+     * @returns {Boolean} Returns `true` if faq editor was shown.
      */
 
   }, {
     key: 'show',
     value: function show() {
       if (!this.range.from) {
-        throw new Error('Before using this method, first set cell range (hot.getPlugin("comment").setRange())');
+        throw new Error('Before using this method, first set cell range (hot.getPlugin("faq").setRange())');
       }
       var meta = this.hot.getCellMeta(this.range.from.row, this.range.from.col);
 
@@ -45815,11 +45815,11 @@ var Comments = function (_BasePlugin) {
     }
 
     /**
-     * Show comment editor according to cell coordinates.
+     * Show faq editor according to cell coordinates.
      *
      * @param {Number} row Visual row index.
      * @param {Number} col Visual column index.
-     * @returns {Boolean} Returns `true` if comment editor was shown.
+     * @returns {Boolean} Returns `true` if faq editor was shown.
      */
 
   }, {
@@ -45833,7 +45833,7 @@ var Comments = function (_BasePlugin) {
     }
 
     /**
-     * Hide the comment editor.
+     * Hide the faq editor.
      */
 
   }, {
@@ -45845,7 +45845,7 @@ var Comments = function (_BasePlugin) {
     }
 
     /**
-     * Refresh comment editor position and styling.
+     * Refresh faq editor position and styling.
      *
      * @param {Boolean} [force=false] If `true` then recalculation will be forced.
      */
@@ -45893,7 +45893,7 @@ var Comments = function (_BasePlugin) {
     }
 
     /**
-     * Check if there is a comment for selected range.
+     * Check if there is a faq for selected range.
      *
      * @private
      * @returns {Boolean}
@@ -45918,11 +45918,11 @@ var Comments = function (_BasePlugin) {
     }
 
     /**
-     * Set or update the comment-related cell meta.
+     * Set or update the faq-related cell meta.
      *
      * @param {Number} row Visual row index.
      * @param {Number} column Visual column index.
-     * @param {Object} metaObject Object defining all the comment-related meta information.
+     * @param {Object} metaObject Object defining all the faq-related meta information.
      */
 
   }, {
@@ -45942,7 +45942,7 @@ var Comments = function (_BasePlugin) {
     }
 
     /**
-     * Get the comment related meta information.
+     * Get the faq related meta information.
      *
      * @param {Number} row Visual row index.
      * @param {Number} column Visual column index.
@@ -46053,7 +46053,7 @@ var Comments = function (_BasePlugin) {
     }
 
     /**
-     * `blur` event callback for the comment editor.
+     * `blur` event callback for the faq editor.
      *
      * @private
      * @param {Event} event The `blur` event.
@@ -46106,7 +46106,7 @@ var Comments = function (_BasePlugin) {
     }
 
     /**
-     * Context Menu's "Add comment" callback. Results in showing the comment editor.
+     * Context Menu's "Add faq" callback. Results in showing the faq editor.
      *
      * @private
      */
@@ -46133,7 +46133,7 @@ var Comments = function (_BasePlugin) {
     }
 
     /**
-     * Context Menu's "remove comment" callback.
+     * Context Menu's "remove faq" callback.
      *
      * @private
      * @param {Object} selection The current selection.
@@ -46154,7 +46154,7 @@ var Comments = function (_BasePlugin) {
     }
 
     /**
-     * Context Menu's "make comment read-only" callback.
+     * Context Menu's "make faq read-only" callback.
      *
      * @private
      * @param {Object} selection The current selection.
@@ -46249,7 +46249,7 @@ var Comments = function (_BasePlugin) {
     }
 
     /**
-     * Get `displayDelay` setting of comment plugin.
+     * Get `displayDelay` setting of faq plugin.
      *
      * @returns {Number|undefined}
      */
@@ -46456,7 +46456,7 @@ var CommentEditor = function () {
     }
 
     /**
-     * Set the comment value.
+     * Set the faq value.
      *
      * @param {String} [value] The value to use.
      */
@@ -46471,7 +46471,7 @@ var CommentEditor = function () {
     }
 
     /**
-     * Get the comment value.
+     * Get the faq value.
      *
      * @returns {String}
      */
@@ -46483,7 +46483,7 @@ var CommentEditor = function () {
     }
 
     /**
-     * Checks if the comment input element is focused.
+     * Checks if the faq input element is focused.
      *
      * @returns {Boolean}
      */
@@ -46602,20 +46602,20 @@ var DisplaySwitch = function () {
     _classCallCheck(this, DisplaySwitch);
 
     /**
-     * Flag to determine if comment can be showed or hidden. State `true` mean that last performed action
-     * was an attempt to show comment element. State `false` mean that it was attempt to hide comment element.
+     * Flag to determine if faq can be showed or hidden. State `true` mean that last performed action
+     * was an attempt to show faq element. State `false` mean that it was attempt to hide faq element.
      *
      * @type {Boolean}
      */
     this.wasLastActionShow = true;
     /**
-     * Show comment after predefined delay. It keeps reference to immutable `debounce` function.
+     * Show faq after predefined delay. It keeps reference to immutable `debounce` function.
      *
      * @type {Function}
      */
     this.showDebounced = null;
     /**
-     * Reference to timer, run by `setTimeout`, which is hiding comment
+     * Reference to timer, run by `setTimeout`, which is hiding faq
      *
      * @type {Number}
      */
@@ -46625,7 +46625,7 @@ var DisplaySwitch = function () {
   }
 
   /**
-   * Responsible for hiding comment after proper delay.
+   * Responsible for hiding faq after proper delay.
    */
 
 
@@ -46644,7 +46644,7 @@ var DisplaySwitch = function () {
     }
 
     /**
-     * Responsible for showing comment after proper delay.
+     * Responsible for showing faq after proper delay.
      *
      * @param {Object} range Coordinates of selected cell.
      */
@@ -46660,7 +46660,7 @@ var DisplaySwitch = function () {
 
 
     /**
-     * Cancel hiding comment.
+     * Cancel hiding faq.
      */
     value: function cancelHiding() {
       this.wasLastActionShow = true;

@@ -2512,7 +2512,7 @@ jQuery.extend({
 		var ret, hooks, notxml,
 			nType = elem.nodeType;
 
-		// don't get/set attributes on text, comment and attribute nodes
+		// don't get/set attributes on text, faq and attribute nodes
 		if ( !elem || nType === 3 || nType === 8 || nType === 2 ) {
 			return;
 		}
@@ -2653,7 +2653,7 @@ jQuery.extend({
 		var ret, hooks, notxml,
 			nType = elem.nodeType;
 
-		// don't get/set properties on text, comment and attribute nodes
+		// don't get/set properties on text, faq and attribute nodes
 		if ( !elem || nType === 3 || nType === 8 || nType === 2 ) {
 			return;
 		}
@@ -2910,7 +2910,7 @@ jQuery.event = {
 			t, tns, type, namespaces, handleObj,
 			handleObjIn, quick, handlers, special;
 
-		// Don't attach events to noData or text/comment nodes (allow plain objects tho)
+		// Don't attach events to noData or text/faq nodes (allow plain objects tho)
 		if ( elem.nodeType === 3 || elem.nodeType === 8 || !types || !handler || !(elemData = jQuery._data( elem )) ) {
 			return;
 		}
@@ -3102,7 +3102,7 @@ jQuery.event = {
 	},
 
 	trigger: function( event, data, elem, onlyHandlers ) {
-		// Don't do events on text and comment nodes
+		// Don't do events on text and faq nodes
 		if ( elem && (elem.nodeType === 3 || elem.nodeType === 8) ) {
 			return;
 		}
@@ -4297,7 +4297,7 @@ var getText = Sizzle.getText = function( elem ) {
 
 		// If no nodeType, this is expected to be an array
 		for ( i = 0; (node = elem[i]); i++ ) {
-			// Do not traverse comment nodes
+			// Do not traverse faq nodes
 			if ( node.nodeType !== 8 ) {
 				ret += getText( node );
 			}
@@ -6617,7 +6617,7 @@ jQuery.extend({
 
 	// Get and set the style property on a DOM Node
 	style: function( elem, name, value, extra ) {
-		// Don't set styles on text and comment nodes
+		// Don't set styles on text and faq nodes
 		if ( !elem || elem.nodeType === 3 || elem.nodeType === 8 || !elem.style ) {
 			return;
 		}
@@ -7012,7 +7012,7 @@ var r20 = /%20/g,
 	// Document location segments
 	ajaxLocParts,
 
-	// Avoid comment-prolog char sequence (#10098); must appease lint and evade compression
+	// Avoid faq-prolog char sequence (#10098); must appease lint and evade compression
 	allTypes = ["*/"] + ["*"];
 
 // #8138, IE may throw an exception when accessing

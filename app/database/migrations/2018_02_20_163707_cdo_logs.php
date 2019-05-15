@@ -12,6 +12,9 @@ class CdoLogs extends Migration {
 	 */
 	public function up()
 	{
+        if(Schema::hasTable('cdo_logs')){
+            return true;
+        }
         Schema::create('cdo_logs', function($table) {
             $table->string('userid',200)->nullable();
             $table->date('datein')->nullable();
