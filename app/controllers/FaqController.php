@@ -3,18 +3,25 @@
 class FaqController extends Controller
 {
     public function comment_append(){
+        $datein = date('Y-m-d H:i:s');
         $comment = new Comments();
         $comment->userid = Input::get('userid');
         $comment->post_id = 1;
         $comment->description = Input::get('description');
-        $comment->datein = date('Y-m-d');
+        $comment->datein = $datein;
         $comment->status = 1;
         $comment->save();
-        return View::make('faq.comment_append',Input::get());
+
+        $comment_id = Comments::OrderBy("id","desc")->first()->id;
+        return View::make('faq.comment_append',[
+            "userid" => Input::get("userid"),
+            "description" => Input::get("description"),
+            "datein" => Input::get("datein"),
+            "comment_id" => $comment_id
+        ]);
     }
 
     public function reply_append(){
-        return Input::get();
         $reply = new Reply();
         $reply->userid = Input::get('userid');
         $reply->post_id = 1;

@@ -42,7 +42,7 @@ class PersonalController extends Controller
             ->orderBy('dtr_file.time', 'ASC')
             ->paginate(20);
 
-        $comments = Comments::Select("comment.*","personal_information.picture")->LeftJoin("pis.personal_information","personal_information.userid","=","comment.userid")->get();
+        $comments = Comments::Select("comment.*","personal_information.picture","personal_information.lname","personal_information.fname")->LeftJoin("pis.personal_information","personal_information.userid","=","comment.userid")->get();
         $replies = Reply::OrderBy("id","desc")->get();
         return View::make('employee.index',[
             "lists" => $lists,

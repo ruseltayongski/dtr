@@ -59,7 +59,7 @@
                                 <!-- /.box-header -->
                                 <div class="box-body">
                                     <div class="alert alert-info text-blue">
-                                        New features: Just click here <i class="ace-icon fa fa-hand-o-right"></i> <a href="{{ asset('logs/timelog') }}" target="_blank"><strong class="text-blue">Manage DTR</strong></a>
+                                        New features of DTR VERSION 4.3<br> Just click here <i class="ace-icon fa fa-hand-o-right"></i> <a href="{{ asset('logs/timelog') }}" target="_blank"><strong class="text-blue">Manage DTR</strong></a>
                                     </div>
                                     <!--
                                     <div class="alert alert-success text-green">
@@ -75,11 +75,13 @@
                                         @if(count($comments) > 0)
                                             @foreach($comments as $com)
                                             <div class="item">
-                                                <img src="{{ str_replace('dtr','pis',asset('')).'public/upload_picture/picture/'.$com->picture }}" alt="user image" class="online">
+                                                <img src="
+                                                {{ isset($com->picture) ? str_replace('dtr','pis',asset('')).'public/upload_picture/picture/'.$com->picture : str_replace('dtr','pis',asset('')).'public/upload_picture/picture/unknown.jpg' }}
+                                                " alt="user image" class="online">
                                                 <p class="message">
                                                     <span href="#" class="name text-blue" style="display: inline;">
-                                                        <small class="text-muted pull-right"><i class="fa fa-clock-o"></i> 2:15</small>
-                                                        {{ Auth::user()->lname.', '.Auth::user()->fname }}
+                                                        <small class="text-muted pull-right"><i class="fa fa-clock-o"></i> {{ date('M d, Y',strtotime($com->datein)) }}<br>({{ date('h:i A',strtotime($com->datein)) }})</small>
+                                                        {{ strtoupper($com->lname.', '.$com->fname) }}
                                                     </span>
                                                     {{ $com->description }}<br>
                                                     <a data-toggle="collapse" class="text-blue" href="#collapse{{ $com->id }}" aria-expanded="false" aria-controls="collapseExample" style="font-size: 8pt"> Reply</a>
@@ -88,7 +90,7 @@
                                                     @foreach(Reply::where('comment_id','=',$com->id)->get() as $rep)
                                                         <?php $replyUser = User::where('userid','=',$rep->userid)->first(); ?>
                                                         <div class="item" style="margin-left:5%;">
-                                                            <img src="{{ str_replace('dtr','pis',asset('')).'public/upload_picture/picture/'.InformationPersonal::where('userid','=',$rep->userid)->first()->picture }}" alt="user image" class="offline">
+                                                            <img src="{{ isset($com->picture) ? str_replace('dtr','pis',asset('')).'public/upload_picture/picture/'.$com->picture : str_replace('dtr','pis',asset('')).'public/upload_picture/picture/unknown.jpg' }}" alt="user image" class="offline">
                                                             <p class="message">
                                                             <span href="#" class="name text-blue">
                                                                 <small class="text-muted pull-right"><i class="fa fa-clock-o"></i> 2:15</small>
@@ -122,8 +124,8 @@
                                             </div>
                                         </form>
                                     </div>
-                                    -->
                                 </div>
+                                -->
 
 
                             </div>
@@ -179,20 +181,18 @@
                 var json = {
                     "userid" : "<?php echo Auth::user()->userid; ?>",
                     "post_id" : 1,
-                    "comment_id" : count,
+                    "comment_id" : this.id.split('submit_reply')[1],
                     "description" : inputElement.val(),
                     "status" : 1,
                     "count" : replyCount
                 };
-                console.log(json);
                 $.post(url,json,function(result){
                     inputElement.val('');
                     $(".reply_append"+ID.split('submit_reply')[1]).append(result);
                     $("#reply"+replyCount).hide().fadeIn();
                     replyCount++;
-                    form.preventDefault();
                 });
-
+                form.preventDefault();
             });
         });
 
