@@ -10,7 +10,7 @@
                             <div class="panel panel-default">
                                 <div class="panel-heading"><strong style="color: #f0ad4e;font-size:medium;">Print individual DTR</strong></div>
                                 <div class="panel-body">
-                                    <form action="{{ asset('FPDF/timelog/print_individual1.php') }}" autocomplete="off" method="POST" id="print_pdf">
+                                    <form action="{{ asset('FPDF/timelog/print_individual1.php') }}" target="_blank" autocomplete="off" method="POST" id="print_pdf">
                                         <div class="table-responsive">
                                             <table class="table">
                                                 <tr>
