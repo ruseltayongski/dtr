@@ -59,7 +59,7 @@
                                 <!-- /.box-header -->
                                 <div class="box-body">
                                     <div class="alert alert-info text-blue">
-                                        New features of DTR VERSION 4.3<br> Just click here <i class="ace-icon fa fa-hand-o-right"></i> <a href="{{ asset('logs/timelog') }}" target="_blank"><strong class="text-blue">Manage DTR</strong></a>
+                                        New features of DTR VERSION 4.3<br> Just click here <i class="ace-icon fa fa-hand-o-right"></i> <a href="{{ asset('logs/timelog') }}" target="_blank"><strong class="text-blue">Manage Timelog</strong></a>
                                     </div>
                                     <!--
                                     <div class="alert alert-success text-green">
@@ -67,8 +67,6 @@
                                     </div>
                                     -->
                                 </div>
-
-
 
 
                             </div>

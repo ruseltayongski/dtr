@@ -41,13 +41,12 @@
                                             <?php $count++; ?>
                                             <tr>
                                                 <td class="<?php echo $count % 2 ? '' : ''; ?>">
-                                                    <strong class="text-green"><?php echo date("F m, Y",strtotime($row->datein)); ?></strong><br>
+                                                    <strong class="text-green"><?php echo date("F d, Y",strtotime($row->datein)); ?></strong><br>
                                                     <small class="text-orange" style="font-size: 8pt;"><?php echo $row->dayname; ?></small>
                                                 </td>
                                                 <td class="<?php echo $count % 2 ? '' : ''; ?>">
                                                     <input type="hidden" value="<?php echo explode("_",explode('|',$row->time)[0])[2]; ?>" id="<?php echo $count."ñ"."AM_IN"; ?>">
                                                     <?php if(empty(explode("_",explode('|',$row->time)[0])[1])): ?>
-                                                        <?php /*<strong class="text-blue"><?php echo explode("_",explode('|',$row->time)[0])[0]; ?></strong><br>*/ ?>
                                                         <strong class="badge bg-green"><?php echo explode("_",explode('|',$row->time)[0])[0]; ?></strong>
                                                     <?php else: ?>
                                                         <strong style="cursor: pointer;" class="editable text-blue" id="<?php echo

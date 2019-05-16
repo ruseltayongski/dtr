@@ -44,13 +44,12 @@
                                             <?php $count++; ?>
                                             <tr>
                                                 <td class="{{ $count % 2 ? '' : '' }}">
-                                                    <strong class="text-green">{{ date("F m, Y",strtotime($row->datein)) }}</strong><br>
+                                                    <strong class="text-green">{{ date("F d, Y",strtotime($row->datein)) }}</strong><br>
                                                     <small class="text-orange" style="font-size: 8pt;">{{ $row->dayname }}</small>
                                                 </td>
                                                 <td class="{{ $count % 2 ? '' : '' }}">
                                                     <input type="hidden" value="{{ explode("_",explode('|',$row->time)[0])[2] }}" id="{{ $count."ñ"."AM_IN" }}">
                                                     @if(empty(explode("_",explode('|',$row->time)[0])[1]))
-                                                        {{--<strong class="text-blue">{{ explode("_",explode('|',$row->time)[0])[0] }}</strong><br>--}}
                                                         <strong class="badge bg-green">{{ explode("_",explode('|',$row->time)[0])[0] }}</strong>
                                                     @else
                                                         <strong style="cursor: pointer;" class="editable text-blue" id="<?php echo
