@@ -68,64 +68,7 @@
                                     -->
                                 </div>
 
-                                <!-- Chat box -->
-                                <!--
-                                <div class="box-body chat" id="chat-box">
-                                    <div class="comment_append">
-                                        @if(count($comments) > 0)
-                                            @foreach($comments as $com)
-                                            <div class="item">
-                                                <img src="
-                                                {{ isset($com->picture) ? str_replace('dtr','pis',asset('')).'public/upload_picture/picture/'.$com->picture : str_replace('dtr','pis',asset('')).'public/upload_picture/picture/unknown.jpg' }}
-                                                " alt="user image" class="online">
-                                                <p class="message">
-                                                    <span href="#" class="name text-blue" style="display: inline;">
-                                                        <small class="text-muted pull-right"><i class="fa fa-clock-o"></i> {{ date('M d, Y',strtotime($com->datein)) }}<br>({{ date('h:i A',strtotime($com->datein)) }})</small>
-                                                        {{ strtoupper($com->lname.', '.$com->fname) }}
-                                                    </span>
-                                                    {{ $com->description }}<br>
-                                                    <a data-toggle="collapse" class="text-blue" href="#collapse{{ $com->id }}" aria-expanded="false" aria-controls="collapseExample" style="font-size: 8pt"> Reply</a>
-                                                </p>
-                                                <div class="reply_append{{ $com->id }}">
-                                                    @foreach(Reply::where('comment_id','=',$com->id)->get() as $rep)
-                                                        <?php $replyUser = User::where('userid','=',$rep->userid)->first(); ?>
-                                                        <div class="item" style="margin-left:5%;">
-                                                            <img src="{{ isset($com->picture) ? str_replace('dtr','pis',asset('')).'public/upload_picture/picture/'.$com->picture : str_replace('dtr','pis',asset('')).'public/upload_picture/picture/unknown.jpg' }}" alt="user image" class="offline">
-                                                            <p class="message">
-                                                            <span href="#" class="name text-blue">
-                                                                <small class="text-muted pull-right"><i class="fa fa-clock-o"></i> 2:15</small>
-                                                                {{ $replyUser->lname.', '.$replyUser->fname }}
-                                                            </span>
-                                                                {{ $rep->description }}
-                                                            </p>
-                                                        </div>
-                                                    @endforeach
-                                                </div>
-                                                <div class="collapse" id="collapse{{ $com->id }}">
-                                                    <div class="box-footer" style="margin-left:5%;">
-                                                        <form action="#" method="post" id="{{ 'submit_reply'.$com->id }}" class="{{ $com->id }} form_reply" autocomplete="off">
-                                                            <img class="img-responsive img-circle img-sm" src="{{ str_replace('dtr','pis',asset('')).'public/upload_picture/picture/'.InformationPersonal::where('userid','=',Auth::user()->userid)->first()->picture }}" alt="Alt Text">
-                                                            <div class="img-push">
-                                                                <input type="text" class="form-control input-sm" value="" id="text_reply{{ $com->id }}" placeholder="Press enter to reply">
-                                                            </div>
-                                                        </form>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            @endforeach
-                                        @endif
-                                    </div>
 
-                                    <div class="box-footer">
-                                        <form action="#" method="post" class="submit_comment" autocomplete="off">
-                                            <img class="img-responsive img-circle img-sm" src="{{ str_replace('dtr','pis',asset('')).'public/upload_picture/picture/'.InformationPersonal::where('userid','=',Auth::user()->userid)->first()->picture }}" alt="Alt Text">
-                                            <div class="img-push">
-                                                <input type="text" class="form-control input-sm" id="text_comment" placeholder="Press enter to post comment">
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                                -->
 
 
                             </div>
