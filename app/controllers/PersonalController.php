@@ -81,12 +81,12 @@ class PersonalController extends Controller
         }
         //C# API END
 
-        $comments = Comments::Select("comment.*","personal_information.picture","personal_information.lname","personal_information.fname")->LeftJoin("pis.personal_information","personal_information.userid","=","comment.userid")->get();
-        $replies = Reply::OrderBy("id","desc")->get();
+        $comments = Comments::Select("comment.*","personal_information.picture","personal_information.lname","personal_information.fname")
+                    ->LeftJoin("pis.personal_information","personal_information.userid","=","comment.userid")
+                    ->get();
         return View::make('employee.index',[
             "lists" => $lists,
-            "comments" => $comments,
-            "replies" => $replies
+            "comments" => $comments
         ]);
 
 

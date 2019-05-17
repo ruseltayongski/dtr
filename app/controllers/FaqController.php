@@ -13,12 +13,16 @@ class FaqController extends Controller
         $comment->save();
 
         $comment_id = Comments::OrderBy("id","desc")->first()->id;
-        return View::make('faq.comment_append',[
+        $view =  View::make('faq.comment_append',[
             "userid" => Input::get("userid"),
             "description" => Input::get("description"),
             "datein" => Input::get("datein"),
             "comment_id" => $comment_id
         ]);
+        return [
+            (String)$view,
+            $comment_id
+        ];
     }
 
     public function reply_append(){
@@ -30,6 +34,7 @@ class FaqController extends Controller
         $reply->datein = date('Y-m-d');
         $reply->status = 1;
         $reply->save();
+
         return View::make('faq.reply_append',Input::get());
     }
 }

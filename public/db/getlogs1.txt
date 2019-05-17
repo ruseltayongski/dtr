@@ -289,6 +289,14 @@ SELECT logs.* from(
 				ORDER BY TIME DESC
 				LIMIT 1
 			), #NORMAL LOGS
+            (SELECT CONCAT(dtr4.time,"_",IF(dtr4.remark = "MOBILE","U",""),'_',dtr4.time,"_",IF(dtr4.remark = "MOBILE","mobile","normal")) from dtr_file dtr4 where
+				dtr4.userid = ID and
+				dtr4.event = "IN" and
+				dtr4.time >= "17:00:00" and
+				dtr4.datein = dtr.datein
+				ORDER BY TIME DESC
+				LIMIT 1
+			), #NORMAL LOGS
             (SELECT CONCAT("SO #",so4.remark,"_BUI_",so4.time,'_so') time from so_logs so4 where
 				so4.userid = ID and
 				so4.event = "OUT" and

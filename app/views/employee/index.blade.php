@@ -59,13 +59,74 @@
                                 <!-- /.box-header -->
                                 <div class="box-body">
                                     <div class="alert alert-info text-blue">
-                                        New features of DTR VERSION 4.3<br> Just click here <i class="ace-icon fa fa-hand-o-right"></i> <a href="{{ asset('logs/timelog') }}" target="_blank"><strong class="text-blue">Manage Timelog</strong></a>
+                                        New features of DTR VERSION 4.3<br> Just click here <i class="ace-icon fa fa-hand-o-right"></i> <a href="{{ asset('logs/timelog') }}"><strong class="text-blue">Manage Timelog</strong></a>
                                     </div>
-                                    <!--
                                     <div class="alert alert-success text-green">
                                         If you encountered an error, please send us feedback and suggestion. Just comment below <i class="ace-icon fa fa-hand-o-down"></i>
                                     </div>
-                                    -->
+                                </div>
+
+                                <!-- Chat box -->
+                                <div class="box-body chat" id="chat-box">
+                                    <div class="comment_append">
+                                        @if(count($comments) > 0)
+                                            @foreach($comments as $com)
+                                                <div class="item">
+                                                    <img src="{{ isset($com->picture) ? str_replace('dtr','pis',asset('')).'public/upload_picture/picture/'.$com->picture : str_replace('dtr','pis',asset('')).'public/upload_picture/picture/uknown.png' }}" alt="user image" class="online">
+                                                    <p class="message">
+                                                        <span href="#" class="name text-blue" style="display: inline;">
+                                                            <small class="text-muted pull-right"><i class="fa fa-clock-o"></i> 2:15</small>
+                                                            {{ strtoupper($com->lname.', '.$com->fname) }}
+                                                        </span>
+                                                        {{ $com->description }}<br>
+                                                        <a data-toggle="collapse" class="text-blue" href="#collapse{{ $com->id }}" aria-expanded="false" aria-controls="collapseExample" style="font-size: 8pt"> Reply</a>
+                                                    </p>
+                                                    <div class="reply_append{{ $com->id }}">
+                                                        <?php
+                                                            $replies = Reply::select('reply.*','personal_information.picture','personal_information.lname','personal_information.fname')
+                                                                            ->leftJoin('pis.personal_information','personal_information.userid','=','reply.userid')
+                                                                            ->where('post_id',1)
+                                                                            ->where('comment_id',$com->id)
+                                                                            ->get()
+                                                        ?>
+                                                        @foreach($replies as $rep)
+                                                            <div class="item" style="margin-left:5%;">
+                                                                <img src="{{ isset($rep->picture) ? str_replace('dtr','pis',asset('')).'public/upload_picture/picture/'.$rep->picture : str_replace('dtr','pis',asset('')).'public/upload_picture/picture/uknown.png' }}" alt="user image" class="offline">
+                                                                <p class="message">
+                                                                    <span href="#" class="name text-blue">
+                                                                        <!--<small class="text-muted pull-right"><i class="fa fa-clock-o"></i> 2:15</small> -->
+                                                                        {{ $rep->lname.', '.$rep->fname }}
+                                                                    </span>
+                                                                        {{ $rep->description }}<br>
+                                                                </p>
+                                                            </div>
+                                                        @endforeach
+                                                    </div>
+                                                    <div class="collapse" id="collapse{{ $com->id }}">
+                                                        <div class="box-footer" style="margin-left:5%;">
+                                                            <form action="#" method="post" id="{{ 'submit_reply'.$com->id }}" class="{{ $com->id }} form_reply" autocomplete="off">
+                                                                <img class="img-responsive img-circle img-sm" src="{{ isset($com->picture) ? str_replace('dtr','pis',asset('')).'public/upload_picture/picture/'.$com->picture : str_replace('dtr','pis',asset('')).'public/upload_picture/picture/uknown.png' }}" alt="Alt Text">
+                                                                <div class="img-push">
+                                                                    <input type="text" class="form-control input-sm" value="" id="text_reply{{ $com->id }}" placeholder="Press enter to reply">
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            @endforeach
+                                        @endif
+                                    </div>
+
+                                    <div class="box-footer">
+                                        <form action="#" method="post" class="submit_comment" autocomplete="off">
+                                            <?php $defaultPicture = InformationPersonal::where("userid","=",Auth::user()->userid)->first() ?>
+                                            <img class="img-responsive img-circle img-sm" src="{{ isset($defaultPicture->picture) ? str_replace('dtr','pis',asset('')).'public/upload_picture/picture/'.InformationPersonal::where('userid','=',Auth::user()->userid)->first()->picture : str_replace('dtr','pis',asset('')).'public/upload_picture/picture/uknown.png' }}" alt="Alt Text">
+                                            <!-- .img-push is used to add margin to elements next to floating images -->
+                                            <div class="img-push">
+                                                <input type="text" class="form-control input-sm" id="text_comment" placeholder="Press enter to post comment">
+                                            </div>
+                                        </form>
+                                    </div>
                                 </div>
 
 
@@ -95,25 +156,29 @@
         var count = parseInt("<?php echo count($comments) ?>")+1;
         console.log(count);
         $(".submit_comment").submit(function(e){
-            var url = "<?php echo asset('faq/comment_append'); ?>";
-            var json = {
-                "userid" : "<?php echo Auth::user()->userid; ?>",
-                "post_id" : 1,
-                "description" : $("#text_comment").val(),
-                "status" : 1,
-                "count" : count
-            };
-            $.post(url,json,function(result){
-                $("#text_comment").val('');
-                $("#text_comment").focus();
-                $(".comment_append").append(result);
-                $("#"+count).hide().fadeIn();
-                count++;
-            });
+            if($("#text_comment").val() != ''){
+                var url = "<?php echo asset('faq/comment_append'); ?>";
+                var json = {
+                    "userid" : "<?php echo Auth::user()->userid; ?>",
+                    "post_id" : 1,
+                    "description" : $("#text_comment").val(),
+                    "status" : 1,
+                    "count" : count
+                };
+                $.post(url,json,function(result){
+                    var view = result[0];
+                    var comment_id = result[1];
+                    $("#text_comment").val('');
+                    $("#text_comment").focus();
+                    $(".comment_append").append(view);
+                    $("#"+comment_id).hide().fadeIn();
+                    count++;
+                });
+            }
             e.preventDefault();
         });
 
-        var replyCount = parseInt("<?php echo count($replies); ?>")+1;
+       var replyCount = parseInt("<?php if(isset($replies)){echo count($replies);}else{echo '0';} ?>")+1;
         $(".form_reply").each(function(e){
             $("#"+this.id).submit(function(form){
                 var inputElement = $("#"+this.id).find('input');
@@ -127,12 +192,14 @@
                     "status" : 1,
                     "count" : replyCount
                 };
-                $.post(url,json,function(result){
-                    inputElement.val('');
-                    $(".reply_append"+ID.split('submit_reply')[1]).append(result);
-                    $("#reply"+replyCount).hide().fadeIn();
-                    replyCount++;
-                });
+                if(inputElement.val() != ''){
+                    $.post(url,json,function(result){
+                        inputElement.val('');
+                        $(".reply_append"+ID.split('submit_reply')[1]).append(result);
+                        $("#reply"+replyCount).hide().fadeIn();
+                        replyCount++;
+                    });
+                }
                 form.preventDefault();
             });
         });
