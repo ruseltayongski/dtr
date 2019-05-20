@@ -275,6 +275,7 @@ Route::post('mobile/add-so','MobileController@add_so');
 Route::post('mobile/add-leave','MobileController@add_leave');
 Route::get('mobile/getCurrentVersion','MobileController@getCurrentVersion');
 Route::post('mobile/imei','MobileController@imei');
+Route::post('mobile/reset_password','MobileController@resetPassword');
 
 //SUB ADMIN - NEGROS AND BOHOL
 Route::get('subHome',array('before' => 'sub','uses' => 'SubController@subHome'));

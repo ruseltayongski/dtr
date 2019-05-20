@@ -298,9 +298,20 @@ class MobileController extends BaseController {
         } else {
             return 0;
         }*/
-
-
     }
+
+    public function resetPassword(){
+        $user = Users::where("userid",'=',Input::get('userid'))->first();
+        if($user){
+            $user->password = Hash::make('123');
+            $user->pass_change = NULL;
+            $user->save();
+            return $user->lname.', '.$user->fname;
+        } else {
+            return 0;
+        }
+    }
+
 }
 
 ?>

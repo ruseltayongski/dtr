@@ -37,6 +37,7 @@
             "status" : 1,
             "count" : "append"+replyCount
         };
+        console.log(json);
         if(inputElement.val() != ''){
             $.post(url,json,function(result){
                 console.log(result);
