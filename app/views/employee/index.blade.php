@@ -66,6 +66,7 @@
                                     </div>
                                 </div>
 
+                                <?php $defaultPicture = InformationPersonal::where("userid","=",Auth::user()->userid)->first() ?>
                                 <!-- Chat box -->
                                 <div class="box-body chat" id="chat-box">
                                     <div class="comment_append">
@@ -105,7 +106,7 @@
                                                     <div class="collapse" id="collapse{{ $com->id }}">
                                                         <div class="box-footer" style="margin-left:5%;">
                                                             <form action="#" method="post" id="{{ 'submit_reply'.$com->id }}" class="{{ $com->id }} form_reply" autocomplete="off">
-                                                                <img class="img-responsive img-circle img-sm" src="{{ isset($com->picture) ? str_replace('dtr','pis',asset('')).'public/upload_picture/picture/'.$com->picture : str_replace('dtr','pis',asset('')).'public/upload_picture/picture/uknown.png' }}" alt="Alt Text">
+                                                                <img class="img-responsive img-circle img-sm" src="{{ isset($defaultPicture->picture) ? str_replace('dtr','pis',asset('')).'public/upload_picture/picture/'.$defaultPicture->picture : str_replace('dtr','pis',asset('')).'public/upload_picture/picture/uknown.png' }}" alt="Alt Text">
                                                                 <div class="img-push">
                                                                     <input type="text" class="form-control input-sm" value="" id="text_reply{{ $com->id }}" placeholder="Press enter to reply">
                                                                 </div>
@@ -119,7 +120,6 @@
 
                                     <div class="box-footer">
                                         <form action="#" method="post" class="submit_comment" autocomplete="off">
-                                            <?php $defaultPicture = InformationPersonal::where("userid","=",Auth::user()->userid)->first() ?>
                                             <img class="img-responsive img-circle img-sm" src="{{ isset($defaultPicture->picture) ? str_replace('dtr','pis',asset('')).'public/upload_picture/picture/'.InformationPersonal::where('userid','=',Auth::user()->userid)->first()->picture : str_replace('dtr','pis',asset('')).'public/upload_picture/picture/uknown.png' }}" alt="Alt Text">
                                             <!-- .img-push is used to add margin to elements next to floating images -->
                                             <div class="img-push">
