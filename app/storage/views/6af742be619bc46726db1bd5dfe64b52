@@ -1,6 +1,4 @@
-@extends('layouts.app')
-
-@section('content')
+<?php $__env->startSection('content'); ?>
     <div class="col-md-12 wrapper">
         <div class="alert alert-jim">
             <div class="row">
@@ -10,14 +8,14 @@
                             <div class="panel panel-default">
                                 <div class="panel-heading"><strong style="color: #f0ad4e;font-size:medium;">Print individual DTR</strong></div>
                                 <div class="panel-body">
-                                    <form action="{{ asset('FPDF/timelog/print_individual1.php') }}" target="_blank" autocomplete="off" method="POST" id="print_pdf">
+                                    <form action="<?php echo asset('FPDF/timelog/print_individual1.php'); ?>" target="_blank" autocomplete="off" method="POST" id="print_pdf">
                                         <div class="table-responsive">
                                             <table class="table">
                                                 <tr>
                                                     <td class="col-sm-3"><strong>User ID </strong></td>
                                                     <td class="col-sm-1">: </td>
                                                     <td class="col-sm-9">
-                                                        <input type="text" readonly class="col-md-2 form-control" id="inputEmail3" name="userid" value="{{ Auth::user()->userid }}" required>
+                                                        <input type="text" readonly class="col-md-2 form-control" id="inputEmail3" name="userid" value="<?php echo Auth::user()->userid; ?>" required>
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -50,7 +48,7 @@
                             <div class="box box-widget">
                                 <div class="box-header with-border">
                                     <div class="user-block">
-                                        <img class="img-circle" src="{{ asset('public/img/doh.png') }}" alt="User Image">
+                                        <img class="img-circle" src="<?php echo asset('public/img/doh.png'); ?>" alt="User Image">
                                         <span class="username"><strong class="text-blue">IT</strong></span>
                                         <span class="description">FAQs - 08:00 AM 05/16/2019</span>
                                     </div>
@@ -59,7 +57,7 @@
                                 <!-- /.box-header -->
                                 <div class="box-body">
                                     <div class="alert alert-info text-blue">
-                                        New features of DTR VERSION 4.3<br> Just click here <i class="ace-icon fa fa-hand-o-right"></i> <a href="{{ asset('logs/timelog') }}"><strong class="text-blue">Manage Timelog</strong></a>
+                                        New features of DTR VERSION 4.3<br> Just click here <i class="ace-icon fa fa-hand-o-right"></i> <a href="<?php echo asset('logs/timelog'); ?>"><strong class="text-blue">Manage Timelog</strong></a>
                                     </div>
                                     <div class="alert alert-success text-green">
                                         If you encountered an error, please send us feedback and suggestion. Just comment below <i class="ace-icon fa fa-hand-o-down"></i>
@@ -69,19 +67,20 @@
                                 <!-- Chat box -->
                                 <div class="box-body chat" id="chat-box">
                                     <div class="comment_append">
-                                        @if(count($comments) > 0)
-                                            @foreach($comments as $com)
+                                        <?php if(count($comments) > 0): ?>
+                                            <?php foreach($comments as $com): ?>
                                                 <div class="item">
-                                                    <img src="{{ isset($com->picture) ? str_replace('dtr','pis',asset('')).'public/upload_picture/picture/'.$com->picture : str_replace('dtr','pis',asset('')).'public/upload_picture/picture/uknown.png' }}" alt="user image" class="online">
+                                                    <img src="<?php echo isset($com->picture) ? str_replace('dtr','pis',asset('')).'public/upload_picture/picture/'.$com->picture : str_replace('dtr','pis',asset('')).'public/upload_picture/picture/uknown.png'; ?>" alt="user image" class="online">
                                                     <p class="message">
                                                         <span href="#" class="name text-blue" style="display: inline;">
                                                             <!--<small class="text-muted pull-right"><i class="fa fa-clock-o"></i> 2:15</small>-->
-                                                            {{ strtoupper($com->lname.', '.$com->fname) }}
+                                                            <?php echo strtoupper($com->lname.', '.$com->fname); ?>
+
                                                         </span>
-                                                        {{ $com->description }}<br>
-                                                        <a data-toggle="collapse" class="text-blue" href="#collapse{{ $com->id }}" aria-expanded="false" aria-controls="collapseExample" style="font-size: 8pt"> Reply</a>
+                                                        <?php echo $com->description; ?><br>
+                                                        <a data-toggle="collapse" class="text-blue" href="#collapse<?php echo $com->id; ?>" aria-expanded="false" aria-controls="collapseExample" style="font-size: 8pt"> Reply</a>
                                                     </p>
-                                                    <div class="reply_append{{ $com->id }}">
+                                                    <div class="reply_append<?php echo $com->id; ?>">
                                                         <?php
                                                             $replies = Reply::select('reply.*','personal_information.picture','personal_information.lname','personal_information.fname')
                                                                             ->leftJoin('pis.personal_information','personal_information.userid','=','reply.userid')
@@ -89,38 +88,39 @@
                                                                             ->where('comment_id',$com->id)
                                                                             ->get()
                                                         ?>
-                                                        @foreach($replies as $rep)
+                                                        <?php foreach($replies as $rep): ?>
                                                             <div class="item" style="margin-left:5%;">
-                                                                <img src="{{ isset($rep->picture) ? str_replace('dtr','pis',asset('')).'public/upload_picture/picture/'.$rep->picture : str_replace('dtr','pis',asset('')).'public/upload_picture/picture/uknown.png' }}" alt="user image" class="offline">
+                                                                <img src="<?php echo isset($rep->picture) ? str_replace('dtr','pis',asset('')).'public/upload_picture/picture/'.$rep->picture : str_replace('dtr','pis',asset('')).'public/upload_picture/picture/uknown.png'; ?>" alt="user image" class="offline">
                                                                 <p class="message">
                                                                     <span href="#" class="name text-blue">
                                                                         <!--<small class="text-muted pull-right"><i class="fa fa-clock-o"></i> 2:15</small> -->
-                                                                        {{ $rep->lname.', '.$rep->fname }}
+                                                                        <?php echo $rep->lname.', '.$rep->fname; ?>
+
                                                                     </span>
-                                                                        {{ $rep->description }}<br>
+                                                                        <?php echo $rep->description; ?><br>
                                                                 </p>
                                                             </div>
-                                                        @endforeach
+                                                        <?php endforeach; ?>
                                                     </div>
-                                                    <div class="collapse" id="collapse{{ $com->id }}">
+                                                    <div class="collapse" id="collapse<?php echo $com->id; ?>">
                                                         <div class="box-footer" style="margin-left:5%;">
-                                                            <form action="#" method="post" id="{{ 'submit_reply'.$com->id }}" class="{{ $com->id }} form_reply" autocomplete="off">
-                                                                <img class="img-responsive img-circle img-sm" src="{{ isset($com->picture) ? str_replace('dtr','pis',asset('')).'public/upload_picture/picture/'.$com->picture : str_replace('dtr','pis',asset('')).'public/upload_picture/picture/uknown.png' }}" alt="Alt Text">
+                                                            <form action="#" method="post" id="<?php echo 'submit_reply'.$com->id; ?>" class="<?php echo $com->id; ?> form_reply" autocomplete="off">
+                                                                <img class="img-responsive img-circle img-sm" src="<?php echo isset($com->picture) ? str_replace('dtr','pis',asset('')).'public/upload_picture/picture/'.$com->picture : str_replace('dtr','pis',asset('')).'public/upload_picture/picture/uknown.png'; ?>" alt="Alt Text">
                                                                 <div class="img-push">
-                                                                    <input type="text" class="form-control input-sm" value="" id="text_reply{{ $com->id }}" placeholder="Press enter to reply">
+                                                                    <input type="text" class="form-control input-sm" value="" id="text_reply<?php echo $com->id; ?>" placeholder="Press enter to reply">
                                                                 </div>
                                                             </form>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            @endforeach
-                                        @endif
+                                            <?php endforeach; ?>
+                                        <?php endif; ?>
                                     </div>
 
                                     <div class="box-footer">
                                         <form action="#" method="post" class="submit_comment" autocomplete="off">
                                             <?php $defaultPicture = InformationPersonal::where("userid","=",Auth::user()->userid)->first() ?>
-                                            <img class="img-responsive img-circle img-sm" src="{{ isset($defaultPicture->picture) ? str_replace('dtr','pis',asset('')).'public/upload_picture/picture/'.InformationPersonal::where('userid','=',Auth::user()->userid)->first()->picture : str_replace('dtr','pis',asset('')).'public/upload_picture/picture/uknown.png' }}" alt="Alt Text">
+                                            <img class="img-responsive img-circle img-sm" src="<?php echo isset($defaultPicture->picture) ? str_replace('dtr','pis',asset('')).'public/upload_picture/picture/'.InformationPersonal::where('userid','=',Auth::user()->userid)->first()->picture : str_replace('dtr','pis',asset('')).'public/upload_picture/picture/uknown.png'; ?>" alt="Alt Text">
                                             <!-- .img-push is used to add margin to elements next to floating images -->
                                             <div class="img-push">
                                                 <input type="text" class="form-control input-sm" id="text_comment" placeholder="Press enter to post comment">
@@ -141,9 +141,9 @@
         </div>
     </div>
 
-@endsection
+<?php $__env->stopSection(); ?>
 
-@section('js')
+<?php $__env->startSection('js'); ?>
     @parent
 
     <script>
@@ -205,4 +205,5 @@
         });
 
     </script>
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.app', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

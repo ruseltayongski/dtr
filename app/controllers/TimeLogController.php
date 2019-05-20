@@ -264,8 +264,7 @@ class TimeLogController extends Controller
                 return [
                     "notification" => "info",
                     "message" => "Successfully added LOG",
-                    "display_time" => $time_display,
-                    "log_type" => "edited"
+                    "display_time" => $time_display
                 ];
                 break;
             case "jobreak":

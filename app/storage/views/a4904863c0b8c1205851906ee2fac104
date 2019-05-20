@@ -43,27 +43,27 @@
             break;
     }
 ?>
-@if($disabled == 'disabled')
+<?php if($disabled == 'disabled'): ?>
     <div class="alert alert-error">
-        Please fill up {{ $log_type == 'AM_OUT' ? 'am in' : 'pm in' }} first
+        Please fill up <?php echo $log_type == 'AM_OUT' ? 'am in' : 'pm in'; ?> first
     </div>
-@else
+<?php else: ?>
     <table class="table table-list table-hover table-striped">
         <tr>
             <td >Time Log:</td>
             <td >
-                <input type="time" style="width: 100%" id="{{ $elementId.'time_log' }}" min="{{ $min }}" max="{{ $max }}" {{ $disabled }}>
+                <input type="time" style="width: 100%" id="<?php echo $elementId.'time_log'; ?>" min="<?php echo $min; ?>" max="<?php echo $max; ?>" <?php echo $disabled; ?>>
             </td>
         </tr>
         <tr>
             <td >Office Order:</td>
-            <td ><input type="number" style="width: 100%" min="-4" max="9999" id="{{ $elementId.'office_order' }}" {{ $disabled }}></td>
+            <td ><input type="number" style="width: 100%" min="-4" max="9999" id="<?php echo $elementId.'office_order'; ?>" <?php echo $disabled; ?>></td>
         </tr>
-        @if( explode("ñ",$elementId)[3] != 'holiday' && explode("ñ",$elementId)[3] != 'dayoff' )
+        <?php if( explode("ñ",$elementId)[3] != 'holiday' && explode("ñ",$elementId)[3] != 'dayoff' ): ?>
             <tr>
                 <td >LEAVE:</td>
                 <td >
-                    <select name="" style="width: 100%" id="{{ $elementId.'leave' }}" class="form-control" {{ $disabled }}>
+                    <select name="" style="width: 100%" id="<?php echo $elementId.'leave'; ?>" class="form-control" <?php echo $disabled; ?>>
                         <option value="">Select Leave Type</option>
                         <option value="VACATION LEAVE">VACATION LEAVE</option>
                         <option value="SICK LEAVE">SICK LEAVE</option>
@@ -76,16 +76,16 @@
             </tr>
             <tr>
                 <td >CDO:</td>
-                <td ><input type="checkbox" name="{{ $elementId.'cdo' }}" style="width: 20%;transform: scale(1.5);" id="{{ $elementId.'cdo' }}" {{ $disabled }}></td>
+                <td ><input type="checkbox" name="<?php echo $elementId.'cdo'; ?>" style="width: 20%;transform: scale(1.5);" id="<?php echo $elementId.'cdo'; ?>" <?php echo $disabled; ?>></td>
             </tr>
             <tr>
                 <td >JO BREAK:</td>
-                <td ><input type="checkbox" name="{{ $elementId.'jobreak' }}" style="width: 20%;transform: scale(1.5);" id="{{ $elementId.'jobreak' }}" {{ $disabled }}></td>
+                <td ><input type="checkbox" name="<?php echo $elementId.'jobreak'; ?>" style="width: 20%;transform: scale(1.5);" id="<?php echo $elementId.'jobreak'; ?>" <?php echo $disabled; ?>></td>
             </tr>
-        @endif
+        <?php endif; ?>
         <tr>
             <td >EMPTY:</td>
-            <td ><input type="checkbox" name="{{ $elementId.'empty' }}" style="width: 20%;transform: scale(1.5);" id="{{ $elementId.'empty' }}"></td>
+            <td ><input type="checkbox" name="<?php echo $elementId.'empty'; ?>" style="width: 20%;transform: scale(1.5);" id="<?php echo $elementId.'empty'; ?>"></td>
         </tr>
     </table>
-@endif
+<?php endif; ?>
