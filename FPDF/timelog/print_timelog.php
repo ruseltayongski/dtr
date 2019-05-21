@@ -136,7 +136,6 @@ if(isset($_POST['filter_range'])){
 
         $late = str_replace('late','',$row['late']);
         $undertime = str_replace('undertime','',$row['undertime']);
-        $late_total += $late;
         $undertime_total += $undertime;
 
         if(
@@ -149,8 +148,13 @@ if(isset($_POST['filter_range'])){
         ){
             if(empty($am_in)){
                 $whole_log = 'ABSENT';
+                $late = '480';
             } else {
                 $whole_log = $am_in;
+                $late = '';
+            }
+            if($undertime == 0){
+                $undertime = '';
             }
             $pdf->SetWidths(array(5,7.5,60,7.5,7,$set_size_center,5,7.5,60,7.5,7));
             $pdf->Row(array(
@@ -175,11 +179,21 @@ if(isset($_POST['filter_range'])){
             (strpos( $am_in, 'SO #' ) !== false && strpos( $am_out, 'SO #' ) !== false) ||
             (strpos( $am_in, 'LEAVE' ) !== false && strpos( $am_out, 'LEAVE' ) !== false)
         ){
+            if(explode('_',explode('|',$row['time'])[0])[0] == 'empty' && explode('_',explode('|',$row['time'])[1])[0]){
+                $halfday_log = 'HALF DAY';
+                $late += 240;
+            } else {
+                $halfday_log = explode('_',explode('|',$row['time'])[0])[0];
+                $late = '';
+            }
+            if($undertime == 0){
+                $undertime = '';
+            }
             $pdf->SetWidths(array(5,7.5,30,15,15,7.5,7,$set_size_center,5,7.5,30,15,15,7.5,7));
             $pdf->Row(array(
                 ["word" => explode('-',$row['datein'])[2],'font_style' => '','font_size'=>7.5,'border'=>$border,"position"=>'L'],
                 ["word" => $day_name,'font_style' => '','font_size'=>7.5,'border'=>$border,"position"=>'L'],
-                ["word" => $am_in,'font_style' => $am_in_style,'font_size'=>7.5,'border'=>$border,"position"=>'C'],
+                ["word" => $halfday_log,'font_style' => $am_in_style,'font_size'=>7.5,'border'=>$border,"position"=>'C'],
                 ["word" => $pm_in,'font_style' => $pm_in_style,'font_size'=>0,'border'=>$border,"position"=>'C'],
                 ["word" => $pm_out,'font_style' => $pm_out_style,'font_size'=>7.5,'border'=>$border,"position"=>'C'],
                 ["word" => $late,'font_style' => '','font_size'=>7.5,'border'=>$border,"position"=>'C'],
@@ -202,18 +216,23 @@ if(isset($_POST['filter_range'])){
             (strpos( $pm_in, 'SO #' ) !== false && strpos( $pm_out, 'SO #' ) !== false ) ||
             (strpos( $pm_in, 'LEAVE' ) !== false && strpos( $pm_out, 'LEAVE' ) !== false)
         ){
-            /*if(empty($pm_in)){
+            if(explode('_',explode('|',$row['time'])[2])[0] == 'empty' && explode('_',explode('|',$row['time'])[3])[0] == 'empty'){
                 $halfday_log = 'HALF DAY';
+                $late += 240;
             } else {
-                $halfday_log = $pm_in;
-            }*/
+                $halfday_log = explode('_',explode('|',$row['time'])[2])[0];
+                $late = '';
+            }
+            if($undertime == 0){
+                $undertime = '';
+            }
             $pdf->SetWidths(array(5,7.5,15,15,30,7.5,7,$set_size_center,5,7.5,15,15,30,7.5,7));
             $pdf->Row(array(
                 ["word" => explode('-',$row['datein'])[2],'font_style' => '','font_size'=>7.5,'border'=>$border,"position"=>'L'],
                 ["word" => $day_name,'font_style' => '','font_size'=>7.5,'border'=>$border,"position"=>'L'],
                 ["word" => $am_in,'font_style' => $am_in_style,'font_size'=>7.5,'border'=>$border,"position"=>'C'],
                 ["word" => $am_out,'font_style' => $am_out_style,'font_size'=>7.5,'border'=>$border,"position"=>'C'],
-                ["word" => $pm_in,'font_style' => $pm_in_style,'font_size'=>7.5,'border'=>$border,"position"=>'C'],
+                ["word" => $halfday_log,'font_style' => $pm_in_style,'font_size'=>7.5,'border'=>$border,"position"=>'C'],
                 ["word" => $late,'font_style' => '','font_size'=>7.5,'border'=>$border,"position"=>'C'],
                 ["word" => $undertime,'font_style' => '','font_size'=>7.5,'border'=>$border,"position"=>'C'],
                 ["word" => "",'font_style' => '','font_size'=>7.5,'border'=>$border,"position"=>'C'],
@@ -221,12 +240,41 @@ if(isset($_POST['filter_range'])){
                 ["word" => $day_name,'font_style' => '','font_size'=>7.5,'border'=>$border,"position"=>'L'],
                 ["word" => $am_in,'font_style' => $am_in_style,'font_size'=>7.5,'border'=>$border,"position"=>'C'],
                 ["word" => $am_out,'font_style' => $am_out_style,'font_size'=>7.5,'border'=>$border,"position"=>'C'],
+                ["word" => $halfday_log,'font_style' => $pm_in_style,'font_size'=>7.5,'border'=>$border,"position"=>'C'],
+                ["word" => $late,'font_style' => '','font_size'=>7.5,'border'=>$border,"position"=>'C'],
+                ["word" => $undertime,'font_style' => '','font_size'=>7.5,'border'=>$border,"position"=>'C']
+            ),5);
+        }
+        elseif($am_in == '' && $am_out == ''){
+            if($undertime == 0){
+                $undertime = '';
+            }
+            $pdf->SetWidths(array(5,7.5,15,15,30,7.5,7,$set_size_center,5,7.5,15,15,30,7.5,7));
+            $pdf->Row(array(
+                ["word" => explode('-',$row['datein'])[2],'font_style' => '','font_size'=>7.5,'border'=>$border,"position"=>'L'],
+                ["word" => $day_name,'font_style' => '','font_size'=>7.5,'border'=>$border,"position"=>'L'],
+                ["word" => 'HALF DAY','font_style' => $am_in_style,'font_size'=>7.5,'border'=>$border,"position"=>'C'],
+                ["word" => $am_out,'font_style' => $am_out_style,'font_size'=>7.5,'border'=>$border,"position"=>'C'],
+                ["word" => $pm_in,'font_style' => $pm_in_style,'font_size'=>7.5,'border'=>$border,"position"=>'C'],
+                ["word" => $late,'font_style' => '','font_size'=>7.5,'border'=>$border,"position"=>'C'],
+                ["word" => $undertime,'font_style' => '','font_size'=>7.5,'border'=>$border,"position"=>'C'],
+                ["word" => "",'font_style' => '','font_size'=>7.5,'border'=>$border,"position"=>'C'],
+                ["word" => explode('-',$row['datein'])[2],'font_style' => '','font_size'=>7.5,'border'=>$border,"position"=>'L'],
+                ["word" => $day_name,'font_style' => '','font_size'=>7.5,'border'=>$border,"position"=>'L'],
+                ["word" => 'HALF DAY','font_style' => $am_in_style,'font_size'=>7.5,'border'=>$border,"position"=>'C'],
+                ["word" => $am_out,'font_style' => $am_out_style,'font_size'=>7.5,'border'=>$border,"position"=>'C'],
                 ["word" => $pm_in,'font_style' => $pm_in_style,'font_size'=>7.5,'border'=>$border,"position"=>'C'],
                 ["word" => $late,'font_style' => '','font_size'=>7.5,'border'=>$border,"position"=>'C'],
                 ["word" => $undertime,'font_style' => '','font_size'=>7.5,'border'=>$border,"position"=>'C']
             ),5);
         }
         else {
+            if($late == 0){
+                $late = '';
+            }
+            if($undertime == 0){
+                $undertime = '';
+            }
             $pdf->SetWidths(array(5,7.5,15,15,15,15,7.5,7,$set_size_center,5,7.5,15,15,15,15,7.5,7));
             $pdf->Row(array(
                 ["word" => explode('-',$row['datein'])[2],'font_style' => '','font_size'=>7.5,'border'=>$border,"position"=>'L'],
@@ -248,6 +296,8 @@ if(isset($_POST['filter_range'])){
                 ["word" => $undertime,'font_style' => '','font_size'=>7.5,'border'=>$border,"position"=>'C']
             ),5);
         }
+
+        $late_total += $late;
     }
     $pdf->Ln(-3);
     $pdf->SetWidths(array(87,$set_size_center,87));
@@ -260,11 +310,11 @@ if(isset($_POST['filter_range'])){
     $pdf->SetWidths(array(72.5,7.5,7,$set_size_center,72.5,7.5,7));
     $pdf->Row(array(
         ["word" => 'TOTAL','font_style' => '','font_size'=>7.5,'border'=>$border,"position"=>'L'],
-        ["word" => $late_total,'font_style' => '','font_size'=>7.5,'border'=>$border,"position"=>'C'],
+        ["word" => $late_total,'font_style' => '','font_size'=>7,'border'=>$border,"position"=>'C'],
         ["word" => $undertime_total,'font_style' => '','font_size'=>7.5,'border'=>$border,"position"=>'C'],
         ["word" => '','font_style' => '','font_size'=>7.5,'border'=>$border,"position"=>'C'],
         ["word" => 'TOTAL','font_style' => '','font_size'=>7.5,'border'=>$border,"position"=>'L'],
-        ["word" => $late_total,'font_style' => '','font_size'=>7.5,'border'=>$border,"position"=>'C'],
+        ["word" => $late_total,'font_style' => '','font_size'=>7,'border'=>$border,"position"=>'C'],
         ["word" => $undertime_total,'font_style' => '','font_size'=>7.5,'border'=>$border,"position"=>'C']
     ),5);
 
