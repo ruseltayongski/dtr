@@ -43,14 +43,14 @@
                                             @foreach($timeLog as $row)
                                             <?php $count++; ?>
                                             <tr>
-                                                <td class="{{ $count % 2 ? '' : '' }}">
+                                                <td>
                                                     <strong class="text-green">{{ date("F d, Y",strtotime($row->datein)) }}</strong><br>
                                                     <small class="text-orange" style="font-size: 8pt;">{{ $row->dayname }}</small>
                                                 </td>
-                                                <td class="{{ $count % 2 ? '' : '' }}">
+                                                <td>
                                                     <input type="hidden" value="{{ explode("_",explode('|',$row->time)[0])[2] }}" id="{{ $count."ñ"."AM_IN" }}">
                                                     <!-- <input type="text" value="{{ explode("_",explode('|',$row->time)[0])[3] }}" id="{{ $count."ñ"."AM_INlog_status" }}"> -->
-                                                    @if(empty(explode("_",explode('|',$row->time)[0])[1]))
+                                                    @if(empty(explode("_",explode('|',$row->time)[0])[1]) || explode("_",explode('|',$row->time)[0])[3] == 'mobile')
                                                         <strong class="badge bg-green">{{ explode("_",explode('|',$row->time)[0])[0] }}</strong>
                                                     @else
                                                         <strong style="cursor: pointer;" class="editable text-blue" id="<?php echo
@@ -63,9 +63,9 @@
                                                         ?>">{{ strtoupper(explode("_",explode('|',$row->time)[0])[0]) }}</strong>
                                                     @endif
                                                 </td>
-                                                <td class="{{ $count % 2 ? '' : '' }}">
+                                                <td>
                                                     <input type="hidden" value="{{ explode("_",explode('|',$row->time)[1])[2] }}" id="{{ $count."ñ"."AM_OUT" }}">
-                                                    @if(empty(explode("_",explode('|',$row->time)[1])[1]))
+                                                    @if(empty(explode("_",explode('|',$row->time)[1])[1]) || explode("_",explode('|',$row->time)[1])[3] == 'mobile')
                                                         <strong class="badge bg-green">{{ explode("_",explode('|',$row->time)[1])[0] }}</strong>
                                                     @else
                                                         <strong style="cursor: pointer;" class="editable text-blue" id="<?php echo
@@ -78,9 +78,9 @@
                                                         ?>">{{ strtoupper(explode("_",explode('|',$row->time)[1])[0]) }}</strong>
                                                     @endif
                                                 </td>
-                                                <td class="{{ $count % 2 ? '' : '' }}">
+                                                <td >
                                                     <input type="hidden" value="{{ explode("_",explode('|',$row->time)[2])[2] }}" id="{{ $count."ñ"."PM_IN" }}">
-                                                    @if(empty(explode("_",explode('|',$row->time)[2])[1]))
+                                                    @if(empty(explode("_",explode('|',$row->time)[2])[1]) || explode("_",explode('|',$row->time)[2])[3] == 'mobile')
                                                         <strong class="badge bg-green">{{ explode("_",explode('|',$row->time)[2])[0] }}</strong>
                                                     @else
                                                         <strong style="cursor: pointer;" class="editable text-blue" id="<?php echo
@@ -93,9 +93,9 @@
                                                         ?>">{{ strtoupper(explode("_",explode('|',$row->time)[2])[0]) }}</strong>
                                                     @endif
                                                 </td>
-                                                <td class="{{ $count % 2 ? '' : '' }}">
+                                                <td >
                                                     <input type="hidden" value="{{ explode("_",explode('|',$row->time)[3])[2] }}" id="{{ $count."ñ"."PM_OUT" }}">
-                                                    @if(empty(explode("_",explode('|',$row->time)[3])[1]))
+                                                    @if(empty(explode("_",explode('|',$row->time)[3])[1]) || explode("_",explode('|',$row->time)[3])[3] == 'mobile')
                                                         <strong class="badge bg-green">{{ explode("_",explode('|',$row->time)[3])[0] }}</strong>
                                                     @else
                                                         <strong style="cursor: pointer;" class="editable text-blue" id="<?php echo
