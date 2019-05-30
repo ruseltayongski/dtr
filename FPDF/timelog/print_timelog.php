@@ -201,7 +201,7 @@ if(isset($_POST['filter_range'])){
                 ["word" => "",'font_style' => '','font_size'=>7.5,'border'=>$border,"position"=>'C'],
                 ["word" => explode('-',$row['datein'])[2],'font_style' => '','font_size'=>7.5,'border'=>$border,"position"=>'L'],
                 ["word" => $day_name,'font_style' => '','font_size'=>7.5,'border'=>$border,"position"=>'L'],
-                ["word" => $am_in,'font_style' => $am_in_style,'font_size'=>7.5,'border'=>$border,"position"=>'C'],
+                ["word" => $halfday_log,'font_style' => $am_in_style,'font_size'=>7.5,'border'=>$border,"position"=>'C'],
                 ["word" => $pm_in,'font_style' => $pm_in_style,'font_size'=>0,'border'=>$border,"position"=>'C'],
                 ["word" => $pm_out,'font_style' => $pm_out_style,'font_size'=>7.5,'border'=>$border,"position"=>'C'],
                 ["word" => $late,'font_style' => '','font_size'=>7.5,'border'=>$border,"position"=>'C'],

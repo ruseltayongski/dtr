@@ -65,7 +65,7 @@ SELECT logs.* from(
 				ORDER BY TIME ASC
 				LIMIT 1
 			), #JO BREAK LOGS
-			"empty_BUI_empty_emptyhaha"
+			"empty_BUI_empty_empty"
         ),"|",
 		COALESCE(
 			IF(
@@ -884,7 +884,7 @@ SELECT logs.* from(
 							ORDER BY TIME ASC
 							LIMIT 1
 						), #SO LOGS
-						(SELECT CONCAT("CDO_BUI_",cdo4.time,'_so') time from cdo_logs cdo4 where
+						(SELECT CONCAT("CDO_BUI_",cdo4.time,'_cdo') time from cdo_logs cdo4 where
 							cdo4.userid = ID and
 							cdo4.event = "OUT" and
 							cdo4.time > "13:00:00" and
