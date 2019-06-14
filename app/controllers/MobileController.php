@@ -12,7 +12,7 @@ class MobileController extends BaseController {
         if(count($result) > 0){
             return json_encode($result);
         }
-        return 0;
+        return null;
     }
     
     public function loginPis(){
