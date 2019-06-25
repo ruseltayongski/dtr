@@ -31,11 +31,44 @@ function getLogs($userid,$date_from,$date_to)
     return $row;
 }
 
+function api_get_logs($userid,$date_from,$date_to) {
+    $url = "http://192.168.100.81/dtr_api/logs/GetLogs";
+
+    $data = [
+        "userid" => $userid,
+        "df" => $date_from,
+        "dt" => $date_to
+    ];
+
+    $curl = curl_init($url);
+    curl_setopt($curl, CURLOPT_POST, true);
+    curl_setopt($curl, CURLOPT_POSTFIELDS, http_build_query($data));
+    curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+    $response = curl_exec($curl);
+    curl_close($curl);
+
+    $logs = json_decode($response);
+
+    $query1 = "INSERT IGNORE INTO dtr_file(userid, datein, time, event,remark, edited, created_at, updated_at) VALUES";
+
+    foreach($logs as $log)
+    {
+        $query1 .= "('" . $log->userid . "','" . $log->date . "','" . $log->time . "','" . $log->event_type . "','#FP','0',NOW(),NOW()),";
+    }
+    $query1 .= "('','','','','','',NOW(),NOW())";
+
+    $pdo = conn();
+    $st = $pdo->prepare($query1);
+    $st->execute();
+}
+
 if(isset($_POST['filter_range'])){
     $userid = $_POST['userid'];
     $filter_date = explode(' - ',$_POST['filter_range']);
     $date_from = date("Y-m-d",strtotime($filter_date[0]));
     $date_to = date("Y-m-d",strtotime($filter_date[1]));
+
+    api_get_logs($userid,$date_from,$date_to);
     $timelog = getLogs($userid,$date_from,$date_to);
     $name = $timelog[0]['name'];
 

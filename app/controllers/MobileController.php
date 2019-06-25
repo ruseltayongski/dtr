@@ -6,15 +6,15 @@ class MobileController extends BaseController {
         $imei = Input::get('imei');
 
         $result = DB::table('users')
-                    ->where('imei','=',$imei)
-                    ->first(['userid','fname','lname']);
-        
+            ->where('imei','=',$imei)
+            ->first(['userid','fname','lname']);
+
         if(count($result) > 0){
             return json_encode($result);
         }
-        return null;
+        return 0;
     }
-    
+
     public function loginPis(){
         $username = Input::get("username");
         $password = Input::get("password");
@@ -26,7 +26,7 @@ class MobileController extends BaseController {
     }
 
     public function add_logs(){
-        
+
         $pdo = DB::connection()->getPdo();
 
         $userid = Input::get('userid');
@@ -35,32 +35,33 @@ class MobileController extends BaseController {
         $date = Input::get('date');
         $lat = Input::get('latitude');
         $long = Input::get('longitude');
-            
+
         $base= $_POST['image'];
         $posted_filename = $_POST['filename'];
         $binary=base64_decode($base);
 
         file_put_contents(public_path().'/logs_image/'.$posted_filename,$binary);
-        
+
         $query1 = "INSERT IGNORE INTO dtr_file(userid, datein, time, event,remark, created_at, updated_at,log_image,edited,latitude,longitude) VALUES";
         $query1 .= "('" . $userid. "','". $date ."','" . $time . "','" . $event . "','MOBILE',NOW(),NOW(),'$posted_filename','0','$lat','$long')";
-        
+
         $st = $pdo->prepare($query1);
         $ok = $st->execute();
         return 1;
     }
+
     public function add_cto()
     {
         $daterange = Input::get('daterange');
-        
+
         $temp1 = explode('-',$daterange);
-        
+
         $from = date('Y-m-d',strtotime($temp1[0]));
         $end_date = date('Y-m-d',strtotime($temp1[1]));
-        
+
         DB::table('cdo_logs')->where('userid','=',Input::get('userid'))
-                ->whereBetween('datein',array($from,$end_date))->delete();
-        
+            ->whereBetween('datein',array($from,$end_date))->delete();
+
         $f = new DateTime($from.' '. '24:00:00');
         $t = new DateTime($end_date.' '. '24:00:00');
 
@@ -71,7 +72,7 @@ class MobileController extends BaseController {
         $startday = $f_from[2];
         $j = 0;
         while($j <= $interval->days) {
-            
+
             $datein = $f_from[0].'-'.$f_from[1] .'-'. $startday;
 
             $details = new CdoLogs();
@@ -107,7 +108,7 @@ class MobileController extends BaseController {
             $details->edited = '1';
             $details->time_type = 'WH';
             $details->holiday = '006';
-            
+
             $details->save();
 
             $details = new CdoLogs();
@@ -128,20 +129,20 @@ class MobileController extends BaseController {
         return 1;
     }
     public function add_so(){
-        
+
         $daterange = Input::get('daterange');
-        
+
         $temp1 = explode('-',$daterange);
-        
+
         $so_no = Input::get('so');
 
         $from = date('Y-m-d',strtotime($temp1[0]));
         $end_date = date('Y-m-d',strtotime($temp1[1]));
 
-        
+
 
         DB::table('so_logs')->where('userid','=',Input::get('userid'))
-        ->whereBetween('datein',array($from,$end_date))->delete();
+            ->whereBetween('datein',array($from,$end_date))->delete();
 
 
         $f = new DateTime($from.' '. '24:00:00');
@@ -156,7 +157,7 @@ class MobileController extends BaseController {
         while($j <= $interval->days) {
 
             $datein = $f_from[0].'-'.$f_from[1] .'-'. $startday;
-                        
+
             $details = new SoLogs();
             $details->userid = Input::get('userid');
             $details->datein = $datein;
@@ -220,7 +221,7 @@ class MobileController extends BaseController {
         $end_date = date('Y-m-d',strtotime($temp1[1]));
 
         DB::table('leave_logs')->where('userid','=',Input::get('userid'))
-        ->whereBetween('datein',array($from,$end_date))->delete();
+            ->whereBetween('datein',array($from,$end_date))->delete();
 
         $f = new DateTime($from.' '. '24:00:00');
         $t = new DateTime($end_date.' '. '24:00:00');
@@ -286,7 +287,7 @@ class MobileController extends BaseController {
     }
 
     public function getCurrentVersion(){
-        return "3.0";
+        return "1.0";
     }
 
     public function imei(){
@@ -311,6 +312,7 @@ class MobileController extends BaseController {
             return 0;
         }
     }
+
 
 }
 

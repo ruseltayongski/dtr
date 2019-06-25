@@ -277,9 +277,13 @@ Route::get('mobile/getCurrentVersion','MobileController@getCurrentVersion');
 Route::post('mobile/imei','MobileController@imei');
 Route::post('mobile/reset_password','MobileController@resetPassword');
 //MOBILE URL v2
+Route::post('mobileV2/login','MobileControllerV2@login');
+Route::get('mobileV2/getCurrentVersion','MobileControllerV2@getCurrentVersion');
 Route::post('mobileV2/add-logs','MobileControllerV2@add_logs');
 Route::post('mobileV2/add-cdo','MobileControllerV2@add_cdo');
 Route::get('mobileV2/get-logs','MobileControllerV2@get_logs');
+Route::post('mobileV2/add-so','MobileControllerV2@add_so');
+Route::post('mobileV2/add-leave','MobileControllerV2@add_leave');
 
 //SUB ADMIN - NEGROS AND BOHOL
 Route::get('subHome',array('before' => 'sub','uses' => 'SubController@subHome'));
