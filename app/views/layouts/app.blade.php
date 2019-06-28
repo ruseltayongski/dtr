@@ -101,7 +101,7 @@
             <span class="title-info">Location:</span>
             <span class="title-desc">
                 @if(Auth::user()->usertype == 0 || Auth::user()->usertype == 1)
-                    Cebu
+                    {{ Session::get('region') == 'region_8' ? 'Region 8' : 'cebu' }}
                 @elseif(Auth::user()->usertype == 2 || Auth::user()->usertype == 3)
                     Negros
                 @elseif(Auth::user()->usertype == 4 || Auth::user()->usertype == 5)
@@ -116,7 +116,11 @@
     </div>
     <div class="header" style="background-color:#9C8AA5	;padding:10px;">
         <div class="container">
-            <img src="{{ asset('public/img/banner2019.png') }}" class="img-responsive" />
+            @if(Session::get('region') == 'region_8')
+                <img src="{{ asset('public/img/region8_banner.png') }}" class="img-responsive" />
+            @else
+                <img src="{{ asset('public/img/banner2019.png') }}" class="img-responsive" />
+            @endif
         </div>
     </div>
     <div class="container">

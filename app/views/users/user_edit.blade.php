@@ -4,6 +4,28 @@
         <input type="hidden" name="id" value="6" />
         <div class="modal-body">
             <table class="table table-hover table-form table-striped">
+                <tr>
+                    <td class="col-sm-3"><label>Region</label></td>
+                    <td class="col-sm-1">:</td>
+                    <td class="col-sm-8">
+                        <select class="form-control" name="region" required>
+                            <option value="region7">Region 7</option>
+                            <option value="region8">Region 8</option>
+                            <option value="region9">Region 9</option>
+                            <option value="region9">Region 10</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-sm-3"><label>Field Status</label></td>
+                    <td class="col-sm-1">:</td>
+                    <td class="col-sm-8">
+                        <select class="form-control" name="field_status" required>
+                            <option value="region">Region Employee</option>
+                            <option value="hrh">HRH Employee</option>
+                        </select>
+                    </td>
+                </tr>
                 @if(Auth::user()->usertype == "1")
                     <tr>
                         <td class="col-sm-3"><label>Usertype:</label></td>
