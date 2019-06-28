@@ -1,7 +1,4 @@
-
-@extends('layouts.app')
-
-@section('content')
+<?php $__env->startSection('content'); ?>
     <div class="col-md-12 wrapper">
         <div class="alert alert-jim">
             <h2 class="page-header">Add new user
@@ -9,12 +6,12 @@
             <div class="container">
                 <div class="row">
                     <div class="col-md-8">
-                        <form action="{{ asset('add/user') }}" method="POST" class="form-horizontal">
+                        <form action="<?php echo asset('add/user'); ?>" method="POST" class="form-horizontal">
                             <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
                             <div class="form-group">
                                 <label for="inputEmail3" class="col-sm-3 control-label">Userid</label>
                                 <div class="col-sm-9">
-                                    <input type="text" class="form-control" id="inputEmail3" value="{{ str_pad($lastUserid+1, 4, '0', STR_PAD_LEFT) }}" name="userid" placeholder="Userid">
+                                    <input type="text" class="form-control" id="inputEmail3" value="<?php echo str_pad($lastUserid+1, 4, '0', STR_PAD_LEFT); ?>" name="userid" placeholder="Userid">
                                 </div>
                             </div>
                             <div class="form-group">
@@ -34,11 +31,11 @@
                                 <div class="col-sm-9">
                                     <select class="form-control" name="sched" required>
                                         <option value="">Select Schedule</option>
-                                        @if(isset($scheds) and count($scheds) > 0)
-                                            @foreach($scheds as $sched)
-                                                <option value="{{ $sched->id }}">{{ $sched->description }}</option>
-                                            @endforeach
-                                        @endif
+                                        <?php if(isset($scheds) and count($scheds) > 0): ?>
+                                            <?php foreach($scheds as $sched): ?>
+                                                <option value="<?php echo $sched->id; ?>"><?php echo $sched->description; ?></option>
+                                            <?php endforeach; ?>
+                                        <?php endif; ?>
                                     </select>
                                 </div>
                             </div>
@@ -55,7 +52,7 @@
                             <div class="form-group">
                                 <div class="col-sm-offset-3 col-sm-5">
                                     <button type="submit" class="btn btn-lg btn-success">Submit</button>
-                                    <a href="{{ asset('/') }}" class="btn btn-lg btn-default">Cancel</a>
+                                    <a href="<?php echo asset('/'); ?>" class="btn btn-lg btn-default">Cancel</a>
                                 </div>
                             </div>
                         </form>
@@ -64,17 +61,17 @@
             </div>
         </div>
     </div>
-@endsection
+<?php $__env->stopSection(); ?>
 
-@section('js')
+<?php $__env->startSection('js'); ?>
     @parent
     <script>
-        @if(Session::has('useridExist'))
+        <?php if(Session::has('useridExist')): ?>
         Lobibox.notify('error', {
             position: 'center top',
             msg: "<?php echo Session::get('useridExist'); ?>"
         });
-        @endif
+        <?php endif; ?>
 
         var input = $('#input-a');
         input.clockpicker({
@@ -116,12 +113,14 @@
             $(this).datepicker("clearDates");
         });
 
-        @if(Session::has('userAdded'))
+        <?php if(Session::has('userAdded')): ?>
         Lobibox.notify('success',{
             msg:"<?php echo Session::get('userAdded'); ?>"
         });
-        @endif
+        <?php endif; ?>
 
     </script>
 
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.app', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

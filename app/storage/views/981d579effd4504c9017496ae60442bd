@@ -101,7 +101,8 @@
             <span class="title-info">Location:</span>
             <span class="title-desc">
                 <?php if(Auth::user()->usertype == 0 || Auth::user()->usertype == 1): ?>
-                    Cebu
+                    <?php echo Session::get('region') == 'region_8' ? 'Region 8' : 'cebu'; ?>
+
                 <?php elseif(Auth::user()->usertype == 2 || Auth::user()->usertype == 3): ?>
                     Negros
                 <?php elseif(Auth::user()->usertype == 4 || Auth::user()->usertype == 5): ?>
@@ -116,7 +117,11 @@
     </div>
     <div class="header" style="background-color:#9C8AA5	;padding:10px;">
         <div class="container">
-            <img src="<?php echo asset('public/img/banner2019.png'); ?>" class="img-responsive" />
+            <?php if(Session::get('region') == 'region_8'): ?>
+                <img src="<?php echo asset('public/img/region8_banner.png'); ?>" class="img-responsive" />
+            <?php else: ?>
+                <img src="<?php echo asset('public/img/banner2019.png'); ?>" class="img-responsive" />
+            <?php endif; ?>
         </div>
     </div>
     <div class="container">

@@ -42,7 +42,6 @@ class MobileControllerV2 extends BaseController
     {
         try{
             $json_object = json_decode(Input::get('data'), true);
-
             foreach ($json_object['logs'] as $value) {
                 $userid = $value['userid'];
                 $time = $value['time'];
@@ -356,7 +355,22 @@ class MobileControllerV2 extends BaseController
         }
     }
 
-
+    public function imei(){
+        $user = Users::where("userid",'=',Input::get('userid'))->first();
+        if($user){
+            $user->imei = Input::get('imei');
+            $user->save();
+            return [
+                "code" => 200,
+                "response" => "Successfully IMEI"
+            ];
+        } else {
+            return [
+                "code" => 201,
+                "response" => "Failed!"
+            ];
+        }
+    }
 
 
     public function get_logs(){

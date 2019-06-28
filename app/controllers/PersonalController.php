@@ -22,26 +22,8 @@ class PersonalController extends Controller
 
     public function index()
     {
-
-        $date = explode("-",date("Y-m-d"));
-        /*$first_day = "$date[0]-$date[1]-01";
-        $last_day = "$date[0]-$date[1]-31";*/
-        $first_day = date('Y/m/d');
-        $last_day = date('
-        ');
-
-        $lists = DB::table('dtr_file')
-            ->leftJoin('users', function($join){
-                $join->on('dtr_file.userid', '=', 'users.userid')
-                    ->where('users.userid', '<>', '1')
-                    ->where('users.userid', '<>', '--');
-            })
-            ->where('dtr_file.userid', '=', Auth::user()->userid)
-            ->whereBetween('datein', array($first_day,$last_day))
-            ->orderBy('dtr_file.datein', 'ASC')
-            ->orderBy('dtr_file.time', 'ASC')
-            ->paginate(20);
-
+        $information = InformationPersonal::where("userid","=",Auth::user()->userid)->first();
+        Session::put('region',$information->region);
 
         $date_from = date("Y-m-01");
         $date_to = date("Y-m-d");
@@ -85,8 +67,8 @@ class PersonalController extends Controller
                     ->LeftJoin("pis.personal_information","personal_information.userid","=","comment.userid")
                     ->get();
         return View::make('employee.index',[
-            "lists" => $lists,
-            "comments" => $comments
+            "comments" => $comments,
+            "information" => $information
         ]);
 
 
