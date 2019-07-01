@@ -20,7 +20,6 @@ Route::get('home',array('before' => 'admin','uses' => 'AdminController@home'));
 Route::get('rpchallenge', 'PasswordController@change_password');
 
 Route::match(array('GET','POST'), 'admin/upload', 'DtrController@upload');
-Route::match(array('GET','POST'),'search', 'DtrController@search');
 Route::match(array('GET','POST'), 'add/attendance', 'DtrController@create_attendance');
 Route::get('employees','AdminController@list_all');
 Route::match(array('GET','POST'),'beginning_balance','cdoController@beginning_balance');

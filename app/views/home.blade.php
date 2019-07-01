@@ -460,5 +460,6 @@
             $('#data_table').modal('show');
         });
 
+
     </script>
 @endsection
