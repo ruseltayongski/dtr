@@ -11,7 +11,7 @@
                             <div class="panel panel-default">
                                 <div class="panel-heading"><strong style="color: #f0ad4e;font-size:medium;">Print individual DTR</strong></div>
                                 <div class="panel-body">
-                                    <form action="{{ asset('FPDF/print_individual.php') }}" method="POST" id="print_one">
+                                    <form action="{{ asset('FPDF/timelog/print_individual1.php') }}" method="POST" id="print_one">
                                         <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
                                         <div class="table-responsive">
                                             <table class="table">
@@ -100,7 +100,7 @@
                                         <tbody>
                                         @foreach($users as $user)
                                             <tr>
-                                                <td ><a href="#user" data-id="{{ $user->userid }}"  class="title-info">{{ $user->userid }}</a></td>
+                                                <td ><a href="#edit" data-id="{{ $user->userid }}" data-toggle="modal" data-target="#update_user_info" data-link="{{ asset('user/edit') }}" class="title-info user_edit">{{ $user->userid }}</a></td>
                                                 <td ><a href="#edit" data-id="{{ $user->userid }}" data-toggle="modal" data-target="#update_user_info" data-link="{{ asset('user/edit') }}" class="text-bold user_edit">{{ $user->fname ." ". $user->mname." ".$user->lname }}</a></td>
                                                 <td >
                                                     <span class="text-bold">{{ $user->description }}</span>
@@ -281,23 +281,6 @@
         })($);
 
 
-        $('.change_sched').click(function(){
-            $('#change_schedule').modal({
-                backdrop: 'static',
-                keyboard: false,
-                show: true
-            });
-            var url = $('#data_link').data('link');
-
-            var data = {
-                id : $(this).data('id')
-            };
-
-            $.get(url,data, function(res){
-                $('#schedule_modal').html(res);
-            });
-
-        });
         $('.delete_userid').click(function(){
             var id = $(this).data('id');
             $('#del_userid_input').val('');
