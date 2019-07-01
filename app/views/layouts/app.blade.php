@@ -117,7 +117,7 @@
     <div class="header" style="background-color:#9C8AA5	;padding:10px;">
         <div class="container">
             @if(Session::get('region') == 'region_8')
-                <img src="{{ asset('public/img/banner2019.png') }}" class="img-responsive" />
+                <img src="{{ asset('public/img/reg8_banner.png') }}" class="img-responsive" />
             @else
                 <img src="{{ asset('public/img/banner2019.png') }}" class="img-responsive" />
             @endif
