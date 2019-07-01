@@ -114,7 +114,6 @@
                                         </tbody>
                                     </table>
                                 </div>
-                                <span id="data_link" data-link="{{ asset('change/work-schedule') }}" />
                                 {{ $users->links() }}
                             @else
                                 <div class="alert alert-danger">
@@ -128,6 +127,7 @@
             </div>
         </div>
     </div>
+    <span id="data_link" data-link="{{ asset('change/work-schedule') }}"></span>
 
 @endsection
 

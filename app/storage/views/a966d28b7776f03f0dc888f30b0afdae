@@ -111,7 +111,6 @@
                                         </tbody>
                                     </table>
                                 </div>
-                                <span id="data_link" data-link="<?php echo asset('change/work-schedule'); ?>" />
                                 <?php echo $users->links(); ?>
 
                             <?php else: ?>
@@ -126,6 +125,7 @@
             </div>
         </div>
     </div>
+    <span id="data_link" data-link="<?php echo asset('change/work-schedule'); ?>"></span>
 
 <?php $__env->stopSection(); ?>
 

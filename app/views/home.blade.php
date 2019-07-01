@@ -300,8 +300,8 @@
                                             <tbody>
                                             @foreach($users as $user)
                                                 <tr>
-                                                    <td class="text-center"><a href="#user" data-id="{{ $user->userid }}"  class="title-info">{{ $user->userid }}</a></td>
-                                                    <td class="text-center"><a href="#user" data-id="{{ $user->id }}" data-link="{{ asset('user/edit') }}" class="text-bold">{{ $user->fname ." ". $user->mname." ".$user->lname }}</a></td>
+                                                    <td class="text-center"><a href="#edit" data-id="{{ $user->userid }}" data-toggle="modal" data-target="#update_user_info" data-link="{{ asset('user/edit') }}" class="title-info user_edit">{{ $user->userid }}</a></td>
+                                                    <td class="text-center"><a href="#edit" data-id="{{ $user->userid }}" data-toggle="modal" data-target="#update_user_info" data-link="{{ asset('user/edit') }}" class="text-bold user_edit">{{ $user->fname ." ". $user->mname." ".$user->lname }}</a></td>
                                                     <td class="text-center">
                                                         <span class="text-bold">{{ $user->description }}</span>
                                                     </td>
@@ -460,6 +460,16 @@
             $('#data_table').modal('show');
         });
 
+        $('.user_edit').click(function() {
+
+            var url = $(this).data('link');
+            var id = $(this).data('id');
+            var data = "id=" + id;
+
+            $.get(url,data,function(data){
+                $('.user_edit_modal').html(data);
+            });
+        });
 
     </script>
 @endsection

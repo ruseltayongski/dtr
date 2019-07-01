@@ -298,8 +298,8 @@
                                             <tbody>
                                             <?php foreach($users as $user): ?>
                                                 <tr>
-                                                    <td class="text-center"><a href="#user" data-id="<?php echo $user->userid; ?>"  class="title-info"><?php echo $user->userid; ?></a></td>
-                                                    <td class="text-center"><a href="#user" data-id="<?php echo $user->id; ?>" data-link="<?php echo asset('user/edit'); ?>" class="text-bold"><?php echo $user->fname ." ". $user->mname." ".$user->lname; ?></a></td>
+                                                    <td class="text-center"><a href="#edit" data-id="<?php echo $user->userid; ?>" data-toggle="modal" data-target="#update_user_info" data-link="<?php echo asset('user/edit'); ?>" class="title-info user_edit"><?php echo $user->userid; ?></a></td>
+                                                    <td class="text-center"><a href="#edit" data-id="<?php echo $user->userid; ?>" data-toggle="modal" data-target="#update_user_info" data-link="<?php echo asset('user/edit'); ?>" class="text-bold user_edit"><?php echo $user->fname ." ". $user->mname." ".$user->lname; ?></a></td>
                                                     <td class="text-center">
                                                         <span class="text-bold"><?php echo $user->description; ?></span>
                                                     </td>
@@ -459,6 +459,16 @@
             $('#data_table').modal('show');
         });
 
+        $('.user_edit').click(function() {
+
+            var url = $(this).data('link');
+            var id = $(this).data('id');
+            var data = "id=" + id;
+
+            $.get(url,data,function(data){
+                $('.user_edit_modal').html(data);
+            });
+        });
 
     </script>
 <?php $__env->stopSection(); ?>
