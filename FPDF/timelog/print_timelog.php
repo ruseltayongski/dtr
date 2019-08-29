@@ -177,8 +177,11 @@ if(isset($_POST['filter_range'])){
             ($am_in == 'JO BREAK' && $am_out == 'JO BREAK' && $pm_in == 'JO BREAK' && $pm_out == 'JO BREAK') ||
             ($am_in == 'CDO' && $am_out == 'CDO' && $pm_in == 'CDO' && $pm_out == 'CDO') ||
             (empty($am_in) && empty($am_out) && empty($pm_in) && empty($pm_out)) ||
-            (strpos( $am_in, 'SO #' ) !== false && strpos( $am_out, 'SO #' ) !== false && strpos( $pm_in, 'SO #' ) !== false && strpos( $pm_out, 'SO #' ) !== false ) ||
-            (strpos( $am_in, 'LEAVE' ) !== false && strpos( $am_out, 'LEAVE' ) !== false && strpos( $pm_in, 'LEAVE' ) !== false && strpos( $pm_out, 'LEAVE' ) !== false)
+            (
+                strpos( $am_in, 'SO #' ) !== false && strpos( $am_out, 'SO #' ) !== false && strpos( $pm_in, 'SO #' ) !== false && strpos( $pm_out, 'SO #' ) !== false
+                && $am_in == $pm_in
+            ) ||
+            ( strpos( $am_in, 'LEAVE' ) !== false && strpos( $am_out, 'LEAVE' ) !== false && strpos( $pm_in, 'LEAVE' ) !== false && strpos( $pm_out, 'LEAVE' ) !== false )
         ){
             if(empty($am_in)){
                 $whole_log = 'ABSENT';
@@ -223,7 +226,16 @@ if(isset($_POST['filter_range'])){
             if($undertime == 0){
                 $undertime = '';
             }
-            $pdf->SetWidths(array(5,7.5,30,15,15,7.5,7,$set_size_center,5,7.5,30,15,15,7.5,7));
+
+            $afternoon_width_pm_in = 15;
+            $afternoon_width_pm_out = 15;
+            if( (strpos( $pm_in, 'SO #' ) !== false && strpos( $pm_out, 'SO #' ) !== false ) ){
+                $pm_out = '';
+                $afternoon_width_pm_in = 30;
+                $afternoon_width_pm_out = 0;
+            }
+
+            $pdf->SetWidths(array(5,7.5,30,$afternoon_width_pm_in,$afternoon_width_pm_out,7.5,7,$set_size_center,5,7.5,30,$afternoon_width_pm_in,$afternoon_width_pm_out,7.5,7));
             $pdf->Row(array(
                 ["word" => explode('-',$row['datein'])[2],'font_style' => '','font_size'=>7.5,'border'=>$border,"position"=>'L'],
                 ["word" => $day_name,'font_style' => '','font_size'=>7.5,'border'=>$border,"position"=>'L'],
