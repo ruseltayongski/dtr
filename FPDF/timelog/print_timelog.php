@@ -169,7 +169,10 @@ if(isset($_POST['filter_range'])){
 
         $late = str_replace('late','',$row['late']);
         $undertime = str_replace('undertime','',$row['undertime']);
-        $undertime_total += $undertime;
+
+        if($am_in != 'HOLIDAY'){
+            $undertime_total += $undertime;
+        }
 
         if(
             ($am_in == 'DAY OFF' && $am_out == 'DAY OFF' && $pm_in == 'DAY OFF' && $pm_out == 'DAY OFF') ||
@@ -223,7 +226,7 @@ if(isset($_POST['filter_range'])){
                 $halfday_log = explode('_',explode('|',$row['time'])[0])[0];
                 $late = '';
             }
-            if($undertime == 0){
+            if($undertime == 0 || $am_in == 'HOLIDAY'){
                 $undertime = '';
             }
 
