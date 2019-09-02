@@ -78,10 +78,10 @@ if(isset($_POST['filter_range'])){
     $border = 0;
     $pdf->Row(array(
             ["word" => "Civil Service Form No. 48",'font_style' => '','font_size'=>8,'border'=>$border,"position"=>'L'],
-            ["word" => "Printed: 2019-04-29",'font_style' => '','font_size'=>8,'border'=>$border,"position"=>'R'],
+            ["word" => "Printed: ".date("Y-m-d"),'font_style' => '','font_size'=>8,'border'=>$border,"position"=>'R'],
             ["word" => "",'font_style' => 'B','font_size'=>8,'border'=>$border,"position"=>'C'],
             ["word" => "Civil Service Form No. 48",'font_style' => '','font_size'=>8,'border'=>$border,"position"=>'L'],
-            ["word" => "Printed: 2019-04-29",'font_style' => '','font_size'=>8,'border'=>$border,"position"=>'R']
+            ["word" => "Printed: ".date("Y-m-d"),'font_style' => '','font_size'=>8,'border'=>$border,"position"=>'R']
     ),5);
 
     $pdf->SetWidths(array(87,$set_size_center,87));
