@@ -31,7 +31,7 @@ class MobileControllerV2 extends BaseController
         return [
             "code" => 200,
             "response" => [
-                "code_version" => "2.0.0",
+                "code_version" => "2.1.0",
                 "features" => ["1. Daily notification every 12:45 PM", "2. Cool Material design", "3. Improve Upload Performance"]
             ]
         ];
