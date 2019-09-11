@@ -1,3 +1,4 @@
+<?php session_start(); ?>
 @extends('layouts.app')
 
 @section('content')
@@ -28,7 +29,7 @@
                                                             <div class="input-group-addon">
                                                                 <i class="fa fa-calendar"></i>
                                                             </div>
-                                                            <input type="text" class="form-control" id="inclusive3" name="filter_range" placeholder="Input date range here..." required>
+                                                            <input type="text" class="form-control" id="inclusive3" value="{{ isset($_SESSION['date_range']) ? $_SESSION['date_range'] : '' }}" name="filter_range" placeholder="Input date range here..." required>
                                                         </div>
                                                     </td>
                                                 </tr>
