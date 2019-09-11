@@ -1,4 +1,5 @@
 <?php
+session_start();
 
 function conn()
 {
@@ -63,6 +64,7 @@ function api_get_logs($userid,$date_from,$date_to) {
 }
 
 if(isset($_POST['filter_range'])){
+    $_SESSION['date_range'] = $_POST['filter_range'];
     $userid = $_POST['userid'];
     $filter_date = explode(' - ',$_POST['filter_range']);
     $date_from = date("Y-m-d",strtotime($filter_date[0]));
