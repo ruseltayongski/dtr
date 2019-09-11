@@ -149,6 +149,14 @@ class TimeLogController extends Controller
                     ->where("event",explode("_",$log_type)[1])
                     ->delete();
             break;
+            case 'to':
+                EditedLogs::where("userid",$userid)
+                    ->where("datein",$datein)
+                    ->where("time",$time)
+                    ->where("edited",3)
+                    ->where("event",explode("_",$log_type)[1])
+                    ->delete();
+                break;
         }
 
         $time_display = '';
@@ -295,6 +303,38 @@ class TimeLogController extends Controller
                 return [
                     "notification" => "info",
                     "message" => "Successfully added JO BREAK",
+                    "display_time" => $time_display
+                ];
+                break;
+            case "to":
+                $so = new EditedLogs();
+                $so->userid = $userid;
+                $so->datein = $datein;
+                if($log_type == "AM_IN"){
+                    $so->time = "08:00:00";
+                    $time_display = "08:00:00";
+                }
+                elseif($log_type == "AM_OUT"){
+                    $so->time = "12:00:00";
+                    $time_display = "12:00:00";
+                }
+                elseif($log_type == "PM_IN"){
+                    $so->time = "13:00:00";
+                    $time_display = "13:00:00";
+                }
+                elseif($log_type == "PM_OUT"){
+                    $so->time = "18:00:00";
+                    $time_display = "18:00:00";
+                }
+                $so->event = explode("_",$log_type)[1];
+                $so->remark = explode("#",$edited_display)[1];
+                $so->edited = 3;
+                $so->holiday = 003;
+                $so->save();
+
+                return [
+                    "notification" => "info",
+                    "message" => "Successfully added SO",
                     "display_time" => $time_display
                 ];
                 break;

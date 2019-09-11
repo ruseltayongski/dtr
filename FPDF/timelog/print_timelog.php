@@ -186,6 +186,10 @@ if(isset($_POST['filter_range'])){
                 strpos( $am_in, 'SO #' ) !== false && strpos( $am_out, 'SO #' ) !== false && strpos( $pm_in, 'SO #' ) !== false && strpos( $pm_out, 'SO #' ) !== false
                 && $am_in == $pm_in
             ) ||
+            (
+                strpos( $am_in, 'TO #' ) !== false && strpos( $am_out, 'TO #' ) !== false && strpos( $pm_in, 'TO #' ) !== false && strpos( $pm_out, 'TO #' ) !== false
+                && $am_in == $pm_in
+            ) ||
             ( strpos( $am_in, 'LEAVE' ) !== false && strpos( $am_out, 'LEAVE' ) !== false && strpos( $pm_in, 'LEAVE' ) !== false && strpos( $pm_out, 'LEAVE' ) !== false )
         ){
             if(empty($am_in)){
@@ -219,6 +223,7 @@ if(isset($_POST['filter_range'])){
             ($am_in == 'CDO' && $am_out == 'CDO') ||
             (empty($am_in) && empty($am_out)) ||
             (strpos( $am_in, 'SO #' ) !== false && strpos( $am_out, 'SO #' ) !== false) ||
+            (strpos( $am_in, 'TO #' ) !== false && strpos( $am_out, 'TO #' ) !== false) ||
             (strpos( $am_in, 'LEAVE' ) !== false && strpos( $am_out, 'LEAVE' ) !== false)
         ){
             if(explode('_',explode('|',$row['time'])[0])[0] == 'empty' && explode('_',explode('|',$row['time'])[1])[0]){
@@ -234,7 +239,9 @@ if(isset($_POST['filter_range'])){
 
             $afternoon_width_pm_in = 15;
             $afternoon_width_pm_out = 15;
-            if( (strpos( $pm_in, 'SO #' ) !== false && strpos( $pm_out, 'SO #' ) !== false ) ){
+            if( (strpos( $pm_in, 'SO #' ) !== false && strpos( $pm_out, 'SO #' ) !== false ) ||
+                (strpos( $pm_in, 'TO #' ) !== false && strpos( $pm_out, 'TO #' ) !== false )
+            ){
                 $pm_out = '';
                 $afternoon_width_pm_in = 30;
                 $afternoon_width_pm_out = 0;
@@ -265,6 +272,7 @@ if(isset($_POST['filter_range'])){
             ($pm_in == 'CDO' && $pm_out == 'CDO') ||
             (empty($pm_in) && empty($pm_out)) ||
             (strpos( $pm_in, 'SO #' ) !== false && strpos( $pm_out, 'SO #' ) !== false ) ||
+            (strpos( $pm_in, 'TO #' ) !== false && strpos( $pm_out, 'TO #' ) !== false ) ||
             (strpos( $pm_in, 'LEAVE' ) !== false && strpos( $pm_out, 'LEAVE' ) !== false)
         ){
             if(explode('_',explode('|',$row['time'])[2])[0] == 'empty' && explode('_',explode('|',$row['time'])[3])[0] == 'empty'){
