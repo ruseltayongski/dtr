@@ -75,10 +75,9 @@
                     <td class="col-sm-3"><label>Head</label></td>
                     <td class="col-sm-1">:</td>
                     <td class="col-sm-8">
-                        <select name="head" id="head" class="form-control" required>
+                        <select name="authority" id="authority" class="form-control" required>
                             <option value="">Select...</option>
-                            <option <?php if($user->head=='yes') echo 'selected'; ?> value="yes">YES</option>
-                            <option <?php if($user->head=='no') echo 'selected'; ?> value="no">NO</option>
+                            <option <?php if($user->authority=='reset_password') echo 'selected'; ?> value="reset_password">Reset Password</option>
                         </select>
                     </td>
                 </tr>

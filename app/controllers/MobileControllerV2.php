@@ -7,7 +7,7 @@ class MobileControllerV2 extends BaseController
         $imei = Input::get('imei');
 
         $result = User::where('imei','=',$imei)
-            ->first(['userid', 'fname', 'lname','head']);
+            ->first(['userid', 'fname', 'lname','authority']);
 
         if (count($result) > 0) {
             return [
@@ -22,7 +22,7 @@ class MobileControllerV2 extends BaseController
                 "userid" => null,
                 "fname" => null,
                 "lname" => null,
-                "head" => null
+                "authority" => null
             ]
         ];
     }
