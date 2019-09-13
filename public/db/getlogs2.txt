@@ -187,6 +187,7 @@ SELECT logs.* from(
 						edited2.userid = ID and
 						edited2.event = "OUT" and
 						edited2.time > "8:00:00" and
+                        edited2.edited = 1 and
 						edited2.datein = dtr.datein
 						ORDER BY TIME ASC
 						LIMIT 1
@@ -274,6 +275,7 @@ SELECT logs.* from(
 				edited3.event = "IN" and
 				edited3.time >= "12:00:00" and
 				edited3.time < "17:00:00" and
+                edited3.edited = 1 and
 				edited3.datein = dtr.datein
 				ORDER BY TIME ASC
 				LIMIT 1
@@ -352,6 +354,7 @@ SELECT logs.* from(
 				edited4.userid = ID and
 				edited4.event = "OUT" and
 				edited4.time >= "13:00:00" and
+                edited4.edited = 1 and
 				edited4.datein = dtr.datein
 				ORDER BY TIME DESC
 				LIMIT 1

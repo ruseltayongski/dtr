@@ -71,6 +71,17 @@
                         <input type="text" name="imei" value="{{ $user->imei }}" class="form-control">
                     </td>
                 </tr>
+                <tr>
+                    <td class="col-sm-3"><label>Head</label></td>
+                    <td class="col-sm-1">:</td>
+                    <td class="col-sm-8">
+                        <select name="head" id="head" class="form-control" required>
+                            <option value="">Select...</option>
+                            <option <?php if($user->head=='yes') echo 'selected'; ?> value="yes">YES</option>
+                            <option <?php if($user->head=='no') echo 'selected'; ?> value="no">NO</option>
+                        </select>
+                    </td>
+                </tr>
 
             </table>
         </div>

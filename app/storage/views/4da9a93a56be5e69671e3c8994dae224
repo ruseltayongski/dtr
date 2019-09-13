@@ -71,6 +71,20 @@
                         <input type="text" name="imei" value="<?php echo $user->imei; ?>" class="form-control">
                     </td>
                 </tr>
+<<<<<<< HEAD
+=======
+                <tr>
+                    <td class="col-sm-3"><label>Head</label></td>
+                    <td class="col-sm-1">:</td>
+                    <td class="col-sm-8">
+                        <select name="head" id="head" class="form-control" required>
+                            <option value="">Select...</option>
+                            <option <?php if($user->head=='yes') echo 'selected'; ?> value="yes">YES</option>
+                            <option <?php if($user->head=='no') echo 'selected'; ?> value="no">NO</option>
+                        </select>
+                    </td>
+                </tr>
+>>>>>>> a9ab1a31f0b3181e30a220ccbb1d9542e86c61cd
 
             </table>
         </div>
