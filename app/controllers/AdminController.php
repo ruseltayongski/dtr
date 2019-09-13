@@ -405,7 +405,7 @@ class AdminController extends BaseController
             $user->mname = Input::get('mname');
             $user->username = Input::get('username');
             $user->imei = Input::get('imei');
-            $user->head = Input::get('head');
+            $user->authority = Input::get('authority');
             if(Auth::user()->usertype == "1")
                 $user->usertype = Input::get("usertype");
             elseif(Auth::user()->usertype == "3")
