@@ -156,6 +156,7 @@
 
                         timelog = $("#"+this.id+"time_log").val();
                         office_order = $("#"+this.id+"office_order").val();
+                        travel_order = $("#"+this.id+"travel_order").val();
                         leave = $("#"+this.id+"leave").val();
 
                         userid = this.id.split("ñ")[0];
@@ -169,7 +170,11 @@
                         }
                         else if(office_order){
                             log_status_change = "so";
-                            edited_display = "SO#"+office_order
+                            edited_display = "SO# "+office_order
+                        }
+                        else if(travel_order){
+                            log_status_change = "to";
+                            edited_display = "TO# "+travel_order
                         }
                         else if($("#"+this.id+"cdo").is(':checked')){
                             log_status_change = "cdo";
@@ -196,7 +201,7 @@
                             "log_status_change": log_status_change,
                             "log_type":log_type
                         };
-
+                        console.log(json);
                         var url = "<?php echo asset('logs/timelog/edit'); ?>";
                         var input_hidden_element = $("#"+this.id.split("ñ")[5]+"ñ"+log_type);
                         $.post(url,json,function(result){
