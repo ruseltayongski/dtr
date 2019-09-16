@@ -5,14 +5,12 @@
         <div class="modal-body">
             <table class="table table-hover table-form table-striped">
                 <tr>
-                    <td class="col-sm-3"><label>Region</label></td>
+                    <td class="col-sm-3"><label>Region <?php echo $user->region; ?></label></td>
                     <td class="col-sm-1">:</td>
                     <td class="col-sm-8">
                         <select class="form-control" name="region" required>
-                            <option value="region7">Region 7</option>
-                            <option value="region8">Region 8</option>
-                            <option value="region9">Region 9</option>
-                            <option value="region9">Region 10</option>
+                            <option <?php if($user->region=='region_7') echo 'selected'; ?> value="region7">Region 7</option>
+                            <option <?php if($user->region=='region_8') echo 'selected'; ?> value="region8">Region 8</option>
                         </select>
                     </td>
                 </tr>
@@ -72,7 +70,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <td class="col-sm-3"><label>Head</label></td>
+                    <td class="col-sm-3"><label>Authority</label></td>
                     <td class="col-sm-1">:</td>
                     <td class="col-sm-8">
                         <select name="authority" id="authority" class="form-control">
