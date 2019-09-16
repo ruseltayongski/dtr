@@ -302,15 +302,23 @@ class MobileController extends BaseController {
     }
 
     public function resetPassword(){
-        $user = Users::where("userid",'=',Input::get('userid'))->first();
-        if($user){
-            $user->password = Hash::make('123');
-            $user->pass_change = NULL;
-            $user->save();
-            return $user->lname.', '.$user->fname;
-        } else {
-            return 0;
+
+        $authority_check = Users::where("userid",'=',Input::get('userid'))->first()->authority; //user nga ni login
+
+        $user = Users::where("userid",'=',Input::get('reset_userid'))->first(); //user nga i reset
+        if($authority_check == "reset_password"){
+            if($user){
+                $user->password = Hash::make('123');
+                $user->pass_change = NULL;
+                $user->save();
+                return "'".$user->lname.', '.$user->fname."'";
+            } else {
+                return 1;
+            }
         }
+
+        return 2;
+
     }
 
 
