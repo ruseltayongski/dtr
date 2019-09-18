@@ -29,8 +29,10 @@
                         </li>
                     </ul>
                 </li>
+                @if(Auth::user()->region == "region_7")
                 <li class="divider"></li>
                 <li><a href="{{ url('calendar') }}"><i class="fa fa-calendar"></i>&nbsp;&nbsp; Calendar</a></li>
+                @endif
                 <li class="divider"></li>
                 <li class="dropdown-submenu">
                     <a href="#" data-toggle="dropdown"><i class="fa fa-file" aria-hidden="true"></i>&nbsp;&nbsp; Form</a>

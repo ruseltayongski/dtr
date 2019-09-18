@@ -29,8 +29,15 @@
                         </li>
                     </ul>
                 </li>
+<<<<<<< HEAD
                 <li class="divider"></li>
                 <li><a href="<?php echo url('calendar'); ?>"><i class="fa fa-calendar"></i>&nbsp;&nbsp; Calendar</a></li>
+=======
+                <?php if(Auth::user()->region == "region_7"): ?>
+                <li class="divider"></li>
+                <li><a href="<?php echo url('calendar'); ?>"><i class="fa fa-calendar"></i>&nbsp;&nbsp; Calendar</a></li>
+                <?php endif; ?>
+>>>>>>> baf1d6ad47812369351b03ebb45579026e460705
                 <li class="divider"></li>
                 <li class="dropdown-submenu">
                     <a href="#" data-toggle="dropdown"><i class="fa fa-file" aria-hidden="true"></i>&nbsp;&nbsp; Form</a>
