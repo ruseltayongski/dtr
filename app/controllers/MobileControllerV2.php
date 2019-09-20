@@ -32,7 +32,7 @@ class MobileControllerV2 extends BaseController
         return [
             "code" => 200,
             "response" => [
-                "code_version" => "v2.3.0",
+                "code_version" => "2.3.0",
                 "features" => ["2.2.0","\t\t1. Cool Material design",
                                 "\t\t2. Improve Upload Performance",
                                 "\t\t3.Outdated logs can now be deleted by swiping.",
