@@ -32,8 +32,14 @@ class MobileControllerV2 extends BaseController
         return [
             "code" => 200,
             "response" => [
-                "code_version" => "2.2.0",
-                "features" => ["1. Cool Material design", "2. Improve Upload Performance","3.Outdated logs can now be deleted by swiping."]
+                "code_version" => "v2.3.0",
+                "features" => ["2.2.0","\t\t1. Cool Material design",
+                                "\t\t2. Improve Upload Performance",
+                                "\t\t3.Outdated logs can now be deleted by swiping.",
+                                "\nv2.3.0",
+                                "\t\t1.Deleting CTO/SO/LEAVE has now confirmation",
+                                "\t\t2.User ID number and installed MobileDTR version are now displayed"
+                            ]
             ]
         ];
 
