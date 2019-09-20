@@ -275,6 +275,7 @@ Route::post('mobile/add-leave','MobileController@add_leave');
 Route::get('mobile/getCurrentVersion','MobileController@getCurrentVersion');
 Route::post('mobile/imei','MobileController@imei');
 Route::post('mobile/reset_password','MobileController@resetPassword');
+Route::post('mobile/check_username','MobileController@checkUsername');
 //MOBILE URL v2
 Route::post('mobileV2/login','MobileControllerV2@login');
 Route::get('mobileV2/getCurrentVersion','MobileControllerV2@getCurrentVersion');
