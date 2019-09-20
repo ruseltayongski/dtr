@@ -301,6 +301,15 @@ class MobileController extends BaseController {
         }
     }
 
+    public function checkUsername(){
+        $user = Users::where("userid",'=',Input::get('reset_userid'))->first();
+        if($user){
+            return "'".$user->lname.', '.$user->fname."'";
+        }
+
+        return 1;
+    }
+
     public function resetPassword(){
 
         $authority_check = Users::where("userid",'=',Input::get('userid'))->first()->authority; //user nga ni login
