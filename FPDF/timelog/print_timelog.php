@@ -378,11 +378,11 @@ if(isset($_POST['filter_range'])){
     $pdf->SetWidths(array(72.5,7.5,7,$set_size_center,72.5,7.5,7));
     $pdf->Row(array(
         ["word" => 'TOTAL','font_style' => '','font_size'=>7.5,'border'=>$border,"position"=>'L'],
-        ["word" => $late_total,'font_style' => '','font_size'=>7,'border'=>$border,"position"=>'C'],
+        ["word" => $late_total == 0 ? ' ' : $late_total,'font_style' => '','font_size'=>7,'border'=>$border,"position"=>'C'],
         ["word" => $undertime_total == 0 ? ' ' : $undertime_total,'font_style' => '','font_size'=>7.5,'border'=>$border,"position"=>'C'],
         ["word" => '','font_style' => '','font_size'=>7.5,'border'=>$border,"position"=>'C'],
         ["word" => 'TOTAL','font_style' => '','font_size'=>7.5,'border'=>$border,"position"=>'L'],
-        ["word" => $late_total,'font_style' => '','font_size'=>7,'border'=>$border,"position"=>'C'],
+        ["word" => $late_total == 0 ? ' ' : $late_total,'font_style' => '','font_size'=>7,'border'=>$border,"position"=>'C'],
         ["word" => $undertime_total == 0 ? ' ' : $undertime_total,'font_style' => '','font_size'=>7.5,'border'=>$border,"position"=>'C']
     ),5);
 
