@@ -169,11 +169,12 @@ if(isset($_POST['filter_range'])){
         $pm_in_style = explode('_',explode('|',$row['time'])[2])[1];
         $pm_out_style = explode('_',explode('|',$row['time'])[3])[1];
 
-        $late = str_replace('late','',$row['late']);
 
         if($row["dayname"] == "Saturday" || $row["dayname"] == "Sunday" || $am_in == "HOLIDAY"){
+            $late = 0;
             $undertime = 0;
         } else {
+            $late = str_replace('late','',$row['late']);
             $undertime = str_replace('undertime','',$row['undertime']);
         }
 
