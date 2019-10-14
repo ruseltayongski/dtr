@@ -170,11 +170,14 @@ if(isset($_POST['filter_range'])){
         $pm_out_style = explode('_',explode('|',$row['time'])[3])[1];
 
         $late = str_replace('late','',$row['late']);
-        $undertime = str_replace('undertime','',$row['undertime']);
 
-        if($am_in != 'HOLIDAY'){
-            $undertime_total += $undertime;
+        if($row["dayname"] == "Saturday" || $row["dayname"] == "Sunday" || $am_in == "HOLIDAY"){
+            $undertime = 0;
+        } else {
+            $undertime = str_replace('undertime','',$row['undertime']);
         }
+
+        $undertime_total += $undertime;
 
         if(
             ($am_in == 'DAY OFF' && $am_out == 'DAY OFF' && $pm_in == 'DAY OFF' && $pm_out == 'DAY OFF') ||
@@ -276,8 +279,14 @@ if(isset($_POST['filter_range'])){
             (strpos( $pm_in, 'LEAVE' ) !== false && strpos( $pm_out, 'LEAVE' ) !== false)
         ){
             if(explode('_',explode('|',$row['time'])[2])[0] == 'empty' && explode('_',explode('|',$row['time'])[3])[0] == 'empty'){
-                $halfday_log = 'HALF DAY';
-                $late += 240;
+                if($row["dayname"] == "Saturday" || $row["dayname"] == "Sunday"){ //clear late if naa nay logs sa morning and if it was saturday or sunday
+                    $halfday_log = '';
+                    $late = '';
+                    $undertime = '';
+                } else {
+                    $halfday_log = 'HALF DAY';
+                    $late += 240;
+                }
             } else {
                 $halfday_log = explode('_',explode('|',$row['time'])[2])[0];
                 $late = '';
@@ -370,11 +379,11 @@ if(isset($_POST['filter_range'])){
     $pdf->Row(array(
         ["word" => 'TOTAL','font_style' => '','font_size'=>7.5,'border'=>$border,"position"=>'L'],
         ["word" => $late_total,'font_style' => '','font_size'=>7,'border'=>$border,"position"=>'C'],
-        ["word" => $undertime_total,'font_style' => '','font_size'=>7.5,'border'=>$border,"position"=>'C'],
+        ["word" => $undertime_total == 0 ? ' ' : $undertime_total,'font_style' => '','font_size'=>7.5,'border'=>$border,"position"=>'C'],
         ["word" => '','font_style' => '','font_size'=>7.5,'border'=>$border,"position"=>'C'],
         ["word" => 'TOTAL','font_style' => '','font_size'=>7.5,'border'=>$border,"position"=>'L'],
         ["word" => $late_total,'font_style' => '','font_size'=>7,'border'=>$border,"position"=>'C'],
-        ["word" => $undertime_total,'font_style' => '','font_size'=>7.5,'border'=>$border,"position"=>'C']
+        ["word" => $undertime_total == 0 ? ' ' : $undertime_total,'font_style' => '','font_size'=>7.5,'border'=>$border,"position"=>'C']
     ),5);
 
     $pdf->SetWidths(array(87,$set_size_center,87));
