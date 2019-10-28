@@ -268,5 +268,13 @@
     </script>
     <?php Session::forget('msg'); ?>
 @endif
+@if(Session::get('upload_logs'))
+    <script>
+        Lobibox.notify('success',{
+            msg:'Successfully uploaded logs!'
+        });
+    </script>
+    <?php Session::forget('upload_logs'); ?>
+@endif
 </body>
 </html>

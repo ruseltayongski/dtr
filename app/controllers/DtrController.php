@@ -32,7 +32,7 @@ class DtrController extends BaseController
                 $dtr = file_get_contents($file);
                 $data = explode(PHP_EOL, $dtr);
                     
-                
+
                 $pdo = DB::connection()->getPdo();
                 //DTR
                 $query1 = "INSERT IGNORE INTO dtr_file(userid, datein, time, event,remark, edited, created_at, updated_at) VALUES";
@@ -123,6 +123,47 @@ class DtrController extends BaseController
                 return "<h2 style='color:red;'>No input file</h2>";
             }
         }
+    }
+
+    public function UploadV2(){
+        if (Input::hasFile('dtr_file')) {
+
+            $file = Input::file('dtr_file');
+            ini_set('max_execution_time', 0);
+            $dtr = file_get_contents($file);
+            $data = explode(PHP_EOL, $dtr);
+
+            $remark = "#FP";
+            $edited = "0";
+            $pdo = DB::connection()->getPdo();
+            //DTR
+            $query1 = "INSERT IGNORE INTO dtr_file(userid, datein, time, event,remark, edited, created_at, updated_at) VALUES";
+
+            for ($i = 1; $i < count($data); $i++) {
+                $employee = explode(',', $data[$i]);
+                if(array_key_exists(1, $employee)){
+                    //USERID
+                    $userid = array_key_exists(1, $employee) == true ? trim($employee[1], "\" ") : null;
+                    //datein
+                    $datein = array_key_exists(5, $employee) == true ? trim($employee[5], "\" ") : null;
+                    //time
+                    $timein = array_key_exists(6, $employee) == true ? trim($employee[6], "\" ") : null;
+                    //event
+                    $event = array_key_exists(7, $employee) == true ? trim($employee[7], "\" ") : null;
+
+
+                    $query1 .= "('" . $userid . "','" . $datein . "','" . $timein . "','" . $event . "','" . $remark . "','" . $edited . "',NOW(),NOW()),";
+                }
+            }
+
+            $query1 .= "('','','','','','',NOW(),NOW())";
+            $st = $pdo->prepare($query1);
+            $st->execute();
+
+            Session::put("upload_logs",true);
+            return Redirect::to('home');
+        }
+        return "<h2 style='color:red;'>No input file</h2>";
     }
 
     public function dtr_list()

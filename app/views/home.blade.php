@@ -154,7 +154,7 @@
                         <div class="panel panel-default">
                             <div class="panel-heading"><strong style="color: #f0ad4e;font-size:medium;">Upload time logs</strong></div>
                             <div class="panel-body">
-                                <form id="form_upload" action="{{ asset('admin/upload') }}" method="POST" enctype="multipart/form-data">
+                                <form id="form_upload" action="{{ asset('admin/uploadv2') }}" method="POST" enctype="multipart/form-data">
                                     <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
                                     <h3 style="font-weight: bold;" class="text-center">Upload a file</h3>
                                     <div class="modal-body">
@@ -276,7 +276,7 @@
                         <div class="panel panel-default">
                             <div class="panel-heading"><strong style="color: #f0ad4e;font-size:medium;">Employee list</strong></div>
                             <div class="panel-body">
-                                <form class="form-inline form-accept" action="{{ asset('/search') }}" method="GET">
+                                <form class="form-inline form-accept" action="{{ asset('/home') }}" method="POST">
                                     <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
                                     <div class="form-group">
                                         <input type="text" name="search" class="form-control" placeholder="Quick Search" autofocus>
