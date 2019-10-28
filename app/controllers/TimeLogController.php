@@ -46,7 +46,7 @@ class TimeLogController extends Controller
             //C# API END
             $timeLog = DB::connection('mysql')->select("call getLogs2('$userid','$date_from','$date_to')");
         } else {
-            Session::put("filter_dates",date("m/01/Y - m/d/Y"));
+            /*Session::put("filter_dates",date("m/01/Y - m/d/Y"));
             $date_from = date("Y-m-01");
             $date_to = date("Y-m-d");
             //C# API
@@ -82,7 +82,7 @@ class TimeLogController extends Controller
                     $dtr_file->edited = 0;
                     $dtr_file->save();
                 }
-            }
+            }*/
             //C# API END
             $timeLog = DB::connection('mysql')->select("call getLogs2('$userid','$date_from','$date_to')");
         }
