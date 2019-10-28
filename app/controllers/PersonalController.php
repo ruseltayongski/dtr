@@ -28,7 +28,7 @@ class PersonalController extends Controller
         $date_from = date("Y-m-01");
         $date_to = date("Y-m-d");
         //C# API
-        $url = "http://192.168.100.81/dtr_api/logs/GetLogs";
+        /*$url = "http://192.168.100.81/dtr_api/logs/GetLogs";
         $data = [
             "userid" => Auth::user()->userid,
             "df" => $date_from,
@@ -60,7 +60,7 @@ class PersonalController extends Controller
                 $dtr_file->edited = 0;
                 $dtr_file->save();
             }
-        }
+        }*/
         //C# API END
 
         $comments = Comments::Select("comment.*","personal_information.picture","personal_information.lname","personal_information.fname")

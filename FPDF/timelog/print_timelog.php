@@ -70,7 +70,7 @@ if(isset($_POST['filter_range'])){
     $date_from = date("Y-m-d",strtotime($filter_date[0]));
     $date_to = date("Y-m-d",strtotime($filter_date[1]));
 
-    api_get_logs($userid,$date_from,$date_to);
+    //api_get_logs($userid,$date_from,$date_to);
     $timelog = getLogs($userid,$date_from,$date_to);
     $name = $timelog[0]['name'];
 

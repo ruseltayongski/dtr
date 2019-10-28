@@ -49,12 +49,23 @@ class AdminController extends BaseController
 
     public function home()
     {
+        $keyword = Input::get('search');
         $users = DB::table('users')
             ->leftJoin('work_sched', function($join){
                 $join->on('users.sched','=','work_sched.id');
-            })
-            ->orderBy('fname', 'ASC')
-            ->paginate(20);
+            });
+
+        if(isset($keyword)){
+            $users = $users->where(function($q) use ($keyword){
+                $q->where('users.fname','like',"%$keyword%")
+                    ->orwhere('users.lname','like',"%$keyword%")
+                    ->orwhere('users.userid','like',"%$keyword%");
+            });
+        }
+
+        $users = $users->orderBy('users.fname', 'ASC')
+              ->paginate(20);
+
         return View::make('home')->with('users',$users);
     }
 

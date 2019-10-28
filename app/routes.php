@@ -14,12 +14,12 @@ Route::get('logout', function(){
 Route::get('dtr/{id}', 'GenerateDTRController@download_dtr');
 
 Route::match(array('GET','POST'),'/', 'AdminController@index');
-Route::get('home',array('before' => 'admin','uses' => 'AdminController@home'));
-
+Route::match(array('GET','POST'),'home',array('before' => 'admin','uses' => 'AdminController@home'));
 
 Route::get('rpchallenge', 'PasswordController@change_password');
 
 Route::match(array('GET','POST'), 'admin/upload', 'DtrController@upload');
+Route::post('admin/uploadv2', 'DtrController@UploadV2');
 Route::match(array('GET','POST'), 'add/attendance', 'DtrController@create_attendance');
 Route::get('employees','AdminController@list_all');
 Route::match(array('GET','POST'),'beginning_balance','cdoController@beginning_balance');
