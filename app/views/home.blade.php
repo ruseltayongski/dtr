@@ -59,7 +59,7 @@
                         <div class="panel panel-default">
                             <div class="panel-heading"><strong style="color: #f0ad4e;font-size:medium;">Print individual DTR</strong></div>
                             <div class="panel-body">
-                                <form action="{{ asset('FPDF/timelog/print_individual1.php') }}" method="POST" id="print_one">
+                                <form action="{{ asset('FPDF/timelog/print_individual1.php') }}" method="POST" target="_blank" id="print_one_temp">
                                     <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
                                     <div class="table-responsive">
                                         <table class="table">
@@ -88,7 +88,7 @@
                                             </tr>
                                         </table>
                                     </div>
-                                    <button type="submit"  class="btn-lg btn-success center-block col-sm-12" id="print_one_btn" data-loading-text="<i class='fa fa-refresh fa-spin'></i> Printing DTR">
+                                    <button type="submit"  class="btn-lg btn-success center-block col-sm-12" id="print_one_btn_temp" data-loading-text="<i class='fa fa-refresh fa-spin'></i> Printing DTR">
                                         <span class="glyphicon glyphicon-print" aria-hidden="true"></span> Print
                                     </button>
                                 </form>
