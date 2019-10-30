@@ -67,7 +67,7 @@
                 <div class="row">
                     <br>
                     <div class="col-xs-6">
-                        <a href="<?php echo asset('public/apk/dtr.apk'); ?>" target="_blank" type="button" class="btn btn-success" download><i class="fa fa-mobile-phone"></i>&nbsp;&nbsp; Mobile DTR (apk)</a>
+                        <a href="<?php echo asset('public/apk/dtr.apk'); ?>" target="_blank" type="button" class="btn btn-success" download><i class="fa fa-mobile-phone"></i> Mobile DTR (apk)</a>
                     </div>
                     <div class="col-xs-6">
                         <h4>
