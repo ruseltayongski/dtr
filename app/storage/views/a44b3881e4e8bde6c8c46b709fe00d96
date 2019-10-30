@@ -1,0 +1,82 @@
+<ul class="nav navbar-nav">
+    <?php /*<li>
+        <a href="<?php echo URL::to('document'); ?>"><i class="fa fa-file-code-o"></i> Create Document</a>
+    </li>*/ ?>
+    <li><a href="<?php echo url('/'); ?>"><i class="fa fa-home"></i> Home</a></li>
+    <?php if(Auth::user()->pass_change == 1): ?>
+        <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-file"></i> Manage DTR<span class="caret"></span></a>
+            <ul class="dropdown-menu">
+                <li class="dropdown-submenu">
+                    <a href="#"><i class="fa fa-unlock"></i>&nbsp;&nbsp; My DTR</a>
+                    <ul class="dropdown-menu">
+                        <li class="dropdown-submenu">
+                        <li><a href="<?php echo asset('/personal/add/logs'); ?>">Create time log</a></li>
+                        <li class="divider"></li>
+                        <li class="dropdown-submenu">
+                            <a href="#create-absent">Create absence</a>
+                            <ul class="dropdown-menu">
+                                <li><a href="#" class="create-absent" data-toggle="modal" data-target="#absent_desc" data-link="<?php echo asset('create/absent/description?t=SO'); ?>">OFFICE ORDER</a></li>
+                                <li class="divider"></li>
+                                <li><a href="#" class="create-absent" data-toggle="modal" data-target="#absent_desc" data-link="<?php echo asset('create/absent/description?t=LEAVE'); ?>">LEAVE</a> </li>
+                                <li class="divider"></li>
+                                <li><a href="#" class="create-absent" data-toggle="modal" data-target="#absent_desc" data-link="<?php echo asset('create/absent/description?t=CTO'); ?>">CDO</a> </li>
+                            </ul>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href="#" data-toggle="modal" data-target="#delete_edited" >Delete user created logs</a>
+                        </li>
+                    </ul>
+                </li>
+                <?php if(Auth::user()->region == "region_7"): ?>
+                <li class="divider"></li>
+                <li><a href="<?php echo url('calendar'); ?>"><i class="fa fa-calendar"></i>&nbsp;&nbsp; Calendar</a></li>
+                <?php endif; ?>
+                <li class="divider"></li>
+                <li class="dropdown-submenu">
+                    <a href="#" data-toggle="dropdown"><i class="fa fa-file" aria-hidden="true"></i>&nbsp;&nbsp; Form</a>
+                    <ul class="dropdown-menu">
+                        <li class="dropdown-submenu">
+                        <li><a href="<?php echo asset('form/leave/all'); ?>">Leave</a></li>
+                        <li class="divider"></li>
+                        <li><a href="<?php echo asset('form/so_list'); ?>">Office Order</a></li>
+                        <li class="divider"></li>
+                        <li><a href="<?php echo asset("form/cdo_list"); ?>">CDO</a></li>
+                    </ul>
+                </li>
+                <li class="divider"></li>
+                <li><a href="<?php echo url('logs/timelog'); ?>"><i class="fa fa-user"></i>&nbsp;&nbsp; Time Log</a></li>
+            </ul>
+        </li>
+    <?php endif; ?>
+    <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-user"></i> Account<span class="caret"></span></a>
+        <ul class="dropdown-menu">
+            <li><a href="<?php echo asset('resetpass'); ?>"><i class="fa fa-unlock"></i>&nbsp;&nbsp; Change Password</a></li>
+            <li class="divider"></li>
+            <li><a href="<?php echo url('/logout'); ?>"><i class="fa fa-sign-out"></i>&nbsp;&nbsp; Logout</a></li>
+        </ul>
+    </li>
+</ul>
+<script>
+    function absent(data){
+        <?php $delete = 'absent' ?>
+        $("#absentDocument").modal();
+        $('.modal-title').html('Absent');
+        $('.modal_content').html(loadingState);
+        var url = data.data('link');
+        setTimeout(function(){
+            $.ajax({
+                url: url,
+                type: 'GET',
+                success: function(data) {
+                    $('.modal_content').html(data);
+                    $('#reservation').daterangepicker();
+                    var datePicker = $('body').find('.datepicker');
+                    $('input').attr('autocomplete', 'off');
+                }
+            });
+        },700);
+    }
+</script>
