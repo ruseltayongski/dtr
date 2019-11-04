@@ -20,6 +20,7 @@ Route::get('rpchallenge', 'PasswordController@change_password');
 
 Route::match(array('GET','POST'), 'admin/upload', 'DtrController@upload');
 Route::post('admin/uploadv2', 'DtrController@UploadV2');
+Route::post('admin/uploadv3', 'DtrController@UploadV3_accessmanager');
 Route::match(array('GET','POST'), 'add/attendance', 'DtrController@create_attendance');
 Route::get('employees','AdminController@list_all');
 Route::match(array('GET','POST'),'beginning_balance','cdoController@beginning_balance');
