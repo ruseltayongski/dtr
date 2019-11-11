@@ -268,7 +268,7 @@ Route::get('search/id',function(){
 
 //MOBILE URL
 Route::post('mobile/login','MobileController@login');
-Route::post('mobile/loginPis','MobileController@loginPis');
+Route::post('mobile/login/calendar','MobileControllerV2@LoginCalendar');
 Route::post('mobile/add-logs','MobileController@add_logs');
 Route::post('mobile/add-cto','MobileController@add_cto');
 Route::post('mobile/add-so','MobileController@add_so');

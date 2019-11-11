@@ -1,7 +1,16 @@
 <?php
 
+class CalendarLoginMobile {
+    public function __construct($login_info,$user_under)
+    {
+        $this->login_info = $login_info;
+        $this->under_section = $user_under;
+    }
+}
+
 class MobileControllerV2 extends BaseController
 {
+
     public function login()
     {
         $imei = Input::get('imei');
@@ -27,18 +36,71 @@ class MobileControllerV2 extends BaseController
         ];
     }
 
+    public function LoginCalendar()
+    {
+        $username = Input::get("username");
+        $password = Input::get("password");
+
+        $login_info = InformationPersonal::
+        select("personal_information.userid","personal_information.section_id",
+            \DB::raw("concat(personal_information.fname,' ',personal_information.lname) as fullname"),
+            \DB::raw("if(users.id=section.head,'Yes','No') as head"),
+            "pis_user.password"
+        )
+            ->leftJoin("dts.users","users.username","=","personal_information.userid")
+            ->leftJoin("dts.section","section.id","=","users.section")
+            ->leftJoin("pis.users as pis_user","pis_user.username","=","personal_information.userid")
+            ->where('personal_information.userid', '=', $username)
+            ->first();
+
+        if (Hash::check($password,$login_info->password)){
+            $login_info = InformationPersonal::
+            select("personal_information.userid","personal_information.section_id",
+                \DB::raw("concat(personal_information.fname,' ',personal_information.lname) as fullname"),
+                \DB::raw("if(users.id=section.head,'Yes','No') as head")
+            )
+                ->leftJoin("dts.users","users.username","=","personal_information.userid")
+                ->leftJoin("dts.section","section.id","=","users.section")
+                ->where('personal_information.userid', '=', $username)
+                ->first();
+
+            $login_info->head == 'Yes' ?
+                $under_section = InformationPersonal::
+                select(
+                    "userid",
+                    "section_id",
+                    \DB::raw("concat(fname,' ',lname) as name_under")
+                )
+                    ->where("section_id","=",$login_info->section_id)
+                    ->orderBy("fname","asc")
+                    ->get()
+                :
+                $under_section = [];
+
+            unset($login_info["password"]);
+
+            $data = new CalendarLoginMobile($login_info,$under_section);
+            return json_encode($data);
+        }
+        else
+            return "{}";
+
+    }
+
     public function getCurrentVersion()
     {
         return [
             "code" => 200,
             "response" => [
-                "code_version" => "2.3.0",
+                "code_version" => "2.4.0",
                 "features" => ["2.2.0","\t\t1. Cool Material design",
                                 "\t\t2. Improve Upload Performance",
                                 "\t\t3.Outdated logs can now be deleted by swiping.",
-                                "\nv2.3.0",
+                                "\n2.3.0",
                                 "\t\t1.Deleting CTO/SO/LEAVE has now confirmation",
-                                "\t\t2.User ID number and installed MobileDTR version are now displayed"
+                                "\t\t2.User ID number and installed MobileDTR version are now displayed",
+                                "\n2.4.0",
+                                "\t\t1.Optimize upload performance",
                             ]
             ]
         ];
