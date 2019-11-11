@@ -49,7 +49,13 @@ class AdminController extends BaseController
 
     public function home()
     {
-        $keyword = Input::get('search');
+        $page = Input::get('page');
+        if(isset($page)){
+            $keyword = Session::get('page');
+        } else {
+            $keyword = Input::get('search');
+            Session::put("page",$keyword);
+        }
         $users = DB::table('users')
             ->leftJoin('work_sched', function($join){
                 $join->on('users.sched','=','work_sched.id');
@@ -66,7 +72,7 @@ class AdminController extends BaseController
         $users = $users->orderBy('users.fname', 'ASC')
               ->paginate(20);
 
-        return View::make('home')->with('users',$users);
+        return View::make('home',['users' => $users,'keyword' => $keyword]);
     }
 
     public function list_all()
