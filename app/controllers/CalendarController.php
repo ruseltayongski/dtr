@@ -63,7 +63,23 @@ class CalendarController extends BaseController
         $details->delete();
         $calendar->delete();
     }
-    
+
+    public function calendar_mobile_save(){
+        $calendar = new Calendars();
+        $calendar->event_id = Input::get('event_id');
+        $calendar->title = Input::get('title');
+        $calendar->start = Input::get('start');
+
+        $enddate = date_create(date('Y-m-d',strtotime(Input::get('end'))));
+        date_add($enddate, date_interval_create_from_date_string('1days'));
+        $end_date = date_format($enddate, 'Y-m-d');
+
+        $calendar->end = $end_date;
+        $calendar->status = 6;
+        $calendar->type = 6;
+        $calendar->save();
+    }
+
     public function calendar_save(){
         try
         {
