@@ -4,7 +4,6 @@
         <img src="{{ isset($commentUser->picture) ? str_replace('dtr','pis',asset('')).'public/upload_picture/picture/'.$commentUser->picture : str_replace('dtr','pis',asset('')).'public/upload_picture/picture/uknown.png' }}" alt="user image" class="online">
         <p class="message">
             <span href="#" class="name text-blue" style="display: inline;">
-                <small class="text-muted pull-right"><i class="fa fa-clock-o"></i> 2:15</small>
                 {{ Auth::user()->lname.', '.Auth::user()->fname }}
             </span>{{ $description }} <br>
             <a data-toggle="collapse" class="text-blue" href="#collapse{{ $comment_id }}" aria-expanded="false" aria-controls="collapseExample" style="font-size: 8pt"> Reply</a>
