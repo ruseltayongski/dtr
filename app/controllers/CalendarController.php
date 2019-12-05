@@ -80,6 +80,30 @@ class CalendarController extends BaseController
         $calendar->save();
     }
 
+    public function AddIndividualTask(){
+        try{
+            $json_object = json_decode(Input::get('data'), true);
+
+            $userid = $json_object['userid'];
+            $title = $json_object['title'];
+            $start = $json_object['start'];
+            $end = $json_object['end'];
+            $status = $json_object['status'];
+
+            $pdo = DB::connection()->getPdo();
+
+            $query1 = "INSERT IGNORE INTO calendar(userid, title, start, end, status, created_at, updated_at) VALUES";
+            $query1 .= "('" . $userid . "','" . $title . "','" . $start . "','" . $end . "','" . $status . "',NOW(),NOW() )";
+
+            $st = $pdo->prepare($query1);
+            $st->execute();
+
+            return "Successfully added";
+        } catch (Exception $e){
+            return $e->getMessage();
+        }
+    }
+
     public function calendar_save(){
         try
         {
