@@ -187,6 +187,7 @@ Route::get('calendarEvent/{userid}','CalendarController@calendarEvent');
 Route::post('calendar_save','CalendarController@calendar_save');
 Route::get('calendar_delete/{event_id}','CalendarController@calendar_delete');
 Route::post('calendar_update','CalendarController@calendar_update');
+Route::post('calendar/add-individual-task','CalendarController@AddIndividualTask');
 
 Route::get('manual','PersonalController@manual');
 Route::get('print/employee', 'AdminController@print_employees');
