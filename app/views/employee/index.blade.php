@@ -131,7 +131,7 @@
                                                                         </div>
                                                                         <div class="col-md-9">
                                                                             <span href="#" class="name text-blue" style="display: inline">
-                                                                                {{ $rep->lname.', '.$rep->fname }}
+                                                                                {{ $rep->fname.' '.$rep->lname }}
                                                                             </span>
                                                                             <small class="text-danger">
                                                                                 {{ $rep->description }}<br>
