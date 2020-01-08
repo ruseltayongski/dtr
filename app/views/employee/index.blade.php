@@ -20,6 +20,7 @@
                                                         <td class="col-sm-1">: </td>
                                                         <td class="col-sm-9">
                                                             <input type="text" readonly class="col-md-2 form-control" id="inputEmail3" name="userid" value="{{ Auth::user()->userid }}" required>
+                                                            <input type="hidden" name="gliding" value="{{ Auth::user()->gliding }}">
                                                         </td>
                                                     </tr>
                                                     <tr>

@@ -66,7 +66,7 @@
                 <div class="row">
                     <br>
                     <div class="col-xs-6">
-                        <a href="{{ asset('public/apk/dtr.apk') }}" target="_blank" type="button" class="btn btn-success" download><i class="fa fa-mobile-phone"></i> Mobile DTR (apk)</a>
+                        <a href="{{ asset('public/apk/dtr.apk') }}" target="_blank" type="button" class="btn btn-success" download><i class="fa fa-mobile-phone"></i> <small>Mobile DTR (apk) v2.4.0</small></a>
                     </div>
                     <div class="col-xs-6">
                         <h4>
