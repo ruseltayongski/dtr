@@ -118,6 +118,7 @@
                                             <button class="btn btn-success" name="filter_range" value="{{ Session::get('filter_dates') }}"><i class="fa fa-print"></i> Generate PDF</button>
                                         </div>
                                         <input type="hidden" name="userid" value="{{ Auth::user()->userid}}">
+                                        <input type="hidden" name="job_status" value="{{ Session::get('job_status') }}">
                                     </form>
                                 </div>
                             </div>

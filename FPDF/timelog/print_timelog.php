@@ -31,6 +31,17 @@ function getLogs($query_req)
     return $row;
 }
 
+function getJobStatus($userid)
+{
+    $db= conn();
+    $sql="SELECT job_status FROM pis.personal_information WHERE userid = ?";
+    $pdo = $db->prepare($sql);
+    $pdo->execute(array($userid));
+    $row = $pdo->fetch();
+    $db = null;
+    return $row;
+}
+
 function api_get_logs($userid,$date_from,$date_to) {
     $url = "http://192.168.100.81/dtr_api/logs/GetLogs";
 
@@ -69,7 +80,8 @@ if(isset($_POST['filter_range'])){
     $date_from = date("Y-m-d",strtotime($filter_date[0]));
     $date_to = date("Y-m-d",strtotime($filter_date[1]));
 
-    date("Y",strtotime($date_from)) >= 2020 && $_POST['gliding'] == 'Yes' ? $query_req = "CALL Gliding_2020('$userid','$date_from','$date_to')" : $query_req = "CALL GETLOGS2('$userid','$date_from','$date_to')";
+    isset($_POST['job_status']) ? $job_status = $_POST['job_status'] : $job_status = getJobStatus($userid)['job_status'];
+    date("Y",strtotime($date_from)) >= 2020 && $job_status == 'Permanent' ? $query_req = "CALL Gliding_2020('$userid','$date_from','$date_to')" : $query_req = "CALL GETLOGS2('$userid','$date_from','$date_to')";
 
     //api_get_logs($userid,$date_from,$date_to);
     $timelog = getLogs($query_req);

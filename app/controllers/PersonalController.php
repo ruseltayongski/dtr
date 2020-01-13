@@ -24,6 +24,7 @@ class PersonalController extends Controller
     {
         $information = InformationPersonal::where("userid","=",Auth::user()->userid)->first();
         Session::put('region',$information->region);
+        Session::put('job_status',$information->job_status);
 
         $date_from = date("Y-m-01");
         $date_to = date("Y-m-d");
