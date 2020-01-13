@@ -15,14 +15,13 @@ function conn()
     return $pdo;
 }
 
-function getLogs($userid,$date_from,$date_to)
+function getLogs($query_req)
 {
     $pdo = conn();
-    $query = "CALL GETLOGS2('$userid','$date_from','$date_to')";
 
     try
     {
-        $st = $pdo->prepare($query);
+        $st = $pdo->prepare($query_req);
         $st->execute();
         $row = $st->fetchAll(PDO::FETCH_ASSOC);
     }catch(PDOException $ex){
@@ -70,8 +69,11 @@ if(isset($_POST['filter_range'])){
     $date_from = date("Y-m-d",strtotime($filter_date[0]));
     $date_to = date("Y-m-d",strtotime($filter_date[1]));
 
+    date("Y",strtotime($date_from)) >= 2020 && $_POST['gliding'] == 'Yes' ? $query_req = "CALL Gliding_2020('$userid','$date_from','$date_to')" : $query_req = "CALL GETLOGS2('$userid','$date_from','$date_to')";
+
     //api_get_logs($userid,$date_from,$date_to);
-    $timelog = getLogs($userid,$date_from,$date_to);
+    $timelog = getLogs($query_req);
+
     $name = $timelog[0]['name'];
 
     $set_size_center = 16;

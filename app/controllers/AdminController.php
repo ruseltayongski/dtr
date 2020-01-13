@@ -49,13 +49,11 @@ class AdminController extends BaseController
 
     public function home()
     {
-        $page = Input::get('page');
-        if(isset($page)){
-            $keyword = Session::get('page');
-        } else {
-            $keyword = Input::get('search');
-            Session::put("page",$keyword);
+        if(Input::get("search")){
+            Session::put("search",Input::get("search"));
         }
+        $keyword = Session::get("search");
+
         $users = DB::table('users')
             ->leftJoin('work_sched', function($join){
                 $join->on('users.sched','=','work_sched.id');
@@ -73,6 +71,55 @@ class AdminController extends BaseController
               ->paginate(20);
 
         return View::make('home',['users' => $users,'keyword' => $keyword]);
+    }
+
+    public function user_edit()
+    {
+        if(Request::method() == 'GET') {
+            $usertype = [
+                ["value" => 0,"description" =>"CEBU USER"],
+                ["value" => 1,"description" =>"CEBU ADMIN"],
+                ["value" => 2,"description" =>"NEGROS USER"],
+                ["value" => 3,"description" =>"NEGROS ADMIN"],
+                ["value" => 4,"description" =>"BOHOL USER"],
+                ["value" => 5,"description" =>"BOHOL ADMIN"],
+            ];
+
+            $user = DB::table('users')->where('userid', '=', Input::get('id'))->first();
+            Session::put('edit_user', $user->id);
+            return View::make('users.user_edit',[
+                "user" => $user,
+                "usertype" => $usertype,
+                "usertype_default" => $this->searchArray($usertype,$user->usertype)
+            ]);
+        }
+        if(Request::method() == 'POST') {
+            $user = Users::where('id', '=', Session::get('edit_user'))->first();
+
+            if(strlen(Input::get('username')) > 5) {
+                $user->emptype = "REG";
+            } else {
+                $user->emptype = "JO";
+            }
+            $user->userid = Input::get('username');
+            $user->unique_row = Input::get('username');
+            $user->fname = Input::get('fname');
+            $user->lname = Input::get('lname');
+            $user->mname = Input::get('mname');
+            $user->username = Input::get('username');
+            $user->imei = Input::get('imei');
+            $user->authority = Input::get('authority');
+            $user->gliding = Input::get('gliding');
+            if(Auth::user()->usertype == "1")
+                $user->usertype = Input::get("usertype");
+            elseif(Auth::user()->usertype == "3")
+                $user->usertype = "2";
+            elseif(Auth::user()->usertype == "5")
+                $user->usertype = "4";
+            $user->save();
+            Session::put("updatedUser",true);
+            return Redirect::back();
+        }
     }
 
     public function list_all()
@@ -387,53 +434,6 @@ class AdminController extends BaseController
         return false;
     }
 
-    public function user_edit()
-    {
-        if(Request::method() == 'GET') {
-            $usertype = [
-                ["value" => 0,"description" =>"CEBU USER"],
-                ["value" => 1,"description" =>"CEBU ADMIN"],
-                ["value" => 2,"description" =>"NEGROS USER"],
-                ["value" => 3,"description" =>"NEGROS ADMIN"],
-                ["value" => 4,"description" =>"BOHOL USER"],
-                ["value" => 5,"description" =>"BOHOL ADMIN"],
-            ];
-
-            $user = DB::table('users')->where('userid', '=', Input::get('id'))->first();
-            Session::put('edit_user', $user->id);
-            return View::make('users.user_edit',[
-                "user" => $user,
-                "usertype" => $usertype,
-                "usertype_default" => $this->searchArray($usertype,$user->usertype)
-            ]);
-        }
-        if(Request::method() == 'POST') {
-            $user = Users::where('id', '=', Session::get('edit_user'))->first();
-
-            if(strlen(Input::get('username')) > 5) {
-                $user->emptype = "REG";
-            } else {
-                $user->emptype = "JO";
-            }
-            $user->userid = Input::get('username');
-            $user->unique_row = Input::get('username');
-            $user->fname = Input::get('fname');
-            $user->lname = Input::get('lname');
-            $user->mname = Input::get('mname');
-            $user->username = Input::get('username');
-            $user->imei = Input::get('imei');
-            $user->authority = Input::get('authority');
-            if(Auth::user()->usertype == "1")
-                $user->usertype = Input::get("usertype");
-            elseif(Auth::user()->usertype == "3")
-                $user->usertype = "2";
-            elseif(Auth::user()->usertype == "5")
-                $user->usertype = "4";
-            $user->save();
-            Session::forget('edit_user');
-            return Redirect::back()->with('updatedUser',"Successfully Updated User");
-        }
-    }
     public function print_employees()
     {
         if(Input::has('emp_type')) {

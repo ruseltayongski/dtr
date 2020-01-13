@@ -279,7 +279,7 @@
                                 <form class="form-inline form-accept" action="{{ asset('/home') }}" method="POST">
                                     <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
                                     <div class="form-group">
-                                        <input type="text" name="search" value="{{ $keyword }}" class="form-control" placeholder="Quick Search" autofocus>
+                                        <input type="text" name="search" value="{{ Session::get("search") }}" class="form-control" placeholder="Quick Search" autofocus>
                                         <button type="submit" class="btn btn-default"><i class="fa fa-search"></i> Search</button>
                                     </div>
                                 </form>

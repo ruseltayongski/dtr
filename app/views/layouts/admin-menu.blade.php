@@ -23,6 +23,7 @@
 
             <li class="divider"></li>
             <li><a href="{{ url('calendar') }}"><i class="fa fa-calendar"></i> Holidays Calendar</a></li>
+            <!--
             <li class="divider"></li>
             <li><a href="{{ url('employees') }}"><i class="fa fa-users" aria-hidden="true"></i> Employees</a></li>
             <li class="divider"></li>
@@ -37,12 +38,15 @@
                     <li><a href="#one" data-toggle="modal" data-target="#delete_one"> By Employee</a></li>
                 </ul>
             </li>
+            -->
             <li class="divider"></li>
             <li><a href="{{ url('add/user') }}"><i class="fa fa-user"></i> Add user</a></li>
+            <!--
             <li class="divider"></li>
             <li><a href="{{ url('print/user/logs')}}"><i class="fa fa-print"></i> Print user logs</a>
             <li class="divider"></li>
             <li><a href="{{ url('print/mobile/logs')}}"><i class="fa fa-mobile"></i> Print Mobile Logs</a></li>
+            -->
         </ul>
     </li>
     <li class="dropdown">
