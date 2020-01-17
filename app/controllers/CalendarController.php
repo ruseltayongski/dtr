@@ -104,6 +104,12 @@ class CalendarController extends BaseController
         }
     }
 
+    public function DeleteIndividualTask(){
+        $calendar_id = Input::get("calendar_id");
+        Calendars::where('id',$calendar_id)->first()->delete();
+        return "Successfully deleted";
+    }
+
     public function calendar_save(){
         try
         {
