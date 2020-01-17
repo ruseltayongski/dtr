@@ -16,15 +16,21 @@
                                             <div class="table-responsive">
                                                 <table class="table">
                                                     <tr>
-                                                        <td class="col-sm-3"><strong>User ID </strong></td>
+                                                        <td class="col-sm-3"><small>User ID </small></td>
                                                         <td class="col-sm-1">: </td>
                                                         <td class="col-sm-9">
                                                             <input type="text" readonly class="col-md-2 form-control" id="inputEmail3" name="userid" value="<?php echo Auth::user()->userid; ?>" required>
-                                                            <input type="hidden" name="gliding" value="<?php echo Auth::user()->gliding; ?>">
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td class="col-sm-3"><strong>Dates</strong></td>
+                                                        <td class="col-sm-3"><small>Job Status </small></td>
+                                                        <td class="col-sm-1">: </td>
+                                                        <td class="col-sm-9">
+                                                            <input type="text" readonly class="col-md-2 form-control" name="job_status" value="<?php echo Session::get("job_status"); ?>" required>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="col-sm-3"><small>Dates</small></td>
                                                         <td class="col-sm-1"> :</td>
                                                         <td class="col-sm-9">
                                                             <div class="input-group">

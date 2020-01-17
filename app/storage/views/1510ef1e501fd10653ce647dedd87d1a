@@ -115,6 +115,7 @@
                                             <button class="btn btn-success" name="filter_range" value="<?php echo Session::get('filter_dates'); ?>"><i class="fa fa-print"></i> Generate PDF</button>
                                         </div>
                                         <input type="hidden" name="userid" value="<?php echo Auth::user()->userid; ?>">
+                                        <input type="hidden" name="job_status" value="<?php echo Session::get('job_status'); ?>">
                                     </form>
                                 </div>
                             </div>
