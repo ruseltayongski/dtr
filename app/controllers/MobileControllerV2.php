@@ -57,22 +57,27 @@ class MobileControllerV2 extends BaseController
             $login_info = InformationPersonal::
             select("personal_information.userid","personal_information.section_id",
                 \DB::raw("concat(personal_information.fname,' ',personal_information.lname) as fullname"),
-                \DB::raw("if(users.id=section.head,'Yes','No') as head")
+                \DB::raw("if(users.id=section.head,'Yes','No') as head"),
+                "dtr_user.region"
             )
                 ->leftJoin("dts.users","users.username","=","personal_information.userid")
                 ->leftJoin("dts.section","section.id","=","users.section")
+                ->leftJoin("dohdtr.users as dtr_user","dtr_user.userid","=","personal_information.userid")
                 ->where('personal_information.userid', '=', $username)
                 ->first();
 
             $login_info->head == 'Yes' ?
                 $under_section = InformationPersonal::
                 select(
-                    "userid",
-                    "section_id",
-                    \DB::raw("concat(fname,' ',lname) as name_under")
+                    "personal_information.userid",
+                    "personal_information.section_id",
+                    \DB::raw("concat(personal_information.fname,' ',personal_information.lname) as name_under"),
+                    "dtr_user.region"
                 )
-                    ->where("section_id","=",$login_info->section_id)
-                    ->orderBy("fname","asc")
+                    ->leftJoin("dohdtr.users as dtr_user","dtr_user.userid","=","personal_information.userid")
+                    ->where("personal_information.section_id","=",$login_info->section_id)
+                    ->where("dtr_user.region","=",$login_info->region)
+                    ->orderBy("personal_information.fname","asc")
                     ->get()
                 :
                 $under_section = [];
