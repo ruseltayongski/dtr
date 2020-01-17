@@ -9,8 +9,8 @@
                     <td class="col-sm-1">:</td>
                     <td class="col-sm-8">
                         <select class="form-control" name="region" required>
-                            <option <?php if($user->region=='region_7') echo 'selected'; ?> value="region7">Region 7</option>
-                            <option <?php if($user->region=='region_8') echo 'selected'; ?> value="region8">Region 8</option>
+                            <option <?php if($user->region=='region_7') echo 'selected'; ?> value="region_7">Region 7</option>
+                            <option <?php if($user->region=='region_8') echo 'selected'; ?> value="region_8">Region 8</option>
                         </select>
                     </td>
                 </tr>
