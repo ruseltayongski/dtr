@@ -48,7 +48,7 @@ class MobileControllerV2 extends BaseController
             "pis_user.password"
         )
             ->leftJoin("dts.users","users.username","=","personal_information.userid")
-            ->leftJoin("dts.section","section.id","=","users.section")
+            ->leftJoin("dts.section","section.id","=","personal_information.section_id")
             ->leftJoin("pis.users as pis_user","pis_user.username","=","personal_information.userid")
             ->where('personal_information.userid', '=', $username)
             ->first();
@@ -61,7 +61,7 @@ class MobileControllerV2 extends BaseController
                 "dtr_user.region"
             )
                 ->leftJoin("dts.users","users.username","=","personal_information.userid")
-                ->leftJoin("dts.section","section.id","=","users.section")
+                ->leftJoin("dts.section","section.id","=","personal_information.section_id")
                 ->leftJoin("dohdtr.users as dtr_user","dtr_user.userid","=","personal_information.userid")
                 ->where('personal_information.userid', '=', $username)
                 ->first();
