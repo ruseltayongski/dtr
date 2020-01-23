@@ -1,11 +1,9 @@
-@extends('layouts.app')
-
-@section('content')
+<?php $__env->startSection('content'); ?>
     <div class="col-md-12 wrapper">
         <div class="alert alert-jim">
             <div class="panel panel-default">
                 <div class="alert alert-success"><strong>APPLICATION FOR LEAVE</strong> - (<small>CSC Form No.6 Revised 1998</small>)</div>
-                <form action="{{ asset('form/leave') }}" method="POST">
+                <form action="<?php echo asset('form/leave'); ?>" method="POST">
                     <div class="panel-body">
                         <div class="row">
                             <div class="col-md-12">
@@ -20,19 +18,19 @@
                                     <div class="col-md-3">
                                         <div class="form-group has-success">
                                             <label class="control-label" for="inputSuccess1">(2.)  Last Name</label>
-                                            <input type="text" class="form-control" id="inputSuccess1" name="lastname" value="{{ $user->lname }}">
+                                            <input type="text" class="form-control" id="inputSuccess1" name="lastname" value="<?php echo $user->lname; ?>">
                                         </div>
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group has-success">
                                             <label class="control-label" for="inputSuccess1">First Name</label>
-                                            <input type="text" class="form-control" id="inputSuccess1" name="firstname" value="{{ $user->fname }}">
+                                            <input type="text" class="form-control" id="inputSuccess1" name="firstname" value="<?php echo $user->fname; ?>">
                                         </div>
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group has-success">
                                             <label class="control-label" for="inputSuccess1">Middle Name</label>
-                                            <input type="text" class="form-control" id="inputSuccess1" name="middlename" value="{{ $user->mname }}">
+                                            <input type="text" class="form-control" id="inputSuccess1" name="middlename" value="<?php echo $user->mname; ?>">
                                         </div>
                                     </div>
                                 </div>
@@ -40,19 +38,19 @@
                                     <div class="col-md-4">
                                         <div class="form-group has-success  input-daterange">
                                             <label class="control-label" for="inputSuccess1">(3.) Date of Filling</label>
-                                            <input type="text" class="form-control" name="date_filling" value="{{ date("Y-m-d") }}" readonly>
+                                            <input type="text" class="form-control" name="date_filling" value="<?php echo date("Y-m-d"); ?>" readonly>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group has-success">
                                             <label class="control-label" for="inputSuccess1">(4.)  Position</label>
-                                            <input type="text" class="form-control" id="inputSuccess1" name="position" value="{{ $user->designation }}">
+                                            <input type="text" class="form-control" id="inputSuccess1" name="position" value="<?php echo $user->designation; ?>">
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group has-success">
                                             <label class="control-label" for="inputSuccess1">(5.)Salary (Monthly)</label>
-                                            <input type="text" class="form-control" id="inputSuccess1" name="salary" value="{{ $user->monthly_salary }}" onkeypress='validate(event)'>
+                                            <input type="text" class="form-control" id="inputSuccess1" name="salary" value="<?php echo $user->monthly_salary; ?>" onkeypress='validate(event)'>
                                         </div>
                                     </div>
                                 </div>
@@ -244,8 +242,8 @@
             </div>
         </div>
     </div>
-@endsection
-@section('js')
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('js'); ?>
     @parent
     <script>
 
@@ -369,4 +367,5 @@
             
         }
     </script>
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.app', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

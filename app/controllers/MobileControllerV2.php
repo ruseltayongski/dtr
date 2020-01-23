@@ -152,7 +152,7 @@ class MobileControllerV2 extends BaseController
             ];
         } catch (Exception $e){
             return [
-                "code" => 200,
+                "code" => 0,
                 "response" => $e->getMessage()
             ];
         }

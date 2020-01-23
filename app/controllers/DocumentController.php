@@ -19,9 +19,16 @@ class DocumentController extends BaseController
     {
 
         if(Request::method() == 'GET'){
-
-            $user = Users::where('userid','=',Auth::user()->userid)->first();
-            return View::make('form.form_leave')->with('user',$user);
+            $user = InformationPersonal::select("personal_information.*","designation.description as designation","work_experience.monthly_salary")
+                                        ->leftJoin("dts.designation","designation.id","=","personal_information.designation_id")
+                                        ->leftJoin('pis.work_experience','work_experience.userid','=','personal_information.userid')
+                                        ->where('pis.work_experience.date_to','=','Present')
+                                        ->where('personal_information.userid','=',Auth::user()->userid)
+                                        ->groupBy('work_experience.userid')
+                                        ->first();
+            return View::make('form.form_leave',[
+                "user" => $user
+            ]);
         }
         if(Request::method() == 'POST') {
             if(Auth::check() AND Auth::user()->usertype == 0){
@@ -124,6 +131,7 @@ class DocumentController extends BaseController
 
         }
     }
+
     public function edit_leave($id)
     {
 
