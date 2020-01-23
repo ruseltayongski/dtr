@@ -22,13 +22,7 @@
                                                             <input type="text" readonly class="col-md-2 form-control" id="inputEmail3" name="userid" value="<?php echo Auth::user()->userid; ?>" required>
                                                         </td>
                                                     </tr>
-                                                    <tr>
-                                                        <td class="col-sm-3"><small>Job Status </small></td>
-                                                        <td class="col-sm-1">: </td>
-                                                        <td class="col-sm-9">
-                                                            <input type="text" readonly class="col-md-2 form-control" name="job_status" value="<?php echo Session::get("job_status"); ?>" required>
-                                                        </td>
-                                                    </tr>
+                                                    <input type="hidden" readonly class="col-md-2 form-control" name="job_status" value="<?php echo Session::get("job_status"); ?>" required>
                                                     <tr>
                                                         <td class="col-sm-3"><small>Dates</small></td>
                                                         <td class="col-sm-1"> :</td>
