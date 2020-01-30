@@ -43,7 +43,7 @@ function getJobStatus($userid)
 }
 
 function api_get_logs($userid,$date_from,$date_to) {
-    $url = "http://192.168.100.81/dtr_api/logs/GetLogs";
+    $url = "http://192.168.81.7/dtr_api/logs/GetLogs/".$userid;
 
     $data = [
         "userid" => $userid,
@@ -59,6 +59,7 @@ function api_get_logs($userid,$date_from,$date_to) {
     curl_close($curl);
 
     $logs = json_decode($response);
+
 
     $query1 = "INSERT IGNORE INTO dtr_file(userid, datein, time, event,remark, edited, created_at, updated_at) VALUES";
 
@@ -83,7 +84,7 @@ if(isset($_POST['filter_range'])){
     isset($_POST['job_status']) ? $job_status = $_POST['job_status'] : $job_status = getJobStatus($userid)['job_status'];
     date("Y",strtotime($date_from)) >= 2020 && $job_status == 'Permanent' ? $query_req = "CALL Gliding_2020('$userid','$date_from','$date_to')" : $query_req = "CALL GETLOGS2('$userid','$date_from','$date_to')";
 
-    //api_get_logs($userid,$date_from,$date_to);
+    api_get_logs($userid,$date_from,$date_to);
     $timelog = getLogs($query_req);
 
     $name = $timelog[0]['name'];

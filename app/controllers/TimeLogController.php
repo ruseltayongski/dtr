@@ -10,7 +10,7 @@ class TimeLogController extends Controller
             $date_from = date("Y-m-d",strtotime($filter_date[0]));
             $date_to = date("Y-m-d",strtotime($filter_date[1]));
             //C# API
-            /*$url = "http://192.168.100.81/dtr_api/logs/GetLogs";
+            $url = "http://192.168.81.7/dtr_api/logs/GetLogs/".$userid;;
             $data = [
                 "userid" => Auth::user()->userid,
                 "df" => $date_from,
@@ -42,7 +42,7 @@ class TimeLogController extends Controller
                     $dtr_file->edited = 0;
                     $dtr_file->save();
                 }
-            }*/
+            }
             //C# API END
             $timeLog = DB::connection('mysql')->select("call getLogs2('$userid','$date_from','$date_to')");
         } else {
@@ -57,7 +57,7 @@ class TimeLogController extends Controller
             }
 
             //C# API
-            /*$url = "http://192.168.100.81/dtr_api/logs/GetLogs";
+            $url = "http://192.168.81.7/dtr_api/logs/GetLogs/".$userid;
             $data = [
                 "userid" => Auth::user()->userid,
                 "df" => $date_from,
@@ -89,7 +89,7 @@ class TimeLogController extends Controller
                     $dtr_file->edited = 0;
                     $dtr_file->save();
                 }
-            }*/
+            }
             //C# API END
             $timeLog = DB::connection('mysql')->select("call getLogs2('$userid','$date_from','$date_to')");
         }
