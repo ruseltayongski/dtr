@@ -246,8 +246,14 @@ if(isset($_POST['filter_range'])){
             (strpos( $am_in, 'LEAVE' ) !== false && strpos( $am_out, 'LEAVE' ) !== false)
         ){
             if(explode('_',explode('|',$row['time'])[0])[0] == 'empty' && explode('_',explode('|',$row['time'])[1])[0]){
-                $halfday_log = 'HALF DAY';
-                $late += 240;
+                if($row["dayname"] == "Saturday" || $row["dayname"] == "Sunday"){ //clear late if naa nay logs sa morning and if it was saturday or sunday
+                    $halfday_log = '';
+                    $late = '';
+                    $undertime = '';
+                } else {
+                    $halfday_log = 'HALF DAY';
+                    $late += 240;
+                }
             } else {
                 $halfday_log = explode('_',explode('|',$row['time'])[0])[0];
                 $late = '';
