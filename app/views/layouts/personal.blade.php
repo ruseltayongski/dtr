@@ -37,9 +37,10 @@
                 <li class="dropdown-submenu">
                     <a href="#" data-toggle="dropdown"><i class="fa fa-file" aria-hidden="true"></i> Form</a>
                     <ul class="dropdown-menu">
-                        <li class="dropdown-submenu">
+                        @if(Session::get("job_status") == 'Permanent')
                         <li><a href="{{ asset('form/leave/all') }}">Leave</a></li>
                         <li class="divider"></li>
+                        @endif
                         <li><a href="{{ asset('form/so_list') }}">Office Order</a></li>
                         <li class="divider"></li>
                         <li><a href="{{ asset("form/cdo_list") }}">CDO</a></li>

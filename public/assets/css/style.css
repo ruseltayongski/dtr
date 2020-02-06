@@ -18,26 +18,15 @@ body {
   background-color: #2F4054;
 }
 .footer p {
-  margin: 20px 0;    
+  margin: 20px 0;
 }
 
 /* Custom page CSS
 -------------------------------------------------- */
 /* Not required for template or sticky footer method. */
-.alert-jim {
-    background-color: #fff;
-}
-.panel-jim {
-    border-color: #00CC99;   
-}
-.panel-jim>.panel-heading, .modal-header {
-    color: #fff;
-    background-color: #00CC99;
-    border-color: #00CC99;
-    padding: 15px;
-}
+
 .modal-header, .modal-footer {
-    padding: 10px;   
+    padding: 10px;
 }
 .container .text-muted {
   margin: 20px 0;
@@ -52,29 +41,28 @@ code {
   font-size: 80%;
 }
 
-.title-info,.title-desc {    
+.title-info,.title-desc {
     font-weight: bold;
     font-size: 1.2em;
-    color: #fff;
 }
 .title-info {
-    color: #F39C2B;   
+    color: #F39C2B;
 }
 .name {
     font-weight: bold;
     color: #009771;
 }
 .text-italic {
-    font-style: italic;   
+    font-style: italic;
 }
 .text-bold {
     font-weight: bold;
 }
 .page-divider {
-    margin-bottom: 30px;   
+    margin-bottom: 30px;
 }
 .table-list {
-    border:2px solid #ccc;   
+    border:2px solid #ccc;
 }
 .table-list thead th {
     background-color: #ccc;

@@ -26,44 +26,6 @@ class PersonalController extends Controller
         Session::put('region',$information->region);
         Session::put('job_status',$information->job_status);
 
-        $date_from = date("Y-m-01");
-        $date_to = date("Y-m-d");
-        //C# API
-        /*$url = "http://192.168.100.81/dtr_api/logs/GetLogs";
-        $data = [
-            "userid" => Auth::user()->userid,
-            "df" => $date_from,
-            "dt" => $date_to
-        ];
-        $curl = curl_init($url);
-        curl_setopt($curl, CURLOPT_POST, true);
-        curl_setopt($curl, CURLOPT_POSTFIELDS, http_build_query($data));
-        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-        $response = curl_exec($curl);
-        curl_close($curl);
-
-        $logs = json_decode($response);
-
-        foreach($logs as $log)
-        {
-            $check = DtrDetails::where('userid',$log->userid)
-                ->where('datein',$log->date)
-                ->where('time',$log->time)
-                ->where('event',$log->event_type)
-                ->first();
-            if(!$check){
-                $dtr_file = new DtrDetails();
-                $dtr_file->userid = $log->userid;
-                $dtr_file->datein = $log->date;
-                $dtr_file->time = $log->time;
-                $dtr_file->event = $log->event_type;
-                $dtr_file->remark = "#FP";
-                $dtr_file->edited = 0;
-                $dtr_file->save();
-            }
-        }*/
-        //C# API END
-
         $comments = Comments::Select("comment.*","personal_information.picture","personal_information.lname","personal_information.fname")
                     ->LeftJoin("pis.personal_information","personal_information.userid","=","comment.userid")
                     ->orderBy("id","desc")

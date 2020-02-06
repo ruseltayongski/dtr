@@ -1,62 +1,115 @@
-@extends('layouts.leave_credits_layout')
+@extends('layouts.app')
 
 @section('content')
-    <h3>Employee Leave Credits</h3>
-    <div id="credits_table" data-get="{{ asset('get/regular/employee') }}"></div>
+    @if(Session::has('name'))
+        <div class="alert alert-success">
+
+            <strong> <i class="fa fa-check-square-o" aria-hidden="true"></i> {{ Session::get('name') }}</strong>
+        </div>
+    @endif
+    <div class="alert alert-jim" id="inputText">
+        <h2 class="page-header">Leave Credits</h2>
+        <form class="form-inline form-accept" action="{{ asset('leave/credits') }}" method="GET">
+            <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
+            <div class="form-group">
+                <input type="text" name="keyword" value="{{ Session::get('keyword') }}" class="form-control" placeholder="Quick Search" autofocus>
+                <button type="submit" class="btn btn-default"><i class="fa fa-search"></i> Search</button>
+            </div>
+        </form>
+        <div class="clearfix"></div>
+        <div class="page-divider"></div>
+
+        @if(isset($pis) and count($pis) > 0)
+            <div class="table-responsive">
+                <table class="table table-list table-hover table-striped">
+                    <thead>
+                    <tr>
+                        <th style="width: 100px;"><div style="margin-left: 15px;">Userid</div></th>
+                        <th style="width: 100px;"><div style="margin-left: 15px;">Name</div></th>
+                        <th style="width: 100px;"><div style="margin-left: 15px;">Section / Division</div></th>
+                        <th style="width: 100px;"><div style="margin-left: 15px;">Balance</div></th>
+                        <th style="width: 100px;"><div style="margin-left: 15px;">Option</div></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach($pis as $user)
+                        <tr>
+                            <td>
+                                <label class="text-info">
+                                    @if(strpos($user->userid,'no_userid'))
+                                        NO USERID
+                                    @else
+                                        {{ $user->userid }}
+                                    @endif
+                                </label>
+                            </td>
+                            <td>
+                                <label class="text-info">
+                                    @if($user->fname || $user->lname || $user->mname || $user->name_extension) {{ $user->fname.' '.$user->mname.' '.$user->lname.' '.$user->name_extension }} @else <i>NO NAME</i> @endif
+                                </label>
+                            </td>
+                            <td>
+                                <label class="text-info">@if(isset(pdoController::search_section($user->section_id)['description'])) {{ pdoController::search_section($user->section_id)['description'] }} @else NO SECTION @endif</label><br>
+                                <small class="text-success" style="margin-left: 15px;"><em>(@if(isset(pdoController::search_division($user->division_id)['description'])) {{ pdoController::search_division($user->division_id)['description'] }} @else NO DIVISION @endif {{ ')' }}</em></small>
+                            </td>
+                            <td>
+                                <label class="text-primary">Vacation: @if($user->vacation_balance) {{ $user->vacation_balance }} @else 0 @endif</label><br>
+                                <label class="text-danger">Sick: @if($user->sick_balance) {{ $user->sick_balance }} @else 0 @endif</label>
+                            </td>
+                            <td>
+                                <button class="button btn-sm beginning_balance" style="background-color: #9C8AA5;color: white" data-toggle="modal" data-id="{{ $user->userid }}" data-vacation="{{ $user->vacation_balance }}" data-sick="{{ $user->sick_balance }}" data-target="#beginning_balance">Update Beginning Balance</button>
+                            </td>
+                        </tr>
+                    @endforeach
+                    </tbody>
+                </table>
+            </div>
+            {{ $pis->links() }}
+        @else
+            <div class="alert alert-danger">
+                <strong><i class="fa fa-times fa-lg"></i>No users found.</strong>
+            </div>
+        @endif
+    </div>
+
+    <div class="modal fade" tabindex="-1" role="dialog" id="beginning_balance">
+        <div class="modal-dialog modal-sm" role="document" id="size">
+            <div class="modal-content">
+                <form action="{{ asset('leave/credits/save') }}" method="POST">
+                    <div class="modal-header" style="background-color: #9C8AA5;">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title"><i class="fa fa-pencil"></i> Leave Credits</h4>
+                    </div>
+                    <div class="modal-body">
+
+                    </div>
+                    <div class="modal-footer">
+                        <input type="hidden" value="" id="userid" name="userid">
+                        <button type="submit" class="btn btn-success" style="color:white;"><i class="fa fa-pencil"> Update</i></button>
+                    </div>
+                </form>
+            </div><!-- .modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
 @endsection
+
 @section('js')
     @parent
     <script>
-        var container1 = document.getElementById('credits_table');
-        var hot1;
-        hot1 = new Handsontable(container1, {
-            startRows: 8,
-            startCols: 4,
-            rowHeaders: true,
-            colWidths : [100,400,150,150],
-            stretchH: 'all',
-            colHeaders: true,
-            fillHandle: {
-                autoInsertRow: false,
-            },
-            colHeaders: ['UserID','Employee Name', 'Vacation Leave','Sick Leave'],
-            cells: function(r,c, prop) {
-                var cellProperties = {};
-                if (c=== 0 || c === 1) cellProperties.readOnly = true;
-                return cellProperties;
-            }
-        });
-        $("#save").click(function(){
-            document.body.style.cursor = 'wait';
-            var tabledata = hot1.getData();
-            for(var i = 0; i < tabledata.length; i++)
-            {
-                try { tabledata[i][3] = tabledata[i][3].toString().replace(/,/g, ''); } catch(err) { tabledata[i][3] = null;  }
-                try { tabledata[i][5] = tabledata[i][5].toString().replace(/,/g, ''); } catch(err) { tabledata[i][5] = null;  }
-                try { tabledata[i][7] = tabledata[i][7].toString().replace(/,/g, ''); } catch(err) { tabledata[i][7] = null;  }
-                try { tabledata[i][9] = tabledata[i][9].toString().replace(/,/g, ''); } catch(err) { tabledata[i][9] = null;  }
 
-                try { tabledata[i][4] = tabledata[i][4].toString().replace(/,/g, ''); } catch(err) { tabledata[i][4] = null;  }
-                try { tabledata[i][6] = tabledata[i][6].toString().replace(/,/g, ''); } catch(err) { tabledata[i][6] = null;  }
-                try { tabledata[i][8] = tabledata[i][8].toString().replace(/,/g, ''); } catch(err) { tabledata[i][8] = null;  }
-                try { tabledata[i][10] = tabledata[i][10].toString().replace(/,/g, ''); } catch(err) { tabledata[i][10] = null; }
-            }
-            
-            var url = $("#container1").data('save');
-            var postdata = {
-                data: JSON.stringify(tabledata)
-            };
-            
-            $.post(url, postdata, function (res) {
-                hot1.loadData(JSON.parse(res));
-                document.body.style.cursor = 'default';
-            });
+        $(".beginning_balance").on('click',function(e){
+            $('.modal-body').html(loadingState);
+            var vacation = $(this).data('vacation');
+            var sick = $(this).data('sick');
+            var userid = $(this).data('id');
+            $("#userid").val(userid);
+            setTimeout(function(){
+                $('.modal-body').html(
+                    "<label class='text-success'>Vacation Balance</label><input type='number' class='form-control' id='vacation' value='"+vacation+"' name='vacation' required><label class='text-success'>Sick Balance</label><input type='number' class='form-control' id='sick' value='"+sick+"' name='sick' required>");
+            },500);
         });
-        var url = $("#credits_table").data('get');
-        $.get(url,function(resdata){
-            hot1.loadData(JSON.parse(resdata));
-        });
-        
+
+
     </script>
 @endsection
 
