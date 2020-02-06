@@ -596,10 +596,35 @@ class AdminController extends BaseController
     }
     public function leave_credits()
     {
-        if(Request::method() == "GET")
-        {
-            return View::make('users.leave_credits');
-        }
+        Session::put('keyword',Input::get('keyword'));
+        $keyword = Session::get('keyword');
+
+        $pis = InformationPersonal::
+        where('user_status','=','1')
+            ->where(function($q) use ($keyword){
+                $q->where('fname','like',"%$keyword%")
+                    ->orWhere('mname','like',"%$keyword%")
+                    ->orWhere('lname','like',"%$keyword%")
+                    ->orWhere('userid','like',"%$keyword%");
+            })
+            ->orderBy('fname','asc')
+            ->paginate(10);
+
+
+        return View::make('users.leave_credits')->with('pis',$pis);
+    }
+
+    public function updateLeaveBalance(){
+        $userid = Input::get('userid');
+        $vacation = Input::get('vacation');
+        $sick = Input::get('sick');
+
+        InformationPersonal::where('userid',$userid)->update([
+            "vacation_balance" => $vacation,
+            "sick_balance" => $sick
+        ]);
+
+        return Redirect::back();
     }
 
     public function get_regular_emp()

@@ -2,130 +2,126 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="col-md-12 wrapper">
-        <div class="alert alert-jim">
-            <div class="row">
-                <div class="col-md-12">
-                    <form class="form-inline" autocomplete="off" method="POST" action="{{ asset('logs/timelog') }}" id="submit_logs" style="margin-right: 2%">
-                        <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
-                        <input type="text" class="form-control filter_dates" value="{{ Session::get('filter_dates') }}" id="inclusive3" name="filter_dates" placeholder="Filter Date" required>
-                        <button type="submit" class="btn btn-primary" id="print">
-                            Generate
-                        </button>
-                    </form>
-                    <br>
-                    @if(empty($timeLog))
-                        <div class="alert alert-info">
-                            <p style="color: #1387ff">
-                                No logs record
-                            </p>
-                        </div>
-                    @else
-                        <div class="panel panel-default">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="alert alert-info text-blue">
-                                        <strong style="font-size: 15pt">Manage Timelog</strong><br>
-                                        <i class="ace-icon fa fa-hand-o-right"></i> Note: Just click the timelog to edit<br>
-                                        <small class="badge bg-green" style="font-size: 8pt;">08:00:00</small> &nbsp;&nbsp;NOT EDITABLE
-                                    </div>
-                                    <div class="table-responsive">
-                                        <table class="table table-bordered table-striped">
-                                            <tr>
-                                                <th width="10%">Date In</th>
-                                                <th width="12%">AM IN</th>
-                                                <th width="12%">AM OUT</th>
-                                                <th width="12%">PM IN</th>
-                                                <th width="15%">PM OUT</th>
-                                            </tr>
-                                            <tbody class="timelog">
-                                            <?php $count = 0; ?>
-                                            @foreach($timeLog as $row)
-                                            <?php $count++; ?>
-                                            <tr>
-                                                <td>
-                                                    <strong class="text-green">{{ date("F d, Y",strtotime($row->datein)) }}</strong><br>
-                                                    <small class="text-orange" style="font-size: 8pt;">{{ $row->dayname }}</small>
-                                                </td>
-                                                <td>
-                                                    <input type="hidden" value="{{ explode("_",explode('|',$row->time)[0])[2] }}" id="{{ $count."ñ"."AM_IN" }}">
-                                                    <!-- <input type="text" value="{{ explode("_",explode('|',$row->time)[0])[3] }}" id="{{ $count."ñ"."AM_INlog_status" }}"> -->
-                                                    @if(empty(explode("_",explode('|',$row->time)[0])[1]) || explode("_",explode('|',$row->time)[0])[3] == 'mobile')
-                                                        <strong class="badge bg-green">{{ explode("_",explode('|',$row->time)[0])[0] }}</strong>
-                                                    @else
-                                                        <strong style="cursor: pointer;" class="editable text-blue" id="<?php echo
-                                                            Auth::user()->userid.'ñ'.
-                                                            $row->datein.'ñ'.
-                                                            str_replace(':','-',explode("_",explode('|',$row->time)[0])[2]).
-                                                            'ñ'.explode("_",explode('|',$row->time)[0])[3].'ñ'.
-                                                            "AM_IN"."ñ".
-                                                            $count;
-                                                        ?>">{{ strtoupper(explode("_",explode('|',$row->time)[0])[0]) }}</strong>
-                                                    @endif
-                                                </td>
-                                                <td>
-                                                    <input type="hidden" value="{{ explode("_",explode('|',$row->time)[1])[2] }}" id="{{ $count."ñ"."AM_OUT" }}">
-                                                    @if(empty(explode("_",explode('|',$row->time)[1])[1]) || explode("_",explode('|',$row->time)[1])[3] == 'mobile')
-                                                        <strong class="badge bg-green">{{ explode("_",explode('|',$row->time)[1])[0] }}</strong>
-                                                    @else
-                                                        <strong style="cursor: pointer;" class="editable text-blue" id="<?php echo
-                                                            Auth::user()->userid.'ñ'.
-                                                            $row->datein.'ñ'.
-                                                            str_replace(':','-',explode("_",explode('|',$row->time)[1])[2]).
-                                                            'ñ'.explode("_",explode('|',$row->time)[1])[3].'ñ'.
-                                                            "AM_OUT"."ñ".
-                                                            $count;
-                                                        ?>">{{ strtoupper(explode("_",explode('|',$row->time)[1])[0]) }}</strong>
-                                                    @endif
-                                                </td>
-                                                <td >
-                                                    <input type="hidden" value="{{ explode("_",explode('|',$row->time)[2])[2] }}" id="{{ $count."ñ"."PM_IN" }}">
-                                                    @if(empty(explode("_",explode('|',$row->time)[2])[1]) || explode("_",explode('|',$row->time)[2])[3] == 'mobile')
-                                                        <strong class="badge bg-green">{{ explode("_",explode('|',$row->time)[2])[0] }}</strong>
-                                                    @else
-                                                        <strong style="cursor: pointer;" class="editable text-blue" id="<?php echo
-                                                            Auth::user()->userid.'ñ'.
-                                                            $row->datein.'ñ'.
-                                                            str_replace(':','-',explode("_",explode('|',$row->time)[2])[2]).
-                                                            'ñ'.explode("_",explode('|',$row->time)[2])[3].'ñ'.
-                                                            "PM_IN"."ñ".
-                                                            $count;
-                                                        ?>">{{ strtoupper(explode("_",explode('|',$row->time)[2])[0]) }}</strong>
-                                                    @endif
-                                                </td>
-                                                <td >
-                                                    <input type="hidden" value="{{ explode("_",explode('|',$row->time)[3])[2] }}" id="{{ $count."ñ"."PM_OUT" }}">
-                                                    @if(empty(explode("_",explode('|',$row->time)[3])[1]) || explode("_",explode('|',$row->time)[3])[3] == 'mobile')
-                                                        <strong class="badge bg-green">{{ explode("_",explode('|',$row->time)[3])[0] }}</strong>
-                                                    @else
-                                                        <strong style="cursor: pointer;" class="editable text-blue" id="<?php echo
-                                                            Auth::user()->userid.'ñ'.
-                                                            $row->datein.'ñ'.
-                                                            str_replace(':','-',explode("_",explode('|',$row->time)[3])[2]).
-                                                            'ñ'.explode("_",explode('|',$row->time)[3])[3].'ñ'.
-                                                            "PM_OUT"."ñ".
-                                                            $count;
-                                                        ?>">{{ strtoupper(explode("_",explode('|',$row->time)[3])[0]) }}</strong>
-                                                    @endif
-                                                </td>
-                                            </tr>
-                                            @endforeach
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                    <form action="{{ asset('FPDF/timelog/print_individual1.php') }}" target="_blank" method="POST">
-                                        <div style="padding: 1%;margin-top: -2%;float: right">
-                                            <button class="btn btn-success" name="filter_range" value="{{ Session::get('filter_dates') }}"><i class="fa fa-print"></i> Generate PDF</button>
-                                        </div>
-                                        <input type="hidden" name="userid" value="{{ Auth::user()->userid}}">
-                                        <input type="hidden" name="job_status" value="{{ Session::get('job_status') }}">
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    @endif
+    <div class="row">
+        <div class="col-md-12">
+            <form class="form-inline" autocomplete="off" method="POST" action="{{ asset('logs/timelog') }}" id="submit_logs" style="margin-right: 2%">
+                <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
+                <input type="text" class="form-control filter_dates" value="{{ Session::get('filter_dates') }}" id="inclusive3" name="filter_dates" placeholder="Filter Date" required>
+                <button type="submit" class="btn btn-primary" id="print">
+                    Generate
+                </button>
+            </form>
+            <br>
+            @if(empty($timeLog))
+                <div class="alert alert-info">
+                    <p style="color: #1387ff">
+                        No logs record
+                    </p>
                 </div>
-            </div>
+            @else
+                <div class="panel panel-default">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="alert alert-info">
+                                <strong style="font-size: 15pt">Manage Timelog</strong><br>
+                                <i class="ace-icon fa fa-hand-o-right"></i> Note: Just click the timelog to edit<br>
+                                <small class="badge bg-green" style="font-size: 8pt;">08:00:00</small> &nbsp;&nbsp;NOT EDITABLE
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-striped">
+                                    <tr>
+                                        <th width="10%">Date In</th>
+                                        <th width="12%">AM IN</th>
+                                        <th width="12%">AM OUT</th>
+                                        <th width="12%">PM IN</th>
+                                        <th width="15%">PM OUT</th>
+                                    </tr>
+                                    <tbody class="timelog">
+                                    <?php $count = 0; ?>
+                                    @foreach($timeLog as $row)
+                                    <?php $count++; ?>
+                                    <tr>
+                                        <td>
+                                            <strong class="text-green">{{ date("F d, Y",strtotime($row->datein)) }}</strong><br>
+                                            <small class="text-orange" style="font-size: 8pt;">{{ $row->dayname }}</small>
+                                        </td>
+                                        <td>
+                                            <input type="hidden" value="{{ explode("_",explode('|',$row->time)[0])[2] }}" id="{{ $count."ñ"."AM_IN" }}">
+                                            <!-- <input type="text" value="{{ explode("_",explode('|',$row->time)[0])[3] }}" id="{{ $count."ñ"."AM_INlog_status" }}"> -->
+                                            @if(empty(explode("_",explode('|',$row->time)[0])[1]) || explode("_",explode('|',$row->time)[0])[3] == 'mobile')
+                                                <strong class="badge bg-green">{{ explode("_",explode('|',$row->time)[0])[0] }}</strong>
+                                            @else
+                                                <strong style="cursor: pointer;" class="editable text-blue" id="<?php echo
+                                                    Auth::user()->userid.'ñ'.
+                                                    $row->datein.'ñ'.
+                                                    str_replace(':','-',explode("_",explode('|',$row->time)[0])[2]).
+                                                    'ñ'.explode("_",explode('|',$row->time)[0])[3].'ñ'.
+                                                    "AM_IN"."ñ".
+                                                    $count;
+                                                ?>">{{ strtoupper(explode("_",explode('|',$row->time)[0])[0]) }}</strong>
+                                            @endif
+                                        </td>
+                                        <td>
+                                            <input type="hidden" value="{{ explode("_",explode('|',$row->time)[1])[2] }}" id="{{ $count."ñ"."AM_OUT" }}">
+                                            @if(empty(explode("_",explode('|',$row->time)[1])[1]) || explode("_",explode('|',$row->time)[1])[3] == 'mobile')
+                                                <strong class="badge bg-green">{{ explode("_",explode('|',$row->time)[1])[0] }}</strong>
+                                            @else
+                                                <strong style="cursor: pointer;" class="editable text-blue" id="<?php echo
+                                                    Auth::user()->userid.'ñ'.
+                                                    $row->datein.'ñ'.
+                                                    str_replace(':','-',explode("_",explode('|',$row->time)[1])[2]).
+                                                    'ñ'.explode("_",explode('|',$row->time)[1])[3].'ñ'.
+                                                    "AM_OUT"."ñ".
+                                                    $count;
+                                                ?>">{{ strtoupper(explode("_",explode('|',$row->time)[1])[0]) }}</strong>
+                                            @endif
+                                        </td>
+                                        <td >
+                                            <input type="hidden" value="{{ explode("_",explode('|',$row->time)[2])[2] }}" id="{{ $count."ñ"."PM_IN" }}">
+                                            @if(empty(explode("_",explode('|',$row->time)[2])[1]) || explode("_",explode('|',$row->time)[2])[3] == 'mobile')
+                                                <strong class="badge bg-green">{{ explode("_",explode('|',$row->time)[2])[0] }}</strong>
+                                            @else
+                                                <strong style="cursor: pointer;" class="editable text-blue" id="<?php echo
+                                                    Auth::user()->userid.'ñ'.
+                                                    $row->datein.'ñ'.
+                                                    str_replace(':','-',explode("_",explode('|',$row->time)[2])[2]).
+                                                    'ñ'.explode("_",explode('|',$row->time)[2])[3].'ñ'.
+                                                    "PM_IN"."ñ".
+                                                    $count;
+                                                ?>">{{ strtoupper(explode("_",explode('|',$row->time)[2])[0]) }}</strong>
+                                            @endif
+                                        </td>
+                                        <td >
+                                            <input type="hidden" value="{{ explode("_",explode('|',$row->time)[3])[2] }}" id="{{ $count."ñ"."PM_OUT" }}">
+                                            @if(empty(explode("_",explode('|',$row->time)[3])[1]) || explode("_",explode('|',$row->time)[3])[3] == 'mobile')
+                                                <strong class="badge bg-green">{{ explode("_",explode('|',$row->time)[3])[0] }}</strong>
+                                            @else
+                                                <strong style="cursor: pointer;" class="editable text-blue" id="<?php echo
+                                                    Auth::user()->userid.'ñ'.
+                                                    $row->datein.'ñ'.
+                                                    str_replace(':','-',explode("_",explode('|',$row->time)[3])[2]).
+                                                    'ñ'.explode("_",explode('|',$row->time)[3])[3].'ñ'.
+                                                    "PM_OUT"."ñ".
+                                                    $count;
+                                                ?>">{{ strtoupper(explode("_",explode('|',$row->time)[3])[0]) }}</strong>
+                                            @endif
+                                        </td>
+                                    </tr>
+                                    @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                            <form action="{{ asset('FPDF/timelog/print_individual1.php') }}" target="_blank" method="POST">
+                                <div style="padding: 1%;margin-top: -2%;float: right">
+                                    <button class="btn btn-success" name="filter_range" value="{{ Session::get('filter_dates') }}"><i class="fa fa-print"></i> Generate PDF</button>
+                                </div>
+                                <input type="hidden" name="userid" value="{{ Auth::user()->userid}}">
+                                <input type="hidden" name="job_status" value="{{ Session::get('job_status') }}">
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            @endif
         </div>
     </div>
 

@@ -203,8 +203,30 @@ class DocumentController extends BaseController
 
     public function all_leave()
     {
-        $leaves = Leave::where('userid','=', Auth::user()->userid)->paginate(20);
-        return View::make('form.list_leave')->with('leaves', $leaves);
+        $userid = Auth::user()->userid;
+        $pis = InformationPersonal::where("userid","=",$userid)->first();
+        if(Request::method() == 'POST'){
+            $filter_range = explode(" - ",Input::get("filter_range"));
+            $date_start = date("Y-m-d",strtotime($filter_range[0]));
+            $date_end = date("Y-m-d",strtotime($filter_range[1]));
+            $leaves = Leave::where('userid','=', $userid)
+                ->whereBetween("date_filling",[$date_start,$date_end])
+                ->paginate(20);
+        } else {
+            $leaves = Leave::where('userid','=', $userid)->paginate(20);
+        }
+
+
+
+        Session::put("vacation_balance",$pis->vacation_balance);
+        Session::put("sick_balance",$pis->sick_balance);
+
+
+        return View::make('form.list_leave',[
+            "pis" => $pis,
+            "leaves" => $leaves,
+            "filter_range" => Input::get("filter_range")
+        ]);
     }
 
     public function get_leave($id)

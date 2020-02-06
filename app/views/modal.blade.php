@@ -192,7 +192,7 @@
 <div class="modal fade" tabindex="-1" role="dialog" id="update_user_info">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
-            <div class="modal-header" style="background-color:#9C8AA5   ;padding:15px;">
+            <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true" >&times;</span></button>
                 <h4 class="modal-title"><i class="fa fa-plus"></i> User Info</h4>
             </div>
@@ -282,6 +282,7 @@
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
+<!--
 <div class="modal fade delete_all" tabindex="-1" role="dialog" id="delete_all">
     <div class="modal-dialog modal-sm" role="document">
         <div class="modal-content">
@@ -307,7 +308,7 @@
                     });
                 </script>
             </div>
-        </div><!-- /.modal-content -->
+        </div>
     </div>
 </div>
 
@@ -336,9 +337,10 @@
                     });
                 </script>
             </div>
-        </div><!-- /.modal-content -->
-    </div>
+        </div>
 </div>
+
+-->
 
 <div class="modal fade" tabindex="-1" role="dialog" id="delete_user_modal">
     <div class="modal-dialog modal-sm" role="document">
@@ -404,17 +406,10 @@
                         <button type="submit" class="btn btn-success" style="color:white;">Submit</button>
                     </form>
                 </center>
-                <script>
-                    $(function(){
-                        $("body").delegate("#absent","focusin",function(){
-                            $(this).daterangepicker();
-                        });
-                    });
-                </script>
             </div>
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
+        </div>
+    </div>
+</div>
 
 
 <center class="modal fade" tabindex="-1" role="dialog" id="upload_loading">
@@ -472,3 +467,7 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
+
+<script>
+
+</script>

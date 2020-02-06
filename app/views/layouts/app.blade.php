@@ -15,36 +15,42 @@
     <meta http-equiv="cache-control" content="max-age=0" />
     <title>HRMIS</title>
 
-    @if(Request::segments()[0] == "calendar")
-        <link href="{{ asset('public/plugin/fullcalendar/fullcalendar.min.css') }}" rel="stylesheet">
-        <link href="{{ asset('public/plugin/fullcalendar/fullcalendar.print.css') }}" media="print">
-        <style>
-            .tooltipevent{padding:0;margin:0;font-size:75%;text-align:center;position:absolute;bottom:0;opacity:.8;width:350px;height:30px;background:#ccc;position:absolute;z-index:10001;}
-        </style>
-        <!-- Theme style -->
-        <link href="{{ asset('public/plugin/dist/css/AdminLTE.min.css') }}" rel="stylesheet">
-    @endif
-
-    <link href="{{ asset('public/assets/css/handsontable.css') }}" rel="stylesheet">
-    <script src="{{ asset('public/assets/js/handsontable.js') }}"></script>
-
     <!-- Bootstrap core CSS -->
     <link href="{{ asset('public/assets/css/bootstrap.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('public/assets/css/bootstrap-theme.min.css') }}" rel="stylesheet">
     <link href="{{ asset('public/assets/css/font-awesome.min.css') }}" rel="stylesheet">
+
+    <link href="{{ asset('public/assets/css/AdminLTE.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('public/plugin/dist/css/google-font.css') }}" rel="stylesheet">
+
+    @if(Request::segments()[0] == "work-schedule")
+        <link rel="stylesheet" type="text/css" href="{{ asset('public/plugin/datatables/datatables.min.css') }}" />
+
+    @endif
+
     <!--CHOSEN SELECT -->
     <link href="{{ asset('public/plugin/chosen/chosen.css') }}" rel="stylesheet">
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <link href="{{ asset('public/assets/css/ie10-viewport-bug-workaround.css') }}" rel="stylesheet">
+
+    <!-- iCheck -->
+    <link rel="stylesheet" href="{{ asset('public/plugin/iCheck/square/blue.css') }}">
+    <!-- SELECT 2 -->
+    <link rel="stylesheet" type="text/css" href="{{ asset('public/plugin/select2/select2.min.css') }}" />
+
+
     <!-- Custom styles for this template -->
     <link href="{{ asset('public/assets/css/style.css') }}" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="{{ asset('public/plugin/Lobibox new/css/lobibox.css') }}" />
-    
+
+    <!-- handsontable.css -->
+    <link href="{{ asset('public/assets/css/handsontable.css') }}" rel="stylesheet">
+
+    <!-- wysihtml5 -->
     <link href="{{ asset('public/plugin/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css') }}" rel="stylesheet">
     <!-- bootstrap datepicker -->
     <!--DATE RANGE-->
     <link href="{{ asset('public/plugin/daterangepicker/daterangepicker-bs3.css') }}" rel="stylesheet">
-    <script>var loadingState = '<center><img src="{{ asset('public/img/spin.gif') }}" width="150" style="padding:20px;"></center>'; </script>
+
     <link rel="stylesheet" type="text/css" href="{{ asset('public/plugin/clockpicker/dist/jquery-clockpicker.min.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ asset('public/plugin/clockpicker/dist/bootstrap-clockpicker.min.css') }}" />
 
@@ -53,24 +59,15 @@
 
     <link rel="stylesheet" type="text/css" href="{{ asset('public/plugin/bootstrap3-editable/css/bootstrap-editable.css') }}" />
 
-    <script src="{{ asset('public/assets/js/jquery.min.js') }}"></script>
-    @if(Request::segments()[0] == "work-schedule")
-    <link rel="stylesheet" type="text/css" href="{{ asset('public/plugin/datatables/datatables.min.css') }}" />
-    <script src="{{ asset('public/plugin/datatables/datatables.min.js') }}"></script>
-    @endif
-    <!-- iCheck -->
-    <link rel="stylesheet" href="{{ asset('public/plugin/iCheck/square/blue.css') }}">
-    <!-- SELECT 2 -->
-    <link rel="stylesheet" type="text/css" href="{{ asset('public/plugin/select2/select2.min.css') }}" />
 
-    @if(isset(Request::segments()[1]))
-        @if(Request::segments()[1] == "cdo_list" || Request::segments()[1] == 'so_list' || Request::segments()[1] == 'so' ||
-            Request::segments()[1] == 'sample' || Request::segments()[1] == 'sov1' || Request::segments()[1] == 'timelog' ||
-            Request::segments()[1] == 'index'
-            )
-            <link href="{{ asset('public/plugin/dist/css/AdminLTE.min.css') }}" rel="stylesheet">
-            <link href="{{ asset('public/plugin/dist/css/google-font.css') }}" rel="stylesheet">
-        @endif
+    @if(Request::segments()[0] == "calendar")
+        <link href="{{ asset('public/plugin/fullcalendar/fullcalendar.min.css') }}" rel="stylesheet">
+        <link href="{{ asset('public/plugin/fullcalendar/fullcalendar.print.css') }}" media="print">
+        <style>
+            .tooltipevent{padding:0;margin:0;font-size:75%;text-align:center;position:absolute;bottom:0;opacity:.8;width:350px;height:30px;background:#ccc;position:absolute;z-index:10001;}
+        </style>
+        <!-- Theme style -->
+        <link href="{{ asset('public/plugin/dist/css/AdminLTE.min.css') }}" rel="stylesheet">
     @endif
 
     <style>
@@ -93,7 +90,7 @@
 <!-- Fixed navbar -->
 
 <nav class="navbar navbar-default navbar-static-top">
-    <div class="header" style="background-color:#2F4054;padding:10px;">
+    <div class="header" style="background-color:#2F4054;padding:10px;color: white">
         <div class="col-md-4">
             <span class="title-info">Welcome,</span> <span class="title-desc">{{ Auth::user()->fname }} {{ Auth::user()->lname }}</span>
         </div>
@@ -146,9 +143,9 @@
     </div>
 </nav>
 
-<div class="container">
+<div class="container" style="background-color: white;padding: 1%">
     <div class="loading"></div>
-        @yield('content')
+    @yield('content')
     <div class="clearfix"></div>
     @include('modal')
 </div> <!-- /container -->
@@ -160,8 +157,11 @@
 
         <!-- Bootstrap core JavaScript
     ================================================== -->
-<!-- Placed at the end of the document so the pages load faster -->
+<script src="{{ asset('public/assets/js/jquery.min.js') }}"></script>
+<script src="{{ asset('public/plugin/datatables/datatables.min.js') }}"></script>
+
 <!-- DATE RANGE SELECT -->
+
 <script src="{{ asset('public/plugin/daterangepicker/moment.min.js') }}"></script>
 <script src="{{ asset('public/plugin/daterangepicker/daterangepicker.js') }}"></script>
 <script src="{{ asset('public/plugin/Lobibox new/js/Lobibox.js') }}"></script>
@@ -192,7 +192,12 @@
 <script src="{{ asset('public/plugin/bootstrap3-editable/js/bootstrap-editable.js') }}"></script>
 <script src="{{ asset('public/plugin/bootstrap3-editable/js/bootstrap-editable.min.js') }}"></script>
 
+<script src="{{ asset('public/assets/js/handsontable.js') }}"></script>
+
+<script>var loadingState = '<center><img src="{{ asset('public/img/spin.gif') }}" width="150" style="padding:20px;"></center>'; </script>
+
 <script>
+    $("#absent").daterangepicker();
     $('.create-absent').click(function(){
         var url = $(this).data('link');
         $('.modal_content').html('');

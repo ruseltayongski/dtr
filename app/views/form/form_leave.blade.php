@@ -1,248 +1,251 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="col-md-12 wrapper">
-        <div class="alert alert-jim">
-            <div class="panel panel-default">
-                <div class="alert alert-success"><strong>APPLICATION FOR LEAVE</strong> - (<small>CSC Form No.6 Revised 1998</small>)</div>
-                <form action="{{ asset('form/leave') }}" method="POST">
-                    <div class="panel-body">
+    <div class="panel panel-default">
+        <label class="text-success">Vacation Balance: <span class="badge bg-blue">{{ Session::get("vacation_balance") }}</span></label>
+        <label class="text-primary">Sick Balance: <span class="badge bg-blue">{{ Session::get("sick_balance") }}</span></label>
+        <div class="alert alert-info"><strong>APPLICATION FOR LEAVE</strong> - (<small>CSC Form No.6 Revised 1998</small>)</div>
+        <form action="{{ asset('form/leave') }}" method="POST">
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <input type="hidden" id="token" name="_token" value="<?php echo csrf_token(); ?>">
                         <div class="row">
-                            <div class="col-md-12">
-                                <input type="hidden" id="token" name="_token" value="<?php echo csrf_token(); ?>">
-                                <div class="row">
-                                    <div class="col-md-3">
-                                        <div class="form-group has-success">
-                                            <label class="control-label" for="inputSuccess1">(1.) Office/Agency</label>
-                                            <input type="text" class="form-control" id="inputSuccess1" name="office_agency" value="DOH 7">
+                            <div class="col-md-3">
+                                <div class="form-group has-success">
+                                    <label class="control-label" for="inputSuccess1">(1.) Office/Agency</label>
+                                    <input type="text" class="form-control" id="inputSuccess1" name="office_agency" value="DOH 7">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group has-success">
+                                    <label class="control-label" for="inputSuccess1">(2.)  Last Name</label>
+                                    <input type="text" class="form-control" id="inputSuccess1" name="lastname" value="{{ $user->lname }}">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group has-success">
+                                    <label class="control-label" for="inputSuccess1">First Name</label>
+                                    <input type="text" class="form-control" id="inputSuccess1" name="firstname" value="{{ $user->fname }}">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group has-success">
+                                    <label class="control-label" for="inputSuccess1">Middle Name</label>
+                                    <input type="text" class="form-control" id="inputSuccess1" name="middlename" value="{{ $user->mname }}">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group has-success  input-daterange">
+                                    <label class="control-label" for="inputSuccess1">(3.) Date of Filling</label>
+                                    <input type="text" class="form-control" name="date_filling" value="{{ date("Y-m-d") }}" readonly>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group has-success">
+                                    <label class="control-label" for="inputSuccess1">(4.)  Position</label>
+                                    <input type="text" class="form-control" id="inputSuccess1" name="position" value="{{ $user->designation }}">
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group has-success">
+                                    <label class="control-label" for="inputSuccess1">(5.)Salary (Monthly)</label>
+                                    <input type="text" class="form-control" id="inputSuccess1" name="salary" value="{{ $user->monthly_salary }}" onkeypress='validate(event)'>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="alert alert-info"><strong>DETAILS OF APPLICATION</strong></div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="">
+                                    <strong>(6a) TYPE OF LEAVE</strong>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <div class="has-success">
+                                                    <div class="checkbox">
+                                                        <label>
+                                                            <input type="radio" id="checkboxSuccess" value="Vication" name="leave_type">
+                                                            Vacation
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <div class="has-success">
+                                                    <div class="checkbox">
+                                                        <label>
+                                                            <input type="radio" id="checkboxSuccess" value="To_sake_employement" name="leave_type">
+                                                            To seek employement
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <div class="has-success">
+                                                    <div class="checkbox">
+                                                        <label>
+                                                            <input type="radio" id="radio_others" value="Others" name="leave_type" />
+                                                            Others(Specify)
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <div class="has-success">
+                                                    <div class="form-group has-success">
+                                                        <textarea type="text" class="form-control others1_txt" maxlength="" id="inputSuccess1" name="leave_type_others_1"></textarea>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-3">
-                                        <div class="form-group has-success">
-                                            <label class="control-label" for="inputSuccess1">(2.)  Last Name</label>
-                                            <input type="text" class="form-control" id="inputSuccess1" name="lastname" value="{{ $user->lname }}">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <div class="has-success">
+                                                    <div class="checkbox">
+                                                        <label>
+                                                            <input type="radio" id="checkboxSuccess" value="Sick" name="leave_type" />
+                                                            Sick
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <div class="has-success">
+                                                    <div class="checkbox">
+                                                        <label>
+                                                            <input type="radio" id="checkboxSuccess" value="Maternity" name="leave_type" />
+                                                            Maternity
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <div class="has-success">
+                                                    <div class="checkbox">
+                                                        <label>
+                                                            <input type="radio" id="checkboxSuccess" value="Others2" name="leave_type">
+                                                            Others(Specify)
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <div class="has-success">
+                                                    <div class="form-group has-success">
+                                                        <textarea type="text" class="form-control others2_txt" maxlength="200" id="inputSuccess1" name="leave_type_others_2"></textarea>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-3">
-                                        <div class="form-group has-success">
-                                            <label class="control-label" for="inputSuccess1">First Name</label>
-                                            <input type="text" class="form-control" id="inputSuccess1" name="firstname" value="{{ $user->fname }}">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <div class="form-group has-success">
-                                            <label class="control-label" for="inputSuccess1">Middle Name</label>
-                                            <input type="text" class="form-control" id="inputSuccess1" name="middlename" value="{{ $user->mname }}">
+                                    <strong>(6c.)NUMBER OF WORKING DAYS APPLIED <br />FOR :</strong>
+                                    <input type="text" name="applied_num_days" />
+                                    <div class="form-group">
+                                        <label class="control-label" for="inputSuccess1">Inclusive Dates :</label>
+                                        <div class="input-group">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-calendar"></i>
+                                            </div>
+                                            <input type="text" class="form-control" id="inc_date" name="inc_date" placeholder="Input date range here..." required>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <div class="form-group has-success  input-daterange">
-                                            <label class="control-label" for="inputSuccess1">(3.) Date of Filling</label>
-                                            <input type="text" class="form-control" name="date_filling" value="{{ date("Y-m-d") }}" readonly>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="">
+                                    <strong>(6b) WHERE LEAVE WILL BE SPENT</strong>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <div class="has-success">
+                                                    <div class="checkbox">
+                                                        <label>(1.)In case of vacation leave</label>
+                                                    </div>
+                                                </div>
+                                                <div class="has-success">
+                                                    <div class="checkbox">
+                                                        <label>
+                                                            <input type="radio" id="checkboxSuccess" class="vic_dis vic_dis_radio" value="local" name="vication_loc">
+                                                            Within the Philippines
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <div class="has-success">
+                                                    <div class="checkbox">
+                                                        <label>
+                                                            <input type="radio" id="checkboxSuccess" class="vic_dis vic_dis_radio" value="abroad" name="vication_loc">
+                                                            Abroad (specify)
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <div class="has-success">
+                                                    <div class="form-group has-success">
+                                                        <textarea type="text" class="form-control vic_dis vic_dis_txt" maxlength="200" id="inputSuccess1" name="abroad_others"></textarea>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group has-success">
-                                            <label class="control-label" for="inputSuccess1">(4.)  Position</label>
-                                            <input type="text" class="form-control" id="inputSuccess1" name="position" value="{{ $user->designation }}">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <div class="has-success">
+                                                    <div class="checkbox">
+                                                        <label>(2.)In case of sick leave</label>
+                                                    </div>
+                                                </div>
+                                                <div class="has-success">
+                                                    <div class="checkbox">
+                                                        <label>
+                                                            <input type="radio" id="checkboxSuccess"  class="sic_dis sic_dis_radio" value="in_hostpital" name="sick_loc">
+                                                            In Hospital (sepecify)
+                                                            <input type="text"  name="in_hospital_specify" class="sic_dis sic_dis_txt" id="in_hos_txt" />
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <div class="has-success">
+                                                    <div class="checkbox">
+                                                        <label>
+                                                            <input type="radio" id="checkboxSuccess" value="out_patient" name="sick_loc" class="sic_dis sic_dis_radio">
+                                                            Out-patient (sepecify)
+                                                            <input type="text" name="out_patient_specify" class="sic_dis sic_dis_txt" id="out_hos_txt" />
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group has-success">
-                                            <label class="control-label" for="inputSuccess1">(5.)Salary (Monthly)</label>
-                                            <input type="text" class="form-control" id="inputSuccess1" name="salary" value="{{ $user->monthly_salary }}" onkeypress='validate(event)'>
+                                    <strong>(6d) COMMUTATION</strong>
+                                    <div class="has-success">
+                                        <div class="checkbox">
+                                            <label>
+                                                <input type="radio" id="checkboxSuccess" value="yes" name="com_requested">
+                                                Requested
+                                            </label>
+                                            <label>
+                                                <input type="radio" id="checkboxSuccess" value="no" name="com_requested">
+                                                Not Requested
+                                            </label>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="alert alert-success"><strong>APPLICATION FOR LEAVE</strong> - (<small>CSC Form No.6 Revised 1998</small>)</div>
-                    <div class="panel-body">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="">
-                                            <strong>(6a) TYPE OF LEAVE</strong>
-                                            <div class="row">
-                                                <div class="col-md-12">
-                                                    <div class="form-group">
-                                                        <div class="has-success">
-                                                            <div class="checkbox">
-                                                                <label>
-                                                                    <input type="radio" id="checkboxSuccess" value="Vication" name="leave_type">
-                                                                    Vacation
-                                                                </label>
-                                                            </div>
-                                                        </div>
-                                                        <div class="has-success">
-                                                            <div class="checkbox">
-                                                                <label>
-                                                                    <input type="radio" id="checkboxSuccess" value="To_sake_employement" name="leave_type">
-                                                                    To seek employement
-                                                                </label>
-                                                            </div>
-                                                        </div>
-                                                        <div class="has-success">
-                                                            <div class="checkbox">
-                                                                <label>
-                                                                    <input type="radio" id="radio_others" value="Others" name="leave_type" />
-                                                                    Others(Specify)
-                                                                </label>
-                                                            </div>
-                                                        </div>
-                                                        <div class="has-success">
-                                                            <div class="form-group has-success">
-                                                                <textarea type="text" class="form-control others1_txt" maxlength="" id="inputSuccess1" name="leave_type_others_1"></textarea>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-12">
-                                                    <div class="form-group">
-                                                        <div class="has-success">
-                                                            <div class="checkbox">
-                                                                <label>
-                                                                    <input type="radio" id="checkboxSuccess" value="Sick" name="leave_type" />
-                                                                    Sick
-                                                                </label>
-                                                            </div>
-                                                        </div>
-                                                        <div class="has-success">
-                                                            <div class="checkbox">
-                                                                <label>
-                                                                    <input type="radio" id="checkboxSuccess" value="Maternity" name="leave_type" />
-                                                                    Maternity
-                                                                </label>
-                                                            </div>
-                                                        </div>
-                                                        <div class="has-success">
-                                                            <div class="checkbox">
-                                                                <label>
-                                                                    <input type="radio" id="checkboxSuccess" value="Others2" name="leave_type">
-                                                                    Others(Specify)
-                                                                </label>
-                                                            </div>
-                                                        </div>
-                                                        <div class="has-success">
-                                                            <div class="form-group has-success">
-                                                                <textarea type="text" class="form-control others2_txt" maxlength="200" id="inputSuccess1" name="leave_type_others_2"></textarea>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <strong>(6c.)NUMBER OF WORKING DAYS APPLIED <br />FOR :</strong>
-                                            <input type="text" name="applied_num_days" />
-                                            <div class="form-group">
-                                                <label class="control-label" for="inputSuccess1">Inclusive Dates :</label>
-                                                <div class="input-group">
-                                                    <div class="input-group-addon">
-                                                        <i class="fa fa-calendar"></i>
-                                                    </div>
-                                                    <input type="text" class="form-control" id="inc_date" name="inc_date" placeholder="Input date range here..." required>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="">
-                                            <strong>(6b) WHERE LEAVE WILL BE SPENT</strong>
-                                            <div class="row">
-                                                <div class="col-md-12">
-                                                    <div class="form-group">
-                                                        <div class="has-success">
-                                                            <div class="checkbox">
-                                                                <label>(1.)In case of vacation leave</label>
-                                                            </div>
-                                                        </div>
-                                                        <div class="has-success">
-                                                            <div class="checkbox">
-                                                                <label>
-                                                                    <input type="radio" id="checkboxSuccess" class="vic_dis vic_dis_radio" value="local" name="vication_loc">
-                                                                    Within the Philippines
-                                                                </label>
-                                                            </div>
-                                                        </div>
-                                                        <div class="has-success">
-                                                            <div class="checkbox">
-                                                                <label>
-                                                                    <input type="radio" id="checkboxSuccess" class="vic_dis vic_dis_radio" value="abroad" name="vication_loc">
-                                                                    Abroad (specify)
-                                                                </label>
-                                                            </div>
-                                                        </div>
-                                                        <div class="has-success">
-                                                            <div class="form-group has-success">
-                                                                <textarea type="text" class="form-control vic_dis vic_dis_txt" maxlength="200" id="inputSuccess1" name="abroad_others"></textarea>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-12">
-                                                    <div class="form-group">
-                                                        <div class="has-success">
-                                                            <div class="checkbox">
-                                                                <label>(2.)In case of sick leave</label>
-                                                            </div>
-                                                        </div>
-                                                        <div class="has-success">
-                                                            <div class="checkbox">
-                                                                <label>
-                                                                    <input type="radio" id="checkboxSuccess"  class="sic_dis sic_dis_radio" value="in_hostpital" name="sick_loc">
-                                                                    In Hospital (sepecify)
-                                                                    <input type="text"  name="in_hospital_specify" class="sic_dis sic_dis_txt" id="in_hos_txt" />
-                                                                </label>
-                                                            </div>
-                                                        </div>
-                                                        <div class="has-success">
-                                                            <div class="checkbox">
-                                                                <label>
-                                                                    <input type="radio" id="checkboxSuccess" value="out_patient" name="sick_loc" class="sic_dis sic_dis_radio">
-                                                                    Out-patient (sepecify)
-                                                                    <input type="text" name="out_patient_specify" class="sic_dis sic_dis_txt" id="out_hos_txt" />
-                                                                </label>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <strong>(6d) COMMUTATION</strong>
-                                            <div class="has-success">
-                                                <div class="checkbox">
-                                                    <label>
-                                                        <input type="radio" id="checkboxSuccess" value="yes" name="com_requested">
-                                                        Requested
-                                                    </label>
-                                                    <label>
-                                                        <input type="radio" id="checkboxSuccess" value="no" name="com_requested">
-                                                        Not Requested
-                                                    </label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <hr />
-                                <br />
-                                <div class="row">
-                                    <div class="col-md-12 center-block">
-                                        <button type="submit" name="submit" class="btn btn-primary btn-lg col-md-5">Submit</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div> <!-- PANEL BODY -->
-                </form>
+                </div>
+            </div> <!-- PANEL BODY -->
+            <div class="alert alert-info"><strong>DETAILS OF ACTION ON APPLICATION</strong></div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-12">
+                    </div>
+                </div>
             </div>
-        </div>
+            <div class="row">
+                <div class="col-md-12 center">
+                    <button type="submit" name="submit" class="btn btn-primary btn-lg">Submit</button>
+                </div>
+            </div>
+        </form>
     </div>
 @endsection
 @section('js')
