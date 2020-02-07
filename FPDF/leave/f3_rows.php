@@ -1,8 +1,9 @@
 <?php
 
 $pdf->Ln();
+$pdf->setX('5');
 $pdf->Cell(97.5,30,'',1);
-$pdf->Cell(97.5,30,'',1);
+$pdf->Cell(102.5,30,'',1);
 
 $pdf->SetFont('Arial','B',8);
 $pdf->Text(11,118,'(6. C) Number of Working Days applied for:');

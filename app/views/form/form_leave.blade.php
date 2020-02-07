@@ -3,7 +3,7 @@
 @section('content')
     <div class="panel panel-default">
         <label class="text-success">Vacation Balance: <span class="badge bg-blue">{{ Session::get("vacation_balance") }}</span></label>
-        <label class="text-primary">Sick Balance: <span class="badge bg-blue">{{ Session::get("sick_balance") }}</span></label>
+        <label class="text-danger">Sick Balance: <span class="badge bg-red">{{ Session::get("sick_balance") }}</span></label>
         <div class="alert alert-info"><strong>APPLICATION FOR LEAVE</strong> - (<small>CSC Form No.6 Revised 1998</small>)</div>
         <form action="{{ asset('form/leave') }}" method="POST">
             <div class="panel-body">
@@ -46,13 +46,13 @@
                             <div class="col-md-4">
                                 <div class="form-group has-success">
                                     <label class="control-label" for="inputSuccess1">(4.)  Position</label>
-                                    <input type="text" class="form-control" id="inputSuccess1" name="position" value="{{ $user->designation }}">
+                                    <input type="text" class="form-control" id="inputSuccess1" name="position" value="{{ $user->designation }}" readonly>
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group has-success">
                                     <label class="control-label" for="inputSuccess1">(5.)Salary (Monthly)</label>
-                                    <input type="text" class="form-control" id="inputSuccess1" name="salary" value="{{ $user->monthly_salary }}" onkeypress='validate(event)'>
+                                    <input type="text" class="form-control" id="inputSuccess1" name="salary" value="{{ $user->monthly_salary }}" readonly>
                                 </div>
                             </div>
                         </div>
@@ -233,15 +233,8 @@
                     </div>
                 </div>
             </div> <!-- PANEL BODY -->
-            <div class="alert alert-info"><strong>DETAILS OF ACTION ON APPLICATION</strong></div>
-            <div class="panel-body">
-                <div class="row">
-                    <div class="col-md-12">
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-12 center">
+            <div class="row" style="padding: 1%">
+                <div class="col-md-12 float-right">
                     <button type="submit" name="submit" class="btn btn-primary btn-lg">Submit</button>
                 </div>
             </div>

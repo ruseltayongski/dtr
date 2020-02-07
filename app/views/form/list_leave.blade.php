@@ -3,10 +3,8 @@
 
 @section('content')
     @if(Session::has('message'))
-        <div class="col-md-12 wrapper">
-            <div class="alert alert-success" role="alert">
-                {{ Session::get('message') }}
-            </div>
+        <div class="alert alert-success" role="alert">
+            {{ Session::get('message') }}
         </div>
     @endif
     <h3 class="page-header">Leave Documents
@@ -58,7 +56,7 @@
                                         <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Create new
                                     </a>
                                     <label class="text-success">Vacation Balance: <span class="badge bg-blue">{{ Session::get("vacation_balance") }}</span></label>
-                                    <label class="text-primary">Sick Balance: <span class="badge bg-blue">{{ Session::get("sick_balance") }}</span></label>
+                                    <label class="text-danger">Sick Balance: <span class="badge bg-red">{{ Session::get("sick_balance") }}</span></label>
                                 </div>
                             </div>
                             <br />

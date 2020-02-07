@@ -1,8 +1,9 @@
 <?php
 
 $pdf->Ln();
-$pdf->Cell(97.5,35,'',1);
-$pdf->Cell(97.5,35,'',1);
+$pdf->setX('5');
+$pdf->Cell(97.5,28,'',1);
+$pdf->Cell(102.5,28,'',1);
 
 $pdf->SetFont('Arial','B',8);
 $pdf->Text(11,214,'(7. C) Approved for:');

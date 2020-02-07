@@ -98,11 +98,11 @@
             <span class="title-info">Location:</span>
             <span class="title-desc">
                 @if(Auth::user()->usertype == 0 || Auth::user()->usertype == 1)
-                    {{ Session::get('region') == 'region_8' ? 'Region 8' : 'cebu' }}
+                    {{ strtoupper(Session::get('region') == 'region_8' ? 'Region 8' : 'cebu') }}
                 @elseif(Auth::user()->usertype == 2 || Auth::user()->usertype == 3)
-                    Negros
+                    NEGROS
                 @elseif(Auth::user()->usertype == 4 || Auth::user()->usertype == 5)
-                    Bohol
+                    BOHOL
                 @endif
             </span>
         </div>
@@ -225,6 +225,14 @@
 
         }
     }
+
+    var urlParams = new URLSearchParams(window.location.search);
+    var query_string = urlParams.get('search') ? urlParams.get('search') : '';
+    $(".pagination").children().each(function(index){
+        var _href = $($(this).children().get(0)).attr('href');
+        $($(this).children().get(0)).attr('href',_href+'&search='+query_string);
+    });
+
 </script>
 @section('js')
 
