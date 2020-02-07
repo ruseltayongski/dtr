@@ -15,6 +15,9 @@
     <meta http-equiv="cache-control" content="max-age=0" />
     <title>HRMIS</title>
 
+    <!-- SELECT 2 i top para dile mausab ang color-->
+    <link rel="stylesheet" type="text/css" href="{{ asset('public/plugin/select2/select2.min.css') }}" />
+
     <!-- Bootstrap core CSS -->
     <link href="{{ asset('public/assets/css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ asset('public/assets/css/font-awesome.min.css') }}" rel="stylesheet">
@@ -34,9 +37,6 @@
 
     <!-- iCheck -->
     <link rel="stylesheet" href="{{ asset('public/plugin/iCheck/square/blue.css') }}">
-    <!-- SELECT 2 -->
-    <link rel="stylesheet" type="text/css" href="{{ asset('public/plugin/select2/select2.min.css') }}" />
-
 
     <!-- Custom styles for this template -->
     <link href="{{ asset('public/assets/css/style.css') }}" rel="stylesheet">

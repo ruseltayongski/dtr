@@ -49,7 +49,12 @@
                                             <input type="hidden" value="{{ explode("_",explode('|',$row->time)[0])[2] }}" id="{{ $count."ñ"."AM_IN" }}">
                                             <!-- <input type="text" value="{{ explode("_",explode('|',$row->time)[0])[3] }}" id="{{ $count."ñ"."AM_INlog_status" }}"> -->
                                             @if(empty(explode("_",explode('|',$row->time)[0])[1]) || explode("_",explode('|',$row->time)[0])[3] == 'mobile')
-                                                <strong class="badge bg-green">{{ explode("_",explode('|',$row->time)[0])[0] }}</strong>
+                                                <strong class="badge bg-green" style="font-size: 10pt">{{ explode("_",explode('|',$row->time)[0])[0] }}</strong><br>
+                                                @if(explode("_",explode('|',$row->time)[0])[4] != "empty" && explode("_",explode('|',$row->time)[0])[5] != "empty")
+                                                <small>Latitude : {{ explode("_",explode('|',$row->time)[0])[4] }}</small><br>
+                                                <small>Longitude : {{ explode("_",explode('|',$row->time)[0])[5] }}</small><br>
+                                                <i class="ace-icon fa fa-hand-o-right"></i> <a href="https://www.latlong.net/Show-Latitude-Longitude.html" target="_blank"><strong>location url</strong></a>
+                                                @endif
                                             @else
                                                 <strong style="cursor: pointer;" class="editable text-blue" id="<?php echo
                                                     Auth::user()->userid.'ñ'.
@@ -64,7 +69,12 @@
                                         <td>
                                             <input type="hidden" value="{{ explode("_",explode('|',$row->time)[1])[2] }}" id="{{ $count."ñ"."AM_OUT" }}">
                                             @if(empty(explode("_",explode('|',$row->time)[1])[1]) || explode("_",explode('|',$row->time)[1])[3] == 'mobile')
-                                                <strong class="badge bg-green">{{ explode("_",explode('|',$row->time)[1])[0] }}</strong>
+                                                <strong class="badge bg-green">{{ explode("_",explode('|',$row->time)[1])[0] }}</strong><br>
+                                                @if(explode("_",explode('|',$row->time)[1])[4] != "empty" && explode("_",explode('|',$row->time)[1])[5] != "empty")
+                                                    <small>Latitude : {{ explode("_",explode('|',$row->time)[1])[4] }}</small><br>
+                                                    <small>Longitude : {{ explode("_",explode('|',$row->time)[1])[5] }}</small><br>
+                                                    <i class="ace-icon fa fa-hand-o-right"></i> <a href="https://www.latlong.net/Show-Latitude-Longitude.html" target="_blank"><strong>location url</strong></a>
+                                                @endif
                                             @else
                                                 <strong style="cursor: pointer;" class="editable text-blue" id="<?php echo
                                                     Auth::user()->userid.'ñ'.
@@ -79,7 +89,12 @@
                                         <td >
                                             <input type="hidden" value="{{ explode("_",explode('|',$row->time)[2])[2] }}" id="{{ $count."ñ"."PM_IN" }}">
                                             @if(empty(explode("_",explode('|',$row->time)[2])[1]) || explode("_",explode('|',$row->time)[2])[3] == 'mobile')
-                                                <strong class="badge bg-green">{{ explode("_",explode('|',$row->time)[2])[0] }}</strong>
+                                                <strong class="badge bg-green">{{ explode("_",explode('|',$row->time)[2])[0] }}</strong><br>
+                                                @if(explode("_",explode('|',$row->time)[2])[4] != "empty" && explode("_",explode('|',$row->time)[2])[5] != "empty")
+                                                    <small>Latitude : {{ explode("_",explode('|',$row->time)[2])[4] }}</small><br>
+                                                    <small>Longitude : {{ explode("_",explode('|',$row->time)[2])[5] }}</small><br>
+                                                    <i class="ace-icon fa fa-hand-o-right"></i> <a href="https://www.latlong.net/Show-Latitude-Longitude.html" target="_blank"><strong>location url</strong></a>
+                                                @endif
                                             @else
                                                 <strong style="cursor: pointer;" class="editable text-blue" id="<?php echo
                                                     Auth::user()->userid.'ñ'.
@@ -94,7 +109,12 @@
                                         <td >
                                             <input type="hidden" value="{{ explode("_",explode('|',$row->time)[3])[2] }}" id="{{ $count."ñ"."PM_OUT" }}">
                                             @if(empty(explode("_",explode('|',$row->time)[3])[1]) || explode("_",explode('|',$row->time)[3])[3] == 'mobile')
-                                                <strong class="badge bg-green">{{ explode("_",explode('|',$row->time)[3])[0] }}</strong>
+                                                <strong class="badge bg-green">{{ explode("_",explode('|',$row->time)[3])[0] }}</strong><br>
+                                                @if(explode("_",explode('|',$row->time)[3])[4] != "empty" && explode("_",explode('|',$row->time)[3])[5] != "empty")
+                                                    <small>Latitude : {{ explode("_",explode('|',$row->time)[3])[4] }}</small><br>
+                                                    <small>Longitude : {{ explode("_",explode('|',$row->time)[3])[5] }}</small><br>
+                                                    <i class="ace-icon fa fa-hand-o-right"></i> <a href="https://www.latlong.net/Show-Latitude-Longitude.html" target="_blank"><strong>location url</strong></a>
+                                                @endif
                                             @else
                                                 <strong style="cursor: pointer;" class="editable text-blue" id="<?php echo
                                                     Auth::user()->userid.'ñ'.
