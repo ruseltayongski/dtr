@@ -46,10 +46,7 @@ class AdminController extends BaseController
 
     public function home()
     {
-        if(Input::get("search")){
-            Session::put("search",Input::get("search"));
-        }
-        $keyword = Session::get("search");
+        $keyword = Input::get("search");
 
         $users = DB::table('users')
             ->leftJoin('work_sched', function($join){
@@ -596,8 +593,7 @@ class AdminController extends BaseController
     }
     public function leave_credits()
     {
-        Session::put('keyword',Input::get('keyword'));
-        $keyword = Session::get('keyword');
+        $keyword = Input::get('search');
 
         $pis = InformationPersonal::
         where('user_status','=','1')
@@ -611,7 +607,10 @@ class AdminController extends BaseController
             ->paginate(10);
 
 
-        return View::make('users.leave_credits')->with('pis',$pis);
+        return View::make('users.leave_credits',[
+            "pis" => $pis,
+            "keyword" => $keyword
+        ]);
     }
 
     public function updateLeaveBalance(){

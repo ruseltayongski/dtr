@@ -4,7 +4,7 @@ include_once 'fpdf.php';
 include_once 'dbconn.php';
 
 include_once 'barcode.php';
-$pdf=new PDF_Code128('P','mm','LEGAL');
+$pdf=new PDF_Code128('P','mm','A4');
 $pdf->AddPage();
 
 $pdf->SetFont('Arial','',6);

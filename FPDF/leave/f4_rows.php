@@ -1,15 +1,15 @@
 <?php
 
-
-
-
 $pdf->Ln();
+$pdf->setX('5');
 $pdf->SetFont('Arial','B',15);
-$pdf->Cell(195,6,'DETAILS OF ACTION ON APPLICATION',1,'','C');
+$pdf->Cell(200,6,'DETAILS OF ACTION ON APPLICATION',1,'','C');
 
 $pdf->Ln();
+
+$pdf->setX('5');
 $pdf->Cell(97.5,60,'',1);
-$pdf->Cell(97.5,60,'',1);
+$pdf->Cell(102.5,60,'',1);
 
 
 $pdf->SetFont('Arial','B',8);
