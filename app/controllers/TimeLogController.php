@@ -44,7 +44,6 @@ class TimeLogController extends Controller
                 }
             }
             //C# API END
-            $timeLog = DB::connection('mysql')->select("call getLogs2('$userid','$date_from','$date_to')");
         } else {
             if(Session::get("filter_dates")){
                 $filter_date = explode(' - ',Session::get("filter_dates"));
@@ -91,8 +90,12 @@ class TimeLogController extends Controller
                 }
             }
             //C# API END
-            $timeLog = DB::connection('mysql')->select("call getLogs2('$userid','$date_from','$date_to')");
+
         }
+        if(Session::get("job_status") == 'Permanent')
+            $timeLog = DB::connection('mysql')->select("call Gliding_2020('$userid','$date_from','$date_to')");
+        else
+            $timeLog = DB::connection('mysql')->select("call getLogs2('$userid','$date_from','$date_to')");
         return View::make("timelog.timelog",[
             "timeLog" => $timeLog
         ]);
