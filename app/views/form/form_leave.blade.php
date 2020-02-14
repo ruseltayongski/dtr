@@ -37,11 +37,9 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-4">
-                                <div class="form-group has-success  input-daterange">
-                                    <label class="control-label" for="inputSuccess1">(3.) Date of Filling</label>
-                                    <input type="text" class="form-control" name="date_filling" value="{{ date("Y-m-d") }}" readonly>
-                                </div>
+                            <div class="col-md-4 has-success">
+                                <label class="control-label" for="inputSuccess1">(3.) Date of Filling</label>
+                                <input type="text" class="form-control" name="date_filling" value="{{ date("Y-m-d") }}" readonly>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group has-success">
@@ -65,90 +63,30 @@
                     <div class="col-md-12">
                         <div class="row">
                             <div class="col-md-6">
-                                <div class="">
-                                    <strong>(6a) TYPE OF LEAVE</strong>
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <div class="form-group">
-                                                <div class="has-success">
+                                <strong>(6a) TYPE OF LEAVE</strong>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <div class="has-success">
+                                                @foreach(DB::table('leave_type')->get() as $row)
                                                     <div class="checkbox">
                                                         <label>
-                                                            <input type="radio" id="checkboxSuccess" value="Vication" name="leave_type">
-                                                            Vacation
+                                                            <input type="radio" class="minimal" id="leave_type" value="{{ $row->value }}" name="leave_type" onclick="dateRangeFunc('{{ $row->main_leave }}')" required>
+                                                            {{ $row->desc }}
+                                                            @if($row->value == 'Sick')
+                                                            <div class="additional_sick"></div>
+                                                            @endif
                                                         </label>
                                                     </div>
-                                                </div>
-                                                <div class="has-success">
-                                                    <div class="checkbox">
-                                                        <label>
-                                                            <input type="radio" id="checkboxSuccess" value="To_sake_employement" name="leave_type">
-                                                            To seek employement
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                                <div class="has-success">
-                                                    <div class="checkbox">
-                                                        <label>
-                                                            <input type="radio" id="radio_others" value="Others" name="leave_type" />
-                                                            Others(Specify)
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                                <div class="has-success">
-                                                    <div class="form-group has-success">
-                                                        <textarea type="text" class="form-control others1_txt" maxlength="" id="inputSuccess1" name="leave_type_others_1"></textarea>
-                                                    </div>
-                                                </div>
+                                                @endforeach
                                             </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <div class="form-group">
-                                                <div class="has-success">
-                                                    <div class="checkbox">
-                                                        <label>
-                                                            <input type="radio" id="checkboxSuccess" value="Sick" name="leave_type" />
-                                                            Sick
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                                <div class="has-success">
-                                                    <div class="checkbox">
-                                                        <label>
-                                                            <input type="radio" id="checkboxSuccess" value="Maternity" name="leave_type" />
-                                                            Maternity
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                                <div class="has-success">
-                                                    <div class="checkbox">
-                                                        <label>
-                                                            <input type="radio" id="checkboxSuccess" value="Others2" name="leave_type">
-                                                            Others(Specify)
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                                <div class="has-success">
-                                                    <div class="form-group has-success">
-                                                        <textarea type="text" class="form-control others2_txt" maxlength="200" id="inputSuccess1" name="leave_type_others_2"></textarea>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <strong>(6c.)NUMBER OF WORKING DAYS APPLIED <br />FOR :</strong>
-                                    <input type="text" name="applied_num_days" />
-                                    <div class="form-group">
-                                        <label class="control-label" for="inputSuccess1">Inclusive Dates :</label>
-                                        <div class="input-group">
-                                            <div class="input-group-addon">
-                                                <i class="fa fa-calendar"></i>
-                                            </div>
-                                            <input type="text" class="form-control" id="inc_date" name="inc_date" placeholder="Input date range here..." required>
                                         </div>
                                     </div>
                                 </div>
+                                <strong>(6c.) NUMBER OF WORKING DAYS APPLIED FOR :</strong>
+                                <input type="text" class="form-control" name="applied_num_days" id="applied_num_days" readonly/>
+                                <input type="hidden" class="form-control" name="credit_used" id="credit_used"/>
+                                <div class="form-group inc_date_body"></div>
                             </div>
                             <div class="col-md-6">
                                 <div class="">
@@ -164,7 +102,7 @@
                                                 <div class="has-success">
                                                     <div class="checkbox">
                                                         <label>
-                                                            <input type="radio" id="checkboxSuccess" class="vic_dis vic_dis_radio" value="local" name="vication_loc">
+                                                            <input type="radio" id="checkboxSuccess" class="vac_dis vac_dis_radio" value="local" name="vacation_loc">
                                                             Within the Philippines
                                                         </label>
                                                     </div>
@@ -172,14 +110,14 @@
                                                 <div class="has-success">
                                                     <div class="checkbox">
                                                         <label>
-                                                            <input type="radio" id="checkboxSuccess" class="vic_dis vic_dis_radio" value="abroad" name="vication_loc">
+                                                            <input type="radio" id="checkboxSuccess" class="vac_dis vac_dis_radio" value="abroad" name="vacation_loc">
                                                             Abroad (specify)
                                                         </label>
                                                     </div>
                                                 </div>
                                                 <div class="has-success">
                                                     <div class="form-group has-success">
-                                                        <textarea type="text" class="form-control vic_dis vic_dis_txt" maxlength="200" id="inputSuccess1" name="abroad_others"></textarea>
+                                                        <textarea type="text" class="form-control vac_dis vac_dis_txt" maxlength="200" id="inputSuccess1" name="abroad_others"></textarea>
                                                     </div>
                                                 </div>
                                             </div>
@@ -196,7 +134,7 @@
                                                 <div class="has-success">
                                                     <div class="checkbox">
                                                         <label>
-                                                            <input type="radio" id="checkboxSuccess"  class="sic_dis sic_dis_radio" value="in_hostpital" name="sick_loc">
+                                                            <input type="radio" id="checkboxSuccess" class="sic_dis sic_dis_radio" value="in_hostpital" name="sick_loc">
                                                             In Hospital (sepecify)
                                                             <input type="text"  name="in_hospital_specify" class="sic_dis sic_dis_txt" id="in_hos_txt" />
                                                         </label>
@@ -231,13 +169,13 @@
                             </div>
                         </div>
                     </div>
+                    <div class="row" style="padding: 1%">
+                        <div class="col-md-12 float-right">
+                            <button type="submit" name="submit" class="btn btn-primary btn-lg">Submit</button>
+                        </div>
+                    </div>
                 </div>
             </div> <!-- PANEL BODY -->
-            <div class="row" style="padding: 1%">
-                <div class="col-md-12 float-right">
-                    <button type="submit" name="submit" class="btn btn-primary btn-lg">Submit</button>
-                </div>
-            </div>
         </form>
     </div>
 @endsection
@@ -245,47 +183,199 @@
     @parent
     <script>
 
-        $('#inc_date').daterangepicker();
+        var vacation_balance = "<?php echo Session::get('vacation_balance'); ?>";
+        var sick_balance = "<?php echo Session::get('sick_balance'); ?>";
+
+        function clearHalfDaySickFirst(){
+            $('input[name="half_day_first"]:checked').attr('checked',false);
+        }
+        function clearHalfDaySickLast(){
+            $('input[name="half_day_last"]:checked').attr('checked',false);
+        }
+
+        function dateRangeFunc($main_leave){
+            $(".inc_date_body").html(''); //clear
+            $("#applied_num_days").val('');
+            $("#credit_used").val('');
+
+            var radio_val = $('input[name="leave_type"]:checked').val();
+            var inc_date_element = '<strong class="control-label" >INCLUSIVE DATES :</strong>\n' +
+                '                                        <div class="input-group">\n' +
+                '                                            <div class="input-group-addon">\n' +
+                '                                                <i class="fa fa-calendar"></i>\n' +
+                '                                            </div>\n' +
+                '                                            <input type="text" class="form-control" id="inc_date" name="inc_date" placeholder="Input date range here..." required onkeypress="return false;" >\n' +
+                '                                        </div>';
+            $(".inc_date_body").html(inc_date_element);
+            $("#inc_date").attr('autocomplete', 'off');
+
+            $("body").delegate("#inc_date","focusin",function() {
+                $(".working_days_noted").html('');
+            }); //clear
+            if(radio_val == 'Vacation') {
+                console.log(radio_val);
+                $("body").delegate("#inc_date","focusin",function() {
+                    $(".range_inputs").append("" +
+                        "<div class='alert-info working_days_noted'>" +
+                        "<h6 style='padding-right: 5%;padding-left:5%'>Note: 5 working days before apply for vacation leave</h6>" +
+                        "</div>" +
+                        "");
+                });
+            }
+            if(radio_val == 'Sick'){
+                var additional_sick = '<ul>\n' +
+                    '                                                                Half day in first day? Please select.\n' +
+                    '                                                                <ul>\n' +
+                    '                                                                    <li>\n' +
+                    '                                                                        <label>\n' +
+                    '                                                                            <input type="radio" id="leave_type" value="AM" name="half_day_first" />\n' +
+                    '                                                                            AM sick\n' +
+                    '                                                                        </label>\n' +
+                    '                                                                        <label>\n' +
+                    '                                                                            <input type="radio" id="leave_type" value="PM" name="half_day_first" />\n' +
+                    '                                                                            PM sick\n' +
+                    '                                                                        </label>\n' + '<button type="button" onclick="clearHalfDaySickFirst();">Clear</button>' +
+                    '                                                                    </li>\n' +
+                    '                                                                </ul>\n' +
+                    '                                                                Half day in last day? Please select.\n' +
+                    '                                                                <ul>\n' +
+                    '                                                                    <li>\n' +
+                    '                                                                        <label>\n' +
+                    '                                                                            <input type="radio" id="leave_type" value="AM" name="half_day_last" />\n' +
+                    '                                                                            AM sick\n' +
+                    '                                                                        </label>\n' +
+                    '                                                                        <label>\n' +
+                    '                                                                            <input type="radio" id="leave_type" value="PM" name="half_day_last" />\n' +
+                    '                                                                            PM sick\n' +
+                    '                                                                        </label>\n' + '<button type="button" onclick="clearHalfDaySickLast();">Clear</button>' +
+                    '                                                                    </li>\n' +
+                    '                                                                </ul>\n' +
+                    '                                                        </ul>';
+                $(".additional_sick").html(additional_sick);
+            } else {
+                $(".additional_sick").html('');
+            }
+
+            $('#inc_date').daterangepicker().on('apply.daterangepicker', function(ev, picker)
+            {
+                var start = moment(picker.startDate.format('YYYY-MM-DD')).add(1, 'days');
+                var end   = moment(picker.endDate.format('YYYY-MM-DD')).add(1, 'days');
+                var interval_days = end.diff(start,'days')+1; // returns correct number
+                var applied_days = 0;
+                var leave_balance_applied = 0;
+                var sub_date,day_name,leave_condition = '';
+                var days = new Array(7);
+                days[0] = "Sunday";
+                days[1] = "Monday";
+                days[2] = "Tuesday";
+                days[3] = "Wednesday";
+                days[4] = "Thursday";
+                days[5] = "Friday";
+                days[6] = "Saturday";
+
+                for(var i = 0; i < interval_days; i++) {
+                    sub_date = end.subtract(1,'d').format('YYYY-MM-DD');
+                    day_name = days[new Date(sub_date).getDay()];
+                    if(day_name != "Saturday" && day_name != "Sunday"){
+                        applied_days++;
+                    }
+                }
+
+                console.log("applied days:"+applied_days);
+                leave_balance_applied = applied_days * 8;
+
+                var half_day_first = $('input[name="half_day_first"]:checked').val();
+                var half_day_last = $('input[name="half_day_last"]:checked').val();
+
+                if(half_day_first !== undefined){
+                    leave_balance_applied -= 4;
+                    applied_days -= 0.5;
+                }
+                if(half_day_last !== undefined){
+                    leave_balance_applied -= 4;
+                    applied_days -= 0.5;
+                }
+                if($main_leave == 'no'){
+                    leave_balance_applied = 0;
+                }
+
+                if( (leave_balance_applied <= 4 && radio_val =='Sick' ) || radio_val == 'Sick' ){
+                    leave_condition = sick_balance;
+                    $("#credit_used").val('sick_balance');
+                }
+                else if(radio_val == 'Vacation'){
+                    leave_condition = vacation_balance;
+                    $("#credit_used").val('vacation_balance');
+                }
+                else{
+                    leave_condition = 0;
+                    $("#credit_used").val('');
+                }
+
+                console.log(leave_balance_applied);
+                console.log(leave_condition);
+
+                if( leave_balance_applied <= leave_condition ){
+                    $("#applied_num_days").val(applied_days);
+                }
+                else {
+                    Lobibox.alert('error', //AVAILABLE TYPES: "error", "info", "success", "warning"
+                    {
+                        msg: "INSUFFICIENT LEAVE BALANCE"
+                    });
+
+                    $("#applied_num_days").val('');
+                    $("#inc_date").val('');
+                    $("#credit_used").val('');
+                }
+
+
+            });
+
+        }
+
+
+
         $('input[name="leave_type"]').change(function(){
 
             var val = this.value;
         
-            if(val == "Vication") 
+            if(val == "Vacation")
             {
-                vic_radio_txt(false,false,'');
+                vac_radio_txt(false,false,'');
                 sick_radio_txt(true,false,'');
                 others1_txt(true,'');
                 others2_txt(true,'');
 
             } else if(val == "To_sake_employement") 
             {
-                vic_radio_txt(true,false,'');
+                vac_radio_txt(true,false,'');
                 sick_radio_txt(true,false,'');
                 others1_txt(true,'');
                 others2_txt(true,'');
 
             } else if(val == "Others")
             {
-                vic_radio_txt(true,false,'');
+                vac_radio_txt(true,false,'');
                 sick_radio_txt(true,false,'');
                 others1_txt(false,'');
                 others2_txt(true,'');
             } else if(val == "Sick") 
             {
-                vic_radio_txt(true,false,'');
+                vac_radio_txt(true,false,'');
                 sick_radio_txt(false,false,'');
                 others1_txt(true,'');
                 others2_txt(true,'');
 
             } else if(val == "Maternity")
             {
-                vic_radio_txt(true,false,'');
+                vac_radio_txt(true,false,'');
                 sick_radio_txt(true,false,'');
                 others1_txt(true,'');
                 others2_txt(true,'');
             } else if(val == "Others2")
             {
-                vic_radio_txt(true,false,'');
+                vac_radio_txt(true,false,'');
                 sick_radio_txt(true,false,'');
                 others1_txt(true,'');
                 others2_txt(false,'');
@@ -293,13 +383,13 @@
             
         });
 
-       $('input[name="vication_loc"]').change(function(){
+       $('input[name="vacation_loc"]').change(function(){
             var val = this.value;
             if(val == "local")
             {
-                $('.vic_dis_txt').prop('disabled', true).val('');
+                $('.vac_dis_txt').prop('disabled', true).val('');
             } else if(val == "abroad"){
-                $('.vic_dis_txt').prop('disabled', false).val('');
+                $('.vac_dis_txt').prop('disabled', false).val('');
 
             }
        });
@@ -324,12 +414,12 @@
 
          $('#in_hos_txt').prop('disabled', true);
          $('#out_hos_txt').prop('disabled',true);
-        function vic_radio_txt(state,checked,txt_val)
+        function vac_radio_txt(state,checked,txt_val)
         {
-            $('.vic_dis').prop('disabled', state);
-            $('.vic_dis_txt').val(txt_val);
-            $('.vic_dis_txt').prop('disabled', state);
-            $('.vic_dis_radio').prop('checked', checked);
+            $('.vac_dis').prop('disabled', state);
+            $('.vac_dis_txt').val(txt_val);
+            $('.vac_dis_txt').prop('disabled', state);
+            $('.vac_dis_radio').prop('checked', checked);
         }
         function sick_radio_txt(state,checked,txt_val)
         {
@@ -364,5 +454,6 @@
             }
             
         }
+
     </script>
 @endsection

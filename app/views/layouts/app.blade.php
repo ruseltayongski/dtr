@@ -60,6 +60,7 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('public/plugin/bootstrap3-editable/css/bootstrap-editable.css') }}" />
 
 
+
     @if(Request::segments()[0] == "calendar")
         <link href="{{ asset('public/plugin/fullcalendar/fullcalendar.min.css') }}" rel="stylesheet">
         <link href="{{ asset('public/plugin/fullcalendar/fullcalendar.print.css') }}" media="print">
@@ -91,23 +92,26 @@
 
 <nav class="navbar navbar-default navbar-static-top">
     <div class="header" style="background-color:#2F4054;padding:10px;color: white">
-        <div class="col-md-4">
+        <div class="col-md-3">
             <span class="title-info">Welcome,</span> <span class="title-desc">{{ Auth::user()->fname }} {{ Auth::user()->lname }}</span>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-3">
             <span class="title-info">Location:</span>
             <span class="title-desc">
                 @if(Auth::user()->usertype == 0 || Auth::user()->usertype == 1)
-                    {{ strtoupper(Session::get('region') == 'region_8' ? 'Region 8' : 'cebu') }}
+                    {{ strtoupper(Session::get('region') == 'region_8' ? 'Region 8' : 'cebu province') }}
                 @elseif(Auth::user()->usertype == 2 || Auth::user()->usertype == 3)
-                    NEGROS
+                    NEGROS PROVINCE
                 @elseif(Auth::user()->usertype == 4 || Auth::user()->usertype == 5)
-                    BOHOL
+                    BOHOL PROVINCE
                 @endif
             </span>
         </div>
-        <div class="col-md-4">
-            <span class="title-info">Date:</span> <span class="title-desc">{{ date('M d, Y') }}</span>
+        <div class="col-md-3 text-right">
+            <span class="title-info">Date:</span> <span class="title-desc"> {{ strtoupper(date('M d, Y')) }}</span>
+        </div>
+        <div class="col-md-3 text-right">
+            <span class="title-info">Account Type:</span> <span class="title-desc"> {{ Auth::user()->usertype ? 'ADMIN' : 'STANDARD' }}</span>
         </div>
         <div class="clearfix"></div>
     </div>
@@ -259,10 +263,52 @@
 @if(Session::get('deleted'))
     <script>
         Lobibox.notify('error',{
+            size:'mini',
+            title:'',
             msg:'Successfully Deleted!'
         });
     </script>
     <?php Session::forget('deleted'); ?>
+@endif
+@if(Session::get('approved_leave'))
+    <script>
+        Lobibox.notify('success',{
+            size:'mini',
+            title:'',
+            msg:'Leave application successfully approved!'
+        });
+    </script>
+    <?php Session::forget('approved_leave'); ?>
+@endif
+@if(Session::get('update_leave_balance'))
+    <script>
+        Lobibox.notify('success',{
+            size:'mini',
+            title:'',
+            msg:'Leave credit successfully updated!'
+        });
+    </script>
+    <?php Session::forget('update_leave_balance'); ?>
+@endif
+@if(Session::get('disapproved_leave'))
+    <script>
+        Lobibox.notify('error',{
+            size:'mini',
+            title:'',
+            msg:'Leave application disapproved!'
+        });
+    </script>
+    <?php Session::forget('disapproved_leave'); ?>
+@endif
+@if(Session::get('pending_leave'))
+    <script>
+        Lobibox.notify('info',{
+            size:'mini',
+            title:'',
+            msg:'Leave application set to pending!'
+        });
+    </script>
+    <?php Session::forget('pending_leave'); ?>
 @endif
 @if(Session::get('updated'))
     <script>

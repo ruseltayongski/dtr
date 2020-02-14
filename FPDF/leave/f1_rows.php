@@ -1,5 +1,10 @@
 <?php
-$st = $pdo->prepare("SELECT * FROM `leave` WHERE id = :id");
+$st = $pdo->prepare("SELECT 
+                                    lea.*,pi.vacation_balance,pi.sick_balance 
+                                    FROM dohdtr.`leave` lea 
+                                    join pis.personal_information pi on pi.userid = lea.userid
+                                    WHERE lea.id = :id
+                              ");
 $st->bindParam(":id",$id,PDO::PARAM_INT);
 $st->execute();
 $leave = $st->fetch(PDO::FETCH_ASSOC);

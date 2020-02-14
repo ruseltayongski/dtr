@@ -4,8 +4,9 @@ class pdoController extends BaseController
     //PDO
     public static function connect()
     {
-        return new PDO("mysql:host=localhost;dbname=dts",'root','');
-        //return DB::connection('dts')->getPdo();
+        $pdo = new PDO("mysql:host=localhost;dbname=dts",'root','');
+        $pdo->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
+        return $pdo;
     }
     public static function connect_pis()
     {
@@ -180,7 +181,7 @@ class pdoController extends BaseController
         $sql="SELECT * FROM tracking_details where route_no = ? ORDER BY id ASC";
         $pdo = $db->prepare($sql);
         $pdo->execute(array($route_no));
-        $row = $pdo->fetchAll(PDO::FETCH_ASSOC);
+        $row = $pdo->fetchAll(PDO::FETCH_OBJ );
         $db = null;
         return $row;
     }

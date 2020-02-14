@@ -73,7 +73,7 @@
                                     <div class="col-md-12 col-md col-md-offset-1">
                                         <div class="row">
                                             <strong class="col-sm-1">
-                                                @if($leave->leave_type == "Vication")
+                                                @if($leave->leave_type == "Vacation")
                                                     <span style="text-decoration: underline;" class="glyphicon glyphicon-ok" aria-hidden="true"></span>
                                                 @else
                                                     <span style="text-decoration: underline;width: 20%;" aria-hidden="true">&nbsp;</span>
@@ -169,10 +169,21 @@
                                 <br />
                                 <br />
                                 <div class="row">
-                                    <strong class="col-md-4">Inclusive Dates : </strong>
-                                    <strong class="col-md-5">
-                                        {{ $leave->inc_from }} - {{ $leave->inc_to }}
-                                    </strong>
+                                    <div class="col-md-12">
+                                        <strong >Inclusive Dates : </strong>
+                                        <strong style="margin-left: 1%">
+                                            <i>{{ date('F d,Y',strtotime($leave->inc_from)).' to '.date('F d,Y',strtotime($leave->inc_to)) }}</i>
+                                        </strong><br>
+                                        <small class="text-orange" style="margin-left: 28%">
+                                            @if(!empty($leave->half_day_first) && !empty($leave->half_day_last))
+                                                Half day in first day({{ $leave->half_day_first }}) and half day({{ $leave->half_day_last }}) in last day
+                                            @elseif(!empty($leave->half_day_first))
+                                                Half day in first day({{ $leave->half_day_first }})
+                                            @elseif(!empty($leave->half_day_last))
+                                                Half day in last day({{ $leave->half_day_last }})
+                                            @endif
+                                        </small>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -187,7 +198,7 @@
                                         <span>(1) In case of vaction leave</span>
                                         <div class="row">
                                             <strong class="col-sm-1">
-                                                @if($leave->vication_loc == "local")
+                                                @if($leave->vacation_loc == "local")
                                                     <span style="text-decoration: underline;" class="glyphicon glyphicon-ok" aria-hidden="true"></span>
                                                 @else
                                                     <span style="text-decoration: underline;width: 20%;" aria-hidden="true">&nbsp;</span>
@@ -199,7 +210,7 @@
                                         </div>
                                         <div class="row">
                                             <strong class="col-sm-1">
-                                                @if($leave->vication_loc == "abroad")
+                                                @if($leave->vacation_loc == "abroad")
                                                     <span style="text-decoration: underline;" class="glyphicon glyphicon-ok" aria-hidden="true"></span>
                                                 @else
                                                     <span style="text-decoration: underline;width: 20%;" aria-hidden="true">&nbsp;</span>
@@ -319,7 +330,7 @@
                     <td class="col-md-6">
                         <div class="row" style="padding:10px;">
                             <div class="col-md-12">
-                                <strong>(6a) CERTIFICATION OF LEAVE CREDITS <br />AS OF : <span style="text-decoration: underline;">{{ $leave->credit_date }}</span></strong>
+                                <strong>(7a) CERTIFICATION OF LEAVE CREDITS <br />AS OF : <span style="text-decoration: underline;"></span></strong>
                                 <div class="row">
                                     <div class="col-md-12">
                                         <br />
@@ -333,14 +344,27 @@
                                             </thead>
                                             <tbody>
                                             <tr>
-                                                <td height="60"></td>
-                                                <td height="60"></td>
-                                                <td height="60"></td>
+                                                <td height="60">
+                                                    <h2 class="text-green">
+                                                        {{ $leave->leave_type == 'Vacation' && !empty($leave->applied_num_days) ? $leave->applied_num_days : 0 }}
+                                                    </h2>
+                                                </td>
+                                                <td height="60">
+                                                    <h2 class="text-green">
+                                                        {{ $leave->leave_type != 'Vacation' && !empty($leave->applied_num_days) ? $leave->applied_num_days : 0 }}
+                                                    </h2>
+                                                </td>
+                                                <td height="60"><h2 class="text-green">{{ !empty($leave->applied_num_days) ? $leave->applied_num_days : 0 }}</h2></td>
                                             </tr>
                                             <tr>
-                                                <td class="col-md-1"><b>{{ (isset($leave->vication_total) ? $leave->vication_total : 0) }}</b> Days</td>
-                                                <td class="col-md-1"><b>{{ (isset($leave->sick_total) ? $leave->sick_total : 0) }}</b> Days</td>
-                                                <td class="col-md-1"><b>{{ (isset($leave->over_total) ? $leave->over_total : 0) }}</b> Days</td>
+                                                <?php
+                                                    $vacation_balance = !empty($leave->vacation_balance) ? $leave->vacation_balance / 8 <= 1 ? ($leave->vacation_balance / 8).' day' : ($leave->vacation_balance / 8).' days' : 0;
+                                                    $sick_balance = !empty($leave->sick_balance) ? $leave->sick_balance / 8 <= 1 ? ($leave->sick_balance / 8).' day' : ($leave->sick_balance / 8).' days' : 0;
+                                                    $total_balance = ($leave->vacation_balance + $leave->sick_balance) / 8 <= 1 ? (($leave->vacation_balance + $leave->sick_balance) / 8).' day' : (($leave->vacation_balance + $leave->sick_balance) / 8).' days';
+                                                ?>
+                                                <td class="col-md-1"><b>{{ $vacation_balance }}</b></td>
+                                                <td class="col-md-1"><b>{{ $sick_balance }}</b></td>
+                                                <td class="col-md-1"><b>{{ $total_balance }}</b></td>
                                             </tr>
                                             </tbody>
                                         </table>
@@ -389,8 +413,8 @@
                                     <div class="col-md-12 col-md-offset-1">
                                         <strong>Due to :</strong>
                                         <br />
-                                        @if(isset($leave->disaprove_due_to))
-                                            <em>{{ $leave->disaprove_due_to }}</em>
+                                        @if(isset($leave->disapproved_due_to))
+                                            <em>{{ $leave->disapproved_due_to }}</em>
                                         @endif
                                     </div>
                                 </div>
@@ -436,8 +460,8 @@
                             <strong>DISAPPROVED DUE TO :</strong>
                             <br />
                             <br />
-                            @if(isset($leave->disaprove_due_to))
-                                <em>{{ $leave->disaprove_due_to }}</em>
+                            @if(isset($leave->disapproved_due_to))
+                                <em>{{ $leave->disapproved_due_to }}</em>
                             @endif
                         </div>
                     </td>
@@ -472,9 +496,11 @@
         <div class="row">
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
-                <a href="{{ asset('leave/update/' . $leave->id) }}"  class="btn btn-primary btn-submit" style="color:white;"><i class="fa fa-pencil"></i> Update</a>
                 <a target="_blank" class="btn btn-success" href="{{ asset('FPDF/print_leave.php?id=' .$leave->id) }}" style="color: white;"><i class="fa fa-print"></i> Print</a>
+                @if(!Auth::user()->usertype && $leave->status != 'APPROVED')
+                <a href="{{ asset('leave/update/' . $leave->id) }}"  class="btn btn-primary btn-submit" style="color:white;"><i class="fa fa-pencil"></i> Update</a>
                 <a href="{{ asset('leave/delete/' .$leave->id) }}" style="color:white" class="btn btn-danger" ><i class="fa fa-trash"></i> Remove</a>
+                @endif
             </div>
         </div>
     </div>

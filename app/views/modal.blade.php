@@ -1,9 +1,9 @@
 <div class="modal fade" tabindex="-1" role="dialog" id="track">
-    <div class="modal-dialog modal-md" role="document">
+    <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header" style="background-color:#9C8AA5;">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class=""><i class="fa fa-line-chart"></i> Track Document</h4>
+                <h4 style="color: white"><i class="fa fa-line-chart" ></i> Track Document</h4>
             </div>
             <div class="modal-body">
                 <table class="table table-hover table-form table-striped">
@@ -208,7 +208,7 @@
         <div class="modal-content">
             <div class="modal-header" style="background-color:#9C8AA5   ;padding:15px;">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true" >&times;</span></button>
-                <h4 class="modal-title"><i class="fa fa-plus"></i> Application fo Leave</h4>
+                <h4 class="modal-title" style="color: white"><i class="fa fa-plus"></i> Application fo Leave</h4>
             </div>
             <div class="modal-body_leave" style="padding:10px;">
                 <div class="modal_content"><center><img src="{{ asset('public/img/spin.gif') }}" width="150" style="padding:20px;"></center></div>
@@ -445,29 +445,78 @@
 </center>
 
 
-
-<div class="modal" tabindex="-1" role="dialog" id="modal_leave">
+<div class="modal" tabindex="-1" role="dialog" id="modal_leave_approved">
     <div class="modal-dialog modal-sm" role="document">
-        <div class="modal-content" id="schedule_modal">
+        <div class="modal-content">
             <div class="modal-header" style="background-color:#9C8AA5;color: white;">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title"><i class="fa fa-question-circle"></i>Leave Action</h4>
+                <h4 class="modal-title"> (7.C) Approved for:</h4>
             </div>
-            <div class="modal-body">
-                <center>
-                    <p>Approve leave application ?</p>
-                    <form action="{{ asset('leave/approval') }}" method="POST">
-                        <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
-                        <input type="hidden" value="" name="route_no" id="leave_route" />
-                        <input type="submit" class="btn btn-success" value="Approve">
-                        <button type="button" class="btn btn-warning" data-dismiss="modal">Cancel</button>
-                    </form>
-                </center>
-            </div>
+            <form action="{{ asset('leave/approved') }}" method="POST">
+                <div class="modal-body">
+                    <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
+                    <input type="hidden" value="" name="route_no" id="leave_route_approved" />
+                    <b>
+                    <table class="table-bordered">
+                        <tr>
+                            <td><small class="text-success">Day(s) with pay:</small></td>
+                            <td>&nbsp;&nbsp;&nbsp;<input type="checkbox" value="yes" name="a_days_w_pay"></td>
+                        </tr>
+                        <tr>
+                            <td><small class="text-success">Day(s) without pay:</small></td>
+                            <td>&nbsp;&nbsp;&nbsp;<input type="checkbox" value="yes" name="a_days_wo_pay"></td>
+                        </tr>
+                        <tr>
+                            <td><small class="text-success">Others (specify):</small></td>
+                            <td><input type="text" name="a_others" class="form-control"></td>
+                        </tr>
+                    </table>
+                    </b>
+                </div>
+                <div class="modal-footer">
+                    <input type="submit" class="btn btn-success">
+                    <button type="button" class="btn btn-warning" data-dismiss="modal">Cancel</button>
+                </div>
+            </form>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
-<script>
+<div class="modal" tabindex="-1" role="dialog" id="modal_leave_disapproved">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content" >
+            <div class="modal-header" style="background-color:#9C8AA5;color: white;">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title"> (7.D) Disapproved due to:</h4>
+            </div>
+            <form action="{{ asset('leave/disapproved') }}" method="POST">
+                <div class="modal-body">
+                    <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
+                    <input type="hidden" value="" name="route_no" id="leave_route_disapproved" />
+                    <textarea name="disapproved_due_to" id="" cols="30" rows="5" class="form-control"></textarea>
+                </div>
+                <div class="modal-footer">
+                    <input type="submit" class="btn btn-success">
+                    <button type="button" class="btn btn-warning" data-dismiss="modal">Cancel</button>
+                </div>
+            </form>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 
-</script>
+<div class="modal" tabindex="-1" role="dialog" id="modal_leave_pending">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content" >
+            <form action="{{ asset('leave/pending') }}" method="POST">
+                <div class="modal-body">
+                    <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
+                    <input type="hidden" value="" name="route_no" id="leave_route_pending" />
+                    <div class="alert alert-info"><strong>Are you sure you want to set pending?</strong></div>
+                    <button type="submit" class="btn btn-success">Yes</button>
+                    <button type="button" class="btn btn-warning" data-dismiss="modal">No</button>
+                </div>
+            </form>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+

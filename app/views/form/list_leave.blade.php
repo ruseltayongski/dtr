@@ -1,12 +1,6 @@
 @extends('layouts.app')
 
-
 @section('content')
-    @if(Session::has('message'))
-        <div class="alert alert-success" role="alert">
-            {{ Session::get('message') }}
-        </div>
-    @endif
     <h3 class="page-header">Leave Documents
     </h3>
     <div class="row">
@@ -28,7 +22,7 @@
                                                     <div class="input-group-addon">
                                                         <i class="fa fa-calendar"></i>
                                                     </div>
-                                                    <input type="text" class="form-control" id="inclusive3" value="{{ $filter_range }}" name="filter_range" placeholder="Input date range here...">
+                                                    <input type="text" class="form-control" id="inclusive3" value="{{ $filter_range }}" name="filter_range" placeholder="Input date range here..." required>
                                                 </div>
                                             </td>
                                         </tr>
@@ -55,8 +49,20 @@
                                     <a href="{{ asset('form/leave') }}" class="btn btn-success center-block col-md-3" onclick="checkBalance();">
                                         <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Create new
                                     </a>
-                                    <label class="text-success">Vacation Balance: <span class="badge bg-blue">{{ Session::get("vacation_balance") }}</span></label>
-                                    <label class="text-danger">Sick Balance: <span class="badge bg-red">{{ Session::get("sick_balance") }}</span></label>
+                                    <?php
+                                        if(!empty(Session::get("vacation_balance")) || Session::get('vacation_balance') != 0){
+                                            $vacation_balance = Session::get("vacation_balance").' hours';
+                                        } else {
+                                            $vacation_balance = 0;
+                                        }
+                                        if(!empty(Session::get("sick_balance")) || Session::get('sick_balance') != 0){
+                                            $sick_balance = Session::get("sick_balance").' hours';
+                                        } else {
+                                            $sick_balance = 0;
+                                        }
+                                    ?>
+                                    <label class="text-success">Vacation Balance: <span class="badge bg-blue">{{ $vacation_balance }}</span></label>
+                                    <label class="text-danger">Sick Balance: <span class="badge bg-red">{{ $sick_balance }}</span></label>
                                 </div>
                             </div>
                             <br />
@@ -67,27 +73,37 @@
                                             <table class="table table-list table-hover table-striped">
                                                 <thead>
                                                 <tr style="background-color:grey;">
-                                                    <th class="text-center"></th>
-                                                    <th class="text-center">Route #</th>
-                                                    <th class="text-center"><b>Date Created</b></th>
-                                                    <th class="text-center"><b>Application for Leave</b></th>
-
+                                                    <th ></th>
+                                                    <th >Route #</th>
+                                                    <th ><b>Date Created</b></th>
+                                                    <th ><b>Application for Leave</b></th>
+                                                    <th>Status</th>
                                                 </tr>
                                                 </thead>
                                                 <tbody>
                                                 @foreach($leaves as $leave)
                                                     <tr>
-                                                        <td class="text-center">
+                                                        <td >
                                                             <a href="#track" data-link="{{ asset('form/track/'.$leave->route_no) }}" data-route="{{ $leave->route_no }}" data-toggle="modal" class="btn btn-sm btn-success col-sm-12" ><i class="fa fa-line-chart"></i> Track</a>
                                                         </td>
-                                                        <td class="text-center">
+                                                        <td >
                                                             <a class="title-info" data-route="{{ $leave->route_no }}" data-id="{{ $leave->id }}" data-backdrop="static" data-link="{{ asset('leave/get') }}" href="#leave_info" data-toggle="modal">{{ $leave->route_no }}</a>
                                                         </td>
-
-                                                        <td class="text-center">
-                                                            <a href="#" data-toggle="modal"><b>{{ $leave->date_filling }}</b></a>
+                                                        <td >
+                                                            <a href="#" data-toggle="modal"><b>{{ date("F d,Y",strtotime($leave->date_filling)) }}</b></a>
                                                         </td>
-                                                        <td class="text-center">{{ $leave->leave_type }}</td>
+                                                        <td >{{ $leave->leave_type }}</td>
+                                                        <td>
+                                                            <?php
+                                                            if($leave->status == 'PENDING')
+                                                                $color = 'primary';
+                                                            elseif($leave->status == 'APPROVED')
+                                                                $color = 'success';
+                                                            else
+                                                                $color = 'danger';
+                                                            ?>
+                                                            <small class="label label-{{ $color }}">{{ $leave->status }}</small>
+                                                        </td>
                                                     </tr>
                                                 @endforeach
                                                 </tbody>

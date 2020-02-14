@@ -31,6 +31,7 @@ class DocumentController extends BaseController
             ]);
         }
         if(Request::method() == 'POST') {
+
             if(Auth::check() AND Auth::user()->usertype == 0){
                 if(Auth::user()->pass_change == NULL){
                     return Redirect::to('resetpass')->with('pass_change','You must change your password for security after your first log in or resseting password');
@@ -56,14 +57,18 @@ class DocumentController extends BaseController
             $leave->position = Input::get('position');
             $leave->salary = Input::get('salary');
             $leave->leave_type = Input::get('leave_type');
+            $leave->half_day_first = Input::get('half_day_first');
+            $leave->half_day_last = Input::get('half_day_last');
             $leave->leave_type_others_1 = Input::get('leave_type_others_1');
             $leave->leave_type_others_2 = Input::get('leave_type_others_2');
-            $leave->vication_loc = Input::get('vication_loc');
+            $leave->vacation_loc = Input::get('vacation_loc');
             $leave->abroad_others = Input::get('abroad_others');
             $leave->sick_loc = Input::get('sick_loc');
             $leave->in_hospital_specify = Input::get('in_hospital_specify');
             $leave->out_patient_specify = Input::get('out_patient_specify');
             $leave->applied_num_days = Input::get('applied_num_days');
+            $leave->credit_used = Input::get('credit_used');
+            $leave->status = 'PENDING';
 
 
             $temp1 = explode('-',Input::get('inc_date'));
@@ -81,7 +86,7 @@ class DocumentController extends BaseController
             $leave->credit_date =  date('Y-m-d',strtotime(Input::get('credit_date')));
 
 
-            $leave->vication_total = Input::get('vication_total');
+            $leave->vacation_total = Input::get('vacation_total');
             $leave->sick_total = Input::get('sick_total');
             $leave->over_total = Input::get('over_total');
             $leave->a_days_w_pay = Input::get('a_days_w_pay');
@@ -132,23 +137,6 @@ class DocumentController extends BaseController
         }
     }
 
-    public function edit_leave($id)
-    {
-
-       $leave = Leave::where('id',$id)->first();
-       if(isset($leave) and count($leave) > 0)  {
-           return View::make('form.update_leave')->with('leave',$leave);
-       }
-       return Redirect::to('form/leave/all');
-    }
-
-    public function delete_leave($id) {
-       $leave=  Leave::where('id', $id)->first();
-       $leave->delete();
-
-        return Redirect::to('form/leave/all')->with('message','Leave deleted.');
-    }
-    
     public function save_edit_leave()
     {
 
@@ -231,7 +219,11 @@ class DocumentController extends BaseController
 
     public function get_leave($id)
     {
-        $leave = Leave::find($id);
+        $leave = Leave::
+                    select('leave.*','personal_information.vacation_balance','personal_information.sick_balance')
+                    ->where('leave.id','=',$id)
+                    ->leftJoin('pis.personal_information','personal_information.userid','=','leave.userid')
+                    ->first();
         return View::make('form.leave')->with('leave', $leave);
     }
 
@@ -670,6 +662,319 @@ class DocumentController extends BaseController
         Session::put('route_no',$route_no);
 
         return View::make('document.track',['document' => $document]);
+    }
+
+    static function checkMinutes($start_date)
+    {
+        /* $start_date = "2018-11-16 11:24:33";
+         $end_date = "2018-11-16 14:43:00";*/
+        $global_end_date = date("Y-m-d H:i:s");
+        $end_date = $global_end_date;
+
+        $start_checker = date("Y-m-d",strtotime($start_date));
+        $end_checker = date("Y-m-d",strtotime($end_date));
+        $fhour_checker = date("H",strtotime($start_date));
+        $lhour_checker = date("H",strtotime($end_date));
+        $minutesTemp = 0;
+
+
+        if($start_checker != $end_checker) return 100;
+
+        if($fhour_checker <= 7 && $lhour_checker >= 8){
+            $fhour_checker = 8;
+            $start_date = $start_checker.' '.'08:00:00';
+        }
+        elseif($fhour_checker == 11 && $lhour_checker >= 12){
+            $start_date = new DateTime($start_date);
+            $end_date = $start_date->diff(new DateTime($start_checker." 12:00:00"));
+
+            $minutes = $end_date->days * 24 * 60;
+            $minutes += $end_date->h * 60;
+            $minutes += $end_date->i;
+
+            $start_date = $start_checker.' '.'13:00:00';
+            $minutesTemp = $minutes;
+            $end_date = $global_end_date;
+        }
+        elseif($fhour_checker == 12 && $lhour_checker >= 13){
+            $fhour_checker = 13;
+            $start_date = $start_checker.' '.'13:00:00';
+        }
+        elseif($fhour_checker >= 17 && $lhour_checker >= 17){
+            $start_date = $start_checker.' '.'17:00:00';
+            $end_date = $end_checker.' '.'17:00:00';
+        }
+        elseif($lhour_checker >= 17){
+            $end_date = $end_checker.' '.'17:00:00';
+        }
+
+        if(
+            ($fhour_checker >= 8 && $fhour_checker < 12)
+            || ($fhour_checker >= 13)
+
+            && ($lhour_checker >= 8 && $lhour_checker < 12)
+            || ($lhour_checker >= 13)
+        )
+        {
+            $start_date = new DateTime($start_date);
+            $end_date = $start_date->diff(new DateTime($end_date));
+
+            $minutes = $end_date->days * 24 * 60;
+            $minutes += $end_date->h * 60;
+            $minutes += $end_date->i;
+
+            if($minutesTemp){
+                $minutes += $minutesTemp;
+            }
+            return $minutes;
+        }
+        return 100;
+
+    }
+
+    static function duration($start_date,$end_date=null)
+    {
+        if(!$end_date){
+            $end_date = date('Y-m-d H:i:s');
+        }
+        $now = new DateTime();
+        $initialDate =  $start_date;    //start date and time in YMD format
+        $finalDate = $end_date;    //end date and time in YMD format
+        $calendar_start = date('Y-m-d',strtotime($initialDate));
+        $calendar_end = date('Y-m-d',strtotime($finalDate));
+        $holidays = Calendars::where('start','>=',$calendar_start)->where('end','<=',$calendar_end)->where('status','=',1)->get(['start']);
+        /*$holidays = array(
+            '2017-10-17','2017-10-16','2018-08-21'
+        );*/   //holidays as array
+        $noofholiday  = sizeof($holidays);     //no of total holidays
+        //create all required date time objects
+        $firstdate = $now::createFromFormat('Y-m-d H:i:s',$initialDate);
+        $lastdate = $now::createFromFormat('Y-m-d H:i:s',$finalDate);
+        if($lastdate > $firstdate)
+        {
+            $first = $firstdate->format('Y-m-d');
+            $first = $now::createFromFormat('Y-m-d H:i:s',$first." 00:00:00" );
+            $last = $lastdate->format('Y-m-d');
+            $last = $now::createFromFormat('Y-m-d H:i:s',$last." 23:59:59" );
+            $workhours = 0;   //working hours
+            $count = 0;
+            for ($i = $first;$i<=$last;$i->modify('+1 day') )
+            {
+                $holiday = false;
+                for($k=0;$k<$noofholiday;$k++)   //excluding holidays
+                {
+                    $tmp = $i->format('Y-m-d');
+                    if($tmp == $holidays[$k]->start)
+                    {
+                        $holiday = true;
+                        break;
+                    }
+                }
+                $day =  $i->format('l');
+                if($day === 'Saturday' || $day === 'Sunday')  //excluding saturday, sunday
+                    $holiday = true;
+                if(!$holiday)
+                {
+                    $count++;
+                    $ii = $i->format('Y-m-d');
+                    $f = $firstdate->format('Y-m-d');
+                    $l = $lastdate->format('Y-m-d');
+                    if($l == $f )
+                    {
+                        $workhours +=self::sameday($firstdate,$lastdate);
+                    }
+                    else if( $ii===$f){
+                        $workhours +=self::firstday($firstdate);
+                    }
+                    else if ($l ===$ii){
+                        $workhours +=self::lastday($lastdate);
+                    }
+                    else {
+                        $workhours +=8;
+                    }
+
+                }
+            }
+            //return $workhours;
+            $obj = self::secondsToTime($workhours * 3600);
+            $day = $obj['d'];
+            $hour = $obj['h'];
+            $min = $obj['m'];
+            $result = '';
+            if($hour > 24 || $day > 0){
+                return $count-1 . ' days';
+            }
+            if($day!=0) {
+                if($day == 1){
+                    $result.=$day.' day ';
+                }else{
+                    $result.=$day.' days ';
+                }
+            }
+
+
+            if($hour!=0) {
+                if($hour == 1){
+                    $result.=$hour.' hour ';
+                }else{
+                    $result.=$hour.' hours ';
+                }
+            }
+            if($hour != 0 && $min > 0)
+            {
+                $result .= 'and ';
+            }
+
+            if($min!=0) {
+                if($min == 1){
+                    $result.=$min.' minute ';
+                }else{
+                    $result.=$min.' minutes ';
+                }
+            }
+
+            if($min<1 && $hour==0){
+                $result = 'Less than a minute';
+            }
+
+            return $result;
+
+        }else{
+            return 'Just now';
+        }
+    }
+
+    static function timeDiffHours($start_date,$end_date){
+        $start_time = strtotime($start_date);
+        $end_time = strtotime($end_date);
+        $difference = $end_time - $start_time;
+
+        $seconds = $difference % 60;            //seconds
+        $difference = floor($difference / 60);
+
+        $min = $difference % 60;              // min
+        $difference = floor($difference / 60);
+
+        $hours = $difference % 24;  //hours
+        $difference = floor($difference / 24);
+
+        $days = $difference % 30;  //days
+        $difference = floor($difference / 30);
+
+        $month = $difference % 12;  //month
+        $difference = floor($difference / 12);
+
+        $data['hours'] = $hours;
+        $data['days'] = $days;
+        $data['min'] = $min;
+        return $data;
+    }
+
+    static function sameday($firstdate,$lastdate)
+    {
+        $fmin = $firstdate->format('i');
+        $fhour = $firstdate->format('H');
+        $lmin = $lastdate->format('i');
+        $lhour = $lastdate->format('H');
+        if($fhour >=12 && $fhour <13)
+            $fhour = 13;
+        if($fhour < 8)
+            $fhour = 8;
+        if($fhour >= 17)
+            $fhour =17;
+        if($lhour<8)
+            $lhour=8;
+        if($lhour>=12 && $lhour<13)
+            $lhour = 13;
+        if($lhour>=17)
+            $lhour = 17;
+        if($lmin == 0)
+            $min = ((60-$fmin)/60)-1;
+        else {
+            $min = ($lmin-$fmin)/60;
+        }
+        $left = ($lhour-$fhour) + $min;
+
+        if($fhour >=8 && $fhour <=12 && $lhour >= 13 && $lhour <= 17){
+            return $left-1;
+        }
+        return $left;
+    }
+
+    static function firstday($firstdate)   //calculation of hours of first day
+    {
+        $stmin = $firstdate->format('i');
+        $sthour = $firstdate->format('H');
+        if($sthour<8)   //time before morning 8
+            $lochour = 8;
+        else if($sthour>17)
+            $lochour = 0;
+        else if($sthour >=12 && $sthour<13)
+            $lochour = 4;
+        else
+        {
+            $lochour = 17-$sthour;
+            if($sthour<=13)
+                $lochour-=1;
+            if($stmin == 0)
+                $locmin =0;
+            else
+                $locmin = 1-( (60-$stmin)/60);   //in hours
+            $lochour -= $locmin;
+        }
+        return $lochour;
+    }
+
+    static function lastday($lastdate)   //calculation of hours of last day
+    {
+        $stmin = $lastdate->format('i');
+        $sthour = $lastdate->format('H');
+        if ($sthour >= 17)   //time after 18
+            $lochour = 8;
+        else if ($sthour < 8)   //time before morning 8
+            $lochour = 0;
+        else if ($sthour >= 12 && $sthour < 13)
+            $lochour = 4;
+        else {
+            $lochour = $sthour - 8;
+            $locmin = $stmin / 60;   //in hours
+            if ($sthour > 13)
+                $lochour -= 1;
+            $lochour += $locmin;
+        }
+
+        return $lochour;
+    }
+
+    static function secondsToTime($inputSeconds) {
+
+        $secondsInAMinute = 60;
+        $secondsInAnHour  = 60 * $secondsInAMinute;
+        $secondsInADay    = 24 * $secondsInAnHour;
+
+        // extract days
+        $days = floor($inputSeconds / $secondsInADay);
+
+        // extract hours
+        $hourSeconds = $inputSeconds % $secondsInADay;
+        $hours = floor($hourSeconds / $secondsInAnHour);
+
+        // extract minutes
+        $minuteSeconds = $hourSeconds % $secondsInAnHour;
+        $minutes = floor($minuteSeconds / $secondsInAMinute);
+
+        // extract the remaining seconds
+        $remainingSeconds = $minuteSeconds % $secondsInAMinute;
+        $seconds = ceil($remainingSeconds);
+
+        // return the final array
+        $obj = array(
+            'd' => (int) $days,
+            'h' => (int) $hours,
+            'm' => (int) $minutes,
+            's' => (int) $seconds,
+        );
+        return $obj;
     }
 
     public function absent(){
