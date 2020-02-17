@@ -2,131 +2,127 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="col-md-12 wrapper">
-        <div class="alert alert-jim">
+    <div class="row">
+        <div class="col-md-4">
             <div class="row">
-                <div class="col-md-4">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="panel panel-default">
-                                <div class="panel-heading"><strong style="color: #f0ad4e;font-size:medium;">Print individual DTR</strong></div>
-                                <div class="panel-body">
-                                    <form action="{{ asset('FPDF/timelog/print_individual1.php') }}" method="POST" target="_blank">
-                                        <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
-                                        <div class="table-responsive">
-                                            <table class="table">
-                                                <tr>
-                                                    <td class="col-sm-3"><strong>User ID </strong></td>
-                                                    <td class="col-sm-1">: </td>
-                                                    <td class="col-sm-9">
-                                                        <input type="text" class="col-md-2 form-control" id="inputEmail3" name="userid" value="" required>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="col-sm-3"><strong>Dates</strong></td>
-                                                    <td class="col-sm-1"> :</td>
-                                                    <td class="col-sm-9">
-                                                        <div class="input-group">
-                                                            <div class="input-group-addon">
-                                                                <i class="fa fa-calendar"></i>
-                                                            </div>
-                                                            <input type="text" class="form-control" id="inclusive3" name="filter_range" placeholder="Input date range here..." required>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            </table>
-                                        </div>
-                                        <button type="submit"  class="btn-lg btn-success center-block col-sm-12" id="print_one_btn" data-loading-text="<i class='fa fa-refresh fa-spin'></i> Printing DTR">
-                                            <span class="glyphicon glyphicon-print" aria-hidden="true"></span> Print
-                                        </button>
-                                    </form>
+                <div class="col-md-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading"><strong style="color: #f0ad4e;font-size:medium;">Print individual DTR</strong></div>
+                        <div class="panel-body">
+                            <form action="{{ asset('FPDF/timelog/print_individual1.php') }}" method="POST" target="_blank">
+                                <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <tr>
+                                            <td class="col-sm-3"><strong>User ID </strong></td>
+                                            <td class="col-sm-1">: </td>
+                                            <td class="col-sm-9">
+                                                <input type="text" class="col-md-2 form-control" id="inputEmail3" name="userid" value="" required>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="col-sm-3"><strong>Dates</strong></td>
+                                            <td class="col-sm-1"> :</td>
+                                            <td class="col-sm-9">
+                                                <div class="input-group">
+                                                    <div class="input-group-addon">
+                                                        <i class="fa fa-calendar"></i>
+                                                    </div>
+                                                    <input type="text" class="form-control" id="inclusive3" name="filter_range" placeholder="Input date range here..." required>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
                                 </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="panel panel-default">
-                                <div class="panel-heading"><strong style="color: #f0ad4e;font-size:medium;">Upload time logs</strong></div>
-                                <div class="panel-body">
-                                    <form id="form_upload" action="{{ asset('sub/upload') }}" method="POST" enctype="multipart/form-data">
-                                        <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
-                                        <h3 style="font-weight: bold;" class="text-center">Upload a file</h3>
-                                        <div class="modal-body">
-                                            <table class="table table-hover table-form table-striped">
-                                                <tr>
-                                                    <td class="col-sm-5">
-                                                        <input id="file" type="file"  class="hidden" value="" name="dtr_file" onchange="readFile(this);"/>
-                                                        <p class="text-center" id="file_select" style="border: dashed;padding:20px;">
-                                                            Click here to select a file
-                                                        </p>
-                                                    </td>
-                                                </tr>
-                                            </table>
-                                            <button type="button" class="btn-lg btn-success center-block col-sm-12" id="upload" data-loading-text="<i class='fa fa-refresh fa-spin'></i> Uploading time logs">
-                                                <span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span> Upload File
-                                            </button>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
+                                <button type="submit"  class="btn-lg btn-success center-block col-sm-12" id="print_one_btn" data-loading-text="<i class='fa fa-refresh fa-spin'></i> Printing DTR">
+                                    <span class="glyphicon glyphicon-print" aria-hidden="true"></span> Print
+                                </button>
+                            </form>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-8">
-                    <div class="row">
-                        <div class="alert alert-jim" id="inputText">
-                            <form class="form-inline form-accept" action="{{ asset('/search') }}" method="GET">
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading"><strong style="color: #f0ad4e;font-size:medium;">Upload time logs</strong></div>
+                        <div class="panel-body">
+                            <form id="form_upload" action="{{ asset('sub/upload') }}" method="POST" enctype="multipart/form-data">
                                 <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
-                                <div class="form-group">
-                                    <input type="text" name="search" class="form-control" placeholder="Quick Search" autofocus>
-                                    <button type="submit" class="btn btn-default"><i class="fa fa-search"></i> Search</button>
+                                <h3 style="font-weight: bold;" class="text-center">Upload a file</h3>
+                                <div class="modal-body">
+                                    <table class="table table-hover table-form table-striped">
+                                        <tr>
+                                            <td class="col-sm-5">
+                                                <input id="file" type="file"  class="hidden" value="" name="dtr_file" onchange="readFile(this);"/>
+                                                <p class="text-center" id="file_select" style="border: dashed;padding:20px;">
+                                                    Click here to select a file
+                                                </p>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                    <button type="button" class="btn-lg btn-success center-block col-sm-12" id="upload" data-loading-text="<i class='fa fa-refresh fa-spin'></i> Uploading time logs">
+                                        <span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span> Upload File
+                                    </button>
                                 </div>
                             </form>
-                            <div class="clearfix"></div>
-                            <div class="page-divider"></div>
-
-                            @if(isset($users) and count($users) > 0)
-                                <div class="table-responsive">
-                                    <table class="table table-list table-hover table-striped">
-                                        <thead>
-                                        <tr>
-                                            <th >User ID</th>
-                                            <th >Name </th>
-                                            <th>Work Schedule</th>
-                                            <th></th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        @foreach($users as $user)
-                                            <tr>
-                                                <td ><a href="#edit" data-id="{{ $user->userid }}" data-toggle="modal" data-target="#update_user_info" data-link="{{ asset('user/edit') }}" class="title-info user_edit">{{ $user->userid }}</a></td>
-                                                <td ><a href="#edit" data-id="{{ $user->userid }}" data-toggle="modal" data-target="#update_user_info" data-link="{{ asset('user/edit') }}" class="text-bold user_edit">{{ $user->fname ." ". $user->mname." ".$user->lname }}</a></td>
-                                                <td >
-                                                    <span class="text-bold">{{ $user->description }}</span>
-                                                    <button data-id="{{ $user->userid }}" type="button" class="btn btn-info btn-xs change_sched">Change</button>
-                                                </td>
-                                                <td width="5%">
-                                                    <a href="#" data-id="{{ $user->userid }}" class="delete_userid" style="color: #ff5751"><i class="fa fa-trash"></i></a>
-                                                </td>
-                                            </tr>
-                                        @endforeach
-                                        </tbody>
-                                    </table>
-                                </div>
-                                {{ $users->links() }}
-                            @else
-                                <div class="alert alert-danger">
-                                    <strong><i class="fa fa-times fa-lg"></i>No users found.</strong>
-                                </div>
-                            @endif
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>
+        <div class="col-md-8">
+            <div class="row">
+                <form class="form-inline form-accept" action="{{ asset('/subHome') }}" method="GET">
+                    <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
+                    <div class="form-group">
+                        <input type="text" name="search" value="{{ $keyword }}" class="form-control" placeholder="Quick Search" autofocus>
+                        <button type="submit" class="btn btn-default"><i class="fa fa-search"></i> Search</button>
+                    </div>
+                </form>
+                <div class="clearfix"></div>
+                <div class="page-divider"></div>
+
+                @if(isset($users) and count($users) > 0)
+                    <div class="table-responsive">
+                        <table class="table table-list table-hover table-striped">
+                            <thead>
+                            <tr>
+                                <th >User ID</th>
+                                <th >Name </th>
+                                <th>Work Schedule</th>
+                                <th></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @foreach($users as $user)
+                                <tr>
+                                    <td ><a href="#edit" data-id="{{ $user->userid }}" data-toggle="modal" data-target="#update_user_info" data-link="{{ asset('user/edit') }}" class="title-info user_edit">{{ $user->userid }}</a></td>
+                                    <td ><a href="#edit" data-id="{{ $user->userid }}" data-toggle="modal" data-target="#update_user_info" data-link="{{ asset('user/edit') }}" class="text-bold user_edit">{{ $user->fname ." ". $user->mname." ".$user->lname }}</a></td>
+                                    <td >
+                                        <span class="text-bold">{{ $user->description }}</span>
+                                        <button data-id="{{ $user->userid }}" type="button" class="btn btn-info btn-xs change_sched">Change</button>
+                                    </td>
+                                    <td width="5%">
+                                        <a href="#" data-id="{{ $user->userid }}" class="delete_userid" style="color: #ff5751"><i class="fa fa-trash"></i></a>
+                                    </td>
+                                </tr>
+                            @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                    {{ $users->links() }}
+                @else
+                    <div class="alert alert-danger">
+                        <strong><i class="fa fa-times fa-lg"></i>No users found.</strong>
+                    </div>
+                @endif
+            </div>
+
+        </div>
     </div>
+
+
     <span id="data_link" data-link="{{ asset('change/work-schedule') }}"></span>
 
 @endsection
@@ -293,11 +289,6 @@
         @if(Session::has('sub_upload'))
         Lobibox.notify('success',{
             msg:"<?php echo Session::get('sub_upload'); ?>"
-        });
-        @endif
-        @if(Session::has('updatedUser'))
-        Lobibox.notify('info',{
-            msg:"<?php echo Session::get('updatedUser'); ?>"
         });
         @endif
         @if(Session::has('deletedUser'))

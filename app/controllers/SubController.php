@@ -11,6 +11,8 @@ class SubController extends BaseController
     }
 
     public function subHome(){
+        $keyword = Input::get("search");
+
         if(Auth::user()->usertype == 3)
             $location = 2; //NEGROS
         elseif(Auth::user()->usertype == 5)
@@ -19,11 +21,21 @@ class SubController extends BaseController
         $users = DB::table('users')
             ->leftJoin('work_sched', function($join){
                 $join->on('users.sched','=','work_sched.id');
-            })
-            ->where('usertype','=',$location)
-            ->orderBy('fname', 'ASC')
-            ->paginate(10);
-        return View::make('sub.subHome')->with('users',$users);
+            });
+        $users = $users->where('usertype',$location);
+
+        if(isset($keyword)){
+            $users = $users->where(function($q) use ($keyword){
+                $q->where('users.fname','like',"%$keyword%")
+                    ->orwhere('users.lname','like',"%$keyword%")
+                    ->orwhere('users.userid','like',"%$keyword%");
+            });
+        }
+
+        $users = $users->orderBy('users.fname', 'ASC')
+            ->paginate(20);
+
+        return View::make('sub.subHome',['users' => $users,'keyword' => $keyword]);
     }
 
     public function upload()
