@@ -55,7 +55,7 @@
                             <label class="text-danger">Sick: @if($user->sick_balance) {{ $user->sick_balance }} @else 0 @endif</label>
                         </td>
                         <td>
-                            <button class="button btn-sm beginning_balance" style="background-color: #9C8AA5;color: white" data-toggle="modal" data-id="{{ $user->userid }}" data-vacation="{{ $user->vacation_balance }}" data-sick="{{ $user->sick_balance }}" data-target="#beginning_balance">Update Beginning Balance</button>
+                            <button class="button btn-sm beginning_balance" style="background-color: #9C8AA5;color: white" data-toggle="modal" data-id="{{ $user->userid }}" data-vacation="{{ $user->vacation_balance }}" data-sick="{{ $user->sick_balance }}" data-target="#beginning_balance">Update Leave Balance</button>
                         </td>
                     </tr>
                 @endforeach
@@ -75,7 +75,7 @@
                 <form action="{{ asset('leave/credits/save') }}" method="POST">
                     <div class="modal-header" style="background-color: #9C8AA5;">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title"><i class="fa fa-pencil"></i> Leave Credits</h4>
+                        <h4 class="modal-title" style="color: white"><i class="fa fa-pencil"></i> Leave Credits</h4>
                     </div>
                     <div class="modal-body">
 

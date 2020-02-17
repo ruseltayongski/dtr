@@ -64,10 +64,14 @@ Route::get('attendance/q', 'DtrController@filter_attendance');
 Route::match(array('GET','POST'),'resetpass', 'PasswordController@change_password');
 //Route::post('/', 'PasswordController@save_changes');
 
-//LEAVE PROCCES
+//LEAVE PROCCESS
 
 Route::get('tracked/leave','AdminController@track_leave');
-Route::post('leave/approval','AdminController@approve_leave');
+Route::post('leave/approved','AdminController@approved_leave');
+Route::post('leave/disapproved','AdminController@disapproved_leave');
+Route::post('leave/pending','AdminController@pending_leave');
+Route::get('leave/delete/{id}','AdminController@delete_leave');
+Route::get('leave/update/{id}', 'AdminController@edit_leave');
 Route::get('leave/cancel/{route_no}','AdminController@cancel_leave');
 Route::get('search/leave','AdminController@search_leave');
 
@@ -114,9 +118,7 @@ Route::match(array('GET','POST'),'form/leave/all', 'DocumentController@all_leave
 Route::get('leave/get/{id}','DocumentController@get_leave');
 Route::get('leave/print/{id}', 'DocumentController@print_leave');
 Route::get('leave/print/a/{id}', 'DocumentController@print_a');
-Route::get('leave/update/{id}', 'DocumentController@edit_leave');
 Route::post('leave/update/save', 'DocumentController@save_edit_leave');
-Route::get('leave/delete/{id}', 'DocumentController@delete_leave');
 
 
 //ADMIN TRACKED DOCUMENTS

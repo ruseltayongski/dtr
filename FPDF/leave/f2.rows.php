@@ -76,14 +76,14 @@ $pdf->SetFont('Arial','B',8);
 $pdf->Text(110,62,'(1) In case of vaction leave');
 
 
-if($leave['vication_loc'] == 'local'){
+if($leave['vacation_loc'] == 'local'){
     $pdf->Image(__DIR__.'../../image/check.png', 115,64,4,4);
 } else {
     $pdf->Image(__DIR__.'../../image/square.png', 115,64,4,4);
 }
 $pdf->Text(121,67,'Within the Philippines');
 
-if($leave['vication_loc'] == 'abroad'){
+if($leave['vacation_loc'] == 'abroad'){
     $pdf->Image(__DIR__.'../../image/check.png', 115,69,4,4);
 } else {
     $pdf->Image(__DIR__.'../../image/square.png', 115,69,4,4);

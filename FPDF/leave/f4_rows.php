@@ -18,7 +18,21 @@ $pdf->Text(19,159,'as of ');
 $pdf->Image(__DIR__.'../../image/line.png',27,159,60,0.6);
 
 $pdf->Image(__DIR__.'../../image/table.png',30,163,55,25);
+$pdf->SetFont('Arial','B',15);
 
+$pdf->Text(38,177,$leave['leave_type'] == 'Vication' ? $leave['applied_num_days'] : 0); //vacation applied
+$pdf->Text(53,177,$leave['leave_type'] == 'Vication' ? 0 : $leave['applied_num_days']); //sick applied
+$pdf->Text(72,177,$leave['applied_num_days']); //total applied
+
+$pdf->SetFont('Arial','B',8);
+
+$vacation_balance = $leave['vacation_balance'];
+$sick_balance = $leave['sick_balance'];
+$total_balance = $vacation_balance + $sick_balance;
+
+$pdf->Text(37,185.2,$vacation_balance); //vacation balance
+$pdf->Text(56,185.2,$sick_balance); //sick balance
+$pdf->Text(73,185.2,$total_balance); //total balance
 
 $pdf->Text(39,204,'THERESA Q. TRAGICO');
 $pdf->Image(__DIR__.'../../image/line.png',26,205,60,0.6);
