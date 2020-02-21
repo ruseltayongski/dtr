@@ -1,12 +1,11 @@
-@extends('layouts.app')
-@section('content')
-    <span id="calendar_holiday" data-link=" {{ asset('calendar_holiday') }} "></span>
-    <span id="calendar_id" data-link="{{ asset('calendar_id') }}"></span>
-    <span id="calendar_last_id" data-link="{{ asset('calendar_last_id') }}"></span>
-    <span id="calendar_save" data-link=" {{ asset('calendar_save') }} "></span>
-    <span id="calendar_delete" data-link="{{ asset('calendar_delete') }}"></span>
-    <span id="calendar_update" data-link=" {{ asset('calendar_update') }} "></span>
-    <span id="calendar_banner" data-link="{{ asset('resources/img/banner.png') }}"></span>
+<?php $__env->startSection('content'); ?>
+    <span id="calendar_holiday" data-link=" <?php echo asset('calendar_holiday'); ?> "></span>
+    <span id="calendar_id" data-link="<?php echo asset('calendar_id'); ?>"></span>
+    <span id="calendar_last_id" data-link="<?php echo asset('calendar_last_id'); ?>"></span>
+    <span id="calendar_save" data-link=" <?php echo asset('calendar_save'); ?> "></span>
+    <span id="calendar_delete" data-link="<?php echo asset('calendar_delete'); ?>"></span>
+    <span id="calendar_update" data-link=" <?php echo asset('calendar_update'); ?> "></span>
+    <span id="calendar_banner" data-link="<?php echo asset('resources/img/banner.png'); ?>"></span>
     <div class="row">
         <div class="<?php if(Auth::user()->usertype == '1') echo 'col-md-9 wrapper'; else echo 'col-md-12 wrapper'; ?>">
             <div class="box box-primary">
@@ -18,7 +17,7 @@
             </div>
         </div>
         <!--CREATE EVENT SIDEBAR -->
-        @if(Auth::user()->usertype == '1')
+        <?php if(Auth::user()->usertype == '1'): ?>
             <div class="col-md-3">
                 <div class="box box-solid">
                     <div class="box-header with-border">
@@ -66,13 +65,13 @@
                     </div>
                 </div>
             </div>
-        @endif
+        <?php endif; ?>
     </div>
 
-@endsection
-@section('js')
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('js'); ?>
     @parent
-    <script src="{{ asset('public/assets/js/jquery4.js') }}"></script>
+    <script src="<?php echo asset('public/assets/js/jquery4.js'); ?>"></script>
     <script>
         $(document).ready(function(){
             $('[data-toggle="tooltip"]').tooltip();
@@ -263,4 +262,6 @@
             });
         });
     </script>
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.app', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
