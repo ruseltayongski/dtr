@@ -5,36 +5,34 @@
         </div>
     <?php endif; ?>
     <div class="col-md-12 wrapper">
-        <div class="alert alert-jim">
-            <h4 class="page-header">Reset Password
-            </h4>
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-11">
-                        <form action="<?php echo asset('reset/password'); ?>" method="POST">
-                            <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
-                            <div class="row">
-                                <div class="col-md-10">
-                                    <div class="form-group">
-                                        <label for="inputEmail3" class="col-md-2 control-label">User ID</label>
-                                        <div class="col-sm-5">
-                                            <input type="text" class="col-md-2 form-control" id="inputEmail3" name="userid" value="" required>
-                                        </div>
+        <h4 class="page-header">Reset Password
+        </h4>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-11">
+                    <form action="<?php echo asset('reset/password'); ?>" method="POST">
+                        <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
+                        <div class="row">
+                            <div class="col-md-10">
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-md-2 control-label">User ID</label>
+                                    <div class="col-sm-5">
+                                        <input type="text" class="col-md-2 form-control" id="inputEmail3" name="userid" value="" required>
                                     </div>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-md-10">
-                                    <div class="form-group">
-                                        <div class="col-sm-5 col-md-offset-2">
-                                            <button type="submit"  class="btn btn-success">Reset</button>
-                                            <a href="<?php echo asset('/'); ?>" class="btn btn-default">Cancel</a>
-                                        </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-10">
+                                <div class="form-group">
+                                    <div class="col-sm-5 col-md-offset-2">
+                                        <button type="submit"  class="btn btn-success">Reset</button>
+                                        <a href="<?php echo asset('/'); ?>" class="btn btn-default">Cancel</a>
                                     </div>
                                 </div>
                             </div>
-                        </form>
-                    </div>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
