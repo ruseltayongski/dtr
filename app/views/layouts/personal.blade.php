@@ -29,25 +29,41 @@
                         </li>
                     </ul>
                 </li>
-                @if(Auth::user()->region == "region_7")
-                <li class="divider"></li>
-                <li><a href="{{ url('calendar') }}"><i class="fa fa-calendar"></i> Calendar</a></li>
-                @endif
-                <li class="divider"></li>
-                <li class="dropdown-submenu">
-                    <a href="#" data-toggle="dropdown"><i class="fa fa-file" aria-hidden="true"></i> Form</a>
-                    <ul class="dropdown-menu">
-                        @if(Session::get("job_status") == 'Permanent')
-                        <li><a href="{{ asset('form/leave/all') }}">Leave</a></li>
-                        <li class="divider"></li>
-                        @endif
-                        <li><a href="{{ asset('form/so_list') }}">Office Order</a></li>
-                        <li class="divider"></li>
-                        <li><a href="{{ asset("form/cdo_list") }}">CDO</a></li>
-                    </ul>
-                </li>
                 <li class="divider"></li>
                 <li><a href="{{ url('logs/timelog') }}"><i class="fa fa-user"></i> Time Log</a></li>
+            </ul>
+        </li>
+    @endif
+    @if(Auth::user()->region == "region_7")
+        <li class="divider"></li>
+        <li><a href="{{ url('calendar') }}"><i class="fa fa-calendar"></i> Calendar</a></li>
+    @endif
+    <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-file"></i> Forms<span class="caret"></span></a>
+        <ul class="dropdown-menu">
+            @if(Session::get("job_status") == 'Permanent')
+                <li><a href="{{ asset('form/leave/all') }}">Leave</a></li>
+                <li class="divider"></li>
+            @endif
+            <li><a href="{{ asset('form/so_list') }}">Office Order</a></li>
+            <li class="divider"></li>
+            <li><a href="{{ asset("form/cdo_list") }}">CDO</a></li>
+        </ul>
+    </li>
+    <li class="divider"></li>
+    <?php
+    $user_roles = UserRoles::select('users_roles.id','users_claims.claim_type','users_claims.claim_value')
+        ->where('users_roles.userid','=',Auth::user()->userid)
+        ->LeftJoin('users_claims','users_claims.id','=','users_roles.claims_id')
+        ->get();
+    ?>
+    @if(count($user_roles) >= 1)
+        <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-file"></i> User Roles<span class="caret"></span></a>
+            <ul class="dropdown-menu">
+                @foreach($user_roles as $role)
+                    <li><a href="{{ asset($role->claim_value) }}">{{ $role->claim_type }}</a></li>
+                @endforeach
             </ul>
         </li>
     @endif

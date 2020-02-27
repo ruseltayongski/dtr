@@ -27,7 +27,7 @@
             <?php
             if($doc->received_by!=0){
                 $data['id'][] = $doc->id;
-                if($user = User::find($doc->received_by)){
+                if($user = UserDts::find($doc->received_by)){
                     $data['received_by'][] = $user->fname.' '.$user->lname;
                     $data['section'][] = (Section::find($user->section)) ? Section::find($user->section)->description:'';
                 } else {

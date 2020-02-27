@@ -535,6 +535,30 @@ class AdminController extends BaseController
         return Redirect::to('tracked/leave');
     }
 
+    public function releasedStatusChecker($route_no,$section){
+        $release = Tracking_Releasev2::where("route_no","=",$route_no)
+            ->where("released_section_to","=",$section)
+            ->where(function ($query) {
+                $query->where('status','=','waiting')
+                    ->orWhere('status','=','return');
+            })
+            ->orderBy('id', 'DESC');
+
+        if($release->first()){
+            $minute = DocumentController::checkMinutes($release->first()->released_date);
+            if($minute <= 30 && ($release->first()->status == "waiting" || $release->first()->status == "return" )){
+                $release->update([
+                    "status" => "accept"
+                ]);
+            }
+            elseif($minute > 30 && $release->first()->status == "waiting" || $release->first()->status == "return" ) {
+                $release->update([
+                    "status" => "report"
+                ]);
+            }
+        }
+    }
+
     public function approved_leave()
     {
         $route_no = Input::get('route_no');
@@ -554,6 +578,48 @@ class AdminController extends BaseController
         $leave->a_days_wo_pay = Input::get('a_days_wo_pay');
         $leave->a_others = Input::get('a_others');
         $leave->save();
+
+        //TRACKING
+        $doc = Tracking::where('route_no',$route_no)
+            ->orderBy('id','desc')
+            ->first();
+        $document = Tracking_Details::where('route_no',$route_no)
+            ->orderBy('id','desc')
+            ->first();
+        $receiver = UserDts::where('userid','=',Auth::user()->userid)->first();
+        if($document) {
+            Tracking_Details::where('route_no', $route_no)
+                ->where('received_by', $document->received_by)
+                ->update(['status' => 1]);
+            $received_by = $document->received_by;
+        }
+        else {
+            $received_by = $doc->prepared_by;
+        }
+        $section = 'temp;'.$receiver->section;
+        if($document->code === $section)
+        {
+            Tracking_Details::where('id',$document->id)
+                ->update([
+                    'code' => 'accept;'.$receiver->section,
+                    'date_in' => date('Y-m-d H:i:s'),
+                    'received_by' => $receiver->id,
+                    'status' => 0,
+                    'action' => 'Leave Approved'
+                ]);
+        }else{
+            $q = new Tracking_Details();
+            $q->route_no = $route_no;
+            $q->code = 'accept;'.$receiver->section;
+            $q->date_in = date('Y-m-d H:i:s');
+            $q->received_by = $receiver->id;
+            $q->delivered_by = $received_by;
+            $q->action = 'Leave Approved';
+            $q->save();
+        }
+        $this->releasedStatusChecker($route_no,$receiver->section);
+        ///END TRACKING
+
 
         $from = date('Y-m-d',strtotime($leave->inc_from));
         $end_date = date('Y-m-d',strtotime($leave->inc_to));

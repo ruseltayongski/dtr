@@ -346,25 +346,25 @@
                                             <tr>
                                                 <td height="60">
                                                     <h2 class="text-green">
-                                                        {{ $leave->leave_type == 'Vacation' && !empty($leave->applied_num_days) ? $leave->applied_num_days : 0 }}
+                                                        {{ $leave->vacation_balance }}
                                                     </h2>
                                                 </td>
                                                 <td height="60">
                                                     <h2 class="text-green">
-                                                        {{ $leave->leave_type != 'Vacation' && !empty($leave->applied_num_days) ? $leave->applied_num_days : 0 }}
+                                                        {{ $leave->sick_balance }}
                                                     </h2>
                                                 </td>
-                                                <td height="60"><h2 class="text-green">{{ !empty($leave->applied_num_days) ? $leave->applied_num_days : 0 }}</h2></td>
+                                                <td height="60"><h2 class="text-green">{{ $leave->vacation_balance + $leave->sick_balance }}</h2></td>
                                             </tr>
                                             <tr>
                                                 <?php
-                                                    $vacation_balance = !empty($leave->vacation_balance) ? $leave->vacation_balance / 8 <= 1 ? ($leave->vacation_balance / 8).' day' : ($leave->vacation_balance / 8).' days' : 0;
-                                                    $sick_balance = !empty($leave->sick_balance) ? $leave->sick_balance / 8 <= 1 ? ($leave->sick_balance / 8).' day' : ($leave->sick_balance / 8).' days' : 0;
-                                                    $total_balance = ($leave->vacation_balance + $leave->sick_balance) / 8 <= 1 ? (($leave->vacation_balance + $leave->sick_balance) / 8).' day' : (($leave->vacation_balance + $leave->sick_balance) / 8).' days';
+                                                    $vacation_balance_day = $leave->vacation_balance / 8;
+                                                    $sick_balance_day = $leave->sick_balance / 8;
+                                                    $total_balance_day = $vacation_balance_day + $sick_balance_day;
                                                 ?>
-                                                <td class="col-md-1"><b>{{ $vacation_balance }}</b></td>
-                                                <td class="col-md-1"><b>{{ $sick_balance }}</b></td>
-                                                <td class="col-md-1"><b>{{ $total_balance }}</b></td>
+                                                <td class="col-md-1"><b>{{ $vacation_balance_day > 1 ? $vacation_balance_day.' days' : $vacation_balance_day.' day' }}</b></td>
+                                                <td class="col-md-1"><b>{{ $sick_balance_day > 1 ? $sick_balance_day.' days' : $sick_balance_day.' day' }}</b></td>
+                                                <td class="col-md-1"><b>{{ $total_balance_day > 1 ? $total_balance_day.' days' : $total_balance_day.' day' }}</b></td>
                                             </tr>
                                             </tbody>
                                         </table>
