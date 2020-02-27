@@ -118,7 +118,6 @@ if(isset($_POST['tardiness_undertime_date'])){
             ), 5);
             $pdf->Ln(3);
         }
-        $total_late = $row['total_late'];
 
         $name = $row['name'];
         if(!isset($flag_name[$name])){
@@ -190,6 +189,7 @@ if(isset($_POST['tardiness_undertime_date'])){
                 ["word" => "LATE",'font_style' => '','font_size'=>5.7,'border'=>$border,"position"=>'C'],
                 ["word" => "",'font_style' => '','font_size'=>5.7,'border'=>$border,"position"=>'C']
             ),5);
+            $total_late = $row['total_late'];
         }
         $flag_name[$name] = true;
 
@@ -257,11 +257,10 @@ if(isset($_POST['tardiness_undertime_date'])){
         ){
             if(explode('_',explode('|',$row['time'])[0])[0] == 'empty' && explode('_',explode('|',$row['time'])[1])[0]){
                 $halfday_log = 'HALF DAY';
-                $late += 240;
             } else {
                 $halfday_log = explode('_',explode('|',$row['time'])[0])[0];
-                $late = $row['late'];
             }
+            $late = $row['late'];
 
             $afternoon_width_pm_in = 15;
             $afternoon_width_pm_out = 15;
@@ -303,11 +302,11 @@ if(isset($_POST['tardiness_undertime_date'])){
         ){
             if(explode('_',explode('|',$row['time'])[2])[0] == 'empty' && explode('_',explode('|',$row['time'])[3])[0] == 'empty'){
                 $halfday_log = 'HALF DAY';
-                $late += 240;
             } else {
                 $halfday_log = explode('_',explode('|',$row['time'])[2])[0];
-                $late = $row['late'];
             }
+            $late = $row['late'];
+
             $pdf->SetWidths(array(5,7.5,15,15,30,7.5,7,$set_size_center,5,7.5,15,15,30,7.5,7));
             $pdf->Row(array(
                 ["word" => explode('-',$row['datein'])[2],'font_style' => '','font_size'=>7.5,'border'=>$border,"position"=>'L'],
