@@ -6,7 +6,7 @@
         <div class="col-md-12">
             <form class="form-inline" autocomplete="off" method="POST" action="{{ asset('logs/timelog') }}" id="submit_logs" style="margin-right: 2%">
                 <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
-                <input type="text" class="form-control filter_dates" value="{{ Session::get('filter_dates') }}" id="inclusive3" name="filter_dates" placeholder="Filter Date" required>
+                <input type="text" class="form-control filter_dates" value="{{ Session::get('filter_dates') }}" id="inclusive3" name="filter_dates" placeholder="Filter Date" readonly>
                 <button type="submit" class="btn btn-primary" id="print">
                     Generate
                 </button>

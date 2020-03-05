@@ -521,7 +521,7 @@ class AdminController extends BaseController
         $leave->save();
 
         Session::put('pending_leave',true);
-        return Redirect::to('tracked/leave');
+        return Redirect::to('leave/roles');
     }
 
     public function disapproved_leave(){
@@ -532,7 +532,7 @@ class AdminController extends BaseController
         $leave->save();
 
         Session::put('disapproved_leave',true);
-        return Redirect::to('tracked/leave');
+        return Redirect::to('leave/roles');
     }
 
     public function releasedStatusChecker($route_no,$section){
@@ -580,13 +580,13 @@ class AdminController extends BaseController
         $leave->save();
 
         //TRACKING
-        $doc = Tracking::where('route_no',$route_no)
+        $doc = Tracking_Master::where('route_no',$route_no)
             ->orderBy('id','desc')
             ->first();
         $document = Tracking_Details::where('route_no',$route_no)
             ->orderBy('id','desc')
             ->first();
-        $receiver = UserDts::where('userid','=',Auth::user()->userid)->first();
+        $receiver = UserDts::where('username','=',Auth::user()->userid)->first();
         if($document) {
             Tracking_Details::where('route_no', $route_no)
                 ->where('received_by', $document->received_by)
@@ -605,7 +605,7 @@ class AdminController extends BaseController
                     'date_in' => date('Y-m-d H:i:s'),
                     'received_by' => $receiver->id,
                     'status' => 0,
-                    'action' => 'Leave Approved'
+                    'action' => 'Leave application approved'
                 ]);
         }else{
             $q = new Tracking_Details();
@@ -614,7 +614,7 @@ class AdminController extends BaseController
             $q->date_in = date('Y-m-d H:i:s');
             $q->received_by = $receiver->id;
             $q->delivered_by = $received_by;
-            $q->action = 'Leave Approved';
+            $q->action = 'Leave application approved';
             $q->save();
         }
         $this->releasedStatusChecker($route_no,$receiver->section);
@@ -715,7 +715,7 @@ class AdminController extends BaseController
         $st->execute();
 
         Session::put('approved_leave',true);
-        return Redirect::to('tracked/leave');
+        return Redirect::to('leave/roles');
     }
 
     public function cancel_leave($route_no) {
@@ -727,7 +727,7 @@ class AdminController extends BaseController
             ->whereBetween('datein',array($leave->inc_from,$leave->inc_to))
             ->delete();
         DB::table('leave')->where('route_no','=',$route_no)->update(['approve' => 0]);
-        return Redirect::to('tracked/leave');
+        return Redirect::to('leave/roles');
     }
     public function search_leave()
     {

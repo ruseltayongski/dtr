@@ -66,7 +66,7 @@ Route::match(array('GET','POST'),'resetpass', 'PasswordController@change_passwor
 
 //LEAVE PROCCESS
 
-Route::get('tracked/leave','AdminController@track_leave');
+Route::get('leave/roles','AdminController@track_leave');
 Route::post('leave/approved','AdminController@approved_leave');
 Route::post('leave/disapproved','AdminController@disapproved_leave');
 Route::post('leave/pending','AdminController@pending_leave');
@@ -74,7 +74,6 @@ Route::get('leave/delete/{id}','AdminController@delete_leave');
 Route::get('leave/update/{id}', 'AdminController@edit_leave');
 Route::get('leave/cancel/{route_no}','AdminController@cancel_leave');
 Route::get('search/leave','AdminController@search_leave');
-
 
 
 //DTR
