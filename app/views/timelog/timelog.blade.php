@@ -1,7 +1,20 @@
-
 @extends('layouts.app')
 
 @section('content')
+    <style>
+        @keyframes highlight {
+            0% {
+                background: #ffff99;
+            }
+            100% {
+                background: none;
+            }
+        }
+
+        .highlight {
+            animation: highlight 3s;
+        }
+    </style>
     <div class="row">
         <div class="col-md-12">
             <form class="form-inline" autocomplete="off" method="POST" action="{{ asset('logs/timelog') }}" id="submit_logs" style="margin-right: 2%">
@@ -45,16 +58,24 @@
                                             <strong class="text-green">{{ date("F d, Y",strtotime($row->datein)) }}</strong><br>
                                             <small class="text-orange" style="font-size: 8pt;">{{ $row->dayname }}</small>
                                         </td>
-                                        <td>
+                                        <td> <!-- AM IN -->
                                             <input type="hidden" value="{{ explode("_",explode('|',$row->time)[0])[2] }}" id="{{ $count."ñ"."AM_IN" }}">
-                                            <!-- <input type="text" value="{{ explode("_",explode('|',$row->time)[0])[3] }}" id="{{ $count."ñ"."AM_INlog_status" }}"> -->
+                                            <?php $time = explode("_",explode('|',$row->time)[0])[0]; ?>
                                             @if(empty(explode("_",explode('|',$row->time)[0])[1]) || explode("_",explode('|',$row->time)[0])[3] == 'mobile')
-                                                <strong class="badge bg-green" style="font-size: 10pt">{{ explode("_",explode('|',$row->time)[0])[0] }}</strong><br>
+                                                <strong class="badge bg-green" style="font-size: 10pt">{{ $time }}</strong><br>
                                                 @if(isset(explode("_",explode('|',$row->time)[0])[4]) && isset(explode("_",explode('|',$row->time)[0])[5]))
-                                                    @if(explode("_",explode('|',$row->time)[0])[4] != "empty" && explode("_",explode('|',$row->time)[0])[5] != "empty")
-                                                    <small>Latitude : {{ explode("_",explode('|',$row->time)[0])[4] }}</small><br>
-                                                    <small>Longitude : {{ explode("_",explode('|',$row->time)[0])[5] }}</small><br>
-                                                    <i class="ace-icon fa fa-hand-o-right"></i> <a href="https://www.latlong.net/Show-Latitude-Longitude.html" target="_blank"><strong>location url</strong></a>
+                                                    <?php
+                                                        $latitude = explode("_",explode('|',$row->time)[0])[4];
+                                                        $longitude = explode("_",explode('|',$row->time)[0])[5];
+                                                    ?>
+                                                    @if($latitude != "empty" && $longitude != "empty")
+                                                        <?php
+                                                            $lat_element = 'lat'.date("YmdHis",strtotime($row->datein.$time)).'am_in';
+                                                            $lon_element = 'lon'.date("YmdHis",strtotime($row->datein.$time)).'am_in';
+                                                        ?>
+                                                        Latitude : <small id="{{ $lat_element }}">{{ $latitude }}</small> <button class="btn btn-default btn-xs" type="button" onclick="copyToClipboard('{{ '#'.$lat_element }}')">Copy</button><br>
+                                                        Longitude : <small id="{{ $lon_element }}">{{ $longitude }}</small> <button class="btn btn-default btn-xs" type="button" style="margin-top: 1%" onclick="copyToClipboard('{{ '#'.$lon_element }}')">Copy</button><br>
+                                                        <i class="ace-icon fa fa-hand-o-right"></i> <a href="https://www.latlong.net/Show-Latitude-Longitude.html" target="_blank"><strong>location url</strong></a>
                                                     @endif
                                                 @endif
                                             @else
@@ -65,17 +86,26 @@
                                                     'ñ'.explode("_",explode('|',$row->time)[0])[3].'ñ'.
                                                     "AM_IN"."ñ".
                                                     $count;
-                                                ?>">{{ strtoupper(explode("_",explode('|',$row->time)[0])[0]) }}</strong>
+                                                ?>">{{ strtoupper($time) }}</strong>
                                             @endif
                                         </td>
-                                        <td>
+                                        <td> <!-- AM OUT -->
                                             <input type="hidden" value="{{ explode("_",explode('|',$row->time)[1])[2] }}" id="{{ $count."ñ"."AM_OUT" }}">
+                                            <?php $time = explode("_",explode('|',$row->time)[1])[0]; ?>
                                             @if(empty(explode("_",explode('|',$row->time)[1])[1]) || explode("_",explode('|',$row->time)[1])[3] == 'mobile')
-                                                <strong class="badge bg-green">{{ explode("_",explode('|',$row->time)[1])[0] }}</strong><br>
+                                                <strong class="badge bg-green">{{ $time }}</strong><br>
                                                 @if(isset(explode("_",explode('|',$row->time)[1])[4]) && isset(explode("_",explode('|',$row->time)[1])[5]))
-                                                    @if(explode("_",explode('|',$row->time)[1])[4] != "empty" && explode("_",explode('|',$row->time)[1])[5] != "empty")
-                                                        <small>Latitude : {{ explode("_",explode('|',$row->time)[1])[4] }}</small><br>
-                                                        <small>Longitude : {{ explode("_",explode('|',$row->time)[1])[5] }}</small><br>
+                                                    <?php
+                                                        $latitude = explode("_",explode('|',$row->time)[1])[4];
+                                                        $longitude = explode("_",explode('|',$row->time)[1])[5];
+                                                    ?>
+                                                    @if($latitude != "empty" && $longitude != "empty")
+                                                        <?php
+                                                            $lat_element = 'lat'.date("YmdHis",strtotime($row->datein.$time)).'am_out';
+                                                            $lon_element = 'lon'.date("YmdHis",strtotime($row->datein.$time)).'am_out';
+                                                        ?>
+                                                        Latitude : <small id="{{ $lat_element }}">{{ $latitude }}</small> <button class="btn btn-default btn-xs" type="button" onclick="copyToClipboard('{{ '#'.$lat_element }}')">Copy</button><br>
+                                                        Longitude : <small id="{{ $lon_element }}">{{ $longitude }}</small> <button class="btn btn-default btn-xs" type="button" style="margin-top: 1%" onclick="copyToClipboard('{{ '#'.$lon_element }}')">Copy</button><br>
                                                         <i class="ace-icon fa fa-hand-o-right"></i> <a href="https://www.latlong.net/Show-Latitude-Longitude.html" target="_blank"><strong>location url</strong></a>
                                                     @endif
                                                 @endif
@@ -87,17 +117,26 @@
                                                     'ñ'.explode("_",explode('|',$row->time)[1])[3].'ñ'.
                                                     "AM_OUT"."ñ".
                                                     $count;
-                                                ?>">{{ strtoupper(explode("_",explode('|',$row->time)[1])[0]) }}</strong>
+                                                ?>">{{ strtoupper($time) }}</strong>
                                             @endif
                                         </td>
-                                        <td >
+                                        <td > <!-- PM IN -->
                                             <input type="hidden" value="{{ explode("_",explode('|',$row->time)[2])[2] }}" id="{{ $count."ñ"."PM_IN" }}">
+                                            <?php $time = explode("_",explode('|',$row->time)[2])[0]; ?>
                                             @if(empty(explode("_",explode('|',$row->time)[2])[1]) || explode("_",explode('|',$row->time)[2])[3] == 'mobile')
-                                                <strong class="badge bg-green">{{ explode("_",explode('|',$row->time)[2])[0] }}</strong><br>
+                                                <strong class="badge bg-green">{{ $time }}</strong><br>
                                                 @if(isset(explode("_",explode('|',$row->time)[2])[4]) && isset(explode("_",explode('|',$row->time)[2])[5]))
-                                                    @if(explode("_",explode('|',$row->time)[2])[4] != "empty" && explode("_",explode('|',$row->time)[2])[5] != "empty")
-                                                        <small>Latitude : {{ explode("_",explode('|',$row->time)[2])[4] }}</small><br>
-                                                        <small>Longitude : {{ explode("_",explode('|',$row->time)[2])[5] }}</small><br>
+                                                    <?php
+                                                        $latitude = explode("_",explode('|',$row->time)[2])[4];
+                                                        $longitude = explode("_",explode('|',$row->time)[2])[5];
+                                                    ?>
+                                                    @if($latitude != "empty" && $longitude != "empty")
+                                                        <?php
+                                                            $lat_element = 'lat'.date("YmdHis",strtotime($row->datein.$time)).'pm_in';
+                                                            $lon_element = 'lon'.date("YmdHis",strtotime($row->datein.$time)).'pm_in';
+                                                        ?>
+                                                        Latitude : <small id="{{ $lat_element }}">{{ $latitude }}</small> <button class="btn btn-default btn-xs" type="button" onclick="copyToClipboard('{{ '#'.$lat_element }}')">Copy</button><br>
+                                                        Longitude : <small id="{{ $lon_element }}">{{ $longitude }}</small> <button class="btn btn-default btn-xs" type="button" style="margin-top: 1%" onclick="copyToClipboard('{{ '#'.$lon_element }}')">Copy</button><br>
                                                         <i class="ace-icon fa fa-hand-o-right"></i> <a href="https://www.latlong.net/Show-Latitude-Longitude.html" target="_blank"><strong>location url</strong></a>
                                                     @endif
                                                 @endif
@@ -109,17 +148,26 @@
                                                     'ñ'.explode("_",explode('|',$row->time)[2])[3].'ñ'.
                                                     "PM_IN"."ñ".
                                                     $count;
-                                                ?>">{{ strtoupper(explode("_",explode('|',$row->time)[2])[0]) }}</strong>
+                                                ?>">{{ strtoupper($time) }}</strong>
                                             @endif
                                         </td>
-                                        <td >
+                                        <td > <!-- PM OUT -->
                                             <input type="hidden" value="{{ explode("_",explode('|',$row->time)[3])[2] }}" id="{{ $count."ñ"."PM_OUT" }}">
+                                            <?php $time = explode("_",explode('|',$row->time)[3])[0]; ?>
                                             @if(empty(explode("_",explode('|',$row->time)[3])[1]) || explode("_",explode('|',$row->time)[3])[3] == 'mobile')
                                                 <strong class="badge bg-green">{{ explode("_",explode('|',$row->time)[3])[0] }}</strong><br>
                                                 @if(isset(explode("_",explode('|',$row->time)[3])[4]) && isset(explode("_",explode('|',$row->time)[3])[5]))
-                                                    @if(explode("_",explode('|',$row->time)[3])[4] != "empty" && explode("_",explode('|',$row->time)[3])[5] != "empty")
-                                                        <small>Latitude : {{ explode("_",explode('|',$row->time)[3])[4] }}</small><br>
-                                                        <small>Longitude : {{ explode("_",explode('|',$row->time)[3])[5] }}</small><br>
+                                                    <?php
+                                                        $latitude = explode("_",explode('|',$row->time)[3])[4];
+                                                        $longitude = explode("_",explode('|',$row->time)[3])[5];
+                                                    ?>
+                                                    @if($latitude != "empty" && $longitude != "empty")
+                                                        <?php
+                                                            $lat_element = 'lat'.date("YmdHis",strtotime($row->datein.$time)).'pm_out';
+                                                            $lon_element = 'lon'.date("YmdHis",strtotime($row->datein.$time)).'pm_out';
+                                                        ?>
+                                                        Latitude : <small id="{{ $lat_element }}">{{ $latitude }}</small> <button class="btn btn-default btn-xs" type="button" onclick="copyToClipboard('{{ '#'.$lat_element }}')">Copy</button><br>
+                                                        Longitude : <small id="{{ $lon_element }}">{{ $longitude }}</small> <button class="btn btn-default btn-xs" type="button" style="margin-top: 1%" onclick="copyToClipboard('{{ '#'.$lon_element }}')">Copy</button><br>
                                                         <i class="ace-icon fa fa-hand-o-right"></i> <a href="https://www.latlong.net/Show-Latitude-Longitude.html" target="_blank"><strong>location url</strong></a>
                                                     @endif
                                                 @endif
@@ -131,7 +179,7 @@
                                                     'ñ'.explode("_",explode('|',$row->time)[3])[3].'ñ'.
                                                     "PM_OUT"."ñ".
                                                     $count;
-                                                ?>">{{ strtoupper(explode("_",explode('|',$row->time)[3])[0]) }}</strong>
+                                                ?>">{{ strtoupper($time) }}</strong>
                                             @endif
                                         </td>
                                     </tr>
@@ -158,6 +206,19 @@
 @section('js')
     @parent
     <script>
+
+        function copyToClipboard(element) {
+            var $temp = $("<input>");
+            $("body").append($temp);
+            $temp.val($(element).text()).select();
+            $(element).addClass("highlight");
+            setTimeout(function () {
+                $(element).removeClass('highlight');
+            }, 3000);
+            document.execCommand("copy");
+            $temp.remove();
+        }
+
         $('#inclusive3').daterangepicker();
         $('#submit_logs').submit(function(){
             $('#print_individual').modal({
