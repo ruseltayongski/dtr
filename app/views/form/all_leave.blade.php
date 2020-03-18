@@ -9,7 +9,7 @@
         </div>
     @endif
     <h3 class="page-header">Leave Documents</h3>
-    <form class="form-inline form-accept" action="{{ asset('tracked/leave') }}" method="GET">
+    <form class="form-inline form-accept" action="{{ asset('leave/roles') }}" method="GET">
         <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
         <div class="form-group">
             <input type="text" name="search" value="{{ $search }}" class="form-control" placeholder="Quick Search" autofocus>

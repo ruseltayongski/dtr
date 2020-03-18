@@ -30,7 +30,7 @@
                     </ul>
                 </li>
                 <li class="divider"></li>
-                <li><a href="{{ url('logs/timelog') }}"><i class="fa fa-user"></i> Time Log</a></li>
+                <li><a href="{{ url('logs/timelogs') }}"><i class="fa fa-user"></i> Time Log</a></li>
             </ul>
         </li>
     @endif
@@ -52,17 +52,35 @@
     </li>
     <li class="divider"></li>
     <?php
-    $user_roles = UserRoles::select('users_roles.id','users_claims.claim_type','users_claims.claim_value')
+    $user_roles = UserRoles::select('users_roles.id','users_claims.claim_type','users_claims.claim_value','users_claims.id as claims_id')
         ->where('users_roles.userid','=',Auth::user()->userid)
         ->LeftJoin('users_claims','users_claims.id','=','users_roles.claims_id')
         ->get();
     ?>
     @if(count($user_roles) >= 1)
         <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-file"></i> User Roles<span class="caret"></span></a>
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-cog"></i> User Roles<span class="caret"></span></a>
             <ul class="dropdown-menu">
                 @foreach($user_roles as $role)
+                    @if($role->claims_id == 1)
+                        <li class="dropdown-submenu">
+                            <a href="#" data-toggle="dropdown">{{ $role->claim_type }}</a>
+                            <ul class="dropdown-menu">
+                                <li><a href="{{ asset('leave/roles') }}">Leave Applications</a></li>
+                                <li><a href="{{ asset('leave/credits') }}">Leave Credits</a></li>
+                            </ul>
+                        </li>
+                    @elseif($role->claims_id == 2)
+                        <li class="dropdown-submenu">
+                            <a href="#" data-toggle="dropdown">{{ $role->claim_type }}</a>
+                            <ul class="dropdown-menu">
+                                <li><a href="{{ asset('form/cdo_list') }}"><i class="fa fa-file-text"></i> Pending CTO</a></li>
+                                <li><a href="{{ asset('beginning_balance') }}"><i class="fa fa-user"></i> Beginning Balance</a></li>
+                            </ul>
+                        </li>
+                    @else
                     <li><a href="{{ asset($role->claim_value) }}">{{ $role->claim_type }}</a></li>
+                    @endif
                 @endforeach
             </ul>
         </li>

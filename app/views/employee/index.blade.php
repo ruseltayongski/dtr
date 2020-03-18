@@ -53,7 +53,7 @@
                 <!-- /.box-header -->
                 <div class="box-body">
                     <div class="alert alert-info">
-                        New features of DTR VERSION 4.3<br> Just click here <i class="ace-icon fa fa-hand-o-right"></i> <a href="{{ asset('logs/timelog') }}"><strong>Manage Timelog</strong></a>
+                        New features of DTR VERSION 4.3<br> Just click here <i class="ace-icon fa fa-hand-o-right"></i> <a href="{{ asset('logs/timelogs') }}"><strong>Manage Timelog</strong></a>
                     </div>
                     <div class="alert alert-success">
                         If you encountered an error, please send us feedback and suggestion. Just comment below <i class="ace-icon fa fa-hand-o-down"></i>

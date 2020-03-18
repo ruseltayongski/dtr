@@ -17,12 +17,13 @@
     </style>
     <div class="row">
         <div class="col-md-12">
-            <form class="form-inline" autocomplete="off" method="POST" action="{{ asset('logs/timelog') }}" id="submit_logs" style="margin-right: 2%">
+            <form class="form-inline" autocomplete="off" method="POST" action="{{ $supervisor ? asset('logs/timelogs/supervisor') : asset('logs/timelogs') }}" id="submit_logs" style="margin-right: 2%">
                 <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
                 <input type="text" class="form-control filter_dates" value="{{ Session::get('filter_dates') }}" id="inclusive3" name="filter_dates" placeholder="Filter Date" readonly>
                 <button type="submit" class="btn btn-primary" id="print">
                     Generate
                 </button>
+                <div class="label pull-right bg-red" style="font-size: 12pt">{{ $timeLog[0]->name }}</div>
             </form>
             <br>
             @if(empty($timeLog))
@@ -191,7 +192,7 @@
                                 <div style="padding: 1%;margin-top: -2%;float: right">
                                     <button class="btn btn-success" name="filter_range" value="{{ Session::get('filter_dates') }}"><i class="fa fa-print"></i> Generate PDF</button>
                                 </div>
-                                <input type="hidden" name="userid" value="{{ Auth::user()->userid}}">
+                                <input type="hidden" name="userid" value="{{ $userid }}">
                                 <input type="hidden" name="job_status" value="{{ Session::get('job_status') }}">
                             </form>
                         </div>

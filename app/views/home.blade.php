@@ -210,6 +210,7 @@ session_start();
         </div>
         -->
         <!-- PRINT MOBILE LOGS -->
+        <!--
         <div class="row">
             <div class="col-md-12">
                 <div class="panel panel-default">
@@ -248,10 +249,9 @@ session_start();
                 </div>
             </div>
         </div>
+        -->
     </div>
     <div class="col-md-8">
-        <div class="row">
-        </div>
         <div class="row">
             <div class="col-md-12">
                 <div class="panel panel-default">
@@ -271,21 +271,42 @@ session_start();
                                 <table class="table table-list table-hover table-striped">
                                     <thead>
                                     <tr>
-                                        <th class="text-center">User ID</th>
-                                        <th class="text-center">Name </th>
-                                        <th class="text-center">Work Schedule</th>
-                                        <th class="text-center">Option</th>
+                                        <th>User ID</th>
+                                        <th>Name </th>
+                                        <th>Work Schedule</th>
+                                        <th>User Roles</th>
                                     </tr>
                                     </thead>
                                     <tbody>
                                     @foreach($users as $user)
                                         <tr>
-                                            <td class="text-center"><a href="#edit" data-id="{{ $user->userid }}" data-toggle="modal" data-target="#update_user_info" data-link="{{ asset('user/edit') }}" class="title-info user_edit">{{ $user->userid }}</a></td>
-                                            <td class="text-center"><a href="#edit" data-id="{{ $user->userid }}" data-toggle="modal" data-target="#update_user_info" data-link="{{ asset('user/edit') }}" class="text-bold user_edit">{{ $user->fname ." ". $user->mname." ".$user->lname }}</a></td>
-                                            <td class="text-center">
-                                                <span class="text-bold">{{ $user->description }}</span>
+                                            <td><a href="#edit" data-id="{{ $user->userid }}" data-toggle="modal" data-target="#update_user_info" data-link="{{ asset('user/edit') }}" class="title-info user_edit">{{ $user->userid }}</a></td>
+                                            <td><a href="#edit" data-id="{{ $user->userid }}" data-toggle="modal" data-target="#update_user_info" data-link="{{ asset('user/edit') }}" class="text-bold user_edit text-blue">{{ $user->fname ." ". $user->mname." ".$user->lname }}</a></td>
+                                            <td>
+                                                <a href="#edit" data-id="{{ $user->userid }}" class="text-bold change_sched text-green">{{ $user->description }}</a>
                                             </td>
-                                            <td class="text-center"><button data-id="{{ $user->userid }}" type="button" class="btn btn-info btn-xs change_sched">Change</button></td>
+                                            <td>
+                                                <?php
+                                                    $roles = UserRoles::
+                                                            select("users_roles.id","users_roles.userid","users_claims.claim_type","users_claims.claim_value","users_claims.id as claims_id")
+                                                            ->leftJoin("users_claims","users_claims.id","=","users_roles.claims_id")
+                                                            ->where("users_roles.userid","=",$user->userid)
+                                                            ->get()
+                                                ?>
+                                                @if(count($roles) >= 1)
+                                                @foreach($roles as $role)
+                                                    <div>
+                                                        @if($role->claims_id == 3)
+                                                            <button data-userid="{{ $role->userid }}" type="button" class="btn btn-success btn-xs users_roles_modal" style="margin-top: 5px"><i class="fa fa-cog"></i> {{ $role->claim_type }}</button>
+                                                        @else
+                                                            <small class="label bg-green">{{ $role->claim_type }}</small>
+                                                        @endif
+                                                    </div>
+                                                @endforeach
+                                                @else
+                                                    <small class="label bg-red">None</small>
+                                                @endif
+                                            </td>
                                         </tr>
                                     @endforeach
                                     </tbody>
@@ -311,6 +332,33 @@ session_start();
 @parent
 
     <script>
+        $('.select_supervise').select2();
+
+        function getSupervise(data) {
+            var supervise_id = [data.userid].join(" ");
+            return supervise_id;
+        }
+
+        $(".users_roles_modal").click(function(){
+            $('#users_roles_modal').modal({
+                backdrop: 'static',
+                keyboard: false,
+                show: true
+            });
+
+            var userid = $(this).data('userid');
+            var url = "<?php echo asset('supervise/list') ?>";
+            var json = {
+               'supervisor_id' : userid
+            };
+            $.post(url,json,function(result){
+                console.log(result);
+                $('.select_supervise').val(result.map(getSupervise)).trigger('change');
+            });
+
+            $("#supervisor_id").val(userid);
+        });
+
 
         $('.input-daterange input').each(function() {
             $(this).datepicker("clearDates");
@@ -320,8 +368,7 @@ session_start();
             $('#delete_time').modal('show');
             $('#dtr_id_val').val(id);
         }
-    </script>
-    <script>
+
         function readFile(input) {
             if (input.files && input.files[0]) {
                 var reader = new FileReader();

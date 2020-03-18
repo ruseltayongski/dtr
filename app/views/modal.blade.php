@@ -160,6 +160,32 @@
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
+<div class="modal" tabindex="-1" role="dialog" id="users_roles_modal">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color:#9C8AA5;color: white;">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title"> Supervision of Employees</h4>
+            </div>
+            <form action="{{ asset('supervise/add') }}" method="POST">
+                <div class="modal-body">
+                    <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
+                    <input type="hidden" value="" name="supervisor_id" id="supervisor_id" />
+                    <select class="form-control select_supervise" multiple="multiple" name="supervise_employee[]" style="width: 100%">
+                        @foreach(User::get() as $personnel)
+                            <option value='{{ $personnel->userid }}'>{{ $personnel->fname.' '.$personnel->mname.' '.$personnel->lname }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="modal-footer">
+                    <input type="submit" class="btn btn-success">
+                    <button type="button" class="btn btn-warning" data-dismiss="modal">Cancel</button>
+                </div>
+            </form>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
 
 <div class="modal fade" tabindex="-1" role="dialog" id="form_type" style="z-index:999991;">
     <div class="modal-dialog modal-sm" role="document">
@@ -445,7 +471,7 @@
 </center>
 
 
-<div class="modal" tabindex="-1" role="dialog" id="modal_leave_approved">
+<div class="modal fade" tabindex="-1" role="dialog" id="modal_leave_approved">
     <div class="modal-dialog modal-sm" role="document">
         <div class="modal-content">
             <div class="modal-header" style="background-color:#9C8AA5;color: white;">
@@ -482,7 +508,7 @@
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
-<div class="modal" tabindex="-1" role="dialog" id="modal_leave_disapproved">
+<div class="modal fade" tabindex="-1" role="dialog" id="modal_leave_disapproved">
     <div class="modal-dialog modal-sm" role="document">
         <div class="modal-content" >
             <div class="modal-header" style="background-color:#9C8AA5;color: white;">
@@ -504,7 +530,7 @@
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
-<div class="modal" tabindex="-1" role="dialog" id="modal_leave_pending">
+<div class="modal fade" tabindex="-1" role="dialog" id="modal_leave_pending">
     <div class="modal-dialog modal-sm" role="document">
         <div class="modal-content" >
             <form action="{{ asset('leave/pending') }}" method="POST">
@@ -519,4 +545,21 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
+
+
+<div class="modal fade" tabindex="-1" role="dialog" id="supervise_view">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content" >
+            <form action="{{ asset('supervise/individual') }}" method="POST">
+                <input type="hidden" name="supervise_id" id="supervise_id">
+                <div class="modal-body">
+                    <div class="alert alert-info"><strong class="supervise_name">Are you sure you want to set pending?</strong></div>
+                    <button type="submit" class="btn btn-success leave_approved"><span class="fa fa-eye"></span> View Timelog</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                </div>
+            </form>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
 

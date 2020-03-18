@@ -66,7 +66,7 @@ Route::match(array('GET','POST'),'resetpass', 'PasswordController@change_passwor
 
 //LEAVE PROCCESS
 
-Route::get('leave/roles','AdminController@track_leave');
+Route::match(['GET','POST'],'leave/roles','AdminController@track_leave');
 Route::post('leave/approved','AdminController@approved_leave');
 Route::post('leave/disapproved','AdminController@disapproved_leave');
 Route::post('leave/pending','AdminController@pending_leave');
@@ -302,13 +302,21 @@ Route::get('git_add','GitController@git_add');
 Route::get('git_commit','GitController@git_commit');
 
 //TIMELOG
-Route::post('logs/timelog','TimeLogController@timelog');
+Route::match(['POST','GET'],'logs/timelogs','TimeLogController@timelog');
+Route::match(['POST','GET'],'logs/timelogs/{supervisor}','TimeLogController@timelog');
 Route::post('logs/timelog/edit','TimeLogController@edit');
-Route::get('logs/timelog','TimeLogController@timelog');
 Route::post('logs/timelog/append','TimeLogController@append');
 
 //COMMENT
 Route::post('faq/comment_append','FaqController@comment_append');
 Route::post('faq/reply_append','FaqController@reply_append');
+
+//SUPERVISOR
+Route::post('supervise/add','SupervisorController@superviseEmployee');
+Route::post('supervise/list','SupervisorController@superviseList');
+Route::post('supervise/individual','SupervisorController@superviseIndividual');
+
+//LOCATION
+Route::match(['GET','POST'],'location/roles','SupervisorController@location');
 
 ?>
