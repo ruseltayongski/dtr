@@ -343,5 +343,15 @@
     </script>
     <?php Session::forget('upload_logs'); ?>
 @endif
+@if(Session::get('superviseAdd'))
+    <script>
+        Lobibox.notify('success',{
+            size:'mini',
+            title:'',
+            msg:'Success!'
+        });
+    </script>
+    <?php Session::forget('superviseAdd'); ?>
+@endif
 </body>
 </html>

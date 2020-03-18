@@ -78,18 +78,36 @@ class AdminController extends BaseController
                 ["value" => 4,"description" =>"BOHOL USER"],
                 ["value" => 5,"description" =>"BOHOL ADMIN"],
             ];
-
-            $user = DB::table('users')->where('userid', '=', Input::get('id'))->first();
-            Session::put('edit_user', $user->id);
+            $userid = Input::get('id');
+            $user = DB::table('users')->where('userid',"=",$userid)->first();
+            $user_roles = UserRoles::where("userid","=",$userid)->get(['claims_id']);
+            $user_claim = UserClaims::get();
+            Session::put('edit_user',$userid);
             return View::make('users.user_edit',[
                 "user" => $user,
+                "user_roles" => $user_roles,
+                "user_claim" => $user_claim,
                 "usertype" => $usertype,
                 "usertype_default" => $this->searchArray($usertype,$user->usertype)
             ]);
         }
         if(Request::method() == 'POST') {
-            $user = Users::where('id', '=', Session::get('edit_user'))->first();
+            $userid = Session::get('edit_user');
+            if(count(Input::get('user_roles')) >= 1){
+                $prev_roles = UserRoles::where('userid','=',$userid);
+                if(count($prev_roles) >= 1){
+                    $prev_roles->delete();
+                }
+                foreach(Input::get('user_roles') as $row){
+                    $current_roles = new UserRoles();
+                    $current_roles->userid = $userid;
+                    $current_roles->claims_id = $row;
+                    $current_roles->status = 'active';
+                    $current_roles->save();
+                }
+            }
 
+            $user = Users::where('userid','=',$userid)->first();
             if(strlen(Input::get('username')) > 5) {
                 $user->emptype = "REG";
             } else {
@@ -457,21 +475,20 @@ class AdminController extends BaseController
 
     public function track_leave()
     {
-        $search = Input::get('search');
+        $keyword = Input::get('search');
         $leaves = Leave::
-                        where(function($q) use ($search){
-                            $q->where('firstname','like',"%$search%")
-                                ->orwhere('middlename','like',"%$search%")
-                                ->orwhere('lastname','like',"%$search%")
-                                ->orwhere('route_no','like',"%$search%");
+                        where(function($q) use ($keyword){
+                            $q->where('firstname','like',"%$keyword%")
+                                ->orwhere('middlename','like',"%$keyword%")
+                                ->orwhere('lastname','like',"%$keyword%")
+                                ->orwhere('route_no','like',"%$keyword%");
                         })
                         ->orderBy('created_at','desc')
-                        ->paginate(5);
-        Session::put('search',$search);
+                        ->paginate(10);
         return View::make('form.all_leave',
             [
                 'leaves' => $leaves,
-                'search' => $search
+                'search' => $keyword
             ]
         );
     }

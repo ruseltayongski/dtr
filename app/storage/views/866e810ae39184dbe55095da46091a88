@@ -1,24 +1,23 @@
-@extends('layouts.app')
-
-@section('content')
-    @if(Session::has('message'))
+<?php $__env->startSection('content'); ?>
+    <?php if(Session::has('message')): ?>
         <div class="col-md-12 wrapper">
             <div class="alert alert-success" role="alert">
-                {{ Session::get('message') }}
+                <?php echo Session::get('message'); ?>
+
             </div>
         </div>
-    @endif
+    <?php endif; ?>
     <h3 class="page-header">Leave Documents</h3>
-    <form class="form-inline form-accept" action="{{ asset('leave/roles') }}" method="GET">
+    <form class="form-inline form-accept" action="<?php echo asset('leave/roles'); ?>" method="GET">
         <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
         <div class="form-group">
-            <input type="text" name="search" value="{{ $search }}" class="form-control" placeholder="Quick Search" autofocus>
+            <input type="text" name="search" value="<?php echo $search; ?>" class="form-control" placeholder="Quick Search" autofocus>
             <button type="submit" class="btn btn-default"><i class="fa fa-search"></i> Search</button>
         </div>
     </form><br>
     <div class="row">
         <div class="col-md-12">
-            @if(isset($leaves) and count($leaves) >0)
+            <?php if(isset($leaves) and count($leaves) >0): ?>
                 <div class="table-responsive">
                     <table class="table table-list table-hover table-striped">
                         <thead>
@@ -33,23 +32,23 @@
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach($leaves as $leave)
+                        <?php foreach($leaves as $leave): ?>
                             <tr>
                                 <td >
-                                    <a href="#track" data-link="{{ asset('form/track/'.$leave->route_no) }}" data-route="{{ $leave->route_no }}" data-toggle="modal" class="btn btn-sm btn-success" ><i class="fa fa-line-chart"></i> Track</a>
+                                    <a href="#track" data-link="<?php echo asset('form/track/'.$leave->route_no); ?>" data-route="<?php echo $leave->route_no; ?>" data-toggle="modal" class="btn btn-sm btn-success" ><i class="fa fa-line-chart"></i> Track</a>
                                 </td>
                                 <td >
-                                    <a class="title-info" data-route="{{ $leave->route_no }}" data-id="{{ $leave->id }}" data-backdrop="static" data-link="{{ asset('leave/get') }}" href="#leave_info" data-toggle="modal">{{ $leave->route_no }}</a>
+                                    <a class="title-info" data-route="<?php echo $leave->route_no; ?>" data-id="<?php echo $leave->id; ?>" data-backdrop="static" data-link="<?php echo asset('leave/get'); ?>" href="#leave_info" data-toggle="modal"><?php echo $leave->route_no; ?></a>
                                 </td>
-                                <td ><span style="font-size:15px;font-weight:bold;">{{ $leave->firstname." ". $leave->lastname  }}</span></td>
+                                <td ><span style="font-size:15px;font-weight:bold;"><?php echo $leave->firstname." ". $leave->lastname; ?></span></td>
                                 <td >
                                     <?php
                                     $date_time = new DateTime($leave->date_filling);
                                     $date = $date_time->format('M')." ".$date_time->format('d') .", ". $date_time->format('Y');
                                     ?>
-                                    <a href="#"><b>{{ $date }}</b></a>
+                                    <a href="#"><b><?php echo $date; ?></b></a>
                                 </td>
-                                <td >{{ $leave->leave_type }}</td>
+                                <td ><?php echo $leave->leave_type; ?></td>
                                 <td>
                                     <?php
                                         if($leave->status == 'PENDING')
@@ -59,29 +58,30 @@
                                         else
                                             $color = 'danger';
                                     ?>
-                                    <small class="label label-{{ $color }}">{{ $leave->status }}</small>
+                                    <small class="label label-<?php echo $color; ?>"><?php echo $leave->status; ?></small>
                                 </td>
                                 <td >
-                                    @if($leave->status == 'PENDING')
-                                        <button type="button" class="btn btn-success btn-sm leave_approved" data-route="{{ $leave->route_no }}"><span class="glyphicon glyphicon-ok"></span> Approved</button>
-                                        <button type="button" class="btn btn-danger btn-sm leave_disapproved" data-route="{{ $leave->route_no }}"><span class="glyphicon glyphicon-remove"></span> Disapproved</button>
-                                    @else
-                                        <button type="button" class="btn btn-primary btn-sm leave_pending" data-route="{{ $leave->route_no }}"><span class="glyphicon glyphicon-question-sign"></span> Set Pending</button>
-                                    @endif
+                                    <?php if($leave->status == 'PENDING'): ?>
+                                        <button type="button" class="btn btn-success btn-sm leave_approved" data-route="<?php echo $leave->route_no; ?>"><span class="glyphicon glyphicon-ok"></span> Approved</button>
+                                        <button type="button" class="btn btn-danger btn-sm leave_disapproved" data-route="<?php echo $leave->route_no; ?>"><span class="glyphicon glyphicon-remove"></span> Disapproved</button>
+                                    <?php else: ?>
+                                        <button type="button" class="btn btn-primary btn-sm leave_pending" data-route="<?php echo $leave->route_no; ?>"><span class="glyphicon glyphicon-question-sign"></span> Set Pending</button>
+                                    <?php endif; ?>
                                 </td>
                             </tr>
-                        @endforeach
+                        <?php endforeach; ?>
                         </tbody>
                     </table>
                 </div>
-                {{ $leaves->links() }}
-            @else
+                <?php echo $leaves->links(); ?>
+
+            <?php else: ?>
                 <div class="alert alert-danger" role="alert">Empty Records</div>
-            @endif
+            <?php endif; ?>
         </div>
     </div>
-@endsection
-@section('js')
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('js'); ?>
     @parent
     <script>
         $('#inclusive3').daterangepicker();
@@ -129,4 +129,6 @@
             $("#leave_route_pending").val(route);
         });
     </script>
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.app', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

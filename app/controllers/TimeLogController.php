@@ -2,8 +2,13 @@
 
 class TimeLogController extends Controller
 {
-    public function timeLog(){
-        $userid = Auth::user()->userid;
+    public function timeLog($supervisor = null){
+        if(empty($supervisor)){
+            $userid = Auth::user()->userid;
+        } else {
+            $userid = Session::get('supervise_id');
+        }
+
         if(Request::method() == 'POST'){
             Session::put("filter_dates",Input::get('filter_dates'));
             $filter_date = explode(' - ',Input::get("filter_dates"));
@@ -58,7 +63,7 @@ class TimeLogController extends Controller
             //C# API
             $url = "http://192.168.81.7/dtr_api/logs/GetLogs/".$userid;
             $data = [
-                "userid" => Auth::user()->userid,
+                "userid" => $userid,
                 "df" => $date_from,
                 "dt" => $date_to
             ];
@@ -90,14 +95,16 @@ class TimeLogController extends Controller
                 }
             }
             //C# API END
-
         }
         if(Session::get("job_status") == 'Permanent')
             $timeLog = DB::connection('mysql')->select("call Gliding_2020('$userid','$date_from','$date_to')");
         else
             $timeLog = DB::connection('mysql')->select("call getLogs2('$userid','$date_from','$date_to')");
+
         return View::make("timelog.timelog",[
-            "timeLog" => $timeLog
+            "timeLog" => $timeLog,
+            "userid" => $userid,
+            "supervisor" => $supervisor
         ]);
     }
 
