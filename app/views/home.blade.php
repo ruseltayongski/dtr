@@ -332,12 +332,6 @@ session_start();
 @parent
 
     <script>
-        $('.select_supervise').select2();
-
-        function getSupervise(data) {
-            var supervise_id = [data.userid].join(" ");
-            return supervise_id;
-        }
 
         $(".users_roles_modal").click(function(){
             $('#users_roles_modal').modal({
@@ -351,10 +345,13 @@ session_start();
             var json = {
                'supervisor_id' : userid
             };
-            $.post(url,json,function(result){
-                console.log(result);
-                $('.select_supervise').val(result.map(getSupervise)).trigger('change');
-            });
+
+            $('.users_roles_select_body').html(loadingState);
+            setTimeout(function(){
+                $.post(url,json,function(result){
+                    $('.users_roles_select_body').html(result);
+                });
+            },700);
 
             $("#supervisor_id").val(userid);
         });

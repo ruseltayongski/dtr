@@ -314,6 +314,7 @@ Route::post('faq/reply_append','FaqController@reply_append');
 //SUPERVISOR
 Route::post('supervise/add','SupervisorController@superviseEmployee');
 Route::post('supervise/list','SupervisorController@superviseList');
+Route::get('supervise/list','SupervisorController@superviseList');
 Route::post('supervise/individual','SupervisorController@superviseIndividual');
 
 //LOCATION

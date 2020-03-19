@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <h3 class="page-header">Supervise Employee</h3>
+    <h3 class="page-header">Supervised Employee(s)</h3>
     <form class="form-inline form-accept" action="{{ asset('location/roles') }}" method="GET">
         <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
         <div class="form-group">
