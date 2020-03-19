@@ -20,7 +20,12 @@ class SupervisorController extends Controller
         return Redirect::back();
     }
     public function superviseList(){
-        return SuperviseEmployee::where('supervisor_id',Input::get('supervisor_id'))->get(['userid']);
+        foreach(SuperviseEmployee::where('supervisor_id',Input::get('supervisor_id'))->get(['userid']) as $row){
+            $supervised_employee[] = $row->userid;
+        }
+        return View::make('roles.supervised_select',[
+            'supervised_employee' => json_encode($supervised_employee)
+        ]);
     }
     public function superviseIndividual(){
         Session::put('supervise_id',Input::get('supervise_id'));
