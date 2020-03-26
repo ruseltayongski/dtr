@@ -375,4 +375,45 @@ class CalendarController extends BaseController
         return  json_encode(array('ok', true));
     }
 
+    public function getDatesFromRange($start, $end, $format = 'F d, Y') {
+        $full_date = [];
+        $count_holiday_days = 0;
+        $interval = new DateInterval('P1D');
+
+        $realEnd = new DateTime($end);
+        $realEnd->add($interval);
+
+        $period = new DatePeriod(new DateTime($start), $interval, $realEnd);
+
+        foreach($period as $date) {
+            if($date->format('l') != "Saturday" && $date->format('l') != "Sunday"){
+                $count_holiday_days++;
+                $full_date[] = $date->format($format);
+            }
+        }
+
+        return $full_date;
+    }
+
+    public function trackHoliday(){
+        $start_date = date("Y-m-d",strtotime(Input::get('start_date')));
+        $end_date = date("Y-m-d",strtotime(Input::get('end_date')));
+
+        $calendar = Calendars::where("start",">=",$start_date)->where("start","<",$end_date)->where("status","1")->get();
+        $holiday = [];
+        foreach($calendar as $row){
+            $query_end = date('Y-m-d',(strtotime ( '-1 day' , strtotime ( $row->end) ) ));
+            if($end_date <= $query_end)
+                $set_end = $end_date;
+            else
+                $set_end = $query_end;
+
+            foreach($this->getDatesFromRange($row->start, $set_end) as $full_date){
+                $holiday[] = $full_date;
+            }
+        }
+
+        return $holiday;
+    }
+
 }

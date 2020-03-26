@@ -20,16 +20,18 @@ class PDF_MC_Table extends FPDF
     {
         // Position at 1.5 cm from bottom
         $this->SetY(-15);
-
+        $this->SetFont('Times','UI',9);
+        $this->Cell(0,10,"OFFICE - MOBILE DEVICE - 08:00 12:00 13:00 17:00",0,0,'L');
+        $this->SetY(-20);
         $this->SetFont('Times','U',9);
         $this->Cell(0,10,"MOBILE DEVICE - 08:00 12:00 13:00 17:00",0,0,'L');
-        $this->SetY(-20);
+        $this->SetY(-25);
         $this->SetFont('Arial','BUI',8);
         $this->Cell(0,10,"WEB CREATED - 08:00 12:00 13:00 17:00",0,0,'L');
-        $this->SetY(-25);
+        $this->SetY(-30);
         $this->SetFont('Arial','',8);
         $this->Cell(0,10,"BIOMETRIC DEVICE - 08:00 12:00 13:00 17:00",0,0,'L');
-        $this->SetY(-30);
+        $this->SetY(-35);
         $this->SetFont('Arial','B',12);
         $this->Cell(0,10,"Legend:",0,0,'L');
     }

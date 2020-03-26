@@ -1,6 +1,4 @@
-@extends('layouts.app')
-
-@section('content')
+<?php $__env->startSection('content'); ?>
     <style>
         tbody tr td:first-child{
             color: red;
@@ -10,10 +8,10 @@
         }
     </style>
     <div class="panel panel-default">
-        <label class="text-success">Vacation Balance: <span class="badge bg-blue">{{ Session::get("vacation_balance") }}</span></label>
-        <label class="text-danger">Sick Balance: <span class="badge bg-red">{{ Session::get("sick_balance") }}</span></label>
+        <label class="text-success">Vacation Balance: <span class="badge bg-blue"><?php echo Session::get("vacation_balance"); ?></span></label>
+        <label class="text-danger">Sick Balance: <span class="badge bg-red"><?php echo Session::get("sick_balance"); ?></span></label>
         <div class="alert alert-info"><strong>APPLICATION FOR LEAVE</strong> - (<small>CSC Form No.6 Revised 1998</small>)</div>
-        <form action="{{ asset('form/leave') }}" method="POST">
+        <form action="<?php echo asset('form/leave'); ?>" method="POST">
             <div class="panel-body">
                 <div class="row">
                     <div class="col-md-12">
@@ -28,37 +26,37 @@
                             <div class="col-md-3">
                                 <div class="form-group has-success">
                                     <label class="control-label" for="inputSuccess1">(2.)  Last Name</label>
-                                    <input type="text" class="form-control" id="inputSuccess1" name="lastname" value="{{ $user->lname }}">
+                                    <input type="text" class="form-control" id="inputSuccess1" name="lastname" value="<?php echo $user->lname; ?>">
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group has-success">
                                     <label class="control-label" for="inputSuccess1">First Name</label>
-                                    <input type="text" class="form-control" id="inputSuccess1" name="firstname" value="{{ $user->fname }}">
+                                    <input type="text" class="form-control" id="inputSuccess1" name="firstname" value="<?php echo $user->fname; ?>">
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group has-success">
                                     <label class="control-label" for="inputSuccess1">Middle Name</label>
-                                    <input type="text" class="form-control" id="inputSuccess1" name="middlename" value="{{ $user->mname }}">
+                                    <input type="text" class="form-control" id="inputSuccess1" name="middlename" value="<?php echo $user->mname; ?>">
                                 </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-4 has-success">
                                 <label class="control-label" for="inputSuccess1">(3.) Date of Filling</label>
-                                <input type="text" class="form-control" name="date_filling" value="{{ date("Y-m-d") }}" readonly>
+                                <input type="text" class="form-control" name="date_filling" value="<?php echo date("Y-m-d"); ?>" readonly>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group has-success">
                                     <label class="control-label" for="inputSuccess1">(4.)  Position</label>
-                                    <input type="text" class="form-control" id="inputSuccess1" name="position" value="{{ $user->designation }}" readonly>
+                                    <input type="text" class="form-control" id="inputSuccess1" name="position" value="<?php echo $user->designation; ?>" readonly>
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group has-success">
                                     <label class="control-label" for="inputSuccess1">(5.)Salary (Monthly)</label>
-                                    <input type="text" class="form-control" id="inputSuccess1" name="salary" value="{{ $user->monthly_salary }}" readonly>
+                                    <input type="text" class="form-control" id="inputSuccess1" name="salary" value="<?php echo $user->monthly_salary; ?>" readonly>
                                 </div>
                             </div>
                         </div>
@@ -76,17 +74,18 @@
                                     <div class="col-md-12">
                                         <div class="form-group">
                                             <div class="has-success">
-                                                @foreach(DB::table('leave_type')->get() as $row)
+                                                <?php foreach(DB::table('leave_type')->get() as $row): ?>
                                                     <div class="checkbox">
                                                         <label>
-                                                            <input type="radio" class="minimal" id="leave_type" value="{{ $row->value }}" name="leave_type" onclick="dateRangeFunc('{{ $row->main_leave }}')" required>
-                                                            {{ $row->desc }}
-                                                            @if($row->value == 'Sick')
+                                                            <input type="radio" class="minimal" id="leave_type" value="<?php echo $row->value; ?>" name="leave_type" onclick="dateRangeFunc('<?php echo $row->main_leave; ?>')" required>
+                                                            <?php echo $row->desc; ?>
+
+                                                            <?php if($row->value == 'Sick'): ?>
                                                             <div class="additional_sick"></div>
-                                                            @endif
+                                                            <?php endif; ?>
                                                         </label>
                                                     </div>
-                                                @endforeach
+                                                <?php endforeach; ?>
                                             </div>
                                         </div>
                                     </div>
@@ -186,10 +185,10 @@
             </div> <!-- PANEL BODY -->
         </form>
     </div>
-@endsection
-@section('js')
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('js'); ?>
     @parent
-    @include('form.form_leave_script')
+    <?php echo $__env->make('form.form_leave_script', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
     <script>
         function dateRangeFunc($main_leave){
             $(".inc_date_body").html(''); //clear
@@ -471,4 +470,5 @@
         }
 
     </script>
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.app', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

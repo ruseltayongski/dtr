@@ -191,6 +191,7 @@ Route::get('calendar_delete/{event_id}','CalendarController@calendar_delete');
 Route::post('calendar_update','CalendarController@calendar_update');
 Route::post('calendar/add-individual-task','CalendarController@AddIndividualTask');
 Route::post('calendar/delete-individual-task','CalendarController@DeleteIndividualTask');
+Route::post('calendar/track/holiday','CalendarController@trackHoliday');
 
 Route::get('manual','PersonalController@manual');
 Route::get('print/employee', 'AdminController@print_employees');
@@ -277,7 +278,8 @@ Route::post('mobile/add-logs','MobileController@add_logs');
 Route::post('mobile/add-cto','MobileController@add_cto');
 Route::post('mobile/add-so','MobileController@add_so');
 Route::post('mobile/add-leave','MobileController@add_leave');
-Route::get('mobile/getCurrentVersion','MobileController@getCurrentVersion');
+Route::get('mobile/getCurrentVersion','MobileController@getCurrentVersionField');
+Route::get('mobile/getCurrentVersion/office','MobileController@getCurrentVersionOffice');
 Route::post('mobile/imei','MobileController@imei');
 Route::post('mobile/reset_password','MobileController@resetPassword');
 Route::post('mobile/check_username','MobileController@checkUsername');
