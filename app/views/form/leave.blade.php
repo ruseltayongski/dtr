@@ -468,28 +468,6 @@
                 </tr>
                 </tbody>
             </table>
-            <table border="2" style="width: 100%;" >
-                <thead>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td class="col-md-12">
-                            <div class="row" style="padding: 10px; text-align: center;">
-                                <strong><em><b>By Authority of the Secretary of Health</b></em></strong>
-                            </div>
-                            <br /><br /><br /><br/>
-                            <div class="row">
-                                <div class="col-md-3">
-                                    <p class="text-center" style="border-top: solid 2px black; width: 100%;">Date</p>
-                                </div>
-                                <div class="col-md-6">
-                                    <p class="text-center" style="border-top: solid 2px black; width: 100%;">Authorized Official</p>
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
         </div>
     </div>
     <div class="modal-footer">

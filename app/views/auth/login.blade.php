@@ -25,77 +25,79 @@
     @endif
     <div class="login-box">
       <div class="login-logo">
-        <img src="{{ asset('public/img/doh.png') }}" style="width: 30%" />
+        <img src="{{ asset('public/img/doh.png') }}" style="width: 20%" />
         <br />
         <a href="#" style="font-weight:bolder;"><label style="font-size: 17pt;">DOH DTR 4.3</label></a>
 
       </div><!-- /.login-logo -->
-
-      <form role="form" method="POST" action="{{ asset('/') }}">
-          <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
           <div class="login-box-body">
               @if(Session::has('ops'))
                   <div class="has-feedback text-center alert-danger">
                       {{ Session::get('ops') }}
                   </div><br>
               @endif
-              <div class="form-group has-feedback {{ Session::has('ops') ? ' has-error' : '' }}">
-                <input id="username" value="@if(Session::has('username')){{ Session::get('username') }}@endif" type="text" placeholder="Login using your ID No." class="form-control" name="username">
-                <span class="glyphicon glyphicon-user form-control-feedback"></span>
-              </div>
-              <div class="form-group has-feedback{{ Session::has('ops') ? ' has-error' : '' }}">
-                <input id="password" type="password" class="form-control" name="password" placeholder="Password">
-                <span class="glyphicon glyphicon-lock form-control-feedback"></span>
-              </div>
-                <div class="row">
-                    <div class="col-xs-8">
-                        <div class="form-group">
-                            <label style="cursor:pointer;">
-                                <input type="checkbox" name="remember"> Remember Me
-                            </label>
-                        </div>
-                        <!--
-                        <a data-url="{{ asset('open/reset') }}" class="btn btn-info" id="btn_reset">Reset Password</a>
-                        -->
-                    </div><!-- /.col -->
-                    <div class="col-xs-4">
-                        <button type="submit" class="btn btn-primary btn-block btn-flat">Sign In</button>
+                  <form role="form" method="POST" action="{{ asset('/') }}">
+                      <div class="form-group has-feedback {{ Session::has('ops') ? ' has-error' : '' }}">
+                        <input id="username" value="@if(Session::has('username')){{ Session::get('username') }}@endif" type="text" placeholder="Login using your ID No." class="form-control" name="username">
+                        <span class="glyphicon glyphicon-user form-control-feedback"></span>
+                      </div>
+                      <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
+                      <div class="form-group has-feedback{{ Session::has('ops') ? ' has-error' : '' }}">
+                        <input id="password" type="password" class="form-control" name="password" placeholder="Password">
+                        <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+                      </div>
+                        <div class="row">
+                            <div class="col-xs-8">
+                                <div class="form-group">
+                                    <label style="cursor:pointer;">
+                                        <input type="checkbox" name="remember"> Remember Me
+                                    </label>
+                                </div>
+                                <!--
+                                <a data-url="{{ asset('open/reset') }}" class="btn btn-info" id="btn_reset">Reset Password</a>
+                                -->
+                            </div><!-- /.col -->
+                            <div class="col-xs-4">
+                                <button type="submit" class="btn btn-primary btn-block btn-flat">Sign In</button>
 
-                    </div><!-- /.col -->
-                </div>
-                <div class="row">
+                            </div><!-- /.col -->
+                        </div>
+                  </form>
+                  <div class="row">
                     <br>
-                    <div class="col-xs-6">
-                        <a href="{{ asset('public/apk/dtr.apk') }}" target="_blank" type="button" class="btn btn-success" download><i class="fa fa-mobile-phone"></i> <small>Mobile DTR (apk) v2.4.0</small></a>
+                    <div class="col-md-12">
+                        <a href="{{ asset('public/apk/dtr.apk') }}" target="_blank" type="button" class="btn btn-success" download><i class="fa fa-mobile-phone"></i> <small>Mobile DTR (apk) v2.5.0</small></a>
+                        <a href="{{ asset('public/apk/dtr_office.apk') }}" target="_blank" type="button" class="btn btn-warning" download><i class="fa fa-mobile-phone"></i> <small>Office-Mobile DTR (apk) v1.0.0</small></a>
                     </div>
-                    <div class="col-xs-6">
-                        <h4>
-                            <a href="https://drive.google.com/drive/folders/100ARffzYqtT4BdWK-9rem8_8Zm6UCOUi" target="_blank">DTR MANUAL</a>
-                        </h4>
-                    </div>
-                </div>
+                    <!--
+                    <a href="https://drive.google.com/drive/folders/100ARffzYqtT4BdWK-9rem8_8Zm6UCOUi" target="_blank">DTR MANUAL</a>
+                    -->
+                  </div>
+                  <div class="row">
+                      <div class="col-md-12">
+                          <h5>Search your ID No. here</h5>
+                          <form action="{{ asset('search/id') }}" method="GET">
+                              <input type="text" name="q" class="form-control" placeholder="Search using your firstname or lastname">
+                          </form>
+                          <table class="table">
+                              @if(isset($users) AND count($users) > 0)
+                                  <tr>
+                                      <th>UserID</th>
+                                      <th>Employee Name</th>
+                                  </tr>
+                                  @foreach($users as $user)
+                                      <tr>
+                                          <td><span style="font-weight:bolder;color:orange;">{{ $user->userid }}</span></td>
+                                          <td>{{ $user->fname . " " . $user->lname}}
+                                      </tr>
+                                  @endforeach
+                              @endif
+                          </table>
+                      </div>
+                  </div>
             </div><!-- /.login-box-body -->
-      </form>
-      <div class="login-box-body">
-            <h5>Search your ID No. here</h5>
-            <form action="{{ asset('search/id') }}" method="GET">
-                <input type="text" name="q" class="form-control" placeholder="Search using your firstname or lastname">
-            </form>
-            <table class="table">
-                @if(isset($users) AND count($users) > 0)
-                    <tr>
-                        <th>UserID</th>
-                        <th>Employee Name</th>
-                    </tr>
-                    @foreach($users as $user)
-                        <tr>
-                            <td><span style="font-weight:bolder;color:orange;">{{ $user->userid }}</span></td>
-                            <td>{{ $user->fname . " " . $user->lname}}
-                        </tr>
-                    @endforeach
-                @endif
-            </table>
-      </div>
+
+
 
     </div><!-- /.login-box -->
     @include('auth.modal')

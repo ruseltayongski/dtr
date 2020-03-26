@@ -1,6 +1,14 @@
 @extends('layouts.app')
 
 @section('content')
+    <style>
+        tbody tr td:first-child{
+            color: red;
+        }
+        tbody tr td:last-child{
+            color: red;
+        }
+    </style>
     <div class="panel panel-default">
         <label class="text-success">Vacation Balance: <span class="badge bg-blue">{{ Session::get("vacation_balance") }}</span></label>
         <label class="text-danger">Sick Balance: <span class="badge bg-red">{{ Session::get("sick_balance") }}</span></label>
@@ -181,18 +189,8 @@
 @endsection
 @section('js')
     @parent
+    @include('form.form_leave_script')
     <script>
-
-        var vacation_balance = "<?php echo Session::get('vacation_balance'); ?>";
-        var sick_balance = "<?php echo Session::get('sick_balance'); ?>";
-
-        function clearHalfDaySickFirst(){
-            $('input[name="half_day_first"]:checked').attr('checked',false);
-        }
-        function clearHalfDaySickLast(){
-            $('input[name="half_day_last"]:checked').attr('checked',false);
-        }
-
         function dateRangeFunc($main_leave){
             $(".inc_date_body").html(''); //clear
             $("#applied_num_days").val('');
@@ -212,16 +210,36 @@
             $("body").delegate("#inc_date","focusin",function() {
                 $(".working_days_noted").html('');
             }); //clear
+
+            var days = new Array(7);
+            days[0] = "Sunday";
+            days[1] = "Monday";
+            days[2] = "Tuesday";
+            days[3] = "Wednesday";
+            days[4] = "Thursday";
+            days[5] = "Friday";
+            days[6] = "Saturday";
+
+            set_daterange = countWorkingDays(5,days);
             if(radio_val == 'Vacation') {
                 console.log(radio_val);
-                $("body").delegate("#inc_date","focusin",function() {
-                    $(".range_inputs").append("" +
-                        "<div class='alert-info working_days_noted'>" +
-                        "<h6 style='padding-right: 5%;padding-left:5%'>Note: 5 working days before apply for vacation leave</h6>" +
-                        "</div>" +
-                        "");
+                calendarNotice("Note: 5 working days before apply for vacation leave","alert-info");
+
+                json = {
+                    "start_date":new Date().toLocaleDateString(),
+                    "end_date":set_daterange
+                };
+                var url = "<?php echo asset('calendar/track/holiday'); ?>";
+                $.post(url,json,function(result){
+                    var note_message = "Holidays:";
+                    $.each(result,function(x,data){
+                        note_message += "<br>"+data;
+                    });
+                    calendarNotice(note_message,"alert-warning");
+                    console.log(result.length);
                 });
             }
+
             if(radio_val == 'Sick'){
                 var additional_sick = '<ul>\n' +
                     '                                                                Half day in first day? Please select.\n' +
@@ -256,22 +274,20 @@
                 $(".additional_sick").html('');
             }
 
-            $('#inc_date').daterangepicker().on('apply.daterangepicker', function(ev, picker)
+            $('#inc_date').daterangepicker({
+                locale: {
+                    format: 'MM/DD/YYYY'
+                },
+                minDate: set_daterange,
+                startDate: set_daterange,
+                endDate: set_daterange,
+            }).on('apply.daterangepicker', function(ev, picker)
             {
                 var start = moment(picker.startDate.format('YYYY-MM-DD')).add(1, 'days');
                 var end   = moment(picker.endDate.format('YYYY-MM-DD')).add(1, 'days');
                 var interval_days = end.diff(start,'days')+1; // returns correct number
                 var applied_days = 0;
-                var leave_balance_applied = 0;
                 var sub_date,day_name,leave_condition = '';
-                var days = new Array(7);
-                days[0] = "Sunday";
-                days[1] = "Monday";
-                days[2] = "Tuesday";
-                days[3] = "Wednesday";
-                days[4] = "Thursday";
-                days[5] = "Friday";
-                days[6] = "Saturday";
 
                 for(var i = 0; i < interval_days; i++) {
                     sub_date = end.subtract(1,'d').format('YYYY-MM-DD');
@@ -282,7 +298,7 @@
                 }
 
                 console.log("applied days:"+applied_days);
-                leave_balance_applied = applied_days * 8;
+                var leave_balance_applied = applied_days * 8;
 
                 var half_day_first = $('input[name="half_day_first"]:checked').val();
                 var half_day_last = $('input[name="half_day_last"]:checked').val();
@@ -333,7 +349,6 @@
             });
 
         }
-
 
 
         $('input[name="leave_type"]').change(function(){
