@@ -278,14 +278,14 @@ Route::post('mobile/add-logs','MobileController@add_logs');
 Route::post('mobile/add-cto','MobileController@add_cto');
 Route::post('mobile/add-so','MobileController@add_so');
 Route::post('mobile/add-leave','MobileController@add_leave');
-Route::get('mobile/getCurrentVersion','MobileController@getCurrentVersionField');
-Route::get('mobile/getCurrentVersion/office','MobileController@getCurrentVersionOffice');
+Route::get('mobile/getCurrentVersion','MobileController@getCurrentVersion');
 Route::post('mobile/imei','MobileController@imei');
 Route::post('mobile/reset_password','MobileController@resetPassword');
 Route::post('mobile/check_username','MobileController@checkUsername');
 //MOBILE URL v2
 Route::post('mobileV2/login','MobileControllerV2@login');
-Route::get('mobileV2/getCurrentVersion','MobileControllerV2@getCurrentVersion');
+Route::get('mobileV2/getCurrentVersion','MobileControllerV2@getCurrentVersionField');
+Route::get('mobileV2/getCurrentVersion/office','MobileControllerV2@getCurrentVersionOffice');
 Route::post('mobileV2/add-logs','MobileControllerV2@add_logs');
 Route::post('mobileV2/add-cdo','MobileControllerV2@add_cdo');
 Route::get('mobileV2/get-logs','MobileControllerV2@get_logs');
