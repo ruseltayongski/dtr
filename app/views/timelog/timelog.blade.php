@@ -242,40 +242,44 @@
                     validate: function(value) {
                         var ID = this.id;
                         console.log(ID);
-                        var edited_display,timelog,office_order,leave,userid,datein,time,log_type,log_status,log_status_change,url,json;
 
-                        timelog = $("#"+this.id+"time_log").val();
-                        office_order = $("#"+this.id+"office_order").val();
-                        travel_order = $("#"+this.id+"travel_order").val();
-                        leave = $("#"+this.id+"leave").val();
+                        var timelog = $("#"+this.id+"time_log").val();
+                        var office_order = $("#"+this.id+"office_order").val();
+                        var travel_order = $("#"+this.id+"travel_order").val();
+                        var memorandum_order = $("#"+this.id+"memorandum_order").val();
+                        var leave = $("#"+this.id+"leave").val();
 
-                        userid = this.id.split("ñ")[0];
-                        datein = this.id.split("ñ")[1];
-                        time = this.id.split("ñ")[2];
-                        log_status = this.id.split("ñ")[3];
-                        log_type = this.id.split("ñ")[4];
+                        var userid = this.id.split("ñ")[0];
+                        var datein = this.id.split("ñ")[1];
+                        var time = this.id.split("ñ")[2];
+                        var log_status = this.id.split("ñ")[3];
+                        var log_type = this.id.split("ñ")[4];
                         if(timelog){
-                            log_status_change = "edited";
+                            log_status_change = "edited_change";
                             edited_display = timelog+":00";
                         }
                         else if(office_order){
-                            log_status_change = "so";
-                            edited_display = "SO# "+office_order
+                            log_status_change = "so_change";
+                            edited_display = "SO # "+office_order
                         }
                         else if(travel_order){
-                            log_status_change = "to";
-                            edited_display = "TO# "+travel_order
+                            log_status_change = "to_change";
+                            edited_display = "TO # "+travel_order
+                        }
+                        else if(memorandum_order){
+                            log_status_change = "mo_change";
+                            edited_display = "MO # "+memorandum_order
                         }
                         else if($("#"+this.id+"cdo").is(':checked')){
-                            log_status_change = "cdo";
+                            log_status_change = "cdo_change";
                             edited_display = "CDO";
                         }
                         else if(leave){
-                            log_status_change = "leave";
+                            log_status_change = "leave_change";
                             edited_display = leave;
                         }
                         else if($("#"+this.id+"jobreak").is(':checked')){
-                            log_status_change = "jobreak";
+                            log_status_change = "jobreak_change";
                             edited_display = "JO BREAK";
                         }
                         else if($("#"+this.id+"empty").is(':checked')){
@@ -292,7 +296,7 @@
                             "log_type":log_type
                         };
                         console.log(json);
-                        var url = "<?php echo asset('logs/timelog/edit'); ?>";
+                        /*var url = "<?php echo asset('logs/timelog/edit'); ?>";
                         var input_hidden_element = $("#"+this.id.split("ñ")[5]+"ñ"+log_type);
                         $.post(url,json,function(result){
                             console.log(ID.replace(/cdo/g,log_status_change));
@@ -302,7 +306,7 @@
                                 msg:result.message
                             });
                         });
-                        $("#"+this.id).html(edited_display);
+                        $("#"+this.id).html(edited_display);*/
                     }
                 });
             })

@@ -166,7 +166,7 @@ class TimeLogController extends Controller
                     ->where("event",explode("_",$log_type)[1])
                     ->delete();
             break;
-            case 'to':
+            case 'travel_order':
                 EditedLogs::where("userid",$userid)
                     ->where("datein",$datein)
                     ->where("time",$time)
@@ -174,11 +174,19 @@ class TimeLogController extends Controller
                     ->where("event",explode("_",$log_type)[1])
                     ->delete();
                 break;
+            case 'memorandum_order':
+                EditedLogs::where("userid",$userid)
+                    ->where("datein",$datein)
+                    ->where("time",$time)
+                    ->where("edited",4)
+                    ->where("event",explode("_",$log_type)[1])
+                    ->delete();
+                break;
         }
 
         $time_display = '';
         switch ($log_status_change){ //INSERT
-            case "so":
+            case "so_change":
                 $so = new SoLogs();
                 $so->userid = $userid;
                 $so->datein = $datein;
@@ -210,7 +218,7 @@ class TimeLogController extends Controller
                     "display_time" => $time_display
                 ];
                 break;
-            case "cdo":
+            case "cdo_change":
                 $cdo = new CdoLogs();
                 $cdo->userid = $userid;
                 $cdo->datein = $datein;
@@ -242,7 +250,7 @@ class TimeLogController extends Controller
                     "display_time" => $time_display
                 ];
                 break;
-            case "leave":
+            case "leave_change":
                 $leave = new LeaveLogs();
                 $leave->userid = $userid;
                 $leave->datein = $datein;
@@ -274,7 +282,7 @@ class TimeLogController extends Controller
                     "display_time" => $time_display
                 ];
                 break;
-            case "edited":
+            case "edited_change":
                 $edited = new EditedLogs();
                 $edited->userid = $userid;
                 $edited->datein = $datein;
@@ -292,7 +300,7 @@ class TimeLogController extends Controller
                     "display_time" => $time_display
                 ];
                 break;
-            case "jobreak":
+            case "jobreak_change":
                 $jo_break = new EditedLogs();
                 $jo_break->userid = $userid;
                 $jo_break->datein = $datein;
@@ -323,7 +331,7 @@ class TimeLogController extends Controller
                     "display_time" => $time_display
                 ];
                 break;
-            case "to":
+            case "to_change":
                 $so = new EditedLogs();
                 $so->userid = $userid;
                 $so->datein = $datein;
@@ -351,7 +359,39 @@ class TimeLogController extends Controller
 
                 return [
                     "notification" => "info",
-                    "message" => "Successfully added SO",
+                    "message" => "Successfully added travel order",
+                    "display_time" => $time_display
+                ];
+                break;
+            case "mo_change":
+                $so = new EditedLogs();
+                $so->userid = $userid;
+                $so->datein = $datein;
+                if($log_type == "AM_IN"){
+                    $so->time = "08:00:00";
+                    $time_display = "08:00:00";
+                }
+                elseif($log_type == "AM_OUT"){
+                    $so->time = "12:00:00";
+                    $time_display = "12:00:00";
+                }
+                elseif($log_type == "PM_IN"){
+                    $so->time = "13:00:00";
+                    $time_display = "13:00:00";
+                }
+                elseif($log_type == "PM_OUT"){
+                    $so->time = "18:00:00";
+                    $time_display = "18:00:00";
+                }
+                $so->event = explode("_",$log_type)[1];
+                $so->remark = explode("#",$edited_display)[1];
+                $so->edited = 4;
+                $so->holiday = 003;
+                $so->save();
+
+                return [
+                    "notification" => "info",
+                    "message" => "Successfully added memorandum order",
                     "display_time" => $time_display
                 ];
                 break;
