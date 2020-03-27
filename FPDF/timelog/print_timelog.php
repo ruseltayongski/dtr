@@ -204,6 +204,10 @@ if(isset($_POST['filter_range'])){
                 strpos( $am_in, 'TO #' ) !== false && strpos( $am_out, 'TO #' ) !== false && strpos( $pm_in, 'TO #' ) !== false && strpos( $pm_out, 'TO #' ) !== false
                 && $am_in == $pm_in
             ) ||
+            (
+                strpos( $am_in, 'MO #' ) !== false && strpos( $am_out, 'MO #' ) !== false && strpos( $pm_in, 'MO #' ) !== false && strpos( $pm_out, 'MO #' ) !== false
+                && $am_in == $pm_in
+            ) ||
             ( strpos( $am_in, 'LEAVE' ) !== false && strpos( $am_out, 'LEAVE' ) !== false && strpos( $pm_in, 'LEAVE' ) !== false && strpos( $pm_out, 'LEAVE' ) !== false )
         ){
             if(empty($am_in)){

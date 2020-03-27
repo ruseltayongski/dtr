@@ -502,37 +502,40 @@ class PersonalController extends Controller
         $from = date('Y-m-d',strtotime($temp1[0]));
         $end_date = date('Y-m-d',strtotime($temp1[1]));
 
-        DB::table('edited_logs')
+        DB::table('edited_logs') #edited logs
                 ->where('edited','=','1')
                 ->where('userid','=',Auth::user()->userid)
                 ->whereBetween('datein', array($from,$end_date))->delete();
 
-        DB::table('so_logs')
+        DB::table('edited_logs') #JO BREAK
+        ->where('edited','=','2')
             ->where('userid','=',Auth::user()->userid)
             ->whereBetween('datein', array($from,$end_date))->delete();
 
-        DB::table('cdo_logs')
+        DB::table('edited_logs') #travel order logs
+            ->where('edited','=','3')
             ->where('userid','=',Auth::user()->userid)
             ->whereBetween('datein', array($from,$end_date))->delete();
 
-        DB::table('cdo_logs')
+        DB::table('edited_logs') #memo no logs
+        ->where('edited','=','4')
             ->where('userid','=',Auth::user()->userid)
             ->whereBetween('datein', array($from,$end_date))->delete();
 
-        DB::table('leave_logs')
+        DB::table('so_logs') #so logs
             ->where('userid','=',Auth::user()->userid)
             ->whereBetween('datein', array($from,$end_date))->delete();
 
-        $logs = DB::table('dtr_file')
-            ->where('edited','=','1')
+        DB::table('cdo_logs') #cdo logs
             ->where('userid','=',Auth::user()->userid)
             ->whereBetween('datein', array($from,$end_date))->delete();
 
-        if(count($logs) > 0)
-        {
-            return Redirect::to('personal/index')->with('msg', "User created time logs between $from and $end_date successfully deleted");
-        }
-        return Redirect::to('personal/index');
+        DB::table('leave_logs') #leave logs
+            ->where('userid','=',Auth::user()->userid)
+            ->whereBetween('datein', array($from,$end_date))->delete();
+
+
+        return Redirect::back()->with('msg', "User created time logs between $from and $end_date successfully deleted");
     }
     public function manual()
     {
