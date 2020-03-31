@@ -63,10 +63,12 @@
             <td >Travel Order:</td>
             <td ><input type="number" style="width: 100%" min="-4" max="9999" id="{{ $elementId.'travel_order' }}" {{ $disabled }}></td>
         </tr>
+        <!--
         <tr>
             <td >Memorandum No:</td>
             <td ><input type="number" style="width: 100%" min="-4" max="9999" id="{{ $elementId.'memorandum_order' }}" {{ $disabled }}></td>
         </tr>
+        -->
         @if( explode("ñ",$elementId)[3] != 'holiday' && explode("ñ",$elementId)[3] != 'dayoff' )
             <tr>
                 <td >LEAVE:</td>
