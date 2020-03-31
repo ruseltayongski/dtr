@@ -207,7 +207,6 @@
 @section('js')
     @parent
     <script>
-
         function copyToClipboard(element) {
             var $temp = $("<input>");
             $("body").append($temp);
@@ -251,9 +250,10 @@
 
                         var userid = this.id.split("ñ")[0];
                         var datein = this.id.split("ñ")[1];
-                        var time = this.id.split("ñ")[2];
                         var log_status = this.id.split("ñ")[3];
                         var log_type = this.id.split("ñ")[4];
+                        var input_hidden_element = $("#"+this.id.split("ñ")[5]+"ñ"+log_type);
+                        var time = input_hidden_element.val();
                         if(timelog){
                             log_status_change = "edited_change";
                             edited_display = timelog+":00";
@@ -295,18 +295,21 @@
                             "log_status_change": log_status_change,
                             "log_type":log_type
                         };
-                        console.log(json);
-                        /*var url = "<?php echo asset('logs/timelog/edit'); ?>";
-                        var input_hidden_element = $("#"+this.id.split("ñ")[5]+"ñ"+log_type);
+                        var url = "<?php echo asset('logs/timelog/edit'); ?>";
                         $.post(url,json,function(result){
-                            console.log(ID.replace(/cdo/g,log_status_change));
                             var input_hidden_time = result.display_time; //display hidden time for trapping and where purposes
                             input_hidden_element.val(input_hidden_time);
+                            var new_id = ID.replace(new RegExp(log_status, "g"),log_status_change == 'empty' ? log_status_change : log_status_change.split('_')[0]);
+                            console.log("log_status: "+log_status);
+                            console.log("log_status_change: "+log_status_change);
+                            console.log(json);
+                            console.log("new_id: "+new_id);
+                            $("#"+ID).attr('id',new_id);
                             Lobibox.notify(result.notification,{
                                 msg:result.message
                             });
                         });
-                        $("#"+this.id).html(edited_display);*/
+                        $("#"+this.id).html(edited_display);
                     }
                 });
             })
@@ -339,12 +342,11 @@
                     this.$input = this.$tpl.find('input[type="radio"]');
                     var timelogToAppend = this.$tpl;
                     var am_in,am_out,pm_in,pm_out;
-                    //console.log(ID);
+                    console.log(ID);
                     am_in = $("#"+ID).parent().parent().children('td').children('input').get(0).value;
                     am_out = $("#"+ID).parent().parent().children('td').children('input').get(1).value;
                     pm_in = $("#"+ID).parent().parent().children('td').children('input').get(2).value;
                     pm_out = $("#"+ID).parent().parent().children('td').children('input').get(3).value;
-                    console.log($("#"+ID).parent().parent().children('td').children('input').get(0).value);
                     var json = {
                         "elementId" : ID,
                         "am_in" : am_in,
@@ -352,7 +354,6 @@
                         "pm_in" : pm_in,
                         "pm_out" : pm_out
                     };
-                    console.log(json);
                     var url = "<?php echo asset('logs/timelog/append') ?>";
                     $.post(url,json,function(result){
                         timelogToAppend.append(result);

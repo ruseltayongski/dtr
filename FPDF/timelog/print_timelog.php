@@ -217,9 +217,7 @@ if(isset($_POST['filter_range'])){
                 $whole_log = $am_in;
                 $late = '';
             }
-            if($undertime == 0){
-                $undertime = '';
-            }
+            $undertime = $undertime == 0 ? '' : $undertime;
             $pdf->SetWidths(array(5,7.5,60,7.5,7,$set_size_center,5,7.5,60,7.5,7));
             $pdf->Row(array(
                 ["word" => explode('-',$row['datein'])[2],'font_style' => '','font_size'=>7.5,'border'=>$border,"position"=>'L'],
@@ -242,44 +240,58 @@ if(isset($_POST['filter_range'])){
             (empty($am_in) && empty($am_out)) ||
             (strpos( $am_in, 'SO #' ) !== false && strpos( $am_out, 'SO #' ) !== false) ||
             (strpos( $am_in, 'TO #' ) !== false && strpos( $am_out, 'TO #' ) !== false) ||
-            (strpos( $am_in, 'LEAVE' ) !== false && strpos( $am_out, 'LEAVE' ) !== false)
+            (strpos( $am_in, 'LEAVE' ) !== false && strpos( $am_out, 'LEAVE' ) !== false) ||
+            (strpos( $am_in, 'MO #' ) !== false && strpos( $am_out, 'MO #' ) !== false)
         ){
-            if(explode('_',explode('|',$row['time'])[0])[0] == 'empty' && explode('_',explode('|',$row['time'])[1])[0]){
-                $halfday_log = 'HALF DAY';
+            if((empty($am_in) && empty($am_in)) || ($am_in == 'empty' && $am_in == 'empty')){
+                $morning_log_2 = 'HALF DAY';
                 $late += 240;
-            } else {
-                $halfday_log = explode('_',explode('|',$row['time'])[0])[0];
-                $late = $row['late'];
+            } else
+                $morning_log_2 = $am_in;
+
+            if($pm_in == $pm_out){
+                $late = $late == 0 ? '' : $late;
+                $undertime = $undertime == 0 ? '' : $undertime;
+                $pdf->SetWidths(array(5,7.5,30,30,7.5,7,$set_size_center,5,7.5,30,30,7.5,7));
+                $pdf->Row(array(
+                    ["word" => explode('-',$row['datein'])[2],'font_style' => '','font_size'=>7.5,'border'=>$border,"position"=>'L'],
+                    ["word" => $day_name,'font_style' => '','font_size'=>7.5,'border'=>$border,"position"=>'L'],
+                    ["word" => $morning_log_2,'font_style' => $am_in_style,'font_size'=>7.5,'border'=>$border,"position"=>'C'],
+                    ["word" => $pm_in,'font_style' => $pm_in_style,'font_size'=>0,'border'=>$border,"position"=>'C'],
+                    ["word" => $late,'font_style' => '','font_size'=>7.5,'border'=>$border,"position"=>'C'],
+                    ["word" => $undertime,'font_style' => '','font_size'=>7.5,'border'=>$border,"position"=>'C'],
+                    ["word" => "",'font_style' => '','font_size'=>7.5,'border'=>$border,"position"=>'C'],
+                    ["word" => explode('-',$row['datein'])[2],'font_style' => '','font_size'=>7.5,'border'=>$border,"position"=>'L'],
+                    ["word" => $day_name,'font_style' => '','font_size'=>7.5,'border'=>$border,"position"=>'L'],
+                    ["word" => $morning_log_2,'font_style' => $am_in_style,'font_size'=>7.5,'border'=>$border,"position"=>'C'],
+                    ["word" => $pm_in,'font_style' => $pm_in_style,'font_size'=>0,'border'=>$border,"position"=>'C'],
+                    ["word" => $late,'font_style' => '','font_size'=>7.5,'border'=>$border,"position"=>'C'],
+                    ["word" => $undertime,'font_style' => '','font_size'=>7.5,'border'=>$border,"position"=>'C']
+                ),5);
+            }
+            else{
+                $late = $late == 0 ? '' : $late;
+                $undertime = $undertime == 0 ? '' : $undertime;
+                $pdf->SetWidths(array(5,7.5,30,15,15,7.5,7,$set_size_center,5,7.5,30,15,15,7.5,7));
+                $pdf->Row(array(
+                    ["word" => explode('-',$row['datein'])[2],'font_style' => '','font_size'=>7.5,'border'=>$border,"position"=>'L'],
+                    ["word" => $day_name,'font_style' => '','font_size'=>7.5,'border'=>$border,"position"=>'L'],
+                    ["word" => $morning_log_2,'font_style' => $am_in_style,'font_size'=>7.5,'border'=>$border,"position"=>'C'],
+                    ["word" => $pm_in,'font_style' => $pm_in_style,'font_size'=>0,'border'=>$border,"position"=>'C'],
+                    ["word" => $pm_out,'font_style' => $pm_out_style,'font_size'=>7.5,'border'=>$border,"position"=>'C'],
+                    ["word" => $late,'font_style' => '','font_size'=>7.5,'border'=>$border,"position"=>'C'],
+                    ["word" => $undertime,'font_style' => '','font_size'=>7.5,'border'=>$border,"position"=>'C'],
+                    ["word" => "",'font_style' => '','font_size'=>7.5,'border'=>$border,"position"=>'C'],
+                    ["word" => explode('-',$row['datein'])[2],'font_style' => '','font_size'=>7.5,'border'=>$border,"position"=>'L'],
+                    ["word" => $day_name,'font_style' => '','font_size'=>7.5,'border'=>$border,"position"=>'L'],
+                    ["word" => $morning_log_2,'font_style' => $am_in_style,'font_size'=>7.5,'border'=>$border,"position"=>'C'],
+                    ["word" => $pm_in,'font_style' => $pm_in_style,'font_size'=>0,'border'=>$border,"position"=>'C'],
+                    ["word" => $pm_out,'font_style' => $pm_out_style,'font_size'=>7.5,'border'=>$border,"position"=>'C'],
+                    ["word" => $late,'font_style' => '','font_size'=>7.5,'border'=>$border,"position"=>'C'],
+                    ["word" => $undertime,'font_style' => '','font_size'=>7.5,'border'=>$border,"position"=>'C']
+                ),5);
             }
 
-            $afternoon_width_pm_in = 15;
-            $afternoon_width_pm_out = 15;
-            if( (strpos( $pm_in, 'SO #' ) !== false && strpos( $pm_out, 'SO #' ) !== false ) ||
-                (strpos( $pm_in, 'TO #' ) !== false && strpos( $pm_out, 'TO #' ) !== false )
-            ){
-                $pm_out = '';
-                $afternoon_width_pm_in = 30;
-                $afternoon_width_pm_out = 0;
-            }
-
-            $pdf->SetWidths(array(5,7.5,30,$afternoon_width_pm_in,$afternoon_width_pm_out,7.5,7,$set_size_center,5,7.5,30,$afternoon_width_pm_in,$afternoon_width_pm_out,7.5,7));
-            $pdf->Row(array(
-                ["word" => explode('-',$row['datein'])[2],'font_style' => '','font_size'=>7.5,'border'=>$border,"position"=>'L'],
-                ["word" => $day_name,'font_style' => '','font_size'=>7.5,'border'=>$border,"position"=>'L'],
-                ["word" => $halfday_log,'font_style' => $am_in_style,'font_size'=>7.5,'border'=>$border,"position"=>'C'],
-                ["word" => $pm_in,'font_style' => $pm_in_style,'font_size'=>0,'border'=>$border,"position"=>'C'],
-                ["word" => $pm_out,'font_style' => $pm_out_style,'font_size'=>7.5,'border'=>$border,"position"=>'C'],
-                ["word" => $late,'font_style' => '','font_size'=>7.5,'border'=>$border,"position"=>'C'],
-                ["word" => $undertime,'font_style' => '','font_size'=>7.5,'border'=>$border,"position"=>'C'],
-                ["word" => "",'font_style' => '','font_size'=>7.5,'border'=>$border,"position"=>'C'],
-                ["word" => explode('-',$row['datein'])[2],'font_style' => '','font_size'=>7.5,'border'=>$border,"position"=>'L'],
-                ["word" => $day_name,'font_style' => '','font_size'=>7.5,'border'=>$border,"position"=>'L'],
-                ["word" => $halfday_log,'font_style' => $am_in_style,'font_size'=>7.5,'border'=>$border,"position"=>'C'],
-                ["word" => $pm_in,'font_style' => $pm_in_style,'font_size'=>0,'border'=>$border,"position"=>'C'],
-                ["word" => $pm_out,'font_style' => $pm_out_style,'font_size'=>7.5,'border'=>$border,"position"=>'C'],
-                ["word" => $late,'font_style' => '','font_size'=>7.5,'border'=>$border,"position"=>'C'],
-                ["word" => $undertime,'font_style' => '','font_size'=>7.5,'border'=>$border,"position"=>'C']
-            ),5);
         }
         elseif(
             ($pm_in == 'DAY OFF' && $pm_out == 'DAY OFF') ||
@@ -290,65 +302,57 @@ if(isset($_POST['filter_range'])){
             (strpos( $pm_in, 'TO #' ) !== false && strpos( $pm_out, 'TO #' ) !== false ) ||
             (strpos( $pm_in, 'LEAVE' ) !== false && strpos( $pm_out, 'LEAVE' ) !== false)
         ){
-            if(explode('_',explode('|',$row['time'])[2])[0] == 'empty' && explode('_',explode('|',$row['time'])[3])[0] == 'empty'){
-                $halfday_log = 'HALF DAY';
+            if((empty($pm_in) && empty($pm_in)) || ($pm_in == 'empty' && $pm_in == 'empty')){
+                $afternoon_log_2 = 'HALF DAY';
                 $late += 240;
+            } else
+                $afternoon_log_2 = $pm_in;
+
+            if($am_in == $am_out){
+                $late = $late == 0 ? '' : $late;
+                $undertime = $undertime == 0 ? '' : $undertime;
+                $pdf->SetWidths(array(5,7.5,30,30,7.5,7,$set_size_center,5,7.5,30,30,7.5,7));
+                $pdf->Row(array(
+                    ["word" => explode('-',$row['datein'])[2],'font_style' => '','font_size'=>7.5,'border'=>$border,"position"=>'L'],
+                    ["word" => $day_name,'font_style' => '','font_size'=>7.5,'border'=>$border,"position"=>'L'],
+                    ["word" => $am_in,'font_style' => $am_in_style,'font_size'=>7.5,'border'=>$border,"position"=>'C'],
+                    ["word" => $afternoon_log_2,'font_style' => $pm_in_style,'font_size'=>0,'border'=>$border,"position"=>'C'],
+                    ["word" => $late,'font_style' => '','font_size'=>7.5,'border'=>$border,"position"=>'C'],
+                    ["word" => $undertime,'font_style' => '','font_size'=>7.5,'border'=>$border,"position"=>'C'],
+                    ["word" => "",'font_style' => '','font_size'=>7.5,'border'=>$border,"position"=>'C'],
+                    ["word" => explode('-',$row['datein'])[2],'font_style' => '','font_size'=>7.5,'border'=>$border,"position"=>'L'],
+                    ["word" => $day_name,'font_style' => '','font_size'=>7.5,'border'=>$border,"position"=>'L'],
+                    ["word" => $am_in,'font_style' => $am_in_style,'font_size'=>7.5,'border'=>$border,"position"=>'C'],
+                    ["word" => $afternoon_log_2,'font_style' => $pm_in_style,'font_size'=>0,'border'=>$border,"position"=>'C'],
+                    ["word" => $late,'font_style' => '','font_size'=>7.5,'border'=>$border,"position"=>'C'],
+                    ["word" => $undertime,'font_style' => '','font_size'=>7.5,'border'=>$border,"position"=>'C']
+                ),5);
             } else {
-                $halfday_log = explode('_',explode('|',$row['time'])[2])[0];
-                $late = $row['late'];
+                $late = $late == 0 ? '' : $late;
+                $undertime = $undertime == 0 ? '' : $undertime;
+                $pdf->SetWidths(array(5, 7.5, 15, 15, 30, 7.5, 7, $set_size_center, 5, 7.5, 15, 15, 30, 7.5, 7));
+                $pdf->Row(array(
+                    ["word" => explode('-', $row['datein'])[2], 'font_style' => '', 'font_size' => 7.5, 'border' => $border, "position" => 'L'],
+                    ["word" => $day_name, 'font_style' => '', 'font_size' => 7.5, 'border' => $border, "position" => 'L'],
+                    ["word" => $am_in, 'font_style' => $am_in_style, 'font_size' => 7.5, 'border' => $border, "position" => 'C'],
+                    ["word" => $am_out, 'font_style' => $am_out_style, 'font_size' => 7.5, 'border' => $border, "position" => 'C'],
+                    ["word" => $afternoon_log_2, 'font_style' => $pm_in_style, 'font_size' => 7.5, 'border' => $border, "position" => 'C'],
+                    ["word" => $late, 'font_style' => '', 'font_size' => 7.5, 'border' => $border, "position" => 'C'],
+                    ["word" => $undertime, 'font_style' => '', 'font_size' => 7.5, 'border' => $border, "position" => 'C'],
+                    ["word" => "", 'font_style' => '', 'font_size' => 7.5, 'border' => $border, "position" => 'C'],
+                    ["word" => explode('-', $row['datein'])[2], 'font_style' => '', 'font_size' => 7.5, 'border' => $border, "position" => 'L'],
+                    ["word" => $day_name, 'font_style' => '', 'font_size' => 7.5, 'border' => $border, "position" => 'L'],
+                    ["word" => $am_in, 'font_style' => $am_in_style, 'font_size' => 7.5, 'border' => $border, "position" => 'C'],
+                    ["word" => $am_out, 'font_style' => $am_out_style, 'font_size' => 7.5, 'border' => $border, "position" => 'C'],
+                    ["word" => $afternoon_log_2, 'font_style' => $pm_in_style, 'font_size' => 7.5, 'border' => $border, "position" => 'C'],
+                    ["word" => $late, 'font_style' => '', 'font_size' => 7.5, 'border' => $border, "position" => 'C'],
+                    ["word" => $undertime, 'font_style' => '', 'font_size' => 7.5, 'border' => $border, "position" => 'C']
+                ), 5);
             }
-            if($undertime == 0){
-                $undertime = '';
-            }
-            $pdf->SetWidths(array(5,7.5,15,15,30,7.5,7,$set_size_center,5,7.5,15,15,30,7.5,7));
-            $pdf->Row(array(
-                ["word" => explode('-',$row['datein'])[2],'font_style' => '','font_size'=>7.5,'border'=>$border,"position"=>'L'],
-                ["word" => $day_name,'font_style' => '','font_size'=>7.5,'border'=>$border,"position"=>'L'],
-                ["word" => $am_in,'font_style' => $am_in_style,'font_size'=>7.5,'border'=>$border,"position"=>'C'],
-                ["word" => $am_out,'font_style' => $am_out_style,'font_size'=>7.5,'border'=>$border,"position"=>'C'],
-                ["word" => $halfday_log,'font_style' => $pm_in_style,'font_size'=>7.5,'border'=>$border,"position"=>'C'],
-                ["word" => $late,'font_style' => '','font_size'=>7.5,'border'=>$border,"position"=>'C'],
-                ["word" => $undertime,'font_style' => '','font_size'=>7.5,'border'=>$border,"position"=>'C'],
-                ["word" => "",'font_style' => '','font_size'=>7.5,'border'=>$border,"position"=>'C'],
-                ["word" => explode('-',$row['datein'])[2],'font_style' => '','font_size'=>7.5,'border'=>$border,"position"=>'L'],
-                ["word" => $day_name,'font_style' => '','font_size'=>7.5,'border'=>$border,"position"=>'L'],
-                ["word" => $am_in,'font_style' => $am_in_style,'font_size'=>7.5,'border'=>$border,"position"=>'C'],
-                ["word" => $am_out,'font_style' => $am_out_style,'font_size'=>7.5,'border'=>$border,"position"=>'C'],
-                ["word" => $halfday_log,'font_style' => $pm_in_style,'font_size'=>7.5,'border'=>$border,"position"=>'C'],
-                ["word" => $late,'font_style' => '','font_size'=>7.5,'border'=>$border,"position"=>'C'],
-                ["word" => $undertime,'font_style' => '','font_size'=>7.5,'border'=>$border,"position"=>'C']
-            ),5);
-        }
-        elseif($am_in == '' && $am_out == ''){
-            if($undertime == 0){
-                $undertime = '';
-            }
-            $pdf->SetWidths(array(5,7.5,15,15,30,7.5,7,$set_size_center,5,7.5,15,15,30,7.5,7));
-            $pdf->Row(array(
-                ["word" => explode('-',$row['datein'])[2],'font_style' => '','font_size'=>7.5,'border'=>$border,"position"=>'L'],
-                ["word" => $day_name,'font_style' => '','font_size'=>7.5,'border'=>$border,"position"=>'L'],
-                ["word" => 'HALF DAY','font_style' => $am_in_style,'font_size'=>7.5,'border'=>$border,"position"=>'C'],
-                ["word" => $am_out,'font_style' => $am_out_style,'font_size'=>7.5,'border'=>$border,"position"=>'C'],
-                ["word" => $pm_in,'font_style' => $pm_in_style,'font_size'=>7.5,'border'=>$border,"position"=>'C'],
-                ["word" => $late,'font_style' => '','font_size'=>7.5,'border'=>$border,"position"=>'C'],
-                ["word" => $undertime,'font_style' => '','font_size'=>7.5,'border'=>$border,"position"=>'C'],
-                ["word" => "",'font_style' => '','font_size'=>7.5,'border'=>$border,"position"=>'C'],
-                ["word" => explode('-',$row['datein'])[2],'font_style' => '','font_size'=>7.5,'border'=>$border,"position"=>'L'],
-                ["word" => $day_name,'font_style' => '','font_size'=>7.5,'border'=>$border,"position"=>'L'],
-                ["word" => 'HALF DAY','font_style' => $am_in_style,'font_size'=>7.5,'border'=>$border,"position"=>'C'],
-                ["word" => $am_out,'font_style' => $am_out_style,'font_size'=>7.5,'border'=>$border,"position"=>'C'],
-                ["word" => $pm_in,'font_style' => $pm_in_style,'font_size'=>7.5,'border'=>$border,"position"=>'C'],
-                ["word" => $late,'font_style' => '','font_size'=>7.5,'border'=>$border,"position"=>'C'],
-                ["word" => $undertime,'font_style' => '','font_size'=>7.5,'border'=>$border,"position"=>'C']
-            ),5);
         }
         else {
-            if($late == 0){
-                $late = '';
-            }
-            if($undertime == 0){
-                $undertime = '';
-            }
+            $late = $late == 0 ? '' : $late;
+            $undertime = $undertime == 0 ? '' : $undertime;
             $pdf->SetWidths(array(5,7.5,15,15,15,15,7.5,7,$set_size_center,5,7.5,15,15,15,15,7.5,7));
             $pdf->Row(array(
                 ["word" => explode('-',$row['datein'])[2],'font_style' => '','font_size'=>7.5,'border'=>$border,"position"=>'L'],

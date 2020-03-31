@@ -166,7 +166,7 @@ class TimeLogController extends Controller
                     ->where("event",explode("_",$log_type)[1])
                     ->delete();
             break;
-            case 'travel_order':
+            case 'to':
                 EditedLogs::where("userid",$userid)
                     ->where("datein",$datein)
                     ->where("time",$time)
@@ -174,7 +174,7 @@ class TimeLogController extends Controller
                     ->where("event",explode("_",$log_type)[1])
                     ->delete();
                 break;
-            case 'memorandum_order':
+            case 'mo':
                 EditedLogs::where("userid",$userid)
                     ->where("datein",$datein)
                     ->where("time",$time)
