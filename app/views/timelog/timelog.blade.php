@@ -14,6 +14,7 @@
         .highlight {
             animation: highlight 3s;
         }
+
     </style>
     <div class="row">
         <div class="col-md-12">
@@ -207,6 +208,9 @@
 @section('js')
     @parent
     <script>
+
+        $.fn.editable.defaults.mode = 'inline';
+
         function copyToClipboard(element) {
             var $temp = $("<input>");
             $("body").append($temp);
@@ -227,8 +231,6 @@
                 show: true
             });
         });
-
-        $.fn.editable.defaults.mode = 'inline';
 
         $(function(){
             $(".editable").each(function(){
