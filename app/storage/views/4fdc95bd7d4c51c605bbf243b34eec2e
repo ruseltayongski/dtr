@@ -7,42 +7,43 @@
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- Bootstrap 3.3.5 -->
-    <link rel="stylesheet" href="{{ asset('public/assets/css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="<?php echo asset('public/assets/css/bootstrap.min.css'); ?>">
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="{{ asset('public/assets/css/font-awesome.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('public/assets/css/AdminLTE.min.css') }}">
-    <link rel="icon" href="{{ asset('public/img/favicon.png') }}">
+    <link rel="stylesheet" href="<?php echo asset('public/assets/css/font-awesome.min.css'); ?>">
+    <link rel="stylesheet" href="<?php echo asset('public/assets/css/AdminLTE.min.css'); ?>">
+    <link rel="icon" href="<?php echo asset('public/img/favicon.png'); ?>">
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
   </head>
   <body class="hold-transition login-page" style="background-color:#E8F5FD;">
-    @if(Session::has('ok'))
+    <?php if(Session::has('ok')): ?>
         <div class="row">
             <div class="alert alert-success text-center">
-                <strong class="text-center">{{ Session::get('ok') }}</strong>
+                <strong class="text-center"><?php echo Session::get('ok'); ?></strong>
             </div>
         </div>
-    @endif
+    <?php endif; ?>
     <div class="login-box">
       <div class="login-logo">
-        <img src="{{ asset('public/img/doh.png') }}" style="width: 20%" />
+        <img src="<?php echo asset('public/img/doh.png'); ?>" style="width: 20%" />
         <br />
         <a href="#" style="font-weight:bolder;"><label style="font-size: 17pt;">DOH DTR 4.3</label></a>
 
       </div><!-- /.login-logo -->
           <div class="login-box-body">
-              @if(Session::has('ops'))
+              <?php if(Session::has('ops')): ?>
                   <div class="has-feedback text-center alert-danger">
-                      {{ Session::get('ops') }}
+                      <?php echo Session::get('ops'); ?>
+
                   </div><br>
-              @endif
-                  <form role="form" method="POST" action="{{ asset('/') }}">
-                      <div class="form-group has-feedback {{ Session::has('ops') ? ' has-error' : '' }}">
-                        <input id="username" value="@if(Session::has('username')){{ Session::get('username') }}@endif" type="text" placeholder="Login using your ID No." class="form-control" name="username">
+              <?php endif; ?>
+                  <form role="form" method="POST" action="<?php echo asset('/'); ?>">
+                      <div class="form-group has-feedback <?php echo Session::has('ops') ? ' has-error' : ''; ?>">
+                        <input id="username" value="<?php if(Session::has('username')): ?><?php echo Session::get('username'); ?><?php endif; ?>" type="text" placeholder="Login using your ID No." class="form-control" name="username">
                         <span class="glyphicon glyphicon-user form-control-feedback"></span>
                       </div>
                       <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
-                      <div class="form-group has-feedback{{ Session::has('ops') ? ' has-error' : '' }}">
+                      <div class="form-group has-feedback<?php echo Session::has('ops') ? ' has-error' : ''; ?>">
                         <input id="password" type="password" class="form-control" name="password" placeholder="Password">
                         <span class="glyphicon glyphicon-lock form-control-feedback"></span>
                       </div>
@@ -54,7 +55,7 @@
                                     </label>
                                 </div>
                                 <!--
-                                <a data-url="{{ asset('open/reset') }}" class="btn btn-info" id="btn_reset">Reset Password</a>
+                                <a data-url="<?php echo asset('open/reset'); ?>" class="btn btn-info" id="btn_reset">Reset Password</a>
                                 -->
                             </div><!-- /.col -->
                             <div class="col-xs-4">
@@ -66,8 +67,8 @@
                   <div class="row">
                     <br>
                     <div class="col-md-12">
-                        <a href="{{ asset('public/apk/dtr.apk') }}" target="_blank" type="button" class="btn btn-success" download><i class="fa fa-mobile-phone"></i> <small>Mobile DTR (apk) v2.5.0</small></a>
-                        <a href="{{ asset('public/apk/dtr_office.apk') }}" target="_blank" type="button" class="btn btn-warning" download><i class="fa fa-mobile-phone"></i> <small>Office-Edition DTR (apk) v1.0.0</small></a>
+                        <a href="<?php echo asset('public/apk/dtr.apk'); ?>" target="_blank" type="button" class="btn btn-success" download><i class="fa fa-mobile-phone"></i> <small>Mobile DTR (apk) v2.5.0</small></a>
+                        <a href="<?php echo asset('public/apk/dtr_office.apk'); ?>" target="_blank" type="button" class="btn btn-warning" download><i class="fa fa-mobile-phone"></i> <small>Office-Edition DTR (apk) v1.0.0</small></a>
                     </div>
                     <!--
                     <a href="https://drive.google.com/drive/folders/100ARffzYqtT4BdWK-9rem8_8Zm6UCOUi" target="_blank">DTR MANUAL</a>
@@ -76,22 +77,23 @@
                   <div class="row">
                       <div class="col-md-12">
                           <h5>Search your ID No. here</h5>
-                          <form action="{{ asset('search/id') }}" method="GET">
+                          <form action="<?php echo asset('search/id'); ?>" method="GET">
                               <input type="text" name="q" class="form-control" placeholder="Search using your firstname or lastname">
                           </form>
                           <table class="table">
-                              @if(isset($users) AND count($users) > 0)
+                              <?php if(isset($users) AND count($users) > 0): ?>
                                   <tr>
                                       <th>UserID</th>
                                       <th>Employee Name</th>
                                   </tr>
-                                  @foreach($users as $user)
+                                  <?php foreach($users as $user): ?>
                                       <tr>
-                                          <td><span style="font-weight:bolder;color:orange;">{{ $user->userid }}</span></td>
-                                          <td>{{ $user->fname . " " . $user->lname}}
+                                          <td><span style="font-weight:bolder;color:orange;"><?php echo $user->userid; ?></span></td>
+                                          <td><?php echo $user->fname . " " . $user->lname; ?>
+
                                       </tr>
-                                  @endforeach
-                              @endif
+                                  <?php endforeach; ?>
+                              <?php endif; ?>
                           </table>
                       </div>
                   </div>
@@ -100,11 +102,11 @@
 
 
     </div><!-- /.login-box -->
-    @include('auth.modal')
+    <?php echo $__env->make('auth.modal', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
     <!-- jQuery 2.1.4 -->
-    <script src="{{ asset('public/assets/js/jquery.min.js') }}"></script>
+    <script src="<?php echo asset('public/assets/js/jquery.min.js'); ?>"></script>
     <!-- Bootstrap 3.3.5 -->
-    <script src="{{ asset('public/assets/js/bootstrap.min.js') }}"></script>
+    <script src="<?php echo asset('public/assets/js/bootstrap.min.js'); ?>"></script>
     <script>
         $("#btn_reset").click(function(e){
             e.preventDefault();
