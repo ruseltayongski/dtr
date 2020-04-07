@@ -11,8 +11,10 @@
                     <a href="#"><i class="fa fa-unlock"></i> My DTR</a>
                     <ul class="dropdown-menu">
                         <li class="dropdown-submenu">
+                        <!--
                         <li><a href="{{ asset('/personal/add/logs') }}">Create time log</a></li>
-                        <li class="divider"></li>
+                         <li class="divider"></li>
+                        -->
                         <li class="dropdown-submenu">
                             <a href="#create-absent">Create absence</a>
                             <ul class="dropdown-menu">

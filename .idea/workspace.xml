@@ -3,6 +3,9 @@
   <component name="ChangeListManager">
     <list default="true" id="b05cb011-3300-4bc9-ad62-2e7ec77f7b63" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/controllers/TimeLogController.php" afterPath="$PROJECT_DIR$/app/controllers/TimeLogController.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/layouts/personal.blade.php" afterPath="$PROJECT_DIR$/app/views/layouts/personal.blade.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/timelog/timelog.blade.php" afterPath="$PROJECT_DIR$/app/views/timelog/timelog.blade.php" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -16,18 +19,18 @@
       <file leaf-file-name="routes.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/routes.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="400">
+            <state relative-caret-position="0">
               <caret line="110" column="78" lean-forward="false" selection-start-line="110" selection-start-column="59" selection-end-line="110" selection-end-column="78" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="TimeLogController.php" pinned="false" current-in-tab="false">
+      <file leaf-file-name="TimeLogController.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/controllers/TimeLogController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2737">
-              <caret line="161" column="45" lean-forward="false" selection-start-line="161" selection-start-column="45" selection-end-line="161" selection-end-column="45" />
+            <state relative-caret-position="483">
+              <caret line="38" column="45" lean-forward="true" selection-start-line="38" selection-start-column="45" selection-end-line="38" selection-end-column="45" />
               <folding />
             </state>
           </provider>
@@ -36,18 +39,8 @@
       <file leaf-file-name="timelog.blade.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/views/timelog/timelog.blade.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3587">
-              <caret line="211" column="47" lean-forward="false" selection-start-line="211" selection-start-column="47" selection-end-line="211" selection-end-column="47" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="login.blade.php" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/views/auth/login.blade.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="474">
-              <caret line="70" column="27" lean-forward="true" selection-start-line="70" selection-start-column="27" selection-end-line="70" selection-end-column="27" />
+            <state relative-caret-position="357">
+              <caret line="222" column="91" lean-forward="false" selection-start-line="222" selection-start-column="91" selection-end-line="222" selection-end-column="91" />
               <folding />
             </state>
           </provider>
@@ -56,33 +49,9 @@
       <file leaf-file-name="app.blade.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/views/layouts/app.blade.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="655">
-              <caret line="200" column="46" lean-forward="false" selection-start-line="200" selection-start-column="46" selection-end-line="200" selection-end-column="80" />
+            <state relative-caret-position="21">
+              <caret line="204" column="14" lean-forward="false" selection-start-line="204" selection-start-column="14" selection-end-line="204" selection-end-column="14" />
               <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="print_timelog.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/FPDF/timelog/print_timelog.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="6341">
-              <caret line="373" column="37" lean-forward="false" selection-start-line="373" selection-start-column="27" selection-end-line="373" selection-end-column="37" />
-              <folding>
-                <marker date="1585619622503" expanded="true" signature="718:782" ph="SELECT job_s... personal_information" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="append_timelog.blade.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/views/timelog/append_timelog.blade.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1003">
-              <caret line="59" column="74" lean-forward="false" selection-start-line="59" selection-start-column="74" selection-end-line="59" selection-end-column="74" />
-              <folding>
-                <marker date="1585617946069" expanded="false" signature="2280:2291" ph="..." />
-              </folding>
             </state>
           </provider>
         </entry>
@@ -113,6 +82,10 @@
       <find>$log_status</find>
       <find>log_status_change</find>
       <find>ID</find>
+      <find>doh</find>
+      <find>userid</find>
+      <find>create</find>
+      <find>create timelog</find>
     </findStrings>
     <replaceStrings>
       <replace />
@@ -133,12 +106,13 @@
         <option value="$PROJECT_DIR$/app/views/form/form_leave_script.blade.php" />
         <option value="$PROJECT_DIR$/app/views/form/form_leave.blade.php" />
         <option value="$PROJECT_DIR$/app/controllers/PersonalController.php" />
-        <option value="$PROJECT_DIR$/app/views/layouts/app.blade.php" />
-        <option value="$PROJECT_DIR$/app/controllers/TimeLogController.php" />
         <option value="$PROJECT_DIR$/app/views/timelog/append_timelog.blade.php" />
         <option value="$PROJECT_DIR$/FPDF/timelog/print_timelog.php" />
-        <option value="$PROJECT_DIR$/app/views/timelog/timelog.blade.php" />
         <option value="$PROJECT_DIR$/app/views/auth/login.blade.php" />
+        <option value="$PROJECT_DIR$/app/views/layouts/app.blade.php" />
+        <option value="$PROJECT_DIR$/app/views/layouts/personal.blade.php" />
+        <option value="$PROJECT_DIR$/app/views/timelog/timelog.blade.php" />
+        <option value="$PROJECT_DIR$/app/controllers/TimeLogController.php" />
       </list>
     </option>
   </component>
@@ -259,7 +233,8 @@
   </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../dts" />
+    <property name="settings.editor.selected.configurable" value="reference.settingsdialog.IDE.editor.colors.Color Scheme Font" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -294,26 +269,32 @@
       <workItem from="1585626336881" duration="35000" />
       <workItem from="1585626380451" duration="126000" />
       <workItem from="1585626902224" duration="152000" />
-      <workItem from="1585635466162" duration="64000" />
+      <workItem from="1585635466162" duration="129000" />
+      <workItem from="1585710347987" duration="1798000" />
+      <workItem from="1585733689521" duration="774000" />
+      <workItem from="1586163616602" duration="208000" />
+      <workItem from="1586163843039" duration="4477000" />
+      <workItem from="1586177000170" duration="13000" />
+      <workItem from="1586223605056" duration="415000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="44025000" />
+    <option name="totallyTimeSpent" value="51775000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1066" extended-state="6" />
+    <frame x="-9" y="-9" width="1938" height="1048" extended-state="6" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.23667377" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.22083333" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.20752688" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.20750552" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -354,21 +335,10 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/views/layouts/app.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3400">
-          <caret line="200" column="46" lean-forward="false" selection-start-line="200" selection-start-column="46" selection-end-line="200" selection-end-column="80" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/FPDF/timelog/print_timelog.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="6341">
           <caret line="373" column="37" lean-forward="false" selection-start-line="373" selection-start-column="27" selection-end-line="373" selection-end-column="37" />
-          <folding>
-            <marker date="1585619622503" expanded="true" signature="718:782" ph="SELECT job_s... personal_information" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -376,9 +346,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1003">
           <caret line="59" column="74" lean-forward="false" selection-start-line="59" selection-start-column="74" selection-end-line="59" selection-end-column="74" />
-          <folding>
-            <marker date="1585617946069" expanded="false" signature="2280:2291" ph="..." />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -386,7 +353,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1190">
           <caret line="70" column="26" lean-forward="true" selection-start-line="70" selection-start-column="26" selection-end-line="70" selection-end-column="26" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -426,9 +392,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="6341">
           <caret line="373" column="37" lean-forward="false" selection-start-line="373" selection-start-column="27" selection-end-line="373" selection-end-column="37" />
-          <folding>
-            <marker date="1585619622503" expanded="true" signature="718:782" ph="SELECT job_s... personal_information" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -436,9 +399,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1003">
           <caret line="59" column="74" lean-forward="false" selection-start-line="59" selection-start-column="74" selection-end-line="59" selection-end-column="74" />
-          <folding>
-            <marker date="1585617946069" expanded="false" signature="2280:2291" ph="..." />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -446,7 +406,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1071">
           <caret line="63" column="30" lean-forward="true" selection-start-line="63" selection-start-column="30" selection-end-line="63" selection-end-column="30" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -478,9 +437,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="6341">
           <caret line="373" column="37" lean-forward="false" selection-start-line="373" selection-start-column="27" selection-end-line="373" selection-end-column="37" />
-          <folding>
-            <marker date="1585619622503" expanded="true" signature="718:782" ph="SELECT job_s... personal_information" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -488,9 +444,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1003">
           <caret line="59" column="74" lean-forward="false" selection-start-line="59" selection-start-column="74" selection-end-line="59" selection-end-column="74" />
-          <folding>
-            <marker date="1585617946069" expanded="false" signature="2280:2291" ph="..." />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -530,9 +483,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="697">
           <caret line="41" column="13" lean-forward="false" selection-start-line="41" selection-start-column="13" selection-end-line="41" selection-end-column="13" />
-          <folding>
-            <marker date="1585617946069" expanded="false" signature="2280:2291" ph="..." />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -540,9 +490,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="4573">
           <caret line="269" column="16" lean-forward="false" selection-start-line="269" selection-start-column="16" selection-end-line="269" selection-end-column="29" />
-          <folding>
-            <marker date="1585619622503" expanded="true" signature="718:782" ph="SELECT job_s... personal_information" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -566,9 +513,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="697">
           <caret line="41" column="13" lean-forward="true" selection-start-line="41" selection-start-column="13" selection-end-line="41" selection-end-column="13" />
-          <folding>
-            <marker date="1585617946069" expanded="false" signature="2280:2291" ph="..." />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -600,9 +544,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="3587">
           <caret line="211" column="10" lean-forward="true" selection-start-line="211" selection-start-column="10" selection-end-line="211" selection-end-column="10" />
-          <folding>
-            <marker date="1585619622503" expanded="true" signature="718:782" ph="SELECT job_s... personal_information" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -610,9 +551,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="697">
           <caret line="41" column="13" lean-forward="true" selection-start-line="41" selection-start-column="13" selection-end-line="41" selection-end-column="13" />
-          <folding>
-            <marker date="1585617946069" expanded="false" signature="2280:2291" ph="..." />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -705,11 +643,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/views/timelog/append_timelog.blade.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1003">
+        <state relative-caret-position="1239">
           <caret line="59" column="74" lean-forward="false" selection-start-line="59" selection-start-column="74" selection-end-line="59" selection-end-column="74" />
-          <folding>
-            <marker date="1585617946069" expanded="false" signature="2280:2291" ph="..." />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -720,43 +655,16 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/controllers/TimeLogController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2737">
-          <caret line="161" column="45" lean-forward="false" selection-start-line="161" selection-start-column="45" selection-end-line="161" selection-end-column="45" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/FPDF/timelog/print_timelog.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="6341">
+        <state relative-caret-position="7833">
           <caret line="373" column="37" lean-forward="false" selection-start-line="373" selection-start-column="27" selection-end-line="373" selection-end-column="37" />
-          <folding>
-            <marker date="1585619622503" expanded="true" signature="718:782" ph="SELECT job_s... personal_information" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/timelog/timelog.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3587">
-          <caret line="211" column="47" lean-forward="false" selection-start-line="211" selection-start-column="47" selection-end-line="211" selection-end-column="47" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/layouts/app.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="655">
-          <caret line="200" column="46" lean-forward="false" selection-start-line="200" selection-start-column="46" selection-end-line="200" selection-end-column="80" />
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/routes.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="400">
+        <state relative-caret-position="0">
           <caret line="110" column="78" lean-forward="false" selection-start-line="110" selection-start-column="59" selection-end-line="110" selection-end-column="78" />
           <folding />
         </state>
@@ -764,8 +672,39 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/views/auth/login.blade.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="474">
-          <caret line="70" column="27" lean-forward="true" selection-start-line="70" selection-start-column="27" selection-end-line="70" selection-end-column="27" />
+        <state relative-caret-position="105">
+          <caret line="90" column="42" lean-forward="true" selection-start-line="90" selection-start-column="42" selection-end-line="90" selection-end-column="42" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/layouts/personal.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="288">
+          <caret line="21" column="57" lean-forward="true" selection-start-line="21" selection-start-column="57" selection-end-line="21" selection-end-column="57" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/layouts/app.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="21">
+          <caret line="204" column="14" lean-forward="false" selection-start-line="204" selection-start-column="14" selection-end-line="204" selection-end-column="14" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/timelog/timelog.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="357">
+          <caret line="222" column="91" lean-forward="false" selection-start-line="222" selection-start-column="91" selection-end-line="222" selection-end-column="91" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/controllers/TimeLogController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="483">
+          <caret line="38" column="45" lean-forward="true" selection-start-line="38" selection-start-column="45" selection-end-line="38" selection-end-column="45" />
           <folding />
         </state>
       </provider>
