@@ -1,3 +1,8 @@
+<?php
+session_start();
+?>
+
+
 <?php $__env->startSection('content'); ?>
 <?php if(Session::has('msg_sched')): ?>
     <div class="col-md-12 wrapper">
@@ -99,32 +104,10 @@
                 <div class="panel panel-default">
                     <div class="panel-heading"><strong style="color: #f0ad4e;font-size:medium;">Generate Tardiness</strong></div>
                     <div class="panel-body">
-                        <form action="<?php echo asset('FPDF/print_all_tardiness.php'); ?>" method="POST" id="print_tardiness">
+                        <form action="<?php echo asset('FPDF/tardiness_undertime/print_class.php'); ?>" method="POST" id="print_tardiness" target="_blank">
                             <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
                             <div class="table-responsive">
                                 <table class="table">
-                                    <tr>
-                                        <td class="col-sm-3"><strong>Division </strong></td>
-                                        <td class="col-sm-1">: </td>
-                                        <td class="col-sm-9">
-                                            <select name="division" id="tardinessDivision" class="form-control">
-                                                <option value="all|All">All</option>
-                                                <?php foreach(Division::get() as $row): ?>
-                                                    <option value="<?php echo $row->id.'|'.$row->description; ?>"><?php echo $row->description; ?></option>
-                                                <?php endforeach; ?>
-                                            </select>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="col-sm-3"><strong>Type </strong></td>
-                                        <td class="col-sm-1">: </td>
-                                        <td class="col-sm-9">
-                                            <select class="form-control input-md" name="emptype">
-                                                <option value="JO"><strong>Job Order</strong></option>
-                                                <option value="REG"><strong>Regular</strong></option>
-                                            </select>
-                                        </td>
-                                    </tr>
                                     <tr>
                                         <td class="col-sm-3"><strong>Dates</strong></td>
                                         <td class="col-sm-1"> :</td>
@@ -133,7 +116,7 @@
                                                 <div class="input-group-addon">
                                                     <i class="fa fa-calendar"></i>
                                                 </div>
-                                                <input type="text" class="form-control" id="inclusiveTardiness" name="filter_range" placeholder="Input date range here..." required>
+                                                <input type="text" class="form-control" id="inclusiveTardiness" value="<?php echo isset($_SESSION['tardiness_undertime_date']) ? $_SESSION['tardiness_undertime_date'] : ''; ?>" name="tardiness_undertime_date" placeholder="Input date range here..." required>
                                             </div>
                                         </td>
                                     </tr>
@@ -228,6 +211,7 @@
         </div>
         -->
         <!-- PRINT MOBILE LOGS -->
+        <!--
         <div class="row">
             <div class="col-md-12">
                 <div class="panel panel-default">
@@ -266,10 +250,9 @@
                 </div>
             </div>
         </div>
+        -->
     </div>
     <div class="col-md-8">
-        <div class="row">
-        </div>
         <div class="row">
             <div class="col-md-12">
                 <div class="panel panel-default">
@@ -289,21 +272,42 @@
                                 <table class="table table-list table-hover table-striped">
                                     <thead>
                                     <tr>
-                                        <th class="text-center">User ID</th>
-                                        <th class="text-center">Name </th>
-                                        <th class="text-center">Work Schedule</th>
-                                        <th class="text-center">Option</th>
+                                        <th>User ID</th>
+                                        <th>Name </th>
+                                        <th>Work Schedule</th>
+                                        <th>User Roles</th>
                                     </tr>
                                     </thead>
                                     <tbody>
                                     <?php foreach($users as $user): ?>
                                         <tr>
-                                            <td class="text-center"><a href="#edit" data-id="<?php echo $user->userid; ?>" data-toggle="modal" data-target="#update_user_info" data-link="<?php echo asset('user/edit'); ?>" class="title-info user_edit"><?php echo $user->userid; ?></a></td>
-                                            <td class="text-center"><a href="#edit" data-id="<?php echo $user->userid; ?>" data-toggle="modal" data-target="#update_user_info" data-link="<?php echo asset('user/edit'); ?>" class="text-bold user_edit"><?php echo $user->fname ." ". $user->mname." ".$user->lname; ?></a></td>
-                                            <td class="text-center">
-                                                <span class="text-bold"><?php echo $user->description; ?></span>
+                                            <td><a href="#edit" data-id="<?php echo $user->userid; ?>" data-toggle="modal" data-target="#update_user_info" data-link="<?php echo asset('user/edit'); ?>" class="title-info user_edit"><?php echo $user->userid; ?></a></td>
+                                            <td><a href="#edit" data-id="<?php echo $user->userid; ?>" data-toggle="modal" data-target="#update_user_info" data-link="<?php echo asset('user/edit'); ?>" class="text-bold user_edit text-blue"><?php echo $user->fname ." ". $user->mname." ".$user->lname; ?></a></td>
+                                            <td>
+                                                <a href="#edit" data-id="<?php echo $user->userid; ?>" class="text-bold change_sched text-green"><?php echo $user->description; ?></a>
                                             </td>
-                                            <td class="text-center"><button data-id="<?php echo $user->userid; ?>" type="button" class="btn btn-info btn-xs change_sched">Change</button></td>
+                                            <td>
+                                                <?php
+                                                    $roles = UserRoles::
+                                                            select("users_roles.id","users_roles.userid","users_claims.claim_type","users_claims.claim_value","users_claims.id as claims_id")
+                                                            ->leftJoin("users_claims","users_claims.id","=","users_roles.claims_id")
+                                                            ->where("users_roles.userid","=",$user->userid)
+                                                            ->get()
+                                                ?>
+                                                <?php if(count($roles) >= 1): ?>
+                                                <?php foreach($roles as $role): ?>
+                                                    <div>
+                                                        <?php if($role->claims_id == 3): ?>
+                                                            <button data-userid="<?php echo $role->userid; ?>" type="button" class="btn btn-success btn-xs users_roles_modal" style="margin-top: 5px"><i class="fa fa-cog"></i> <?php echo $role->claim_type; ?></button>
+                                                        <?php else: ?>
+                                                            <small class="label bg-green"><?php echo $role->claim_type; ?></small>
+                                                        <?php endif; ?>
+                                                    </div>
+                                                <?php endforeach; ?>
+                                                <?php else: ?>
+                                                    <small class="label bg-red">None</small>
+                                                <?php endif; ?>
+                                            </td>
                                         </tr>
                                     <?php endforeach; ?>
                                     </tbody>
@@ -331,6 +335,30 @@
 
     <script>
 
+        $(".users_roles_modal").click(function(){
+            $('#users_roles_modal').modal({
+                backdrop: 'static',
+                keyboard: false,
+                show: true
+            });
+
+            var userid = $(this).data('userid');
+            var url = "<?php echo asset('supervise/list') ?>";
+            var json = {
+               'supervisor_id' : userid
+            };
+
+            $('.users_roles_select_body').html(loadingState);
+            setTimeout(function(){
+                $.post(url,json,function(result){
+                    $('.users_roles_select_body').html(result);
+                });
+            },700);
+
+            $("#supervisor_id").val(userid);
+        });
+
+
         $('.input-daterange input').each(function() {
             $(this).datepicker("clearDates");
         });
@@ -339,8 +367,7 @@
             $('#delete_time').modal('show');
             $('#dtr_id_val').val(id);
         }
-    </script>
-    <script>
+
         function readFile(input) {
             if (input.files && input.files[0]) {
                 var reader = new FileReader();
@@ -426,14 +453,14 @@
             });
         });
 
-        $('#print_tardiness').submit(function(){
+        /*$('#print_tardiness').submit(function(){
             $('#print_tardiness_btn').button('loading');
             $('#print_individual').modal({
                 backdrop: 'static',
                 keyboard: false,
                 show: true
             });
-        });
+        });*/
 
         $('.change_sched').click(function(){
             $('#change_schedule').modal({
