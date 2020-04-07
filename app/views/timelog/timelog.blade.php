@@ -75,14 +75,32 @@
                                                             $lat_element = 'lat'.date("YmdHis",strtotime($row->datein.$time)).'am_in';
                                                             $lon_element = 'lon'.date("YmdHis",strtotime($row->datein.$time)).'am_in';
                                                         ?>
-                                                        Latitude : <small id="{{ $lat_element }}">{{ $latitude }}</small> <button class="btn btn-default btn-xs" type="button" onclick="copyToClipboard('{{ '#'.$lat_element }}')">Copy</button><br>
-                                                        Longitude : <small id="{{ $lon_element }}">{{ $longitude }}</small> <button class="btn btn-default btn-xs" type="button" style="margin-top: 1%" onclick="copyToClipboard('{{ '#'.$lon_element }}')">Copy</button><br>
-                                                        <i class="ace-icon fa fa-hand-o-right"></i> <a href="https://www.latlong.net/Show-Latitude-Longitude.html" target="_blank"><strong>location url</strong></a>
+                                                        <div style="padding: 2%;">
+                                                            <img class="profile-user-img img-responsive img-circle" src="{{ asset('public/img/doh.png') }}" style="width: 35%" alt="User profile picture">
+                                                        </div>
+                                                        <table class="table table-bordered table-striped">
+                                                            <tr>
+                                                                <td><div class="pull-right">Latitude :</div></td>
+                                                                <td><small id="{{ $lat_element }}">{{ $latitude }}</small> <button class="btn btn-default btn-xs" type="button" onclick="copyToClipboard('{{ '#'.$lat_element }}')">Copy</button></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td><div class="pull-right">Longitude :</div></td>
+                                                                <td><small id="{{ $lon_element }}">{{ $longitude }}</small> <button class="btn btn-default btn-xs" type="button" style="margin-top: 1%" onclick="copyToClipboard('{{ '#'.$lon_element }}')">Copy</button></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    <div class="pull-right">Location :</div>
+                                                                </td>
+                                                                <td>
+                                                                    <i class="ace-icon fa fa-hand-o-right"></i> <a href="https://www.latlong.net/Show-Latitude-Longitude.html" target="_blank"><strong>URL</strong></a>
+                                                                </td>
+                                                            </tr>
+                                                        </table>
                                                     @endif
                                                 @endif
                                             @else
                                                 <strong style="cursor: pointer;" class="editable text-blue" id="<?php echo
-                                                    Auth::user()->userid.'ñ'.
+                                                    $userid.'ñ'.
                                                     $row->datein.'ñ'.
                                                     str_replace(':','-',explode("_",explode('|',$row->time)[0])[2]).
                                                     'ñ'.explode("_",explode('|',$row->time)[0])[3].'ñ'.
@@ -106,14 +124,32 @@
                                                             $lat_element = 'lat'.date("YmdHis",strtotime($row->datein.$time)).'am_out';
                                                             $lon_element = 'lon'.date("YmdHis",strtotime($row->datein.$time)).'am_out';
                                                         ?>
-                                                        Latitude : <small id="{{ $lat_element }}">{{ $latitude }}</small> <button class="btn btn-default btn-xs" type="button" onclick="copyToClipboard('{{ '#'.$lat_element }}')">Copy</button><br>
-                                                        Longitude : <small id="{{ $lon_element }}">{{ $longitude }}</small> <button class="btn btn-default btn-xs" type="button" style="margin-top: 1%" onclick="copyToClipboard('{{ '#'.$lon_element }}')">Copy</button><br>
-                                                        <i class="ace-icon fa fa-hand-o-right"></i> <a href="https://www.latlong.net/Show-Latitude-Longitude.html" target="_blank"><strong>location url</strong></a>
+                                                        <div style="padding: 2%;">
+                                                            <img class="profile-user-img img-responsive img-circle" src="{{ asset('public/img/doh.png') }}" style="width: 35%" alt="User profile picture">
+                                                        </div>
+                                                        <table class="table table-bordered table-striped">
+                                                            <tr>
+                                                                <td><div class="pull-right">Latitude :</div></td>
+                                                                <td><small id="{{ $lat_element }}">{{ $latitude }}</small> <button class="btn btn-default btn-xs" type="button" onclick="copyToClipboard('{{ '#'.$lat_element }}')">Copy</button></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td><div class="pull-right">Longitude :</div></td>
+                                                                <td><small id="{{ $lon_element }}">{{ $longitude }}</small> <button class="btn btn-default btn-xs" type="button" style="margin-top: 1%" onclick="copyToClipboard('{{ '#'.$lon_element }}')">Copy</button></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    <div class="pull-right">Location :</div>
+                                                                </td>
+                                                                <td>
+                                                                    <i class="ace-icon fa fa-hand-o-right"></i> <a href="https://www.latlong.net/Show-Latitude-Longitude.html" target="_blank"><strong>URL</strong></a>
+                                                                </td>
+                                                            </tr>
+                                                        </table>
                                                     @endif
                                                 @endif
                                             @else
                                                 <strong style="cursor: pointer;" class="editable text-blue" id="<?php echo
-                                                    Auth::user()->userid.'ñ'.
+                                                    $userid.'ñ'.
                                                     $row->datein.'ñ'.
                                                     str_replace(':','-',explode("_",explode('|',$row->time)[1])[2]).
                                                     'ñ'.explode("_",explode('|',$row->time)[1])[3].'ñ'.
@@ -137,14 +173,32 @@
                                                             $lat_element = 'lat'.date("YmdHis",strtotime($row->datein.$time)).'pm_in';
                                                             $lon_element = 'lon'.date("YmdHis",strtotime($row->datein.$time)).'pm_in';
                                                         ?>
-                                                        Latitude : <small id="{{ $lat_element }}">{{ $latitude }}</small> <button class="btn btn-default btn-xs" type="button" onclick="copyToClipboard('{{ '#'.$lat_element }}')">Copy</button><br>
-                                                        Longitude : <small id="{{ $lon_element }}">{{ $longitude }}</small> <button class="btn btn-default btn-xs" type="button" style="margin-top: 1%" onclick="copyToClipboard('{{ '#'.$lon_element }}')">Copy</button><br>
-                                                        <i class="ace-icon fa fa-hand-o-right"></i> <a href="https://www.latlong.net/Show-Latitude-Longitude.html" target="_blank"><strong>location url</strong></a>
+                                                            <div style="padding: 2%;">
+                                                                <img class="profile-user-img img-responsive img-circle" src="{{ asset('public/img/doh.png') }}" style="width: 35%" alt="User profile picture">
+                                                            </div>
+                                                            <table class="table table-bordered table-striped">
+                                                                <tr>
+                                                                    <td><div class="pull-right">Latitude :</div></td>
+                                                                    <td><small id="{{ $lat_element }}">{{ $latitude }}</small> <button class="btn btn-default btn-xs" type="button" onclick="copyToClipboard('{{ '#'.$lat_element }}')">Copy</button></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td><div class="pull-right">Longitude :</div></td>
+                                                                    <td><small id="{{ $lon_element }}">{{ $longitude }}</small> <button class="btn btn-default btn-xs" type="button" style="margin-top: 1%" onclick="copyToClipboard('{{ '#'.$lon_element }}')">Copy</button></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>
+                                                                        <div class="pull-right">Location :</div>
+                                                                    </td>
+                                                                    <td>
+                                                                        <i class="ace-icon fa fa-hand-o-right"></i> <a href="https://www.latlong.net/Show-Latitude-Longitude.html" target="_blank"><strong>URL</strong></a>
+                                                                    </td>
+                                                                </tr>
+                                                            </table>
                                                     @endif
                                                 @endif
                                             @else
                                                 <strong style="cursor: pointer;" class="editable text-blue" id="<?php echo
-                                                    Auth::user()->userid.'ñ'.
+                                                    $userid.'ñ'.
                                                     $row->datein.'ñ'.
                                                     str_replace(':','-',explode("_",explode('|',$row->time)[2])[2]).
                                                     'ñ'.explode("_",explode('|',$row->time)[2])[3].'ñ'.
@@ -168,14 +222,32 @@
                                                             $lat_element = 'lat'.date("YmdHis",strtotime($row->datein.$time)).'pm_out';
                                                             $lon_element = 'lon'.date("YmdHis",strtotime($row->datein.$time)).'pm_out';
                                                         ?>
-                                                        Latitude : <small id="{{ $lat_element }}">{{ $latitude }}</small> <button class="btn btn-default btn-xs" type="button" onclick="copyToClipboard('{{ '#'.$lat_element }}')">Copy</button><br>
-                                                        Longitude : <small id="{{ $lon_element }}">{{ $longitude }}</small> <button class="btn btn-default btn-xs" type="button" style="margin-top: 1%" onclick="copyToClipboard('{{ '#'.$lon_element }}')">Copy</button><br>
-                                                        <i class="ace-icon fa fa-hand-o-right"></i> <a href="https://www.latlong.net/Show-Latitude-Longitude.html" target="_blank"><strong>location url</strong></a>
+                                                        <div style="padding: 2%;">
+                                                            <img class="profile-user-img img-responsive img-circle" src="{{ asset('public/img/doh.png') }}" style="width: 35%" alt="User profile picture">
+                                                        </div>
+                                                        <table class="table table-bordered table-striped">
+                                                            <tr>
+                                                                <td><div class="pull-right">Latitude :</div></td>
+                                                                <td><small id="{{ $lat_element }}">{{ $latitude }}</small> <button class="btn btn-default btn-xs" type="button" onclick="copyToClipboard('{{ '#'.$lat_element }}')">Copy</button></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td><div class="pull-right">Longitude :</div></td>
+                                                                <td><small id="{{ $lon_element }}">{{ $longitude }}</small> <button class="btn btn-default btn-xs" type="button" style="margin-top: 1%" onclick="copyToClipboard('{{ '#'.$lon_element }}')">Copy</button></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    <div class="pull-right">Location :</div>
+                                                                </td>
+                                                                <td>
+                                                                    <i class="ace-icon fa fa-hand-o-right"></i> <a href="https://www.latlong.net/Show-Latitude-Longitude.html" target="_blank"><strong>URL</strong></a>
+                                                                </td>
+                                                            </tr>
+                                                        </table>
                                                     @endif
                                                 @endif
                                             @else
                                                 <strong style="cursor: pointer;" class="editable text-blue" id="<?php echo
-                                                    Auth::user()->userid.'ñ'.
+                                                    $userid.'ñ'.
                                                     $row->datein.'ñ'.
                                                     str_replace(':','-',explode("_",explode('|',$row->time)[3])[2]).
                                                     'ñ'.explode("_",explode('|',$row->time)[3])[3].'ñ'.
@@ -209,7 +281,7 @@
     @parent
     <script>
 
-        $.fn.editable.defaults.mode = 'inline';
+        $.fn.editable.defaults.mode = 'popup';
 
         function copyToClipboard(element) {
             var $temp = $("<input>");
@@ -345,6 +417,7 @@
                     var timelogToAppend = this.$tpl;
                     var am_in,am_out,pm_in,pm_out;
                     console.log(ID);
+                    $(".arrow").removeClass("arrow");
                     am_in = $("#"+ID).parent().parent().children('td').children('input').get(0).value;
                     am_out = $("#"+ID).parent().parent().children('td').children('input').get(1).value;
                     pm_in = $("#"+ID).parent().parent().children('td').children('input').get(2).value;
