@@ -15,6 +15,17 @@
             animation: highlight 3s;
         }
 
+        .profile-user-img{
+            width: 200px;
+            height: 200px;
+            cursor: pointer;
+        }
+
+        .rotater {
+            transition: all 0.3s ease;
+            border: 0.0625em solid black;
+            border-radius: 3.75em;
+        }
     </style>
     <div class="row">
         <div class="col-md-12">
@@ -24,7 +35,7 @@
                 <button type="submit" class="btn btn-primary" id="print">
                     Generate
                 </button>
-                <div class="label pull-right bg-red" style="font-size: 12pt">{{ $timeLog[0]->name }}</div>
+                <div class="label pull-right bg-red" style="font-size: 12pt">{{ $timeLog[0]->userid.' - '.$timeLog[0]->name }}</div>
             </form>
             <br>
             @if(empty($timeLog))
@@ -64,7 +75,7 @@
                                             <input type="hidden" value="{{ explode("_",explode('|',$row->time)[0])[2] }}" id="{{ $count."ñ"."AM_IN" }}">
                                             <?php $time = explode("_",explode('|',$row->time)[0])[0]; ?>
                                             @if(empty(explode("_",explode('|',$row->time)[0])[1]) || explode("_",explode('|',$row->time)[0])[3] == 'mobile')
-                                                <strong class="badge bg-green" style="font-size: 10pt">{{ $time }}</strong><br>
+                                                <strong class="badge bg-green" style="font-size: 10pt;position: absolute;">{{ $time }}</strong><br>
                                                 @if(isset(explode("_",explode('|',$row->time)[0])[4]) && isset(explode("_",explode('|',$row->time)[0])[5]))
                                                     <?php
                                                         $latitude = explode("_",explode('|',$row->time)[0])[4];
@@ -72,11 +83,23 @@
                                                     ?>
                                                     @if($latitude != "empty" && $longitude != "empty")
                                                         <?php
+                                                            $log_image = explode("_",explode('|',$row->time)[0]);
+                                                            $path_timelog = asset('public/logs_imageV2').'/'.$userid.'/timelog'.'/'.$log_image[6];
+                                                            $path_screenshot = asset('public/logs_imageV2').'/'.$userid.'/screenshot'.'/'.$log_image[6];
+
+                                                            if(isset($log_image[7]))
+                                                                $src_image = asset('public/logs_image').'/'.$log_image[6].'_'.$log_image[7].'_'.$log_image[8].'_'.$log_image[9].'_'.$log_image[10].'_'.$log_image[11].'_'.$log_image[12];
+                                                            elseif($latitude == 'null')
+                                                                $src_image = $path_screenshot;
+                                                            else
+                                                                $src_image = $path_timelog;
+
                                                             $lat_element = 'lat'.date("YmdHis",strtotime($row->datein.$time)).'am_in';
                                                             $lon_element = 'lon'.date("YmdHis",strtotime($row->datein.$time)).'am_in';
                                                         ?>
+                                                        <strong class="badge bg-red" style="position: absolute;margin-top: -20px;margin-left: 90px;">Click image to rotate</strong>
                                                         <div style="padding: 2%;">
-                                                            <img class="profile-user-img img-responsive img-circle" src="{{ asset('public/img/doh.png') }}" style="width: 35%" alt="User profile picture">
+                                                            <img class="profile-user-img img-responsive " src="{{ $src_image }}" alt="User profile picture" onclick="rotate(this)">
                                                         </div>
                                                         <table class="table table-bordered table-striped">
                                                             <tr>
@@ -121,11 +144,23 @@
                                                     ?>
                                                     @if($latitude != "empty" && $longitude != "empty")
                                                         <?php
+                                                            $log_image = explode("_",explode('|',$row->time)[1]);
+                                                            $path_timelog = asset('public/logs_imageV2').'/'.$userid.'/timelog'.'/'.$log_image[6];
+                                                            $path_screenshot = asset('public/logs_imageV2').'/'.$userid.'/screenshot'.'/'.$log_image[6];
+
+                                                            if(isset($log_image[7]))
+                                                                $src_image = asset('public/logs_image').'/'.$log_image[6].'_'.$log_image[7].'_'.$log_image[8].'_'.$log_image[9].'_'.$log_image[10].'_'.$log_image[11].'_'.$log_image[12];
+                                                            elseif($latitude == 'null')
+                                                                $src_image = $path_screenshot;
+                                                            else
+                                                                $src_image = $path_timelog;
+
+
                                                             $lat_element = 'lat'.date("YmdHis",strtotime($row->datein.$time)).'am_out';
                                                             $lon_element = 'lon'.date("YmdHis",strtotime($row->datein.$time)).'am_out';
                                                         ?>
                                                         <div style="padding: 2%;">
-                                                            <img class="profile-user-img img-responsive img-circle" src="{{ asset('public/img/doh.png') }}" style="width: 35%" alt="User profile picture">
+                                                            <img class="profile-user-img img-responsive" src="{{ $src_image }}" alt="User profile picture" onclick="rotate(this)">
                                                         </div>
                                                         <table class="table table-bordered table-striped">
                                                             <tr>
@@ -170,11 +205,23 @@
                                                     ?>
                                                     @if($latitude != "empty" && $longitude != "empty")
                                                         <?php
+                                                            $log_image = explode("_",explode('|',$row->time)[2]);
+                                                            $path_timelog = asset('public/logs_imageV2').'/'.$userid.'/timelog'.'/'.$log_image[6];
+                                                            $path_screenshot = asset('public/logs_imageV2').'/'.$userid.'/screenshot'.'/'.$log_image[6];
+
+                                                            if(isset($log_image[7]))
+                                                                $src_image = asset('public/logs_image').'/'.$log_image[6].'_'.$log_image[7].'_'.$log_image[8].'_'.$log_image[9].'_'.$log_image[10].'_'.$log_image[11].'_'.$log_image[12];
+                                                            elseif($latitude == 'null')
+                                                                $src_image = $path_screenshot;
+                                                            else
+                                                                $src_image = $path_timelog;
+
+
                                                             $lat_element = 'lat'.date("YmdHis",strtotime($row->datein.$time)).'pm_in';
                                                             $lon_element = 'lon'.date("YmdHis",strtotime($row->datein.$time)).'pm_in';
                                                         ?>
                                                             <div style="padding: 2%;">
-                                                                <img class="profile-user-img img-responsive img-circle" src="{{ asset('public/img/doh.png') }}" style="width: 35%" alt="User profile picture">
+                                                                <img class="profile-user-img img-responsive" src="{{ $src_image }}" alt="User profile picture" onclick="rotate(this)">
                                                             </div>
                                                             <table class="table table-bordered table-striped">
                                                                 <tr>
@@ -219,11 +266,23 @@
                                                     ?>
                                                     @if($latitude != "empty" && $longitude != "empty")
                                                         <?php
+                                                            $log_image = explode("_",explode('|',$row->time)[3]);
+                                                            $path_timelog = asset('public/logs_imageV2').'/'.$userid.'/timelog'.'/'.$log_image[6];
+                                                            $path_screenshot = asset('public/logs_imageV2').'/'.$userid.'/screenshot'.'/'.$log_image[6];
+
+                                                            if(isset($log_image[7]))
+                                                                $src_image = asset('public/logs_image').'/'.$log_image[6].'_'.$log_image[7].'_'.$log_image[8].'_'.$log_image[9].'_'.$log_image[10].'_'.$log_image[11].'_'.$log_image[12];
+                                                            elseif($latitude == 'null')
+                                                                $src_image = $path_screenshot;
+                                                            else
+                                                                $src_image = $path_timelog;
+
+
                                                             $lat_element = 'lat'.date("YmdHis",strtotime($row->datein.$time)).'pm_out';
                                                             $lon_element = 'lon'.date("YmdHis",strtotime($row->datein.$time)).'pm_out';
                                                         ?>
                                                         <div style="padding: 2%;">
-                                                            <img class="profile-user-img img-responsive img-circle" src="{{ asset('public/img/doh.png') }}" style="width: 35%" alt="User profile picture">
+                                                            <img class="profile-user-img img-responsive" src="{{ $src_image }}" alt="User profile picture" onclick="rotate(this)">
                                                         </div>
                                                         <table class="table table-bordered table-striped">
                                                             <tr>
@@ -266,7 +325,7 @@
                                     <button class="btn btn-success" name="filter_range" value="{{ Session::get('filter_dates') }}"><i class="fa fa-print"></i> Generate PDF</button>
                                 </div>
                                 <input type="hidden" name="userid" value="{{ $userid }}">
-                                <input type="hidden" name="job_status" value="{{ Session::get('job_status') }}">
+                                <input type="hidden" name="job_status" value="{{ $job_status }}">
                             </form>
                         </div>
                     </div>
@@ -280,6 +339,12 @@
 @section('js')
     @parent
     <script>
+
+        function rotate(image) {
+            let rotateAngle = Number(image.getAttribute("rotangle")) + 90;
+            image.setAttribute("style", "transform: rotate(" + rotateAngle + "deg)");
+            image.setAttribute("rotangle", "" + rotateAngle);
+        }
 
         $.fn.editable.defaults.mode = 'popup';
 

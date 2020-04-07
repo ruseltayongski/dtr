@@ -59,7 +59,7 @@ session_start();
         <div class="row">
             <div class="col-md-12">
                 <div class="panel panel-default">
-                    <div class="panel-heading"><strong style="color: #f0ad4e;font-size:medium;">Print individual DTR</strong></div>
+                    <div class="panel-heading"><strong style="color: #f0ad4e;font-size:medium;">Generate individual DTR</strong></div>
                     <div class="panel-body">
                         <form action="{{ asset('FPDF/timelog/print_individual1.php') }}" method="POST" target="_blank" id="print_one_temp">
                             <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
@@ -91,7 +91,50 @@ session_start();
                                 </table>
                             </div>
                             <button type="submit"  class="btn-lg btn-success center-block col-sm-12" id="print_one_btn_temp" data-loading-text="<i class='fa fa-refresh fa-spin'></i> Printing DTR">
-                                <span class="glyphicon glyphicon-print" aria-hidden="true"></span> Print
+                                <span class="glyphicon glyphicon-print" aria-hidden="true"></span> Generate
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading"><strong style="color: #f0ad4e;font-size:medium;">Generate Bulk DTR</strong></div>
+                    <div class="panel-body">
+                        <form action="{{ asset('FPDF/timelog/print_bulk.php') }}" method="POST" target="_blank" id="print_bulk">
+                            <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <tr>
+                                        <td class="col-sm-3"><strong>Job Status</strong></td>
+                                        <td class="col-sm-1">: </td>
+                                        <td class="col-sm-9">
+                                            <select name="job_status" class="form-control" required>
+                                                <option value="">Select Option</option>
+                                                <option value="Permanent">Permanent</option>
+                                                <option value="Job Order">Job Order</option>
+                                                <option value="CBII">CBII</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="col-sm-3"><strong>Dates</strong></td>
+                                        <td class="col-sm-1"> :</td>
+                                        <td class="col-sm-9">
+                                            <div class="input-group">
+                                                <div class="input-group-addon">
+                                                    <i class="fa fa-calendar"></i>
+                                                </div>
+                                                <input type="text" class="form-control" id="inclusive4" name="filter_range_bulk" placeholder="Input date range here..." required>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <button type="submit"  class="btn-lg btn-success center-block col-sm-12" id="print_one_btn_temp" data-loading-text="<i class='fa fa-refresh fa-spin'></i> Printing DTR">
+                                <span class="glyphicon glyphicon-print" aria-hidden="true"></span> Generate
                             </button>
                         </form>
                     </div>
@@ -122,7 +165,7 @@ session_start();
                                 </table>
                             </div>
                             <button type="submit" class="btn-lg btn-success center-block col-sm-12" id="print_tardiness_btn" data-loading-text="<i class='fa fa-refresh fa-spin'></i> Printing Tardiness">
-                                <span class="glyphicon glyphicon-print" aria-hidden="true"></span> Print
+                                <span class="glyphicon glyphicon-print" aria-hidden="true"></span> Generate
                             </button>
                         </form>
                     </div>

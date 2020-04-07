@@ -1,6 +1,7 @@
 <ul class="nav navbar-nav">
     <li><a href="{{ url('/') }}"><i class="fa fa-home"></i> Home</a></li>
 
+    <!--
     <li class="dropdown">
         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="glyphicon glyphicon-calendar"></i> Manage DTR<span class="caret"></span></a>
         <ul class="dropdown-menu">
@@ -22,7 +23,7 @@
 
 
             <li class="divider"></li>
-            <!--
+
             <li class="divider"></li>
             <li><a href="{{ url('employees') }}"><i class="fa fa-users" aria-hidden="true"></i> Employees</a></li>
             <li class="divider"></li>
@@ -41,9 +42,10 @@
             <li><a href="{{ url('print/user/logs')}}"><i class="fa fa-print"></i> Print user logs</a>
             <li class="divider"></li>
             <li><a href="{{ url('print/mobile/logs')}}"><i class="fa fa-mobile"></i> Print Mobile Logs</a></li>
-            -->
+
         </ul>
     </li>
+    -->
     <li><a href="{{ url('calendar') }}"><i class="fa fa-calendar"></i> Holidays Calendar</a></li>
     <li class="dropdown">
         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="glyphicon glyphicon-duplicate"></i> Tracking Documents<span class="caret"></span></a>
@@ -72,7 +74,9 @@
     <li class="dropdown">
         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-cog"></i> Account<span class="caret"></span></a>
         <ul class="dropdown-menu">
+            <!--
             <li><a href="{{ asset('add/user')}}"><i class="fa fa-plus"></i> Add user</a></li>
+            -->
             <li><a href="{{ asset('resetpass')}}"><i class="fa fa-unlock"></i> Change Password</a></li>
             <li><a href="{{ asset('reset/password')}}"><i class="glyphicon glyphicon-cog"></i> Reset Password</a></li>
             <li><a href="{{ url('/logout') }}"><i class="fa fa-sign-out"></i> Logout</a></li>

@@ -37,8 +37,9 @@ class SupervisorController extends Controller
 
         $supervise_employee = SuperviseEmployee::
                             select(
-                                DB::raw("concat(users.lname,', ',users.fname) as name"),
-                                'users.userid','personal_information.job_status',
+                                DB::raw("concat(users.fname,' ',users.lname) as name"),
+                                'users.userid',
+                                'personal_information.job_status',
                                 DB::raw("coalesce(designation.description,'NO DESIGNATION') as designation"),
                                 DB::raw("coalesce(division.description,'NO DIVISION') as division"),
                                 DB::raw("coalesce(section.description,'NO SECTION') as section")
@@ -55,7 +56,7 @@ class SupervisorController extends Controller
                             ->leftJoin("dts.section","section.id","=",'personal_information.section_id')
                             ->where('supervise_employee.supervisor_id','=',Auth::user()->userid)
                             ->orderBy('users.lname','ASC')
-                            ->paginate(10);
+                            ->paginate(15);
         return View::make('roles.location',[
             'supervise_employee' => $supervise_employee,
             'search' => $keyword
