@@ -34,7 +34,7 @@
                                 <td><small>{{ $supervise->designation }}</small></td>
                                 <td><small>{{ $supervise->division }}</small></td>
                                 <td><small>{{ $supervise->section }}</small></td>
-                                <td>JOB ORDER</td>
+                                <td><small>{{ $supervise->job_status }}</small></td>
                             </tr>
                         @endforeach
                         </tbody>
@@ -50,7 +50,8 @@
 @section('js')
     @parent
     <script>
-        $(".supervise_view").click(function(){
+        $(".supervise_view").click(function(e){
+            e.preventDefault();
             $('#supervise_view').modal({
                 backdrop: 'static',
                 keyboard: false,

@@ -24,7 +24,6 @@ class PersonalController extends Controller
     {
         $information = InformationPersonal::where("userid","=",Auth::user()->userid)->first();
         Session::put('region',$information->region);
-        Session::put('job_status',$information->job_status);
 
         $comments = Comments::Select("comment.*","personal_information.picture","personal_information.lname","personal_information.fname")
                     ->LeftJoin("pis.personal_information","personal_information.userid","=","comment.userid")

@@ -75,6 +75,26 @@
         body {
             background: url('{{ asset('public/img/backdrop.png') }}'), -webkit-gradient(radial, center center, 0, center center, 460, from(#ccc), to(#ddd));
         }
+        /*go top scroll up*/
+        #myBtn {
+            display: none;
+            position: fixed;
+            bottom: 20px;
+            right: 30px;
+            z-index: 99;
+            font-size: 18px;
+            border: none;
+            outline: none;
+            background-color: rgba(38, 125, 61, 0.92);
+            color: white;
+            cursor: pointer;
+            padding: 15px;
+            border-radius: 4px;
+        }
+        #myBtn:hover {
+            background-color: #555;
+        }
+        /*end go top scroll up*/
     </style>
 
     @section('css')
@@ -153,6 +173,8 @@
     <div class="clearfix"></div>
     @include('modal')
 </div> <!-- /container -->
+<button onclick="topFunction()" id="myBtn" title="Go to top"><i class="fa fa-arrow-up"></i> Go Top</button>
+
 <footer class="footer">
     <div class="container">
         <p>Copyright &copy; 2017 DOH-RO7 All rights reserved</p>
@@ -236,6 +258,27 @@
         var _href = $($(this).children().get(0)).attr('href');
         $($(this).children().get(0)).attr('href',_href+'&search='+query_string);
     });
+
+    //Get the button
+    var mybutton = document.getElementById("myBtn");
+
+    // When the user scrolls down 20px from the top of the document, show the button
+    window.onscroll = function() {scrollFunction()};
+
+    function scrollFunction() {
+        if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+            mybutton.style.display = "block";
+        } else {
+            mybutton.style.display = "none";
+        }
+    }
+
+    // When the user clicks on the button, scroll to the top of the document
+    function topFunction() {
+        $('body,html').animate({
+            scrollTop : 0 // Scroll to top of body
+        }, 500);
+    }
 
 </script>
 @section('js')

@@ -31,7 +31,8 @@ class TimeLogController extends Controller
             $this->csharpApi($userid,$date_from,$date_to);
             //C# API END
         }
-        if(Session::get("job_status") == 'Permanent')
+        $job_status = InformationPersonal::where('userid',$userid)->first()->job_status;
+        if($job_status == 'Permanent')
             $timeLog = DB::connection('mysql')->select("call Gliding_2020('$userid','$date_from','$date_to')");
         else
             $timeLog = DB::connection('mysql')->select("call getLogs2('$userid','$date_from','$date_to')");
@@ -39,7 +40,8 @@ class TimeLogController extends Controller
         return View::make("timelog.timelog",[
             "timeLog" => $timeLog,
             "userid" => $userid,
-            "supervisor" => $supervisor
+            "supervisor" => $supervisor,
+            "job_status" => $job_status
         ]);
     }
 

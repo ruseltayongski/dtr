@@ -176,8 +176,8 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <input type="submit" class="btn btn-success">
                     <button type="button" class="btn btn-warning" data-dismiss="modal">Cancel</button>
+                    <input type="submit" class="btn btn-success">
                 </div>
             </form>
         </div><!-- /.modal-content -->
