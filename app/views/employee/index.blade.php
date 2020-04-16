@@ -17,7 +17,7 @@
                                         <input type="text" readonly class="col-md-2 form-control" id="inputEmail3" name="userid" value="{{ Auth::user()->userid }}" required>
                                     </td>
                                 </tr>
-                                <input type="hidden" readonly class="col-md-2 form-control" name="job_status" value="{{ Session::get("job_status") }}" required>
+                                <input type="hidden" readonly class="col-md-2 form-control" name="job_status" value="{{ $information->job_status }}" required>
                                 <tr>
                                     <td class="col-sm-3"><small>Dates</small></td>
                                     <td class="col-sm-1"> :</td>
