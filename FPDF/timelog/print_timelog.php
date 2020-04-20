@@ -244,8 +244,11 @@ if(isset($_POST['filter_range'])){
             (strpos( $am_in, 'MO #' ) !== false && strpos( $am_out, 'MO #' ) !== false)
         ){
             if((empty($am_in) && empty($am_in)) || ($am_in == 'empty' && $am_in == 'empty')){
-                $morning_log_2 = 'HALF DAY';
-                $late += 240;
+                $morning_log_2 = '';
+                if ($day_name != ('Sat' || 'Sun')){
+                    $morning_log_2 = 'HALF DAY';
+                    $late += 240;
+                }
             } else
                 $morning_log_2 = $am_in;
 
@@ -303,8 +306,11 @@ if(isset($_POST['filter_range'])){
             (strpos( $pm_in, 'LEAVE' ) !== false && strpos( $pm_out, 'LEAVE' ) !== false)
         ){
             if((empty($pm_in) && empty($pm_in)) || ($pm_in == 'empty' && $pm_in == 'empty')){
-                $afternoon_log_2 = 'HALF DAY';
-                $late += 240;
+                $afternoon_log_2 = '';
+                if ($day_name != ('Sat' || 'Sun')){
+                    $afternoon_log_2 = 'HALF DAY';
+                    $late += 240;
+                }
             } else
                 $afternoon_log_2 = $pm_in;
 
