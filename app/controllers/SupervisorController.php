@@ -37,7 +37,7 @@ class SupervisorController extends Controller
 
         $supervise_employee = SuperviseEmployee::
                             select(
-                                DB::raw("concat(users.lname,', 'users.fname,' ',users.mname) as name"),
+                                DB::raw("concat(users.lname,', ',users.fname,' ',users.mname) as name"),
                                 'users.userid',
                                 'personal_information.job_status',
                                 DB::raw("coalesce(designation.description,'NO DESIGNATION') as designation"),
