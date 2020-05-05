@@ -233,8 +233,6 @@ if(isset($_POST['filter_range'])){
         $late = $row['late'];
         $undertime = $row['undertime'];
 
-        $undertime_total += $undertime;
-
         if(
             ($am_in == 'DAY OFF' && $am_out == 'DAY OFF' && $pm_in == 'DAY OFF' && $pm_out == 'DAY OFF') ||
             ($am_in == 'HOLIDAY' && $am_out == 'HOLIDAY' && $pm_in == 'HOLIDAY' && $pm_out == 'HOLIDAY') ||
@@ -496,6 +494,7 @@ if(isset($_POST['filter_range'])){
         }
 
         $late_total += $late;
+        $undertime_total += $undertime;
     }
     $pdf->Ln(-3);
     $pdf->SetWidths(array(87,$set_size_center,87));

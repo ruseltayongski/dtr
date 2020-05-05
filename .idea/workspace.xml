@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="52fcffb7-aa6c-4bed-b73c-0e57c4b16f6d" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FPDF/timelog/print_timelog.php" afterPath="$PROJECT_DIR$/FPDF/timelog/print_timelog.php" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -17,15 +16,15 @@
       <file leaf-file-name="print_timelog.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/FPDF/timelog/print_timelog.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="179">
-              <caret line="321" column="52" lean-forward="false" selection-start-line="321" selection-start-column="52" selection-end-line="321" selection-end-column="52" />
+            <state relative-caret-position="509">
+              <caret line="496" column="39" lean-forward="false" selection-start-line="496" selection-start-column="39" selection-end-line="496" selection-end-column="39" />
               <folding>
-                <marker date="1588645555914" expanded="true" signature="718:782" ph="SELECT job_s... personal_information" />
-                <marker date="1588645555914" expanded="true" signature="982:1072" ph="SELECT time " />
-                <marker date="1588645555914" expanded="true" signature="1280:1405" ph="SELECT time " />
-                <marker date="1588645555914" expanded="true" signature="1280:1409" ph="SELECT time " />
-                <marker date="1588645555914" expanded="true" signature="1616:1752" ph="SELECT time " />
-                <marker date="1588645555914" expanded="true" signature="1960:2043" ph="SELECT time " />
+                <marker date="1588645851719" expanded="true" signature="718:782" ph="SELECT job_s... personal_information" />
+                <marker date="1588645851719" expanded="true" signature="982:1072" ph="SELECT time " />
+                <marker date="1588645851719" expanded="true" signature="1280:1405" ph="SELECT time " />
+                <marker date="1588645851719" expanded="true" signature="1280:1409" ph="SELECT time " />
+                <marker date="1588645851719" expanded="true" signature="1616:1752" ph="SELECT time " />
+                <marker date="1588645851719" expanded="true" signature="1960:2043" ph="SELECT time " />
               </folding>
             </state>
           </provider>
@@ -62,6 +61,9 @@
       <find>$am_in</find>
       <find>offsen_am_in</find>
       <find>(empty($am_in)</find>
+      <find>+= 240</find>
+      <find>undertime_total</find>
+      <find>$undertime</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -196,12 +198,12 @@
       <workItem from="1587521840075" duration="5000" />
       <workItem from="1588151669033" duration="2626000" />
       <workItem from="1588552991116" duration="2106000" />
-      <workItem from="1588638097487" duration="7165000" />
+      <workItem from="1588638097487" duration="7461000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="13678000" />
+    <option name="totallyTimeSpent" value="13974000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1066" extended-state="6" />
@@ -355,15 +357,15 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/FPDF/timelog/print_timelog.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="179">
-          <caret line="321" column="52" lean-forward="false" selection-start-line="321" selection-start-column="52" selection-end-line="321" selection-end-column="52" />
+        <state relative-caret-position="509">
+          <caret line="496" column="39" lean-forward="false" selection-start-line="496" selection-start-column="39" selection-end-line="496" selection-end-column="39" />
           <folding>
-            <marker date="1588645555914" expanded="true" signature="718:782" ph="SELECT job_s... personal_information" />
-            <marker date="1588645555914" expanded="true" signature="982:1072" ph="SELECT time " />
-            <marker date="1588645555914" expanded="true" signature="1280:1405" ph="SELECT time " />
-            <marker date="1588645555914" expanded="true" signature="1280:1409" ph="SELECT time " />
-            <marker date="1588645555914" expanded="true" signature="1616:1752" ph="SELECT time " />
-            <marker date="1588645555914" expanded="true" signature="1960:2043" ph="SELECT time " />
+            <marker date="1588645851719" expanded="true" signature="718:782" ph="SELECT job_s... personal_information" />
+            <marker date="1588645851719" expanded="true" signature="982:1072" ph="SELECT time " />
+            <marker date="1588645851719" expanded="true" signature="1280:1405" ph="SELECT time " />
+            <marker date="1588645851719" expanded="true" signature="1280:1409" ph="SELECT time " />
+            <marker date="1588645851719" expanded="true" signature="1616:1752" ph="SELECT time " />
+            <marker date="1588645851719" expanded="true" signature="1960:2043" ph="SELECT time " />
           </folding>
         </state>
       </provider>
