@@ -295,12 +295,10 @@ if(isset($_POST['filter_range'])){
                 ),5);
             }
             else{
-
                 if($pm_out >= '23:00:00' and $pm_out <= '23:59:59'){ //OFFSEN LOGS
                     $am_in = '';
                     $am_out = '';
                     $pm_in = offsen_in($userid,$row['datein'])['time'];
-                    $pm_out = offsen_out($userid,$row['datein'])['time'];
                     $am_in_style = '';
                     $am_out_style = '';
                     $pm_in_style = '';
@@ -394,7 +392,6 @@ if(isset($_POST['filter_range'])){
                 $late = $late == 0 ? '' : $late;
                 $undertime = $undertime == 0 ? '' : $undertime;
                 if($am_in >= '00:00:00' and $am_in <= '01:00:00'){ //OFFSEN LOGS
-                    $am_in = offsen_in($userid,$row['datein'])['time'];
                     $am_out = offsen_out($userid,$row['datein'])['time'];
                     $pm_in = '';
                     $pm_out = '';

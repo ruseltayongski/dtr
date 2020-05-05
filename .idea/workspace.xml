@@ -4,6 +4,7 @@
     <list default="true" id="52fcffb7-aa6c-4bed-b73c-0e57c4b16f6d" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FPDF/timelog/print_timelog.php" afterPath="$PROJECT_DIR$/FPDF/timelog/print_timelog.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/timelog/timelog.blade.php" afterPath="$PROJECT_DIR$/app/views/timelog/timelog.blade.php" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -17,13 +18,13 @@
       <file leaf-file-name="print_timelog.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/FPDF/timelog/print_timelog.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="271">
-              <caret line="299" column="32" lean-forward="true" selection-start-line="299" selection-start-column="32" selection-end-line="299" selection-end-column="32" />
+            <state relative-caret-position="781">
+              <caret line="295" column="13" lean-forward="true" selection-start-line="295" selection-start-column="13" selection-end-line="295" selection-end-column="13" />
               <folding>
-                <marker date="1588646593922" expanded="true" signature="718:782" ph="SELECT job_s... personal_information" />
-                <marker date="1588646593922" expanded="true" signature="979:1069" ph="SELECT time " />
-                <marker date="1588646593922" expanded="true" signature="1275:1358" ph="SELECT time " />
-                <marker date="1588646593922" expanded="true" signature="1275:1366" ph="SELECT time " />
+                <marker date="1588656454246" expanded="true" signature="718:782" ph="SELECT job_s... personal_information" />
+                <marker date="1588656454246" expanded="true" signature="979:1069" ph="SELECT time " />
+                <marker date="1588656454246" expanded="true" signature="1275:1358" ph="SELECT time " />
+                <marker date="1588656454246" expanded="true" signature="1275:1366" ph="SELECT time " />
               </folding>
             </state>
           </provider>
@@ -33,12 +34,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>half day</find>
-      <find>delete</find>
-      <find>roles</find>
-      <find>users_roles_modal</find>
-      <find>supervise/list</find>
-      <find>superviseList</find>
       <find>0800012</find>
       <find>location/roles</find>
       <find>my Dtr</find>
@@ -60,9 +55,15 @@
       <find>$undertime</find>
       <find>offsen_am_in</find>
       <find>offsen_out</find>
-      <find>offsen_in</find>
       <find>ffsen</find>
+      <find>tr</find>
+      <find>of</find>
+      <find>OFFSEN</find>
+      <find>$time</find>
       <find>offsen</find>
+      <find>$userid</find>
+      <find>date</find>
+      <find>offsen_in</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -74,6 +75,7 @@
         <option value="$PROJECT_DIR$/app/controllers/SupervisorController.php" />
         <option value="$PROJECT_DIR$/app/views/layouts/personal.blade.php" />
         <option value="$PROJECT_DIR$/FPDF/timelog/print_timelog.php" />
+        <option value="$PROJECT_DIR$/app/views/timelog/timelog.blade.php" />
       </list>
     </option>
   </component>
@@ -130,6 +132,12 @@
               <item name="dtr" type="b2602c69:ProjectViewProjectNode" />
               <item name="dtr" type="2a2b976b:PhpTreeStructureProvider$1" />
               <item name="app" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="models" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+            <path>
+              <item name="dtr" type="b2602c69:ProjectViewProjectNode" />
+              <item name="dtr" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="app" type="2a2b976b:PhpTreeStructureProvider$1" />
               <item name="storage" type="2a2b976b:PhpTreeStructureProvider$1" />
             </path>
             <path>
@@ -144,6 +152,13 @@
               <item name="app" type="2a2b976b:PhpTreeStructureProvider$1" />
               <item name="views" type="2a2b976b:PhpTreeStructureProvider$1" />
               <item name="layouts" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+            <path>
+              <item name="dtr" type="b2602c69:ProjectViewProjectNode" />
+              <item name="dtr" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="app" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="views" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="timelog" type="2a2b976b:PhpTreeStructureProvider$1" />
             </path>
             <path>
               <item name="dtr" type="b2602c69:ProjectViewProjectNode" />
@@ -197,12 +212,12 @@
       <workItem from="1587521840075" duration="5000" />
       <workItem from="1588151669033" duration="2626000" />
       <workItem from="1588552991116" duration="2106000" />
-      <workItem from="1588638097487" duration="8204000" />
+      <workItem from="1588638097487" duration="11123000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="14717000" />
+    <option name="totallyTimeSpent" value="17636000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1066" extended-state="6" />
@@ -354,15 +369,31 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app/models/DtrDetails.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/timelog/timelog.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="532">
+          <caret line="193" column="50" lean-forward="true" selection-start-line="193" selection-start-column="50" selection-end-line="193" selection-end-column="50" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/FPDF/timelog/print_timelog.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="271">
-          <caret line="299" column="32" lean-forward="true" selection-start-line="299" selection-start-column="32" selection-end-line="299" selection-end-column="32" />
+        <state relative-caret-position="781">
+          <caret line="295" column="13" lean-forward="true" selection-start-line="295" selection-start-column="13" selection-end-line="295" selection-end-column="13" />
           <folding>
-            <marker date="1588646593922" expanded="true" signature="718:782" ph="SELECT job_s... personal_information" />
-            <marker date="1588646593922" expanded="true" signature="979:1069" ph="SELECT time " />
-            <marker date="1588646593922" expanded="true" signature="1275:1358" ph="SELECT time " />
-            <marker date="1588646593922" expanded="true" signature="1275:1366" ph="SELECT time " />
+            <marker date="1588656454246" expanded="true" signature="718:782" ph="SELECT job_s... personal_information" />
+            <marker date="1588656454246" expanded="true" signature="979:1069" ph="SELECT time " />
+            <marker date="1588656454246" expanded="true" signature="1275:1358" ph="SELECT time " />
+            <marker date="1588656454246" expanded="true" signature="1275:1366" ph="SELECT time " />
           </folding>
         </state>
       </provider>
