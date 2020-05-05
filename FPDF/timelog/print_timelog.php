@@ -43,7 +43,7 @@ function getJobStatus($userid)
 }
 
 
-function offsen_am_in($userid,$datein)
+function offsen_in($userid,$datein)
 {
     $db= conn();
     $sql="SELECT time FROM dohdtr.dtr_file where userid = ? and datein = ? order by time asc limit 1";
@@ -54,32 +54,11 @@ function offsen_am_in($userid,$datein)
     return $row;
 }
 
-function offsen_am_out($userid,$datein)
-{
-    $db= conn();
-    $sql="SELECT time FROM dohdtr.dtr_file where userid = ? and datein = ? and time >= '16:00:00' and time <= '23:59:59' order by time desc";
-    $pdo = $db->prepare($sql);
-    $pdo->execute(array($userid,$datein));
-    $row = $pdo->fetch();
-    $db = null;
-    return $row;
-}
 
-function offsen_pm_in($userid,$datein)
+function offsen_out($userid,$datein)
 {
     $db= conn();
-    $sql="SELECT time FROM dohdtr.dtr_file where userid = ? and datein = ? and time >= '00:00:00' and time <= '09:00:00' order by time asc limit 1";
-    $pdo = $db->prepare($sql);
-    $pdo->execute(array($userid,$datein));
-    $row = $pdo->fetch();
-    $db = null;
-    return $row;
-}
-
-function offsen_pm_out($userid,$datein)
-{
-    $db= conn();
-    $sql="SELECT time FROM dohdtr.dtr_file where userid = ? and datein = ? order by time desc";
+    $sql="SELECT time FROM dohdtr.dtr_file where userid = ? and datein = ? order by time desc limit 1";
     $pdo = $db->prepare($sql);
     $pdo->execute(array($userid,$datein));
     $row = $pdo->fetch();
@@ -318,10 +297,10 @@ if(isset($_POST['filter_range'])){
             else{
 
                 if($pm_out >= '23:00:00' and $pm_out <= '23:59:59'){ //OFFSEN LOGS
-                    $am_in = offsen_am_in($userid,$row['datein'])['time'];
+                    $am_in = '';
                     $am_out = '';
-                    $pm_in = '';
-                    $pm_out = offsen_pm_out($userid,$row['datein'])['time'];
+                    $pm_in = offsen_in($userid,$row['datein'])['time'];
+                    $pm_out = offsen_out($userid,$row['datein'])['time'];
                     $am_in_style = '';
                     $am_out_style = '';
                     $pm_in_style = '';
@@ -415,10 +394,10 @@ if(isset($_POST['filter_range'])){
                 $late = $late == 0 ? '' : $late;
                 $undertime = $undertime == 0 ? '' : $undertime;
                 if($am_in >= '00:00:00' and $am_in <= '01:00:00'){ //OFFSEN LOGS
-                    $am_in = offsen_am_in($userid,$row['datein'])['time'];
-                    $am_out = '';
+                    $am_in = offsen_in($userid,$row['datein'])['time'];
+                    $am_out = offsen_out($userid,$row['datein'])['time'];
                     $pm_in = '';
-                    $pm_out = offsen_pm_out($userid,$row['datein'])['time'];
+                    $pm_out = '';
                     $am_in_style = '';
                     $am_out_style = '';
                     $pm_in_style = '';
