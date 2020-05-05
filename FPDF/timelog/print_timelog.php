@@ -350,6 +350,8 @@ if(isset($_POST['filter_range'])){
                 if($am_in >= '00:00:00' and $am_in <= '01:00:00'){
                     $am_out = getOffsenLastlogs($userid,$row['datein'])['time'];
                     $am_out_style = '';
+                    $late = '';
+                    $undertime = '';
                 }
                 $pdf->SetWidths(array(5, 7.5, 15, 15, 30, 7.5, 7, $set_size_center, 5, 7.5, 15, 15, 30, 7.5, 7));
                 $pdf->Row(array(
