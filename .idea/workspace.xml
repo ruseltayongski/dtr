@@ -17,13 +17,17 @@
       <file leaf-file-name="print_timelog.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/FPDF/timelog/print_timelog.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="381">
-              <caret line="358" column="76" lean-forward="false" selection-start-line="358" selection-start-column="76" selection-end-line="358" selection-end-column="76" />
+            <state relative-caret-position="356">
+              <caret line="84" column="25" lean-forward="true" selection-start-line="84" selection-start-column="25" selection-end-line="84" selection-end-column="25" />
               <folding>
-                <marker date="1588641827611" expanded="true" signature="718:782" ph="SELECT job_s... personal_information" />
-                <marker date="1588641827611" expanded="true" signature="986:1049" ph="SELECT job_s... personal_information" />
-                <marker date="1588641827611" expanded="true" signature="986:1050" ph="SELECT * FRO... dtr_file" />
-                <marker date="1588641827611" expanded="true" signature="986:1069" ph="SELECT time " />
+                <marker date="1588643596391" expanded="true" signature="718:782" ph="SELECT job_s... personal_information" />
+                <marker date="1588643596391" expanded="true" signature="982:1081" ph="SELECT time " />
+                <marker date="1588643596391" expanded="true" signature="982:1107" ph="SELECT time " />
+                <marker date="1588643596391" expanded="true" signature="982:1110" ph="SELECT time " />
+                <marker date="1588643596391" expanded="true" signature="1318:1443" ph="SELECT time " />
+                <marker date="1588643596391" expanded="true" signature="1318:1447" ph="SELECT time " />
+                <marker date="1588643596391" expanded="true" signature="1654:1782" ph="SELECT time " />
+                <marker date="1588643596391" expanded="true" signature="1990:2119" ph="SELECT time " />
               </folding>
             </state>
           </provider>
@@ -51,6 +55,11 @@
       <find>HALF DAY</find>
       <find>$am_out_style</find>
       <find>getOffsenLastlogs</find>
+      <find>offsen_am_in</find>
+      <find>offsen_pm_in</find>
+      <find>offsen_pm_out.</find>
+      <find>offsen_pm_out</find>
+      <find>desc</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -185,12 +194,12 @@
       <workItem from="1587521840075" duration="5000" />
       <workItem from="1588151669033" duration="2626000" />
       <workItem from="1588552991116" duration="2106000" />
-      <workItem from="1588638097487" duration="3446000" />
+      <workItem from="1588638097487" duration="5209000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="9959000" />
+    <option name="totallyTimeSpent" value="11722000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1066" extended-state="6" />
@@ -344,13 +353,17 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/FPDF/timelog/print_timelog.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="381">
-          <caret line="358" column="76" lean-forward="false" selection-start-line="358" selection-start-column="76" selection-end-line="358" selection-end-column="76" />
+        <state relative-caret-position="356">
+          <caret line="84" column="25" lean-forward="true" selection-start-line="84" selection-start-column="25" selection-end-line="84" selection-end-column="25" />
           <folding>
-            <marker date="1588641827611" expanded="true" signature="718:782" ph="SELECT job_s... personal_information" />
-            <marker date="1588641827611" expanded="true" signature="986:1049" ph="SELECT job_s... personal_information" />
-            <marker date="1588641827611" expanded="true" signature="986:1050" ph="SELECT * FRO... dtr_file" />
-            <marker date="1588641827611" expanded="true" signature="986:1069" ph="SELECT time " />
+            <marker date="1588643596391" expanded="true" signature="718:782" ph="SELECT job_s... personal_information" />
+            <marker date="1588643596391" expanded="true" signature="982:1081" ph="SELECT time " />
+            <marker date="1588643596391" expanded="true" signature="982:1107" ph="SELECT time " />
+            <marker date="1588643596391" expanded="true" signature="982:1110" ph="SELECT time " />
+            <marker date="1588643596391" expanded="true" signature="1318:1443" ph="SELECT time " />
+            <marker date="1588643596391" expanded="true" signature="1318:1447" ph="SELECT time " />
+            <marker date="1588643596391" expanded="true" signature="1654:1782" ph="SELECT time " />
+            <marker date="1588643596391" expanded="true" signature="1990:2119" ph="SELECT time " />
           </folding>
         </state>
       </provider>
