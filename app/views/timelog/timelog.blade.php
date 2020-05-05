@@ -254,14 +254,25 @@
                                                     @endif
                                                 @endif
                                             @else
-                                                <strong style="cursor: pointer;" class="editable text-blue" id="<?php echo
-                                                    $userid.'ñ'.
-                                                    $row->datein.'ñ'.
-                                                    str_replace(':','-',explode("_",explode('|',$row->time)[2])[2]).
-                                                    'ñ'.explode("_",explode('|',$row->time)[2])[3].'ñ'.
-                                                    "PM_IN"."ñ".
-                                                    $count;
-                                                ?>">{{ strtoupper($time) }}</strong>
+                                                <?php
+                                                    if(isset(explode("_",explode('|',$row->time)[3])[4]) && isset(explode("_",explode('|',$row->time)[3])[5])){ // check am in for offsen
+                                                        if(isset(explode("_",explode('|',$row->time)[3])[4]) >= '23:00:00' and isset(explode("_",explode('|',$row->time)[3])[5]) <= '23:59:59'){ // check am in for offsen
+                                                ?>
+                                                            <strong class="badge bg-green">{{ DtrDetails::where('userid',$userid)->where('datein',$row->datein)->orderBy('time','asc')->limit(1)->first()->time }}</strong><br>
+                                                    <?php
+                                                        }
+                                                    } else {
+                                                ?>
+                                                    <strong style="cursor: pointer;" class="editable text-blue" id="<?php echo
+                                                        $userid.'ñ'.
+                                                        $row->datein.'ñ'.
+                                                        str_replace(':','-',explode("_",explode('|',$row->time)[2])[2]).
+                                                        'ñ'.explode("_",explode('|',$row->time)[2])[3].'ñ'.
+                                                        "PM_IN"."ñ".
+                                                        $count;
+                                                    ?>">{{ strtoupper($time) }}</strong>
+                                                <?php } ?>
+
                                             @endif
                                         </td>
                                         <td > <!-- PM OUT -->
