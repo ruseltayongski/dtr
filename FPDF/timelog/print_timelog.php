@@ -42,6 +42,17 @@ function getJobStatus($userid)
     return $row;
 }
 
+function getOffsenLastlogs($userid,$datein)
+{
+    $db= conn();
+    $sql="SELECT time FROM dohdtr.dtr_file where userid = ? and datein = ? order by time desc";
+    $pdo = $db->prepare($sql);
+    $pdo->execute(array($userid,$datein));
+    $row = $pdo->fetch();
+    $db = null;
+    return $row;
+}
+
 function api_get_logs($userid,$date_from,$date_to) {
     $url = "http://192.168.81.7/dtr_api/logs/GetLogs/".$userid;
 
@@ -336,6 +347,10 @@ if(isset($_POST['filter_range'])){
             } else {
                 $late = $late == 0 ? '' : $late;
                 $undertime = $undertime == 0 ? '' : $undertime;
+                if($am_in >= '00:00:00' and $am_in <= '01:00:00'){
+                    $am_out = getOffsenLastlogs($userid,$row['datein'])['time'];
+                    $am_out_style = '';
+                }
                 $pdf->SetWidths(array(5, 7.5, 15, 15, 30, 7.5, 7, $set_size_center, 5, 7.5, 15, 15, 30, 7.5, 7));
                 $pdf->Row(array(
                     ["word" => explode('-', $row['datein'])[2], 'font_style' => '', 'font_size' => 7.5, 'border' => $border, "position" => 'L'],
