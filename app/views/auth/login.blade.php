@@ -66,10 +66,10 @@
                   <div class="row">
                     <br>
                     <div class="col-md-12">
-                        <!--
                         <a href="{{ asset('public/apk/dtr.apk') }}" target="_blank" type="button" class="btn btn-success" download><i class="fa fa-mobile-phone"></i> <small>Mobile DTR(apk) v2.5.0</small></a>
-                        -->
+                        <!--
                         <a href="{{ asset('public/apk/dtr_office.apk') }}" target="_blank" type="button" class="btn btn-warning" download><i class="fa fa-mobile-phone"></i> <small>Mobile DTR Office Edition(apk) v1.0.0</small></a>
+                        -->
                     </div>
                     <!--
                     <a href="https://drive.google.com/drive/folders/100ARffzYqtT4BdWK-9rem8_8Zm6UCOUi" target="_blank">DTR MANUAL</a>

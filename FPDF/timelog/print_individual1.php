@@ -19,9 +19,9 @@ class PDF_MC_Table extends FPDF
     function Footer()
     {
         // Position at 1.5 cm from bottom
-        $this->SetY(-15);
+        /*$this->SetY(-15);
         $this->SetFont('Times','UI',9);
-        $this->Cell(0,10,"OFFICE - MOBILE DEVICE - 08:00 12:00 13:00 17:00",0,0,'L');
+        $this->Cell(0,10,"OFFICE - MOBILE DEVICE - 08:00 12:00 13:00 17:00",0,0,'L');*/
         $this->SetY(-20);
         $this->SetFont('Times','U',9);
         $this->Cell(0,10,"MOBILE DEVICE - 08:00 12:00 13:00 17:00",0,0,'L');
