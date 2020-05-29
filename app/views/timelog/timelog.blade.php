@@ -196,7 +196,7 @@
                                         <td > <!-- PM IN -->
                                             <input type="hidden" value="{{ explode("_",explode('|',$row->time)[2])[2] }}" id="{{ $count."ñ"."PM_IN" }}">
                                             <?php $time = explode("_",explode('|',$row->time)[2])[0]; ?>
-                                            @if(empty(explode("_",explode('|',$row->time)[2])[1]) || explode("_",explode('|',$row->time)[2])[3] == 'mobile')
+                                            @if(empty(explode("_",explode('|',$row->time)[2])[1]) || explode("_",explode('|',$row->time)[2])[3] == 'mobile' || explode("_",explode('|',$row->time)[2])[3] == 'normal')
                                                 <strong class="badge bg-green">{{ $time }}</strong><br>
                                                 @if(isset(explode("_",explode('|',$row->time)[2])[4]) && isset(explode("_",explode('|',$row->time)[2])[5]))
                                                     <?php
