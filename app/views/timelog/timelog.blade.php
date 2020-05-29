@@ -74,7 +74,7 @@
                                         <td> <!-- AM IN -->
                                             <input type="hidden" value="{{ explode("_",explode('|',$row->time)[0])[2] }}" id="{{ $count."ñ"."AM_IN" }}">
                                             <?php $time = explode("_",explode('|',$row->time)[0])[0]; ?>
-                                            @if(empty(explode("_",explode('|',$row->time)[0])[1]) || explode("_",explode('|',$row->time)[0])[3] == 'mobile')
+                                            @if(empty(explode("_",explode('|',$row->time)[0])[1]) || explode("_",explode('|',$row->time)[0])[3] == 'mobile' || explode("_",explode('|',$row->time)[0])[3] == 'normal')
                                                 <strong class="badge bg-green" style="font-size: 10pt;position: absolute;">{{ $time }}</strong><br>
                                                 @if(isset(explode("_",explode('|',$row->time)[0])[4]) && isset(explode("_",explode('|',$row->time)[0])[5]))
                                                     <?php
@@ -135,7 +135,7 @@
                                         <td> <!-- AM OUT -->
                                             <input type="hidden" value="{{ explode("_",explode('|',$row->time)[1])[2] }}" id="{{ $count."ñ"."AM_OUT" }}">
                                             <?php $time = explode("_",explode('|',$row->time)[1])[0]; ?>
-                                            @if(empty(explode("_",explode('|',$row->time)[1])[1]) || explode("_",explode('|',$row->time)[1])[3] == 'mobile')
+                                            @if(empty(explode("_",explode('|',$row->time)[1])[1]) || explode("_",explode('|',$row->time)[1])[3] == 'mobile' || explode("_",explode('|',$row->time)[1])[3] == 'normal')
                                                 <strong class="badge bg-green">{{ $time }}</strong><br>
                                                 @if(isset(explode("_",explode('|',$row->time)[1])[4]) && isset(explode("_",explode('|',$row->time)[1])[5]))
                                                     <?php
@@ -259,7 +259,7 @@
                                         <td > <!-- PM OUT -->
                                             <input type="hidden" value="{{ explode("_",explode('|',$row->time)[3])[2] }}" id="{{ $count."ñ"."PM_OUT" }}">
                                             <?php $time = explode("_",explode('|',$row->time)[3])[0]; ?>
-                                            @if(empty(explode("_",explode('|',$row->time)[3])[1]) || explode("_",explode('|',$row->time)[3])[3] == 'mobile')
+                                            @if(empty(explode("_",explode('|',$row->time)[3])[1]) || explode("_",explode('|',$row->time)[3])[3] == 'mobile' || explode("_",explode('|',$row->time)[3])[3] == 'normal')
                                                 <strong class="badge bg-green">{{ explode("_",explode('|',$row->time)[3])[0] }}</strong><br>
                                                 @if(isset(explode("_",explode('|',$row->time)[3])[4]) && isset(explode("_",explode('|',$row->time)[3])[5]))
                                                     <?php
