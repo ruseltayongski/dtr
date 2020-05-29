@@ -24,7 +24,7 @@ class PDF_MC_Table extends FPDF
         $this->Cell(0,10,"OFFICE - MOBILE DEVICE - 08:00 12:00 13:00 17:00",0,0,'L');
         $this->SetY(-20);
         $this->SetFont('Times','U',9);
-        $this->Cell(0,10,"MOBILE DEVICE - 08:00 12:00 13:00 17:00",0,0,'L');
+        $this->Cell(0,10,"FIELD - MOBILE DEVICE - 08:00 12:00 13:00 17:00",0,0,'L');
         $this->SetY(-25);
         $this->SetFont('Arial','BUI',8);
         $this->Cell(0,10,"WEB CREATED - 08:00 12:00 13:00 17:00",0,0,'L');
