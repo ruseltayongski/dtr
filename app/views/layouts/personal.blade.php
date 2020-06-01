@@ -5,34 +5,22 @@
     <li><a href="{{ url('/') }}"><i class="fa fa-home"></i> Home</a></li>
     @if(Auth::user()->pass_change == 1)
         <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-file"></i> Manage DTR<span class="caret"></span></a>
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-tasks"></i> Manage DTR<span class="caret"></span></a>
             <ul class="dropdown-menu">
+                <li><a href="{{ url('logs/timelogs') }}"><i class="fa fa-clock-o"></i> Time Log</a></li>
+                <li class="divider"></li>
+                <li><a href="#" data-toggle="modal" data-target="#delete_edited" ><i class="fa fa-trash"></i> Delete Logs</a></li>
+                <li class="divider"></li>
                 <li class="dropdown-submenu">
-                    <a href="#"><i class="fa fa-unlock"></i> My DTR</a>
+                    <a href="#create-absent"><i class="fa fa-user-times"></i> Create absence</a>
                     <ul class="dropdown-menu">
-                        <li class="dropdown-submenu">
-                        <!--
-                        <li><a href="{{ asset('/personal/add/logs') }}">Create time log</a></li>
-                         <li class="divider"></li>
-                        -->
-                        <li class="dropdown-submenu">
-                            <a href="#create-absent">Create absence</a>
-                            <ul class="dropdown-menu">
-                                <li><a href="#" class="create-absent" data-toggle="modal" data-target="#absent_desc" data-link="{{ asset('create/absent/description?t=SO') }}">OFFICE ORDER</a></li>
-                                <li class="divider"></li>
-                                <li><a href="#" class="create-absent" data-toggle="modal" data-target="#absent_desc" data-link="{{ asset('create/absent/description?t=LEAVE') }}">LEAVE</a> </li>
-                                <li class="divider"></li>
-                                <li><a href="#" class="create-absent" data-toggle="modal" data-target="#absent_desc" data-link="{{ asset('create/absent/description?t=CTO') }}">CDO</a> </li>
-                            </ul>
-                        </li>
+                        <li><a href="#" class="create-absent" data-toggle="modal" data-target="#absent_desc" data-link="{{ asset('create/absent/description?t=SO') }}">OFFICE ORDER</a></li>
                         <li class="divider"></li>
-                        <li>
-                            <a href="#" data-toggle="modal" data-target="#delete_edited" >Delete user created logs</a>
-                        </li>
+                        <li><a href="#" class="create-absent" data-toggle="modal" data-target="#absent_desc" data-link="{{ asset('create/absent/description?t=LEAVE') }}">LEAVE</a> </li>
+                        <li class="divider"></li>
+                        <li><a href="#" class="create-absent" data-toggle="modal" data-target="#absent_desc" data-link="{{ asset('create/absent/description?t=CTO') }}">CDO</a> </li>
                     </ul>
                 </li>
-                <li class="divider"></li>
-                <li><a href="{{ url('logs/timelogs') }}"><i class="fa fa-user"></i> Time Log</a></li>
             </ul>
         </li>
     @endif
