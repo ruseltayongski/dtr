@@ -322,4 +322,7 @@ Route::post('supervise/individual','SupervisorController@superviseIndividual');
 //LOCATION
 Route::match(['GET','POST'],'location/roles','SupervisorController@location');
 
+//report
+Route::match(['GET','POST'],'report/roles','SupervisorController@Report');
+
 ?>
