@@ -62,4 +62,9 @@ class SupervisorController extends Controller
             'search' => $keyword
         ]);
     }
+
+    public function Report(){
+        return View::make('roles.report');
+    }
+
 }

@@ -72,6 +72,14 @@
         </ul>
     </li>
     <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-info-circle"></i> API<span class="caret"></span></a>
+        <ul class="dropdown-menu">
+            <li><a href="{{ asset('mobile/office/announcement/view') }}">Announcement</a></li>
+            <li><a href="{{ asset('mobile/office/version/view') }}">App Version</a></li>
+        </ul>
+    </li>
+
+    <li class="dropdown">
         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-cog"></i> Account<span class="caret"></span></a>
         <ul class="dropdown-menu">
             <!--

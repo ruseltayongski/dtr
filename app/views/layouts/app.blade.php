@@ -286,6 +286,26 @@
 @show
 
 
+@if(Session::get('app_version_post'))
+    <script>
+        Lobibox.notify('success',{
+            size:'mini',
+            title:'',
+            msg:'Successfully Updated!'
+        });
+    </script>
+    <?php Session::forget('app_version_post'); ?>
+@endif
+@if(Session::get('announcement_post'))
+    <script>
+        Lobibox.notify('success',{
+            size:'mini',
+            title:'',
+            msg:'Successfully Updated!'
+        });
+    </script>
+    <?php Session::forget('announcement_post'); ?>
+@endif
 
 @if(Session::get('added'))
     <script>

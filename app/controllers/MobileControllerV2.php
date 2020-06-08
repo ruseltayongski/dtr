@@ -128,6 +128,61 @@ class MobileControllerV2 extends BaseController
 
     }
 
+    public function announcementView(){
+        $announcement_api = AnnouncementAPI::first();
+
+        return View::make('api.announcement',[
+            "announcement_api" => $announcement_api
+        ]);
+    }
+
+    public function appVersionView(){
+        $app_version_api = AppAPI::first();
+
+        return View::make('api.app_version',[
+            "app_version_api" => $app_version_api
+        ]);
+    }
+
+    public function announcementPost(){
+        $announcement_api = AnnouncementAPI::first();
+        $announcement_api->code = Input::get("code");
+        $announcement_api->message = Input::get("message");
+        $announcement_api->save();
+
+        Session::put("announcement_post",true);
+        return Redirect::back();
+    }
+
+    public function appVersionPost(){
+        $app_version_api = AppAPI::first();
+        $app_version_api->code = Input::get("code");
+        $app_version_api->latest_version = Input::get("latest_version");
+        $app_version_api->save();
+
+        Session::put("app_version_post",true);
+        return Redirect::back();
+    }
+
+    public function announcementAPI(){
+        $announcement_api = AnnouncementAPI::first();
+        if($announcement_api->code == 0)
+            return false;
+
+        return [
+            "code" => $announcement_api->code,
+            "message" => $announcement_api->message
+        ];
+    }
+
+    public function appVersionAPI(){
+        $app_version_api = AppAPI::first();
+        return [
+            "code" => $app_version_api->code,
+            "latest_version" => $app_version_api->latest_version
+        ];
+    }
+
     public function add_logs()
     {
         try{

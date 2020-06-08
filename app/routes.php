@@ -293,6 +293,14 @@ Route::post('mobileV2/add-so','MobileControllerV2@add_so');
 Route::post('mobileV2/add-leave','MobileControllerV2@add_leave');
 Route::post('mobileV2/imei','MobileControllerV2@imei');
 
+Route::get('mobile/office/announcement','MobileControllerV2@announcementAPI');
+Route::get('mobile/office/version','MobileControllerV2@appVersionAPI');
+Route::get('mobile/office/announcement/view','MobileControllerV2@announcementView');
+Route::get('mobile/office/version/view','MobileControllerV2@appVersionView');
+Route::post('mobile/office/announcement/post','MobileControllerV2@announcementPost');
+Route::post('mobile/office/version/post','MobileControllerV2@appVersionPost');
+
+
 //SUB ADMIN - NEGROS AND BOHOL
 Route::get('subHome',array('before' => 'sub','uses' => 'SubController@subHome'));
 Route::post('sub/upload', 'SubController@upload');
@@ -321,5 +329,8 @@ Route::post('supervise/individual','SupervisorController@superviseIndividual');
 
 //LOCATION
 Route::match(['GET','POST'],'location/roles','SupervisorController@location');
+
+//report
+Route::match(['GET','POST'],'report/roles','SupervisorController@Report');
 
 ?>
