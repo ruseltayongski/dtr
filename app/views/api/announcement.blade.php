@@ -15,10 +15,10 @@
                 </thead>
                 <tbody>
                 <tr>
-                    <td width="50%"><b class="text-success">{{ asset('mobile/office/announcement') }}</b></td>
-                    <td>{{ $announcement_api->code }}</td>
-                    <td>{{ $announcement_api->message }}</td>
-                    <td >
+                    <td width="35%"><b class="text-success">{{ asset('mobile/office/announcement') }}</b></td>
+                    <td width="5%">{{ $announcement_api->code }}</td>
+                    <td width="40%">{{ $announcement_api->message }}</td>
+                    <td width="30%">
                         <button type="button" class="btn btn-primary btn-sm update" ><span class="glyphicon glyphicon-question-sign"></span> Update</button>
                         <a href="{{ asset('mobile/office/announcement') }}" target="_blank" class="btn btn-success btn-sm" ><span class="fa fa-eye"></span> View API</a>
                     </td>
@@ -47,12 +47,13 @@
                             <tr>
                                 <td>Message</td>
                                 <td>
-                                    <input type="text" class="form-control" name="message" value="{{ $announcement_api->message }}">
+                                    <textarea name="message" class="form-control" rows="5">{{ $announcement_api->message }}</textarea>
                                 </td>
                             </tr>
                             <tr>
                                 <td colspan="2">
                                     <button type="submit" class="btn-success btn pull-right">Save</button>
+                                    <button type="button" class="btn btn-default pull-right" data-dismiss="modal">Close</button>
                                 </td>
                             </tr>
                         </table>

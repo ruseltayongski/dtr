@@ -45,7 +45,7 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td>Message</td>
+                                <td>Latest Version</td>
                                 <td>
                                     <input type="text" class="form-control" name="latest_version" value="{{ $app_version_api->latest_version }}">
                                 </td>
@@ -53,6 +53,7 @@
                             <tr>
                                 <td colspan="2">
                                     <button type="submit" class="btn-success btn pull-right">Save</button>
+                                    <button type="button" class="btn btn-default pull-right" data-dismiss="modal">Close</button>
                                 </td>
                             </tr>
                         </table>
