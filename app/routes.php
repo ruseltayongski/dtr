@@ -282,8 +282,10 @@ Route::get('mobile/getCurrentVersion','MobileController@getCurrentVersion');
 Route::post('mobile/imei','MobileController@imei');
 Route::post('mobile/reset_password','MobileController@resetPassword');
 Route::post('mobile/check_username','MobileController@checkUsername');
-//MOBILE URL v2
+//MOBILE URL version 2 in controller
 Route::post('mobileV2/login','MobileControllerV2@login');
+Route::post('mobileV2/login1','MobileControllerV2@login1');
+
 Route::get('mobileV2/getCurrentVersion','MobileControllerV2@getCurrentVersionField');
 Route::get('mobileV2/getCurrentVersion/office','MobileControllerV2@getCurrentVersionOffice');
 Route::post('mobileV2/add-logs','MobileControllerV2@add_logs');

@@ -36,6 +36,33 @@ class MobileControllerV2 extends BaseController
         ];
     }
 
+    public function login1()
+    {
+        $imei = Input::get('imei');
+
+        $result = User::where('users.imei','=',$imei)
+            ->leftJoin("pis.personal_information","personal_information.userid","=","users.userid")
+            ->first(['users.userid','users.fname','users.lname','users.authority','personal_information.section_id as section']);
+
+        if (count($result) > 0) {
+            return [
+                "code" => 200,
+                "response" => $result
+            ];
+        }
+
+        return [
+            "code" => 201,
+            "response" => [
+                "userid" => null,
+                "fname" => null,
+                "lname" => null,
+                "authority" => null,
+                "section" => null
+            ]
+        ];
+    }
+
     public function LoginCalendar()
     {
         $username = Input::get("username");
