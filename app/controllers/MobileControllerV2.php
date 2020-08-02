@@ -124,7 +124,7 @@ class MobileControllerV2 extends BaseController
         return [
             "code" => 200,
             "response" => [
-                "code_version" => "2.6.0",
+                "code_version" => "2.7.0",
                 "features" => ["2.2.0","\t\t1. Cool Material design",
                                 "\t\t2. Improve Upload Performance",
                                 "\t\t3.Outdated logs can now be deleted by swiping.",
@@ -146,7 +146,7 @@ class MobileControllerV2 extends BaseController
         return [
             "code" => 200,
             "response" => [
-                "code_version" => "1.1.0",
+                "code_version" => "1.2.0",
                 "features" => [
                     ""
                 ]
