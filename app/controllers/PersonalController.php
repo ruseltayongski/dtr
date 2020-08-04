@@ -28,6 +28,7 @@ class PersonalController extends Controller
         $comments = Comments::Select("comment.*","personal_information.picture","personal_information.lname","personal_information.fname")
                     ->LeftJoin("pis.personal_information","personal_information.userid","=","comment.userid")
                     ->orderBy("id","desc")
+                    ->limit(10)
                     ->get();
         return View::make('employee.index',[
             "comments" => $comments,
