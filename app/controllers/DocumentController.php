@@ -17,17 +17,18 @@ class DocumentController extends BaseController
 
     public  function leave()
     {
-
         if(Request::method() == 'GET'){
-            $user = InformationPersonal::select("personal_information.*","designation.description as designation","work_experience.monthly_salary")
+            $user = InformationPersonal::select("personal_information.lname","personal_information.fname","personal_information.mname","designation.description as designation","work_experience.monthly_salary")
                                         ->leftJoin("dts.designation","designation.id","=","personal_information.designation_id")
                                         ->leftJoin('pis.work_experience','work_experience.userid','=','personal_information.userid')
                                         ->where('pis.work_experience.date_to','=','Present')
                                         ->where('personal_information.userid','=',Auth::user()->userid)
                                         ->groupBy('work_experience.userid')
                                         ->first();
+            $leave_type = LeaveTypes::get();
             return View::make('form.form_leave',[
-                "user" => $user
+                "user" => $user,
+                "leave_type" => $leave_type
             ]);
         }
         if(Request::method() == 'POST') {
@@ -79,23 +80,14 @@ class DocumentController extends BaseController
 
             $leave->inc_from = $date_from;
             $leave->inc_to = $date_to;
-
-
             $leave->com_requested = Input::get('com_requested');
-
             $leave->credit_date =  date('Y-m-d',strtotime(Input::get('credit_date')));
-
-
             $leave->vacation_total = Input::get('vacation_total');
             $leave->sick_total = Input::get('sick_total');
             $leave->over_total = Input::get('over_total');
             $leave->a_days_w_pay = Input::get('a_days_w_pay');
             $leave->a_days_wo_pay = Input::get('a_days_wo_pay');
             $leave->a_others = Input::get('a_others');
-            $leave->reco_approval = Input::get('reco_approval');
-            $leave->reco_disaprove_due_to = Input::get('reco_disaprove_due_to');
-            $leave->disaprove_due_to = Input::get('disaprove_due_to');
-
 
             $leave->save();
 
@@ -199,9 +191,12 @@ class DocumentController extends BaseController
             $date_end = date("Y-m-d",strtotime($filter_range[1]));
             $leaves = Leave::where('userid','=', $userid)
                 ->whereBetween("date_filling",[$date_start,$date_end])
+                ->orderBy("created_at","desc")
                 ->paginate(20);
         } else {
-            $leaves = Leave::where('userid','=', $userid)->paginate(20);
+            $leaves = Leave::where('userid','=', $userid)
+                ->orderBy("created_at","desc")
+                ->paginate(20);
         }
 
 

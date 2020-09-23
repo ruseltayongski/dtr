@@ -76,7 +76,7 @@
                                     <div class="col-md-12">
                                         <div class="form-group">
                                             <div class="has-success">
-                                                @foreach(DB::table('leave_type')->get() as $row)
+                                                @foreach($leave_type as $row)
                                                     <div class="checkbox">
                                                         <label>
                                                             <input type="radio" class="minimal" id="leave_type" value="{{ $row->value }}" name="leave_type" onclick="dateRangeFunc('{{ $row->main_leave }}')" required>
@@ -191,60 +191,6 @@
     @parent
     @include('form.form_leave_script')
     <script>
-        function dateRangeFunc($main_leave){
-            $(".inc_date_body").html(''); //clear
-            $("#applied_num_days").val('');
-            $("#credit_used").val('');
-
-            var radio_val = $('input[name="leave_type"]:checked').val();
-            var inc_date_element = '<strong class="control-label" >INCLUSIVE DATES :</strong>\n' +
-                '                                        <div class="input-group">\n' +
-                '                                            <div class="input-group-addon">\n' +
-                '                                                <i class="fa fa-calendar"></i>\n' +
-                '                                            </div>\n' +
-                '                                            <input type="text" class="form-control" id="inc_date" name="inc_date" placeholder="Input date range here..." required onkeypress="return false;" >\n' +
-                '                                        </div>';
-            $(".inc_date_body").html(inc_date_element);
-            $("#inc_date").attr('autocomplete', 'off');
-
-            $("body").delegate("#inc_date","focusin",function() {
-                $(".working_days_noted").html('');
-            }); //clear
-
-            var days = new Array(7);
-            days[0] = "Sunday";
-            days[1] = "Monday";
-            days[2] = "Tuesday";
-            days[3] = "Wednesday";
-            days[4] = "Thursday";
-            days[5] = "Friday";
-            days[6] = "Saturday";
-
-            set_daterange = countWorkingDays(5,days,new Date());
-            if(radio_val == 'Vacation') {
-                console.log(radio_val);
-                calendarNotice("Note: 5 working days before apply for vacation leave","alert-info");
-
-                json = {
-                    "start_date":new Date().toLocaleDateString(),
-                    "end_date":set_daterange
-                };
-                var url = "<?php echo asset('calendar/track/holiday'); ?>";
-                $.post(url,json,function(result){
-                    var note_message = "Holidays:";
-                    $.each(result,function(x,data){
-                        note_message += "<br>"+data;
-                    });
-                    calendarNotice(note_message,"alert-warning");
-
-                    set_daterange = countWorkingDays(result.length,days,new Date(set_daterange));
-                    applyDaterangepicker(set_daterange);
-                });
-            }
-            additionalSick(radio_val,new Date());
-
-        }
-
 
         $('input[name="leave_type"]').change(function(){
 

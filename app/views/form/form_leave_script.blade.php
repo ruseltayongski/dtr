@@ -1,6 +1,59 @@
 <script>
+    var days = new Array(7);
+    days[0] = "Sunday";
+    days[1] = "Monday";
+    days[2] = "Tuesday";
+    days[3] = "Wednesday";
+    days[4] = "Thursday";
+    days[5] = "Friday";
+    days[6] = "Saturday";
+
     var vacation_balance = "<?php echo Session::get('vacation_balance'); ?>";
     var sick_balance = "<?php echo Session::get('sick_balance'); ?>";
+
+    function dateRangeFunc($main_leave){
+        $(".inc_date_body").html(''); //clear
+        $("#applied_num_days").val('');
+        $("#credit_used").val('');
+
+        var radio_val = $('input[name="leave_type"]:checked').val();
+        var inc_date_element = '<strong class="control-label" >INCLUSIVE DATES :</strong>\n' +
+            '                                        <div class="input-group">\n' +
+            '                                            <div class="input-group-addon">\n' +
+            '                                                <i class="fa fa-calendar"></i>\n' +
+            '                                            </div>\n' +
+            '                                            <input type="text" class="form-control" id="inc_date" name="inc_date" placeholder="Input date range here..." required onkeypress="return false;" >\n' +
+            '                                        </div>';
+        $(".inc_date_body").html(inc_date_element);
+        $("#inc_date").attr('autocomplete', 'off');
+
+        $("body").delegate("#inc_date","focusin",function() {
+            $(".working_days_noted").html('');
+        }); //clear
+
+        set_daterange = countWorkingDays(5,days,new Date());
+        if(radio_val == 'Vacation') {
+            console.log(radio_val);
+            calendarNotice("Note: 5 working days before apply for vacation leave","alert-info");
+
+            json = {
+                "start_date":new Date().toLocaleDateString(),
+                "end_date":set_daterange
+            };
+            var url = "<?php echo asset('calendar/track/holiday'); ?>";
+            $.post(url,json,function(result){
+                var note_message = "Holidays:";
+                $.each(result,function(x,data){
+                    note_message += "<br>"+data;
+                });
+                calendarNotice(note_message,"alert-warning");
+
+                set_daterange = countWorkingDays(result.length,days,new Date(set_daterange));
+                applyDaterangepicker(set_daterange,$main_leave,radio_val);
+            });
+        }
+        additionalSick(radio_val,new Date(),$main_leave);
+    }
 
     function clearHalfDaySickFirst(){
         $('input[name="half_day_first"]:checked').attr('checked',false);
@@ -35,7 +88,7 @@
         });
     }
 
-    function additionalSick(radio_val,set_daterange){
+    function additionalSick(radio_val,set_daterange,$main_leave){
         if(radio_val == 'Sick'){
             var additional_sick = '<ul>\n' +
                 '                                                                Half day in first day? Please select.\n' +
@@ -66,14 +119,14 @@
                 '                                                                </ul>\n' +
                 '                                                        </ul>';
             $(".additional_sick").html(additional_sick);
-            applyDaterangepicker(set_daterange);
+            applyDaterangepicker(set_daterange,$main_leave,radio_val);
         } else {
             $(".additional_sick").html('');
-            applyDaterangepicker(set_daterange);
+            applyDaterangepicker(set_daterange,$main_leave,radio_val);
         }
     }
 
-    function applyDaterangepicker(set_daterange){
+    function applyDaterangepicker(set_daterange,$main_leave,radio_val){
         $('#inc_date').daterangepicker({
             locale: {
                 format: 'MM/DD/YYYY'
