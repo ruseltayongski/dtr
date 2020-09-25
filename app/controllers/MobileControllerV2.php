@@ -146,7 +146,7 @@ class MobileControllerV2 extends BaseController
         return [
             "code" => 200,
             "response" => [
-                "code_version" => "1.2.0",
+                "code_version" => "1.3.0",
                 "features" => [
                     ""
                 ]
