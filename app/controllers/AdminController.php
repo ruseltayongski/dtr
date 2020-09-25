@@ -654,13 +654,14 @@ class AdminController extends BaseController
         $query1 = "INSERT IGNORE INTO leave_logs(userid,datein,time,event,remark,edited,holiday,route_no,created_at,updated_at) VALUES";
         while($j <= $interval->days) {
             $datein = $f_from[0].'-'.$f_from[1] .'-'. $startday;
+            $day_name = date('l', strtotime($datein));
             $userid = $leave->userid;
             $edited = '1';
             $holiday = '007';
             $remark = strtoupper($leave->leave_type)." ".$remarks;
 
-            if($j == 0){
-                if($leave->half_day_first == 'AM'){
+            if($day_name != "Saturday" && $day_name != "Sunday"){
+                if($leave->half_day_first == 'AM' || $leave->half_day_last == 'AM'){
                     $timein = '08:00:00';
                     $event = 'IN';
                     $query1 .= "('" . $userid . "','" . $datein . "','" . $timein . "','" . $event . "','" . $remark . "','" . $edited . "','" . $holiday . "','" . $route_no . "',NOW(),NOW()),";
@@ -669,7 +670,28 @@ class AdminController extends BaseController
                     $timein = '12:00:00';
                     $event = 'OUT';
                     $query1 .= "('" . $userid . "','" . $datein . "','" . $timein . "','" . $event . "','" . $remark . "','" . $edited . "','" . $holiday . "','" . $route_no . "',NOW(),NOW()),";
-                } else {
+                }
+                elseif($leave->half_day_first == 'PM' || $leave->half_day_last == 'PM') {
+                    $timein = '13:00:00';
+                    $event = 'IN';
+                    $query1 .= "('" . $userid . "','" . $datein . "','" . $timein . "','" . $event . "','" . $remark . "','" . $edited . "','" . $holiday . "','" . $route_no . "',NOW(),NOW()),";
+
+
+                    $timein = '18:00:00';
+                    $event = 'OUT';
+                    $query1 .= "('" . $userid . "','" . $datein . "','" . $timein . "','" . $event . "','" . $remark . "','" . $edited . "','" . $holiday . "','" . $route_no . "',NOW(),NOW()),";
+                }
+                else {
+                    $timein = '08:00:00';
+                    $event = 'IN';
+                    $query1 .= "('" . $userid . "','" . $datein . "','" . $timein . "','" . $event . "','" . $remark . "','" . $edited . "','" . $holiday . "','" . $route_no . "',NOW(),NOW()),";
+
+
+                    $timein = '12:00:00';
+                    $event = 'OUT';
+                    $query1 .= "('" . $userid . "','" . $datein . "','" . $timein . "','" . $event . "','" . $remark . "','" . $edited . "','" . $holiday . "','" . $route_no . "',NOW(),NOW()),";
+
+
                     $timein = '13:00:00';
                     $event = 'IN';
                     $query1 .= "('" . $userid . "','" . $datein . "','" . $timein . "','" . $event . "','" . $remark . "','" . $edited . "','" . $holiday . "','" . $route_no . "',NOW(),NOW()),";
@@ -680,48 +702,6 @@ class AdminController extends BaseController
                     $query1 .= "('" . $userid . "','" . $datein . "','" . $timein . "','" . $event . "','" . $remark . "','" . $edited . "','" . $holiday . "','" . $route_no . "',NOW(),NOW()),";
                 }
             }
-            else if($j == $interval->days){
-                if($leave->half_day_last == 'AM'){
-                    $timein = '08:00:00';
-                    $event = 'IN';
-                    $query1 .= "('" . $userid . "','" . $datein . "','" . $timein . "','" . $event . "','" . $remark . "','" . $edited . "','" . $holiday . "','" . $route_no . "',NOW(),NOW()),";
-
-
-                    $timein = '12:00:00';
-                    $event = 'OUT';
-                    $query1 .= "('" . $userid . "','" . $datein . "','" . $timein . "','" . $event . "','" . $remark . "','" . $edited . "','" . $holiday . "','" . $route_no . "',NOW(),NOW()),";
-                } else {
-                    $timein = '13:00:00';
-                    $event = 'IN';
-                    $query1 .= "('" . $userid . "','" . $datein . "','" . $timein . "','" . $event . "','" . $remark . "','" . $edited . "','" . $holiday . "','" . $route_no . "',NOW(),NOW()),";
-
-
-                    $timein = '18:00:00';
-                    $event = 'OUT';
-                    $query1 .= "('" . $userid . "','" . $datein . "','" . $timein . "','" . $event . "','" . $remark . "','" . $edited . "','" . $holiday . "','" . $route_no . "',NOW(),NOW()),";
-                }
-            }
-            else {
-                $timein = '08:00:00';
-                $event = 'IN';
-                $query1 .= "('" . $userid . "','" . $datein . "','" . $timein . "','" . $event . "','" . $remark . "','" . $edited . "','" . $holiday . "','" . $route_no . "',NOW(),NOW()),";
-
-
-                $timein = '12:00:00';
-                $event = 'OUT';
-                $query1 .= "('" . $userid . "','" . $datein . "','" . $timein . "','" . $event . "','" . $remark . "','" . $edited . "','" . $holiday . "','" . $route_no . "',NOW(),NOW()),";
-
-
-                $timein = '13:00:00';
-                $event = 'IN';
-                $query1 .= "('" . $userid . "','" . $datein . "','" . $timein . "','" . $event . "','" . $remark . "','" . $edited . "','" . $holiday . "','" . $route_no . "',NOW(),NOW()),";
-
-
-                $timein = '18:00:00';
-                $event = 'OUT';
-                $query1 .= "('" . $userid . "','" . $datein . "','" . $timein . "','" . $event . "','" . $remark . "','" . $edited . "','" . $holiday . "','" . $route_no . "',NOW(),NOW()),";
-            }
-
 
             $startday = $startday + 1;
             $j++;
