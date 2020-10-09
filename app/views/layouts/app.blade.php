@@ -112,11 +112,10 @@
 
 <nav class="navbar navbar-default navbar-static-top">
     <div class="header" style="background-color:#2F4054;padding:10px;color: white">
-        <div class="col-md-3">
-            <span class="title-info">Welcome,</span> <span class="title-desc">{{ Auth::user()->fname }} {{ Auth::user()->lname }}</span>
+        <div class="col-md-4">
+            <span class="title-info">Welcome, </span> <span class="title-desc">{{ Auth::user()->fname }} {{ Auth::user()->lname }}</span>
         </div>
-        <div class="col-md-3">
-            <span class="title-info">Location:</span>
+        <div class="col-md-4">
             <span class="title-desc">
                 @if(Auth::user()->usertype == 0 || Auth::user()->usertype == 1)
                     {{ strtoupper(Session::get('region') == 'region_8' ? 'Region 8' : 'cebu province') }}
@@ -127,11 +126,8 @@
                 @endif
             </span>
         </div>
-        <div class="col-md-3 text-right">
-            <span class="title-info">Date:</span> <span class="title-desc"> {{ strtoupper(date('M d, Y')) }}</span>
-        </div>
-        <div class="col-md-3 text-right">
-            <span class="title-info">Account Type:</span> <span class="title-desc"> {{ Auth::user()->usertype ? 'ADMIN' : 'STANDARD' }}</span>
+        <div class="col-md-4 text-right">
+            <span class="title-desc"> {{ Auth::user()->usertype ? 'ADMIN' : 'STANDARD' }} USER</span>
         </div>
         <div class="clearfix"></div>
     </div>

@@ -11,15 +11,9 @@
                 <th class="text-center">Route #</th>
                 <th class="text-center">Reason</th>
                 <th class="text-center">Inclusive Dates</th>
-                @if(Auth::user()->usertype)
-                    <th class="text-center">Prepared Name</th>
-                @else
-                    <th class="text-center">Document Type</th>
-                @endif
+                <th class="text-center">Prepared Name</th>
                 <th class="text-center">Beginning Balance</th>
-                @if(Auth::user()->usertype)
-                <th class="text-center" width="17%">Option</th>
-                @endif
+                <th class="text-center" width="10%">Option</th>
             </tr>
             </thead>
             <tbody style="font-size: 10pt;">
@@ -29,24 +23,18 @@
                     <td><a class="title-info" data-backdrop="static" data-route="{{ $row->route_no }}" style="color: #f0ad4e;" data-link="{{ asset('/form/info/'.$row->route_no.'/cdo') }}" href="#document_info" data-toggle="modal">{{ $row->route_no }}</a></td>
                     <td>{{ $row->subject }}</td>
                     <td><?php if(isset($row->start)) echo date('m/d/Y',strtotime($row->start)).' - '.date('m/d/Y',strtotime('-1 day',strtotime($row->end))); ?></td>
-                    @if(Auth::user()->usertype)
-                        <td>
-                            <?php
-                                $personal_information = InformationPersonal::where('userid','=',$row['prepared_name'])->first();
-                                echo $personal_information->fname.' '.$personal_information->mname.' '.$personal_information->lname;
-                            ?>
-                        </td>
-                    @else
-                        <td>CTO</td>
-                    @endif
+                    <td>
+                        <?php
+                        $personal_information = InformationPersonal::where('userid','=',$row['prepared_name'])->first();
+                        echo $personal_information->fname.' '.$personal_information->mname.' '.$personal_information->lname;
+                        ?>
+                    </td>
                     <td class="text-center">
                         <b style="color:green;">
                             {{ $personal_information->bbalance_cto }}
                         </b>
                     </td>
-                    @if(Auth::user()->usertype)
-                        <td><button type="submit" class="btn-xs btn-danger" value="{{ $row->id }}" onclick="approved_status($(this))" style="color:white;"><i class="fa fa-ban"></i> Cancel</button></td>
-                    @endif
+                    <td><button type="submit" class="btn-xs btn-danger" value="{{ $row->id }}" onclick="approved_status($(this))" style="color:white;"><i class="fa fa-ban"></i> Cancel</button></td>
                 </tr>
             @endforeach
             </tbody>

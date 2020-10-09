@@ -12,7 +12,7 @@
                 <li><a href="#" data-toggle="modal" data-target="#delete_edited" ><i class="fa fa-trash"></i> Delete Logs</a></li>
                 <li class="divider"></li>
                 <li class="dropdown-submenu">
-                    <a href="#create-absent"><i class="fa fa-user-times"></i> Create absence</a>
+                    <a href="#create-absent"><i class="fa fa-hand-lizard-o"></i>Display in Time Log</a>
                     <ul class="dropdown-menu">
                         <li><a href="#" class="create-absent" data-toggle="modal" data-target="#absent_desc" data-link="{{ asset('create/absent/description?t=SO') }}">OFFICE ORDER</a></li>
                         <li class="divider"></li>
@@ -57,15 +57,16 @@
                             <a href="#" data-toggle="dropdown">{{ $role->claim_type }}</a>
                             <ul class="dropdown-menu">
                                 <li><a href="{{ asset('leave/roles') }}">Leave Applications</a></li>
-                                <li><a href="{{ asset('leave/credits') }}">Leave Credits</a></li>
+                                <li><a href="{{ asset('leave/credits') }}">Leave Balance Credit</a></li>
                             </ul>
                         </li>
                     @elseif($role->claims_id == 2)
+                        <?php Session::put('cdo_roles',true); ?>
                         <li class="dropdown-submenu">
                             <a href="#" data-toggle="dropdown">{{ $role->claim_type }}</a>
                             <ul class="dropdown-menu">
-                                <li><a href="{{ asset('form/cdo_list') }}"><i class="fa fa-file-text"></i> Pending CTO</a></li>
-                                <li><a href="{{ asset('beginning_balance') }}"><i class="fa fa-user"></i> Beginning Balance</a></li>
+                                <li><a href="{{ asset('form/cdo_list') }}">Pending CDO</a></li>
+                                <li><a href="{{ asset('beginning_balance') }}">CDO Balance Credit</a></li>
                             </ul>
                         </li>
                     @else

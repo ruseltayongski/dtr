@@ -11,8 +11,7 @@ class cdoController extends BaseController
         Session::put('keyword',Input::get('keyword'));
         $keyword = Session::get('keyword');
 
-        if(Auth::user()->usertype){
-
+        if(Auth::user()->usertype || Session::get('cdo_roles')){
             if( Input::get('type') ){
                 $type = Input::get('type');
             }
@@ -73,15 +72,11 @@ class cdoController extends BaseController
                     ]);
 
             }
-
-            return View::make('cdo.cdo_list',[
+            return View::make('cdo.cdo_roles',[
                 "cdo" => $cdo,
                 "type" => $type,
                 "paginate_pending" => $cdo["paginate_pending"],
             ]);
-
-
-
         } else {
             $cdo['my_cdo'] = cdo::where('prepared_name',Auth::user()->userid)
                 ->where(function($q) use ($keyword){
