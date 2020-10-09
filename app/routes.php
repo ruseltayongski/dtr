@@ -175,6 +175,7 @@ Route::get('form/info/{route}/{doc_type}', 'DocumentController@show');
 
 //////CDO
 Route::match(array('GET','POST'), 'form/cdo_list', 'cdoController@cdo_list');
+Route::match(array('GET','POST'), 'form/cdo_user', 'cdoController@cdo_user');
 Route::match(array("GET","POST"), "form/cdov1/{pdf}","cdoController@cdov1");
 Route::post('cdo_addv1','cdoController@cdo_addv1');
 Route::post('cdo_updatev1','cdoController@cdo_updatev1');

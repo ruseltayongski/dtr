@@ -11,82 +11,85 @@ class cdoController extends BaseController
         Session::put('keyword',Input::get('keyword'));
         $keyword = Session::get('keyword');
 
-        if(Auth::user()->usertype || Session::get('cdo_roles')){
-            if( Input::get('type') ){
-                $type = Input::get('type');
-            }
-            else {
-                $type = 'pending';
-            }
+        if( Input::get('type') ){
+            $type = Input::get('type');
+        }
+        else {
+            $type = 'pending';
+        }
 
-            $cdo["count_pending"] = cdo::where('approved_status',0)
-                ->where(function($q) use ($keyword){
-                    $q->where("route_no","like","%$keyword%")
-                        ->orWhere("subject","like","%$keyword%");
-                })->get();
-            $cdo["count_approve"] = cdo::where('approved_status',1)
-                ->where(function($q) use ($keyword){
-                    $q->where("route_no","like","%$keyword%")
-                        ->orWhere("subject","like","%$keyword%");
-                })->get();
-            $cdo["count_all"] = cdo::where(function($q) use ($keyword){
+        $cdo["count_pending"] = cdo::where('approved_status',0)
+            ->where(function($q) use ($keyword){
                 $q->where("route_no","like","%$keyword%")
                     ->orWhere("subject","like","%$keyword%");
-                })->get();
+            })->get();
+        $cdo["count_approve"] = cdo::where('approved_status',1)
+            ->where(function($q) use ($keyword){
+                $q->where("route_no","like","%$keyword%")
+                    ->orWhere("subject","like","%$keyword%");
+            })->get();
+        $cdo["count_all"] = cdo::where(function($q) use ($keyword){
+            $q->where("route_no","like","%$keyword%")
+                ->orWhere("subject","like","%$keyword%");
+        })->get();
 
-            $cdo['paginate_pending'] = cdo::where('approved_status',0)
-                ->where(function($q) use ($keyword){
-                    $q->where("route_no","like","%$keyword%")
-                        ->orWhere("subject","like","%$keyword%");
-                })
-                ->orderBy('id','desc')
-                ->paginate(10);
-            $cdo['paginate_approve'] = cdo::where('approved_status',1)
-                ->where(function($q) use ($keyword){
-                    $q->where("route_no","like","%$keyword%")
-                        ->orWhere("subject","like","%$keyword%");
-                })
-                ->orderBy('id','desc')
-                ->paginate(10);
-            $cdo['paginate_all'] = cdo::where(function($q) use ($keyword){
+        $cdo['paginate_pending'] = cdo::where('approved_status',0)
+            ->where(function($q) use ($keyword){
                 $q->where("route_no","like","%$keyword%")
                     ->orWhere("subject","like","%$keyword%");
             })
-                ->orderBy('id','desc')
-                ->paginate(10);
+            ->orderBy('id','desc')
+            ->paginate(10);
+        $cdo['paginate_approve'] = cdo::where('approved_status',1)
+            ->where(function($q) use ($keyword){
+                $q->where("route_no","like","%$keyword%")
+                    ->orWhere("subject","like","%$keyword%");
+            })
+            ->orderBy('id','desc')
+            ->paginate(10);
+        $cdo['paginate_all'] = cdo::where(function($q) use ($keyword){
+            $q->where("route_no","like","%$keyword%")
+                ->orWhere("subject","like","%$keyword%");
+        })
+            ->orderBy('id','desc')
+            ->paginate(10);
 
-            if (Request::ajax() ) {
+        if (Request::ajax() ) {
 
-                $view = 'cdo.cdo_'.$type;
-                Session::put('page_'.$type,Input::get('page'));
+            $view = 'cdo.cdo_'.$type;
+            Session::put('page_'.$type,Input::get('page'));
 
-                return View::make($view,[
-                        "cdo" => $cdo,
-                        "type" => $type,
-                        "count_pending" => count($cdo["count_pending"]),
-                        "count_approve" => count($cdo["count_approve"]),
-                        "count_all" => count($cdo["count_all"]),
-                        "paginate_pending" => $cdo["paginate_pending"],
-                        "paginate_approve" => $cdo["paginate_approve"],
-                        "paginate_all" => $cdo["paginate_all"]
-                    ]);
-
-            }
-            return View::make('cdo.cdo_roles',[
+            return View::make($view,[
                 "cdo" => $cdo,
                 "type" => $type,
+                "count_pending" => count($cdo["count_pending"]),
+                "count_approve" => count($cdo["count_approve"]),
+                "count_all" => count($cdo["count_all"]),
                 "paginate_pending" => $cdo["paginate_pending"],
+                "paginate_approve" => $cdo["paginate_approve"],
+                "paginate_all" => $cdo["paginate_all"]
             ]);
-        } else {
-            $cdo['my_cdo'] = cdo::where('prepared_name',Auth::user()->userid)
-                ->where(function($q) use ($keyword){
-                    $q->where("route_no","like","%$keyword%")
-                        ->orWhere("subject","like","%$keyword%");
-                })
-                ->orderBy('id','desc')
-                ->paginate(10);
-            return View::make('cdo.cdo_list',["cdo" => $cdo]);
+
         }
+        return View::make('cdo.cdo_roles',[
+            "cdo" => $cdo,
+            "type" => $type,
+            "paginate_pending" => $cdo["paginate_pending"],
+        ]);
+    }
+
+    public function cdo_user(){
+        Session::put('keyword',Input::get('keyword'));
+        $keyword = Session::get('keyword');
+
+        $cdo['my_cdo'] = cdo::where('prepared_name',Auth::user()->userid)
+            ->where(function($q) use ($keyword){
+                $q->where("route_no","like","%$keyword%")
+                    ->orWhere("subject","like","%$keyword%");
+            })
+            ->orderBy('id','desc')
+            ->paginate(10);
+        return View::make('cdo.cdo_user',["cdo" => $cdo]);
     }
 
     public function cdov1($pdf = null){
