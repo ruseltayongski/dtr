@@ -80,7 +80,7 @@
                         <option value="PATERNITY LEAVE">PATERNITY LEAVE</option>
                         <option value="MATERNITY LEAVE">MATERNITY LEAVE</option>
                         <option value="SPECIAL LEAVE">SPECIAL LEAVE</option>
-                        <option value="FORCE LEAVE">FORCE LEAVE</option>
+                        <option value="FORCED LEAVE">FORCED LEAVE</option>
                     </select>
                 </td>
             </tr>
