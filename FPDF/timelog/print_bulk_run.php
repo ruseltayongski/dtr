@@ -31,14 +31,14 @@ function getLogs($query_req)
     return $row;
 }
 
-function getUser($job_status)
+function getUser($job_status,$region)
 {
     $pdo = conn();
     try
     {
-        $sql = "SELECT * FROM pis.personal_information where job_status = ? order by lname,fname asc";
+        $sql = "SELECT * FROM pis.personal_information where job_status = ? and region = ? order by lname,fname asc";
         $st = $pdo->prepare($sql);
-        $st->execute(array($job_status));
+        $st->execute(array($job_status,$region));
         $row = $st->fetchAll(PDO::FETCH_ASSOC);
     }catch(PDOException $ex){
         echo $ex->getMessage();
@@ -96,21 +96,25 @@ if(isset($_POST['filter_range_bulk'])){
     $date_from = date("Y-m-d",strtotime($filter_date[0]));
     $date_to = date("Y-m-d",strtotime($filter_date[1]));
     $job_status = $_POST['job_status'];
+    $region = $_POST['region'];
 
-    foreach(getUser($job_status) as $get_user) {
+    foreach(getUser($job_status,$region) as $get_user) {
         if(!is_numeric($get_user['userid'])){
             continue;
         }
-        $pdf->AddPage();
 
         $userid = $get_user['userid'];
         date("Y",strtotime($date_from)) >= 2020 && $job_status == 'Permanent' ? $query_req = "CALL Gliding_2020('$userid','$date_from','$date_to')" : $query_req = "CALL GETLOGS2('$userid','$date_from','$date_to')";
 
         api_get_logs($userid,$date_from,$date_to);
         $timelog = getLogs($query_req);
-
         $name = $timelog[0]['name'];
+        if(empty($name)){
+            continue;
+        }
+
         $set_size_center = 16;
+        $pdf->AddPage();
         $pdf->SetFont('Arial', '', 8);
         $pdf->SetWidths(array(43.5, 43.5, $set_size_center, 43.5, 43.5));
         $border = 0;
