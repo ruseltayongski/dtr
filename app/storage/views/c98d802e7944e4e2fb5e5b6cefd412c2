@@ -1,9 +1,0 @@
-<select class="form-control select_supervise" multiple="multiple" name="supervise_employee[]" style="width: 100%">
-    <?php foreach(User::get() as $personnel): ?>
-        <option value='<?php echo $personnel->userid; ?>'><?php echo $personnel->fname.' '.$personnel->mname.' '.$personnel->lname; ?></option>
-    <?php endforeach; ?>
-</select>
-<script>
-    $('.select_supervise').select2();
-    $('.select_supervise').val(<?php echo $supervised_employee; ?>).trigger('change');
-</script>

@@ -11,6 +11,8 @@
                         <select class="form-control" name="region" required>
                             <option <?php if($user->region=='region_7') echo 'selected'; ?> value="region_7">Region 7</option>
                             <option <?php if($user->region=='region_8') echo 'selected'; ?> value="region_8">Region 8</option>
+                            <option <?php if($user->region=='region_10') echo 'selected'; ?> value="region_10">Region 10</option>
+                            <option <?php if($user->region=='region_12') echo 'selected'; ?> value="region_10">Region 12</option>
                         </select>
                     </td>
                 </tr>
