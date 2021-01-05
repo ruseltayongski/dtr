@@ -131,6 +131,18 @@ session_start();
                                             </div>
                                         </td>
                                     </tr>
+                                    <tr>
+                                        <td class="col-sm-3"><strong>Region</strong></td>
+                                        <td class="col-sm-1">: </td>
+                                        <td class="col-sm-9">
+                                            <select class="form-control" name="region" required>
+                                                <option value="region_7">Region 7</option>
+                                                <option value="region_8">Region 8</option>
+                                                <option value="region_10">Region 10</option>
+                                                <option value="region_10">Region 12</option>
+                                            </select>
+                                        </td>
+                                    </tr>
                                 </table>
                             </div>
                             <button type="submit"  class="btn-lg btn-success center-block col-sm-12" id="print_one_btn_temp" data-loading-text="<i class='fa fa-refresh fa-spin'></i> Printing DTR">
