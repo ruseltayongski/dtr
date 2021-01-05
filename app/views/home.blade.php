@@ -139,7 +139,7 @@ session_start();
                                                 <option value="region_7">Region 7</option>
                                                 <option value="region_8">Region 8</option>
                                                 <option value="region_10">Region 10</option>
-                                                <option value="region_10">Region 12</option>
+                                                <option value="region_12">Region 12</option>
                                             </select>
                                         </td>
                                     </tr>
