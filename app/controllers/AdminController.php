@@ -273,7 +273,30 @@ class AdminController extends BaseController
             ])->with('scheds',$sched);
         }
 
-        $check = InformationPersonal::where("userid","=",Input::get('userid'))->first();
+        $password = Hash::make('123');
+        //DTR
+        $user = new Users();
+        $user->userid = Input::get('userid');
+        $user->fname = Input::get('fname');
+        $user->lname = Input::get('lname');
+        $user->sched = Input::get('sched');
+        $user->username = Input::get('userid');
+        $user->password = $password;
+        $user->emptype = Input::get('emptype');
+        if(Auth::user()->usertype == 1) { //CEBU ADMIN
+            $usertype = 0; //CEBU USER
+        }
+        elseif(Auth::user()->usertype == 3) { //NEGROS ADMIN
+            $usertype = 2; // NEGROS USER
+        }
+        elseif(Auth::user()->usertype == 5) { //BOHOL ADMIN
+            $usertype = 4; // BOHOL USER
+        }
+        $user->usertype = $usertype;
+        $user->unique_row = Input::get('userid');
+        $user->save();
+
+        /*$check = InformationPersonal::where("userid","=",Input::get('userid'))->first();
         if(isset($check)){
             return Redirect::to('add/user')->with('useridExist',"Userid:".Input::get('userid')." Existed!");
         } else{
@@ -339,7 +362,7 @@ class AdminController extends BaseController
             $user_dts->save();
 
             return Redirect::back()->with('userAdded','Added User');
-        }
+        }*/
 
     }
 
