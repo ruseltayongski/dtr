@@ -3,7 +3,7 @@
 
 <head>
     <style type="text/css">
-        #mapid { height: 200px;width: 100%; }
+        #mapid { height: 500px;width: 100%; }
     </style>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -51,13 +51,13 @@
         .bindPopup(am_in_time).openPopup();
 
     L.marker([am_out_lat, am_out_lon]).addTo(mymap)
-        .bindPopup(am_in_time).openPopup();
+        .bindPopup(am_out_time).openPopup();
 
     L.marker([pm_in_lat, pm_in_lon]).addTo(mymap)
-        .bindPopup(am_in_time).openPopup();
+        .bindPopup(pm_in_time).openPopup();
 
     L.marker([pm_out_lat, pm_out_lon]).addTo(mymap)
-        .bindPopup(am_in_time).openPopup();
+        .bindPopup(pm_out_time).openPopup();
 
     var popup = L.popup();
 
