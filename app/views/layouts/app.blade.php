@@ -163,7 +163,7 @@
     </div>
 </nav>
 
-<div class="container" style="background-color: white;padding: 1%">
+<div class="container" id="container" style="background-color: white;padding: 1%">
     <div class="loading"></div>
     @yield('content')
     <div class="clearfix"></div>
