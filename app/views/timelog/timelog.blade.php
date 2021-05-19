@@ -97,7 +97,7 @@
                                                             $lat_element = 'lat'.date("YmdHis",strtotime($row->datein.$time)).'am_in';
                                                             $lon_element = 'lon'.date("YmdHis",strtotime($row->datein.$time)).'am_in';
                                                         ?>
-                                                        <div style="padding: 2%">
+                                                        <div style="padding: 2%;width: 100%">
                                                             <iframe src="{{ asset('map') }}"></iframe>
                                                         </div>
                                                         <strong class="badge bg-red" style="position: absolute;margin-top: -20px;margin-left: 90px;">Click image to rotate</strong>
