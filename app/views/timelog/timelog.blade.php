@@ -63,7 +63,24 @@
                                         <th width="15%">PM OUT</th>
                                     </tr>
                                     <tbody class="timelog">
-                                    <?php $count = 0; ?>
+                                    <?php
+                                        $count = 0;
+                                        $am_in_lat = '';
+                                        $am_in_lon = '';
+                                        $am_in_time = '';
+
+                                        $am_out_lat = '';
+                                        $am_out_lon = '';
+                                        $am_out_time = '';
+
+                                        $pm_in_lat = '';
+                                        $pm_in_lon = '';
+                                        $pm_in_time = '';
+
+                                        $pm_out_lat = '';
+                                        $pm_out_lon = '';
+                                        $pm_out_time = '';
+                                    ?>
                                     @foreach($timeLog as $row)
                                     <?php $count++; ?>
                                     <tr>
