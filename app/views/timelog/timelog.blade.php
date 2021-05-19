@@ -68,7 +68,12 @@
                                     <?php $count++; ?>
                                     <?php $time = explode("_",explode('|',$row->time)[0])[0]; ?>
                                     <!-- for map-->
-                                    @if(explode("_",explode('|',$row->time)[0])[3] == 'mobile' || explode("_",explode('|',$row->time)[1])[3] == 'mobile' || explode("_",explode('|',$row->time)[2])[3] == 'mobile' || explode("_",explode('|',$row->time)[3])[3] == 'mobile' )
+                                    @if(
+                                        (isset(explode("_",explode('|',$row->time)[0])[4]) && isset(explode("_",explode('|',$row->time)[0])[5])) ||
+                                        (isset(explode("_",explode('|',$row->time)[1])[4]) && isset(explode("_",explode('|',$row->time)[1])[5])) ||
+                                        (isset(explode("_",explode('|',$row->time)[2])[4]) && isset(explode("_",explode('|',$row->time)[2])[5])) ||
+                                        (isset(explode("_",explode('|',$row->time)[3])[4]) && isset(explode("_",explode('|',$row->time)[3])[5]))
+                                    )
                                         <?php
                                             $am_in_lat = explode("_",explode('|',$row->time)[0])[4];
                                             $am_in_lon = explode("_",explode('|',$row->time)[0])[5];
