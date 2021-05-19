@@ -21,10 +21,23 @@
 <div id="mapid"></div>
 
 <script>
-    var latitude = "<?php echo $latitude; ?>";
-    var longitude = "<?php echo $longitude; ?>";
-    var time = "<?php echo '<b>'.$time.'</b>'; ?>";
-    var mymap = L.map('mapid').setView([latitude, longitude], 20);
+    var am_in_lat = "<?php echo $am_in_lat; ?>";
+    var am_in_lon = "<?php echo $am_in_lon; ?>";
+    var am_in_time = "<?php echo '<b>'.$am_in_time.'</b>'; ?>";
+
+    var am_out_lat = "<?php echo $am_out_lat; ?>";
+    var am_out_lon = "<?php echo $am_out_lon; ?>";
+    var am_out_time = "<?php echo '<b>'.$am_out_time.'</b>'; ?>";
+
+    var pm_in_lat = "<?php echo $pm_in_lat; ?>";
+    var pm_in_lon = "<?php echo $pm_in_lon; ?>";
+    var pm_in_time = "<?php echo '<b>'.$pm_in_time.'</b>'; ?>";
+
+    var pm_out_lat = "<?php echo $pm_out_lat; ?>";
+    var pm_out_lon = "<?php echo $pm_out_lon; ?>";
+    var pm_out_time = "<?php echo '<b>'.$pm_out_time.'</b>'; ?>";
+
+    var mymap = L.map('mapid').setView([am_in_lat, am_in_lon], 20);
 
     L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
         maxZoom: 18,
@@ -34,8 +47,17 @@
         zoomOffset: -1
     }).addTo(mymap);
 
-    L.marker([latitude, longitude]).addTo(mymap)
-        .bindPopup(time).openPopup();
+    L.marker([am_in_lat, am_in_lon]).addTo(mymap)
+        .bindPopup(am_in_time).openPopup();
+
+    L.marker([am_out_lat, am_out_lon]).addTo(mymap)
+        .bindPopup(am_in_time).openPopup();
+
+    L.marker([pm_in_lat, pm_in_lon]).addTo(mymap)
+        .bindPopup(am_in_time).openPopup();
+
+    L.marker([pm_out_lat, pm_out_lon]).addTo(mymap)
+        .bindPopup(am_in_time).openPopup();
 
     var popup = L.popup();
 

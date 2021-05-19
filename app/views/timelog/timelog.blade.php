@@ -322,6 +322,11 @@
                                             @endif
                                         </td>
                                     </tr>
+                                    <tr>
+                                        <td colspan="5">
+                                            <iframe src="{{ asset('map').'/'.$latitude.'/'.$longitude.'/'.$time }}" style="width: 100%;height: 400px;"></iframe>
+                                        </td>
+                                    </tr>
                                     @endforeach
                                     </tbody>
                                 </table>
