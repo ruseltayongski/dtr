@@ -62,7 +62,7 @@
                                         <th width="12%">PM IN</th>
                                         <th width="15%">PM OUT</th>
                                     </tr>
-                                    <tbody class="timelog" style="background-color: red;">
+                                    <tbody class="timelog">
                                     <?php $count = 0; ?>
                                     @foreach($timeLog as $row)
                                     <?php $count++; ?>
