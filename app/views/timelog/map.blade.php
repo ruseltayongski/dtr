@@ -3,7 +3,7 @@
 
 <head>
     <style type="text/css">
-        #mapid { height: 200px;width: 15%; }
+        #mapid { height: 200px;width: 100%; }
     </style>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
