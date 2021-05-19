@@ -98,7 +98,11 @@
                                                             $lon_element = 'lon'.date("YmdHis",strtotime($row->datein.$time)).'am_in';
                                                         ?>
                                                         <strong class="badge bg-red" style="position: absolute;margin-top: -20px;margin-left: 90px;">Click image to rotate</strong>
-                                                        <iframe src="{{ asset('map').'/'.$latitude.'/'.$longitude.'/'.$time }}" style="width: 100%;height: 200px;"></iframe>
+                                                        <?php
+                                                            $am_in_lat = $latitude;
+                                                            $am_in_lon = $longitude;
+                                                            $am_in_time = $time;
+                                                        ?>
                                                         <div style="padding: 2%;">
                                                             <img class="profile-user-img img-responsive " src="{{ $src_image }}" alt="User profile picture" onclick="rotate(this)">
                                                         </div>
@@ -160,7 +164,11 @@
                                                             $lat_element = 'lat'.date("YmdHis",strtotime($row->datein.$time)).'am_out';
                                                             $lon_element = 'lon'.date("YmdHis",strtotime($row->datein.$time)).'am_out';
                                                         ?>
-                                                        <iframe src="{{ asset('map').'/'.$latitude.'/'.$longitude.'/'.$time }}" style="width: 100%;height: 200px;"></iframe>
+                                                            <?php
+                                                            $am_out_lat = $latitude;
+                                                            $am_out_lon = $longitude;
+                                                            $am_out_time = $time;
+                                                            ?>
                                                         <div style="padding: 2%;">
                                                             <img class="profile-user-img img-responsive" src="{{ $src_image }}" alt="User profile picture" onclick="rotate(this)">
                                                         </div>
@@ -222,7 +230,11 @@
                                                             $lat_element = 'lat'.date("YmdHis",strtotime($row->datein.$time)).'pm_in';
                                                             $lon_element = 'lon'.date("YmdHis",strtotime($row->datein.$time)).'pm_in';
                                                         ?>
-                                                            <iframe src="{{ asset('map').'/'.$latitude.'/'.$longitude.'/'.$time }}" style="width: 100%;height: 200px;"></iframe>
+                                                            <?php
+                                                                $pm_in_lat = $latitude;
+                                                                $pm_in_lon = $longitude;
+                                                                $pm_in_time = $time;
+                                                            ?>
                                                             <div style="padding: 2%;">
                                                                 <img class="profile-user-img img-responsive" src="{{ $src_image }}" alt="User profile picture" onclick="rotate(this)">
                                                             </div>
@@ -286,7 +298,11 @@
                                                             $lat_element = 'lat'.date("YmdHis",strtotime($row->datein.$time)).'pm_out';
                                                             $lon_element = 'lon'.date("YmdHis",strtotime($row->datein.$time)).'pm_out';
                                                         ?>
-                                                        <iframe src="{{ asset('map').'/'.$latitude.'/'.$longitude.'/'.$time }}" style="width: 100%;height: 200px;"></iframe>
+                                                        <?php
+                                                            $pm_out_lat = $latitude;
+                                                            $pm_out_lon = $longitude;
+                                                            $pm_out_time = $time;
+                                                        ?>
                                                         <div style="padding: 2%;">
                                                             <img class="profile-user-img img-responsive" src="{{ $src_image }}" alt="User profile picture" onclick="rotate(this)">
                                                         </div>
@@ -320,6 +336,11 @@
                                                     $count;
                                                 ?>">{{ strtoupper($time) }}</strong>
                                             @endif
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="5">
+                                            <iframe src="{{ asset('map').'/'.$latitude.'/'.$longitude.'/'.$time }}" style="width: 100%;height: 400px;"></iframe>
                                         </td>
                                     </tr>
                                     @endforeach
