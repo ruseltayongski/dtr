@@ -343,6 +343,9 @@
     @parent
     <script>
 
+        $("#container").removeClass("container");
+        $("#container").addClass("container-fluid");
+
         function rotate(image) {
             let rotateAngle = Number(image.getAttribute("rotangle")) + 90;
             image.setAttribute("style", "transform: rotate(" + rotateAngle + "deg)");

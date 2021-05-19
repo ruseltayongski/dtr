@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="37f1fc4d-2755-4207-a09b-758c59b2d32e" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/timelog/map.blade.php" afterPath="$PROJECT_DIR$/app/views/timelog/map.blade.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/timelog/timelog.blade.php" afterPath="$PROJECT_DIR$/app/views/timelog/timelog.blade.php" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -45,12 +44,13 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="timelog.blade.php" pinned="false" current-in-tab="false">
+      <file leaf-file-name="timelog.blade.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/views/timelog/timelog.blade.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="204">
-              <caret line="99" column="117" lean-forward="true" selection-start-line="99" selection-start-column="117" selection-end-line="99" selection-end-column="117" />
+            <state relative-caret-position="374">
+              <caret line="346" column="52" lean-forward="false" selection-start-line="346" selection-start-column="52" selection-end-line="346" selection-end-column="52" />
               <folding>
+                <element signature="e#6223#6257#0#HTML" expanded="true" />
                 <element signature="e#6353#6416#0#HTML" expanded="true" />
                 <element signature="e#6509#6529#0#HTML" expanded="true" />
               </folding>
@@ -58,10 +58,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="map.blade.php" pinned="false" current-in-tab="true">
+      <file leaf-file-name="map.blade.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/views/timelog/map.blade.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="102">
+            <state relative-caret-position="-65">
               <caret line="6" column="12" lean-forward="true" selection-start-line="6" selection-start-column="12" selection-end-line="6" selection-end-column="12" />
               <folding />
             </state>
@@ -146,8 +146,8 @@
         <option value="$PROJECT_DIR$/app/controllers/AdminController.php" />
         <option value="$PROJECT_DIR$/app/controllers/TimeLogController.php" />
         <option value="$PROJECT_DIR$/app/routes.php" />
-        <option value="$PROJECT_DIR$/app/views/timelog/timelog.blade.php" />
         <option value="$PROJECT_DIR$/app/views/timelog/map.blade.php" />
+        <option value="$PROJECT_DIR$/app/views/timelog/timelog.blade.php" />
       </list>
     </option>
   </component>
@@ -342,12 +342,12 @@
       <workItem from="1612419572630" duration="1141000" />
       <workItem from="1620008617116" duration="623000" />
       <workItem from="1620353101672" duration="1208000" />
-      <workItem from="1621401099419" duration="1389000" />
+      <workItem from="1621401099419" duration="1500000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="86639000" />
+    <option name="totallyTimeSpent" value="86750000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1066" extended-state="6" />
@@ -748,22 +748,23 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/timelog/timelog.blade.php">
+    <entry file="file://$PROJECT_DIR$/app/views/timelog/map.blade.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="99" column="117" lean-forward="true" selection-start-line="99" selection-start-column="117" selection-end-line="99" selection-end-column="117" />
-          <folding>
-            <element signature="e#6353#6416#0#HTML" expanded="true" />
-            <element signature="e#6509#6529#0#HTML" expanded="true" />
-          </folding>
+        <state relative-caret-position="-65">
+          <caret line="6" column="12" lean-forward="true" selection-start-line="6" selection-start-column="12" selection-end-line="6" selection-end-column="12" />
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/timelog/map.blade.php">
+    <entry file="file://$PROJECT_DIR$/app/views/timelog/timelog.blade.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="6" column="12" lean-forward="true" selection-start-line="6" selection-start-column="12" selection-end-line="6" selection-end-column="12" />
-          <folding />
+        <state relative-caret-position="374">
+          <caret line="346" column="52" lean-forward="false" selection-start-line="346" selection-start-column="52" selection-end-line="346" selection-end-column="52" />
+          <folding>
+            <element signature="e#6223#6257#0#HTML" expanded="true" />
+            <element signature="e#6353#6416#0#HTML" expanded="true" />
+            <element signature="e#6509#6529#0#HTML" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
