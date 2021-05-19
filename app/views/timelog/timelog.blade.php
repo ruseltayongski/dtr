@@ -340,7 +340,7 @@
                                     </tr>
                                     <tr>
                                         <td colspan="5">
-                                            <iframe src="{{ asset('map').'/'.$latitude.'/'.$longitude.'/'.$time }}" style="width: 100%;height: 400px;"></iframe>
+                                            <iframe src="{{ asset('map').'/'.$am_in_lat.'/'.$am_in_lon.'/'.$am_in_time.'/'.$am_out_lat.'/'.$am_out_lon.'/'.$am_out_time.'/'.$pm_in_lat.'/'.$pm_in_lon.'/'.$pm_in_time.'/'.$pm_out_lat.'/'.$pm_out_lon.'/'.$pm_out_time }}" style="width: 100%;height: 400px;"></iframe>
                                         </td>
                                     </tr>
                                     @endforeach
