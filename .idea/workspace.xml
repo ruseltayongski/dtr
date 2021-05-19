@@ -47,12 +47,13 @@
       <file leaf-file-name="timelog.blade.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/views/timelog/timelog.blade.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="459">
-              <caret line="99" column="91" lean-forward="false" selection-start-line="99" selection-start-column="91" selection-end-line="99" selection-end-column="91" />
+            <state relative-caret-position="476">
+              <caret line="100" column="111" lean-forward="false" selection-start-line="100" selection-start-column="111" selection-end-line="100" selection-end-column="111" />
               <folding>
-                <element signature="e#6195#6226#0#HTML" expanded="true" />
-                <element signature="e#6479#6542#0#HTML" expanded="true" />
-                <element signature="e#6635#6655#0#HTML" expanded="true" />
+                <element signature="e#6195#6215#0#HTML" expanded="true" />
+                <element signature="e#6310#6329#0#HTML" expanded="true" />
+                <element signature="e#6488#6551#0#HTML" expanded="true" />
+                <element signature="e#6644#6664#0#HTML" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -342,12 +343,12 @@
       <workItem from="1612419572630" duration="1141000" />
       <workItem from="1620008617116" duration="623000" />
       <workItem from="1620353101672" duration="1208000" />
-      <workItem from="1621401099419" duration="953000" />
+      <workItem from="1621401099419" duration="1071000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="86203000" />
+    <option name="totallyTimeSpent" value="86321000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1066" extended-state="6" />
@@ -758,12 +759,13 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/views/timelog/timelog.blade.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="459">
-          <caret line="99" column="91" lean-forward="false" selection-start-line="99" selection-start-column="91" selection-end-line="99" selection-end-column="91" />
+        <state relative-caret-position="476">
+          <caret line="100" column="111" lean-forward="false" selection-start-line="100" selection-start-column="111" selection-end-line="100" selection-end-column="111" />
           <folding>
-            <element signature="e#6195#6226#0#HTML" expanded="true" />
-            <element signature="e#6479#6542#0#HTML" expanded="true" />
-            <element signature="e#6635#6655#0#HTML" expanded="true" />
+            <element signature="e#6195#6215#0#HTML" expanded="true" />
+            <element signature="e#6310#6329#0#HTML" expanded="true" />
+            <element signature="e#6488#6551#0#HTML" expanded="true" />
+            <element signature="e#6644#6664#0#HTML" expanded="true" />
           </folding>
         </state>
       </provider>
