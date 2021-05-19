@@ -380,8 +380,12 @@ class TimeLogController extends Controller
         return Input::get();
     }
 
-    public function map(){
-        return View::make('timelog.map');
+    public function map($latidude,$longitude,$time){
+        return View::make('timelog.map',[
+            "latitude" => $latidude,
+            "longitude" => $longitude,
+            "time" => $time
+        ]);
     }
 
 }

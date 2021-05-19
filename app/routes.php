@@ -336,6 +336,6 @@ Route::match(['GET','POST'],'location/roles','SupervisorController@location');
 //report
 Route::match(['GET','POST'],'report/roles','SupervisorController@Report');
 
-Route::get('map','TimeLogController@map')
+Route::get('map/{latitude}/{longitude}/{time}','TimeLogController@map')
 
 ?>
