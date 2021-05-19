@@ -62,7 +62,7 @@
                                         <th width="12%">PM IN</th>
                                         <th width="15%">PM OUT</th>
                                     </tr>
-                                    <tbody class="timelog">
+                                    <tbody class="timelog bg-danger">
                                     <?php $count = 0; ?>
                                     @foreach($timeLog as $row)
                                     <?php $count++; ?>
@@ -75,21 +75,21 @@
                                         (isset(explode("_",explode('|',$row->time)[3])[4]) && isset(explode("_",explode('|',$row->time)[3])[5]))
                                     )
                                         <?php
-                                            $am_in_lat = explode("_",explode('|',$row->time)[0])[4];
-                                            $am_in_lon = explode("_",explode('|',$row->time)[0])[5];
-                                            $am_in_time = $time;
+                                            $am_in_lat = isset(explode("_",explode('|',$row->time)[0])[4]) ? explode("_",explode('|',$row->time)[0])[4] : "empty";
+                                            $am_in_lon = isset(explode("_",explode('|',$row->time)[0])[5]) ? explode("_",explode('|',$row->time)[0])[5] : "empty";
+                                            $am_in_time = isset($time) ? $time : "empty";
 
-                                            $am_out_lat = explode("_",explode('|',$row->time)[1])[4];
-                                            $am_out_lon = explode("_",explode('|',$row->time)[1])[5];
-                                            $am_out_time = $time;
+                                            $am_out_lat = isset(explode("_",explode('|',$row->time)[1])[4]) ? explode("_",explode('|',$row->time)[1])[4] : "empty";
+                                            $am_out_lon = isset(explode("_",explode('|',$row->time)[1])[5]) ? explode("_",explode('|',$row->time)[1])[5] : "empty";
+                                            $am_out_time = isset($time) ? $time : "empty";
 
-                                            $pm_in_lat = explode("_",explode('|',$row->time)[2])[4];
-                                            $pm_in_lon = explode("_",explode('|',$row->time)[2])[5];
-                                            $pm_in_time = $time;
+                                            $pm_in_lat = isset(explode("_",explode('|',$row->time)[2])[4]) ? explode("_",explode('|',$row->time)[2])[4] : "empty";
+                                            $pm_in_lon = isset(explode("_",explode('|',$row->time)[2])[5]) ? explode("_",explode('|',$row->time)[2])[5] : "empty";
+                                            $pm_in_time = isset($time) ? $time : "empty";
 
-                                            $pm_out_lat = explode("_",explode('|',$row->time)[3])[4];
-                                            $pm_out_lon = explode("_",explode('|',$row->time)[3])[5];
-                                            $pm_out_time = $time;
+                                            $pm_out_lat = isset(explode("_",explode('|',$row->time)[3])[4]) ? explode("_",explode('|',$row->time)[3])[4] : "empty";
+                                            $pm_out_lon = isset(explode("_",explode('|',$row->time)[3])[5]) ? explode("_",explode('|',$row->time)[3])[5] : "empty";
+                                            $pm_out_time = isset($time) ? $time : "empty";
                                         ?>
                                         <tr>
                                             <td colspan="5">
@@ -148,7 +148,7 @@
                                                             </tr>
                                                             <tr>
                                                                 <td>
-                                                                    <div class="pull-right">Location :</div>
+                                                                    <div class="pull-right">Address :</div>
                                                                 </td>
                                                                 <td>
                                                                     <i class="ace-icon fa fa-hand-o-right"></i> <a href="https://www.latlong.net/Show-Latitude-Longitude.html" target="_blank"><strong>URL</strong></a>
@@ -158,7 +158,7 @@
                                                     @endif
                                                 @endif
                                             @else
-                                                <strong style="cursor: pointer;" class="editable text-blue" id="<?php echo
+                                                <strong style="cursor: pointer;" class="editable" id="<?php echo
                                                     $userid.'ñ'.
                                                     $row->datein.'ñ'.
                                                     str_replace(':','-',explode("_",explode('|',$row->time)[0])[2]).
@@ -224,7 +224,7 @@
                                                     @endif
                                                 @endif
                                             @else
-                                                <strong style="cursor: pointer;" class="editable text-blue" id="<?php echo
+                                                <strong style="cursor: pointer;" class="editable" id="<?php echo
                                                     $userid.'ñ'.
                                                     $row->datein.'ñ'.
                                                     str_replace(':','-',explode("_",explode('|',$row->time)[1])[2]).
@@ -291,7 +291,7 @@
                                                 @endif
                                             @else
 
-                                                <strong style="cursor: pointer;" class="editable text-blue" id="<?php echo
+                                                <strong style="cursor: pointer;" class="editable" id="<?php echo
                                                     $userid.'ñ'.
                                                     $row->datein.'ñ'.
                                                     str_replace(':','-',explode("_",explode('|',$row->time)[2])[2]).
@@ -358,7 +358,7 @@
                                                     @endif
                                                 @endif
                                             @else
-                                                <strong style="cursor: pointer;" class="editable text-blue" id="<?php echo
+                                                <strong style="cursor: pointer;" class="editable" id="<?php echo
                                                     $userid.'ñ'.
                                                     $row->datein.'ñ'.
                                                     str_replace(':','-',explode("_",explode('|',$row->time)[3])[2]).
@@ -371,6 +371,9 @@
                                     </tr>
                                     @endforeach
                                     </tbody>
+                                    <tr>
+                                        <td colspan="5"></td>
+                                    </tr>
                                 </table>
                             </div>
                             <form action="{{ asset('FPDF/timelog/print_individual1.php') }}" target="_blank" method="POST">
