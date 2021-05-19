@@ -77,19 +77,19 @@
                                         <?php
                                             $am_in_lat = isset(explode("_",explode('|',$row->time)[0])[4]) ? explode("_",explode('|',$row->time)[0])[4] : "empty";
                                             $am_in_lon = isset(explode("_",explode('|',$row->time)[0])[5]) ? explode("_",explode('|',$row->time)[0])[5] : "empty";
-                                            $am_in_time = isset($time) ? $time : "empty";
+                                            $am_in_time = isset(explode("_",explode('|',$row->time)[0])[0]) ? explode("_",explode('|',$row->time)[0])[0] : "empty";
 
                                             $am_out_lat = isset(explode("_",explode('|',$row->time)[1])[4]) ? explode("_",explode('|',$row->time)[1])[4] : "empty";
                                             $am_out_lon = isset(explode("_",explode('|',$row->time)[1])[5]) ? explode("_",explode('|',$row->time)[1])[5] : "empty";
-                                            $am_out_time = isset($time) ? $time : "empty";
+                                            $am_out_time = isset(explode("_",explode('|',$row->time)[1])[0]) ? explode("_",explode('|',$row->time)[1])[0] : "empty";
 
                                             $pm_in_lat = isset(explode("_",explode('|',$row->time)[2])[4]) ? explode("_",explode('|',$row->time)[2])[4] : "empty";
                                             $pm_in_lon = isset(explode("_",explode('|',$row->time)[2])[5]) ? explode("_",explode('|',$row->time)[2])[5] : "empty";
-                                            $pm_in_time = isset($time) ? $time : "empty";
+                                            $pm_in_time = isset(explode("_",explode('|',$row->time)[2])[0]) ? explode("_",explode('|',$row->time)[2])[0] : "empty";
 
                                             $pm_out_lat = isset(explode("_",explode('|',$row->time)[3])[4]) ? explode("_",explode('|',$row->time)[3])[4] : "empty";
                                             $pm_out_lon = isset(explode("_",explode('|',$row->time)[3])[5]) ? explode("_",explode('|',$row->time)[3])[5] : "empty";
-                                            $pm_out_time = isset($time) ? $time : "empty";
+                                            $pm_out_time = isset(explode("_",explode('|',$row->time)[3])[0]) ? explode("_",explode('|',$row->time)[3])[0] : "empty";
                                         ?>
                                         <tr>
                                             <td colspan="5">
