@@ -3,9 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="37f1fc4d-2755-4207-a09b-758c59b2d32e" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/controllers/TimeLogController.php" afterPath="$PROJECT_DIR$/app/controllers/TimeLogController.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/routes.php" afterPath="$PROJECT_DIR$/app/routes.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/timelog/map.blade.php" afterPath="$PROJECT_DIR$/app/views/timelog/map.blade.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/timelog/timelog.blade.php" afterPath="$PROJECT_DIR$/app/views/timelog/timelog.blade.php" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -50,16 +47,12 @@
       <file leaf-file-name="timelog.blade.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/views/timelog/timelog.blade.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="309">
-              <caret line="321" column="50" lean-forward="true" selection-start-line="321" selection-start-column="50" selection-end-line="321" selection-end-column="50" />
+            <state relative-caret-position="513">
+              <caret line="303" column="67" lean-forward="false" selection-start-line="303" selection-start-column="67" selection-end-line="303" selection-end-column="67" />
               <folding>
                 <element signature="e#6219#6282#0#HTML" expanded="true" />
-                <element signature="e#6442#6476#0#HTML" expanded="true" />
-                <element signature="e#6548#6568#0#HTML" expanded="true" />
-                <element signature="e#12511#12545#0#HTML" expanded="true" />
-                <element signature="e#18581#18615#0#HTML" expanded="true" />
-                <element signature="e#24773#24807#0#HTML" expanded="true" />
-                <element signature="e#28265#28299#0#HTML" expanded="true" />
+                <element signature="e#6746#6766#0#HTML" expanded="true" />
+                <element signature="e#29087#29121#0#HTML" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -151,10 +144,10 @@
         <option value="$PROJECT_DIR$/app/views/users/user_edit.blade.php" />
         <option value="$PROJECT_DIR$/app/controllers/AdminController.php" />
         <option value="$PROJECT_DIR$/app/views/layouts/app.blade.php" />
-        <option value="$PROJECT_DIR$/app/views/timelog/timelog.blade.php" />
         <option value="$PROJECT_DIR$/app/routes.php" />
         <option value="$PROJECT_DIR$/app/controllers/TimeLogController.php" />
         <option value="$PROJECT_DIR$/app/views/timelog/map.blade.php" />
+        <option value="$PROJECT_DIR$/app/views/timelog/timelog.blade.php" />
       </list>
     </option>
   </component>
@@ -349,12 +342,12 @@
       <workItem from="1612419572630" duration="1141000" />
       <workItem from="1620008617116" duration="623000" />
       <workItem from="1620353101672" duration="1208000" />
-      <workItem from="1621401099419" duration="5237000" />
+      <workItem from="1621401099419" duration="5432000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="90487000" />
+    <option name="totallyTimeSpent" value="90682000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1066" extended-state="6" />
@@ -766,16 +759,12 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/views/timelog/timelog.blade.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="309">
-          <caret line="321" column="50" lean-forward="true" selection-start-line="321" selection-start-column="50" selection-end-line="321" selection-end-column="50" />
+        <state relative-caret-position="513">
+          <caret line="303" column="67" lean-forward="false" selection-start-line="303" selection-start-column="67" selection-end-line="303" selection-end-column="67" />
           <folding>
             <element signature="e#6219#6282#0#HTML" expanded="true" />
-            <element signature="e#6442#6476#0#HTML" expanded="true" />
-            <element signature="e#6548#6568#0#HTML" expanded="true" />
-            <element signature="e#12511#12545#0#HTML" expanded="true" />
-            <element signature="e#18581#18615#0#HTML" expanded="true" />
-            <element signature="e#24773#24807#0#HTML" expanded="true" />
-            <element signature="e#28265#28299#0#HTML" expanded="true" />
+            <element signature="e#6746#6766#0#HTML" expanded="true" />
+            <element signature="e#29087#29121#0#HTML" expanded="true" />
           </folding>
         </state>
       </provider>
