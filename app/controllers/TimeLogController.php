@@ -380,4 +380,8 @@ class TimeLogController extends Controller
         return Input::get();
     }
 
+    public function map(){
+        return View::make('timelog.map');
+    }
+
 }
