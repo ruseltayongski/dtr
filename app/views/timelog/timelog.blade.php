@@ -63,26 +63,58 @@
                                         <th width="15%">PM OUT</th>
                                     </tr>
                                     <tbody class="timelog">
-                                    <?php
-                                        $count = 0;
-                                        $am_in_lat = '';
-                                        $am_in_lon = '';
-                                        $am_in_time = '';
-
-                                        $am_out_lat = '';
-                                        $am_out_lon = '';
-                                        $am_out_time = '';
-
-                                        $pm_in_lat = '';
-                                        $pm_in_lon = '';
-                                        $pm_in_time = '';
-
-                                        $pm_out_lat = '';
-                                        $pm_out_lon = '';
-                                        $pm_out_time = '';
-                                    ?>
+                                    <?php $count = 0; ?>
                                     @foreach($timeLog as $row)
                                     <?php $count++; ?>
+                                    <?php $time = explode("_",explode('|',$row->time)[0])[0]; ?>
+                                    <!-- for map-->
+                                    <?php
+                                    if(explode("_",explode('|',$row->time)[0])[3] == 'mobile'){
+                                        $am_in_lat = explode("_",explode('|',$row->time)[0])[4];
+                                        $am_in_lon = explode("_",explode('|',$row->time)[0])[5];
+                                        $am_in_time = $time;
+                                    }
+                                    else{
+                                        $am_in_lat = 'z';
+                                        $am_in_lon = 'z';
+                                        $am_in_time = 'z';
+                                    }
+                                    if(explode("_",explode('|',$row->time)[1])[3] == 'mobile'){
+                                        $am_out_lat = explode("_",explode('|',$row->time)[1])[4];
+                                        $am_out_lon = explode("_",explode('|',$row->time)[1])[5];
+                                        $am_out_time = $time;
+                                    }
+                                    else{
+                                        $am_out_lat = 'z';
+                                        $am_out_lon = 'z';
+                                        $am_out_time = 'z';
+                                    }
+                                    if(explode("_",explode('|',$row->time)[2])[3] == 'mobile'){
+                                        $pm_in_lat = explode("_",explode('|',$row->time)[2])[4];
+                                        $pm_in_lon = explode("_",explode('|',$row->time)[2])[5];
+                                        $pm_in_time = $time;
+                                    }
+                                    else{
+                                        $pm_in_lat = 'z';
+                                        $pm_in_lon = 'z';
+                                        $pm_in_time = 'z';
+                                    }
+                                    if(explode("_",explode('|',$row->time)[3])[3] == 'mobile'){
+                                        $pm_out_lat = explode("_",explode('|',$row->time)[3])[4];
+                                        $pm_out_lon = explode("_",explode('|',$row->time)[3])[5];
+                                        $pm_out_time = $time;
+                                    }
+                                    else{
+                                        $pm_out_lat = 'z';
+                                        $pm_out_lon = 'z';
+                                        $pm_out_time = 'z';
+                                    }
+                                    ?>
+                                    <tr>
+                                        <td colspan="5">
+                                            <iframe src="{{ asset('map').'/'.$am_in_lat.'/'.$am_in_lon.'/'.$am_in_time.'/'.$am_out_lat.'/'.$am_out_lon.'/'.$am_out_time.'/'.$pm_in_lat.'/'.$pm_in_lon.'/'.$pm_in_time.'/'.$pm_out_lat.'/'.$pm_out_lon.'/'.$pm_out_time }}" style="width: 100%;height: 400px;"></iframe>
+                                        </td>
+                                    </tr>
                                     <tr>
                                         <td>
                                             <strong class="text-green">{{ date("F d, Y",strtotime($row->datein)) }}</strong><br>
@@ -90,7 +122,7 @@
                                         </td>
                                         <td> <!-- AM IN -->
                                             <input type="hidden" value="{{ explode("_",explode('|',$row->time)[0])[2] }}" id="{{ $count."ñ"."AM_IN" }}">
-                                            <?php $time = explode("_",explode('|',$row->time)[0])[0]; ?>
+                                            <!-- end map -->
                                             @if(empty(explode("_",explode('|',$row->time)[0])[1]) || explode("_",explode('|',$row->time)[0])[3] == 'mobile' || explode("_",explode('|',$row->time)[0])[3] == 'normal')
                                                 <strong class="badge bg-green" style="font-size: 10pt;position: absolute;">{{ $time }}</strong><br>
                                                 @if(isset(explode("_",explode('|',$row->time)[0])[4]) && isset(explode("_",explode('|',$row->time)[0])[5]))
@@ -353,11 +385,6 @@
                                                     $count;
                                                 ?>">{{ strtoupper($time) }}</strong>
                                             @endif
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="5">
-                                            <iframe src="{{ asset('map').'/'.$am_in_lat.'/'.$am_in_lon.'/'.$am_in_time.'/'.$am_out_lat.'/'.$am_out_lon.'/'.$am_out_time.'/'.$pm_in_lat.'/'.$pm_in_lon.'/'.$pm_in_time.'/'.$pm_out_lat.'/'.$pm_out_lon.'/'.$pm_out_time }}" style="width: 100%;height: 400px;"></iframe>
                                         </td>
                                     </tr>
                                     @endforeach
