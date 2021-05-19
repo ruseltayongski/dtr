@@ -62,7 +62,7 @@
                                         <th width="12%">PM IN</th>
                                         <th width="15%">PM OUT</th>
                                     </tr>
-                                    <tbody class="timelog bg-danger">
+                                    <tbody class="timelog" style="background-color: red;">
                                     <?php $count = 0; ?>
                                     @foreach($timeLog as $row)
                                     <?php $count++; ?>
@@ -158,7 +158,7 @@
                                                     @endif
                                                 @endif
                                             @else
-                                                <strong style="cursor: pointer;" class="editable" id="<?php echo
+                                                <strong style="cursor: pointer;" class="editable badge bg-blue" id="<?php echo
                                                     $userid.'ñ'.
                                                     $row->datein.'ñ'.
                                                     str_replace(':','-',explode("_",explode('|',$row->time)[0])[2]).
@@ -224,7 +224,7 @@
                                                     @endif
                                                 @endif
                                             @else
-                                                <strong style="cursor: pointer;" class="editable" id="<?php echo
+                                                <strong style="cursor: pointer;" class="editable badge bg-blue" id="<?php echo
                                                     $userid.'ñ'.
                                                     $row->datein.'ñ'.
                                                     str_replace(':','-',explode("_",explode('|',$row->time)[1])[2]).
@@ -291,7 +291,7 @@
                                                 @endif
                                             @else
 
-                                                <strong style="cursor: pointer;" class="editable" id="<?php echo
+                                                <strong style="cursor: pointer;" class="editable badge bg-blue" id="<?php echo
                                                     $userid.'ñ'.
                                                     $row->datein.'ñ'.
                                                     str_replace(':','-',explode("_",explode('|',$row->time)[2])[2]).
@@ -358,7 +358,7 @@
                                                     @endif
                                                 @endif
                                             @else
-                                                <strong style="cursor: pointer;" class="editable" id="<?php echo
+                                                <strong style="cursor: pointer;" class="editable badge bg-blue" id="<?php echo
                                                     $userid.'ñ'.
                                                     $row->datein.'ñ'.
                                                     str_replace(':','-',explode("_",explode('|',$row->time)[3])[2]).
