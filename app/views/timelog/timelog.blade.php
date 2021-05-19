@@ -97,8 +97,8 @@
                                                             $lat_element = 'lat'.date("YmdHis",strtotime($row->datein.$time)).'am_in';
                                                             $lon_element = 'lon'.date("YmdHis",strtotime($row->datein.$time)).'am_in';
                                                         ?>
-                                                        <iframe src="{{ asset('map') }}" style="width: 100%;height: 200px;"></iframe>
                                                         <strong class="badge bg-red" style="position: absolute;margin-top: -20px;margin-left: 90px;">Click image to rotate</strong>
+                                                        <iframe src="{{ asset('map') }}" style="width: 100%;height: 200px;"></iframe>
                                                         <div style="padding: 2%;">
                                                             <img class="profile-user-img img-responsive " src="{{ $src_image }}" alt="User profile picture" onclick="rotate(this)">
                                                         </div>
@@ -160,6 +160,7 @@
                                                             $lat_element = 'lat'.date("YmdHis",strtotime($row->datein.$time)).'am_out';
                                                             $lon_element = 'lon'.date("YmdHis",strtotime($row->datein.$time)).'am_out';
                                                         ?>
+                                                        <iframe src="{{ asset('map') }}" style="width: 100%;height: 200px;"></iframe>
                                                         <div style="padding: 2%;">
                                                             <img class="profile-user-img img-responsive" src="{{ $src_image }}" alt="User profile picture" onclick="rotate(this)">
                                                         </div>
@@ -221,6 +222,7 @@
                                                             $lat_element = 'lat'.date("YmdHis",strtotime($row->datein.$time)).'pm_in';
                                                             $lon_element = 'lon'.date("YmdHis",strtotime($row->datein.$time)).'pm_in';
                                                         ?>
+                                                            <iframe src="{{ asset('map') }}" style="width: 100%;height: 200px;"></iframe>
                                                             <div style="padding: 2%;">
                                                                 <img class="profile-user-img img-responsive" src="{{ $src_image }}" alt="User profile picture" onclick="rotate(this)">
                                                             </div>
@@ -284,6 +286,7 @@
                                                             $lat_element = 'lat'.date("YmdHis",strtotime($row->datein.$time)).'pm_out';
                                                             $lon_element = 'lon'.date("YmdHis",strtotime($row->datein.$time)).'pm_out';
                                                         ?>
+                                                        <iframe src="{{ asset('map') }}" style="width: 100%;height: 200px;"></iframe>
                                                         <div style="padding: 2%;">
                                                             <img class="profile-user-img img-responsive" src="{{ $src_image }}" alt="User profile picture" onclick="rotate(this)">
                                                         </div>
@@ -342,9 +345,6 @@
 @section('js')
     @parent
     <script>
-
-        $("#container").removeClass("container");
-        $("#container").addClass("container-fluid");
 
         function rotate(image) {
             let rotateAngle = Number(image.getAttribute("rotangle")) + 90;
