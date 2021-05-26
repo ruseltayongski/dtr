@@ -85,7 +85,7 @@
                                     $pm_out_lon = isset(explode("_",explode('|',$row->time)[3])[5]) ? explode("_",explode('|',$row->time)[3])[5] : "empty";
                                     $pm_out_time = isset(explode("_",explode('|',$row->time)[3])[0]) ? explode("_",explode('|',$row->time)[3])[0] : "empty";
                                     ?>
-                                    @if(($am_in_lat || $am_in_lon || $am_out_lat || $am_out_lon || $pm_in_lat || $pm_in_lon || $pm_out_lat || $pm_out_lon) != "empty")
+                                    @if($am_in_lat != "empty" || $am_in_lon != "empty" || $am_out_lat != "empty" || $am_out_lon != "empty" || $pm_in_lat != "empty" || $pm_in_lon != "empty" || $pm_out_lat != "empty" || $pm_out_lon != "empty")
                                     <tr>
                                         <td colspan="5">
                                             <iframe src="{{ asset('map').'/'.$am_in_lat.'/'.$am_in_lon.'/'.$am_in_time.'/'.$am_out_lat.'/'.$am_out_lon.'/'.$am_out_time.'/'.$pm_in_lat.'/'.$pm_in_lon.'/'.$pm_in_time.'/'.$pm_out_lat.'/'.$pm_out_lon.'/'.$pm_out_time }}" style="width: 100%;height: 400px;"></iframe>
