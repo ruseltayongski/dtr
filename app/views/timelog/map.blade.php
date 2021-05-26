@@ -65,7 +65,7 @@
         zoomOffset: -1
     }).addTo(mymap);
 
-    if( am_in_lat != "null" && am_in_lon != "null" ) {
+    if( am_in_lat != "null" && am_in_lon != "null" && am_in_lat != "empty" && am_in_lon != "empty" ) {
         console.log(am_in_lat);
         console.log(am_in_lon);
         L.marker([am_in_lat, am_in_lon]).addTo(mymap)
@@ -73,7 +73,7 @@
         mymap.on('click', onMapClick);
     }
 
-    if( am_out_lat != "null" && am_out_lon != "null" ) {
+    if( am_out_lat != "null" && am_out_lon != "null" && am_out_lat != "empty" && am_out_lon != "empty" ) {
         console.log(am_out_lat);
         console.log(am_out_lon);
         L.marker([am_out_lat, am_out_lon]).addTo(mymap)
@@ -81,7 +81,7 @@
         mymap.on('click', onMapClick);
     }
 
-    if( pm_in_lat != "null" && pm_in_lon != "null" ){
+    if( pm_in_lat != "null" && pm_in_lon != "null" && pm_in_lat != "empty" && pm_in_lon != "empty" ){
         console.log(pm_in_lat);
         console.log(pm_in_lon);
         L.marker([pm_in_lat, pm_in_lon]).addTo(mymap)
@@ -89,7 +89,7 @@
         mymap.on('click', onMapClick);
     }
 
-    if( pm_out_lat != "null" && pm_out_lon != "null") {
+    if( pm_out_lat != "null" && pm_out_lon != "null" && pm_out_lat != "empty" && pm_out_lon != "empty") {
         console.log(pm_out_lat);
         console.log(pm_out_lon);
         L.marker([pm_out_lat, pm_out_lon]).addTo(mymap)
