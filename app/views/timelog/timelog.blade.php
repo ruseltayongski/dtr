@@ -68,34 +68,29 @@
                                     <?php $count++; ?>
                                     <?php $time = explode("_",explode('|',$row->time)[0])[0]; ?>
                                     <!-- for map-->
-                                    @if(
-                                        (isset(explode("_",explode('|',$row->time)[0])[4]) && isset(explode("_",explode('|',$row->time)[0])[5])) ||
-                                        (isset(explode("_",explode('|',$row->time)[1])[4]) && isset(explode("_",explode('|',$row->time)[1])[5])) ||
-                                        (isset(explode("_",explode('|',$row->time)[2])[4]) && isset(explode("_",explode('|',$row->time)[2])[5])) ||
-                                        (isset(explode("_",explode('|',$row->time)[3])[4]) && isset(explode("_",explode('|',$row->time)[3])[5]))
-                                    )
-                                        <?php
-                                            $am_in_lat = isset(explode("_",explode('|',$row->time)[0])[4]) ? explode("_",explode('|',$row->time)[0])[4] : "empty";
-                                            $am_in_lon = isset(explode("_",explode('|',$row->time)[0])[5]) ? explode("_",explode('|',$row->time)[0])[5] : "empty";
-                                            $am_in_time = isset(explode("_",explode('|',$row->time)[0])[0]) ? explode("_",explode('|',$row->time)[0])[0] : "empty";
+                                    <?php
+                                    $am_in_lat = isset(explode("_",explode('|',$row->time)[0])[4]) ? explode("_",explode('|',$row->time)[0])[4] : "empty";
+                                    $am_in_lon = isset(explode("_",explode('|',$row->time)[0])[5]) ? explode("_",explode('|',$row->time)[0])[5] : "empty";
+                                    $am_in_time = isset(explode("_",explode('|',$row->time)[0])[0]) ? explode("_",explode('|',$row->time)[0])[0] : "empty";
 
-                                            $am_out_lat = isset(explode("_",explode('|',$row->time)[1])[4]) ? explode("_",explode('|',$row->time)[1])[4] : "empty";
-                                            $am_out_lon = isset(explode("_",explode('|',$row->time)[1])[5]) ? explode("_",explode('|',$row->time)[1])[5] : "empty";
-                                            $am_out_time = isset(explode("_",explode('|',$row->time)[1])[0]) ? explode("_",explode('|',$row->time)[1])[0] : "empty";
+                                    $am_out_lat = isset(explode("_",explode('|',$row->time)[1])[4]) ? explode("_",explode('|',$row->time)[1])[4] : "empty";
+                                    $am_out_lon = isset(explode("_",explode('|',$row->time)[1])[5]) ? explode("_",explode('|',$row->time)[1])[5] : "empty";
+                                    $am_out_time = isset(explode("_",explode('|',$row->time)[1])[0]) ? explode("_",explode('|',$row->time)[1])[0] : "empty";
 
-                                            $pm_in_lat = isset(explode("_",explode('|',$row->time)[2])[4]) ? explode("_",explode('|',$row->time)[2])[4] : "empty";
-                                            $pm_in_lon = isset(explode("_",explode('|',$row->time)[2])[5]) ? explode("_",explode('|',$row->time)[2])[5] : "empty";
-                                            $pm_in_time = isset(explode("_",explode('|',$row->time)[2])[0]) ? explode("_",explode('|',$row->time)[2])[0] : "empty";
+                                    $pm_in_lat = isset(explode("_",explode('|',$row->time)[2])[4]) ? explode("_",explode('|',$row->time)[2])[4] : "empty";
+                                    $pm_in_lon = isset(explode("_",explode('|',$row->time)[2])[5]) ? explode("_",explode('|',$row->time)[2])[5] : "empty";
+                                    $pm_in_time = isset(explode("_",explode('|',$row->time)[2])[0]) ? explode("_",explode('|',$row->time)[2])[0] : "empty";
 
-                                            $pm_out_lat = isset(explode("_",explode('|',$row->time)[3])[4]) ? explode("_",explode('|',$row->time)[3])[4] : "empty";
-                                            $pm_out_lon = isset(explode("_",explode('|',$row->time)[3])[5]) ? explode("_",explode('|',$row->time)[3])[5] : "empty";
-                                            $pm_out_time = isset(explode("_",explode('|',$row->time)[3])[0]) ? explode("_",explode('|',$row->time)[3])[0] : "empty";
-                                        ?>
-                                        <tr>
-                                            <td colspan="5">
-                                                <iframe src="{{ asset('map').'/'.$am_in_lat.'/'.$am_in_lon.'/'.$am_in_time.'/'.$am_out_lat.'/'.$am_out_lon.'/'.$am_out_time.'/'.$pm_in_lat.'/'.$pm_in_lon.'/'.$pm_in_time.'/'.$pm_out_lat.'/'.$pm_out_lon.'/'.$pm_out_time }}" style="width: 100%;height: 400px;"></iframe>
-                                            </td>
-                                        </tr>
+                                    $pm_out_lat = isset(explode("_",explode('|',$row->time)[3])[4]) ? explode("_",explode('|',$row->time)[3])[4] : "empty";
+                                    $pm_out_lon = isset(explode("_",explode('|',$row->time)[3])[5]) ? explode("_",explode('|',$row->time)[3])[5] : "empty";
+                                    $pm_out_time = isset(explode("_",explode('|',$row->time)[3])[0]) ? explode("_",explode('|',$row->time)[3])[0] : "empty";
+                                    ?>
+                                    @if(($am_in_lat || $am_in_lon || $am_out_lat || $am_out_lon || $pm_in_lat || $pm_in_lon || $pm_out_lat || $pm_out_lon) != "empty")
+                                    <tr>
+                                        <td colspan="5">
+                                            <iframe src="{{ asset('map').'/'.$am_in_lat.'/'.$am_in_lon.'/'.$am_in_time.'/'.$am_out_lat.'/'.$am_out_lon.'/'.$am_out_time.'/'.$pm_in_lat.'/'.$pm_in_lon.'/'.$pm_in_time.'/'.$pm_out_lat.'/'.$pm_out_lon.'/'.$pm_out_time }}" style="width: 100%;height: 400px;"></iframe>
+                                        </td>
+                                    </tr>
                                     @endif
                                     <tr>
                                         <td>
