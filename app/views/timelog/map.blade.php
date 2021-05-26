@@ -38,22 +38,22 @@
     var pm_out_time = "<?php echo '<b>'.$pm_out_time.'</b>'; ?>";
 
     var mymap = "";
-    if(am_in_lat != "empty" && am_in_lat != null && am_in_lon != "empty" && am_in_lon != null){
+    if(am_in_lat != "empty" && am_in_lat !== null && am_in_lon != "empty" && am_in_lon !== null){
         console.log(am_in_lat);
         console.log(am_in_lon);
         mymap = L.map('mapid').setView([am_in_lat, am_in_lon], 25);
     }
-    else if(am_out_lat != "empty" && am_out_lat != null && am_out_lon != "empty" && am_out_lon != null){
+    else if(am_out_lat != "empty" && am_out_lat !== null && am_out_lon != "empty" && am_out_lon !== null){
         console.log(am_out_lat);
         console.log(am_out_lon);
         mymap = L.map('mapid').setView([am_out_lat, am_out_lon], 25);
     }
-    else if(pm_in_lat != "empty" && pm_in_lat != null && pm_in_lon != "empty" && pm_in_lon != null){
+    else if(pm_in_lat != "empty" && pm_in_lat !== null && pm_in_lon != "empty" && pm_in_lon !== null){
         console.log(pm_in_lat);
         console.log(pm_in_lon);
         mymap = L.map('mapid').setView([pm_in_lat, pm_in_lon], 25);
     }
-    else if(pm_out_lat != "empty" && pm_out_lat != null && pm_out_lon != "empty" && pm_out_lon != null){
+    else if(pm_out_lat != "empty" && pm_out_lat !== null && pm_out_lon != "empty" && pm_out_lon !== null){
         console.log(pm_out_lat);
         console.log(pm_out_lon);
         mymap = L.map('mapid').setView([pm_out_lat, pm_out_lon], 25);
