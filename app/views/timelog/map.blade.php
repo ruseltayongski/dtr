@@ -42,33 +42,21 @@
         console.log(am_in_lat);
         console.log(am_in_lon);
         mymap = L.map('mapid').setView([am_in_lat, am_in_lon], 25);
-        L.marker([am_in_lat, am_in_lon]).addTo(mymap)
-            .bindPopup(am_in_time).openPopup();
-        mymap.on('click', onMapClick);
     }
     else if(am_out_lat != "null" && am_out_lon != "null"){
         console.log(am_out_lat);
         console.log(am_out_lon);
         mymap = L.map('mapid').setView([am_out_lat, am_out_lon], 25);
-        L.marker([am_out_lat, am_out_lon]).addTo(mymap)
-            .bindPopup(am_out_time).openPopup();
-        mymap.on('click', onMapClick);
     }
     else if(pm_in_lat != "null" && pm_in_lon != "null"){
         console.log(pm_in_lat);
         console.log(pm_in_lon);
         mymap = L.map('mapid').setView([pm_in_lat, pm_in_lon], 25);
-        L.marker([pm_in_lat, pm_in_lon]).addTo(mymap)
-            .bindPopup(pm_in_time).openPopup();
-        mymap.on('click', onMapClick);
     }
     else if(pm_out_lat && pm_out_lon){
         console.log(pm_out_lat);
         console.log(pm_out_lon);
         mymap = L.map('mapid').setView([pm_out_lat, pm_out_lon], 25);
-        L.marker([pm_out_lat, pm_out_lon]).addTo(mymap)
-            .bindPopup(pm_out_time).openPopup();
-        mymap.on('click', onMapClick);
     }
 
     L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
@@ -77,6 +65,37 @@
         zoomOffset: -1
     }).addTo(mymap);
 
+    if( am_in_lat != "null" && am_in_lon != "null" ) {
+        console.log(am_in_lat);
+        console.log(am_in_lon);
+        L.marker([am_in_lat, am_in_lon]).addTo(mymap)
+            .bindPopup(am_in_time).openPopup();
+        mymap.on('click', onMapClick);
+    }
+
+    if( am_out_lat != "null" && am_out_lon != "null" ) {
+        console.log(am_out_lat);
+        console.log(am_out_lon);
+        L.marker([am_out_lat, am_out_lon]).addTo(mymap)
+            .bindPopup(am_out_time).openPopup();
+        mymap.on('click', onMapClick);
+    }
+
+    if( pm_in_lat != "null" && pm_in_lon != "null" ){
+        console.log(pm_in_lat);
+        console.log(pm_in_lon);
+        L.marker([pm_in_lat, pm_in_lon]).addTo(mymap)
+            .bindPopup(pm_in_time).openPopup();
+        mymap.on('click', onMapClick);
+    }
+
+    if( pm_out_lat != "null" && pm_out_lon != "null") {
+        console.log(pm_out_lat);
+        console.log(pm_out_lon);
+        L.marker([pm_out_lat, pm_out_lon]).addTo(mymap)
+            .bindPopup(pm_out_time).openPopup();
+        mymap.on('click', onMapClick);
+    }
 
     function onMapClick(e) {
         popup
