@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="37f1fc4d-2755-4207-a09b-758c59b2d32e" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/timelog/map.blade.php" afterPath="$PROJECT_DIR$/app/views/timelog/map.blade.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/timelog/timelog.blade.php" afterPath="$PROJECT_DIR$/app/views/timelog/timelog.blade.php" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -48,10 +47,10 @@
       <file leaf-file-name="timelog.blade.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/views/timelog/timelog.blade.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="411">
-              <caret line="92" column="41" lean-forward="true" selection-start-line="92" selection-start-column="41" selection-end-line="92" selection-end-column="41" />
+            <state relative-caret-position="326">
+              <caret line="87" column="214" lean-forward="false" selection-start-line="87" selection-start-column="214" selection-end-line="87" selection-end-column="214" />
               <folding>
-                <marker date="1621998051505" expanded="true" signature="5433:5637" ph="..." />
+                <marker date="1621998226803" expanded="true" signature="5508:5712" ph="..." />
               </folding>
             </state>
           </provider>
@@ -353,12 +352,12 @@
       <workItem from="1620353101672" duration="1208000" />
       <workItem from="1621401099419" duration="12412000" />
       <workItem from="1621838232038" duration="295000" />
-      <workItem from="1621997484327" duration="564000" />
+      <workItem from="1621997484327" duration="733000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="98521000" />
+    <option name="totallyTimeSpent" value="98690000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1066" extended-state="6" />
@@ -759,10 +758,10 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/views/timelog/timelog.blade.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="411">
-          <caret line="92" column="41" lean-forward="true" selection-start-line="92" selection-start-column="41" selection-end-line="92" selection-end-column="41" />
+        <state relative-caret-position="326">
+          <caret line="87" column="214" lean-forward="false" selection-start-line="87" selection-start-column="214" selection-end-line="87" selection-end-column="214" />
           <folding>
-            <marker date="1621998051505" expanded="true" signature="5433:5637" ph="..." />
+            <marker date="1621998226803" expanded="true" signature="5508:5712" ph="..." />
           </folding>
         </state>
       </provider>
