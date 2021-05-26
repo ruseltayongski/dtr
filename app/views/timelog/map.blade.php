@@ -53,17 +53,25 @@
         zoomOffset: -1
     }).addTo(mymap);
 
-    L.marker([am_in_lat, am_in_lon]).addTo(mymap)
-        .bindPopup(am_in_time).openPopup();
+    if(am_in_lat != "empty" && am_in_lon != "empty") {
+        L.marker([am_in_lat, am_in_lon]).addTo(mymap)
+            .bindPopup(am_in_time).openPopup();
+    }
 
-    L.marker([am_out_lat, am_out_lon]).addTo(mymap)
-        .bindPopup(am_out_time).openPopup();
+    if(am_out_lat != "empty" && am_out_lon != "empty") {
+        L.marker([am_out_lat, am_out_lon]).addTo(mymap)
+            .bindPopup(am_out_time).openPopup();
+    }
 
-    L.marker([pm_in_lat, pm_in_lon]).addTo(mymap)
-        .bindPopup(pm_in_time).openPopup();
+    if(pm_in_lat != "empty" && pm_in_lon != "empty") {
+        L.marker([pm_in_lat, pm_in_lon]).addTo(mymap)
+            .bindPopup(pm_in_time).openPopup();
+    }
 
-    L.marker([pm_out_lat, pm_out_lon]).addTo(mymap)
-        .bindPopup(pm_out_time).openPopup();
+    if(pm_out_lat != "empty" && pm_out_lon != "empty") {
+        L.marker([pm_out_lat, pm_out_lon]).addTo(mymap)
+            .bindPopup(pm_out_time).openPopup();
+    }
 
     var popup = L.popup();
 
