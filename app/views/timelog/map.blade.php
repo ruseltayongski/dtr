@@ -38,7 +38,7 @@
     var pm_out_time = "<?php echo '<b>'.$pm_out_time.'</b>'; ?>";
 
     var mymap = "";
-    if(am_in_lat && am_in_lon){
+    if(am_in_lat != "null" && am_in_lon != "null"){
         console.log(am_in_lat);
         console.log(am_in_lon);
         mymap = L.map('mapid').setView([am_in_lat, am_in_lon], 25);
