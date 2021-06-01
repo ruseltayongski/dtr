@@ -79,12 +79,12 @@
       <file leaf-file-name="print_timelog.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/FPDF/timelog/print_timelog.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="224">
-              <caret line="102" column="35" lean-forward="false" selection-start-line="102" selection-start-column="35" selection-end-line="102" selection-end-column="35" />
+            <state relative-caret-position="122">
+              <caret line="102" column="70" lean-forward="false" selection-start-line="102" selection-start-column="70" selection-end-line="102" selection-end-column="70" />
               <folding>
-                <marker date="1622541700745" expanded="true" signature="718:782" ph="SELECT job_s... personal_information" />
-                <marker date="1622541700745" expanded="true" signature="979:1069" ph="SELECT time " />
-                <marker date="1622541700745" expanded="true" signature="1275:1366" ph="SELECT time " />
+                <marker date="1622542727317" expanded="true" signature="718:782" ph="SELECT job_s... personal_information" />
+                <marker date="1622542727317" expanded="true" signature="979:1069" ph="SELECT time " />
+                <marker date="1622542727317" expanded="true" signature="1275:1366" ph="SELECT time " />
               </folding>
             </state>
           </provider>
@@ -368,12 +368,12 @@
       <workItem from="1621401099419" duration="12412000" />
       <workItem from="1621838232038" duration="295000" />
       <workItem from="1621997484327" duration="6466000" />
-      <workItem from="1622541607300" duration="91000" />
+      <workItem from="1622541607300" duration="849000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="104514000" />
+    <option name="totallyTimeSpent" value="105272000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1066" extended-state="6" />
@@ -777,12 +777,12 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/FPDF/timelog/print_timelog.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="224">
-          <caret line="102" column="35" lean-forward="false" selection-start-line="102" selection-start-column="35" selection-end-line="102" selection-end-column="35" />
+        <state relative-caret-position="122">
+          <caret line="102" column="70" lean-forward="false" selection-start-line="102" selection-start-column="70" selection-end-line="102" selection-end-column="70" />
           <folding>
-            <marker date="1622541700745" expanded="true" signature="718:782" ph="SELECT job_s... personal_information" />
-            <marker date="1622541700745" expanded="true" signature="979:1069" ph="SELECT time " />
-            <marker date="1622541700745" expanded="true" signature="1275:1366" ph="SELECT time " />
+            <marker date="1622542727317" expanded="true" signature="718:782" ph="SELECT job_s... personal_information" />
+            <marker date="1622542727317" expanded="true" signature="979:1069" ph="SELECT time " />
+            <marker date="1622542727317" expanded="true" signature="1275:1366" ph="SELECT time " />
           </folding>
         </state>
       </provider>
