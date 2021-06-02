@@ -100,7 +100,7 @@ function api_get_logs($userid,$date_from,$date_to) {
 
 if(isset($_POST['filter_range'])){
     $_SESSION['date_range'] = $_POST['filter_range'];
-    $userid = $_POST['userid'] == '0287' or $_POST['userid'] == '0847' ? 999999999 : $_POST['userid'];
+    $userid = $_POST['userid'];
     $filter_date = explode(' - ',$_POST['filter_range']);
     $date_from = date("Y-m-d",strtotime($filter_date[0]));
     $date_to = date("Y-m-d",strtotime($filter_date[1]));
