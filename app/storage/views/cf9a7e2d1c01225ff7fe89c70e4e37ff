@@ -1,0 +1,116 @@
+<?php $__env->startSection('content'); ?>
+    <?php if(Session::has('name')): ?>
+        <div class="alert alert-success">
+
+            <strong> <i class="fa fa-check-square-o" aria-hidden="true"></i> <?php echo Session::get('name'); ?></strong>
+        </div>
+    <?php endif; ?>
+    <h2 class="page-header">Leave Credits</h2>
+    <form class="form-inline form-accept" action="<?php echo asset('leave/credits'); ?>" method="GET">
+        <div class="form-group">
+            <input type="text" name="search" value="<?php echo $keyword; ?>" class="form-control" placeholder="Quick Search" autofocus>
+            <button type="submit" class="btn btn-default"><i class="fa fa-search"></i> Search</button>
+        </div>
+    </form>
+    <div class="clearfix"></div>
+    <div class="page-divider"></div>
+
+    <?php if(isset($pis) and count($pis) > 0): ?>
+        <div class="table-responsive">
+            <table class="table table-list table-hover table-striped">
+                <thead>
+                <tr>
+                    <th style="width: 100px;"><div style="margin-left: 15px;">Userid</div></th>
+                    <th style="width: 100px;"><div style="margin-left: 15px;">Name</div></th>
+                    <th style="width: 100px;"><div style="margin-left: 15px;">Section / Division</div></th>
+                    <th style="width: 100px;"><div style="margin-left: 15px;">Balance</div></th>
+                    <th style="width: 100px;"><div style="margin-left: 15px;">Option</div></th>
+                </tr>
+                </thead>
+                <tbody>
+                <?php foreach($pis as $user): ?>
+                    <tr>
+                        <td>
+                            <label class="text-info">
+                                <?php if(strpos($user->userid,'no_userid')): ?>
+                                    NO USERID
+                                <?php else: ?>
+                                    <?php echo $user->userid; ?>
+
+                                <?php endif; ?>
+                            </label>
+                        </td>
+                        <td>
+                            <label class="text-info">
+                                <?php if($user->fname || $user->lname || $user->mname || $user->name_extension): ?> <?php echo $user->fname.' '.$user->mname.' '.$user->lname.' '.$user->name_extension; ?> <?php else: ?> <i>NO NAME</i> <?php endif; ?>
+                            </label>
+                        </td>
+                        <td>
+                            <label class="text-info"><?php if(isset(pdoController::search_section($user->section_id)['description'])): ?> <?php echo pdoController::search_section($user->section_id)['description']; ?> <?php else: ?> NO SECTION <?php endif; ?></label><br>
+                            <small class="text-success" style="margin-left: 15px;"><em>(<?php if(isset(pdoController::search_division($user->division_id)['description'])): ?> <?php echo pdoController::search_division($user->division_id)['description']; ?> <?php else: ?> NO DIVISION <?php endif; ?> <?php echo ')'; ?></em></small>
+                        </td>
+                        <td>
+                            <label class="text-primary">Vacation: <?php if($user->vacation_balance): ?> <?php echo $user->vacation_balance; ?> <?php else: ?> 0 <?php endif; ?></label><br>
+                            <label class="text-danger">Sick: <?php if($user->sick_balance): ?> <?php echo $user->sick_balance; ?> <?php else: ?> 0 <?php endif; ?></label>
+                        </td>
+                        <td>
+                            <button class="button btn-sm beginning_balance" style="background-color: #9C8AA5;color: white" data-toggle="modal" data-id="<?php echo $user->userid; ?>" data-vacation="<?php echo $user->vacation_balance; ?>" data-sick="<?php echo $user->sick_balance; ?>" data-target="#beginning_balance">Update Leave Balance</button>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
+        <?php echo $pis->links(); ?>
+
+    <?php else: ?>
+        <div class="alert alert-danger">
+            <strong><i class="fa fa-times fa-lg"></i>No users found.</strong>
+        </div>
+    <?php endif; ?>
+
+    <div class="modal fade" tabindex="-1" role="dialog" id="beginning_balance">
+        <div class="modal-dialog modal-sm" role="document" id="size">
+            <div class="modal-content">
+                <form action="<?php echo asset('leave/credits/save'); ?>" method="POST">
+                    <div class="modal-header" style="background-color: #9C8AA5;">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" style="color: white"><i class="fa fa-pencil"></i> Leave Credits</h4>
+                    </div>
+                    <div class="modal-body">
+
+                    </div>
+                    <div class="modal-footer">
+                        <input type="hidden" value="" id="userid" name="userid">
+                        <button type="submit" class="btn btn-success" style="color:white;"><i class="fa fa-pencil"> Update</i></button>
+                    </div>
+                </form>
+            </div><!-- .modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('js'); ?>
+    @parent
+    <script>
+
+        $(".beginning_balance").on('click',function(e){
+            $('.modal-body').html(loadingState);
+            var vacation = $(this).data('vacation');
+            var sick = $(this).data('sick');
+            var userid = $(this).data('id');
+            $("#userid").val(userid);
+            setTimeout(function(){
+                $('.modal-body').html(
+                    "<label class='text-success'>Vacation Balance</label><input type='number' class='form-control' id='vacation' value='"+vacation+"' name='vacation' required><label class='text-success'>Sick Balance</label><input type='number' class='form-control' id='sick' value='"+sick+"' name='sick' required>");
+            },500);
+        });
+
+
+    </script>
+<?php $__env->stopSection(); ?>
+
+
+
+
+<?php echo $__env->make('layouts.app', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
