@@ -36,7 +36,7 @@
                       {{ Session::get('ops') }}
                   </div><br>
               @endif
-                  <form role="form" method="POST" action="{{ asset('/') }}">
+                  <form role="form" method="POST" action="{{ asset('/') }}" autocomplete="off">
                       <div class="form-group has-feedback {{ Session::has('ops') ? ' has-error' : '' }}">
                         <input id="username" value="@if(Session::has('username')){{ Session::get('username') }}@endif" type="text" placeholder="Login using your ID No." class="form-control" name="username">
                         <span class="glyphicon glyphicon-user form-control-feedback"></span>
