@@ -36,7 +36,7 @@
                       {{ Session::get('ops') }}
                   </div><br>
               @endif
-                  <form role="form" method="POST" action="{{ asset('/') }}">
+                  <form role="form" method="POST" action="{{ asset('/') }}" autocomplete="off">
                       <div class="form-group has-feedback {{ Session::has('ops') ? ' has-error' : '' }}">
                         <input id="username" value="@if(Session::has('username')){{ Session::get('username') }}@endif" type="text" placeholder="Login using your ID No." class="form-control" name="username">
                         <span class="glyphicon glyphicon-user form-control-feedback"></span>
@@ -64,12 +64,12 @@
                         </div>
                   </form>
                   <div class="row">
+                  <!--
                     <br>
                     <div class="col-md-12">
                         <a href="{{ asset('public/apk/dtr.apk') }}" target="_blank" type="button" class="btn btn-success" download><i class="fa fa-mobile-phone"></i> <small>Mobile DTR(apk) v2.8.0 for DMO</small></a>
                         <a href="{{ asset('public/apk/dtr_office.apk') }}" target="_blank" type="button" class="btn btn-warning" download><i class="fa fa-mobile-phone"></i> <small>Mobile DTR CV-CHD Edition v1.4.0 for OFFICE</small></a>
                     </div>
-                    <!--
                     <a href="https://drive.google.com/drive/folders/100ARffzYqtT4BdWK-9rem8_8Zm6UCOUi" target="_blank">DTR MANUAL</a>
                     -->
                   </div>
