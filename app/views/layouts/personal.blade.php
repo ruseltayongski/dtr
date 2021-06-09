@@ -79,8 +79,8 @@
     <li class="dropdown">
         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-mobile-phone"></i> MobileDTR<span class="caret"></span></a>
         <ul class="dropdown-menu">
-            <li><a href="{{ asset('public/apk/dtr.apk') }}"><i class="fa fa-download"></i> for OFFICE</a></li>
-            <li><a href="{{ asset('public/apk/dtr_office.apk') }}"><i class="fa fa-download"></i> for DMO</a></li>
+            <li><a href="{{ asset('public/apk/dtr_office.apk') }}"><i class="fa fa-download"></i> for OFFICE</a></li>
+            <li><a href="{{ asset('public/apk/dtr.apk') }}"><i class="fa fa-download"></i> for DMO</a></li>
         </ul>
     </li>
     <li class="dropdown">
