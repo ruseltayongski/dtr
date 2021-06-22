@@ -94,10 +94,8 @@ class AdminController extends BaseController
         if(Request::method() == 'POST') {
             $userid = Session::get('edit_user');
             if(count(Input::get('user_roles')) >= 1){
-                $prev_roles = UserRoles::where('userid','=',$userid)->get();
-                if(count($prev_roles) >= 1){
-                    $prev_roles->delete();
-                }
+                $prev_roles = UserRoles::where('userid','=',$userid);
+                $prev_roles->delete();
                 foreach(Input::get('user_roles') as $row){
                     $current_roles = new UserRoles();
                     $current_roles->userid = $userid;
