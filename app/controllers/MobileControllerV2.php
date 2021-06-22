@@ -214,6 +214,16 @@ class MobileControllerV2 extends BaseController
     {
         try{
             $json_object = json_decode(Input::get('data'), true);
+            $check_userid = $json_object[0]['userid'];
+            $check_remark = $json_object[0]['remark'];
+            $check_dmo = UserRoles::select('users_roles.id','users_claims.claim_type','users_claims.claim_value','users_claims.id as claims_id')
+                ->where('users_roles.userid','=',$check_userid)
+                ->where('users_roles.claims_id','=','4')
+                ->LeftJoin('users_claims','users_claims.id','=','users_roles.claims_id')
+                ->first();
+            if($check_remark == 'MOBILE' && !$check_dmo)
+                return false;
+
             foreach ($json_object['logs'] as $value) {
                 $userid = $value['userid'];
                 $time = $value['time'];
