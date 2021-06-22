@@ -97,12 +97,14 @@ class AdminController extends BaseController
             if(count($prev_roles) >= 1){
                 $prev_roles->delete();
             }
-            foreach(Input::get('user_roles') as $row){
-                $current_roles = new UserRoles();
-                $current_roles->userid = $userid;
-                $current_roles->claims_id = $row;
-                $current_roles->status = 'active';
-                $current_roles->save();
+            if(Input::get('user_roles')){
+                foreach(Input::get('user_roles') as $row){
+                    $current_roles = new UserRoles();
+                    $current_roles->userid = $userid;
+                    $current_roles->claims_id = $row;
+                    $current_roles->status = 'active';
+                    $current_roles->save();
+                }
             }
 
             $user = Users::where('userid','=',$userid)->first();
