@@ -222,7 +222,7 @@ class MobileControllerV2 extends BaseController
                 ->LeftJoin('users_claims','users_claims.id','=','users_roles.claims_id')
                 ->first();
             if($check_remark == 'MOBILE' && !$check_dmo)
-                return false;
+                $temp = $json_object[0]['userid']; //para mag error
 
             foreach ($json_object['logs'] as $value) {
                 $userid = $value['userid'];
