@@ -297,7 +297,8 @@ Route::post('mobileV2/add-leave','MobileControllerV2@add_leave');
 Route::post('mobileV2/imei','MobileControllerV2@imei');
 
 Route::get('mobile/office/announcement','MobileControllerV2@announcementAPI');
-Route::get('mobile/office/version','MobileControllerV2@appVersionAPI');
+Route::get('mobile/office/version','MobileControllerV2@appVersionAPIOld');
+Route::get('mobile/get/version','MobileControllerV2@appVersionAPINew');
 Route::get('mobile/office/announcement/view','MobileControllerV2@announcementView');
 Route::get('mobile/office/version/view','MobileControllerV2@appVersionView');
 Route::post('mobile/office/announcement/post','MobileControllerV2@announcementPost');
