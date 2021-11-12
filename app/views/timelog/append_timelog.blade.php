@@ -81,6 +81,7 @@
                         <option value="MATERNITY LEAVE">MATERNITY LEAVE</option>
                         <option value="SPECIAL LEAVE">SPECIAL LEAVE</option>
                         <option value="FORCED LEAVE">FORCED LEAVE</option>
+                        <option value="STUDY LEAVE">STUDY LEAVE</option>
                     </select>
                 </td>
             </tr>
