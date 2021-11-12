@@ -8,6 +8,7 @@
                 <thead>
                 <tr style="background-color:grey;">
                     <th>Link</th>
+                    <th>Message</th>
                     <th>Code</th>
                     <th>Latest Version</th>
                     <th>Option</th>
@@ -16,11 +17,12 @@
                 <tbody>
                 <tr>
                     <td width="50%"><b class="text-warning">{{ asset('mobile/office/version') }}</b></td>
+                    <td>{{ $app_version_api->message }}</td>
                     <td>{{ $app_version_api->code }}</td>
                     <td>{{ $app_version_api->latest_version }}</td>
-                    <td >
+                    <td>
                         <button type="button" class="btn btn-primary btn-sm update" ><span class="glyphicon glyphicon-question-sign"></span> Update</button>
-                        <a href="{{ asset('mobile/office/version') }}" target="_blank" class="btn btn-success btn-sm" ><span class="fa fa-eye"></span> View API</a>
+                        <a href="{{ asset('mobile/get/version') }}" target="_blank" class="btn btn-success btn-sm" ><span class="fa fa-eye"></span> View API</a>
                     </td>
                 </tr>
                 </tbody>
@@ -35,6 +37,12 @@
                     <div class="modal-body">
                         <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
                         <table class="table table-list table-hover table-striped">
+                            <tr>
+                                <td>Message</td>
+                                <td>
+                                    <textarea name="message" class="form-control" id="" cols="30" rows="10">{{ $app_version_api->message }}</textarea>
+                                </td>
+                            </tr>
                             <tr>
                                 <td>Code</td>
                                 <td>

@@ -163,7 +163,7 @@ class MobileControllerV2 extends BaseController
         ]);
     }
 
-    public function appVersionView(){
+    public function appVersionView() {
         $app_version_api = AppAPI::first();
 
         return View::make('api.app_version',[
@@ -183,6 +183,7 @@ class MobileControllerV2 extends BaseController
 
     public function appVersionPost(){
         $app_version_api = AppAPI::first();
+        $app_version_api->message = Input::get("message");
         $app_version_api->code = Input::get("code");
         $app_version_api->latest_version = Input::get("latest_version");
         $app_version_api->save();
@@ -202,7 +203,7 @@ class MobileControllerV2 extends BaseController
         ];
     }
 
-    public function appVersionAPI(){
+    public function appVersionAPIOld(){
         $app_version_api = AppAPI::first();
         return [
             "code" => $app_version_api->code,
@@ -210,9 +211,18 @@ class MobileControllerV2 extends BaseController
         ];
     }
 
+    public function appVersionAPINew(){
+        $app_version_api = AppAPI::first();
+        return [
+            "message" => $app_version_api->message,
+            "code" => $app_version_api->code,
+            "latest_version" => $app_version_api->latest_version
+        ];
+    }
+
     public function add_logs()
     {
-        try{
+        try {
             $json_object = json_decode(Input::get('data'), true);
             $check_userid = $json_object['logs'][0]['userid'];
             $check_remark = $json_object['logs'][0]['remark'];
@@ -247,8 +257,15 @@ class MobileControllerV2 extends BaseController
 
                 $pdo = DB::connection()->getPdo();
 
-                $query1 = "INSERT IGNORE INTO dtr_file(userid, datein, time, event,remark, created_at, updated_at,log_image,edited,latitude,longitude) VALUES";
-                $query1 .= "('" . $userid . "','" . $date . "','" . $time . "','" . $event . "','$remark',NOW(),NOW(),'$posted_filename','$edited','$lat','$long')";
+                if(isset($value['mocked'])) {
+                    $mocked_created_at = $value['mocked_created_at'];
+                    $query1 = "INSERT IGNORE INTO dtr_file(userid, datein, time, event,remark, created_at, updated_at,log_image,edited,latitude,longitude,mocked_created_at) VALUES";
+                    $query1 .= "('" . $userid . "','" . $date . "','" . $time . "','" . $event . "','$remark',NOW(),NOW(),'$posted_filename','$edited','$lat','$long','$mocked_created_at')";
+                }
+                else {
+                    $query1 = "INSERT IGNORE INTO dtr_file(userid, datein, time, event,remark, created_at, updated_at,log_image,edited,latitude,longitude) VALUES";
+                    $query1 .= "('" . $userid . "','" . $date . "','" . $time . "','" . $event . "','$remark',NOW(),NOW(),'$posted_filename','$edited','$lat','$long')";
+                }
 
                 $st = $pdo->prepare($query1);
                 $st->execute();
