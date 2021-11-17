@@ -257,7 +257,7 @@ class MobileControllerV2 extends BaseController
 
                 $pdo = DB::connection()->getPdo();
 
-                if(isset($value['mocked'])) {
+                if(isset($value['mocked_created_at'])) {
                     $mocked_created_at = $value['mocked_created_at'];
                     $query1 = "INSERT IGNORE INTO dtr_file(userid, datein, time, event,remark, created_at, updated_at,log_image,edited,latitude,longitude,mocked_created_at) VALUES";
                     $query1 .= "('" . $userid . "','" . $date . "','" . $time . "','" . $event . "','$remark',NOW(),NOW(),'$posted_filename','$edited','$lat','$long','$mocked_created_at')";
