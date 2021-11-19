@@ -20,7 +20,7 @@ class AreaOfAssignment extends Migration {
 			$table->string('name',255);
 			$table->string('latitude',255);
 			$table->string('longitude',255);
-			$table->integer('radius')
+			$table->integer('radius');
 			$table->timestamps();
 			$table->softDeletes();
         });
