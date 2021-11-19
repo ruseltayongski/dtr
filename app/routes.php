@@ -337,6 +337,15 @@ Route::match(['GET','POST'],'location/roles','SupervisorController@location');
 //report
 Route::match(['GET','POST'],'report/roles','SupervisorController@Report');
 
-Route::get('map/{am_in_lat}/{am_in_lon}/{am_in_time}/{am_out_lat}/{am_out_lon}/{am_out_time}/{pm_in_lat}/{pm_in_lon}/{pm_in_time}/{pm_out_lat}/{pm_out_lon}/{pm_out_time}','TimeLogController@map')
+Route::get('map/{am_in_lat}/{am_in_lon}/{am_in_time}/{am_out_lat}/{am_out_lon}/{am_out_time}/{pm_in_lat}/{pm_in_lon}/{pm_in_time}/{pm_out_lat}/{pm_out_lon}/{pm_out_time}','TimeLogController@map');
+
+//AREA OF ASSIGNMENT
+Route::get('area-assignment', 'AreaAssignmentController@list');
+Route::post('area-assignment/add', 'AreaAssignmentController@viewAdd');
+Route::post('area-assignment/add-area', 'AreaAssignmentController@addArea');
+Route::get('area-assignment/info/{id}', 'AreaAssignmentController@show');
+Route::post('area-assignment/update', 'AreaAssignmentController@update');
+Route::post('area-assignment/delete', 'AreaAssignmentController@delete');
+Route::post('area-assignment/search', 'AreaAssignmentController@search');
 
 ?>
