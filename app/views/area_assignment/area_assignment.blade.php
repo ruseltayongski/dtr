@@ -46,7 +46,7 @@
                                                 <td class="text-center">{{ $a->longitude }}</td>
                                                 <td class="text-center">{{ $a->radius }}</td>
                                                 <td class="text-center">
-                                                    <a class="title-info" style="color: #f0ad4e;" data-backdrop="static"  href="#area_delete" data-toggle="modal"  onclick="DeleteArea({{$a->id}})">
+                                                    <a class="title-info" style="color: #f0ad4e;" data-backdrop="static"  href="#area_delete" data-toggle="modal"  onclick="DeleteArea({{ $a->id }})">
                                                         <button class="btn btn-danger"><i class="fa fa-trash"></i></button>
                                                     </a>
                                                     <a class="title-info" style="color: #f0ad4e;" data-backdrop="static" data-link="" href="#view_map" data-toggle="modal">
@@ -62,7 +62,7 @@
                                 </div>
                                 {{ $area->links() }}
                             @else
-                                <div class="alert alert-danger" role="alert"><span style="color:red;">No areas of assignment found.</span></div>
+                                <div class="alert alert-danger" role="alert"><span style="color:white;">No areas of assignment found.</span></div>
                             @endif
                         </div>
                     </div>
@@ -121,6 +121,14 @@
 @endsection
 @section('js')
     <script>
+        @if(Session::get('notif') != null)
+        Lobibox.notify('info',{
+            msg:"<?php echo Session::get('notif');?>",
+            size: 'mini',
+            rounded: true
+        });
+        @endif
+
         $("a[href='#area_info']").on('click',function(){
             $('.modal_content').html(loadingState);
             var url = $(this).data('link');
