@@ -16,7 +16,7 @@ class AreaOfAssignment extends Migration {
             		return true;
         	}
        		Schema::create('area_of_assignment', function($table) {
-        	$table->increments('id');
+        		$table->increments('id');
 			$table->string('name',255);
 			$table->string('latitude',255);
 			$table->string('longitude',255);
