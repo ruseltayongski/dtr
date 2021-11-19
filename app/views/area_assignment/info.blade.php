@@ -8,7 +8,7 @@
                 <label class="col-sm-3 control-label">Name of Area</label>
                 <div class="col-sm-8">
                     <div class="input-group">
-                        <input type="text" class="form-control" value="{{ $area->name }}" name="areaName"required>
+                        <textarea style="width: 150%" class="form-control"name="areaName"required>{{ $area->name }}</textarea>
                     </div>
                 </div>
             </div>
@@ -16,7 +16,7 @@
                 <label class="col-sm-3 control-label">Latitude</label>
                 <div class="col-sm-9">
                     <div class="input-group">
-                        <input type="text" class="form-control" value="{{ $area->latitude }}"name="latitude"required>
+                        <input style="width: 163%"  type="text" class="form-control" value="{{ $area->latitude }}"name="latitude"required>
                     </div>
                 </div>
             </div>
@@ -24,7 +24,7 @@
                 <label class="col-sm-3 control-label">Longitude</label>
                 <div class="col-sm-9">
                     <div class="input-group">
-                        <input type="text" class="form-control" value="{{ $area->longitude }}"name="longitude"required>
+                        <input style="width: 163%"  type="text" class="form-control" value="{{ $area->longitude }}"name="longitude"required>
                     </div>
                 </div>
             </div>
@@ -32,7 +32,7 @@
                 <label class="col-sm-3 control-label">Radius</label>
                 <div class="col-sm-9">
                     <div class="input-group">
-                        <input type="number" min="0" class="form-control" value="{{ $area->radius }}"name="radius"required>
+                        <input style="width: 163%"  type="number" min="0" class="form-control" value="{{ $area->radius }}"name="radius"required>
                     </div>
                 </div>
             </div>

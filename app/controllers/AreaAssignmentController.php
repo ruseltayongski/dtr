@@ -24,8 +24,7 @@ class AreaAssignmentController extends BaseController{
         $area->longitude = $_POST["longitude"];
         $area->radius = $_POST["radius"];
         $area->save();
-
-        return Redirect::to("area-assignment");
+        return Redirect::to("area-assignment")->with(['notif' => "Successfully added area!"]);
     }
 
     public function show($id){
@@ -39,12 +38,12 @@ class AreaAssignmentController extends BaseController{
                                   'latitude' => $_POST['latitude'],
                                   'longitude' => $_POST['longitude'],
                                   'radius' => $_POST['radius']]);
-        return Redirect::to("area-assignment");
+        return Redirect::to("area-assignment")->with('notif', 'Successfully updated area');
     }
 
     public function delete(){
         AreaAssignment::where('id', $_POST['id_delete'])->delete();
-        return Redirect::to("area-assignment");
+        return Redirect::to("area-assignment")->with(["notif" => "Successfully deleted area!"]);
     }
 
     public function search(){
