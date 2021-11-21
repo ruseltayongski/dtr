@@ -13,17 +13,17 @@ class AreaOfAssignment extends Migration {
 	public function up()
 	{
 		if(Schema::hasTable('area_of_assignment')){
-            return true;
-        }
-        Schema::create('area_of_assignment', function($table) {
-        	$table->increments('id');
+            		return true;
+        	}
+       		Schema::create('area_of_assignment', function($table) {
+        		$table->increments('id');
 			$table->string('name',255);
 			$table->string('latitude',255);
 			$table->string('longitude',255);
-			$table->integer('radius')
+			$table->integer('radius');
 			$table->timestamps();
 			$table->softDeletes();
-        });
+        	});
 	}
 
 	/**
