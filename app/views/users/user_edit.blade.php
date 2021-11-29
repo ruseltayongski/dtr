@@ -107,7 +107,7 @@
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Cancel</button>
-            <a href="{{ asset('mobileV3/area_of_assignment/'.$user->userid) }}" class="btn btn-success" name="getArea" target="_blank" style="color: white;">
+            <a href="{{ asset('mobileV3/area_of_assignment/'.$user->userid) }}" class="btn btn-primary" name="getArea" target="_blank" style="color: white;">
                 <i class="fa fa-map-marker">&nbsp; Get Area Coordinates</i>
             </a>
             <button type="submit" class="btn btn-success user_add" id="update_user" name="update" value="update"><i class="fa fa-send"></i>Update</button>
