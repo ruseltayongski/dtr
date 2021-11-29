@@ -57,6 +57,9 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('public/assets/datepicer/css/bootstrap-datepicker3.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ asset('public/assets/datepicer/css/bootstrap-datepicker3.standalone.css') }}" />
 
+    <!-- Leaflet.js -->
+    <link rel="stylesheet" href="{{ asset('public/admin/leaflet/leaflet.css') }}">
+
     <link rel="stylesheet" type="text/css" href="{{ asset('public/plugin/bootstrap3-editable/css/bootstrap-editable.css') }}" />
 
 
@@ -93,6 +96,10 @@
         }
         #myBtn:hover {
             background-color: #555;
+        }
+
+        #map { 
+            height: 450px;
         }
         /*end go top scroll up*/
     </style>
@@ -215,6 +222,8 @@
 <script src="{{ asset('public/plugin/bootstrap3-editable/js/bootstrap-editable.min.js') }}"></script>
 
 <script src="{{ asset('public/assets/js/handsontable.js') }}"></script>
+
+<script src="{{ asset('public/admin/leaflet/leaflet.js') }}"></script>
 
 <script>var loadingState = '<center><img src="{{ asset('public/img/spin.gif') }}" width="150" style="padding:20px;"></center>'; </script>
 

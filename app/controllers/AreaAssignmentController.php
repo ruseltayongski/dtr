@@ -1,6 +1,6 @@
 <?php
 /**
- * Created by Christine \^_^/
+ * Created by Christine  (◕‿◕)
  */
 
 
@@ -19,10 +19,10 @@ class AreaAssignmentController extends BaseController{
 
     public function addArea(){
         $area = new AreaAssignment();
-        $area->name = $_POST["areaName"];
-        $area->latitude = $_POST["latitude"];
-        $area->longitude = $_POST["longitude"];
-        $area->radius = $_POST["radius"];
+        $area->name = Input::get('areaName');
+        $area->latitude = Input::get('latitude');
+        $area->longitude = Input::get('longitude');
+        $area->radius = Input::get('radius');
         $area->save();
         return Redirect::to("area-assignment")->with(['notif' => "Successfully added area!"]);
     }
@@ -33,21 +33,21 @@ class AreaAssignmentController extends BaseController{
     }
 
     public function update(){
-        AreaAssignment::where('id', $_POST['id'])
-                        ->update(['name' => $_POST['areaName'],
-                                  'latitude' => $_POST['latitude'],
-                                  'longitude' => $_POST['longitude'],
-                                  'radius' => $_POST['radius']]);
+        AreaAssignment::where('id', Input::get('id'))
+                        ->update(['name' => Input::get('areaName'),
+                                  'latitude' => Input::get('latitude'),
+                                  'longitude' => Input::get('longitude'),
+                                  'radius' => Input::get('radius')]);
         return Redirect::to("area-assignment")->with('notif', 'Successfully updated area');
     }
 
-    public function delete(){
-        AreaAssignment::where('id', $_POST['id_delete'])->delete();
+    public function delete() {
+        AreaAssignment::where('id', Input::get('id_delete'))->delete();
         return Redirect::to("area-assignment")->with(["notif" => "Successfully deleted area!"]);
     }
 
     public function search(){
-        $keyword = $_POST['keyword'];
+        $keyword = Input::get('keyword');
         if(isset($keyword)){
             $area = AreaAssignment::where('name', 'like', '%'.$keyword.'%')->OrderBy('name', 'asc')->paginate(20)
                             ->appends(["keyword" => $keyword]);
@@ -55,5 +55,11 @@ class AreaAssignmentController extends BaseController{
             $area = AreaAssignment::OrderBy('name', 'asc')->paginate(20);   
         }
         return View::make('area_assignment/area_assignment', ["area" => $area]);
+    }
+
+    public function viewMap(){
+        $id = Input::get('id');
+        $area = AreaAssignment::where('id', $id)->get()->first();
+        return View::make('area_assignment/view_map', ["area" => $area]);
     }
 }

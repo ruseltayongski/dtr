@@ -12,12 +12,10 @@
                                 <input type="text" class="form-control" value="{{ Session::get('keyword') }}" name="keyword" style="width: 100%" placeholder="Area">
                             </div>
                             <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i> Search</button>
-                            @if(Auth::user()->usertype == 1)
-                                <a href="#add_area" data-link="{{ asset('area-assignment/add') }}" class="btn btn-success" data-dismiss="modal" data-backdrop="static" data-toggle="modal" style="background-color:#1099;color: white;">
-                                    <i class="fa fa-plus"></i> 
-                                    Add new
-                                </a>
-                            @endif
+                            <a href="#add_area" data-link="{{ asset('area-assignment/add') }}" class="btn btn-success" data-dismiss="modal" data-backdrop="static" data-toggle="modal" style="background-color:#1099;color: white;">
+                                <i class="fa fa-plus"></i> 
+                                Add new
+                            </a>
                         </form>
                     </div>
                     <br />
@@ -41,19 +39,20 @@
                                                 <td>
                                                     <a class="title-info" style="color: #f0ad4e;" data-backdrop="static" data-link="{{ asset('area-assignment/info/'.$a->id) }}" href="#area_info" data-toggle="modal">{{ $a->name }}</a>
                                                 </td>
-
                                                 <td class="text-center">{{ $a->latitude }}</td>
                                                 <td class="text-center">{{ $a->longitude }}</td>
                                                 <td class="text-center">{{ $a->radius }}</td>
                                                 <td class="text-center">
-                                                    <a class="title-info" style="color: #f0ad4e;" data-backdrop="static"  href="#area_delete" data-toggle="modal"  onclick="DeleteArea({{ $a->id }})">
-                                                        <button class="btn btn-danger"><i class="fa fa-trash"></i></button>
-                                                    </a>
-                                                    <a class="title-info" style="color: #f0ad4e;" data-backdrop="static" data-link="" href="#view_map" data-toggle="modal">
+                                                    <form action="{{ asset('area-assignment/view_map/') }}" method="POST" target="_blank">
+                                                        <input type="hidden" name="id" value="{{ $a->id }}">
                                                         <button class="btn btn-success">
                                                             <i class="fa fa-map-o"></i> &nbsp View Map
                                                         </button>
-                                                    </a>
+                                                    
+                                                        <a class="title-info" style="color: #f0ad4e;" data-backdrop="static"  href="#area_delete" data-toggle="modal"  onclick="DeleteArea({{ $a->id }})">
+                                                            <button class="btn btn-danger"><i class="fa fa-trash"></i></button>
+                                                        </a>
+                                                    </form>
                                                 </td>
                                             </tr>
                                         @endforeach
@@ -117,6 +116,8 @@
             </div>
         </div>    
     </form>
+         
+     </div>
 
 @endsection
 @section('js')
@@ -143,7 +144,7 @@
             },500);
         });
 
-        $("a[href='#add_area']").on('click',function(e){
+        $("a[href='#add_area']").on('click',function(){
             $('.modal_content').html(loadingState);
             var url = $(this).data('link');
             setTimeout(function(){
