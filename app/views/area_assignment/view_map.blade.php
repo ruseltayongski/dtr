@@ -4,7 +4,7 @@
 <div class="row">
     <div class="col-md-12">
         <div class="panel panel-default">
-            <div class="panel-heading"><strong style="font-size:medium;">{{ $area->name }}</strong></div>
+            <div class="panel-heading"><strong style="font-size:medium;">{{ $area->name }}</strong>
                 <div class="panel-body">
                     <div id="map"></div>
                 </div>

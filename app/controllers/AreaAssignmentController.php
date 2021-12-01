@@ -8,16 +8,16 @@ class AreaAssignmentController extends BaseController{
     public function __construct(){
     }
 
-    public function list(){
+    public function index() {
         $area = AreaAssignment::OrderBy('name', 'asc')->paginate(10);
         return View::make('area_assignment/area_assignment', ["area" => $area]);
     }
 
-    public function viewAdd(){
+    public function viewAdd() {
         return View::make('area_assignment/add_new');
     }
 
-    public function addArea(){
+    public function addArea() {
         $area = new AreaAssignment();
         $area->name = Input::get('areaName');
         $area->latitude = Input::get('latitude');
@@ -27,7 +27,7 @@ class AreaAssignmentController extends BaseController{
         return Redirect::to("area-assignment")->with(['notif' => "Successfully added area!"]);
     }
 
-    public function show($id){
+    public function show($id) {
         $area = AreaAssignment::where('id', $id)->get()->first();
         return View::make('area_assignment/info', ["area" => $area]);
     }

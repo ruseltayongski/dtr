@@ -75,7 +75,7 @@
             <div class="modal-content">
                 <div class="modal-header" style="background-color:#9C8AA5;padding:15px;">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" style="color: white"></i>Area of Assignment</h4>
+                    <h4 class="modal-title" style="color: white">Area of Assignment</h4>
                 </div>
                 <div class="modal-body">
                     <div class="modal_content"></div>
@@ -89,7 +89,7 @@
             <div class="modal-content">
                 <div class="modal-header" style="background-color:#9C8AA5;padding:15px;">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" style="color: white"></i>Update Area of Assignment</h4>
+                    <h4 class="modal-title" style="color: white">Update Area of Assignment</h4>
                 </div>
                 <div class="modal-body">
                     <div class="modal_content"></div>
@@ -102,22 +102,19 @@
         <div class="modal modal-danger sm fade" id="area_delete" style="overflow-y:scroll;">
             <div class="modal-dialog modal-sm">
                 <div class="modal-content">
-                        <div class="modal-header" style="background-color:red;">
-                            <input type="hidden" name="_token" value="{{{ csrf_token() }}}" />
-                            <input type="hidden" name="id_delete" class="id_delete">
-                            <strong>Are you sure you want to delete?</strong>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">No</button>
-                            <button type="submit" class="btn btn-outline"><i class="fa fa-trash"></i> Yes</button>
-                        </div>
+                    <div class="modal-header" style="background-color:red;">
+                        <input type="hidden" name="_token" value="{{{ csrf_token() }}}" />
+                        <input type="hidden" name="id_delete" class="id_delete">
+                        <strong>Are you sure you want to delete?</strong>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">No</button>
+                        <button type="submit" class="btn btn-outline"><i class="fa fa-trash"></i> Yes</button>
                     </div>
                 </div>
             </div>
         </div>    
     </form>
-         
-     </div>
 
 @endsection
 @section('js')

@@ -6,7 +6,7 @@
                 <label class="col-sm-3 control-label">Name of Area:</label>
                 <div class="col-sm-9">
                     <div class="input-group">
-                        <textarea style="width: 150%" class="form-control" name="areaName" required></textarea> 
+                        <textarea cols="40" class="form-control" name="areaName" required></textarea>
                     </div>
                 </div>
             </div>
