@@ -110,7 +110,7 @@
             <a href="{{ asset('mobileV3/area_of_assignment/'.$user->userid) }}" class="btn btn-primary" name="getArea" target="_blank" style="color: white;">
                 <i class="fa fa-map-marker">&nbsp; Get Area Coordinates</i>
             </a>
-            <button type="submit" class="btn btn-success user_add" id="update_user" name="update" value="update"><i class="fa fa-send"></i>Update</button>
+            <button type="submit" class="btn btn-success user_add" id="update_user" name="update" value="update"><i class="fa fa-send"></i>&nbsp; Update</button>
         </div>
     </form>
 @endif
