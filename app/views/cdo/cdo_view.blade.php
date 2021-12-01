@@ -298,7 +298,7 @@
             if( name_of_days == "Friday" ){
                 beforeDaysToApply = 5;
             } else {
-                beforeDaysToApply = 3;
+                beforeDaysToApply = 2;
             }
 
             var dd = today.getDate()+beforeDaysToApply;

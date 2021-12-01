@@ -92,12 +92,25 @@
                         </select>
                     </td>
                 </tr>
-
+                <tr>
+                    <td class="col-sm-3"><label>Area of Assignment</label></td>
+                    <td class="col-sm-1">:</td>
+                    <td class="col-sm-8">
+                        <select class="form-control select2 assigned_areas" multiple="multiple" name="assigned_area[]" data-placeholder="Select areas of assignment" style="width: 100%">
+                            @foreach($assignment_areas as $area)
+                                <option value='{{ $area->id }}'>{{ $area->name }}</option>
+                            @endforeach
+                        </select>
+                    </td>
+                </tr>
             </table>
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Cancel</button>
-            <button type="submit" class="btn btn-success user_add" id="update_user" name="update" value="update"><i class="fa fa-send"></i>Update</button>
+            <a href="{{ asset('mobileV3/area_of_assignment/'.$user->userid) }}" class="btn btn-primary" name="getArea" target="_blank" style="color: white;">
+                <i class="fa fa-map-marker">&nbsp; Get Area Coordinates</i>
+            </a>
+            <button type="submit" class="btn btn-success user_add" id="update_user" name="update" value="update"><i class="fa fa-send"></i>&nbsp; Update</button>
         </div>
     </form>
 @endif
@@ -111,5 +124,12 @@
         return claims_id;
     }
     $('.user_roles').val(user_roles.map(getClaimsId)).trigger('change');
+
+    var assigned_areas = <?php echo $assigned_areas; ?>;
+    function getAreaId(data) {
+        var area_of_assignment_id = [data.area_of_assignment_id].join(" ");
+        return area_of_assignment_id;
+    }
+    $('.assigned_areas').val(assigned_areas.map(getAreaId)).trigger('change');    
 
 </script>

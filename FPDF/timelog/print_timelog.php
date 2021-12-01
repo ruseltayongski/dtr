@@ -469,8 +469,8 @@ if(isset($_POST['filter_range'])){
             ),5);
         }
 
-        $late_total += $late;
-        $undertime_total += $undertime;
+        $late_total += (int)$late;
+        $undertime_total += (int)$undertime;
     }
     $pdf->Ln(-3);
     $pdf->SetWidths(array(87,$set_size_center,87));

@@ -82,11 +82,15 @@ class AdminController extends BaseController
             $user = DB::table('users')->where('userid',"=",$userid)->first();
             $user_roles = UserRoles::where("userid","=",$userid)->get(['claims_id']);
             $user_claim = UserClaims::get();
+            $assigned_areas = AssignedArea::where("userid", "=", $userid)->get(['area_of_assignment_id']);
+            $assignment_areas = AreaAssignment::get();
             Session::put('edit_user',$userid);
             return View::make('users.user_edit',[
                 "user" => $user,
                 "user_roles" => $user_roles,
                 "user_claim" => $user_claim,
+                "assigned_areas" => $assigned_areas,
+                "assignment_areas" => $assignment_areas,
                 "usertype" => $usertype,
                 "usertype_default" => $this->searchArray($usertype,$user->usertype)
             ]);
@@ -94,7 +98,7 @@ class AdminController extends BaseController
         if(Request::method() == 'POST') {
             $userid = Session::get('edit_user');
             $prev_roles = UserRoles::where('userid','=',$userid);
-            if(count($prev_roles) >= 1){
+            if(count((array)$prev_roles) >= 1){
                 $prev_roles->delete();
             }
             if(Input::get('user_roles')){
@@ -104,6 +108,19 @@ class AdminController extends BaseController
                     $current_roles->claims_id = $row;
                     $current_roles->status = 'active';
                     $current_roles->save();
+                }
+            }
+
+            $prev_assignment = AssignedArea::where('userid', '=', $userid);
+            if(count((array)$prev_assignment) >= 1){
+                $prev_assignment->delete();
+            }
+            if(Input::get('assigned_area')){
+                foreach(Input::get('assigned_area') as $row){
+                    $current_areas = new AssignedArea();
+                    $current_areas->userid = $userid;
+                    $current_areas->area_of_assignment_id = $row;
+                    $current_areas->save();
                 }
             }
 
