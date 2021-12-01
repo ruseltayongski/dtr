@@ -304,7 +304,7 @@ Route::get('mobile/office/version/view','MobileControllerV2@appVersionView');
 Route::post('mobile/office/announcement/post','MobileControllerV2@announcementPost');
 Route::post('mobile/office/version/post','MobileControllerV2@appVersionPost');
 
-Route::get('mobileV3/area_of_assignment/{id}', 'MobileControllerV3@getAreaAssignment');
+Route::post('mobileV3/area_of_assignment/{id}', 'MobileControllerV3@getAreaAssignment');
 
 
 //SUB ADMIN - NEGROS AND BOHOL
