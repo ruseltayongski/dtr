@@ -20,10 +20,9 @@
         var longitude = <?php echo $area->longitude;?>;
         var radius = <?php echo $area->radius;?>;
 
-        var area = L.map("map").setView([latitude, longitude], 17);
+        var area = L.map("map").setView([latitude, longitude], 25);
         L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
             attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-            maxZoom: 18,
             id: 'mapbox/streets-v11',
             zoomOffset: -1,
             tileSize: 512,
