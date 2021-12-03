@@ -1,5 +1,9 @@
 <?php
 
+$host = '192.168.110.31';
+$username = 'rtayong_31';
+$password = 'rtayong_31';
+
 return array(
 
 	/*
@@ -54,30 +58,30 @@ return array(
 
 		'mysql' => array(
 			'driver'    => 'mysql',
-			'host'      => 'localhost',
+			'host'      => $host,
 			'database'  => 'dohdtr',
-			'username'  => 'root',
-			'password'  => '',
+			'username'  => $username,
+			'password'  => $password,
 			'charset'   => 'utf8',
 			'collation' => 'utf8_unicode_ci',
 			'prefix'    => '',
 		),
 		'dts' => array(
 			'driver'    => 'mysql',
-			'host'      => 'localhost',
+			'host'      => $host,
 			'database'  => 'dts',
-			'username'  => 'root',
-			'password'  => '',
+			'username'  => $username,
+			'password'  => $password,
 			'charset'   => 'utf8',
 			'collation' => 'utf8_unicode_ci',
 			'prefix'    => '',
 		),
 		'pis' => array(
 			'driver'    => 'mysql',
-			'host'      => 'localhost',
+			'host'      => $host,
 			'database'  => 'pis',
-			'username'  => 'root',
-			'password'  => '',
+			'username'  => $username,
+			'password'  => $password,
 			'charset'   => 'utf8',
 			'collation' => 'utf8_unicode_ci',
 			'prefix'    => '',

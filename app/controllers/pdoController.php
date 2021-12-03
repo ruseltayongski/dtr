@@ -4,13 +4,15 @@ class pdoController extends BaseController
     //PDO
     public static function connect()
     {
-        $pdo = new PDO("mysql:host=localhost;dbname=dts",'root','');
+        $server = '192.168.110.31';
+        $pdo = new PDO("mysql:host=$server;dbname=dts",'rtayong_31','rtayong_31');
         $pdo->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
         return $pdo;
     }
     public static function connect_pis()
     {
-        return new PDO("mysql:host=localhost;dbname=pis",'root','');
+        $server = '192.168.110.31';
+        return new PDO("mysql:host=$server;dbname=pis",'rtayong_31','rtayong_31');
     }
     public static function pis()
     {
