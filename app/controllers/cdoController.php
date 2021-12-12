@@ -441,7 +441,7 @@ class cdoController extends BaseController
             pdoController::insert_system_logs($user_id,$name,$activity,$route_no);
 
             Session::put('updated',true);
-            return Redirect::to('form/cdo_list');
+            return Redirect::to('form/cdo_user');
         }
     }
 
