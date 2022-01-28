@@ -1,0 +1,166 @@
+<?php $__env->startSection('content'); ?>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading"><strong style="color: #f0ad4e;font-size:medium;">Area of Assignment: </strong><strong style="font-size:15pt;color:orange;"><?php echo ucfirst($province); ?></strong></div>
+                <div class="panel-body">
+                    <div class="row">
+                        <form class="form-inline" method="POST" action="<?php echo asset('area-assignment/search').'/'.$province; ?>" id="searchForm">
+                            <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
+                            <div class="col-md-8">
+                                <input type="text" class="form-control" value="<?php echo Session::get('keyword'); ?>" name="keyword" style="width: 100%" placeholder="Area">
+                            </div>
+                            <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i> Search</button>
+                            <a href="#add_area" data-link="<?php echo asset('area-assignment/add').'/'.$province; ?>" class="btn btn-success" data-dismiss="modal" data-backdrop="static" data-toggle="modal" style="background-color:#1099;color: white;">
+                                <i class="fa fa-plus"></i> 
+                                Add new
+                            </a>
+                        </form>
+                    </div>
+                    <br />
+                    <div class="row">
+                        <div class="col-md-12">
+                            <?php if(isset($area) and count($area) > 0): ?>
+                                <div class="table-responsive">
+                                    <table class="table table-list table-hover table-striped">
+                                        <thead>
+                                        <tr>
+                                            <th width="40%">Name of Area</th>
+                                            <th width="15%" class="text-center">Latitude</th>
+                                            <th width="15%" class="text-center">Longitude</th>
+                                            <th width="15%" class="text-center">Radius</th>
+                                            <th width="15%"></th>
+                                        </tr>
+                                        </thead>
+                                        <tbody style="font-size: 10pt;">
+                                        <?php foreach($area as $a): ?>
+                                            <tr>
+                                                <td>
+                                                    <a class="title-info" style="color: #f0ad4e;" data-backdrop="static" data-link="<?php echo asset('area-assignment/info/'.$a->id).'/'.$province; ?>" href="#area_info" data-toggle="modal"><?php echo $a->name; ?></a>
+                                                </td>
+                                                <td class="text-center"><?php echo $a->latitude; ?></td>
+                                                <td class="text-center"><?php echo $a->longitude; ?></td>
+                                                <td class="text-center"><?php echo $a->radius; ?></td>
+                                                <td class="text-center">
+                                                    <form action="<?php echo asset('area-assignment_map/view_map/'); ?>" method="GET" target="_blank">
+                                                        <input type="hidden" name="id" value="<?php echo $a->id; ?>">
+                                                        <input type="hidden" name="province" value="<?php echo $province; ?>">
+                                                        <button class="btn btn-success">
+                                                            <i class="fa fa-map-o"></i> &nbsp; View Map
+                                                        </button>
+                                                    
+                                                        <a class="title-info" style="color: #f0ad4e;" data-backdrop="static"  href="#area_delete" data-toggle="modal"  onclick="DeleteArea(<?php echo $a->id; ?>)">
+                                                            <button class="btn btn-danger"><i class="fa fa-trash"></i></button>
+                                                        </a>
+                                                    </form>
+                                                </td>
+                                            </tr>
+                                        <?php endforeach; ?>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <?php echo $area->links(); ?>
+
+                            <?php else: ?>
+                                <div class="alert alert-danger" role="alert"><span style="color:white;">No areas of assignment found.</span></div>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal m fade" role="dialog" id="add_area" style="overflow-y:scroll;">
+        <div class="modal-dialog modal-m">
+            <div class="modal-content">
+                <div class="modal-header" style="background-color:#9C8AA5;padding:15px;">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" style="color: white">Area of Assignment</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="modal_content"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal m fade" role="dialog" id="area_info" style="overflow-y:scroll;">
+        <div class="modal-dialog modal-m">
+            <div class="modal-content">
+                <div class="modal-header" style="background-color:#9C8AA5;padding:15px;">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" style="color: white">Update Area of Assignment</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="modal_content"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <form method="POST" action="<?php echo asset('area-assignment/delete'); ?>">
+        <div class="modal modal-danger sm fade" id="area_delete" style="overflow-y:scroll;">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+                    <div class="modal-header" style="background-color:red;">
+                        <input type="hidden" name="_token" value="<?php echo e(csrf_token()); ?>" />
+                        <input type="hidden" name="id_delete" class="id_delete">
+                        <strong>Are you sure you want to delete?</strong>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">No</button>
+                        <button type="submit" class="btn btn-outline"><i class="fa fa-trash"></i> Yes</button>
+                    </div>
+                </div>
+            </div>
+        </div>    
+    </form>
+
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('js'); ?>
+    <script>
+        <?php if(Session::get('notif') != null): ?>
+        Lobibox.notify('info',{
+            msg:"<?php echo Session::get('notif');?>",
+            size: 'mini',
+            rounded: true
+        });
+        <?php endif; ?>
+
+        $("a[href='#area_info']").on('click',function(){
+            $('.modal_content').html(loadingState);
+            var url = $(this).data('link');
+            setTimeout(function(){
+                $.ajax({
+                    url: url,
+                    type: 'GET',
+                    success: function(data) {
+                        $('.modal_content').html(data);
+                    }
+                });
+            },500);
+        });
+
+        $("a[href='#add_area']").on('click',function(){
+            $('.modal_content').html(loadingState);
+            var url = $(this).data('link');
+            setTimeout(function(){
+                $.ajax({
+                    url: url,
+                    type: 'POST',
+                    success: function(data) {
+                        $('.modal_content').html(data);
+                    }
+                });
+            },500);
+        });
+
+        function DeleteArea(id){
+            $(".id_delete").val(id);
+        }
+    </script>
+
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.app', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
