@@ -1,9 +1,5 @@
 <?php
-
-
 //FOR ADMIN ROUTE GROUP
-
-
 
 Route::get('logout', function(){
 	Auth::logout();
@@ -304,7 +300,7 @@ Route::get('mobile/office/version/view','MobileControllerV2@appVersionView');
 Route::post('mobile/office/announcement/post','MobileControllerV2@announcementPost');
 Route::post('mobile/office/version/post','MobileControllerV2@appVersionPost');
 
-Route::post('mobileV3/area_of_assignment', 'MobileControllerV3@getAreaAssignment');
+Route::match(['GET','POST'],'mobileV3/area_of_assignment', 'MobileControllerV3@getAreaAssignment');
 
 
 //SUB ADMIN - NEGROS AND BOHOL
@@ -350,7 +346,5 @@ Route::post('area-assignment/update', 'AreaAssignmentController@update');
 Route::post('area-assignment/delete', 'AreaAssignmentController@delete');
 Route::post('area-assignment/search', 'AreaAssignmentController@search');
 Route::post('area-assignment/view_map', 'AreaAssignmentController@viewMap');
-
-
 
 ?>

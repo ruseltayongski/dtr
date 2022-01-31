@@ -3,9 +3,9 @@ session_start();
 
 function conn()
 {
-    $server = '192.168.110.31';
+    $server = 'localhost';
     try{
-        $pdo = new PDO("mysql:host=$server; dbname=dohdtr",'rtayong_31','rtayong_31');
+        $pdo = new PDO("mysql:host=$server; dbname=dohdtr",'root','');
         $pdo->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
     }
     catch (PDOException $err) {
