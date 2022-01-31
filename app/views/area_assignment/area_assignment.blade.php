@@ -99,7 +99,7 @@
         </div>
     </div>
 
-    <form method="POST" action="{{ asset('area-assignment/delete') }}">
+    <form method="POST" action="{{ asset('area-assignment/delete').'/'.$province }}">
         <div class="modal modal-danger sm fade" id="area_delete" style="overflow-y:scroll;">
             <div class="modal-dialog modal-sm">
                 <div class="modal-content">

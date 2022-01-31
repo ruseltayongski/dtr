@@ -349,7 +349,7 @@ Route::post('area-assignment/add/{province}', 'AreaAssignmentController@viewAdd'
 Route::post('area-assignment/add-area', 'AreaAssignmentController@addArea');
 Route::get('area-assignment/info/{id}/{province}', 'AreaAssignmentController@show');
 Route::post('area-assignment/update', 'AreaAssignmentController@update');
-Route::post('area-assignment/delete', 'AreaAssignmentController@delete');
+Route::post('area-assignment/delete/{province}', 'AreaAssignmentController@delete');
 Route::post('area-assignment/search/{province}', 'AreaAssignmentController@search');
 Route::get('area-assignment_map/view_map', 'AreaAssignmentController@viewMap');
 

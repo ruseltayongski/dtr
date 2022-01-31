@@ -53,9 +53,9 @@ class AreaAssignmentController extends BaseController{
         return Redirect::to("area-assignment"."/".Input::get('province'))->with('notif', 'Successfully updated area');
     }
 
-    public function delete() {
+    public function delete($province) {
         AreaAssignment::where('id', Input::get('id_delete'))->delete();
-        return Redirect::to("area-assignment")->with(["notif" => "Successfully deleted area!"]);
+        return Redirect::to("area-assignment"."/".$province)->with(["notif" => "Successfully deleted area!"]);
     }
 
     public function search($province){
