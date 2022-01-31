@@ -63,7 +63,7 @@
             <?php $defaultPicture = InformationPersonal::where("userid","=",Auth::user()->userid)->first() ?>
             <!-- Chat box -->
                 <div class="box-body chat" id="chat-box">
-                    <form action="#" method="post" class="submit_comment" autocomplete="off">
+                    <form action="#" autocomplete="off">
                         <div class="row">
                             <div class="col-md-1">
                                 <div class="item">
@@ -72,7 +72,8 @@
                             </div>
                             <div class="col-md-11 form-group">
                                 <div class="img-push">
-                                    <input type="text" class="form-control input-sm" id="text_comment" placeholder="Press enter to post comment">
+                                    <textarea class="form-control input-sm wysihtml5_1" id="text_comment" cols="5" rows="5" placeholder="Write a comment for your suggestion!"></textarea>
+                                    <button class="btn btn-sm btn-success" type="button" onclick="submitComment();" style="margin-top:5px;"><i class="fa fa-send"></i> Submit Comment</button>
                                 </div>
                             </div>
                         </div>
@@ -93,7 +94,7 @@
                                                             {{ strtoupper($com->fname." ".$com->lname) }}
                                                         </span>
                                                 <small class="text-success">
-                                                    {{ $com->description }}<br>
+                                                    {{ nl2br($com->description) }}<br>
                                                 </small>
 
                                                 <a data-toggle="collapse" class="text-blue" href="#collapse{{ $com->id }}" aria-expanded="false" aria-controls="collapseExample" style="font-size: 8pt"> Reply</a>
@@ -164,6 +165,7 @@
     @parent
 
     <script>
+        $(".wysihtml5_1").wysihtml5();
         $('.input-daterange input').each(function() {
             $(this).datepicker("clearDates");
         });
@@ -172,7 +174,7 @@
 
         var count = parseInt("<?php echo count($comments) ?>")+1;
         console.log(count);
-        $(".submit_comment").submit(function(e){
+        function submitComment(){
             if($("#text_comment").val() != ''){
                 var url = "<?php echo asset('faq/comment_append'); ?>";
                 var json = {
@@ -192,8 +194,7 @@
                     count++;
                 });
             }
-            e.preventDefault();
-        });
+        }
 
        var replyCount = parseInt("<?php if(isset($replies)){echo count($replies);}else{echo '0';} ?>")+1;
         $(".form_reply").each(function(e){

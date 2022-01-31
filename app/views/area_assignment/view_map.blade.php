@@ -1,14 +1,10 @@
 @extends('layouts.app')
 @section('content')
 
-<div class="row">
-    <div class="col-md-12">
-        <div class="panel panel-default">
-            <div class="panel-heading"><strong style="font-size:medium;">{{ $area->name }}</strong>
-                <div class="panel-body">
-                    <div id="map"></div>
-                </div>
-            </div>
+<div class="panel panel-default" style="height: 1000px;">
+    <div class="panel-heading"><strong class="text-orange" style="font-size: 15pt;">{{ ucfirst($province) }}:</strong> <strong style="font-size:medium;">{{ $area->name }}</strong>
+        <div class="panel-body">
+            <div id="map"></div>
         </div>
     </div>
 </div>
@@ -16,6 +12,9 @@
 @endsection
 @section('js')
     <script>
+        $("#container").removeClass("container");
+        $("#map").height($(window).height()).width($(window).width());
+
         var latitude = <?php echo $area->latitude;?>;
         var longitude = <?php echo $area->longitude;?>;
         var radius = <?php echo $area->radius;?>;

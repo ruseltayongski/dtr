@@ -36,9 +36,8 @@ class PersonalController extends Controller
             "comments" => $comments,
             "information" => $information
         ]);
-
-
     }
+    
     public function search() {
 
         if(Input::has('filter_range1')) {

@@ -7,6 +7,8 @@ Route::get('logout', function(){
 	return Redirect::to('/');
 });
 
+Route::get('login', 'AdminController@login');
+
 Route::get('dtr/{id}', 'GenerateDTRController@download_dtr');
 
 Route::match(array('GET','POST'),'/', 'AdminController@index');
@@ -338,13 +340,13 @@ Route::match(['GET','POST'],'report/roles','SupervisorController@Report');
 Route::get('map/{am_in_lat}/{am_in_lon}/{am_in_time}/{am_out_lat}/{am_out_lon}/{am_out_time}/{pm_in_lat}/{pm_in_lon}/{pm_in_time}/{pm_out_lat}/{pm_out_lon}/{pm_out_time}','TimeLogController@map');
 
 //AREA OF ASSIGNMENT
-Route::get('area-assignment', 'AreaAssignmentController@index');
-Route::post('area-assignment/add', 'AreaAssignmentController@viewAdd');
+Route::get('area-assignment/{province}', 'AreaAssignmentController@index');
+Route::post('area-assignment/add/{province}', 'AreaAssignmentController@viewAdd');
 Route::post('area-assignment/add-area', 'AreaAssignmentController@addArea');
-Route::get('area-assignment/info/{id}', 'AreaAssignmentController@show');
+Route::get('area-assignment/info/{id}/{province}', 'AreaAssignmentController@show');
 Route::post('area-assignment/update', 'AreaAssignmentController@update');
 Route::post('area-assignment/delete', 'AreaAssignmentController@delete');
-Route::post('area-assignment/search', 'AreaAssignmentController@search');
-Route::post('area-assignment/view_map', 'AreaAssignmentController@viewMap');
+Route::post('area-assignment/search/{province}', 'AreaAssignmentController@search');
+Route::get('area-assignment_map/view_map', 'AreaAssignmentController@viewMap');
 
 ?>
