@@ -89,6 +89,8 @@ class AreaAssignmentController extends BaseController{
 
         return View::make('area_assignment/user_area_of_assignment', [
             "areas" => $areas,
+            "latitude" => Input::get("latitude"),
+            "longitude" => Input::get("longitude"),
             "userid" => $userid
         ]);
     }

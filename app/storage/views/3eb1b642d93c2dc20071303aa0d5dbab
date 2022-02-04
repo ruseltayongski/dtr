@@ -6,14 +6,7 @@
         #map { height: 1000px; }
     </style>
 
-    <html>
-        <body>
-            <center>
-                <div id="map">
-                </div>
-            </center>
-        </body>
-    </html>
+    <div id="map"></div>
 
 
     <script src="<?php echo asset('public/assets/js/jquery.min.js'); ?>"></script>
@@ -22,8 +15,8 @@
     <script>
         /*$("#map").height($(window).height()).width($(window).width());*/
 
-        var latitude = <?php echo $areas[0]->latitude;?>;
-        var longitude = <?php echo $areas[0]->longitude;?>;
+        var latitude = <?php echo isset($latitude) ? $latitude : $areas[0]->latitude;?>;
+        var longitude = <?php echo isset($longitude) ? $longitude : $areas[0]->longitude ;?>;
 
         var area = L.map("map").setView([latitude, longitude], 25);
         L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
