@@ -217,8 +217,6 @@ class MobileControllerV2 extends BaseController
 
     public function announcementAPI(){
         $announcement_api = AnnouncementAPI::first();
-        if($announcement_api->code == 0)
-            return false;
 
         return [
             "code" => $announcement_api->code,
