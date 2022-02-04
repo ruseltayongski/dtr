@@ -302,12 +302,13 @@ class MobileController extends BaseController {
     }
 
     public function checkUsername(){
+        header("Content-Type: text/plain");
         $user = Users::where("userid",'=',Input::get('reset_userid'))->first();
         if($user){
             return "'".$user->lname.', '.$user->fname."'";
         }
 
-        return 1;
+        return 0;
     }
 
     public function resetPassword(){
