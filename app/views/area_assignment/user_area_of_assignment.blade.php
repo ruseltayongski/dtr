@@ -6,14 +6,7 @@
         #map { height: 1000px; }
     </style>
 
-    <html>
-        <body>
-            <center>
-                <div id="map">
-                </div>
-            </center>
-        </body>
-    </html>
+    <div id="map"></div>
 
 
     <script src="{{ asset('public/assets/js/jquery.min.js') }}"></script>

@@ -104,23 +104,23 @@
     </li>
 </ul>
 <script>
-    function absent(data){
+    function absent(data) {
         <?php $delete = 'absent' ?>
         $("#absentDocument").modal();
         $('.modal-title').html('Absent');
         $('.modal_content').html(loadingState);
         var url = data.data('link');
-        setTimeout(function(){
+        setTimeout(function () {
             $.ajax({
                 url: url,
                 type: 'GET',
-                success: function(data) {
+                success: function (data) {
                     $('.modal_content').html(data);
                     $('#reservation').daterangepicker();
                     var datePicker = $('body').find('.datepicker');
                     $('input').attr('autocomplete', 'off');
                 }
             });
-        },700);
+        }, 700);
     }
 </script>
