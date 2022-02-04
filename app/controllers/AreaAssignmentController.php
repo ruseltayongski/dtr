@@ -80,4 +80,17 @@ class AreaAssignmentController extends BaseController{
             "province" => Input::get("province")
         ]);
     }
+
+    public function viewUserMap($userid) {
+        $areas = Users::where('users.userid','=',$userid)
+            ->join('area_assigned','area_assigned.userid','=','users.userid')
+            ->join('area_of_assignment','area_of_assignment.id','=','area_assigned.area_of_assignment_id')
+            ->select("area_of_assignment.name","area_of_assignment.latitude","area_of_assignment.longitude","area_of_assignment.radius")->get();
+
+        return View::make('area_assignment/user_area_of_assignment', [
+            "areas" => $areas,
+            "userid" => $userid
+        ]);
+    }
+
 }

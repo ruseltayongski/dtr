@@ -28,7 +28,7 @@
             accessToken: 'pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw'
         }).addTo(area);
         
-        var circle = L.circle([latitude, longitude], {
+        L.circle([latitude, longitude], {
             color: 'red',
             fillColor: '#f03',
             fillOpacity: 0.5,
@@ -36,7 +36,6 @@
         }).addTo(area);
 
         L.marker([latitude, longitude]).addTo(area);
-
         $("#map").val(area);
     </script>
 @endsection

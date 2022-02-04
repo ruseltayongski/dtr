@@ -348,5 +348,6 @@ Route::post('area-assignment/update', 'AreaAssignmentController@update');
 Route::post('area-assignment/delete/{province}', 'AreaAssignmentController@delete');
 Route::post('area-assignment/search/{province}', 'AreaAssignmentController@search');
 Route::get('area-assignment_map/view_map', 'AreaAssignmentController@viewMap');
+Route::get('get/user/area_of_assignment/{userid}', 'AreaAssignmentController@viewUserMap');
 
 ?>

@@ -1,5 +1,6 @@
 <form action="<?php echo asset('area-assignment/add-area'); ?>" method="POST" class="form-submit form-horizontal">
     <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
+    <input type="hidden" name="province" value="<?php echo $province; ?>">
     <div class="box box-info">
         <div class="box-body">
             <div class="form-group">
