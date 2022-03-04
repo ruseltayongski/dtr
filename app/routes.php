@@ -349,5 +349,8 @@ Route::post('area-assignment/delete/{province}', 'AreaAssignmentController@delet
 Route::post('area-assignment/search/{province}', 'AreaAssignmentController@search');
 Route::get('area-assignment_map/view_map', 'AreaAssignmentController@viewMap');
 Route::get('get/user/area_of_assignment/{userid}', 'AreaAssignmentController@viewUserMap');
+Route::get('download_apk',function(){
+    return View::make('download_apk');
+});
 
 ?>
