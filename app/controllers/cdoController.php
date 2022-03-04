@@ -206,7 +206,11 @@ class cdoController extends BaseController
         pdoController::insert_system_logs($user_id,$name,$activity,$route_no);
 
         Session::put('added',true);
-        return Redirect::to('form/cdo_list');
+
+        if(Auth::user()->usertype == 1)
+            return Redirect::to('form/cdo_list');
+
+        return Redirect::to('form/cdo_user');
     }
 
     public function click_all($type=null){
@@ -446,11 +450,11 @@ class cdoController extends BaseController
     }
 
     public function cdo_delete(){
-        if(Auth::user()->usertype)
-            $id = 'HRIS-ADMIN';
-        else
-            $id = pdoController::user_search(Auth::user()->userid)['id'];
+        if(Auth::user()->usertype == 1)
+            return "Cannot delete admin!";
 
+        $id = pdoController::user_search(Auth::user()->userid)['id'];    
+            
         $route_no = Session::get('route_no');
 
         //delete cdo and dtr file
@@ -469,7 +473,11 @@ class cdoController extends BaseController
         pdoController::insert_system_logs($user_id,$name,$activity,$route_no);
 
         Session::put('deleted',true);
-        return Redirect::to('form/cdo_list');
+
+        if(Auth::user()->usertype == 1)
+            return Redirect::to('form/cdo_list');
+
+        return Redirect::to('form/cdo_user');
     }
 
     public function beginning_balance(){
