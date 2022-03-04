@@ -5,8 +5,77 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3d23eb58-b5c1-407c-b04e-480d452e50dc" name="Default" comment="">
+      <change type="DELETED" beforePath="$PROJECT_DIR$/app/storage/views/0478581cbf39227b0d414bdd984555c6" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/app/storage/views/1510ef1e501fd10653ce647dedd87d1a" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/app/storage/views/16868e4e40c98d8dffb9a6d2fc2fd79e" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/app/storage/views/19a1851728342c7bff873ae6deef751f" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/app/storage/views/1cb9f2043eb12ee5761087b90ec06f41" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/app/storage/views/2076d880d7989a5ab9aa8e362993ed80" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/app/storage/views/2427d18cd846e4293b35a696f94042e0" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/app/storage/views/2b83b8628e81167e85f6ac7bfebc72d5" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/app/storage/views/2f7379091bc11a52206028949c7ca36e" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/app/storage/views/33e578406467e05bf950aa77b4ad1a13" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/app/storage/views/37423cf18668ff7d9cfe6320ba7b1e59" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/app/storage/views/3eb1b642d93c2dc20071303aa0d5dbab" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/app/storage/views/46fc87086bfdb4b8bae686af0463ad0a" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/app/storage/views/4da9a93a56be5e69671e3c8994dae224" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/app/storage/views/4e15a98f578ba4b308000f95ffd27c9f" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/app/storage/views/4e519a885abbc7b7de65f77e3ab1e115" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/app/storage/views/4e6bfb201e19d25cb5319232b10b0437" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/app/storage/views/4fdc95bd7d4c51c605bbf243b34eec2e" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/app/storage/views/52fe8cb5b39d4280284b5ad6e9ba5c12" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/app/storage/views/5afe780ace6bf832c964b1f5d153b4aa" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/app/storage/views/5db12a551ec7d3c541580389f146e394" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/app/storage/views/601cc925b8b284e1a242253098d7f8cd" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/app/storage/views/60c1209f5e2676a3f524c19a66a64b7d" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/app/storage/views/63431137479e24f5af8cdadbf383b7a7" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/app/storage/views/6474987976da1b02a5f5e3d78e0e1b0d" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/app/storage/views/68b6c5c793ec6a16b78b75d46c849db4" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/app/storage/views/6af742be619bc46726db1bd5dfe64b52" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/app/storage/views/757617772db52cd3334af2c69ee86dfe" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/app/storage/views/7c5ab09806e6f951eed4b0fc921a13de" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/app/storage/views/8262491a1cc6caf4e20d39515a84cc55" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/app/storage/views/844b9df1582f9c072275c2fd25ea27e2" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/app/storage/views/85045d6b1432dc6207b0b3c9bac37535" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/app/storage/views/8eb1c54b5cc23800e00fd56b79c39289" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/app/storage/views/9060b5da09cd28bd1078c9546b877379" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/app/storage/views/9188fa4832477fcd043deb7de8238279" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/app/storage/views/92cbd051acba9b8341859faff6f7415a" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/app/storage/views/981d579effd4504c9017496ae60442bd" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/app/storage/views/99f837b87efa72704fc1455431d68836" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/app/storage/views/9d74838c9c53124526a7c51f2f6ccb1a" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/app/storage/views/a05cd230fdcc528bacbd0dce0f847188" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/app/storage/views/a44b3881e4e8bde6c8c46b709fe00d96" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/app/storage/views/a4904863c0b8c1205851906ee2fac104" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/app/storage/views/a92e692bcbd8bfc5922afa9c46538224" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/app/storage/views/aa9d7ccbc2ec101459cfa79a78f3b171" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/app/storage/views/b531a010e59df0c04d9a7d34c3a73b47" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/app/storage/views/b99af240b84c456cff9c74bc30c931dc" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/app/storage/views/bb4840a03c72a8e506f783920a0c315c" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/app/storage/views/c7917a48812404da41c8072e746b4733" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/app/storage/views/c86431aec10f53c378e0cc185aff0a87" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/app/storage/views/cec5b0a91af42ce691d10dbe3b28517d" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/app/storage/views/d3840bb6777754e1910122d1ae28c677" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/app/storage/views/da18d3adb96baa6dc89384c3ce079d11" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/app/storage/views/da29b5cca23509cf9485e9e6dc1c1406" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/app/storage/views/e27ba25dda74ecf11462ffae5e5c2cb1" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/app/storage/views/e286c07c3209d3c4cdc1cca04d91f014" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/app/storage/views/e4deb118eb0dd8fae1cee9f2a707f7f2" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/app/storage/views/e796462b39b958dff03956236fb99274" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/app/storage/views/eb50af012b4ac7103e6300867847961b" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/app/storage/views/ee2d72e2bb5b422efa998fd7e16d8363" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/app/storage/views/ef307901be83d5322e71743c82375fef" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/app/storage/views/f155f060b08b862cdefd4416c1ba22bc" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/app/storage/views/f283dcd07322ae0ed0b02c1f33564c44" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/app/storage/views/f2df3d879ff31e543644a8f725cd92e6" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/app/storage/views/f699117575dfdb4786e90e2c1f1e902e" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/app/storage/views/faeaf9250108004b688d6d19097e3b95" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/app/storage/views/fb3bdf286dc4d9f1612a30691096090f" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/app/storage/views/ff5125496b2b9fbe6fecb0cb4aae6d49" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/routes.php" afterPath="$PROJECT_DIR$/app/routes.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/config/database.php" afterPath="$PROJECT_DIR$/app/config/database.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/controllers/MobileController.php" afterPath="$PROJECT_DIR$/app/controllers/MobileController.php" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -20,8 +89,38 @@
       <file leaf-file-name="routes.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/routes.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="215">
-              <caret line="341" column="20" lean-forward="true" selection-start-line="341" selection-start-column="20" selection-end-line="341" selection-end-column="20" />
+            <state relative-caret-position="209">
+              <caret line="281" column="67" lean-forward="false" selection-start-line="281" selection-start-column="54" selection-end-line="281" selection-end-column="67" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="PasswordController.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/controllers/PasswordController.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="272">
+              <caret line="21" column="0" lean-forward="true" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="database.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/config/database.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="153">
+              <caret line="9" column="26" lean-forward="false" selection-start-line="9" selection-start-column="26" selection-end-line="9" selection-end-column="26" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name=".gitignore" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/.gitignore">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="187">
+              <caret line="11" column="13" lean-forward="false" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="13" />
               <folding />
             </state>
           </provider>
@@ -31,27 +130,17 @@
         <entry file="file://$PROJECT_DIR$/app/views/download_apk.blade.php">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="0">
-              <caret line="0" column="6" lean-forward="true" selection-start-line="0" selection-start-column="6" selection-end-line="0" selection-end-column="6" />
+              <caret line="0" column="6" lean-forward="false" selection-start-line="0" selection-start-column="6" selection-end-line="0" selection-end-column="6" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="MobileControllerV2.php" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/controllers/MobileControllerV2.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-14">
-              <caret line="257" column="16" lean-forward="false" selection-start-line="257" selection-start-column="16" selection-end-line="257" selection-end-column="16" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="MobileController.php" pinned="false" current-in-tab="false">
+      <file leaf-file-name="MobileController.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/controllers/MobileController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="4843">
-              <caret line="307" column="27" lean-forward="false" selection-start-line="307" selection-start-column="17" selection-end-line="307" selection-end-column="27" />
+            <state relative-caret-position="260">
+              <caret line="315" column="66" lean-forward="false" selection-start-line="315" selection-start-column="54" selection-end-line="315" selection-end-column="66" />
               <folding />
             </state>
           </provider>
@@ -61,10 +150,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>$forceSchema</find>
-      <find>forceSchema</find>
-      <find>routes</find>
-      <find>force</find>
       <find>personal_information</find>
       <find>coor</find>
       <find>get area coor</find>
@@ -87,10 +172,14 @@
       <find>mobile/office/announcement</find>
       <find>announcementAPI</find>
       <find>check_username</find>
+      <find>user</find>
+      <find>reset_password</find>
+      <find>reset</find>
+      <find>mobile/check_username</find>
       <find>checkUsername</find>
+      <find>mobile/reset</find>
       <find>mobile/reset_password</find>
       <find>resetPassword</find>
-      <find>user</find>
     </findStrings>
     <replaceStrings>
       <replace />
@@ -121,17 +210,19 @@
         <option value="$PROJECT_DIR$/vendor/laravel/framework/src/Illuminate/Routing/Route.php" />
         <option value="$PROJECT_DIR$/app/filters.php" />
         <option value="$PROJECT_DIR$/vendor/laravel/framework/src/Illuminate/Routing/UrlGenerator.php" />
-        <option value="$PROJECT_DIR$/app/config/database.php" />
         <option value="$PROJECT_DIR$/FPDF/timelog/print_timelog.php" />
         <option value="$PROJECT_DIR$/app/views/users/user_edit.blade.php" />
         <option value="$PROJECT_DIR$/app/views/area_assignment/view_map.blade.php" />
         <option value="$PROJECT_DIR$/app/controllers/MobileControllerV2.php" />
-        <option value="$PROJECT_DIR$/app/controllers/MobileController.php" />
         <option value="$PROJECT_DIR$/app/controllers/AreaAssignmentController.php" />
         <option value="$PROJECT_DIR$/app/views/area_assignment/user_area_of_assignment.blade.php" />
         <option value="$PROJECT_DIR$/app/views/auth/login.blade.php" />
         <option value="$PROJECT_DIR$/app/routes.php" />
         <option value="$PROJECT_DIR$/app/views/download_apk.blade.php" />
+        <option value="$PROJECT_DIR$/app/config/database.php" />
+        <option value="$PROJECT_DIR$/.gitignore" />
+        <option value="$PROJECT_DIR$/app/controllers/PasswordController.php" />
+        <option value="$PROJECT_DIR$/app/controllers/MobileController.php" />
       </list>
     </option>
   </component>
@@ -165,8 +256,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
-      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -300,6 +389,8 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
+      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -345,17 +436,18 @@
       <workItem from="1643937476472" duration="7373000" />
       <workItem from="1644890775190" duration="3409000" />
       <workItem from="1645163408018" duration="2084000" />
+      <workItem from="1646384276795" duration="1609000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="62597000" />
+    <option name="totallyTimeSpent" value="64206000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1066" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2489339" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25159913" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -404,28 +496,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/controllers/MobileControllerV2.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/routes.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/controllers/MobileControllerV3.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="5" column="67" lean-forward="false" selection-start-line="5" selection-start-column="67" selection-end-line="5" selection-end-column="67" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/controllers/MobileControllerV2.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -701,14 +771,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/config/database.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="10" column="21" lean-forward="false" selection-start-line="10" selection-start-column="21" selection-end-line="10" selection-end-column="21" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/FPDF/timelog/print_timelog.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="255">
@@ -733,9 +795,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="238">
           <caret line="14" column="12" lean-forward="false" selection-start-line="14" selection-start-column="12" selection-end-line="14" selection-end-column="12" />
-          <folding>
-            <marker date="1643967934060" expanded="true" signature="851:857" ph="©" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -743,38 +802,69 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1156">
           <caret line="68" column="211" lean-forward="false" selection-start-line="68" selection-start-column="24" selection-end-line="68" selection-end-column="211" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/routes.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="215">
-          <caret line="341" column="20" lean-forward="true" selection-start-line="341" selection-start-column="20" selection-end-line="341" selection-end-column="20" />
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/views/download_apk.blade.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
-          <caret line="0" column="6" lean-forward="true" selection-start-line="0" selection-start-column="6" selection-end-line="0" selection-end-column="6" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/controllers/MobileController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4843">
-          <caret line="307" column="27" lean-forward="false" selection-start-line="307" selection-start-column="17" selection-end-line="307" selection-end-column="27" />
+          <caret line="0" column="6" lean-forward="false" selection-start-line="0" selection-start-column="6" selection-end-line="0" selection-end-column="6" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/controllers/MobileControllerV2.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-14">
-          <caret line="257" column="16" lean-forward="false" selection-start-line="257" selection-start-column="16" selection-end-line="257" selection-end-column="16" />
+        <state relative-caret-position="255">
+          <caret line="271" column="68" lean-forward="false" selection-start-line="271" selection-start-column="68" selection-end-line="271" selection-end-column="68" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/storage/views/6ad5ea68d1dfce91e66bf5df5c28eded">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="187">
+          <caret line="11" column="13" lean-forward="false" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/controllers/PasswordController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="21" column="0" lean-forward="true" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/config/database.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="9" column="26" lean-forward="false" selection-start-line="9" selection-start-column="26" selection-end-line="9" selection-end-column="26" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/routes.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="209">
+          <caret line="281" column="67" lean-forward="false" selection-start-line="281" selection-start-column="54" selection-end-line="281" selection-end-column="67" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/controllers/MobileController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="260">
+          <caret line="315" column="66" lean-forward="false" selection-start-line="315" selection-start-column="54" selection-end-line="315" selection-end-column="66" />
           <folding />
         </state>
       </provider>
