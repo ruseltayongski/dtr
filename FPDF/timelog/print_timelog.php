@@ -267,7 +267,7 @@ if(isset($_POST['filter_range'])){
         ){
             if((empty($am_in) && empty($am_in)) || ($am_in == 'empty' && $am_in == 'empty')){
                 $morning_log_2 = '';
-                if ($day_name != ('Sat' || 'Sun')){
+                if ($day_name != 'Sat' && $day_name != 'Sun'){
                     $morning_log_2 = 'HALF DAY';
                     $late += 240;
                 }
@@ -362,7 +362,7 @@ if(isset($_POST['filter_range'])){
         ){
             if((empty($pm_in) && empty($pm_in)) || ($pm_in == 'empty' && $pm_in == 'empty')){
                 $afternoon_log_2 = '';
-                if ($day_name != ('Sat' || 'Sun')){
+                if ($day_name != 'Sat' && $day_name != 'Sun'){
                     $afternoon_log_2 = 'HALF DAY';
                     $late += 240;
                 }
