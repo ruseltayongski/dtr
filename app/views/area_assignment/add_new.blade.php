@@ -1,5 +1,6 @@
 <form action="{{ asset('area-assignment/add-area') }}" method="POST" class="form-submit form-horizontal">
     <input type="hidden" name="_token" value="{{ csrf_token() }}">
+    <input type="hidden" name="province" value="{{ $province }}">
     <div class="box box-info">
         <div class="box-body">
             <div class="form-group">

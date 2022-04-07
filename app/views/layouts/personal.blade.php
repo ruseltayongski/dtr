@@ -11,6 +11,7 @@
                 <li class="divider"></li>
                 <li><a href="#" data-toggle="modal" data-target="#delete_edited" ><i class="fa fa-trash"></i> Delete Logs</a></li>
                 <li class="divider"></li>
+                <!--
                 <li class="dropdown-submenu">
                     <a href="#create-absent"><i class="fa fa-hand-lizard-o"></i>Display in Time Log</a>
                     <ul class="dropdown-menu">
@@ -21,6 +22,7 @@
                         <li><a href="#" class="create-absent" data-toggle="modal" data-target="#absent_desc" data-link="{{ asset('create/absent/description?t=CTO') }}">CDO</a> </li>
                     </ul>
                 </li>
+                -->
             </ul>
         </li>
     @endif
@@ -102,23 +104,23 @@
     </li>
 </ul>
 <script>
-    function absent(data){
+    function absent(data) {
         <?php $delete = 'absent' ?>
         $("#absentDocument").modal();
         $('.modal-title').html('Absent');
         $('.modal_content').html(loadingState);
         var url = data.data('link');
-        setTimeout(function(){
+        setTimeout(function () {
             $.ajax({
                 url: url,
                 type: 'GET',
-                success: function(data) {
+                success: function (data) {
                     $('.modal_content').html(data);
                     $('#reservation').daterangepicker();
                     var datePicker = $('body').find('.datepicker');
                     $('input').attr('autocomplete', 'off');
                 }
             });
-        },700);
+        }, 700);
     }
 </script>

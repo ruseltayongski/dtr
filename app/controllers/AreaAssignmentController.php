@@ -8,13 +8,18 @@ class AreaAssignmentController extends BaseController{
     public function __construct(){
     }
 
-    public function index() {
-        $area = AreaAssignment::OrderBy('name', 'asc')->paginate(10);
-        return View::make('area_assignment/area_assignment', ["area" => $area]);
+    public function index($province) {
+        $area = AreaAssignment::Where('province',$province)->OrderBy('name', 'asc')->paginate(20);
+        return View::make('area_assignment/area_assignment', [
+                    "area" => $area,
+                    "province" => $province
+            ]);
     }
 
-    public function viewAdd() {
-        return View::make('area_assignment/add_new');
+    public function viewAdd($province) {
+        return View::make('area_assignment/add_new',[
+            "province" => $province
+        ]);
     }
 
     public function addArea() {
@@ -23,30 +28,37 @@ class AreaAssignmentController extends BaseController{
         $area->latitude = Input::get('latitude');
         $area->longitude = Input::get('longitude');
         $area->radius = Input::get('radius');
+        $area->province = Input::get('province');
         $area->save();
-        return Redirect::to("area-assignment")->with(['notif' => "Successfully added area!"]);
+        return Redirect::to("area-assignment"."/".Input::get('province'))->with(['notif' => "Successfully added area!"]);
     }
 
-    public function show($id) {
+    public function show($id,$province) {
         $area = AreaAssignment::where('id', $id)->get()->first();
-        return View::make('area_assignment/info', ["area" => $area]);
+        return View::make('area_assignment/info', [
+                "area" => $area,
+                "province" => $province
+            ]);
     }
 
     public function update(){
         AreaAssignment::where('id', Input::get('id'))
-                        ->update(['name' => Input::get('areaName'),
+                        ->update([
+                                  'name' => Input::get('areaName'),
                                   'latitude' => Input::get('latitude'),
                                   'longitude' => Input::get('longitude'),
-                                  'radius' => Input::get('radius')]);
-        return Redirect::to("area-assignment")->with('notif', 'Successfully updated area');
+                                  'radius' => Input::get('radius'),
+                                  'province' => Input::get('province')
+                                  ]);
+        return Redirect::to("area-assignment"."/".Input::get('province'))->with('notif', 'Successfully updated area');
     }
 
-    public function delete() {
+    public function delete($province) {
         AreaAssignment::where('id', Input::get('id_delete'))->delete();
-        return Redirect::to("area-assignment")->with(["notif" => "Successfully deleted area!"]);
+        return Redirect::to("area-assignment"."/".$province)->with(["notif" => "Successfully deleted area!"]);
     }
 
-    public function search(){
+    public function search($province){
         $keyword = Input::get('keyword');
         if(isset($keyword)){
             $area = AreaAssignment::where('name', 'like', '%'.$keyword.'%')->OrderBy('name', 'asc')->paginate(20)
@@ -54,12 +66,33 @@ class AreaAssignmentController extends BaseController{
         }else{
             $area = AreaAssignment::OrderBy('name', 'asc')->paginate(20);   
         }
-        return View::make('area_assignment/area_assignment', ["area" => $area]);
+        return View::make('area_assignment/area_assignment', [
+                "area" => $area,
+                "province" => $province
+            ]);
     }
 
     public function viewMap(){
         $id = Input::get('id');
         $area = AreaAssignment::where('id', $id)->get()->first();
-        return View::make('area_assignment/view_map', ["area" => $area]);
+        return View::make('area_assignment/view_map', [
+            "area" => $area,
+            "province" => Input::get("province")
+        ]);
     }
+
+    public function viewUserMap($userid) {
+        $areas = Users::where('users.userid','=',$userid)
+            ->join('area_assigned','area_assigned.userid','=','users.userid')
+            ->join('area_of_assignment','area_of_assignment.id','=','area_assigned.area_of_assignment_id')
+            ->select("area_of_assignment.name","area_of_assignment.latitude","area_of_assignment.longitude","area_of_assignment.radius")->get();
+
+        return View::make('area_assignment/user_area_of_assignment', [
+            "areas" => $areas,
+            "latitude" => Input::get("latitude"),
+            "longitude" => Input::get("longitude"),
+            "userid" => $userid
+        ]);
+    }
+
 }

@@ -39,15 +39,36 @@ class MobileControllerV2 extends BaseController
     public function login1()
     {
         $imei = Input::get('imei');
+        $user = User::where('users.imei','=',$imei);
 
-        $result = User::where('users.imei','=',$imei)
-            ->leftJoin("pis.personal_information","personal_information.userid","=","users.userid")
-            ->first(['users.userid','users.fname','users.lname','users.authority','personal_information.section_id as section']);
+        $dmo_roles = 0;
+        $area_of_assignment_roles = 0;
+        if($user->first()) {
+            $user_roles = UserRoles::where('userid',$user->first()->userid);
+            if($user_roles->where('claims_id',4)->first())
+                $dmo_roles = 1;
 
-        if (count($result) > 0) {
+            $user_roles = UserRoles::where('userid',$user->first()->userid); //na declare balik kay dile ma apply directly ang variable
+            if($user_roles->where('claims_id',5)->first())
+                $area_of_assignment_roles = 1;
+        }
+
+        $user = User::where('users.imei','=',$imei)->leftJoin("pis.personal_information","personal_information.userid","=","users.userid")
+            ->first([
+                'users.userid',
+                'users.fname',
+                'users.lname',
+                'users.authority',
+                'personal_information.section_id as section',
+                \Illuminate\Support\Facades\DB::raw("$dmo_roles as dmo_roles"),
+                \Illuminate\Support\Facades\DB::raw("$area_of_assignment_roles as area_of_assignment_roles"),
+                'users.region as region'
+            ]);
+
+        if (count($user) > 0) {
             return [
                 "code" => 200,
-                "response" => $result
+                "response" => $user
             ];
         }
 
@@ -58,7 +79,9 @@ class MobileControllerV2 extends BaseController
                 "fname" => null,
                 "lname" => null,
                 "authority" => null,
-                "section" => null
+                "section" => null,
+                "dmo_roles" => null,
+                "region" => null
             ]
         ];
     }
@@ -194,8 +217,6 @@ class MobileControllerV2 extends BaseController
 
     public function announcementAPI(){
         $announcement_api = AnnouncementAPI::first();
-        if($announcement_api->code == 0)
-            return false;
 
         return [
             "code" => $announcement_api->code,

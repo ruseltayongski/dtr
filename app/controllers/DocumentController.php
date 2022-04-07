@@ -32,7 +32,6 @@ class DocumentController extends BaseController
             ]);
         }
         if(Request::method() == 'POST') {
-
             if(Auth::check() AND Auth::user()->usertype == 0){
                 if(Auth::user()->pass_change == NULL){
                     return Redirect::to('resetpass')->with('pass_change','You must change your password for security after your first log in or resseting password');

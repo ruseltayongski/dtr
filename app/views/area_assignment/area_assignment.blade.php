@@ -3,16 +3,16 @@
     <div class="row">
         <div class="col-md-12">
             <div class="panel panel-default">
-                <div class="panel-heading"><strong style="color: #f0ad4e;font-size:medium;">AREA OF ASSIGNMENT</strong></div>
+                <div class="panel-heading"><strong style="color: #f0ad4e;font-size:medium;">Area of Assignment: </strong><strong style="font-size:15pt;color:orange;">{{ ucfirst($province) }}</strong></div>
                 <div class="panel-body">
                     <div class="row">
-                        <form class="form-inline" method="POST" action="{{ asset('area-assignment/search') }}" id="searchForm">
+                        <form class="form-inline" method="POST" action="{{ asset('area-assignment/search').'/'.$province }}" id="searchForm">
                             <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
                             <div class="col-md-8">
                                 <input type="text" class="form-control" value="{{ Session::get('keyword') }}" name="keyword" style="width: 100%" placeholder="Area">
                             </div>
                             <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i> Search</button>
-                            <a href="#add_area" data-link="{{ asset('area-assignment/add') }}" class="btn btn-success" data-dismiss="modal" data-backdrop="static" data-toggle="modal" style="background-color:#1099;color: white;">
+                            <a href="#add_area" data-link="{{ asset('area-assignment/add').'/'.$province }}" class="btn btn-success" data-dismiss="modal" data-backdrop="static" data-toggle="modal" style="background-color:#1099;color: white;">
                                 <i class="fa fa-plus"></i> 
                                 Add new
                             </a>
@@ -37,16 +37,17 @@
                                         @foreach($area as $a)
                                             <tr>
                                                 <td>
-                                                    <a class="title-info" style="color: #f0ad4e;" data-backdrop="static" data-link="{{ asset('area-assignment/info/'.$a->id) }}" href="#area_info" data-toggle="modal">{{ $a->name }}</a>
+                                                    <a class="title-info" style="color: #f0ad4e;" data-backdrop="static" data-link="{{ asset('area-assignment/info/'.$a->id).'/'.$province }}" href="#area_info" data-toggle="modal">{{ $a->name }}</a>
                                                 </td>
                                                 <td class="text-center">{{ $a->latitude }}</td>
                                                 <td class="text-center">{{ $a->longitude }}</td>
                                                 <td class="text-center">{{ $a->radius }}</td>
                                                 <td class="text-center">
-                                                    <form action="{{ asset('area-assignment/view_map/') }}" method="POST" target="_blank">
+                                                    <form action="{{ asset('area-assignment_map/view_map/') }}" method="GET" target="_blank">
                                                         <input type="hidden" name="id" value="{{ $a->id }}">
+                                                        <input type="hidden" name="province" value="{{ $province }}">
                                                         <button class="btn btn-success">
-                                                            <i class="fa fa-map-o"></i> &nbsp View Map
+                                                            <i class="fa fa-map-o"></i> &nbsp; View Map
                                                         </button>
                                                     
                                                         <a class="title-info" style="color: #f0ad4e;" data-backdrop="static"  href="#area_delete" data-toggle="modal"  onclick="DeleteArea({{ $a->id }})">
@@ -98,7 +99,7 @@
         </div>
     </div>
 
-    <form method="POST" action="{{ asset('area-assignment/delete') }}">
+    <form method="POST" action="{{ asset('area-assignment/delete').'/'.$province }}">
         <div class="modal modal-danger sm fade" id="area_delete" style="overflow-y:scroll;">
             <div class="modal-dialog modal-sm">
                 <div class="modal-content">

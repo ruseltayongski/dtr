@@ -1,14 +1,4 @@
 <?php
-
-
-
-/**
- * Created by PhpStorm.
- * User: Lourence
- * Date: 1/12/2017
- * Time: 10:03 AM
- */
-
 ini_set('max_execution_time', 0);
 ini_set('memory_limit','1000M');
 ini_set('max_input_time','300000');
@@ -36,9 +26,8 @@ class PersonalController extends Controller
             "comments" => $comments,
             "information" => $information
         ]);
-
-
     }
+    
     public function search() {
 
         if(Input::has('filter_range1')) {

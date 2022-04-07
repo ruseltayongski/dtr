@@ -5,7 +5,6 @@
  * Date: 1/12/2017
  * Time: 11:18 AM
  */
-
 ini_set('max_execution_time', 0);
 ini_set('memory_limit','1000M');
 ini_set('max_input_time','300000');
@@ -13,7 +12,7 @@ class AdminController extends BaseController
 {
     public function index()
     {
-        if(Auth::check()){
+        if(Auth::check()) {
             if(Auth::user()->usertype == '0' || Auth::user()->usertype == '2' || Auth::user()->usertype == '4'){
                 return Redirect::to('personal/index');
             }
@@ -25,23 +24,28 @@ class AdminController extends BaseController
             }
         }
         if(!Auth::check() and Request::method() == 'GET') {
-            return View::make('auth.login');
+            return Redirect::to('/login');
         }
         if(Request::method() == 'POST') {
             $username = Input::get('username');
             $password = Input::get('password');
 
             if(Auth::attempt(array('username' => $username, 'password' => $password))) {
-                if(Auth::user()->usertype == '0' || Auth::user()->usertype == '2' || Auth::user()->usertype == '4')
+                if(Auth::user()->usertype == '0' || Auth::user()->usertype == '2' || Auth::user()->usertype == '4') {
                     return Redirect::to('personal/index');
+                }
                 elseif(Auth::user()->usertype == '1')
                     return Redirect::to('home');
                 elseif(Auth::user()->usertype == '3' || Auth::user()->usertype == '5')
                     return Redirect::to('subHome');
             } else {
-                return Redirect::to('/')->with('ops','Invalid Login')->with('username',$username);
+                return Redirect::to('/login')->with('ops','Invalid Login')->with('username',$username);
             }
         }
+    }
+
+    public function login() {
+        return View::make('auth.login');
     }
 
     public function home()

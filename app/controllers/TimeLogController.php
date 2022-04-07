@@ -1,8 +1,10 @@
 <?php
 
+
 class TimeLogController extends Controller
 {
     public function timeLog($supervisor = null){
+
         if(empty($supervisor)){
             $userid = Auth::user()->userid;
         } else {

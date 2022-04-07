@@ -1,14 +1,9 @@
 <?php
 
-<<<<<<< HEAD
 $host = '192.168.110.31';
 $username = 'rtayong_31';
 $password = 'rtayong_31';
-=======
-$host = "192.168.110.31";
-$username = "rtayong_31";
-$password = "rtayong_31";
->>>>>>> 4a22b3cb81075251afb38f8366cd2a995fb1caa6
+
 
 return array(
 

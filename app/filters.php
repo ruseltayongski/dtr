@@ -54,6 +54,7 @@ Route::filter('auth', function()
 		}
 		else
 		{
+			//return Redirect::secure(Request::path()); //force HTTPS
 			return Redirect::guest('/');
 		}
 	}

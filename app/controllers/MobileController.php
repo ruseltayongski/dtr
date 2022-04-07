@@ -301,17 +301,16 @@ class MobileController extends BaseController {
         }
     }
 
-    public function checkUsername(){
-        $user = Users::where("userid",'=',Input::get('reset_userid'))->first();
-        if($user){
+    public function checkUsername() {
+        header("Content-Type: text/plain");
+        return $user = Users::where("userid",'=',Input::get('reset_userid'))->first();
+        if($user)
             return "'".$user->lname.', '.$user->fname."'";
-        }
 
         return 1;
     }
 
-    public function resetPassword(){
-
+    public function resetPassword() {
         $authority_check = Users::where("userid",'=',Input::get('userid'))->first()->authority; //user nga ni login
 
         $user = Users::where("userid",'=',Input::get('reset_userid'))->first(); //user nga i reset
@@ -320,14 +319,28 @@ class MobileController extends BaseController {
                 $user->password = Hash::make('123');
                 $user->pass_change = NULL;
                 $user->save();
-                return "'".$user->lname.', '.$user->fname."'";
+                $removed_str = $this->removeHtmlTags("'".$user->lname.', '.$user->fname."'", array("html", "body", "span","b"));
+                return htmlentities($removed_str);
             } else {
                 return 1;
             }
         }
 
         return 2;
+    }
 
+    public function removeHtmlTags($html_string, $html_tags) 
+    {
+        $tagStr = "";
+      
+            foreach($html_tags as $key => $value) 
+        { 
+                $tagStr .= $key == count($html_tags)-1 ? $value : "{$value}|"; 
+            }
+      
+        $pat_str= array("/(<\s*\b({$tagStr})\b[^>]*>)/i", "/(<\/\s*\b({$tagStr})\b\s*>)/i");
+        $result = preg_replace($pat_str, "", $html_string);
+        return $result;
     }
 
 
