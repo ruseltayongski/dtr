@@ -95,7 +95,7 @@ class PasswordController extends BaseController
         }
         if(Request::method() == 'POST') {
             $user = Users::where('userid', '=', Input::get('userid'))->first();
-            if(isset($user) and count($user) > 0) {
+            if(isset($user) and count((array)$user) > 0) {
                 $user->password = Hash::make('123');
                 $user->pass_change = NULL;
                 $user->save();

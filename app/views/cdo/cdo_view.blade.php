@@ -159,15 +159,24 @@
                                 <input type="text" value="{{ $data['bbalance_cto'] }}" class="form-control beginning_balance" name="beginning_balance" maxlength="15" readonly>
                             </td>
                             <td>
-                                <input type="text" value="<?php if($data['cdo']['less_applied_for']) echo $data['cdo']['less_applied_for']; else echo 0; ?>" class="form-control less_applied" name="less_applied" maxlength="15" readonly>
+                                <input type="text" value="<?php 
+                                    if(isset($data['cdo']['less_applied_for'])) 
+                                        echo $data['cdo']['less_applied_for']; 
+                                    else 
+                                        echo 0; 
+                                ?>" class="form-control less_applied" name="less_applied" maxlength="15" readonly>
                             </td>
                             <td>
-                                <input type="text" value="<?php if(isset($data)) {
-                                        if($data['cdo']['remaining_balance'])
+                                <input type="text" value="<?php 
+                                    if(isset($data)) {
+                                        if(isset($data['cdo']['remaining_balance']))
                                             echo $data['cdo']['remaining_balance'];
                                         else
                                             echo 0;
-                                    } else echo $data['bbalance_cto']; ?>" class="form-control remaining_balance" name="remaining_balance" maxlength="15" readonly>
+                                    } 
+                                    else 
+                                    echo $data['bbalance_cto']; 
+                                ?>" class="form-control remaining_balance" name="remaining_balance" maxlength="15" readonly>
                             </td>
                         </tr>
                         <tr>
@@ -197,16 +206,16 @@
                         <tr>
                             <td class="align">
                                 <select class="chosen-select-static form-control" name="immediate_supervisor" required>
-                                    @if($data['type'] == 'update')
+                                     @if($data['type'] == 'update')
                                         <option value="{{ $data['section_head'][0]['id'] }}">{{ $data['section_head'][0]['fname'].' '.$data['section_head'][0]['mname'].' '.$data['section_head'][0]['lname'] }}</option>
                                     @endif
-                                    @foreach($data['section_head'] as $section_head)
-                                        @if($data['section_head'][0]['id'] != $section_head['id'] and $data['type'] == 'update')
+                                    @if(count($data['section_head']) > 0)
+                                        @foreach($data['section_head'] as $section_head)
+                                            @if(isset($section_head['id']))
                                             <option value="{{ $section_head['id'] }}">{{ $section_head['fname'].' '.$section_head['mname'].' '.$section_head['lname'] }}</option>
-                                        @elseif($data['type'] == 'add')
-                                            <option value="{{ $section_head['id'] }}">{{ $section_head['fname'].' '.$section_head['mname'].' '.$section_head['lname'] }}</option>
-                                        @endif
-                                    @endforeach
+                                            @endif
+                                        @endforeach
+                                    @endif
                                 </select>
                             </td>
                         </tr>
@@ -263,7 +272,7 @@
         autoclose: true
     });
 
-    var cdo_hoursDefault = "<?php echo $data['cdo']['cdo_hours'] ?>";
+    var cdo_hoursDefault = "<?php if(isset($data['cdo']['cdo_hours']))echo $data['cdo']['cdo_hours'] ?>";
     var halfdayFlag1  = true;
     var halfdayFlag2 = true;
     if(cdo_hoursDefault == 'cdo_am'){
@@ -348,7 +357,7 @@
             });
             $(".range_inputs").append("" +
                 "<div class='alert-info'>" +
-                    "<h6 style='color: #206ff0;padding-right: 5%;padding-left:5%'>Note: 3 working days before apply</h6>" +
+                    "<h6 style='color: #206ff0;padding-right: 5%;padding-left:5%'>Note: 2 working days before apply</h6>" +
                 "</div>" +
                 "");
 

@@ -65,11 +65,12 @@ class MobileControllerV2 extends BaseController
                 'users.region as region'
             ]);
 
-        if (count($user) > 0) {
+
+        if(count((array)$user) > 0){
             return [
                 "code" => 200,
                 "response" => $user
-            ];
+            ];    
         }
 
         return [

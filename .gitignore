@@ -8,3 +8,5 @@ composer.lock
 .DS_Store
 Thumbs.db
 /nbproject/private/
+/app/config/database.php
+/app/storage/views

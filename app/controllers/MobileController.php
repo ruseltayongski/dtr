@@ -301,28 +301,33 @@ class MobileController extends BaseController {
         }
     }
 
-    public function checkUsername() {
-        header("Content-Type: text/plain");
-        return $user = Users::where("userid",'=',Input::get('reset_userid'))->first();
-        if($user)
-            return "'".$user->lname.', '.$user->fname."'";
+    public function strip_tags_content($text) {
+        return preg_replace('@<(\w+)\b.*?>.*?</\1>@si', '', $text);
+    
+    }
 
-        return 1;
+    public function checkUsername() {
+        $user = Users::where("userid",'=',Input::get('reset_userid'))->first();
+        if($user) {
+            $name = $user->lname.', '.$user->fname;
+            echo $name;
+        }
+
+        return null;
     }
 
     public function resetPassword() {
         $authority_check = Users::where("userid",'=',Input::get('userid'))->first()->authority; //user nga ni login
-
         $user = Users::where("userid",'=',Input::get('reset_userid'))->first(); //user nga i reset
         if($authority_check == "reset_password"){
             if($user){
                 $user->password = Hash::make('123');
                 $user->pass_change = NULL;
                 $user->save();
-                $removed_str = $this->removeHtmlTags("'".$user->lname.', '.$user->fname."'", array("html", "body", "span","b"));
-                return htmlentities($removed_str);
+                $name = $user->lname.', '.$user->fname;
+                echo $name;
             } else {
-                return 1;
+                return null;
             }
         }
 

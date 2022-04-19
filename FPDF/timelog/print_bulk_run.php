@@ -3,9 +3,9 @@ session_start();
 
 function conn()
 {
-    $server = 'localhost';
+    $server = '192.168.110.31';
     try{
-        $pdo = new PDO("mysql:host=$server; dbname=dohdtr",'root','');
+        $pdo = new PDO("mysql:host=$server; dbname=dohdtr",'rtayong_31','rtayong_31');
         $pdo->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
     }
     catch (PDOException $err) {
@@ -31,14 +31,14 @@ function getLogs($query_req)
     return $row;
 }
 
-function getUser($job_status,$region)
+function getUser($job_status,$region,$employee_status)
 {
     $pdo = conn();
     try
     {
-        $sql = "SELECT * FROM pis.personal_information where job_status = ? and region = ? order by lname,fname asc";
+        $sql = "SELECT * FROM pis.personal_information where job_status = ? and region = ? and employee_status = ? order by lname,fname asc";
         $st = $pdo->prepare($sql);
-        $st->execute(array($job_status,$region));
+        $st->execute(array($job_status,$region,$employee_status));
         $row = $st->fetchAll(PDO::FETCH_ASSOC);
     }catch(PDOException $ex){
         echo $ex->getMessage();
@@ -98,7 +98,7 @@ if(isset($_POST['filter_range_bulk'])){
     $job_status = $_POST['job_status'];
     $region = $_POST['region'];
 
-    foreach(getUser($job_status,$region) as $get_user) {
+    foreach(getUser($job_status,$region,1) as $get_user) {
         if(!is_numeric($get_user['userid'])){
             continue;
         }
@@ -463,6 +463,7 @@ if(isset($_POST['filter_range_bulk'])){
             ["word" => '', 'font_style' => '', 'font_size' => 8, 'border' => $border, "position" => 'L'],
             ["word" => "IN-CHARGE", 'font_style' => '', 'font_size' => 8, 'border' => $border, "position" => 'C']
         ), 5);
+
 
     }
 

@@ -93,7 +93,6 @@ class cdoController extends BaseController
     }
 
     public function cdov1($pdf = null){
-        
         if($pdf == 'pdf') {
             $cdo = cdo::where('route_no',Session::get('route_no'))->first();
             $personal_information = InformationPersonal::where('userid','=',$cdo->prepared_name)->first();
@@ -111,11 +110,12 @@ class cdoController extends BaseController
             $section_head = pdoController::user_search1($cdo['immediate_supervisor']);
             $division_head = pdoController::user_search1($cdo['division_chief']);
         } else{
-            foreach(pdoController::section() as $row){
+            foreach(pdoController::section() as $row) {
                 $section_head[] = pdoController::user_search1($row['head']);
+                    
             }
-            foreach(pdoController::division() as $row){
-                $division_head[] = pdoController::user_search1($row['head']);
+            foreach(pdoController::division() as $row) {
+                $division_head[] = pdoController::user_search1($row['head']);    
             }
         }
 
@@ -131,6 +131,9 @@ class cdoController extends BaseController
             "division_head" => $division_head,
             "bbalance_cto" => $personal_information->bbalance_cto
         );
+
+        //return dd($data["section_head"]);
+
         if($pdf == 'pdf') {
             $display = View::make('cdo.cdo_pdf', ["data" => $data]);
             $pdf = App::make('dompdf');
@@ -206,7 +209,11 @@ class cdoController extends BaseController
         pdoController::insert_system_logs($user_id,$name,$activity,$route_no);
 
         Session::put('added',true);
-        return Redirect::to('form/cdo_list');
+
+        if(Auth::user()->usertype == 1)
+            return Redirect::to('form/cdo_list');
+
+        return Redirect::to('form/cdo_user');
     }
 
     public function click_all($type=null){
@@ -446,11 +453,11 @@ class cdoController extends BaseController
     }
 
     public function cdo_delete(){
-        if(Auth::user()->usertype)
-            $id = 'HRIS-ADMIN';
-        else
-            $id = pdoController::user_search(Auth::user()->userid)['id'];
+        if(Auth::user()->usertype == 1)
+            return "Cannot delete admin!";
 
+        $id = pdoController::user_search(Auth::user()->userid)['id'];    
+            
         $route_no = Session::get('route_no');
 
         //delete cdo and dtr file
@@ -469,7 +476,11 @@ class cdoController extends BaseController
         pdoController::insert_system_logs($user_id,$name,$activity,$route_no);
 
         Session::put('deleted',true);
-        return Redirect::to('form/cdo_list');
+
+        if(Auth::user()->usertype == 1)
+            return Redirect::to('form/cdo_list');
+
+        return Redirect::to('form/cdo_user');
     }
 
     public function beginning_balance(){

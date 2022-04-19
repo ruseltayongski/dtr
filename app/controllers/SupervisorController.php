@@ -4,7 +4,7 @@ class SupervisorController extends Controller
 {
     public function superviseEmployee(){
         $prev_supervise = SuperviseEmployee::where('supervisor_id','=',Input::get('supervisor_id'));
-        if(count($prev_supervise) >= 1)
+        if(count((array)$prev_supervise) >= 1)
             $prev_supervise->delete();
 
         if(Input::get('supervise_employee')){
