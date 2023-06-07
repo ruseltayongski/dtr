@@ -25,8 +25,23 @@ class MobileController extends BaseController {
             return "{}";
     }
 
-    public function add_logs(){
+     public function getLogin(){
+       $username = Input::get("username");
+       $password = Input::get("password");
+        
+       if(Auth::attempt(array('username' => $username, 'password' => $password))){
+            $result = DB::table('users')
+                ->where('userid','=',$username)
+                ->first(["userid","fname","mname","lname"]);    
+       } 
+        if(isset($result)){
+            return json_encode($result);
+        }   
+        return 0;
+    }
 
+
+    public function add_logs(){
         $pdo = DB::connection()->getPdo();
 
         $userid = Input::get('userid');
@@ -35,6 +50,7 @@ class MobileController extends BaseController {
         $date = Input::get('date');
         $lat = Input::get('latitude');
         $long = Input::get('longitude');
+        $version = Input::get('app_version')
 
         $base= $_POST['image'];
         $posted_filename = $_POST['filename'];
@@ -42,8 +58,8 @@ class MobileController extends BaseController {
 
         file_put_contents(public_path().'/logs_image/'.$posted_filename,$binary);
 
-        $query1 = "INSERT IGNORE INTO dtr_file(userid, datein, time, event,remark, created_at, updated_at,log_image,edited,latitude,longitude) VALUES";
-        $query1 .= "('" . $userid. "','". $date ."','" . $time . "','" . $event . "','MOBILE',NOW(),NOW(),'$posted_filename','0','$lat','$long')";
+        $query1 = "INSERT IGNORE INTO dtr_file(userid, datein, time, event,remark, created_at, updated_at,log_image,edited,latitude,longitude,version) VALUES";
+        $query1 .= "('" . $userid. "','". $date ."','" . $time . "','" . $event . "','MOBILE',NOW(),NOW(),'$posted_filename','0','$lat','$long','$version')";
 
         $st = $pdo->prepare($query1);
         $ok = $st->execute();
@@ -128,6 +144,7 @@ class MobileController extends BaseController {
         }
         return 1;
     }
+
     public function add_so(){
 
         $daterange = Input::get('daterange');
@@ -157,7 +174,7 @@ class MobileController extends BaseController {
         while($j <= $interval->days) {
 
             $datein = $f_from[0].'-'.$f_from[1] .'-'. $startday;
-
+ 
             $details = new SoLogs();
             $details->userid = Input::get('userid');
             $details->datein = $datein;
@@ -167,9 +184,8 @@ class MobileController extends BaseController {
             $details->edited = '1';
             $details->time_type = 'WH';
             $details->holiday = '003';
-
             $details->save();
-
+                           
             $details = new SoLogs();
             $details->userid =  Input::get('userid');
             $details->datein = $datein;
@@ -180,7 +196,7 @@ class MobileController extends BaseController {
             $details->holiday = '003';
             $details->time_type = 'WH';
             $details->save();
-
+       
             $details = new SoLogs();
             $details->userid =  Input::get('userid');
             $details->datein = $datein;
@@ -190,9 +206,8 @@ class MobileController extends BaseController {
             $details->edited = '1';
             $details->time_type = 'WH';
             $details->holiday = '003';
-
             $details->save();
-
+    
             $details = new SoLogs();
             $details->userid =  Input::get('userid');
             $details->datein = $datein;
@@ -202,8 +217,7 @@ class MobileController extends BaseController {
             $details->edited = '1';
             $details->time_type = 'WH';
             $details->holiday = '003';
-
-            $details->save();
+            $details->save();   
 
             $startday = $startday + 1;
             $j++;
@@ -304,34 +318,6 @@ class MobileController extends BaseController {
     public function strip_tags_content($text) {
         return preg_replace('@<(\w+)\b.*?>.*?</\1>@si', '', $text);
     
-    }
-
-    public function checkUsername() {
-        $user = Users::where("userid",'=',Input::get('reset_userid'))->first();
-        if($user) {
-            $name = $user->lname.', '.$user->fname;
-            echo $name;
-        }
-
-        return null;
-    }
-
-    public function resetPassword() {
-        $authority_check = Users::where("userid",'=',Input::get('userid'))->first()->authority; //user nga ni login
-        $user = Users::where("userid",'=',Input::get('reset_userid'))->first(); //user nga i reset
-        if($authority_check == "reset_password"){
-            if($user){
-                $user->password = Hash::make('123');
-                $user->pass_change = NULL;
-                $user->save();
-                $name = $user->lname.', '.$user->fname;
-                echo $name;
-            } else {
-                return null;
-            }
-        }
-
-        return 2;
     }
 
     public function removeHtmlTags($html_string, $html_tags) 

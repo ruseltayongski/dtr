@@ -72,12 +72,17 @@
                             </ul>
                         </li>
                     <?php else: ?>
-                    <li><a href="<?php echo asset($role->claim_value); ?>"><?php echo $role->claim_type; ?></a></li>
+                        <?php if($role->claims_id == 6): ?>
+                            <?php Session::put('flexi-time_roles',true); ?>
+                        <?php else: ?>
+                            <li><a href="<?php echo asset($role->claim_value); ?>"><?php echo $role->claim_type; ?></a></li>
+                        <?php endif; ?>
                     <?php endif; ?>
                 <?php endforeach; ?>
             </ul>
         </li>
     <?php endif; ?>
+    <!--
     <li class="dropdown">
         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-mobile-phone"></i> MobileDTR<span class="caret"></span></a>
         <ul class="dropdown-menu">
@@ -94,6 +99,7 @@
             <?php endif; ?>
         </ul>
     </li>
+    -->
     <li class="dropdown">
         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-user"></i> Account<span class="caret"></span></a>
         <ul class="dropdown-menu">

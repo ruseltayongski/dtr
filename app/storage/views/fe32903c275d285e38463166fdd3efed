@@ -59,7 +59,7 @@
         mymap = L.map('mapid').setView([pm_out_lat, pm_out_lon], 25);
     }
 
-    L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
+    L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoicnVzZWx0YXlvbmdza2kiLCJhIjoiY2xmcnhzdDExMDB0ejNpc2V5dGZoNWpwbCJ9.9YzfK2Bpmht8neGUjdsdqg', {
         id: 'mapbox/streets-v11',
         tileSize: 512,
         zoomOffset: -1

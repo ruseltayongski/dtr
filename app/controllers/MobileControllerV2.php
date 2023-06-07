@@ -146,7 +146,7 @@ class MobileControllerV2 extends BaseController
     public function getCurrentVersionField()
     {
         return [
-            "code" => 200,
+            "code" => 200,  
             "response" => [
                 "code_version" => "2.7.0",
                 "features" => ["2.2.0","\t\t1. Cool Material design",
@@ -253,8 +253,78 @@ class MobileControllerV2 extends BaseController
                 ->where('users_roles.claims_id','=','4')
                 ->LeftJoin('users_claims','users_claims.id','=','users_roles.claims_id')
                 ->first();
-            if($check_remark == 'MOBILE' && !$check_dmo)
-                $temp = $json_object[0]['userid']; //para mag error
+
+            // to enable this uncomment line 258 to 263
+            //if($check_userid === '201400213') { //doc 
+              //  return [
+                //    "code" => 0,
+                  //  "response" => "error"
+                //];
+            //}    
+
+            foreach ($json_object['logs'] as $value) {
+                $userid = $value['userid'];
+                $time = $value['time'];
+                $event = $value['event'];
+                $date = $value['date'];
+                $lat = $value['latitude'];
+                $long = $value['longitude'];
+                $remark = $value['remark'];
+                $edited = $value['edited'];
+                $base = $value['image'];
+                $version = $value['app_version'];
+                $posted_filename = explode('_',$value['filename'])[1];
+                $picture_type = explode('_',$value['filename'])[0];
+
+                $binary = base64_decode($base);
+                if (!file_exists(public_path().'/logs_imageV2'.'/'.$userid)) {
+                    mkdir(public_path().'/logs_imageV2'.'/'.$userid, 0777, true);
+                    mkdir(public_path().'/logs_imageV2'.'/'.$userid.'/screenshot', 0777, true);
+                    mkdir(public_path().'/logs_imageV2'.'/'.$userid.'/timelog', 0777, true);
+                }
+                file_put_contents(public_path().'/logs_imageV2'.'/'.$userid.'/'.$picture_type.'/'.$posted_filename, $binary);
+
+                $pdo = DB::connection()->getPdo();
+
+                if(isset($value['mocked_created_at'])) {
+                    $mocked_created_at = $value['mocked_created_at'];
+                    $query1 = "INSERT IGNORE INTO dtr_file(userid, datein, time, event,remark, created_at, updated_at,log_image,edited,latitude,longitude,mocked_created_at,version) VALUES";
+                    $query1 .= "('" . $userid . "','" . $date . "','" . $time . "','" . $event . "','$remark',NOW(),NOW(),'$posted_filename','$edited','$lat','$long','$mocked_created_at','$version')";
+                }
+                else {
+                    $query1 = "INSERT IGNORE INTO dtr_file(userid, datein, time, event,remark, created_at, updated_at,log_image,edited,latitude,longitude,version) VALUES";
+                    $query1 .= "('" . $userid . "','" . $date . "','" . $time . "','" . $event . "','$remark',NOW(),NOW(),'$posted_filename','$edited','$lat','$long','$version')";
+                }
+
+                $st = $pdo->prepare($query1);
+                $st->execute();
+            }
+
+            return [
+                "code" => 200,
+                //"response" => $version
+                "response" => "Successfully uploaded"
+            ];
+
+        } catch (Exception $e){
+            return [
+                "code" => 0,
+                "response" => $e->getMessage()
+            ];
+        }
+    }
+
+    public function add_flags()
+    {
+        try {
+            $json_object = json_decode(Input::get('data'), true);
+            $check_userid = $json_object['logs'][0]['userid'];
+            $check_remark = $json_object['logs'][0]['remark'];
+            $check_dmo = UserRoles::select('users_roles.id','users_claims.claim_type','users_claims.claim_value','users_claims.id as claims_id')
+                ->where('users_roles.userid','=',$check_userid)
+                ->where('users_roles.claims_id','=','4')
+                ->LeftJoin('users_claims','users_claims.id','=','users_roles.claims_id')
+                ->first();
 
             foreach ($json_object['logs'] as $value) {
                 $userid = $value['userid'];
@@ -273,7 +343,10 @@ class MobileControllerV2 extends BaseController
                 if (!file_exists(public_path().'/logs_imageV2'.'/'.$userid)) {
                     mkdir(public_path().'/logs_imageV2'.'/'.$userid, 0777, true);
                     mkdir(public_path().'/logs_imageV2'.'/'.$userid.'/screenshot', 0777, true);
-                    mkdir(public_path().'/logs_imageV2'.'/'.$userid.'/timelog', 0777, true);
+                    mkdir(public_path().'/logs_imageV2'.'/'.$userid.'/flag', 0777, true);
+                }
+                if(!file_exists(public_path().'/logs_imageV2'.'/'.$userid.'/flag')) {
+                    mkdir(public_path().'/logs_imageV2'.'/'.$userid.'/flag', 0777, true);
                 }
                 file_put_contents(public_path().'/logs_imageV2'.'/'.$userid.'/'.$picture_type.'/'.$posted_filename, $binary);
 
@@ -281,11 +354,11 @@ class MobileControllerV2 extends BaseController
 
                 if(isset($value['mocked_created_at'])) {
                     $mocked_created_at = $value['mocked_created_at'];
-                    $query1 = "INSERT IGNORE INTO dtr_file(userid, datein, time, event,remark, created_at, updated_at,log_image,edited,latitude,longitude,mocked_created_at) VALUES";
+                    $query1 = "INSERT IGNORE INTO edited_logs(userid, datein, time, event,remark, created_at, updated_at,log_image,edited,latitude,longitude,mocked_created_at) VALUES";
                     $query1 .= "('" . $userid . "','" . $date . "','" . $time . "','" . $event . "','$remark',NOW(),NOW(),'$posted_filename','$edited','$lat','$long','$mocked_created_at')";
                 }
                 else {
-                    $query1 = "INSERT IGNORE INTO dtr_file(userid, datein, time, event,remark, created_at, updated_at,log_image,edited,latitude,longitude) VALUES";
+                    $query1 = "INSERT IGNORE INTO edited_logs(userid, datein, time, event,remark, created_at, updated_at,log_image,edited,latitude,longitude) VALUES";
                     $query1 .= "('" . $userid . "','" . $date . "','" . $time . "','" . $event . "','$remark',NOW(),NOW(),'$posted_filename','$edited','$lat','$long')";
                 }
 
@@ -297,19 +370,19 @@ class MobileControllerV2 extends BaseController
                 "code" => 200,
                 "response" => "Successfully uploaded"
             ];
+
         } catch (Exception $e){
             return [
                 "code" => 0,
                 "response" => $e->getMessage()
             ];
         }
-
-
     }
 
     public function add_cdo()
     {
         $json_object = json_decode(Input::get('data'), true);
+        $userid = $json_object['userid'];
         foreach ($json_object['cdo'] as $key => $value) {
             $daterange = $value['daterange'];
 
@@ -318,7 +391,7 @@ class MobileControllerV2 extends BaseController
             $from = date('Y-m-d', strtotime($temp1[0]));
             $end_date = date('Y-m-d', strtotime($temp1[1]));
 
-            DB::table('cdo_logs')->where('userid', '=', $json_object['userid'])
+            DB::table('cdo_logs')->where('userid', '=', $userid)
                 ->whereBetween('datein', array($from, $end_date))->delete();
 
             $f = new DateTime($from . ' ' . '24:00:00');
@@ -329,13 +402,14 @@ class MobileControllerV2 extends BaseController
 
             $f_from = explode('-', $from);
             $startday = $f_from[2];
+            $days_m = cal_days_in_month(CAL_GREGORIAN, $f_from[1], $f_from[0]);
             $j = 0;
             while ($j <= $interval->days) {
 
                 $datein = $f_from[0] . '-' . $f_from[1] . '-' . $startday;
 
                 $details = new CdoLogs();
-                $details->userid = $json_object['userid'];
+                $details->userid = $userid;
                 $details->datein = $datein;
                 $details->time = '08:00:00';
                 $details->event = 'IN';
@@ -347,7 +421,7 @@ class MobileControllerV2 extends BaseController
                 $details->save();
 
                 $details = new CdoLogs();
-                $details->userid = $json_object['userid'];
+                $details->userid = $userid;
                 $details->datein = $datein;
                 $details->time = '12:00:00';
                 $details->event = 'OUT';
@@ -359,7 +433,7 @@ class MobileControllerV2 extends BaseController
                 $details->save();
 
                 $details = new CdoLogs();
-                $details->userid = $json_object['userid'];
+                $details->userid = $userid;
                 $details->datein = $datein;
                 $details->time = '13:00:00';
                 $details->event = 'IN';
@@ -371,7 +445,7 @@ class MobileControllerV2 extends BaseController
                 $details->save();
 
                 $details = new CdoLogs();
-                $details->userid = $json_object['userid'];
+                $details->userid = $userid;
                 $details->datein = $datein;
                 $details->time = '17:00:00';
                 $details->event = 'OUT';
@@ -382,6 +456,10 @@ class MobileControllerV2 extends BaseController
 
                 $details->save();
 
+                if($startday == $days_m){
+                $f_from[1] +=1;
+                $startday = 0;
+                }   
                 $startday = $startday + 1;
                 $j++;
             }
@@ -414,9 +492,9 @@ class MobileControllerV2 extends BaseController
 
             $interval = $f->diff($t);
 
-
             $f_from = explode('-',$from);
             $startday = $f_from[2];
+            $days_m = cal_days_in_month(CAL_GREGORIAN, $f_from[1], $f_from[0]);
             $j = 0;
             while($j <= $interval->days) {
 
@@ -466,6 +544,10 @@ class MobileControllerV2 extends BaseController
 
                 $details->save();
 
+                if($startday == $days_m){
+                $f_from[1] +=1;
+                $startday = 0;
+                }   
                 $startday = $startday + 1;
                 $j++;
             }
@@ -482,6 +564,7 @@ class MobileControllerV2 extends BaseController
     public function add_so()
     {
         $json_object = json_decode(Input::get('data'), true);
+        $userid = $json_object['userid'];
         foreach ($json_object['so'] as $key => $value) {
             $daterange = $value['daterange'];
 
@@ -490,28 +573,27 @@ class MobileControllerV2 extends BaseController
             $so_no = $value['so_no'];
 
             $from = date('Y-m-d', strtotime($temp1[0]));
-            $end_date = date('Y-m-d', strtotime($temp1[1]));
+            $end_date = date('Y-m-d', strtotime($temp1[1]));  
 
-
-            DB::table('so_logs')->where('userid', '=', $json_object['userid'])
+            DB::table('so_logs')->where('userid', '=', $userid)
                 ->whereBetween('datein', array($from, $end_date))->delete();
-
 
             $f = new DateTime($from . ' ' . '24:00:00');
             $t = new DateTime($end_date . ' ' . '24:00:00');
 
-            $interval = $f->diff($t);
-
+            $interval = $f->diff($t); 
 
             $f_from = explode('-', $from);
             $startday = $f_from[2];
+            $days_m = cal_days_in_month(CAL_GREGORIAN, $f_from[1], $f_from[0]);
             $j = 0;
+
             while ($j <= $interval->days) {
 
                 $datein = $f_from[0] . '-' . $f_from[1] . '-' . $startday;
 
                 $details = new SoLogs();
-                $details->userid = $json_object['userid'];
+                $details->userid = $userid;
                 $details->datein = $datein;
                 $details->time = '08:00:00';
                 $details->event = 'IN';
@@ -519,11 +601,10 @@ class MobileControllerV2 extends BaseController
                 $details->edited = '1';
                 $details->time_type = 'WH';
                 $details->holiday = '003';
-
-                $details->save();
-
+                $details->save();    
+              
                 $details = new SoLogs();
-                $details->userid = $json_object['userid'];
+                $details->userid = $userid;
                 $details->datein = $datein;
                 $details->time = '12:00:00';
                 $details->event = 'OUT';
@@ -532,9 +613,9 @@ class MobileControllerV2 extends BaseController
                 $details->holiday = '003';
                 $details->time_type = 'WH';
                 $details->save();
-
+            
                 $details = new SoLogs();
-                $details->userid = $json_object['userid'];
+                $details->userid = $userid;
                 $details->datein = $datein;
                 $details->time = '13:00:00';
                 $details->event = 'IN';
@@ -542,11 +623,10 @@ class MobileControllerV2 extends BaseController
                 $details->edited = '1';
                 $details->time_type = 'WH';
                 $details->holiday = '003';
-
                 $details->save();
-
+           
                 $details = new SoLogs();
-                $details->userid = $json_object['userid'];
+                $details->userid = $userid;
                 $details->datein = $datein;
                 $details->time = '17:00:00';
                 $details->event = 'OUT';
@@ -554,9 +634,12 @@ class MobileControllerV2 extends BaseController
                 $details->edited = '1';
                 $details->time_type = 'WH';
                 $details->holiday = '003';
-
-                $details->save();
-
+                $details->save();   
+            
+                if($startday == $days_m){
+                $f_from[1] +=1;
+                $startday = 0;
+                }   
                 $startday = $startday + 1;
                 $j++;
             }

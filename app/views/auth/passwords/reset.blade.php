@@ -38,23 +38,21 @@
                         <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
                         <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
                             <label for="email" class="col-md-4 control-label">Current password</label>
-
                             <div class="col-md-6">
-                                <input id="email" type="password" class="form-control" name="current_password" />
+                                <input id="email" type="password" class="form-control" name="current_password" required />
                             </div>
                         </div>
                         <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
                             <label for="password" class="col-md-4 control-label">Password</label>
-
                             <div class="col-md-6">
-                                <input id="password" type="password" class="form-control" name="password">
+                                <input id="password" type="password" class="form-control" name="password" required />
                             </div>
                         </div>
 
                         <div class="form-group{{ $errors->has('password_confirmation') ? ' has-error' : '' }}">
                             <label for="password-confirm" class="col-md-4 control-label">Confirm Password</label>
                             <div class="col-md-6">
-                                <input id="password-confirm" type="password" class="form-control" name="password_confirmation">
+                                <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required>
                             </div>
                         </div>
 

@@ -73,91 +73,63 @@
                                     <div class="col-md-12 col-md col-md-offset-1">
                                         <div class="row">
                                             <strong class="col-sm-1">
-                                                @if($leave->leave_type == "Vacation")
+                                                @if($leave->leave_type == "VL")
                                                     <span style="text-decoration: underline;" class="glyphicon glyphicon-ok" aria-hidden="true"></span>
-                                                @else
-                                                    <span style="text-decoration: underline;width: 20%;" aria-hidden="true">&nbsp;</span>
                                                 @endif
                                             </strong>
                                             <strong class="col-sm-6">
-                                                VACATION
+                                                VACATION LEAVE
                                             </strong>
                                         </div>
                                         <div class="row">
                                             <strong class="col-sm-1">
-                                                @if($leave->leave_type == "To_sake_employement")
+                                                @if($leave->leave_type == "SL")
                                                     <span style="text-decoration: underline;" class="glyphicon glyphicon-ok" aria-hidden="true"></span>
-                                                @else
-                                                    <span style="text-decoration: underline;width: 20%;" aria-hidden="true">&nbsp;</span>
                                                 @endif
                                             </strong>
                                             <strong class="col-sm-6">
-                                                TO SAKE EMPLOYEMENT
+                                                SICK LEAVE
                                             </strong>
                                         </div>
                                         <div class="row">
                                             <strong class="col-sm-1">
-                                                @if($leave->leave_type == "Others")
+                                                @if($leave->leave_type == "PL")
                                                     <span style="text-decoration: underline;" class="glyphicon glyphicon-ok" aria-hidden="true"></span>
-                                                @else
-                                                    <span style="text-decoration: underline;width: 20%;" aria-hidden="true">&nbsp;</span>
                                                 @endif
                                             </strong>
                                             <strong class="col-sm-6">
-                                                OTHERS (specify)
-                                            </strong>
-                                        </div>
-                                        <div class="row">
-                                            <strong class="col-sm-1"></strong>
-                                        <span class="col-sm-6">
-                                            @if(isset($leave->leave_type_others_1))
-                                                <span class="tab2"><em>{{  $leave->leave_type_others_1 }}</em></span>
-                                            @endif
-                                        </span>
-                                        </div>
-                                        <div class="row">
-                                            <strong class="col-sm-1">
-                                                @if($leave->leave_type == "Sick")
-                                                    <span style="text-decoration: underline;" class="glyphicon glyphicon-ok" aria-hidden="true"></span>
-                                                @else
-                                                    <span style="text-decoration: underline;width: 20%;" aria-hidden="true">&nbsp;</span>
-                                                @endif
-                                            </strong>
-                                            <strong class="col-sm-6">
-                                                SICK
+                                                PATERNITY LEAVE
                                             </strong>
                                         </div>
                                         <div class="row">
                                             <strong class="col-sm-1">
-                                                @if($leave->leave_type == "Maternity")
+                                                @if($leave->leave_type == "ML")
                                                     <span style="text-decoration: underline;" class="glyphicon glyphicon-ok" aria-hidden="true"></span>
-                                                @else
-                                                    <span style="text-decoration: underline;width: 20%;" aria-hidden="true">&nbsp;</span>
                                                 @endif
                                             </strong>
                                             <strong class="col-sm-6">
-                                                MATERNITY
+                                                MATERNITY LEAVE
                                             </strong>
                                         </div>
                                         <div class="row">
                                             <strong class="col-sm-1">
-                                                @if($leave->leave_type == "Others2")
+                                                @if($leave->leave_type == "SL")
                                                     <span style="text-decoration: underline;" class="glyphicon glyphicon-ok" aria-hidden="true"></span>
-                                                @else
-                                                    <span style="text-decoration: underline;width: 20%;" aria-hidden="true">&nbsp;</span>
                                                 @endif
                                             </strong>
                                             <strong class="col-sm-6">
-                                                OTHERS (specify)
+                                                SPECIAL LEAVE
                                             </strong>
                                         </div>
                                         <div class="row">
-                                            <strong class="col-sm-1"></strong>
-                                        <span class="col-sm-6">
-                                            @if(isset($leave->leave_type_others_2))
-                                                <span class="tab2"><em>{{  $leave->leave_type_others_2 }}</em></span>
-                                            @endif
-                                        </span>
+                                            <strong class="col-sm-1">
+                                                @if($leave->leave_type == "FL")
+                                                    <span style="text-decoration: underline;" class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                                                @endif
+                                            </strong>
+                                            <strong class="col-sm-6">
+                                                FORCED LEAVE
+                                            </strong>
                                         </div>
                                     </div>
                                 </div>

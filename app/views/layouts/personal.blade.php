@@ -72,12 +72,17 @@
                             </ul>
                         </li>
                     @else
-                    <li><a href="{{ asset($role->claim_value) }}">{{ $role->claim_type }}</a></li>
+                        @if($role->claims_id == 6)
+                            <?php Session::put('flexi-time_roles',true); ?>
+                        @else
+                            <li><a href="{{ asset($role->claim_value) }}">{{ $role->claim_type }}</a></li>
+                        @endif
                     @endif
                 @endforeach
             </ul>
         </li>
     @endif
+    <!--
     <li class="dropdown">
         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-mobile-phone"></i> MobileDTR<span class="caret"></span></a>
         <ul class="dropdown-menu">
@@ -94,6 +99,7 @@
             @endif
         </ul>
     </li>
+    -->
     <li class="dropdown">
         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-user"></i> Account<span class="caret"></span></a>
         <ul class="dropdown-menu">

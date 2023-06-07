@@ -88,6 +88,20 @@
                                     @if($am_in_lat != "empty" || $am_in_lon != "empty" || $am_out_lat != "empty" || $am_out_lon != "empty" || $pm_in_lat != "empty" || $pm_in_lon != "empty" || $pm_out_lat != "empty" || $pm_out_lon != "empty")
                                     <tr>
                                         <td colspan="5">
+                                            <?php
+                                                if(strpos($am_in_time, 'SO #') !== false) {
+                                                    $am_in_time = 'empty';
+                                                }
+                                                if(strpos($am_out_time, 'SO #') !== false) {
+                                                    $am_out_time = 'empty';
+                                                }
+                                                if(strpos($pm_in_time, 'SO #') !== false) {
+                                                    $pm_in_time = 'empty';
+                                                }
+                                                if(strpos($pm_out_time, 'SO #') !== false) {
+                                                    $pm_out_time = 'empty';
+                                                }
+                                            ?>
                                             <iframe src="{{ asset('map').'/'.$am_in_lat.'/'.$am_in_lon.'/'.$am_in_time.'/'.$am_out_lat.'/'.$am_out_lon.'/'.$am_out_time.'/'.$pm_in_lat.'/'.$pm_in_lon.'/'.$pm_in_time.'/'.$pm_out_lat.'/'.$pm_out_lon.'/'.$pm_out_time }}" style="width: 100%;height: 400px;"></iframe>
                                         </td>
                                     </tr>
@@ -471,6 +485,18 @@
                         else if($("#"+this.id+"jobreak").is(':checked')){
                             log_status_change = "jobreak_change";
                             edited_display = "JO BREAK";
+                        }
+                        else if($("#"+this.id+"holiday").is(':checked')){
+                            log_status_change = "holiday_change";
+                            edited_display = "HOLIDAY";
+                        }
+                        else if($("#"+this.id+"dayoff").is(':checked')){
+                            log_status_change = "dayoff_change";
+                            edited_display = "DAY OFF";
+                        }
+                        else if($("#"+this.id+"flexi").is(':checked')){
+                            log_status_change = "flexi_change";
+                            edited_display = "FLEXI-TIME";
                         }
                         else if($("#"+this.id+"empty").is(':checked')){
                             log_status_change = "empty";

@@ -24,6 +24,11 @@ class PasswordController extends BaseController
         if(Request::method() == 'GET')
         {
             $information = InformationPersonal::where("userid","=",Auth::user()->userid)->first();
+            // $region = "region_7";
+            // if($information == null) {
+            //     Session::put('region',$region);
+            // }
+            // else
             Session::put('region',$information->region);
             return View::make('auth.passwords.reset');
         }
@@ -96,10 +101,14 @@ class PasswordController extends BaseController
         if(Request::method() == 'POST') {
             $user = Users::where('userid', '=', Input::get('userid'))->first();
             if(isset($user) and count((array)$user) > 0) {
-                $user->password = Hash::make('123');
-                $user->pass_change = NULL;
-                $user->save();
-                return Redirect::to('reset/password')->with('msg', 'Password was reset to 123 for user : '. $user->fname . ' ' .$user->lname);
+                if($user->emptype == 'SF' && Auth::user()->emptype != 'SF') {
+                    return Redirect::to('reset/password')->with('msg', 'No records found for userid : ' . Input::get('userid'));    
+                } else {
+                    $user->password = Hash::make('123');
+                    $user->pass_change = NULL;
+                    $user->save();
+                    return Redirect::to('reset/password')->with('msg', 'Password was reset to 123 for user : '. $user->fname . ' ' .$user->lname);    
+                }                
             } else {
                 return Redirect::to('reset/password')->with('msg', 'No records found for userid : ' . Input::get('userid'));
             }

@@ -188,6 +188,37 @@ session_start();
         <div class="row">
             <div class="col-md-12">
                 <div class="panel panel-default">
+                    <div class="panel-heading"><strong style="color: #f0ad4e;font-size:medium;">Generate Flag Attendance</strong></div>
+                    <div class="panel-body">
+                        <form action="<?php echo asset('generate/flag/attendance'); ?>" method="POST">
+                            <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <tr>
+                                        <td class="col-sm-3"><strong>Dates</strong></td>
+                                        <td class="col-sm-1"> :</td>
+                                        <td class="col-sm-9">
+                                            <div class="input-group">
+                                                <div class="input-group-addon">
+                                                    <i class="fa fa-calendar"></i>
+                                                </div>
+                                                <input type="text" class="form-control" id="flag_attendance" name="flag_attendance_date" placeholder="Input date range here..." required>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <button type="submit" class="btn-lg btn-success center-block col-sm-12" id="print_tardiness_btn" data-loading-text="<i class='fa fa-refresh fa-spin'></i> Printing Tardiness">
+                                <span class="glyphicon glyphicon-print" aria-hidden="true"></span> Generate
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel panel-default">
                     <div class="panel-heading"><strong style="color: #f0ad4e;font-size:medium;">Upload time logs</strong></div>
                     <div class="panel-body">
                         <form id="form_upload" action="<?php echo asset('admin/uploadv2'); ?>" method="POST" enctype="multipart/form-data">
@@ -483,6 +514,7 @@ session_start();
                 reader.readAsText(file);
             });
         }
+        $('#flag_attendance').daterangepicker();
         $('#inclusive2').daterangepicker();
         $('#inclusive3').daterangepicker();
         $('#inclusive4').daterangepicker();

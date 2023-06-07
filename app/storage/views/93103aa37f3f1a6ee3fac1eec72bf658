@@ -161,7 +161,7 @@
 </div><!-- /.modal -->
 
 <div class="modal fade" tabindex="-1" role="dialog" id="users_roles_modal">
-    <div class="modal-dialog modal-sm" role="document">
+    <div class="modal-dialog modal-md" role="document">
         <div class="modal-content">
             <div class="modal-header" style="background-color:#9C8AA5;color: white;">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>

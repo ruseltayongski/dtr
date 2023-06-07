@@ -138,12 +138,12 @@
         </div>
         <div class="clearfix"></div>
     </div>
-    <div class="header" style="background-color:#9C8AA5	;padding:10px;">
+    <div class="header" style="background-color:#846c90	;padding:10px;">
         <div class="container">
             @if(Session::get('region') == 'region_8')
                 <img src="{{ asset('public/img/reg8_banner.png') }}" class="img-responsive" />
             @else
-                <img src="{{ asset('public/img/banner2019.png') }}" class="img-responsive" />
+                <img src="{{ asset('public/img/banner_dtr2023v1.png') }}" class="img-responsive" />
             @endif
         </div>
     </div>
@@ -176,7 +176,7 @@
     <div class="clearfix"></div>
     @include('modal')
 </div> <!-- /container -->
-<button onclick="topFunction()" id="myBtn" title="Go to top"><i class="fa fa-arrow-up"></i> Go Top</button>
+<button onclick="topFunction()" id="myBtn" title="Go to top"><i class="fa fa-arrow-up"></i></button>
 
 <footer class="footer">
     <div class="container">

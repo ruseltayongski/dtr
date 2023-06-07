@@ -31,7 +31,7 @@
     </div>
 
     <div class="modal fade" tabindex="-1" role="dialog" id="modal_app_version_api">
-        <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-dialog modal-md" role="document">
             <div class="modal-content" >
                 <form action="{{ asset('mobile/office/version/post') }}" method="POST">
                     <div class="modal-body">

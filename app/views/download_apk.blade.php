@@ -11,7 +11,7 @@
 </head>
 <body>
 
-<a href="{{ asset('public/apk/dtr_3_0.apk') }}"><i class="fa fa-mobile-phone"></i>
+<a href="{{ asset('public/apk/version_3/dtr.apk') }}"><i class="fa fa-mobile-phone"></i>
     <div class="center">
         <center>
              <b style="font-size: 20pt;">Mobile DTR(apk) v3.0.0</b>

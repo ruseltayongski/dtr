@@ -9,4 +9,31 @@ class MobileControllerV3 extends BaseController{
             ->select("area_of_assignment.name","area_of_assignment.latitude","area_of_assignment.longitude","area_of_assignment.radius")->get();
         return $areas;
     }
+
+    public function checkUsername() {
+        $user = Users::where("userid",'=',Input::get('reset_userid'))->first();
+        if($user) {
+            $name = $user->lname.','.$user->fname;
+            return Response::json($name);
+        }
+        return null;
+    }
+
+    public function resetPassword() {
+        $authority_check = Users::where("userid",'=',Input::get('userid'))->first()->authority; //user nga ni login
+        $user = Users::where("userid",'=',Input::get('reset_userid'))->first(); //user nga i reset
+        if($authority_check == "reset_password"){
+            if($user){
+                $user->password = Hash::make('123');
+                $user->pass_change = NULL;
+                $user->save();
+                $name = $user->lname.', '.$user->fname;
+                return Response::json($name);
+            } else {
+                return null;
+            }
+        }
+
+        return 2;
+    }
 }

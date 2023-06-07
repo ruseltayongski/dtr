@@ -67,7 +67,7 @@
                   <div class="row">
                     <br>
                     <div class="col-md-12">
-                        <a href="<?php echo asset('public/apk/version_3/dtr.apk'); ?>" target="_blank" type="button" class="btn btn-success" download><i class="fa fa-mobile-phone"></i> <small>Mobile DTR(apk) v3.0.0</small></a>
+                        <a href="<?php echo asset('public/apk/version_3/dtr.apk'); ?>" target="_blank" type="button" class="btn btn-success" download><i class="fa fa-mobile-phone"></i> <small>Mobile DTR(apk) v3.5.2</small></a>
                         <!--
                         <a href="<?php echo asset('public/apk/dtr_office.apk'); ?>" target="_blank" type="button" class="btn btn-warning" download><i class="fa fa-mobile-phone"></i> <small>Mobile DTR CV-CHD Edition v1.4.0 for OFFICE</small></a>
                         -->

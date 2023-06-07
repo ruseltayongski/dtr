@@ -22,7 +22,7 @@
                             <div class="col-md-3">
                                 <div class="form-group has-success">
                                     <label class="control-label" for="inputSuccess1">(1.) Office/Agency</label>
-                                    <input type="text" class="form-control" id="inputSuccess1" name="office_agency" value="DOH 7">
+                                    <input type="text" class="form-control" id="inputSuccess1" name="office_agency" value="DOH Central Visayas CHD">
                                 </div>
                             </div>
                             <div class="col-md-3">
@@ -79,9 +79,9 @@
                                                 @foreach($leave_type as $row)
                                                     <div class="checkbox">
                                                         <label>
-                                                            <input type="radio" class="minimal" id="leave_type" value="{{ $row->value }}" name="leave_type" onclick="dateRangeFunc('{{ $row->main_leave }}')" required>
+                                                            <input type="radio" class="minimal" id="leave_type" name="leave_type" onclick="dateRangeFunc('{{ $row->main_leave }}')" value="{{ $row->code }}" required>
                                                             {{ $row->desc }}
-                                                            @if($row->value == 'Sick')
+                                                            @if($row->code == 'Sick')
                                                             <div class="additional_sick"></div>
                                                             @endif
                                                         </label>

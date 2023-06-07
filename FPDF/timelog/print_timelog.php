@@ -217,6 +217,7 @@ if(isset($_POST['filter_range'])){
             ($am_in == 'HOLIDAY' && $am_out == 'HOLIDAY' && $pm_in == 'HOLIDAY' && $pm_out == 'HOLIDAY') ||
             ($am_in == 'JO BREAK' && $am_out == 'JO BREAK' && $pm_in == 'JO BREAK' && $pm_out == 'JO BREAK') ||
             ($am_in == 'CDO' && $am_out == 'CDO' && $pm_in == 'CDO' && $pm_out == 'CDO') ||
+            ($am_in == 'FLEXI-TIME' && $am_out == 'FLEXI-TIME' && $pm_in == 'FLEXI-TIME' && $pm_out == 'FLEXI-TIME') ||
             (empty($am_in) && empty($am_out) && empty($pm_in) && empty($pm_out)) ||
             (
                 strpos( $am_in, 'SO #' ) !== false && strpos( $am_out, 'SO #' ) !== false && strpos( $pm_in, 'SO #' ) !== false && strpos( $pm_out, 'SO #' ) !== false
@@ -259,13 +260,14 @@ if(isset($_POST['filter_range'])){
             ($am_in == 'DAY OFF' && $am_out == 'DAY OFF') ||
             ($am_in == 'HOLIDAY' && $am_out == 'HOLIDAY') ||
             ($am_in == 'CDO' && $am_out == 'CDO') ||
+            ($am_in == 'FLEXI-TIME' && $am_out == 'FLEXI-TIME') ||
             (empty($am_in) && empty($am_out)) ||
             (strpos( $am_in, 'SO #' ) !== false && strpos( $am_out, 'SO #' ) !== false) ||
             (strpos( $am_in, 'TO #' ) !== false && strpos( $am_out, 'TO #' ) !== false) ||
             (strpos( $am_in, 'LEAVE' ) !== false && strpos( $am_out, 'LEAVE' ) !== false) ||
             (strpos( $am_in, 'MO #' ) !== false && strpos( $am_out, 'MO #' ) !== false)
         ){
-            if((empty($am_in) && empty($am_in)) || ($am_in == 'empty' && $am_in == 'empty')){
+            if((empty($am_in) && empty($am_out)) || ($am_in == 'empty' && $am_out == 'empty')){
                 $morning_log_2 = '';
                 if ($day_name != 'Sat' && $day_name != 'Sun'){
                     $morning_log_2 = 'HALF DAY';
@@ -274,7 +276,11 @@ if(isset($_POST['filter_range'])){
             } else
                 $morning_log_2 = $am_in;
 
-            if($pm_in == $pm_out){
+            if($pm_in == $pm_out) {
+                if (empty($pm_in) && empty($pm_out)){
+                    $pm_in = 'HALF DAY';
+                    $late += 240;
+                }
                 $late = $late == 0 ? '' : $late;
                 $undertime = $undertime == 0 ? '' : $undertime;
                 $pdf->SetWidths(array(5,7.5,30,30,7.5,7,$set_size_center,5,7.5,30,30,7.5,7));
@@ -333,16 +339,16 @@ if(isset($_POST['filter_range'])){
                         ["word" => explode('-',$row['datein'])[2],'font_style' => '','font_size'=>7.5,'border'=>$border,"position"=>'L'],
                         ["word" => $day_name,'font_style' => '','font_size'=>7.5,'border'=>$border,"position"=>'L'],
                         ["word" => $morning_log_2,'font_style' => $am_in_style,'font_size'=>7.5,'border'=>$border,"position"=>'C'],
-                        ["word" => $pm_in,'font_style' => $pm_in_style,'font_size'=>0,'border'=>$border,"position"=>'C'],
-                        ["word" => $pm_out,'font_style' => $pm_out_style,'font_size'=>7.5,'border'=>$border,"position"=>'C'],
+                        ["word" => $pm_in,'font_style' => $pm_in_style,'font_size' => $pm_in == "FLEXI-TIME" ? 6.5 : 7.5,'border'=>$border,"position"=>'C'],
+                        ["word" => $pm_out,'font_style' => $pm_out_style,'font_size'=> $pm_out == "FLEXI-TIME" ? 6.5 : 7.5,'border'=>$border,"position"=>'C'],
                         ["word" => $late,'font_style' => '','font_size'=>7.5,'border'=>$border,"position"=>'C'],
                         ["word" => $undertime,'font_style' => '','font_size'=>7.5,'border'=>$border,"position"=>'C'],
                         ["word" => "",'font_style' => '','font_size'=>7.5,'border'=>$border,"position"=>'C'],
                         ["word" => explode('-',$row['datein'])[2],'font_style' => '','font_size'=>7.5,'border'=>$border,"position"=>'L'],
                         ["word" => $day_name,'font_style' => '','font_size'=>7.5,'border'=>$border,"position"=>'L'],
                         ["word" => $morning_log_2,'font_style' => $am_in_style,'font_size'=>7.5,'border'=>$border,"position"=>'C'],
-                        ["word" => $pm_in,'font_style' => $pm_in_style,'font_size'=>0,'border'=>$border,"position"=>'C'],
-                        ["word" => $pm_out,'font_style' => $pm_out_style,'font_size'=>7.5,'border'=>$border,"position"=>'C'],
+                        ["word" => $pm_in,'font_style' => $pm_in_style,'font_size'=> $pm_in == "FLEXI-TIME" ? 6.5 : 7.5,'border'=>$border,"position"=>'C'],
+                        ["word" => $pm_out,'font_style' => $pm_out_style,'font_size'=> $pm_out == "FLEXI-TIME" ? 6.5 : 7.5,'border'=>$border,"position"=>'C'],
                         ["word" => $late,'font_style' => '','font_size'=>7.5,'border'=>$border,"position"=>'C'],
                         ["word" => $undertime,'font_style' => '','font_size'=>7.5,'border'=>$border,"position"=>'C']
                     ),5);
@@ -355,12 +361,14 @@ if(isset($_POST['filter_range'])){
             ($pm_in == 'DAY OFF' && $pm_out == 'DAY OFF') ||
             ($pm_in == 'HOLIDAY' && $pm_out == 'HOLIDAY') ||
             ($pm_in == 'CDO' && $pm_out == 'CDO') ||
+            ($pm_in == 'FLEXI-TIME' && $pm_out == 'FLEXI-TIME') ||
             (empty($pm_in) && empty($pm_out)) ||
             (strpos( $pm_in, 'SO #' ) !== false && strpos( $pm_out, 'SO #' ) !== false ) ||
             (strpos( $pm_in, 'TO #' ) !== false && strpos( $pm_out, 'TO #' ) !== false ) ||
             (strpos( $pm_in, 'LEAVE' ) !== false && strpos( $pm_out, 'LEAVE' ) !== false)
-        ){
-            if((empty($pm_in) && empty($pm_in)) || ($pm_in == 'empty' && $pm_in == 'empty')){
+        )
+        {
+            if((empty($pm_in) && empty($pm_out)) || ($pm_in == 'empty' && $pm_out == 'empty')){
                 $afternoon_log_2 = '';
                 if ($day_name != 'Sat' && $day_name != 'Sun'){
                     $afternoon_log_2 = 'HALF DAY';
@@ -422,20 +430,21 @@ if(isset($_POST['filter_range'])){
                         ["word" => $undertime,'font_style' => '','font_size'=>7.5,'border'=>$border,"position"=>'C']
                     ),5);
                 } else {
+                    //$am_in = 'SO # 448-A';
                     $pdf->SetWidths(array(5, 7.5, 15, 15, 30, 7.5, 7, $set_size_center, 5, 7.5, 15, 15, 30, 7.5, 7));
                     $pdf->Row(array(
                         ["word" => explode('-', $row['datein'])[2], 'font_style' => '', 'font_size' => 7.5, 'border' => $border, "position" => 'L'],
                         ["word" => $day_name, 'font_style' => '', 'font_size' => 7.5, 'border' => $border, "position" => 'L'],
-                        ["word" => $am_in, 'font_style' => $am_in_style, 'font_size' => 7.5, 'border' => $border, "position" => 'C'],
-                        ["word" => $am_out, 'font_style' => $am_out_style, 'font_size' => 7.5, 'border' => $border, "position" => 'C'],
+                        ["word" => $am_in, 'font_style' => $am_in_style, 'font_size' => $am_in == "FLEXI-TIME" ? 6.5 : strpos( $am_in, 'SO #' ) !== false ? 6 : 7.5, 'border' => $border, "position" => 'C'],
+                        ["word" => $am_out ? $am_out : 'HALF DAY', 'font_style' => $am_out_style, 'font_size' => $am_out == "FLEXI-TIME" ? 6.5 : $am_out ? 7.5 : 6, 'border' => $border, "position" => 'C'],
                         ["word" => $afternoon_log_2, 'font_style' => $pm_in_style, 'font_size' => 7.5, 'border' => $border, "position" => 'C'],
                         ["word" => $late, 'font_style' => '', 'font_size' => 7.5, 'border' => $border, "position" => 'C'],
                         ["word" => $undertime, 'font_style' => '', 'font_size' => 7.5, 'border' => $border, "position" => 'C'],
                         ["word" => "", 'font_style' => '', 'font_size' => 7.5, 'border' => $border, "position" => 'C'],
                         ["word" => explode('-', $row['datein'])[2], 'font_style' => '', 'font_size' => 7.5, 'border' => $border, "position" => 'L'],
                         ["word" => $day_name, 'font_style' => '', 'font_size' => 7.5, 'border' => $border, "position" => 'L'],
-                        ["word" => $am_in, 'font_style' => $am_in_style, 'font_size' => 7.5, 'border' => $border, "position" => 'C'],
-                        ["word" => $am_out, 'font_style' => $am_out_style, 'font_size' => 7.5, 'border' => $border, "position" => 'C'],
+                        ["word" => $am_in, 'font_style' => $am_in_style, 'font_size' => $am_in == "FLEXI-TIME" ? 6.5 : strpos( $am_in, 'SO #' ) !== false ? 6 : 7.5, 'border' => $border, "position" => 'C'],
+                        ["word" => $am_out ? $am_out : 'HALF DAY', 'font_style' => $am_out_style, 'font_size' => $am_out == "FLEXI-TIME" ? 6.5 : $am_out ? 7.5 : 6, 'border' => $border, "position" => 'C'],
                         ["word" => $afternoon_log_2, 'font_style' => $pm_in_style, 'font_size' => 7.5, 'border' => $border, "position" => 'C'],
                         ["word" => $late, 'font_style' => '', 'font_size' => 7.5, 'border' => $border, "position" => 'C'],
                         ["word" => $undertime, 'font_style' => '', 'font_size' => 7.5, 'border' => $border, "position" => 'C']
@@ -445,25 +454,30 @@ if(isset($_POST['filter_range'])){
             }
         }
         else {
+            //$pm_out = 'SO # 555-A';
             $late = $late == 0 ? '' : $late;
+            if($late == 0) {
+                if(empty($pm_out))
+                    $late += 240;
+            }
             $undertime = $undertime == 0 ? '' : $undertime;
             $pdf->SetWidths(array(5,7.5,15,15,15,15,7.5,7,$set_size_center,5,7.5,15,15,15,15,7.5,7));
             $pdf->Row(array(
                 ["word" => explode('-',$row['datein'])[2],'font_style' => '','font_size'=>7.5,'border'=>$border,"position"=>'L'],
                 ["word" => $day_name,'font_style' => '','font_size'=>7.5,'border'=>$border,"position"=>'L'],
-                ["word" => $am_in,'font_style' => $am_in_style,'font_size'=>7.5,'border'=>$border,"position"=>'C'],
-                ["word" => $am_out,'font_style' => $am_out_style,'font_size'=>7.5,'border'=>$border,"position"=>'C'],
-                ["word" => $pm_in,'font_style' => $pm_in_style,'font_size'=>7.5,'border'=>$border,"position"=>'C'],
-                ["word" => $pm_out,'font_style' => $pm_out_style,'font_size'=>7.5,'border'=>$border,"position"=>'C'],
+                ["word" => $am_in,'font_style' => $am_in_style,'font_size'=> $am_in == "FLEXI-TIME" ? 6.5 : strpos( $am_in, 'SO #' ) !== false ? 6 : 7.5,'border'=>$border,"position"=>'C'],
+                ["word" => $am_out,'font_style' => $am_out_style,'font_size'=> $am_out == "FLEXI-TIME" ? 6.5 : strpos( $am_out, 'SO #' ) !== false ? 4.7 : 7.5,'border'=>$border,"position"=>'C'],
+                ["word" => $pm_in,'font_style' => $pm_in_style,'font_size'=> $pm_in == "FLEXI-TIME" ? 6.5 : strpos( $am_out, 'SO #' ) !== false ? 4.7 : 7.5,'border'=>$border,"position"=>'C'],
+                ["word" => $pm_out ? $pm_out : 'HALF DAY','font_style' => $pm_out_style,'font_size'=> $pm_out == "FLEXI-TIME" ? 6.5 : $pm_out ? strpos( $pm_out, 'SO #' ) !== false ? 6 : 7.5 : 6,'border'=>$border,"position"=>'C'],
                 ["word" => $late,'font_style' => '','font_size'=>7.5,'border'=>$border,"position"=>'C'],
                 ["word" => $undertime,'font_style' => '','font_size'=>7.5,'border'=>$border,"position"=>'C'],
                 ["word" => "",'font_style' => '','font_size'=>7.5,'border'=>$border,"position"=>'C'],
                 ["word" => explode('-',$row['datein'])[2],'font_style' => '','font_size'=>7.5,'border'=>$border,"position"=>'L'],
                 ["word" => $day_name,'font_style' => '','font_size'=>7.5,'border'=>$border,"position"=>'L'],
-                ["word" => $am_in,'font_style' => $am_in_style,'font_size'=>7.5,'border'=>$border,"position"=>'C'],
-                ["word" => $am_out,'font_style' => $am_out_style,'font_size'=>7.5,'border'=>$border,"position"=>'C'],
-                ["word" => $pm_in,'font_style' => $pm_in_style,'font_size'=>7.5,'border'=>$border,"position"=>'C'],
-                ["word" => $pm_out,'font_style' => $pm_out_style,'font_size'=>7.5,'border'=>$border,"position"=>'C'],
+                ["word" => $am_in,'font_style' => $am_in_style,'font_size'=> $am_in == "FLEXI-TIME" ? 6.5 : strpos( $am_in, 'SO #' ) !== false ? 6 : 7.5,'border'=>$border,"position"=>'C'],
+                ["word" => $am_out,'font_style' => $am_out_style,'font_size'=> $am_out == "FLEXI-TIME" ? 6.5 : strpos( $am_out, 'SO #' ) !== false ? 4.7 : 7.5,'border'=>$border,"position"=>'C'],
+                ["word" => $pm_in,'font_style' => $pm_in_style,'font_size'=> $pm_in == "FLEXI-TIME" ? 6.5 : strpos( $am_out, 'SO #' ) !== false ? 4.7 : 7.5,'border'=>$border,"position"=>'C'],
+                ["word" => $pm_out ? $pm_out : 'HALF DAY','font_style' => $pm_out_style,'font_size'=> $pm_out == "FLEXI-TIME" ? 6.5 : $pm_out ? strpos( $pm_out, 'SO #' ) !== false ? 6 : 7.5 : 6,'border'=>$border,"position"=>'C'],
                 ["word" => $late,'font_style' => '','font_size'=>7.5,'border'=>$border,"position"=>'C'],
                 ["word" => $undertime,'font_style' => '','font_size'=>7.5,'border'=>$border,"position"=>'C']
             ),5);

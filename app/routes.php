@@ -277,10 +277,11 @@ Route::post('mobile/add-logs','MobileController@add_logs');
 Route::post('mobile/add-cto','MobileController@add_cto');
 Route::post('mobile/add-so','MobileController@add_so');
 Route::post('mobile/add-leave','MobileController@add_leave');
+Route::post('mobile/get-login','MobileController@getLogin');
 Route::get('mobile/getCurrentVersion','MobileController@getCurrentVersion');
 Route::post('mobile/imei','MobileController@imei');
-Route::post('mobile/reset_password','MobileController@resetPassword');
-Route::post('mobile/check_username','MobileController@checkUsername');
+Route::post('mobile/reset_password','MobileControllerV3@resetPassword');
+Route::post('mobile/check_username','MobileControllerV3@checkUsername');
 //MOBILE URL version 2 in controller
 Route::post('mobileV2/login','MobileControllerV2@login');
 Route::post('mobileV2/login1','MobileControllerV2@login1');
@@ -288,6 +289,7 @@ Route::post('mobileV2/login1','MobileControllerV2@login1');
 Route::get('mobileV2/getCurrentVersion','MobileControllerV2@getCurrentVersionField');
 Route::get('mobileV2/getCurrentVersion/office','MobileControllerV2@getCurrentVersionOffice');
 Route::post('mobileV2/add-logs','MobileControllerV2@add_logs');
+Route::post('mobileV2/add-flags','MobileControllerV2@add_flags');
 Route::post('mobileV2/add-cdo','MobileControllerV2@add_cdo');
 Route::get('mobileV2/get-logs','MobileControllerV2@get_logs');
 Route::post('mobileV2/add-so','MobileControllerV2@add_so');
@@ -353,4 +355,6 @@ Route::get('download_apk',function(){
     return View::make('download_apk');
 });
 
+//GENERATE FLAG ATTENDANCE
+Route::post('generate/flag/attendance', 'AdminController@generateFlagAttendance');
 ?>

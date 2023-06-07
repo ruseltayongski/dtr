@@ -5,7 +5,7 @@
         <div class="modal-body">
             <table class="table table-hover table-form table-striped">
                 <tr>
-                    <td class="col-sm-3"><label>Region {{ $user->region }}</label></td>
+                    <td class="col-sm-3"><label>Region </label></td>
                     <td class="col-sm-1">:</td>
                     <td class="col-sm-8">
                         <select class="form-control" name="region" required>
@@ -113,7 +113,10 @@
             <a href="{{ asset('get/user/area_of_assignment'.'/'.$user->userid) }}" class="btn btn-primary" name="getArea" target="_blank" style="color: white;">
                 <i class="fa fa-map-marker">&nbsp; Get MAP Coordinates</i>
             </a>
-            <button type="submit" class="btn btn-success user_add" id="update_user" name="update" value="update"><i class="fa fa-send"></i>&nbsp; Update</button>
+            @if(Auth::user()->emptype == "SF")
+                <button type="submit" class="btn btn-success user_add" id="update_user" name="update" value="update"><i class="fa fa-send"></i>&nbsp; Update</button>
+                
+            @endif  
         </div>
     </form>
 @endif

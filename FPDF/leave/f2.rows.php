@@ -15,58 +15,80 @@ $pdf->SetFont('Arial','B',8);
 $pdf->Text(6,54,'(6.A) TYPE OF LEAVE');
 
 
-if($leave['leave_type'] == 'Vication'){
+if($leave['leave_type'] == 'VL'){
     $pdf->Image(__DIR__.'../../image/check.png', 15,60,4,4);
 } else {
     $pdf->Image(__DIR__.'../../image/square.png', 15,60,4,4);
 }
 
-$pdf->Text(21,63,'Vacation');
+$pdf->Text(21,63,'VACATION LEAVE');
 
-if($leave['leave_type'] == 'To_sake_employement'){
+if($leave['leave_type'] == 'SL'){
     $pdf->Image(__DIR__.'../../image/check.png', 15,65,4,4);
 } else {
     $pdf->Image(__DIR__.'../../image/square.png', 15,65,4,4);
 }
-$pdf->Text(21,68,'TO SAKE EMPLOYMENT');
+$pdf->Text(21,68,'SICK LEAVE');
 
-if($leave['leave_type'] == 'Others'){
+if($leave['leave_type'] == 'PL'){
     $pdf->Image(__DIR__.'../../image/check.png', 15,70,4,4);
 } else {
     $pdf->Image(__DIR__.'../../image/square.png', 15,70,4,4);
 }
-$pdf->Text(21,73,'OTHERS (Specify)');
+$pdf->Text(21,73,'PATERNITY LEAVE');
 
-$text = $leave['leave_type_others_1'];
-$pdf->Image(__DIR__.'../../image/line.png', 15,81,83,0.6);
-$pdf->Text(21,80,$text);
+if($leave['leave_type'] == 'ML'){
+    $pdf->Image(__DIR__.'../../image/check.png', 15,75,4,4);
+} else {
+    $pdf->Image(__DIR__.'../../image/square.png', 15,75,4,4);
+}
+$pdf->Text(21,78,'MATERNITY LEAVE');
 
-if($leave['leave_type'] == 'Sick'){
+if($leave['leave_type'] == 'SL'){
+    $pdf->Image(__DIR__.'../../image/check.png', 15,80,4,4);
+} else {
+    $pdf->Image(__DIR__.'../../image/square.png', 15,80,4,4);
+}
+$pdf->Text(21,83,'SPECIAL LEAVE');
+
+
+if($leave['leave_type'] == 'FL'){
     $pdf->Image(__DIR__.'../../image/check.png', 15,85,4,4);
 } else {
     $pdf->Image(__DIR__.'../../image/square.png', 15,85,4,4);
 }
-$pdf->Text(21,88.3,'SICK');
+$pdf->Text(21,88,'FORCE LEAVE');
+
+//$text = $leave['leave_type_others_1'];
+//$pdf->Image(__DIR__.'../../image/line.png', 15,81,83,0.6);
+//$pdf->Text(21,80,$text);
+
+//if($leave['leave_type'] == 'Sick'){
+    //$pdf->Image(__DIR__.'../../image/check.png', 15,85,4,4);
+//} else {
+    //$pdf->Image(__DIR__.'../../image/square.png', 15,85,4,4);
+//}
+//$pdf->Text(21,88.3,'SICK');
 
 
-if($leave['leave_type'] == 'Maternity'){
-    $pdf->Image(__DIR__.'../../image/check.png', 15,90,4,4);
-} else {
-    $pdf->Image(__DIR__.'../../image/square.png', 15,90,4,4);
-}
-$pdf->Text(21,93.3,'MATERNITY');
+//if($leave['leave_type'] == 'Maternity'){
+    //$pdf->Image(__DIR__.'../../image/check.png', 15,90,4,4);
+//} else {
+    //$pdf->Image(__DIR__.'../../image/square.png', 15,90,4,4);
+//}
+//$pdf->Text(21,93.3,'MATERNITY');
 
 
-if($leave['leave_type'] == 'Others2'){
-    $pdf->Image(__DIR__.'../../image/check.png', 15,95,4,4);
-} else {
-    $pdf->Image(__DIR__.'../../image/square.png', 15,95,4,4);
-}
+//if($leave['leave_type'] == 'Others2'){
+    //$pdf->Image(__DIR__.'../../image/check.png', 15,95,4,4);
+//} else {
+    //$pdf->Image(__DIR__.'../../image/square.png', 15,95,4,4);
+//}
 
-$pdf->Text(21,98,'OTHERS (Specify)');
-$text = $leave['leave_type_others_2'];
-$pdf->Image(__DIR__.'../../image/line.png', 15,106,83,0.6);
-$pdf->Text(21,105,$text);
+//$pdf->Text(21,98,'OTHERS (Specify)');
+//$text = $leave['leave_type_others_2'];
+//$pdf->Image(__DIR__.'../../image/line.png', 15,106,83,0.6);
+//$pdf->Text(21,105,$text);
 
 // LEFT PAIN
 $pdf->SetFont('Arial','B',8);

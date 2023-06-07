@@ -57,7 +57,12 @@
         </tr>
         <tr>
             <td >Office Order:</td>
-            <td ><input type="number" style="width: 100%" min="-4" max="9999" id="{{ $elementId.'office_order' }}" {{ $disabled }}></td>
+            <td >
+                <!--
+                <input type="number" style="width: 100%" min="-4" max="9999" id="{{ $elementId.'office_order' }}" {{ $disabled }}>
+                -->
+                <input type="text" style="width: 100%" id="{{ $elementId.'office_order' }}" {{ $disabled }}>
+            </td>
         </tr>
         <tr>
             <td >Travel Order:</td>
@@ -93,6 +98,20 @@
                 <td >JO BREAK:</td>
                 <td ><input type="checkbox" name="{{ $elementId.'jobreak' }}" style="width: 20%;transform: scale(1.5);" id="{{ $elementId.'jobreak' }}" {{ $disabled }}></td>
             </tr>
+            <tr>
+                <td >HOLIDAY:</td>
+                <td ><input type="checkbox" name="{{ $elementId.'holiday' }}" style="width: 20%;transform: scale(1.5);" id="{{ $elementId.'holiday' }}" {{ $disabled }}></td>
+            </tr>
+            <tr>
+                <td >DAY OFF:</td>
+                <td ><input type="checkbox" name="{{ $elementId.'dayoff' }}" style="width: 20%;transform: scale(1.5);" id="{{ $elementId.'dayoff' }}" {{ $disabled }}></td>
+            </tr>
+            @if(Session::get("flexi-time_roles"))
+            <tr>
+                <td >FLEXI-TIME:</td>
+                <td ><input type="checkbox" name="{{ $elementId.'flexi' }}" style="width: 20%;transform: scale(1.5);" id="{{ $elementId.'flexi' }}" {{ $disabled }}></td>
+            </tr>
+            @endif
         @endif
         <tr>
             <td >EMPTY:</td>

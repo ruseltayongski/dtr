@@ -29,7 +29,7 @@
     </div>
 
     <div class="modal fade" tabindex="-1" role="dialog" id="modal_announcement_api">
-        <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-dialog modal-md" role="document">
             <div class="modal-content" >
                 <form action="{{ asset('mobile/office/announcement/post') }}" method="POST">
                     <div class="modal-body">

@@ -1,8 +1,17 @@
 <?php
 
-
 class TimeLogController extends Controller
 {
+    public function __construct()
+    {
+        $this->beforeFilter(function () {
+            if(!Auth::check())
+            {
+                return Redirect::to('/');
+            }
+        });
+    }
+    
     public function timeLog($supervisor = null){
 
         if(empty($supervisor)){
@@ -154,6 +163,30 @@ class TimeLogController extends Controller
                     ->where("datein",$datein)
                     ->where("time",$time)
                     ->where("edited",4)
+                    ->where("event",explode("_",$log_type)[1])
+                    ->delete();
+                break;
+            case 'holiday':
+                EditedLogs::where("userid",$userid)
+                    ->where("datein",$datein)
+                    ->where("time",$time)
+                    ->where("edited",5)
+                    ->where("event",explode("_",$log_type)[1])
+                    ->delete();
+                break;
+            case 'dayoff':
+                EditedLogs::where("userid",$userid)
+                    ->where("datein",$datein)
+                    ->where("time",$time)
+                    ->where("edited",6)
+                    ->where("event",explode("_",$log_type)[1])
+                    ->delete();
+                break;
+            case 'flexi':
+                EditedLogs::where("userid",$userid)
+                    ->where("datein",$datein)
+                    ->where("time",$time)
+                    ->where("edited",7)
                     ->where("event",explode("_",$log_type)[1])
                     ->delete();
                 break;
@@ -370,6 +403,99 @@ class TimeLogController extends Controller
                     "display_time" => $time_display
                 ];
                 break;
+            case "holiday_change":
+                $jo_break = new EditedLogs();
+                $jo_break->userid = $userid;
+                $jo_break->datein = $datein;
+                if($log_type == "AM_IN"){
+                    $jo_break->time = "08:00:00";
+                    $time_display = "08:00:00";
+                }
+                elseif($log_type == "AM_OUT"){
+                    $jo_break->time = "12:00:00";
+                    $time_display = "12:00:00";
+                }
+                elseif($log_type == "PM_IN"){
+                    $jo_break->time = "13:00:00";
+                    $time_display = "13:00:00";
+                }
+                elseif($log_type == "PM_OUT"){
+                    $jo_break->time = "18:00:00";
+                    $time_display = "18:00:00";
+                }
+                $jo_break->event = explode("_",$log_type)[1];
+                $jo_break->remark = $edited_display;
+                $jo_break->edited = 5;
+                $jo_break->save();
+
+                return [
+                    "notification" => "info",
+                    "message" => "Successfully added HOLIDAY",
+                    "display_time" => $time_display
+                ];
+                break; 
+            case "dayoff_change":
+                $jo_break = new EditedLogs();
+                $jo_break->userid = $userid;
+                $jo_break->datein = $datein;
+                if($log_type == "AM_IN"){
+                    $jo_break->time = "08:00:00";
+                    $time_display = "08:00:00";
+                }
+                elseif($log_type == "AM_OUT"){
+                    $jo_break->time = "12:00:00";
+                    $time_display = "12:00:00";
+                }
+                elseif($log_type == "PM_IN"){
+                    $jo_break->time = "13:00:00";
+                    $time_display = "13:00:00";
+                }
+                elseif($log_type == "PM_OUT"){
+                    $jo_break->time = "18:00:00";
+                    $time_display = "18:00:00";
+                }
+                $jo_break->event = explode("_",$log_type)[1];
+                $jo_break->remark = $edited_display;
+                $jo_break->edited = 6;
+                $jo_break->save();
+
+                return [
+                    "notification" => "info",
+                    "message" => "Successfully added DAYOFF",
+                    "display_time" => $time_display
+                ];
+                break;
+            case "flexi_change":
+                $jo_break = new EditedLogs();
+                $jo_break->userid = $userid;
+                $jo_break->datein = $datein;
+                if($log_type == "AM_IN"){
+                    $jo_break->time = "08:00:00";
+                    $time_display = "08:00:00";
+                }
+                elseif($log_type == "AM_OUT"){
+                    $jo_break->time = "12:00:00";
+                    $time_display = "12:00:00";
+                }
+                elseif($log_type == "PM_IN"){
+                    $jo_break->time = "13:00:00";
+                    $time_display = "13:00:00";
+                }
+                elseif($log_type == "PM_OUT"){
+                    $jo_break->time = "18:00:00";
+                    $time_display = "18:00:00";
+                }
+                $jo_break->event = explode("_",$log_type)[1];
+                $jo_break->remark = $edited_display;
+                $jo_break->edited = 7;
+                $jo_break->save();
+
+                return [
+                    "notification" => "info",
+                    "message" => "Successfully added FLEXI-TIME",
+                    "display_time" => $time_display
+                ];
+                break;           
             case "empty":
                 return [
                     "notification" => "warning",

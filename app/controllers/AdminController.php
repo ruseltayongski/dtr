@@ -119,11 +119,13 @@ class AdminController extends BaseController
             if(count((array)$prev_assignment) >= 1){
                 $prev_assignment->delete();
             }
+            $user_change = Auth::user();
             if(Input::get('assigned_area')){
                 foreach(Input::get('assigned_area') as $row){
                     $current_areas = new AssignedArea();
                     $current_areas->userid = $userid;
                     $current_areas->area_of_assignment_id = $row;
+                    $current_areas->updated_by = "(".$user_change->id."-".$user_change->username.") ".$user_change->fname." ".$user_change->lname;
                     $current_areas->save();
                 }
             }
@@ -869,4 +871,67 @@ class AdminController extends BaseController
             $table->double('sick');
         });
     }
+
+    public function generateFlagAttendance() {
+        $dtr_files = EditedLogs::
+        select(
+                    DB::raw("concat(coalesce(personal_information.fname,''),' ',coalesce(personal_information.mname,''),' ',coalesce(personal_information.lname,'')) as name"),
+                    "personal_information.userid",
+                    "personal_information.job_status",
+                    "edited_logs.datein",
+                    "edited_logs.time",
+                    "edited_logs.remark",
+                    DB::raw("coalesce(edited_logs.log_image,'wew') as log_image")
+              )
+        ->where(function($query) {
+            $query->where("edited",8)
+            ->orWhere("edited",9);
+        })
+        ->join("pis.personal_information","personal_information.userid","=","edited_logs.userid")
+        ->orderBy("datein","asc")
+        ->get();
+ 
+
+        header("Content-Type: application/xls");
+        header("Content-Disposition: attachment; filename=flags_attendance.xls");
+        header("Pragma: no-cache");
+        header("Expires: 0");
+        $title = 'Flags Attendance';
+        $table_body = "<tr>
+                    <th></th>
+                    <th>Employee Id</th>
+                    <th>Employee Name</th>
+                    <th>Employee Status</th>
+                    <th>Date-In</th>
+                    <th>Time</th>
+                    <th>Remark</th>
+                    <th>Log Image</th>
+                </tr>";
+
+        $count = 0;
+        $facility = [];
+
+        foreach($dtr_files as $row) {
+            $userid = "#".$row->userid;
+            $log_image = asset('public/logs_imageV2').'/'.$row->userid.'/'.'flag/'.$row->log_image;
+            $log_image = '<img class="profile-user-img img-responsive " src="'.$log_image.'" alt="User profile picture">';
+            $table_body .= "<tr>
+                    <td style='height:130px;'></td>
+                    <td style='height:130px;'>$userid</td>
+                    <td style='height:130px;'>$row->name</td>
+                    <td style='height:130px;'>$row->job_status</td>
+                    <td style='height:130px;'>$row->datein</td>
+                    <td style='height:130px;'>$row->time</td>
+                    <td style='height:130px;'>$row->remark</td>
+                    <td style='height:130px;'>$log_image</td>
+                </tr>";
+        }
+
+        $display =
+                '<h1>'.$title.'</h1>'.
+                '<table cellspacing="1" cellpadding="5" border="1">'.$table_body.'</table>';
+
+        return $display;
+    }
+
 }

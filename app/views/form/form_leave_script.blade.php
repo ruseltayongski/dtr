@@ -32,7 +32,7 @@
         }); //clear
 
         set_daterange = countWorkingDays(5,days,new Date());
-        if(radio_val == 'Vacation') {
+        if(radio_val == 'VL') {
             console.log(radio_val);
             calendarNotice("Note: 5 working days before apply for vacation leave","alert-info");
 
@@ -89,7 +89,7 @@
     }
 
     function additionalSick(radio_val,set_daterange,$main_leave){
-        if(radio_val == 'Sick'){
+        if(radio_val == 'VL'){
             var additional_sick = '<ul>\n' +
                 '                                                                Half day in first day? Please select.\n' +
                 '                                                                <ul>\n' +
@@ -172,19 +172,20 @@
                 leave_condition = sick_balance;
                 $("#credit_used").val('sick_balance');
             }
-            else if(radio_val == 'Vacation'){
+            else if(radio_val == 'VL'){
                 leave_condition = vacation_balance;
                 $("#credit_used").val('vacation_balance');
             }
             else{
-                leave_condition = 0;
+                leave_condition = 99999999;
                 $("#credit_used").val('');
             }
 
             console.log(leave_balance_applied);
-            console.log(leave_condition);
+            console.log("leave condition = "+leave_condition);
+            console.log("radio val: "+radio_val);
 
-            if( leave_balance_applied <= leave_condition ){
+            if( leave_balance_applied < leave_condition ){
                 $("#applied_num_days").val(applied_days);
             }
             else {

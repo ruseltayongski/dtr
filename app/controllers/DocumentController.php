@@ -57,11 +57,11 @@ class DocumentController extends BaseController
             $leave->position = Input::get('position');
             $leave->salary = Input::get('salary');
             $leave->leave_type = Input::get('leave_type');
-            $leave->half_day_first = Input::get('half_day_first');
-            $leave->half_day_last = Input::get('half_day_last');
+            //$leave->half_day_first = Input::get('half_day_first');
+            //$leave->half_day_last = Input::get('half_day_last');
             $leave->leave_type_others_1 = Input::get('leave_type_others_1');
             $leave->leave_type_others_2 = Input::get('leave_type_others_2');
-            $leave->vacation_loc = Input::get('vacation_loc');
+            $leave->vication_loc = Input::get('vacation_loc');
             $leave->abroad_others = Input::get('abroad_others');
             $leave->sick_loc = Input::get('sick_loc');
             $leave->in_hospital_specify = Input::get('in_hospital_specify');

@@ -24,7 +24,7 @@
         id: 'mapbox/streets-v11',
         zoomOffset: -1,
         tileSize: 512,
-        accessToken: 'pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw'
+        accessToken: 'pk.eyJ1IjoicnVzZWx0YXlvbmdza2kiLCJhIjoiY2xmcnhzdDExMDB0ejNpc2V5dGZoNWpwbCJ9.9YzfK2Bpmht8neGUjdsdqg'
     }).addTo(area);
     
     L.circle([latitude, longitude], {

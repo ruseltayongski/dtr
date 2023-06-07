@@ -11,10 +11,10 @@
 function conn()
 {
 
-    $server = 'localhost';
+    $server = '192.168.110.31';
 
     try{
-        $pdo = new PDO("mysql:host=$server; dbname=dohdtr",'root','');
+        $pdo = new PDO("mysql:host=$server; dbname=dohdtr",'rtayong_31','rtayong_31');
         $pdo->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
     }
     catch (PDOException $err) {
@@ -28,9 +28,9 @@ function conn()
 function dts_con()
 {
     $pdo = null;
-    $server = 'localhost';
+    $server = '192.168.110.31';
     try{
-        $pdo = new PDO("mysql:host=$server; dbname=dtsv3.0",'root','');
+        $pdo = new PDO("mysql:host=$server; dbname=dtsv3.0",'rtayong_31','rtayong_31');
         $pdo->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
     }
     catch (PDOException $err) {
@@ -43,9 +43,9 @@ function dts_con()
 function pis_con()
 {
     $pdo = null;
-    $server = 'localhost';
+    $server = '192.168.110.31';
     try{
-        $pdo = new PDO("mysql:host=$server; dbname=pis",'root','');
+        $pdo = new PDO("mysql:host=$server; dbname=pis",'rtayong_31','rtayong_31');
         $pdo->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
     }
     catch (PDOException $err) {
