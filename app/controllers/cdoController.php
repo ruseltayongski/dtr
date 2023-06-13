@@ -253,7 +253,7 @@ class cdoController extends BaseController
 
     }
 
-    public function dtr_file($start_date,$end_date,$prepared_name,$cdo_hours = null){
+    public function dtr_file($start_date,$end_date,$prepared_name,$cdo_hours = null) {
         $dtr_enddate  = date('Y-m-d',(strtotime ( '-1 day' , strtotime ($end_date))));
 
         $f = new DateTime($start_date.' '. '00:00:00');
@@ -298,18 +298,23 @@ class cdoController extends BaseController
                     $event = 'IN';
                 else
                     $event = 'OUT';
-                //$details = new DtrDetails();
-                $details = new CdoLogs();
-                $details->userid = $userid;
-                $details->datein = $datein;
-                $details->time = $time[$i];
-                $details->event = $event;
-                $details->remark = 'CTO';
-                $details->edited = '1';
-                $details->holiday = '002';
-                $details->time_type = $type;
-
-                $details->save();
+                
+                $checkCdoLogs = CdoLogs::where("userid",$userid)->where("datein",$datein)->where("time",$time[$i])->where("event",$event)->first();
+                
+                if(!isset($checkCdoLogs)) {
+                    $details = new CdoLogs();
+                    $details->userid = $userid;
+                    $details->datein = $datein;
+                    $details->time = $time[$i];
+                    $details->event = $event;
+                    $details->remark = 'CTO';
+                    $details->edited = '1';
+                    $details->holiday = '002';
+                    $details->time_type = $type;
+                    $details->save();
+                }
+                
+                
             endfor;
 
             $startday++;
@@ -342,7 +347,6 @@ class cdoController extends BaseController
                 InformationPersonal::where('userid',$userid)->update([
                     "bbalance_cto" => (float)$personal_information->bbalance_cto - (float)$cdo->less_applied_for
                 ]);
-                
                 $cdo->approved_status = 1;
                 $this->dtr_file($cdo->start,$cdo->end,$cdo->prepared_name,$cdo->cdo_hours);
             }

@@ -247,7 +247,6 @@
             var page = "<?php echo Session::get('page_pending') ?>";
             var url = $("#cdo_updatev1").data('link')+'/'+data.val()+'/pending?page='+page;
             $.post(url,function(result){
-                console.log(url);
                 //$('.ajax_pending').html(loadingState);
                 setTimeout(function(){
                     if(result['count_pending'] && !result['paginate_pending']){
