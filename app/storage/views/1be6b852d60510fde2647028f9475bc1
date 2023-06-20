@@ -1,4 +1,9 @@
 <?php $__env->startSection('content'); ?>
+<?
+    header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
+    header("Cache-Control: no-cache");
+    header("Pragma: no-cache");
+?>
     <div class="box box-info">
         <div class="box-body">
             <span style="color:black;font-size: 15pt;padding: 1%;display:inline-flex;"> Beginning Balance : </span>
