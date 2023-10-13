@@ -89,16 +89,16 @@
                                     <tr>
                                         <td colspan="5">
                                             <?php
-                                                if(strpos($am_in_time, 'SO #') !== false) {
+                                                if(strpos($am_in_time, 'RPO #') !== false) {
                                                     $am_in_time = 'empty';
                                                 }
-                                                if(strpos($am_out_time, 'SO #') !== false) {
+                                                if(strpos($am_out_time, 'RPO #') !== false) {
                                                     $am_out_time = 'empty';
                                                 }
-                                                if(strpos($pm_in_time, 'SO #') !== false) {
+                                                if(strpos($pm_in_time, 'RPO #') !== false) {
                                                     $pm_in_time = 'empty';
                                                 }
-                                                if(strpos($pm_out_time, 'SO #') !== false) {
+                                                if(strpos($pm_out_time, 'RPO #') !== false) {
                                                     $pm_out_time = 'empty';
                                                 }
                                             ?>
@@ -464,7 +464,7 @@
                         }
                         else if(office_order){
                             log_status_change = "so_change";
-                            edited_display = "SO # "+office_order
+                            edited_display = "RPO # "+office_order
                         }
                         else if(travel_order){
                             log_status_change = "to_change";

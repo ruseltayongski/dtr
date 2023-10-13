@@ -54,7 +54,7 @@ class MobileControllerV2 extends BaseController
         }
 
         $user = User::where('users.imei','=',$imei)->leftJoin("pis.personal_information","personal_information.userid","=","users.userid")
-            ->first([
+            ->select([
                 'users.userid',
                 'users.fname',
                 'users.lname',
@@ -63,7 +63,9 @@ class MobileControllerV2 extends BaseController
                 \Illuminate\Support\Facades\DB::raw("$dmo_roles as dmo_roles"),
                 \Illuminate\Support\Facades\DB::raw("$area_of_assignment_roles as area_of_assignment_roles"),
                 'users.region as region'
-            ]);
+            ])
+            ->orderBy("users.id", "desc")
+            ->first();
 
 
         if(count((array)$user) > 0){

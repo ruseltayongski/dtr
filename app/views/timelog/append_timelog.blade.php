@@ -56,7 +56,7 @@
             </td>
         </tr>
         <tr>
-            <td >Office Order:</td>
+            <td >RPO:</td>
             <td >
                 <!--
                 <input type="number" style="width: 100%" min="-4" max="9999" id="{{ $elementId.'office_order' }}" {{ $disabled }}>

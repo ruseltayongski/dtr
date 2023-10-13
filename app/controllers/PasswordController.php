@@ -101,15 +101,12 @@ class PasswordController extends BaseController
         if(Request::method() == 'POST') {
             $user = Users::where('userid', '=', Input::get('userid'))->first();
             if(isset($user) and count((array)$user) > 0) {
-                if($user->emptype == 'SF' && Auth::user()->emptype != 'SF') {
-                    return Redirect::to('reset/password')->with('msg', 'No records found for userid : ' . Input::get('userid'));    
-                } else {
                     $user->password = Hash::make('123');
                     $user->pass_change = NULL;
                     $user->save();
                     return Redirect::to('reset/password')->with('msg', 'Password was reset to 123 for user : '. $user->fname . ' ' .$user->lname);    
                 }                
-            } else {
+             else {
                 return Redirect::to('reset/password')->with('msg', 'No records found for userid : ' . Input::get('userid'));
             }
         }
