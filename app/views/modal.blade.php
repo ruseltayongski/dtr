@@ -474,27 +474,27 @@
         <div class="modal-content">
             <div class="modal-header" style="background-color:#9C8AA5;color: white;">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title"> (7.C) Approved for:</h4>
+                <h4 class="modal-title"> 7.C APPROVED FOR:</h4>
             </div>
             <form action="{{ asset('leave/approved') }}" method="POST">
                 <div class="modal-body">
                     <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
                     <input type="hidden" value="" name="route_no" id="leave_route_approved" />
                     <b>
-                    <table class="table-bordered">
-                        <tr>
-                            <td><small class="text-success">Day(s) with pay:</small></td>
-                            <td>&nbsp;&nbsp;&nbsp;<input type="checkbox" value="yes" name="a_days_w_pay"></td>
-                        </tr>
-                        <tr>
-                            <td><small class="text-success">Day(s) without pay:</small></td>
-                            <td>&nbsp;&nbsp;&nbsp;<input type="checkbox" value="yes" name="a_days_wo_pay"></td>
-                        </tr>
-                        <tr>
-                            <td><small class="text-success">Others (specify):</small></td>
-                            <td><input type="text" name="a_others" class="form-control"></td>
-                        </tr>
-                    </table>
+                        <div class="has-success">
+                            <div class="checkbox">
+                                <label>
+                                    <input type="radio" value="1" name="approved_for"> days with pay
+                                </label><br>
+                                <label>
+                                    <input type="radio" value="2" name="approved_for"> days without pay
+                                </label>
+                                <label>
+                                    <input type="radio" value="3" name="approved_for"> others (Specify)
+                                    <input type="text"  name="for_others" style=" height: 40px;width: 250px" />
+                                </label>
+                            </div>
+                        </div>
                     </b>
                 </div>
                 <div class="modal-footer">
@@ -559,5 +559,103 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
+
+<div class="modal fade" tabindex="-1" role="dialog" id="users_privilege_modal">
+    <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color:#9C8AA5;color: white;">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title"> Privileged Employee(s)</h4>
+            </div>
+            <form action="{{ asset('privilege/add') }}" method="POST">
+                <div class="modal-body ">
+                    <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
+                    <input type="hidden" value="" name="supervisor_id" id="supervisor_id" />
+                    <div class="users_privilege_select_body">
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-warning" data-dismiss="modal">Cancel</button>
+                    <input type="submit" class="btn btn-success">
+                </div>
+            </form>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<div class="modal fade" tabindex="8" role="dialog" id="beginning_balance">
+    <div class="modal-dialog modal-sm" role="document" id="size">
+        <div class="modal-content">
+            <form action="{{ asset('update_bbalance') }}" method="get">
+                <div class="modal-header" style="background-color: #9C8AA5;">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title"><i class="fa fa-pencil"></i> Update Beginning Balance</h4>
+                </div>
+                <div>
+                    <table class="table">
+                        <tr>
+                            <td class="col-sm-3"><strong>User Id </strong></td>
+                            <td class="col-sm-1">: </td>
+                            <td class="col-sm-9">
+                                <input type="text" class="col-md-2 form-control" id="user_id" name="user_id" value="" disabled>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-sm-3"><strong>Overtime Date </strong></td>
+                            <td class="col-sm-1"> :</td>
+                            <td class="col-sm-9">
+                                <div class="input-group">
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-calendar"></i>
+                                    </div>
+                                    <input class="form-control datepickercalendar" value="" id="overtime_date" name="overtime_date" placeholder="select date..." required autocomplete="off">
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-sm-3"><strong>Number of Hours </strong></td>
+                            <td class="col-sm-1">: </td>
+                            <td class="col-sm-9">
+                                <input type="text" class="col-md-2 form-control" id="ot_hours" name="ot_hours" value="" required oninput="updateCTO()" autocomplete="off">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-sm-3"><strong>Rate </strong></td>
+                            <td class="col-sm-1">: </td>
+                            <td class="col-sm-9">
+                                <input type="text" class="col-md-2 form-control" id="ot_weight" name="ot_weight" value="" required oninput="updateCTO()" autocomplete="off">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-sm-3"><strong>Total CTO to Add</strong></td>
+                            <td class="col-sm-1">: </td>
+                            <td class="col-sm-9">
+                                <input type="text" class="col-md-2 form-control" id="cto_total" name="cto_total" readonly>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-sm-3"><strong>Remarks</strong></td>
+                            <td class="col-sm-1">: </td>
+                            <td class="col-sm-9">
+                                <input type="text" class="col-md-2 form-control" id="remarks" name="remarks" value="" autocomplete="off">
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div class="modal-footer">
+                    <input type="hidden" value="" id="userid" name="userid">
+                    <input type="hidden" value="" id="total_total" name="total_total">
+                    <input type="hidden" value="" id="row_id" name="row_id">
+                    <input type="hidden" class="action" value="" id="action" name="action">
+                    <button type="submit" id="option" name="option" class="btn btn-success" style="color:white;" onclick="setAction('update')"><i class="fa fa-pencil"> Update</i></button>
+                    <button type="hidden" id="option2" name="option2" class="btn btn-danger" style="display: none; color:white;" onclick="setAction('delete')"><i class="fa fa-trash"> Delete</i></button>
+                </div>
+            </form>
+
+        </div><!-- .modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
 
 

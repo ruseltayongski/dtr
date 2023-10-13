@@ -52,12 +52,12 @@
                                 <td >{{ $leave->leave_type }}</td>
                                 <td>
                                     <?php
-                                        if($leave->status == 'PENDING')
-                                            $color = 'primary';
-                                        elseif($leave->status == 'APPROVED')
-                                            $color = 'success';
-                                        else
-                                            $color = 'danger';
+                                    if($leave->status == 'PENDING')
+                                        $color = 'primary';
+                                    elseif($leave->status == 'APPROVED')
+                                        $color = 'success';
+                                    else
+                                        $color = 'danger';
                                     ?>
                                     <small class="label label-{{ $color }}">{{ $leave->status }}</small>
                                 </td>
@@ -101,7 +101,7 @@
                 keyboard: false,
                 show: true
             });
-            
+
             var route = $(this).data('route');
             $("#leave_route_approved").val(route);
         });

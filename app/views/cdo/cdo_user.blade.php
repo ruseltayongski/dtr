@@ -2,15 +2,15 @@
 @section('content')
     <div class="box box-info">
         <div class="box-body">
-            <span style="color:black;font-size: 15pt;padding: 1%;display:inline-flex;"> Beginning Balance : </span>
+            <span style="color:black;font-size: 15pt;padding: 1%;display:inline-flex;"> Beginning Balance: </span>
             <span style="color:green;display:inline-flex;font-size: 17pt;">
                 <?php
-                    if(InformationPersonal::where('userid',Auth::user()->userid)->first()->bbalance_cto){
-                        echo InformationPersonal::where('userid',Auth::user()->userid)->first()->bbalance_cto;
-                    }
-                    else {
-                        echo 0;
-                    }
+                if(InformationPersonal::where('userid',Auth::user()->userid)->first()->bbalance_cto){
+                    echo InformationPersonal::where('userid',Auth::user()->userid)->first()->bbalance_cto;
+                }
+                else {
+                    echo 0;
+                }
                 ?>
             </span>
             <div class="row">
@@ -30,6 +30,8 @@
                                     @if(Auth::user()->usertype != 1)
                                         <a href="#document_form" data-link="{{ asset('form/cdov1/form') }}" class="btn btn-success" data-dismiss="modal" data-backdrop="static" data-toggle="modal" data-target="#document_form" style="background-color:#9C8AA5;color: white;"><i class="fa fa-plus"></i> Create new</a>
                                     @endif
+                                    <a class="btn btn-info" data-dismiss="modal" data-toggle="modal" data-target="#ledger"><i class="fa fa-eye"></i> View Card</a>
+
                                 </form>
                             </div>
                             <div class="panel-body">
@@ -40,26 +42,26 @@
                                                 <table class="table table-list table-hover table-striped">
                                                     <thead>
                                                     <tr>
-                                                        <th></th>
                                                         <th class="text-center">Route #</th>
                                                         <th >Prepared Date</th>
                                                         <th >Reason</th>
-                                                        <th class="text-center">Approved Status</th>
+                                                        <th class="text-center">Proccessed Status</th>
                                                     </tr>
                                                     </thead>
                                                     <tbody style="font-size: 10pt;">
                                                     @foreach($cdo["my_cdo"] as $row)
                                                         <tr>
-                                                            <td><a href="#track" data-link="{{ asset('form/track/'.$row->route_no) }}" data-route="{{ $row->route_no }}" data-toggle="modal" class="btn btn-sm btn-success col-sm-12" style="background-color:#9C8AA5;color:white;"><i class="fa fa-line-chart"></i> Track</a></td>
+                                                            {{--<td><a href="#track" data-link="{{ asset('form/track/'.$row->route_no) }}" data-route="{{ $row->route_no }}" data-toggle="modal" class="btn btn-sm btn-success col-sm-12" style="background-color:#9C8AA5;color:white;"><i class="fa fa-line-chart"></i> Track</a></td>--}}
                                                             <td><a class="title-info" data-backdrop="static" data-route="{{ $row->route_no }}" style="color: #f0ad4e;" data-link="{{ asset('/form/info/'.$row->route_no.'/cdo') }}" href="#document_info" data-toggle="modal">{{ $row->route_no }}</a></td>
                                                             <td>{{ date('M d, Y',strtotime($row->prepared_date)) }}<br>{{ date('h:i:s A',strtotime($row->prepared_date)) }}</td>
                                                             <td>{{ $row->subject }}</td>
                                                             @if($row->approved_status)
-                                                                <td class="text-center"><span class="label label-info"><i class="fa fa-smile-o"></i> Approved </span></td>
+                                                                <td class="text-center"><span class="label label-info"><i class="fa fa-smile-o"></i> Processed </span></td>
                                                             @else
-                                                                <td class="text-center"><span class="label label-danger"><i class="fa fa-frown-o"></i> Pending to approved.. </span></td>
+                                                                <td class="text-center"><span class="label label-danger"><i class="fa fa-frown-o"></i> Pending to process.. </span></td>
                                                             @endif
                                                         </tr>
+
                                                     @endforeach
                                                     </tbody>
                                                 </table>
@@ -77,9 +79,151 @@
             </div>
         </div>
     </div>
+
+    <div class="modal fade" tabindex="-1" role="dialog" id="ledger">
+        <div class="modal-dialog modal-xl" role="document" id="size" style="max-width:1250px; width:100%">
+            <div class="modal-header" style="background-color: #9C8AA5;">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title"><strong> CTO HISTORY: <?php
+                        $fullName = strtoupper(Auth::user()->lname . ', ' . Auth::user()->fname . ' ' . Auth::user()->mname);
+                        echo $fullName;
+                        ?></strong></h4>
+            </div>
+            <div class="modal-content" id="modalContent">
+                <div class="header-container" style="max-height: calc(100vh - 50px); overflow-y: auto;">
+                    <table class="table table-list table-hover table-striped" id="card_table" >
+                        <thead  style="position: sticky; top: 0; z-index: 5;">
+                        <tr>
+                            <th style="align-items: center;" colspan="5">No. Of Hours Earned/Beginning Balance</th>
+                            <th>Date of Overtime</th>
+                            <th>No. of Hours Used</th>
+                            <th style="width: 19%;">Date Used</th>
+                            <th>Balance Credits</th>
+                            <th>As Of</th>
+                            <th>Remarks</th>
+                        </tr>
+                        </thead>
+                        <tbody id="t_body" name="t_body">
+                        @if(isset($card_view) and count($card_view) >0)
+                            @foreach($card_view as $card_viewL)
+
+                                @if(Auth::user()->userid == $card_viewL->userid)
+                                    <tr>
+
+                                        @if($card_viewL->ot_hours !== null)
+                                            <td>{{$card_viewL->ot_hours}}</td>
+                                            <td>x</td>
+                                            <td>{{$card_viewL->ot_rate}}</td>
+                                            <td>=</td>
+                                            <td>{{$card_viewL->ot_credits}}</td>
+                                            @else
+                                            <td></td><td></td><td></td><td></td><td></td>
+                                        @endif
+
+                                        <td>
+                                            @if($card_viewL->ot_date !== null)
+                                                {{ date('F j, Y', strtotime($card_viewL->ot_date)) }}
+                                            @endif
+                                        </td>
+                                        <td>{{$card_viewL->hours_used}}</td>
+                                        <td>{{$card_viewL->date_used}}</td>
+                                        <td>{{$card_viewL->bal_credits}}</td>
+                                        <td>{{$card_viewL->created_at}}</td>
+
+                                        @if ($card_viewL->status == 5)
+                                            <td id='remarks'style='color: red'>REMOVED: {{$card_viewL->remarks}}</td>
+                                        @elseif ($card_viewL->status == 2)
+                                            <td id='remarks'style='color: red'>MODIFIED(X): {{$card_viewL->remarks}}</td>
+                                        @elseif($card_viewL->status == 3)
+                                            <td id='remarks'style='color: red'>CANCELLED</td>
+                                        @elseif($card_viewL->status == 4)
+                                            <td id='remarks'style='color: red'>PROCESSED</td>
+                                        @elseif($card_viewL->status == 1)
+                                            <td id='remarks'style='color: #0b93ff'>PROCESSED</td>
+                                        @elseif($card_viewL->status == 6)
+                                            <td id='remarks'style='color: red'>MODIFIED(X)</td>
+                                        @elseif($card_viewL->status == 7)
+                                            <td id='remarks'style='color: blue'>BALANCE</td>
+                                        @elseif($card_viewL->status == 9)
+                                            <td id='remarks'style='color: green'>MAXIMUM</td>
+                                        @else
+                                            <td id='remarks'style='color: red'>EXCEED</td>
+                                        @endif
+                                    </tr>
+
+                                @else
+                                @endif
+                            @endforeach
+                        @else
+                            <tr>
+                                <td colspan='8'>No Data Available</td>
+                            </tr>
+                        @endif
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <div class="row">
+                        <div class="col-md-10"><p style=" padding: 0px; margin: 0px; text-align: center">Note: Credits applied for CDO within this
+                                month will be automatically processed in the following month. Each month has a maximum of 40 hours credits per employee,
+                                with a maximum limit of 120 hours credits per employee overall." </p></div>
+                        <div class="col-md-2"><ul class="pagination justify-content-center" id="pagination" style="margin: 0; padding: 0"></ul></div>
+                    </div>
+                </div>
+
+            </div><!-- .modal-content -->
+
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
 @endsection
 @section('js')
     <script>
+        $(document).ready(function () {
+
+            var pageSize = 15;
+            var currentPage = 1;
+            var pagination = $("#pagination");
+            var totalItems = $("#t_body tr").length;
+            var totalPages = Math.ceil(totalItems / pageSize);
+
+            function updateTableRows(page) {
+                var startIndex = (page - 1) * pageSize;
+                $("#t_body tr").hide().slice(startIndex, startIndex + pageSize).show();
+            }
+
+            function createPaginationButtons() {
+                var buttons = [];
+                buttons.push('<li class="page-item"><a class="page-link" href="#" data-page="prev">&laquo;</a></li>');
+                for (var i = 1; i <= totalPages; i++) {
+                    buttons.push('<li class="page-item"><a class="page-link" href="#" data-page="' + i + '">' + i + '</a></li>');
+                }
+                buttons.push('<li class="page-item"><a class="page-link" href="#" data-page="next">&raquo;</a></li>');
+                pagination.html(buttons.join(''));
+            }
+
+            createPaginationButtons();
+            updateTableRows(currentPage);
+
+            pagination.on("click", ".page-link", function () {
+                var targetPage = $(this).data("page");
+                if (targetPage === "prev") {
+                    currentPage = Math.max(currentPage - 1, 1);
+                } else if (targetPage === "next") {
+                    currentPage = Math.min(currentPage + 1, totalPages);
+                } else {
+                    currentPage = parseInt(targetPage);
+                }
+                updateTableRows(currentPage);
+            });
+
+
+            $("#viewCard").on("click", function () {
+                event.preventDefault();
+                $("#ledger").modal({
+
+                });
+            });
+        });
         $("#inclusive3").daterangepicker();
         $('.input-daterange input').each(function() {
             $(this).datepicker("clearDates");

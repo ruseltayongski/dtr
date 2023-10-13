@@ -153,7 +153,7 @@ class CalendarController extends BaseController
                 $details->remark = 'HOLIDAY';
                 $details->edited = '1';
                 $details->holiday = "B";
-                
+
                 $details->save();
 
                 $details = new EditedLogs();
@@ -254,7 +254,7 @@ class CalendarController extends BaseController
                 $details->remark = 'HOLIDAY';
                 $details->edited = '1';
                 $details->holiday = "B";
-                
+
                 $details->save();
 
                 $details = new EditedLogs();
@@ -328,7 +328,7 @@ class CalendarController extends BaseController
                 $details->remark = 'HOLIDAY';
                 $details->edited = '1';
                 $details->holiday = "B";
-                
+
                 $details->save();
 
                 $details = new EditedLogs();

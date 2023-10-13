@@ -1,4 +1,5 @@
 @if(count($document))
+
     <style>
         .trackFontSize{
             font-size: 8pt;

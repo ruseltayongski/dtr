@@ -22,11 +22,11 @@
             <table class="table table-list table-hover table-striped">
                 <thead>
                 <tr>
-                    <th style="width: 100px;"><div style="margin-left: 15px;">Userid</div></th>
-                    <th style="width: 100px;"><div style="margin-left: 15px;">Name</div></th>
-                    <th style="width: 100px;"><div style="margin-left: 15px;">Section / Division</div></th>
-                    <th style="width: 100px;"><div style="margin-left: 15px;">Balance</div></th>
-                    <th style="width: 100px;"><div style="margin-left: 15px;">Option</div></th>
+                    <th style="width: 17%;"><div style="margin-left: 15px;">Userid</div></th>
+                    <th style="width: 25%;"><div style="margin-left: 15px;">Name</div></th>
+                    {{--<th style="width: 100px;"><div style="margin-left: 15px;">Section / Division</div></th>--}}
+                    <th style="width: 40%;" colspan="2"><div style="margin-left: 15px;">Balance</div></th>
+                    <th style="width: 15%;"><div style="margin-left: 15px;">Option</div></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -46,16 +46,21 @@
                                 @if($user->fname || $user->lname || $user->mname || $user->name_extension) {{ $user->fname.' '.$user->mname.' '.$user->lname.' '.$user->name_extension }} @else <i>NO NAME</i> @endif
                             </label>
                         </td>
-                        <td>
+                        <!--<td>
                             <label class="text-info">@if(isset(pdoController::search_section($user->section_id)['description'])) {{ pdoController::search_section($user->section_id)['description'] }} @else NO SECTION @endif</label><br>
                             <small class="text-success" style="margin-left: 15px;"><em>(@if(isset(pdoController::search_division($user->division_id)['description'])) {{ pdoController::search_division($user->division_id)['description'] }} @else NO DIVISION @endif {{ ')' }}</em></small>
-                        </td>
+                        </td>-->
                         <td>
                             <label class="text-primary">Vacation: @if($user->vacation_balance) {{ $user->vacation_balance }} @else 0 @endif</label><br>
                             <label class="text-danger">Sick: @if($user->sick_balance) {{ $user->sick_balance }} @else 0 @endif</label>
                         </td>
                         <td>
+                            <label class="text-primary">Force: @if($user->FL) {{ $user->FL }} @else 0 @endif</label><br>
+                            <label class="text-danger">Special Privilege: @if($user->SPL) {{ $user->SPL }} @else 0 @endif</label>
+                        </td>
+                        <td>
                             <button class="button btn-sm beginning_balance" style="background-color: #9C8AA5;color: white" data-toggle="modal" data-id="{{ $user->userid }}" data-vacation="{{ $user->vacation_balance }}" data-sick="{{ $user->sick_balance }}" data-target="#beginning_balance">Update Leave Balance</button>
+                            <button class="button btn-info btn sm view_card" style="width: 85%" >View Card</button>
                         </td>
                     </tr>
                 @endforeach
@@ -78,7 +83,7 @@
                         <h4 class="modal-title" style="color: white"><i class="fa fa-pencil"></i> Leave Credits</h4>
                     </div>
                     <div class="modal-body">
-
+                        <label>Month</label>
                     </div>
                     <div class="modal-footer">
                         <input type="hidden" value="" id="userid" name="userid">
@@ -88,6 +93,7 @@
             </div><!-- .modal-content -->
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
+
 @endsection
 
 @section('js')
@@ -102,11 +108,12 @@
             $("#userid").val(userid);
             setTimeout(function(){
                 $('.modal-body').html(
-                    "<label class='text-success'>Vacation Balance</label><input type='number' class='form-control' id='vacation' value='"+vacation+"' name='vacation' required><label class='text-success'>Sick Balance</label><input type='number' class='form-control' id='sick' value='"+sick+"' name='sick' required>");
+                    "<label class='text-success'>Vacation Balance</label>" +
+                    "<input type='number' class='form-control' id='vacation' value='"+vacation+"' name='vacation' required>" +
+                    "<label class='text-success'>Sick Balance</label>" +
+                    "<input type='number' class='form-control' id='sick' value='"+sick+"' name='sick' required>");
             },500);
         });
-
-
     </script>
 @endsection
 
