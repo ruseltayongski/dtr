@@ -40,6 +40,9 @@
 		"preferred-install": "dist",
 		"platform": {
 			"php": "7.4.0"
+		},
+		"allow-plugins": {
+			"kylekatarnls/update-helper": true
 		}
 	},
 	"minimum-stability": "stable"

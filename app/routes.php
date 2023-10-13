@@ -118,7 +118,6 @@ Route::get('leave/print/{id}', 'DocumentController@print_leave');
 Route::get('leave/print/a/{id}', 'DocumentController@print_a');
 Route::post('leave/update/save', 'DocumentController@save_edit_leave');
 
-
 //ADMIN TRACKED DOCUMENTS
 Route::get('tracked/so', 'DocumentController@so_tracking');
 
@@ -181,6 +180,13 @@ Route::post('cdo_updatev1','cdoController@cdo_updatev1');
 Route::post('cdo_updatev1/{id}/{type}','cdoController@cdo_updatev1');
 Route::match(array('GET','POST'),'click_all/{type}','cdoController@click_all');
 Route::post('cdo_delete','cdoController@cdo_delete');
+///////CDO-PRIVILEGE
+Route::post('privilege/add','cdoController@superviseEmployee');
+Route::post('privilege/list','cdoController@superviseList');
+Route::get('privilege/list','cdoController@superviseList');
+
+
+//trial
 
 /////////CALENDAR
 Route::get('calendar','CalendarController@calendar');

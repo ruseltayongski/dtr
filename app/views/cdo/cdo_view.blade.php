@@ -1,3 +1,6 @@
+
+
+
 <title>CTO</title>
 <head>
     <style>
@@ -29,7 +32,7 @@
     </style>
 </head>
 <body>
-<form action="{{ $data['asset'] }}" method="POST" class="form-submit">
+<form action="{{ $data['asset'] }}" method="POST" class="form-submit" id="mainForm">
     <input type="hidden" value="{{ csrf_token() }}" name="_token">
     <div class="clearfix"></div>
     <div class="new-times-roman table-responsive">
@@ -38,15 +41,11 @@
                 <td class="align"><img src="{{ asset('public/img/doh.png') }}" width="100"></td>
                 <td width="90%" >
                     <div class="align small-text">
-                        Republic of the Philippines<br>
                         DEPARTMENT OF HEALTH<br>
-                        <strong>CENTRAL VISAYAS CENTER for HEALTH DEVELOPMENT</strong><br>
-                        Osmeña Boulevard,Sambag II,Cebu City, 6000 Philippines<br>
-                        Regional Director’s Office Tel. No. (032) 253-6355 Fax No. (032) 254-0109<br>
-                        Official Website: http://www.ro7.doh.gov.ph Email Address: dohro7@gmail.com<br>
+                        <strong>CENTRAL VISAYAS CENTER for HEALTH DEVELOPMENT VII<br>
+                            APPLICATION FOR COMPENSATORY TIME OFF</strong><br>
                     </div>
                 </td>
-                <td class="align"><img src="{{ asset('public/img/f1.jpg') }}" width="100"></td>
             </tr>
         </table>
         <br>
@@ -61,7 +60,7 @@
                         <input type="text" value="{{ $data['section'] }}" class="form-control" readonly>
                     </div>
                 </td>
-                <td class="col-sm-1">Cluster: </td>
+                <td class="col-sm-1">Division: </td>
                 <td >
                     <div class="input-group">
                         <div class="input-group-addon">
@@ -78,7 +77,7 @@
                         <div class="input-group-addon">
                             <i class="fa fa-calendar-o"></i>
                         </div>
-                        <input class="form-control datepickercalendar" value="<?php if(isset($data['cdo']['prepared_date'])) echo date('m/d/Y',strtotime($data['cdo']['prepared_date'])); else echo date('m/d/Y'); ?>" name="prepared_date" required>
+                        <input class="form-control datepickercalendar" id="prepared_date" value="<?php if(isset($data['cdo']['prepared_date'])) echo date('m/d/Y',strtotime($data['cdo']['prepared_date'])); else echo date('m/d/Y'); ?>" name="prepared_date" required>
                     </div>
                 </td>
                 <td class="col-sm-1">Reason:</td>
@@ -94,7 +93,7 @@
         </table>
         <table class="table table-hover table-striped">
             <tr>
-                <td class="col-sm-7">
+                <td style="width: 58%">
                     <table class="table table-list table-hover table-striped table-info">
                         <tr>
                             <th>Name</th>
@@ -112,32 +111,92 @@
                         </tr>
                     </table>
                 </td>
-                <td class="col-sm-7">
-                    <table class="table table-list table-hover table-striped">
+                <td style="width: 42%">
+                    <table class="table table-list table-hover table-striped" id="myTable">
                         <tr>
-                            <td colspan="2">NUMBER OF WORKING DAY/S APPLIED FOR:</td>
+                            <td colspan="4">NUMBER OF WORKING DAY/S APPLIED FOR:</td>
                         </tr>
                         <tr>
                             <td>
-                                <div class="input-group">
-                                    <div class="input-group-addon">
-                                        <i class="fa fa-calendar"></i>
-                                    </div>
-                                    <input type="text" class="form-control" value="<?php if(isset($data['cdo']['start'])) echo date('m/d/Y',strtotime($data['cdo']['start'])).' - '.date('m/d/Y',strtotime('-1 day',strtotime($data['cdo']['end']))); ?>" id="inclusive1" name="inclusive_dates" placeholder="Input date range here..." required>
+                                <span style="display: inline-block;">Inclusive Dates:</span>
+                                <div style="display: inline-block; float: right;">
+                                    <button style="width: 50px; display: inline-block;" class="btn btn-sm btn-default addButton" type="button"><strong>+</strong></button>
                                 </div>
                             </td>
-                            <td class="col-sm-4">Inlusive Dates</td>
                         </tr>
-                        <tr>
-                            <td>
-                                <select class="form-control cdo_hours" onchange="halfday($(this))" name="cdo_hours">
-                                    <option value='cdo_wholeday'>WHOLEDAY</option>
-                                    <option value='cdo_am'>AM</option>
-                                    <option value='cdo_pm'>PM</option>
-                                </select>
-                            </td>
-                            <td class="col-sm-4">am/pm/wholeday</td>
-                        </tr>
+
+                        @if(isset($data['cdo']['start']))
+                            <?php
+                            $inclusiveDatesData = $data['inclusiveDates'];
+                            ?>
+                            @if(count($inclusiveDatesData) === 0)
+                                    <tr class="newRow">
+                                        <td>
+                                            <label style="width: 160px; margin: 0; padding: 0;" id="date_label" name="date_label" class="date_label">
+                                                {{ date('m/d/Y', strtotime($data['cdo']['start'])) }} - {{ date('m/d/Y', strtotime('-1 day', strtotime($data['cdo']['end']))) }}
+                                            </label>
+                                            <div class="input-group">
+                                                <div class="input-group-addon">
+                                                    <i class="fa fa-calendar"></i>
+                                                </div>
+                                                <input style="width: 100px; margin-right: 5px; display: inline-block" type="text" class="form-control datepickerInput" value="{{ date('m/d/Y', strtotime($data['cdo']['start'])) }} - {{ date('m/d/Y', strtotime('-1 day', strtotime($data['cdo']['end']))) }}" id="inclusive1" name="inclusive_dates[]" placeholder="Input date here..." required>
+                                                <select type="hidden" style="width: 120px; display: inline-block; margin-right: 5px" class="form-control cdo_hours" name="cdo_hours[]" required>
+                                                    <option value="cdo_wholeday" {{$data['cdo']['cdo_hours'] === 'cdo_wholeday' ? 'selected' : '' }}>WHOLEDAY</option>
+                                                    <option value="cdo_am" {{ $data['cdo']['cdo_hours'] === 'cdo_am' ? 'selected' : '' }}>AM</option>
+                                                    <option value="cdo_pm" {{ $data['cdo']['cdo_hours'] === 'cdo_pm' ? 'selected' : '' }}>PM</option>
+                                                </select>
+                                                <button style="width: 45px; height: 33px" type="button" class="btn btn-sm btn-default deleteButton"><strong>-</strong></button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                            @else
+                                @foreach($data['inclusiveDates'] as $index => $inclusiveDates)
+                                    <tr class="newRow">
+                                        <td>
+                                            <?php
+                                            $start_date = $inclusiveDates['start_date'];
+                                            $end_date = date('Y-m-d', strtotime('-1 day', strtotime($inclusiveDates['end_date'])));
+                                            $formatted_range = date('m/d/Y', strtotime($start_date)) . ' - ' . date('m/d/Y', strtotime($end_date));
+                                            ?>
+                                            <label style="width: 160px; margin: 0; padding: 0;" id="date_label" name="date_label" class="date_label"><?php echo $formatted_range; ?></label>
+                                            <div class="input-group">
+                                                <div class="input-group-addon">
+                                                    <i class="fa fa-calendar"></i>
+                                                </div>
+                                                <input style="width: 100px; margin-right: 5px; display: inline-block" type="text" class="form-control datepickerInput" value="<?php echo date('m/d/Y', strtotime($inclusiveDates['start_date'])) . ' - ' . date('m/d/Y', strtotime('-1 day', strtotime($inclusiveDates['end_date']))); ?>" id="inclusive1" name="inclusive_dates[]" placeholder="Input date here..." required>
+                                                <select type="hidden" style="width: 120px; display: inline-block; margin-right: 5px" class="form-control cdo_hours" name="cdo_hours[]" required>
+                                                    <option value="cdo_wholeday" {{ $inclusiveDates['cdo_hours'] === 'cdo_wholeday' ? 'selected' : '' }}>WHOLEDAY</option>
+                                                    <option value="cdo_am" {{ $inclusiveDates['cdo_hours'] === 'cdo_am' ? 'selected' : '' }}>AM</option>
+                                                    <option value="cdo_pm" {{ $inclusiveDates['cdo_hours'] === 'cdo_pm' ? 'selected' : '' }}>PM</option>
+                                                </select>
+                                                <button style="width: 45px; height: 33px" type="button" class="btn btn-sm btn-default deleteButton"><strong>-</strong></button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            @endif
+                        @else
+                            <tr class="newRow">
+                                <td>
+                                    <label style="width: 170px; margin: 0; padding: 0;" class="date_label" id="date_label" name="date_label"></label>
+                                    <div class="input-group">
+                                        <div class="input-group-addon">
+                                            <i class="fa fa-calendar"></i>
+                                        </div>
+                                        <input style="width: 100px; margin-right: 5px; display:inline-block;" type="text" class="form-control datepickerInput" value="" id="inclusive1" name="inclusive_dates[]" placeholder="Input date here..." required>
+                                        <select type="hidden" style="width: 120px; display:inline-block; margin-right: 5px" class="form-control cdo_hours" name="cdo_hours[]">
+                                            <option value='cdo_wholeday'>WHOLEDAY</option>
+                                            <option value='cdo_am'>AM</option>
+                                            <option value='cdo_pm'>PM</option>
+                                        </select>
+                                        <button style="width: 45px; height: 33px" type="button" class="btn btn-sm btn-default deleteButton"><strong>-</strong></button>
+                                    </div>
+                                </td>
+                            </tr>
+                        @endif
+
+
+
                     </table>
                 </td>
             </tr>
@@ -159,23 +218,23 @@
                                 <input type="text" value="{{ $data['bbalance_cto'] }}" class="form-control beginning_balance" name="beginning_balance" maxlength="15" readonly>
                             </td>
                             <td>
-                                <input type="text" value="<?php 
-                                    if(isset($data['cdo']['less_applied_for'])) 
-                                        echo $data['cdo']['less_applied_for']; 
-                                    else 
-                                        echo 0; 
+                                <input type="text" value="<?php
+                                if(isset($data['cdo']['less_applied_for']))
+                                    echo $data['cdo']['less_applied_for'];
+                                else
+                                    echo 0;
                                 ?>" class="form-control less_applied" name="less_applied" maxlength="15" readonly>
                             </td>
                             <td>
-                                <input type="text" value="<?php 
-                                    if(isset($data)) {
-                                        if(isset($data['cdo']['remaining_balance']))
-                                            echo $data['cdo']['remaining_balance'];
-                                        else
-                                            echo 0;
-                                    } 
-                                    else 
-                                    echo $data['bbalance_cto']; 
+                                <input type="text" value="<?php
+                                if(isset($data)) {
+                                    if(isset($data['cdo']['remaining_balance']))
+                                        echo $data['cdo']['remaining_balance'];
+                                    else
+                                        echo 0;
+                                }
+                                else
+                                    echo $data['bbalance_cto'];
                                 ?>" class="form-control remaining_balance" name="remaining_balance" maxlength="15" readonly>
                             </td>
                         </tr>
@@ -200,19 +259,20 @@
                         <tr><td class="align">Administrative Officer V</td></tr>
                         <tr><td class="align">Personel Section</td></tr>
                     </table>
+
                 </td>
                 <td>
                     <table width="100%">
                         <tr>
                             <td class="align">
                                 <select class="chosen-select-static form-control" name="immediate_supervisor" required>
-                                     @if($data['type'] == 'update')
+                                    @if($data['type'] == 'update')
                                         <option value="{{ $data['section_head'][0]['id'] }}">{{ $data['section_head'][0]['fname'].' '.$data['section_head'][0]['mname'].' '.$data['section_head'][0]['lname'] }}</option>
                                     @endif
                                     @if(count($data['section_head']) > 0)
                                         @foreach($data['section_head'] as $section_head)
                                             @if(isset($section_head['id']))
-                                            <option value="{{ $section_head['id'] }}">{{ $section_head['fname'].' '.$section_head['mname'].' '.$section_head['lname'] }}</option>
+                                                <option value="{{ $section_head['id'] }}">{{ $section_head['fname'].' '.$section_head['mname'].' '.$section_head['lname'] }}</option>
                                             @endif
                                         @endforeach
                                     @endif
@@ -246,33 +306,149 @@
         @if($data['type'] == "update")
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
-                <button type="button" class="btn btn-danger" data-dismiss="modal" data-toggle="modal" data-target="#deleteDocument" style="color:white"><i class="fa fa-trash"></i> Remove</button>
+                @if(Auth :: user()->usertype !=1)
+                    @if (!$data['cdo']['approved_status'])
+                        <button type="button" class="btn btn-danger" data-dismiss="modal" data-toggle="modal" data-target="#deleteDocument" style="color:white"><i class="fa fa-trash"></i> Remove</button>
+                    @else
+                        <button onclick="warning()" type="button" class="btn btn-danger" ><i class="fa fa-trash"></i> Remove</button>
+                    @endif
+                @else
+                    <button onclick="warning1()" type="button" class="btn btn-danger" ><i class="fa fa-trash"></i> Remove</button>
+                @endif
                 <button type="button" class="btn btn-success" data-dismiss="modal" style="color:white" data-toggle="modal" data-target="#paperSize"><i class="fa fa-barcode"></i> Barcode v1</button>
                 <a target="_blank" href="{{ asset('pdf/track') }}" class="btn btn-success" style="color:white"><i class="fa fa-barcode"></i> Barcode v2</a>
                 <a target="_blank" href="{{ asset('form/cdov1/pdf') }}" class="btn btn-success" style="color:white"><i class="fa fa-barcode"></i> Barcode v3</a>
-                @if(!$data['cdo']['approved_status'] || Auth::user()->usertype)
-                    <button type="submit" class="btn btn-primary btn-submit" style="color:white"><i class="fa fa-pencil"></i> Update</button>
+                @if( Auth::user()->usertype !=1)
+                    @if (!$data['cdo']['approved_status'])
+                        <button type="submit" class="btn btn-primary btn-submit" style="color:white"><i class="fa fa-pencil"></i> Update</button>
+                    @else
+                        <button onclick="warning()" type="button" class="btn btn-primary btn-submit" style="color:white"><i class="fa fa-pencil"></i> Update</button>
+                    @endif
                 @else
-                    <button onclick="warning()" type="button" class="btn btn-primary btn-submit" style="color:white"><i class="fa fa-pencil"></i> Update</button>
+                    <button onclick="warning1()" type="button" class="btn btn-primary btn-submit" style="color:white"><i class="fa fa-pencil"></i> Update</button>
                 @endif
             </div>
         @else
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Cancel</button>
+                <button type="button" class="btn btn-default"  data-dismiss="modal"><i class="fa fa-times"></i> Cancel</button>
                 <button type="submit" class="btn btn-success btn-submit" style="color:white;"><i class="fa fa-send"></i> Submit</button>
             </div>
         @endif
     </div>
 </form>
 </body>
-<script>
 
-    $('.chosen-select-static').chosen();
-    $('.datepickercalendar').datepicker({
-        autoclose: true
+
+<script>
+    var previousDate;
+    var dates=[];
+    var datesList=[];
+    var totalDays=0;
+    var updatedValue=[];
+    var indexList=[];
+    var deletedList=[];
+    var deletedIndex=[];
+    var deletedValue=[];
+    $('.datepickerInput').on('click', function() {
+        previousDate = $(this).val();
     });
 
-    var cdo_hoursDefault = "<?php if(isset($data['cdo']['cdo_hours']))echo $data['cdo']['cdo_hours'] ?>";
+    $('.datepickerInput').on('apply.daterangepicker', function() {
+        var currentDate = $(this).val();
+        if (previousDate !== currentDate){
+            dates.push(previousDate);
+        }
+    });
+    $('.chosen-select-static').chosen();
+
+
+    $(document).ready(function () {
+        <?php
+        $privilege_employee = PrivilegeEmployee::get();
+        $userid = Auth::user()->userid;
+        $isPrivilegeEmployee = false;
+        $personal_information= InformationPersonal::where('userid', '=', $userid)->first();
+        $open_dates = false;
+        if($personal_information){
+            $division= $personal_information->division_id;
+            $section= $personal_information->section_id;
+            if($division == 3 && $section == 52 || $section == 53){
+                $open_dates = true;
+            }
+        }
+        foreach ($privilege_employee as $employee) {
+            if ($employee->userid == $userid && $employee->status ==0) {
+                $isPrivilegeEmployee = true;
+                break;
+            }
+        }
+        echo "var isPrivilegeEmployee = " . ($isPrivilegeEmployee ? 'true' : 'false') . ";";
+        echo "var open_dates = " . ($open_dates ? 'true' : 'false') . ";";
+        ?>
+        var today = new Date();
+
+        var dd = today.getDate();
+        var dd2 = today.getDate();
+        var mm = today.getMonth() + 1;
+        var yyyy = today.getFullYear();
+
+        var firstDayOfMonth = new Date(yyyy, mm - 1, 1);
+
+        var daysDiff = Math.floor((today - firstDayOfMonth) / (1000 * 60 * 60 * 24)) + 1;
+
+        var startDate = mm-1 + '/' + (dd - daysDiff) + '/' + yyyy;
+        var endDate = mm + '/' + dd2 + '/' + yyyy;
+
+        if(isPrivilegeEmployee){
+            if(open_dates){
+                $('.datepickercalendar').datepicker({
+                    autoclose: true,
+                    locale: {
+                        format: 'MM/DD/YYYY'
+                    },
+                    minDate: mm + '/' + dd + '/' + yyyy,
+                    startDate: startDate,
+                    endDate: endDate,
+                });
+            }else{
+                $('.datepickercalendar').datepicker({
+                    autoclose: true,
+                    daysOfWeekDisabled: [0,6],
+                    locale: {
+                        format: 'MM/DD/YYYY'
+                    },
+                    minDate: mm + '/' + dd + '/' + yyyy,
+                    startDate: startDate,
+                    endDate: endDate,
+                });
+            }
+        }else{
+             startDate = mm + '/' + dd + '/' + yyyy;
+             endDate = mm + '/' + dd + '/' + yyyy;
+            $('.datepickercalendar').datepicker({
+                autoclose: true,
+                daysOfWeekDisabled: [0,6],
+                locale: {
+                    format: 'MM/DD/YYYY'
+                },
+                minDate: mm + '/' + dd + '/' + yyyy,
+                startDate: startDate,
+                endDate: endDate,
+            });
+        }
+
+        $(".deleteButton").each(function () {
+
+        });
+        var row= $(this).closest("tr"); //.remove();
+        var totalRows = row.siblings("tr").andSelf().length;
+        if (totalRows-2 > 1) {
+//            row.remove();
+        }
+        $(this).remove();
+    });
+
+    var cdo_hoursDefault = "<?php if(isset($data['inclusiveDates'])) foreach($data['inclusiveDates'] as $index=>$inclusiveDates)echo $inclusiveDates['cdo_hours'] ?>";
     var halfdayFlag1  = true;
     var halfdayFlag2 = true;
     if(cdo_hoursDefault == 'cdo_am'){
@@ -287,9 +463,198 @@
     var rangeFlag = true;
     var less_applied,remaining_balance,diff,haldayDiff;
 
-    $(function()
-    {
-        $("body").delegate("#inclusive1","focusin",function(){
+    function getAllCDO(row) {
+        <?php
+
+            $isTrue=false;
+        if(isset($data['inclusiveDates'])){
+            $isTrue=true;
+        }else{
+            $isTrue=false;
+        }
+
+        echo "var isTrue = " . ($isTrue ? 'true' : 'false') . ";";
+
+        ?>
+
+        var hours = [];
+        var length= 0;
+        var con1= 0;
+        var con2=0;
+        var startIndex= 0;
+        var endIndex=0;
+        var resultArray=[];
+
+        if(isTrue==false){
+            if (row) {
+                row.find('.cdo_hours').each(function() {
+                    var hour = $(this).val();
+                    hours.push(hour);
+                });
+            }
+            if(deletedList.length==0){
+                length= hours.length + deletedList.length;
+                con1= length/6;
+                con2= con1 * 4;
+                startIndex= con2;
+                endIndex=startIndex+con1;
+                resultArray=hours.slice(startIndex, endIndex);
+            }else {
+                length= hours.length + deletedList.length;
+                con1= length/6;
+                con2= con1 * 4;
+                startIndex= con2;
+                endIndex=startIndex+con1 - deletedList.length;
+                resultArray=hours.slice(startIndex, endIndex);
+            }
+
+        }else{
+            if (row) {
+                row.find('.cdo_hours').each(function() {
+                    var hour = $(this).val();
+                    hours.push(hour);
+                });
+            }if(deletedList.length==0){
+                length= hours.length;
+                con1= length/6;
+                con2= con1 * 3;
+                startIndex= con2;
+                endIndex=startIndex+con1;
+                resultArray=hours.slice(startIndex, endIndex);
+            }else{
+                length= hours.length + deletedList.length;
+                con1= length/6;
+                con2= con1 * 3;
+                startIndex= con2;
+                endIndex=startIndex+con1-deletedList.length;
+                resultArray=hours.slice(startIndex, endIndex);
+            }
+        }
+        return resultArray;
+        deletedList=[];
+    }
+
+    function getAllSelectedDates(row) {
+        var selectedDates = [];
+        var selected=[];
+        var length=0;
+        var con=0;
+        var con1=0;
+        var startIndex=0;
+        var endIndex=0;
+
+        <?php
+        $isTrue=false;
+        if(isset($data['inclusiveDates'])){
+            $isTrue=true;
+        }else{
+            $isTrue=false;
+        }
+        echo "var isTrue = " . ($isTrue ? 'true' : 'false') . ";";
+        ?>
+        if (row) {
+            row.find('.datepickerInput').each(function() {
+                var selectedDate = $(this).val();
+                selected.push(selectedDate);
+            });
+        }
+        if(isTrue==true){
+            if(deletedList.length==0){
+                 length= selected.length;
+                 con=length/6;
+                 con1= length/2;
+                 startIndex= con1;
+                 endIndex=startIndex+con;
+                selectedDates=selected.slice(startIndex, endIndex);
+            }else{
+                 length= selected.length +deletedList.length;
+                 con=length/6;
+                 con1= length/2;
+                 startIndex= con1;
+                 endIndex=startIndex+con - deletedList.length;
+                selectedDates=selected.slice(startIndex, endIndex);
+            }
+        }else{
+            if(deletedList.length==0){
+                 length= selected.length;
+                 con=length/6;
+                 con1= (length/3)*2 ;
+                 startIndex= con1;
+                 endIndex=startIndex+con;
+                selectedDates=selected.slice(startIndex, endIndex);
+            }else{
+                 length= selected.length +deletedList.length;
+                 con=length/6;
+                 con1= (length/3)*2 ;
+                 startIndex= con1;
+                 endIndex=startIndex+con - deletedList.length;
+                selectedDates=selected.slice(startIndex, endIndex);
+            }
+        }
+        return selectedDates;
+    }
+    function calculateCDO(cdo_hours) {
+        if (cdo_hours=='cdo_am' || cdo_hours == 'cdo_pm'){
+            return 4;
+        }
+        else{
+            return 8;
+        }
+    }
+    function calculateTotalDays(){
+        var totalDays=0;
+
+        var newRow= $('.newRow');
+        var selectedDates = getAllSelectedDates(newRow);
+
+        selectedDates.forEach(function (dateRange) {
+            var startDate = dateRange.split(" - ")[0];
+            var endDate = dateRange.split(" - ") [1];
+
+            if(startDate !== '' && endDate !=='') {
+                var start = moment(startDate, 'MM/DD/YYYY');
+                var end = moment(endDate, 'MM/DD/YYYY');
+                var diff = end.diff(start, 'days') + 1;
+
+                if (!isNaN(diff)) {
+
+                    totalDays += diff;
+                }
+            }
+        });
+        return totalDays;
+    }
+
+    function calculateTotalCDO(){
+        var totalCDO=0;
+
+        var newRow= $('.newRow');
+        var selectedDates = getAllSelectedDates(newRow);
+        var hours= getAllCDO(newRow);
+
+        for (var i = 0; i < selectedDates.length; i++) {
+            var cdoHours = hours[i];
+            var computation=calculateCDO(cdoHours);
+            var selectedDateRange = selectedDates[i];
+
+            var startDate = selectedDateRange.split(" - ")[0];
+            var endDate = selectedDateRange.split(" - ")[1];
+            if (startDate !== '' && endDate !== '') {
+                var start = moment(startDate, 'MM/DD/YYYY');
+                var end = moment(endDate, 'MM/DD/YYYY');
+                var diff = end.diff(start, 'days') + 1;
+
+                if (!isNaN(computation) && !isNaN(diff)) {
+                    totalCDO += computation * diff;
+                }
+            }
+            }
+        return totalCDO;
+    }
+
+    $(function () {
+
+        $("body").delegate("#inclusive1", "focusin", function () {
             var today = new Date();
 
             var weekday = new Array(7);
@@ -304,77 +669,287 @@
             var name_of_days = weekday[today.getDay()];
             var beforeDaysToApply;
 
-            if( name_of_days == "Friday" ){
-                beforeDaysToApply = 5;
-            } else {
-                beforeDaysToApply = 2;
+            <?php
+            $privilege_employee = PrivilegeEmployee::get();
+            $userid = Auth::user()->userid;
+
+            $isPrivilegeEmployee = false;
+
+            $personal_information= InformationPersonal::where('userid', '=', $userid)->first();
+            $open_dates = false;
+            if($personal_information){
+                $division= $personal_information->division_id;
+                $section= $personal_information->section_id;
+                if($division == 3 && $section == 52 || $section == 53){
+                    $open_dates = true;
+                }
             }
 
-            var dd = today.getDate()+beforeDaysToApply;
-            var mm = today.getMonth()+1;
+            foreach ($privilege_employee as $employee) {
+                if ($employee->userid == $userid && $employee->status ==0) {
+                    $isPrivilegeEmployee = true;
+                    break;
+                }
+            }
+                $holiday = Calendars::get();
+                $holiday_dates = array();
+                foreach ($holiday as $event) {
+                    $holiday_dates[] = $event['start'];
+                }
+            echo "var holidays = " . json_encode($holiday_dates) . ";";
+            echo "var isPrivilegeEmployee = " . ($isPrivilegeEmployee ? 'true' : 'false') . ";";
+            echo "var open_dates = " . ($open_dates ? 'true' : 'false') . ";";
+            echo "var userid = " . json_encode($userid) . ";";
+            echo "var privilegeData = " . json_encode($privilege_employee) . ";";
+            echo "var personal_information = " . json_encode($personal_information) . ";";
+            ?>
+            var name_of_days = weekday[today.getDay()];
+            var beforeDaysToApply;
+            if (open_dates) {
+                beforeDaysToApply = 2;
+            }
+            else{
+                if (name_of_days === "Friday") {
+                    beforeDaysToApply = 3;
+                } else {
+                    beforeDaysToApply = 2;
+                }
+            }
+            var dd = today.getDate();
+            var mm = today.getMonth() + 1;
             var yyyy = today.getFullYear();
-            var startDate,endDate;
-            @if(isset($data['cdo']['end']))
-                startDate = "<?php echo date('m/d/Y',strtotime($data['cdo']['start'])); ?>";
-            @else
-                startDate = mm+'/'+dd+'/'+yyyy;
-            @endif
-            @if(isset($data['cdo']['end']))
-                endDate = "<?php echo date('m/d/Y',strtotime('-1 day',strtotime($data['cdo']['end']))); ?>";
-            @else
-                endDate = mm+'/'+dd+'/'+yyyy;
-            @endif
+
+            function isHoliday(date) {
+                const formattedDate = moment(date).format('YYYY-MM-DD');
+                return holidays.includes(formattedDate);
+            }
+
+            function getNextValidDay(date, daysToSkip) {
+                while (daysToSkip > 0 || isHoliday(date) || date.getDay() === 0 || date.getDay() === 6) {
+                    if (!isHoliday(date) && date.getDay() !== 0 && date.getDay() !== 6) {
+                        daysToSkip--;
+                    }
+                    date.setDate(date.getDate() + 1);
+                }
+                return date;
+            }
+                var nextValidDay = getNextValidDay(new Date(yyyy, mm - 1, dd), Math.abs(beforeDaysToApply));
+                dd = nextValidDay.getDate();
+                mm = nextValidDay.getMonth() + 1;
+                yyyy = nextValidDay.getFullYear();
+
+             previousDate = $(this).val();
+
+             if(previousDate !== ""){
+                 startDate = previousDate.split(" - ")[0];
+                 endDate = previousDate.split(" - ")[1];
+             }else{
+
+                 if(isPrivilegeEmployee && open_dates){
+
+                     var firstDay = mm-1+'/01/'+yyyy;
+                     startDate = firstDay;
+                     endDate = today.getDate();
+
+                 }if(isPrivilegeEmployee){
+
+                      var firstDay = mm-1+'/01/'+yyyy;
+                      startDate = firstDay;
+                      endDate = today.getDate();
+
+                 }else{
+                     startDate = mm + '/' + dd + '/' + yyyy;
+                     endDate = mm + '/' + dd + '/' + yyyy;
+                 }
+             }
+
             $(this).daterangepicker({
+                autoclose: true,
                 locale: {
                     format: 'MM/DD/YYYY'
                 },
-                minDate: mm+'/'+dd+'/'+yyyy,
+                minDate:isPrivilegeEmployee ? mm - 1 + '/01/' + yyyy : mm + '/' + dd + '/' + yyyy,
                 startDate: startDate,
                 endDate: endDate,
-            }).on('apply.daterangepicker', function(ev, picker)
-            {
+                isInvalidDate: function (startDate, endDate) {
+                    for(var d= startDate; d.isBefore(endDate);d.add(1, 'days')){
+                        if(d.day()===0 || d.day()=== 6){
+                            return true;
+                        }
+                    }
+                    return false;
+                }
+
+            }).on('apply.daterangepicker', function (ev, picker) {
+
+                var selectedStartDate = picker.startDate;
+                var selectedEndDate = picker.endDate;
+                var dateLabel = $(this).closest('.newRow').find('.date_label');
+                if (typeof dateLabel !== 'undefined' && dateLabel.length > 0) {
+                    dateLabel.text(selectedStartDate.format('MM/DD/YYYY') + ' - ' + selectedEndDate.format('MM/DD/YYYY'));
+                } else {
+                }
+                dateLabel.val(selectedStartDate.format('MM/DD/YYYY') + ' - ' + selectedEndDate.format('MM/DD/YYYY'));
+                $(this).val(selectedStartDate.format('MM/DD/YYYY') + ' - ' + selectedEndDate.format('MM/DD/YYYY'));
+
+                var newRow= $('.newRow');
+                var selectedDates = getAllSelectedDates(newRow);
+
+                var totalDays = calculateTotalDays();
+                var less_applied2 = calculateTotalCDO();
+
                 var start = moment(picker.startDate.format('YYYY-MM-DD'));
                 var end   = moment(picker.endDate.format('YYYY-MM-DD'));
                 diff = end.diff(start, 'days'); // returns correct number
-                less_applied = (diff+1)*8;
+                TotalDate = diff+1;
 
-                console.log(start);
-                if( less_applied < parseInt($(".beginning_balance").val())+8 ){
-                    $(".less_applied").val(less_applied);
+
+                if (TotalDate<=5) {
+                    if (less_applied2 < parseInt($(".beginning_balance").val()) + 8) {
+                        $(".less_applied").val(less_applied2); //
+                    }
+                    else {
+                        Lobibox.alert('error', //AVAILABLE TYPES: "error", "info", "success", "warning"
+                            {
+                                msg: "Your beginning balance(credit) are not enough"
+                            });
+                    }
                 }
                 else {
-                    Lobibox.alert('error', //AVAILABLE TYPES: "error", "info", "success", "warning"
-                    {
-                        msg: "Your beginning balance(credit) are not enough"
-                    });
-                }
-                $(".remaining_balance").val( parseFloat($(".beginning_balance").val()) - parseFloat($(".less_applied").val()) );
 
-                $(".cdo_hours").val($(".cdo_hours option:first").val());
+                    Lobibox.alert('error', //AVAILABLE TYPES: "error", "info", "success", "warning"
+                        {
+                            msg: "You can file 5 days only per date range."
+                        });
+                }
+
+                $(".remaining_balance").val(parseFloat($(".beginning_balance").val()) - parseFloat($(".less_applied").val()));
+
+//                $(".cdo_hours").val($(".cdo_hours option:first").val());
                 halfdayFlag1 = true;
                 halfdayFlag2 = true;
 
             });
+
             $(".range_inputs").append("" +
                 "<div class='alert-info'>" +
-                    "<h6 style='color: #206ff0;padding-right: 5%;padding-left:5%'>Note: 2 working days before apply</h6>" +
+                "<h6 style='color: #206ff0;padding-right: 5%;padding-left:5%'>Note: 2 working days before apply</h6>" +
                 "</div>" +
                 "");
-
         });
     });
 
+       $ (".addButton").click(function(e){  //clonedRow =newRow;
+           console.log("ayy ambot");
+
+            var row= $(this).closest("tr");
+            var totalRows = row.siblings("tr").andSelf().length;
+            if(totalRows-1<11){
+                var newRow = $("#myTable .newRow:first").clone();
+                newRow.removeAttr("style");
+                newRow.attr("data-newly-added", "true");
+                newRow.find(".datepickerInput").val("");
+                newRow.find("#date_label").text("");
+                newRow.find(".datepickerInput").daterangepicker();
+
+                $("#myTable tbody").append(newRow);
+                newRow.addClass("newRow");
+            }else {
+                limit();
+                e.preventDefault();
+            }
+            e.preventDefault();
+        });
+
+            $(document).on("click",".deleteButton", function(){
+                var row= $(this).closest("tr"); //.remove();
+                var input= row.find("input[name='inclusive_dates[]']");
+                var select= row.find("select[name='cdo_hours[]']");
+                var selectedIndex = row.index();
+                var deletedValue=select.val();
+
+                deletedDate= input.val();
+                var totalRows = row.siblings("tr").andSelf().length;
+                if (totalRows-2 > 1) {
+                    deletedIndex.push(selectedIndex-2);
+                    deletedList.push(deletedValue);
+                    row.remove();
+                    var dates =document.getElementsByName('inclusive_dates[]');
+                    for (var i =0; i<dates.length; i++){
+                        if(dates[i].value == deletedDate){
+                            datesList.push(dates[i].value);
+                        }
+                    }
+                } else if (totalRows-2 ==1){
+                    $(".datepickerInput").val("");
+                    $(".newRow").find("#date_label").text("");
+                }
+
+            var row= $(".newRow").val();
+            getAllCDO(row);
+            var cdoHours = calculateTotalCDO();
+            $(".less_applied").val(cdoHours);
+            $(".remaining_balance").val(parseFloat($(".beginning_balance").val()) - parseFloat($(".less_applied").val()));
+        });
+
+
+    $(document).on('click','.cdo_hours', function () {
+        latestValue = $(this).val();
+    });
+
+    $(document).on('change','.cdo_hours', function () {
+        var selected = $(this).val();
+        var selectedIndex = $('.cdo_hours').index(this);
+        var index;
+        var result;
+
+        var element=$('.cdo_hours').length;
+        if(element>0){
+             index= element/2;
+             result=selectedIndex-index;
+        }
+        indexList.push(result);
+        updatedValue.push(selected);
+        var row= $(".newRow").val();
+        getAllCDO(row);
+        var cdoHours = calculateTotalCDO();
+        $(".less_applied").val(cdoHours);
+        $(".remaining_balance").val(parseFloat($(".beginning_balance").val()) - parseFloat($(".less_applied").val()));
+        var all=[];
+        $(".newRow").find('.cdo_hours').each(function() {
+            var hour = $(this).val();
+            all.push(hour);
+        });
+        var leng= all.length;
+        var con1= leng/6;
+        var con2= con1 * 4;
+        var startIndex= con2;
+        var endIndex=startIndex+con1;
+        var extractedArray=all.slice(startIndex, endIndex);
+        var allAll = [];
+
+        $(".newRow").each(function() {
+            var modifiedValue = $(this).find('.cdo_hours').val();
+            allAll.push(modifiedValue);
+        });
+
+    });
     function halfday(data)
     {
+        {{--<?php--}}
+            {{--$cdo_hours = $data['cdo']['less_applied_for']?>--}}
+        {{--if($cdo_hours ==8){--}}
+        {{--}else{--}}
+        {{--}--}}
         var cdo_hours = data.val();
-      
+
         if(cdo_hours == 'cdo_wholeday'){
             if(halfdayFlag1){
                 $(".less_applied").val( parseInt($(".less_applied").val()) + 4);
                 halfdayFlag1 = false;
                 halfdayFlag2 = true;
             }
-        } 
+        }
         else {
             if(halfdayFlag2){
                 $(".less_applied").val( parseInt($(".less_applied").val()) - 4 );
@@ -387,8 +962,8 @@
 
     }
 
-    $('.form-submit').on('submit',function(){
-        console.log(parseInt($(".less_applied").val()));
+    $('.form-submit').on('submit',function(e){
+        e.preventDefault();
 
         <?php if(!Auth::user()->usertype): ?>
 
@@ -397,14 +972,16 @@
         }
         else {
             Lobibox.alert('error', //AVAILABLE TYPES: "error", "info", "success", "warning"
-            {
-                msg: "Your beginning balance(credit) are not enough"
-            });
+                {
+                    msg: "Your beginning balance(credit) are not enough"
+                });
             $("#inclusive1").val('');
             return false;
         }
 
         <?php endif; ?>
+
+            this.submit();
     });
 
     $('input[name=approval]').on('ifChecked', function(event){
@@ -424,9 +1001,21 @@
 
     function warning(){
         Lobibox.alert('info', //AVAILABLE TYPES: "error", "info", "success", "warning"
-        {
-            msg: "Cannot update if your CTO is already approved.."
-        });
+            {
+                msg: "Cannot update/remove approved CTO."
+            });
+    }
+    function warning1(){
+        Lobibox.alert('info', //AVAILABLE TYPES: "error", "info", "success", "warning"
+            {
+                msg: "Admin cannot modify/remove filed cto!"
+            });
+    }
+    function limit(){
+        Lobibox.alert('info', //AVAILABLE TYPES: "error", "info", "success", "warning"
+            {
+                msg: "Limit to 10 rows only!"
+            });
     }
 
 </script>
