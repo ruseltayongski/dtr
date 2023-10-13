@@ -8,7 +8,7 @@
         </div>
     @endif
     <div class="alert alert-jim" id="inputText">
-        <h2 class="page-header">Employees</h2>
+        <h2 class="page-header">Employee</h2>
         <form class="form-inline form-accept" action="{{ asset('beginning_balance') }}" method="GET">
             <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
             <div class="form-group">
@@ -41,18 +41,20 @@
                                     {{ $user->userid }}
                                 @endif
                             </td>
-                            <td>
+                            <td class="name-cell">
                                 @if($user->fname || $user->lname || $user->mname || $user->name_extension) {{ $user->fname.' '.$user->mname.' '.$user->lname.' '.$user->name_extension }} @else <i>NO NAME</i> @endif
                             </td>
                             <td class="text-center">
                                 <label style='color:green'>@if($user->bbalance_cto) {{ $user->bbalance_cto }} @else 0 @endif</label>
                             </td>
                             <td>
-                                <label class="orange">@if(isset(pdoController::search_section($user->section_id)['description'])) {{ pdoController::search_section($user->section_id)['description'] }} @else NO SECTION @endif</label>
+                                <label class="orange">@if(isset(pdoController::search_section($user->section_id)['description'])) {{ pdoController::search_section($user->section_id)['description'] }} @else NO SECTION @endif</label><br>
                                 <small><em>(@if(isset(pdoController::search_division($user->division_id)['description'])) {{ pdoController::search_division($user->division_id)['description'] }} @else NO DIVISION @endif {{ ')' }}</em></small>
                             </td>
                             <td class="center">
-                                <button class="button btn-sm beginning_balance" style="background-color: #9C8AA5;color: white" data-toggle="modal" data-id="{{ $user->userid }}" data-target="#beginning_balance">Update Beginning Balance</button>
+                                <button class="button btn-sm beginning_balance" id="update_balance"style="background-color: #9C8AA5;color: white" data-toggle="modal" data-id="{{ $user->userid }}" data-target="#beginning_balance">Update Beginning Balance</button>
+                                <button class="button btn-sm ledger" id="viewCard" name="viewCard" style="background-color: #9C8AA5;color: white" data-toggle="modal" data-id="{{ $user->userid }}" data-target="#ledger">View Card</button>
+
                             </td>
                         </tr>
                     @endforeach
@@ -67,60 +69,292 @@
             </div>
         @endif
     </div>
-
-    <div class="modal fade" tabindex="-1" role="dialog" id="beginning_balance">
-        <div class="modal-dialog modal-sm" role="document" id="size">
+    <div class="modal fade" tabindex="-1" role="dialog" id="ledger">
+        <div class="modal-dialog modal-xl" role="document" id="size" style=" width: 70%;">
             <div class="modal-content">
-                <form action="{{ asset('update_bbalance') }}" method="get">
-                    <div class="modal-header" style="background-color: #9C8AA5;">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title"><i class="fa fa-pencil"></i> Update Beginning Balance</h4>
+                <div class="header-container">
+                    <div class="modal-header sticky-top" style="background-color: #9C8AA5;">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <strong><h4 class="modal-title"></h4></strong>
                     </div>
-                    <div class="modal-body">
-                        
-                    </div>
-                    <div class="modal-footer">
-                        <input type="hidden" value="" id="userid" name="userid">
-                        <button type="submit" class="btn btn-success" style="color:white;"><i class="fa fa-pencil"> Update</i></button>
-                    </div>
-                </form>    
+                </div>
+                <div class="table-container"  style="max-height: calc(100vh - 50px); overflow-y: auto;">
+                    <table class="table  table-list table-hover table-striped" id="card_table">
+                        <thead style="position:sticky; top: 0; z-index: 5;">
+                        <tr style="text-align: center">
+                            <th style="align-items: center; width: 22%" colspan="5">No. Of Hours Earned/Beginning Balance</th>
+                            <th>Date of Overtime</th>
+                            <th># of Hours Used</th>
+                            <th style="width: 19%;">Date Used</th>
+                            <th>Bal. Credits</th>
+                            <th>As Of</th>
+                            <th>Remarks</th>
+                        </tr>
+                        </thead>
+                        <tbody id="t_body" name="t_body" style="overflow-y: auto;">
+                        </tbody>
+                    </table>
+                </div>
+                {{--</form>--}}
+                <div class="modal-footer">
+                    <input type ="hidden"value="" id="user_iid" name="user_iid">
+                    <ul class="pagination justify-content-center" id="pagination" style="margin: 0; padding: 0"></ul>
+                </div>
             </div><!-- .modal-content -->
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
+
+    {{-------------------------}}
+
 @endsection
 
 @section('js')
     @parent
     <script>
-     
+        function setAction(action){
+            $('#action').val(action);
+            var button = $('#action').val();
+            if(button=="update"){
+                Lobibox.notify('info', {msg: "CDO UPDATED!"});
+            }else{
+                Lobibox.notify('warning', {msg: "CDO REMOVED!"});
+            }
+        }
+
+        function modifiedUpdatedCTO(button) {
+//            console.log("jhdsfhdf");
+            $("#option2").show();
+            var row = $(button).closest('tr');
+            var rowData = {};
+            row.find('td').each(function(cellIndex, cell) {
+                var columnName = 'data' + (cellIndex + 1);
+                rowData[columnName] = $(cell).text().trim();
+            });
+            console.log(rowData);
+            var userid = $(this).data('id');
+            $(".datepickercalendar").datepicker("setDate", new Date(rowData.data6));
+            $("#ot_hours").val(rowData.data1 );
+            $("#ot_weight").val(rowData.data3);
+            $("#cto_total").val(rowData.data5);
+            $("#user_id").val($("#user_iid").val());
+            $("#userid").val($("#user_iid").val());
+            $("#row_id").val(rowData.data11);
+
+//            console.log("kjfjdf", $("#row_id").val());
+            var total_first = parseFloat(rowData.data4);
+            var total_second= parseFloat($("#cto_total").val());
+            var total= total_first-total_second;
+            $("#total_total").val(rowData.data5);
+//            console.log("save data",$("#total_total").val() )
+        }
+
+        function updateCTO(){
+            if($("#ot_hours").val()==0){
+                $("#ot_hours").val("");
+            }else if($("#ot_weight").val()==0){
+                $("#ot_weight").val("");
+            }
+            var hours= parseFloat(document.getElementById("ot_hours").value);
+            var weight=parseFloat(document.getElementById("ot_weight").value);
+            var total = hours * weight;
+            document.getElementById("cto_total").value=total || '';
+            document.getElementById("beginning_balance").value=total || '';
+//            console.log("")
+        }
+
+        $(document).ready(function () {
+//            console.log("jdsad");
+            $("#viewCard").on("click", function(){
+                $("#t_body").empty();
+            });
+
+            $(".ledger").on('click', function(e) {
+                $("#t_body").empty();
+                var userid = $(this).data('id');
+                $("#user_Id").text(userid);
+                $("#userId").text(userid);
+
+                var name= $(this).closest("tr").find(".name-cell").text();
+                $("#user_name").text("Name: "+ name);
+                $(".modal-title").html("CTO HISTORY of: <strong>" + name);
+                var count=0;
+
+                    <?php if (isset($card_view) && count($card_view) > 0) { ?>
+
+                var userid = $(this).data('id');
+
+                    <?php foreach ($card_view as $card_viewL) { ?>
+                var id = "<?php echo $card_viewL->userid; ?>";
+                var date = "<?php echo $card_viewL->ot_date; ?>";
+                var status = "<?php echo $card_viewL->status; ?>";
+                $("#user_iid").val(userid);
+
+                if (id == userid) {
+
+                    var tableData2 = "<tr>" +
+                        <?php if ($card_viewL->ot_hours !== null): ?>
+                            "<td><?php echo $card_viewL->ot_hours; ?></td>" +
+                            "<td>x</td>" +
+                            "<td><?php echo $card_viewL->ot_rate; ?></td>" +
+                            "<td>=</td>"+
+                            "<td><?php echo $card_viewL->ot_credits; ?></td>"+
+                            <?php else: ?>
+                            "<td></td>"+"<td></td>"+"<td></td>"+"<td></td>"+"<td></td>"+
+                        <?php endif; ?>
+                        <?php if ($card_viewL->ot_date !== null): ?>
+                            <?php if ($card_viewL->status !=5 && $card_viewL->status !=2 && $card_viewL->status !=6): ?>
+                            "<td><a href= '#' data-toggle='modal' onclick='modifiedUpdatedCTO(this)' data-target='#beginning_balance'><?php echo date('F j, Y', strtotime($card_viewL->ot_date)); ?></a></td>"+
+                            <?php else: ?>
+                                "<td><?php echo date('F j, Y', strtotime($card_viewL->ot_date)); ?></td>"+
+                            <?php endif; ?>
+                        <?php else: ?>
+                        "<td></td>"+
+                        <?php endif; ?>
+                        "<td><?php echo $card_viewL->hours_used; ?></td>" +
+                        "<td><?php echo $card_viewL->date_used; ?></td>" +
+                        "<td><?php echo $card_viewL->bal_credits; ?></td>" +
+                        "<td><?php echo $card_viewL->created_at; ?></td>"+
+                        "<td style='display:none'><?php echo $card_viewL->id; ?></td>";
+
+                        if(status==5){
+                            tableData2 += "<td id='remarks'style='color: RED'>  REMOVED: <?php echo $card_viewL->remarks; ?></td>";
+                        }else if(status==2){
+                            tableData2 += "<td id='remarks'style='color: RED'>  MODIFIED(ELIMINATED): <?php echo $card_viewL->remarks; ?></td>";
+                        }else if(status==3){
+                            tableData2 += "<td id='remarks'style='color: RED'>  CANCELLED</td>";
+                        }else if(status==4){
+                            tableData2 += "<td id='remarks'style='color: BLUE'>  PROCESSED</td>";
+                        }else if (status==1){
+                            tableData2 += "<td id='remarks'style='color: BLUE'>  PROCESSED: <?php echo $card_viewL->remarks; ?></td>";
+                        }else if (status==0){
+                            tableData2 += "<td id='remarks'style='color: mediumvioletred'>  PENDING</td>";
+                        }else if(status==6){
+                            tableData2 += "<td id='remarks'style='color: RED'>  MODIFIED(ELIMINATED)</td>";
+                        }else if(status==7) {
+                            tableData2 += "<td id='remarks'style='color: BLUE'> BALANCE</td>";
+                        }else if(status==9) {
+                            tableData2 += "<td id='remarks'style='color: red'> EXCEED</td>";
+                        }else if(status==11) {
+                            tableData2 += "<td id='remarks'style='color: green'> MAXIMUM</td>";
+                        }else{
+                            tableData2 += "<td > </td>";
+                        }
+                    tableData2 += "</tr>";
+                    $("#t_body").append(tableData2);
+                    count++;
+                }
+
+
+                <?php } ?>
+                if (count==0) {
+                    var tableData3 = "<tr>" +
+                        "<td colspan='8'>No Data Available</td>" +
+                        "</tr>";
+                    $("#t_body").append(tableData3);
+//                    count=1;
+                }
+                    <?php } ?>
+                        var pageSize = 15;
+                        var currentPage = 1;
+                        var pagination = $("#pagination");
+                        var totalItems = $("#t_body tr").length;
+                        var totalPages = Math.ceil(totalItems / pageSize);
+
+                        function updateTableRows(page) {
+                            var startIndex = (page - 1) * pageSize;
+                            $("#t_body tr").hide().slice(startIndex, startIndex + pageSize).show();
+                        }
+
+                        function createPaginationButtons() {
+                            var buttons = [];
+                            buttons.push('<li class="page-item"><a class="page-link" href="#" data-page="prev">&laquo;</a></li>');
+                            for (var i = 1; i <= totalPages; i++) {
+                                buttons.push('<li class="page-item"><a class="page-link" href="#" data-page="' + i + '">' + i + '</a></li>');
+                            }
+                            buttons.push('<li class="page-item"><a class="page-link" href="#" data-page="next">&raquo;</a></li>');
+                            pagination.html(buttons.join(''));
+                        }
+
+                        createPaginationButtons();
+                        updateTableRows(currentPage);
+
+                        pagination.on("click", ".page-link", function () {
+                            var targetPage = $(this).data("page");
+                            if (targetPage === "prev") {
+                                currentPage = Math.max(currentPage - 1, 1);
+                            } else if (targetPage === "next") {
+                                currentPage = Math.min(currentPage + 1, totalPages);
+                            } else {
+                                currentPage = parseInt(targetPage);
+                            }
+                            updateTableRows(currentPage);
+                        });
+            });
+
+        });
+
+        $('');
+        $('.chosen-select-static').chosen();
+        $('.datepickercalendar').datepicker({
+            autoclose:true
+        });
+
         $(".beginning_balance").on('click',function(e){
-            $('.modal-body').html(loadingState);
+//            $(".beginning_balance").val("");
+            $("#row_id").val("");
+            $("#total_total").val("");
+            $("#overtime_date").val("");
+            $("#ot_hours").val("");
+            $("#ot_weight").val("");
+            $("#cto_total").val("");
+            $("#option2").hide();
             var userid = $(this).data('id');
             $("#userid").val(userid);
-            console.log(userid);
-            setTimeout(function(){
-                $('.modal-body').html(
-                    "<input type='text' class='form-control' id='beginning_balance' name='beginning_balance' required>");
-            },500);
+            $("#user_id").val(userid);
+//            console.log(userid);
+
         });
 
         $("#beginning_balance").keydown(function (e) {
-            // Allow: backspace, delete, tab, escape, enter and .
+            var remarksField = document.getElementById("remarks");
+            var focusedInputId = document.activeElement.id;
+
+            // Allow: backspace, delete, tab, escape, enter, and .
             if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110, 190]) !== -1 ||
-                 // Allow: Ctrl+A, Command+A
-                (e.keyCode === 65 && (e.ctrlKey === true || e.metaKey === true)) || 
-                 // Allow: home, end, left, right, down, up
+                // Allow: Ctrl+A, Command+A
+                (e.keyCode === 65 && (e.ctrlKey === true || e.metaKey === true)) ||
+                // Allow: home, end, left, right, down, up
                 (e.keyCode >= 35 && e.keyCode <= 40)) {
-                     // let it happen, don't do anything
-                     return;
+                // Let it happen, don't do anything
+                return;
             }
-            // Ensure that it is a number and stop the keypress
-            if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
-                e.preventDefault();
+
+            // Allow numbers (0-9) for other input fields
+            if (((e.keyCode >= 48 && e.keyCode <= 57) || (e.keyCode >= 96 && e.keyCode <= 105)) &&
+                focusedInputId !== "remarks") {
+                return;
             }
+            //For remarks input
+            if (focusedInputId === "remarks" &&
+                ((e.keyCode >= 65 && e.keyCode <= 90) ||  // Letters (uppercase)
+                    (e.keyCode >= 97 && e.keyCode <= 122) || // Letters (lowercase)
+                    e.keyCode === 32 ||  // Space
+                    (e.keyCode >= 48 && e.keyCode <= 57) ||  // Numbers
+                    (e.keyCode >= 186 && e.keyCode <= 192) || // Special characters (part 1)
+                    (e.keyCode >= 219 && e.keyCode <= 222)    // Special characters (part 2)
+                )) {
+                return;
+            }
+
+            // Prevent the keypress for other characters
+            e.preventDefault();
         });
 
+
     </script>
+
 @endsection
 
 

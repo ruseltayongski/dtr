@@ -1,385 +1,395 @@
+{{--<form action="{{ asset('leave/update/save') }}" method="POST">--}}
+    {{--<input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">--}}
+    {{--<input type="hidden" name="id" value="{{ $leave->id }}" />--}}
+    {{--<div class="row">--}}
 @extends('layouts.app')
 
-
 @section('content')
-    <h3 class="page-header">Edit Application for Leave
-    </h3>
+
     <div class="panel panel-default">
-        <div class="panel-heading text-center"><strong style="color: #f0ad4e;font-size:medium;">Fill up leave form</strong></div>
-        <div class="panel-body">
-            <div class="row">
-                <div class="col-md-11">
-                    <form action="{{ asset('leave/update/save') }}" method="POST">
+        {{--<label class="text-success">Vacation Balance: <span class="badge bg-blue">{{ Session::get("vacation_balance") }}</span></label>--}}
+        {{--<label class="text-danger">Sick Balance: <span class="badge bg-red">{{ Session::get("sick_balance") }}</span></label>--}}
+        <div>
+            <table cellpadding="0" cellspacing="0" width="100%" style="margin-top: 10px">
+                <tr>
+                    <td class="align" width="10%" style="text-align: center; vertical-align: top;"><h6>CSC Form No.8<br>Revised 2020</h6></td>
+                    <td class="align" width="12%" style="text-align: right"><img src="{{ asset('public/img/doh.png') }}" width="100" ></td>
+                    <td width="60%" >
+                        <div class="align small-text" style="text-align: center">
+                            Republic of the Philippines<br>
+                            <strong>DEPARTMENT OF HEALTH<br>
+                                CENTRAL VISAYAS CENTER for HEALTH DEVELOPMENT<br></strong>
+                            Osmeña Boulevard, Cebu City, 6000 Philippines<br>
+                        </div>
+                    </td>
+                    <td class="align" width="30%" style="text-align: center; vertical-align: center;"><h6>
+                            <u>{{ date("Y-m-d") }}</u><br>Date of Receipt
+                        </h6></td>
+                </tr>
+            </table>
+        </div>
+
+        <div style="text-align: center;">
+            <h4><strong style="margin-left: 3em;">APPLICATION FOR LEAVE</strong></h4>
+        </div>
+
+        <form action="{{ asset('leave/update/save') }}" method="POST">
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-12">
                         <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
                         <input type="hidden" name="id" value="{{ $leave->id }}" />
-                        <div class="row">
-                            <div class="col-md-3">
-                                <div class="form-group has-success">
-                                    <label class="control-label" for="inputSuccess1">(1.) Office/Agency</label>
-                                    <input type="text" class="form-control" id="inputSuccess1" name="office_agency" value="{{ $leave->office_agency }}">
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="form-group has-success">
-                                    <label class="control-label" for="inputSuccess1">(2.)  Last Name</label>
-                                    <input type="text" class="form-control" id="inputSuccess1" name="lastname" value="{{ $leave->lastname }}">
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="form-group has-success">
-                                    <label class="control-label" for="inputSuccess1">First Name</label>
-                                    <input type="text" class="form-control" id="inputSuccess1" name="firstname" value="{{ $leave->firstname }}">
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="form-group has-success">
-                                    <label class="control-label" for="inputSuccess1">Middle Name</label>
-                                    <input type="text" class="form-control" id="inputSuccess1" name="middlename" value="{{ $leave->middlename }}">
-                                </div>
-                            </div>
-                        </div>
-                        <hr />
-                        <div class="row">
-                            <div class="col-md-4">
-                                <div class="form-group has-success  input-daterange">
-                                    <label class="control-label" for="inputSuccess1">(3.) Date of Filling</label>
-                                    <input type="text" class="form-control" name="date_filling" value="{{ $leave->date_filling }}">
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="form-group has-success">
-                                    <label class="control-label" for="inputSuccess1">(4.)  Position</label>
-                                    <input type="text" class="form-control" id="inputSuccess1" name="position" value="{{ $leave->position }}">
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="form-group has-success">
-                                    <label class="control-label" for="inputSuccess1">(5.)Salary (Monthly)</label>
-                                    <input type="text" class="form-control" id="inputSuccess1" name="salary" value="{{ sprintf("%.2f",$leave->salary)  }}" onkeypress='validate(event)'>
-                                </div>
-                            </div>
-                        </div>
-                        <hr />
-                        <div class="row">
-                            <h3 class="text-center">DETAILS OF APPLICATION</h3>
-                        </div>
-                        <hr />
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="alert alert-success">
-                                    <strong>(6a) Type of Leave</strong>
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <div class="form-group">
-                                                <div class="has-success">
-                                                    <div class="checkbox">
-                                                        <label>
-                                                            <input type="radio" id="checkboxSuccess" value="Vication" name="leave_type" {{ ($leave->leave_type == 'Vication') ? ' checked' : '' }} >
-                                                            Vacation
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                                <div class="has-success">
-                                                    <div class="checkbox">
-                                                        <label>
-                                                            <input type="radio" id="checkboxSuccess" value="To_sake_employement" name="leave_type" {{ $leave->leave_type == "To_sake_employement" ? ' checked' : '' }}>
-                                                            To seek employement
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                                <div class="has-success">
-                                                    <div class="checkbox">
-                                                        <label>
-                                                            <input type="radio" id="radio_others" value="Others" name="leave_type" {{ $leave->leave_type == "Others" ? ' checked' : '' }}/>
-                                                            Others(Specify)
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                                <div class="has-success">
-                                                    <div class="form-group has-success">
-                                                        <textarea type="text" class="form-control others1_txt" maxlength="200" id="inputSuccess1" name="leave_type_others_1">{{ $leave->leave_type_others_1 }}</textarea>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <div class="form-group">
-                                                <div class="has-success">
-                                                    <div class="checkbox">
-                                                        <label>
-                                                            <input type="radio" id="checkboxSuccess" value="Sick" name="leave_type" {{ $leave->leave_type == "Sick" ? ' checked' : '' }} />
-                                                            Sick
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                                <div class="has-success">
-                                                    <div class="checkbox">
-                                                        <label>
-                                                            <input type="radio" id="checkboxSuccess" value="Maternity" name="leave_type" {{ $leave->leave_type == "Maternity" ? ' checked' : '' }} />
-                                                            Maternity
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                                <div class="has-success">
-                                                    <div class="checkbox">
-                                                        <label>
-                                                            <input type="radio" id="checkboxSuccess" value="Others2" name="leave_type" {{ $leave->leave_type == "Others2" ? ' checked' : '' }}>
-                                                            Others(Specify)
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                                <div class="has-success">
-                                                    <div class="form-group has-success">
-                                                        <textarea type="text" class="form-control others2_txt" maxlength="200" id="inputSuccess1" name="leave_type_others_2">{{ $leave->leave_type_others_2 }}</textarea>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <strong>(6c.)NUMBER OF WORKING DAYS APPLIED <br />FOR :</strong>
-                                    <input type="text" name="applied_num_days" />
+                        <table border="1px" width="100%">
+                            <td style="width: 30%">
+                                <div class="row">
                                     <div class="form-group">
-                                        <label class="control-label" for="inputSuccess1">Inclusive Dates :</label>
-                                        <div class="input-group">
-                                            <div class="input-group-addon">
-                                                <i class="fa fa-calendar"></i>
-                                            </div>
-                                            <input type="text" class="form-control" id="inc_date" name="inc_date" placeholder="Input date range here..." required>
+                                        <label class="control-label" for="inputSuccess1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1. OFFICE/DEPARTMENT</label>
+                                        <input type="text" class="form-control" id="inputSuccess1" name="office_agency" value="DOH Central Visayas CHD" style="width:250px; margin-left: 80px;">
+                                    </div>
+                                </div>
+                            </td>
+                            <td style="width: 70%">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="control-label" for="inputSuccess1">2. NAME:</label>
+                                            <label class="control-label" for="inputSuccess1" style="margin-left: 25px"> (Last) </label>
+                                            <input type="text" class="form-control" id="inputSuccess1" name="lastname" value="{{ $leave->lastname }}" style=" width:200px; margin-left: 90px; margin-right: 10px">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="control-label" for="inputSuccess1" style="margin-left: 80px">(First)</label>
+                                            <input type="text" class="form-control" id="inputSuccess1" name="firstname" value="{{ $leave->firstname }}" style="width:200px;  margin-left: 60px;">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="control-label" for="inputSuccess1" style="margin-left: 80px">(Middle)</label>
+                                            <input type="text" class="form-control" id="inputSuccess1" name="middlename" value="{{ $leave->middlename }}" style=" width:200px; margin-left: 25px;">
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="alert alert-success">
-                                    <strong>(6b) WHERE LEAVE WILL BE SPENT</strong>
+                            </td>
+                        </table>
+                        <table border="1" style="width: 100%; border-collapse: collapse; border-top: 0px" >
+                            <tr>
+                                <td style="width: 30%">
+                                    <div class="row">
+                                        <div  class="col-md-12">
+                                            <label class="control-label" for="inputSuccess1">3. DATE OF FILING</label>
+                                            <input type="text" class="form-control" name="date_filling" value="{{ date("Y-m-d") }}" readonly style="display: inline-block; width: 180px; margin-top: 4px ">
+                                        </div>
+                                    </div>
+                                </td>
+                                <td  style="width: 70%">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <label class="control-label" for="inputSuccess1">4. POSITION</label>
+                                            <input type="text" class="form-control" id="inputSuccess1" name="position" value="{{ $leave->position }}" readonly style="display: inline-block; width: 250px; margin-top: 4px">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="control-label" for="inputSuccess1">5. SALARY</label>
+                                            <input type="text" class="form-control" id="inputSuccess1" name="salary" value="{{ sprintf("%.2f",$leave->salary)  }}" readonly style="display: inline-block; width: 270px; margin-top: 4px">
+                                        </div>
+
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                        <table border="1" style="width: 100%; border-collapse: collapse; border-top: 2px" >
+                            <tr>
+                                <td style="text-align: center; font-size: 18px">
+                                    <strong> 6. DETAILS OF APPLICATION</strong>
+                                </td>
+                            </tr>
+                        </table>
+                        <table border="1" style="width: 100%; border-collapse: collapse; border-top: 0px" >
+                            <tr>
+                                <td style="width: 50%;">
+                                    <strong>&nbsp;&nbsp;&nbsp;&nbsp;6.A TYPE OF LEAVE TO BE AVAILED OF</strong>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <div class="has-success">
+
+                                                    @if(isset($leave_type))
+                                                        @foreach($leave_type as $row)
+                                                            <div class="checkbox">
+                                                                <label style="margin-right: 50px">
+                                                                    @if($leave->leave_type == $row->code)
+                                                                    <input type="radio" class="minimal" id="leave_type" name="leave_type" onclick="here()" value="{{ $row->code }}" checked required>
+                                                                    {{ $row->desc }}
+                                                                    @if($row->code == 'OTHERS')
+                                                                        <input type="text"  name="others_type" class="others_type_dis others_type_dis_txt" id="others_txt" style="width: 380px; margin-left: 20px" value="{{$leave->for_others}}" />
+                                                                    @endif
+                                                                        @else
+                                                                        <input type="radio" class="minimal" id="leave_type" name="leave_type" onclick="here()" value="{{ $row->code }}" required>
+                                                                        {{ $row->desc }}
+                                                                        @endif
+                                                                </label>
+                                                            </div>
+                                                        @endforeach
+                                                    @endif
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td style="width:50%">
+                                    <strong>&nbsp;&nbsp;&nbsp;&nbsp;6.B DETAILS OF LEAVE</strong>
                                     <div class="row">
                                         <div class="col-md-12">
                                             <div class="form-group">
                                                 <div class="has-success">
                                                     <div class="checkbox">
-                                                        <label>(1.)In case of vacation leave</label>
-                                                    </div>
-                                                </div>
-                                                <div class="has-success">
-                                                    <div class="checkbox">
+
+                                                        <label><i>In case of Vacation/Special Privilege leave</i></label><br>
                                                         <label>
-                                                            <input type="radio" id="checkboxSuccess" class="vis_dis" value="local" name="vication_loc" {{ $leave->vication_loc == "local" ? ' checked' : '' }}>
-                                                            Within the Philippines
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                                <div class="has-success">
-                                                    <div class="checkbox">
+                                                            @if ($leave->leave_details == '1')
+                                                            <input type="radio" id="checkboxSuccess" class="vac_dis" value="1" name="leave_details" checked > Within the Philippines
+                                                            <input type="text" name="for_text_input" class="vac_dis" id="within_txt" style="margin-left: 60px; width: 305px" value="{{$leave->leave_specify}}" >
+                                                            @else
+                                                                <input type="radio" id="checkboxSuccess" class="vac_dis" value="1" name="leave_details"> Within the Philippines
+                                                                <input type="text" name="for_text_input" class="vac_dis" id="within_txt" style="margin-left: 60px; width: 305px" >
+                                                                @endif
+                                                        </label><br>
                                                         <label>
-                                                            <input type="radio" id="checkboxSuccess" class="vis_dis" value="abroad" name="vication_loc" {{ $leave->vication_loc == "abroad" ? ' checked' : '' }} >
-                                                            Abroad (specify)
+                                                            @if ($leave->leave_details == '2')
+                                                            <input type="radio" id="checkboxSuccess" class="vac_dis" value="2" name="leave_details" checked> Abroad (Specify)
+                                                            <input type="text" name="for_text_input" class="vac_dis" id="abroad_txt" style="margin-left: 92px; width: 305px" value="{{$leave->leave_specify}}" />
+                                                                @else
+                                                                <input type="radio" id="checkboxSuccess" class="vac_dis" value="2" name="leave_details"> Abroad (Specify)
+                                                                <input type="text" name="for_text_input" class="vac_dis" id="abroad_txt" style="margin-left: 92px; width: 305px" />
+                                                                @endif
+                                                        </label> <br>
+
+                                                        <label><i>In case of Sick Leave</i></label><br>
+                                                        <label>
+                                                            @if ($leave->leave_details == '3')
+                                                            <input type="radio" id="checkboxSuccess" class="sick_dis" value="3" name="leave_details" checked> In Hospital (Specify Illness)
+                                                            <input type="text"  name="for_text_input" class="sick_dis" id="in_hos_txt" style="margin-left: 30px; width: 305px" value="{{$leave->leave_specify}}">
+                                                                @else
+                                                                <input type="radio" id="checkboxSuccess" class="sick_dis" value="3" name="leave_details"> In Hospital (Specify Illness)
+                                                                <input type="text"  name="for_text_input" class="sick_dis" id="in_hos_txt" style="margin-left: 30px; width: 305px" >
+                                                                @endif
                                                         </label>
-                                                    </div>
-                                                </div>
-                                                <div class="has-success">
-                                                    <div class="form-group has-success">
-                                                        <textarea type="text" class="form-control vis_dis" maxlength="200" id="inputSuccess1" name="abroad_others">{{ $leave->abroad_others }}</textarea>
+                                                        <label>
+                                                            @if ($leave->leave_details == '4')
+                                                            <input type="radio" id="checkboxSuccess" class="sick_dis" value="4" name="leave_details" checked> Out-patient (Specify Illness)
+                                                            <input type="text" name="for_text_input" class="sick_dis" id="out_hos_txt" style="margin-left: 26px; width: 305px" value="{{$leave->leave_specify}}">
+                                                                @else
+                                                                <input type="radio" id="checkboxSuccess" class="sick_dis" value="4" name="leave_details"> Out-patient (Specify Illness)
+                                                                <input type="text" name="for_text_input" class="sick_dis" id="out_hos_txt" style="margin-left: 26px; width: 305px" >
+                                                                @endif
+                                                        </label><br>
+
+                                                        <label><i>In case of Special Leave Benefits for Women</i></label><br>
+                                                        <label>
+                                                            @if ($leave->leave_details == '5')
+                                                            <input type="radio" id="checkboxSuccess" class="spec_dis" value="5" name="leave_details" checked> (Specify Illness)
+                                                            <input type="text"  name="for_text_input" class="spec_dis" id="spec_txt" style="margin-left: 98px; width: 302px" value="{{$leave->leave_specify}}" >
+                                                                @else
+                                                                <input type="radio" id="checkboxSuccess" class="spec_dis" value="5" name="leave_details"> (Specify Illness)
+                                                                <input type="text"  name="for_text_input" class="spec_dis" id="spec_txt" style="margin-left: 98px; width: 302px" >
+                                                                @endif
+                                                        </label><br>
+
+                                                        <label><i>In case of Study Leave</i></label><br>
+                                                        <label>
+                                                            @if ($leave->leave_details == '6')
+                                                            <input type="radio" id="checkboxSuccess" class="stud_dis" value="6" name="leave_details" checked> Completion of Master's Degree
+                                                            <input type="text"  name="for_text_input" class="stud_dis" id="master_txt" style="margin-left: 13px; width: 300px" value="{{$leave->leave_specify}}"/>
+                                                                @else
+                                                                <input type="radio" id="checkboxSuccess" class="stud_dis" value="6" name="leave_details"> Completion of Master's Degree
+                                                                <input type="text"  name="for_text_input" class="stud_dis" id="master_txt" style="margin-left: 13px; width: 300px" />
+                                                                @endif
+                                                        </label>
+                                                        <label>
+                                                            @if ($leave->leave_details == '7')
+                                                            <input type="radio" id="checkboxSuccess" class="stud_dis" value="7" name="leave_details" checked> BAR/Board Examination Review
+                                                            <input type="text" name="for_text_input" class="stud_dis" id="bar_txt" style="margin-left: 8px; width: 300px" value="{{$leave->leave_specify}}"/>
+                                                                @else
+                                                                <input type="radio" id="checkboxSuccess" class="stud_dis" value="7" name="leave_details"> BAR/Board Examination Review
+                                                                <input type="text" name="for_text_input" class="stud_dis" id="bar_txt" style="margin-left: 8px; width: 300px" />
+                                                                @endif
+                                                        </label><br>
+
+                                                        <label><i>Other Purpose</i></label><br>
+                                                        <label>
+                                                            @if ($leave->leave_details == '8')
+                                                            <input type="radio" id="checkboxSuccess" class="others_dis" value="8" name="leave_details" checked> Monetization of Leave Credits
+                                                                @else
+                                                                <input type="radio" id="checkboxSuccess" class="others_dis" value="8" name="leave_details"> Monetization of Leave Credits
+                                                                @endif
+                                                        </label><br>
+                                                        <label>
+                                                            @if ($leave->leave_details == '9')
+                                                            <input type="radio" id="checkboxSuccess" class="others_dis" value="9" name="leave_details" checked> Terminal Leave
+                                                                @else
+                                                                <input type="radio" id="checkboxSuccess" class="others_dis" value="9" name="leave_details"> Terminal Leave
+                                                                @endif
+                                                        </label><br><br>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <div class="form-group">
-                                                <div class="has-success">
-                                                    <div class="checkbox">
-                                                        <label>(2.)In case of sick leave</label>
-                                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                        <table border="1" style="width: 100%; border-collapse: collapse; border-top: 100px" id="myTable">
+
+                            <tr style="width: 50%" id="row_data">
+                                <td id="data_here">
+                                    <strong>&nbsp;&nbsp;&nbsp;&nbsp;6C. NUMBER OF WORKING DAYS APPLIED FOR :</strong><br>
+                                    <input type="text" class="form-control" name="applied_num_days" id="applied_num_days" style="margin-left: 10px; width: 96%" readonly value="{{$leave->applied_num_days}}"/>
+                                    <input type="hidden" class="form-control" name="credit_used" id="credit_used"/>
+                                    <div style="display: flex; align-items: center;">
+                                        <strong class="sm-m-3" style="margin-right: 10px;">&nbsp;&nbsp;&nbsp;&nbsp; INCLUSIVE DATES:</strong>
+                                        <button style="width: 60px;  margin-top: 5px; margin-bottom: 5px; margin-left: 59%" class="btn btn-sm btn-default addButton1" type="button"><strong>+</strong></button>
+                                    </div>
+                                    @foreach($leave_dates as $index => $date)
+                                        <div class="table-data" id="clone_data">
+                                            <div class="input-group" style="margin-left: 10px; margin-bottom: 10px" >
+                                                <div class="input-group-addon" style="margin-bottom: 10px">
+                                                    <i class="fa fa-calendar"></i>
                                                 </div>
-                                                <div class="has-success">
-                                                    <div class="checkbox">
-                                                        <label>
-                                                            <input type="radio" id="checkboxSuccess" class="sic_dis" value="in_hostpital" name="sick_loc" {{ $leave->sick_loc == "in_hostpital" ? ' checked' : '' }}>
-                                                            In Hospital (sepecify)
-                                                            <input type="text"  name="in_hospital_specify" class="sic_dis"/>
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                                <div class="has-success">
-                                                    <div class="checkbox">
-                                                        <label>
-                                                            <input type="radio" id="checkboxSuccess" class="sic_dis" value="out_patient" name="sick_loc" {{ $leave->sick_loc == "out_patient" ? ' checked' : '' }}>
-                                                            Out-patient (sepecify)
-                                                            <input type="text" name="out_patient_specify" class="sic_dis"/>
-                                                        </label>
-                                                    </div>
-                                                </div>
+
+                                                <input style="width: 70%" type="text" class="form-control datepickerInput1" id="inclusive11" name="inclusive_dates1[]" placeholder="Input date here..."
+                                                       required value="<?php echo date('m/d/Y', strtotime($date->startdate)).' - '.date('m/d/Y', strtotime($date->enddate));?>">
+                                                <button style="width: 60px; margin-left: 16%" type="button" class="btn btn-sm btn-default deleteButton1"><strong>-</strong></button>
                                             </div>
                                         </div>
-                                    </div>
-                                    <strong>(6d) COMMUTATION</strong>
+                                    @endforeach
+
+                                </td>
+
+                                </td>
+                                <td style="width: 50%; margin-top: 10px; vertical-align: top" rowspan="2">
+                                    <strong style="vertical-align: top">&nbsp;&nbsp;&nbsp;&nbsp;6.D COMMUTATION</strong>
                                     <div class="has-success">
                                         <div class="checkbox">
                                             <label>
-                                                <input type="radio" id="checkboxSuccess" value="yes" name="com_requested" {{ $leave->com_requested == "yes" ? ' checked' : '' }}>
-                                                Requested
-                                            </label>
+                                                @if($leave->commutation == "1")
+                                                    <input type="radio" id="commutation" value="1" name="com_requested" checked> Requested
+                                                @else
+                                                    <input type="radio" id="commutation" value="1" name="com_requested"> Requested
+                                                @endif
+                                            </label><br>
                                             <label>
-                                                <input type="radio" id="checkboxSuccess" value="no" name="com_requested" {{ $leave->com_requested == "no" ? ' checked' : '' }}>
-                                                Not Requested
+                                                @if($leave->commutation == "2")
+                                                    <input type="radio" id="commutation" value="2" name="com_requested" checked> Not Requested
+                                                @else
+                                                    <input type="radio" id="commutation" value="2" name="com_requested"> Not Requested
+                                                @endif
                                             </label>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
-                        </div>
-                        <hr />
-                        <br />
-                        <div class="row">
-                            <div class="col-md-12 center-block">
-                                <button type="submit" name="submit" class="btn btn-primary btn-lg col-md-5">Submit</button>
-                            </div>
-                        </div>
-                    </form>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
                 </div>
             </div>
-        </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="row" style="padding: 1%">
+                        <div class="col-md-12 float-right" style="text-align: right">
+                            <button type="submit" name="submit" class="btn btn-primary btn-lg">Submit</button>
+                        </div>
+                    </div>
+                </div>
+            </div> <!-- PANEL BODY -->
+        </form>
     </div>
 @endsection
 @section('js')
-    @parent
+
+    @include('form.form_leave_script')
     <script>
-        $('#inc_date').daterangepicker();
-        $('textarea[name="abroad_others"').prop('disabled',true);
-        $('.others1_txt').prop('disabled',true);
-        $('.others2_txt').prop('disabled',true);
-        $('.sic_dis').prop('disabled',true).val('');
+
         $('input[name="leave_type"]').change(function(){
 
             var val = this.value;
-        
-            if(val == "Vication") 
-            {
-                // DISABLED
-                $('.others1_txt').prop('disabled',true);
-                $('.others1_txt').val('');
-                $('.others2_txt').prop('disabled',true);
-                $('.others2_txt').val('');
-                //ENABLE
-                $('.vis_dis').prop('disabled',false);
-                
-            } else if(val == "To_sake_employement")
-            {
-                $('.vis_dis').prop('disabled',true);
-                $('.vis_dis').prop('checked',false);
-                $('.vis_dis').val('');
-                vic_radio_txt(true,false,'');
-                sick_radio_txt(true,false,'');
-                others1_txt(true,'');
-                others2_txt(true,'');
 
-            } else if(val == "Others")
-            {
-                vic_radio_txt(true,false,'');
-                sick_radio_txt(true,false,'');
-                others1_txt(false,'');
-                others2_txt(true,'');
-                $('.vis_dis').prop('disabled',true);
-                $('.vis_dis').prop('checked',false);
-                $('.vis_dis').val('');
-            } else if(val == "Sick") 
-            {
-                $('.vis_dis').prop('disabled',true);
-                $('.vis_dis').prop('checked',false);
-                $('.vis_dis').val('');
-                vic_radio_txt(true,false,'');
-                sick_radio_txt(false,false,'');
-                others1_txt(true,'');
-                others2_txt(true,'');
+            if(val == "OTHERS") {
+                $('#others_txt').prop('disabled', false);
+                $('input[name="for_text_input"]').prop('disabled', true).val("");
 
-            } else if(val == "Maternity")
-            {
-                $('.vis_dis').prop('disabled',true);
-                $('.vis_dis').prop('checked',false);
-                $('.vis_dis').val('');
-                vic_radio_txt(true,false,'');
-                sick_radio_txt(true,false,'');
-                others1_txt(true,'');
-                others2_txt(true,'');
-            } else if(val == "Others2")
-            {
-                vic_radio_txt(true,false,'');
-                sick_radio_txt(true,false,'');
-                others1_txt(true,'');
-                others2_txt(false,'');
-                $('.vis_dis').prop('disabled',true);
-                $('.vis_dis').prop('checked',false);
-                $('.vis_dis').val('');
-                $('.sic_dis').prop('checked',false);
-                $('.sic_dis').val('');
+            }else if(val == "VL") {
+                $('input[name="for_text_input"]').prop('disabled', true).val("");
+
+            } else if(val == "SL") {
+                $('input[name="for_text_input"]').prop('disabled', true).val("");
+
+            } else if(val == "SPL") {
+                $('input[name="for_text_input"]').prop('disabled', true).val("");
+
+            }else if(val == "STUD_L") {
+                $('input[name="for_text_input"]').prop('disabled', true).val("");
+
+            }else if(val == "SLBW") {
+                $('input[name="for_text_input"]').prop('disabled', true).val("");
+            }else{
+                $('[id^="checkboxSuccess"]').prop({ disabled: true, checked: false });
+                $('input[name="for_text_input"]').prop('disabled', true).val("");
             }
-            
         });
 
-       $('input[name="vication_loc"]').change(function(){
-            var val = this.value;
-           
-            if(val == "local")
-            {
-                alert("Hello");
-                $('textarea[name="abroad_others"').val('');
-                $('textarea[name="abroad_others"').prop('disabled',true);
-                
-            } else if(val == "abroad"){
-                $('textarea[name="abroad_others"').prop('disabled',false);
-            }
-       });
 
-       $('input[name="in_hostpital"]').change(function(){
-            var val = this.attr('checked');
-            alert(val);
-       });
-    
-        $('input[name="sick_loc"]').change(function(){
+        $('input[class="vac_dis"]').change(function(){
             var val = this.value;
-            if(val == "in_hostpital")
+            if(val == "1")
+            {
+                $('#within_txt').prop('disabled', false).val('');
+                $('#abroad_txt').prop('disabled', true);
+                $('#in_hos_txt, #in_hos_txt, #master_txt, #bar_txt, #spec_txt').prop('disabled', true);
+
+            } else if(val == "2"){
+                $('#abroad_txt').prop('disabled', false);
+                $('#within_txt').prop('disabled', true).val('');
+                $('#in_hos_txt, #out_hos_txt, #master_txt, #bar_txt, #spec_txt').prop('disabled', true);
+            }
+        });
+
+        $('input[class="sick_dis"]').change(function(){
+            var val = this.value;
+            if(val == "3")
             {
                 $('#in_hos_txt').prop('disabled', false).val('');
-                $('#out_hos_txt').prop('disabled',true).val('');
-            }else if(val == "out_patient")
-            {
-                $('#out_hos_txt').prop('disabled',false).val('');
+                $('#out_hos_txt').prop('disabled', true);
+                $('#within_txt, #abroad_txt, #master_txt, #bar_txt, #spec_txt').prop('disabled', true);
+            } else if(val == "4"){
+                $('#out_hos_txt').prop('disabled', false);
                 $('#in_hos_txt').prop('disabled', true).val('');
+                $('#within_txt, #abroad_txt, #master_txt, #bar_txt, #spec_txt').prop('disabled', true);
             }
-        }); 
+        });
+        $('input[class="stud_dis"]').change(function(){
+            var val = this.value;
+            if(val == "6")
+            {
+                $('#master_txt').prop('disabled', false).val('');
+                $('#bar_txt').prop('disabled', true);
+                $('#within_txt, #abroad_txt, #in_hos_txt, #out_hos_txt, #spec_txt').prop('disabled', true);
+            } else if(val == "7"){
+                $('#bar_txt').prop('disabled', false);
+                $('#master_txt').prop('disabled', true).val('');
+                $('#within_txt, #abroad_txt, #in_hos_txt, #out_hos_txt, #spec_txt').prop('disabled', true);
+            }
+        });
 
-         $('#in_hos_txt').prop('disabled', true);
-         $('#out_hos_txt').prop('disabled',true);
-        function vic_radio_txt(state,checked,txt_val)
-        {
-            $('.vic_dis').prop('disabled', state);
-            $('.vic_dis_txt').val(txt_val);
-            $('.vic_dis_txt').prop('disabled', state);
-            $('.vic_dis_radio').prop('checked', checked);
-        }
-        function sick_radio_txt(state,checked,txt_val)
-        {
-             $('.sic_dis').prop('disabled', state);
-             $('.sic_dis_radio').prop('disabled', state);
-             $('.sic_dis_radio').prop('checked', checked);
-             $('.sic_dis_txt').val(state);
-             $('.sic_dis_txt').val(txt_val);   
-        }
+        $('input[class="spec_dis"]').change(function(){
 
-        function others1_txt(state,txt_val)
-        {
-            $('.others1_txt').val(txt_val);
-            $('.others1_txt').prop('disabled', state);
-            
-        }
-        function others2_txt(state,txt_val)
-        {
-            $('.others2_txt').val(txt_val);
-            $('.others2_txt').prop('disabled', state);
-        }
+            $('#spec_txt').prop('disabled', false).val('');
+            $('#within_txt, #abroad_txt, #in_hos_txt, #out_hos_txt, #master_txt, #bar_txt').prop('disabled', true);
+
+        });
+        $('input[class="others_dis"]').change(function(){
+            $('#within_txt, #abroad_txt, #in_hos_txt, #out_hos_txt, #master_txt, #bar_txt, #spec_txt').prop('disabled', true);
+        });
 
         function validate(evt) {
             var theEvent = evt || window.event;

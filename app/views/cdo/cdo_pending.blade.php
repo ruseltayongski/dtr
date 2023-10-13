@@ -1,3 +1,4 @@
+
 <span id="cdo_updatev1" data-link="{{ asset('cdo_updatev1') }}"></span>
 @if(isset($paginate_pending) and count($paginate_pending) >0)
     <div class="table-responsive" style="margin-top: -20px;">
@@ -22,7 +23,13 @@
                     <td><a href="#track" data-link="{{ asset('form/track/'.$row->route_no) }}" data-route="{{ $row->route_no }}" data-toggle="modal" class="btn btn-sm btn-success col-sm-12" style="background-color:#9C8AA5;color:white;"><i class="fa fa-line-chart"></i> Track</a></td>
                     <td><a class="title-info" data-backdrop="static" data-route="{{ $row->route_no }}" style="color: #f0ad4e;" data-link="{{ asset('/form/info/'.$row->route_no.'/cdo') }}" href="#document_info" data-toggle="modal">{{ $row->route_no }}</a></td>
                     <td>{{ $row->subject }}</td>
-                    <td><?php if(isset($row->start)) echo date('m/d/Y',strtotime($row->start)).' - '.date('m/d/Y',strtotime('-1 day',strtotime($row->end))); ?></td>
+                    <td>
+                        @if($row->applied_dates ==null)
+                            <?php if(isset($row->start)) echo date('m/d/Y',strtotime($row->start)).' - '.date('m/d/Y',strtotime('-1 day',strtotime($row->end))); ?>
+                        @else
+                            {{$formatted_dates = str_replace(',', '<br>', $row->applied_dates)}}
+                        @endif
+                    </td>
                     <td>
                         <?php
                         $personal_information = InformationPersonal::where('userid','=',$row['prepared_name'])->first();
@@ -34,7 +41,7 @@
                             {{ $personal_information->bbalance_cto }}
                         </b>
                     </td>
-                    <td><button type="submit" class="btn-xs btn-info" value="{{ $row->id }}" onclick="pending_status($(this))" style="color:white;"><i class="fa fa-smile-o"></i> Approve</button></td>
+                    <td><button type="submit" class="btn-xs btn-info" value="{{ $row->id }}" onclick="pending_status($(this))" style="color:white;"><i class="fa fa-smile-o"></i> Process</button></td>
                 </tr>
             @endforeach
             </tbody>
@@ -45,3 +52,23 @@
     <div class="alert alert-danger" role="alert"><span style="color:red;">Documents records are empty.</span></div>
 @endif
 
+<script>
+    try{
+        $(function () {
+            $('input').iCheck({
+                checkboxClass: 'icheckbox_square-blue',
+                radioClass: 'iradio_square-blue',
+                increaseArea: '20%' // optional
+            });
+        });
+
+        $('#click_approve').on('ifChecked', function(){
+            $(".button").html("<button type='button' value='approve' onclick='click_all($(this))' class='btn-group-sm btn-info'><i class='fa fa-smile-o'></i> Approve all cdo/cto</button>");
+        });
+        $('#click_approve').on('ifUnchecked', function(){
+            $(".button").html("");
+        });
+    }catch(e){
+    }
+
+</script>

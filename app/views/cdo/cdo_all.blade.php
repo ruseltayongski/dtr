@@ -19,7 +19,13 @@
                     <td><a href="#track" data-link="{{ asset('form/track/'.$row->route_no) }}" data-route="{{ $row->route_no }}" data-toggle="modal" class="btn btn-sm btn-success col-sm-12" style="background-color:#9C8AA5;color:white;"><i class="fa fa-line-chart"></i> Track</a></td>
                     <td><a class="title-info" data-backdrop="static" data-route="{{ $row->route_no }}" data-link="{{ asset('/form/info/'.$row->route_no.'/cdo') }}" href="#document_info" data-toggle="modal" style="color: #f0ad4e;">{{ $row->route_no }}</a></td>
                     <td>{{ $row->subject }}</td>
-                    <td><?php if(isset($row->start)) echo date('m/d/Y',strtotime($row->start)).' - '.date('m/d/Y',strtotime('-1 day',strtotime($row->end))); ?></td>
+                    <td>
+                        @if($row->applied_dates ==null)
+                            <?php if(isset($row->start)) echo date('m/d/Y',strtotime($row->start)).' - '.date('m/d/Y',strtotime('-1 day',strtotime($row->end))); ?>
+                        @else
+                            {{$formatted_dates = str_replace(',', '<br>', $row->applied_dates)}}
+                        @endif
+                    </td>
                     <td>
                         <?php
                         $personal_information = InformationPersonal::where('userid','=',$row['prepared_name'])->first();
@@ -34,7 +40,7 @@
                     @if($row->approved_status == 1)
                         <td><button type="button" value="{{ $row->id }}" onclick="all_status($(this),'cancel')" class="btn-xs btn-danger" style="color:white;"><i class="fa fa-ban"></i> Cancel</button></td>
                     @else
-                        <td><button type="button" value="{{ $row->id }}" onclick="all_status($(this),'approve')" class="btn-xs btn-info" style="color:white;"><i class="fa fa-frown-o"></i> Approve</button></td>
+                        <td><button type="button" value="{{ $row->id }}" onclick="all_status($(this),'approve')" class="btn-xs btn-info" style="color:white;"><i class="fa fa-frown-o"></i> Process</button></td>
                     @endif
                 </tr>
             @endforeach

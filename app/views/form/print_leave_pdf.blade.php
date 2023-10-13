@@ -134,10 +134,10 @@
                                         </div>
                                         <div class="row">
                                             <strong class="col-sm-1"></strong>
-                                        <span class="col-sm-6">
+                                            <span class="col-sm-6">
                                             @if(isset($leave->leave_type_others_1))
-                                                <span class="tab2"><em>{{  $leave->leave_type_others_1 }}</em></span>
-                                            @endif
+                                                    <span class="tab2"><em>{{  $leave->leave_type_others_1 }}</em></span>
+                                                @endif
                                         </span>
                                         </div>
                                         <div class="row">
@@ -178,10 +178,10 @@
                                         </div>
                                         <div class="row">
                                             <strong class="col-sm-1"></strong>
-                                        <span class="col-sm-6">
+                                            <span class="col-sm-6">
                                             @if(isset($leave->leave_type_others_2))
-                                                <span class="tab2"><em>{{  $leave->leave_type_others_2 }}</em></span>
-                                            @endif
+                                                    <span class="tab2"><em>{{  $leave->leave_type_others_2 }}</em></span>
+                                                @endif
                                         </span>
                                         </div>
                                     </div>
@@ -236,10 +236,10 @@
                                         </div>
                                         <div class="row">
                                             <strong class="col-sm-1"></strong>
-                                        <span class="col-sm-6">
+                                            <span class="col-sm-6">
                                             @if(isset($leave->abroad_others))
-                                                <span class="tab2"><em>{{  $leave->abroad_others }}</em></span>
-                                            @endif
+                                                    <span class="tab2"><em>{{  $leave->abroad_others }}</em></span>
+                                                @endif
                                         </span>
                                         </div>
                                         <span>(2) In case of sick leave</span>
@@ -257,7 +257,7 @@
                                         </div>
                                         <div class="row">
                                             <strong class="col-sm-1"></strong>
-                                        <span class="col-sm-6  col-md-offset-1">
+                                            <span class="col-sm-6  col-md-offset-1">
                                             <em>
                                                 @if(isset($leave->in_hospital_specify))
                                                     {{ $leave->in_hospital_specify }}
@@ -283,7 +283,7 @@
                                     </div>
                                     <div class="row">
                                         <strong class="col-sm-1"></strong>
-                                    <span class="col-sm-6  col-md-offset-1">
+                                        <span class="col-sm-6  col-md-offset-1">
                                         <em>
                                             @if(isset($leave->out_patient_specify))
                                                 {{ $leave->out_patient_specify }}

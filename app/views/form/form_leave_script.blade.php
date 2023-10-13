@@ -1,205 +1,246 @@
 <script>
-    var days = new Array(7);
-    days[0] = "Sunday";
-    days[1] = "Monday";
-    days[2] = "Tuesday";
-    days[3] = "Wednesday";
-    days[4] = "Thursday";
-    days[5] = "Friday";
-    days[6] = "Saturday";
 
     var vacation_balance = "<?php echo Session::get('vacation_balance'); ?>";
     var sick_balance = "<?php echo Session::get('sick_balance'); ?>";
-
-    function dateRangeFunc($main_leave){
-        $(".inc_date_body").html(''); //clear
-        $("#applied_num_days").val('');
-        $("#credit_used").val('');
-
-        var radio_val = $('input[name="leave_type"]:checked').val();
-        var inc_date_element = '<strong class="control-label" >INCLUSIVE DATES :</strong>\n' +
-            '                                        <div class="input-group">\n' +
-            '                                            <div class="input-group-addon">\n' +
-            '                                                <i class="fa fa-calendar"></i>\n' +
-            '                                            </div>\n' +
-            '                                            <input type="text" class="form-control" id="inc_date" name="inc_date" placeholder="Input date range here..." required onkeypress="return false;" >\n' +
-            '                                        </div>';
-        $(".inc_date_body").html(inc_date_element);
-        $("#inc_date").attr('autocomplete', 'off');
-
-        $("body").delegate("#inc_date","focusin",function() {
-            $(".working_days_noted").html('');
-        }); //clear
-
-        set_daterange = countWorkingDays(5,days,new Date());
-        if(radio_val == 'VL') {
-            console.log(radio_val);
-            calendarNotice("Note: 5 working days before apply for vacation leave","alert-info");
-
-            json = {
-                "start_date":new Date().toLocaleDateString(),
-                "end_date":set_daterange
-            };
-            var url = "<?php echo asset('calendar/track/holiday'); ?>";
-            $.post(url,json,function(result){
-                var note_message = "Holidays:";
-                $.each(result,function(x,data){
-                    note_message += "<br>"+data;
-                });
-                calendarNotice(note_message,"alert-warning");
-
-                set_daterange = countWorkingDays(result.length,days,new Date(set_daterange));
-                applyDaterangepicker(set_daterange,$main_leave,radio_val);
-            });
-        }
-        additionalSick(radio_val,new Date(),$main_leave);
+    var radio_val;
+    function leave_value() {
+         radio_val = $('input[name="leave_type"]:checked').val();
+         return radio_val;
+    }
+    function here() {
+        var rad = $('input[name="leave_type"]:checked').val();
     }
 
-    function clearHalfDaySickFirst(){
-        $('input[name="half_day_first"]:checked').attr('checked',false);
-    }
-    function clearHalfDaySickLast(){
-        $('input[name="half_day_last"]:checked').attr('checked',false);
-    }
+    $(function () {
 
-    function countWorkingDays(working_days,days,date){
-        var set_daterange = date;
-        var add_from_weekend = 0;
-        for(var i = 0; i < working_days; i++) {
-            day_name = days[new Date(set_daterange).getDay()];
-            if(day_name == "Saturday" ||  day_name == "Sunday"){
-                add_from_weekend++;
+        $("body").delegate("#inclusive11", "focusin", function () {
+
+            var today = new Date();
+
+            var weekday = new Array(7);
+            weekday[0] = "Sunday";
+            weekday[1] = "Monday";
+            weekday[2] = "Tuesday";
+            weekday[3] = "Wednesday";
+            weekday[4] = "Thursday";
+            weekday[5] = "Friday";
+            weekday[6] = "Saturday";
+
+            var name_of_days = weekday[today.getDay()];
+            var beforeDaysToApply;
+
+            var radio_val = leave_value();
+            //5 days prior
+             if (radio_val == "VL" || radio_val == "SOLO_PL" || radio_val == "SLBW" ||radio_val == "FL" ){
+                 console.log("ahw");
+                 if( name_of_days == "Friday" ){
+                     beforeDaysToApply = 7;
+                 } else {
+                     beforeDaysToApply = 5;
+                 }
+             }else if(radio_val == "SPL" || radio_val == "RL"){
+                 if( name_of_days == "Friday" ){
+                     beforeDaysToApply = 9;
+                 } else {
+                     beforeDaysToApply = 7;
+                 }
+             }else {
+                 var lastYear = today.getFullYear() - 1;
+                 start = "01/01/" + lastYear;
+                 start = "01/01/" + lastYear;
+             }
+
+                var dd = today.getDate() + beforeDaysToApply;
+                var mm = today.getMonth() + 1;
+                var yyyy = today.getFullYear();
+                startDate = mm + '/' + dd + '/' + yyyy;
+                endDate = mm + '/' + dd + '/' + yyyy;
+
+            if(radio_val == "VL" || radio_val == "SOLO_PL" || radio_val == "SLBW" ||
+                radio_val == "SPL" || radio_val == "RL" ||radio_val == "FL"){
+                 startDate = startDate;
+                 endDate = endDate;
+            }else{
+                startDate = today
+                endDate = today;
             }
-            set_daterange.setDate(set_daterange.getDate() + 1);
-        }
-        set_daterange.setDate(set_daterange.getDate() + add_from_weekend);
-        set_daterange = set_daterange.toLocaleDateString();
 
-        return set_daterange;
-    }
+            $(this).daterangepicker({
+                locale: {
+                    format: 'MM/DD/YYYY'
+                },
+                minDate: mm + '/' + dd + '/' + yyyy,
+                startDate: startDate,
+                endDate: endDate,
+            }).on('apply.daterangepicker', function (ev, picker) {
+//                var start = moment(picker.startDate.format('YYYY-MM-DD'));
+//                var end   = moment(picker.endDate.format('YYYY-MM-DD'));
+//                diff = end.diff(start, 'days');
+//                $('#applied_num_days').val(diff+1);
 
-    function calendarNotice($message,$alert_info){
-        $("body").delegate("#inc_date","focusin",function() {
-            $(".range_inputs").append("" +
-                "<div class='"+$alert_info+" working_days_noted' style='width: 100%'>" +
-                "<h6 style='padding-right: 5%;padding-left:5%'>"+$message+"</h6>" +
-                "</div>" +
-                "");
+                var radio_val = $('input[name="leave_type"]:checked').val();
+                var days = totalDays();
+                console.log(" total number of days:", days);
+
+                <?php
+                    $leave = Leave::where('userid', Auth::user()->userid)->first();
+                    echo "var FL = {$leave->FL_total};";
+                    echo "var SPL = {$leave->SPL_total};";
+                    echo "var VL = {$leave->vacation_total};";
+                    echo "var SL = {$leave->sick_total};";
+                    ?>
+
+                if(radio_val == "SPL"){
+                    if(days>3 || days>SPL){
+                        Lobibox.alert('error',{msg:"Exceed SPL Balance/Maximum of 3!"});
+                    }else{
+                        $('#applied_num_days').val(days);
+                    }
+                }else if(radio_val == "VL"){
+                    if(days > VL){
+                        Lobibox.alert('error', {msg:"Exceed VL Balance!"});
+                    }else{
+                        $('#applied_num_days').val(days);
+                    }
+                }else if(radio_val == "FL"){
+                    if(days> FL){
+                        Lobibox.alert('error', {msg:"Exceed FL Balance!"});
+                    }else{
+                        $('#applied_num_days').val(days);
+                    }
+                }else if(radio_val == "SL"){
+                    if(days> SL){
+                        Lobibox.alert('error', {msg:"Exceed SL Balance"});
+                    }else{
+                        $('#applied_num_days').val(days);
+                    }
+                }else if(radio_val == "PL" || radio_val == "SOLO_PL"){
+                    if(days>7){
+                        Lobibox.alert('error', {msg:"7 Days of Leave Only!"})
+                    }else{
+                        $('#applied_num_days').val(days);
+                    }
+                }else if(radio_val == "ML"){
+                    if(days>105){
+                        Lobibox.alert('error', {msg:"105 Days of Leave Only!"});
+                    }else{
+                        $('#applied_num_days').val(days);
+                    }
+                }else if(radio_val == "10D_VAWCL"){
+                    if(days>10){
+                        Lobibox.alert('error', {msg:"10 Days of Leave Only!"});
+                    }else{
+                        $('#applied_num_days').val(days);
+                    }
+                }else if(radio_val == "STUD_L" || radio_val == "RL"){
+                    if(days>180){
+                        Lobibox.alert('error', {msg:"Up to 6 Months of Leave Only!"});
+                    }else{
+                        $('#applied_num_days').val(days);
+                    }
+                }else if(radio_val == "SEL"){
+                    if(days>5){
+                        Lobibox.alert('error', {msg:"5 Days Only!"});
+                    }else{
+                        $('#applied_num_days').val(days);
+                    }
+                }else if(radio_val == "SLBW"){
+                    if(days>60){
+                        Lobibox.alert('error', {msg:" Up to 2 Months Only!"});
+                    }else{
+                        $('#applied_num_days').val(days);
+                    }
+                }else{
+                    $('#applied_num_days').val(days);
+                }
+
+            });
+
+
+            var radio_val = $('input[name="leave_type"]:checked').val();
+            console.log("radio_val", radio_val);
+
+            if(radio_val == "SPL" || radio_val == "RL"){
+                $(".range_inputs").append("" +
+                    "<div class='alert-info'>" +
+                    "<h6 style='color: #206ff0;padding-right: 5%;padding-left:5%'>Note: 1 week working days before apply</h6>" +
+                    "</div>" +
+                    "");
+            }else if(radio_val == "VL" || radio_val == "SPL" || radio_val == "SLBW"){
+                console.log("ahww");
+                $(".range_inputs").append("" +
+                    "<div class='alert-info'>" +
+                    "<h6 style='color: #206ff0;padding-right: 5%;padding-left:5%'>Note: 5 working days before apply</h6>" +
+                    "</div>" +
+                    "");
+            }else{
+                $(".range_inputs").append("" +
+                    "<div class='alert-info'>" +
+                    "<h6 style='color: #206ff0;padding-right: 5%;padding-left:5%'>Note: HELLO MADLANG PEOPLE!</h6>" +
+                    "</div>" +
+                    "");
+            }
+
+
         });
-    }
+    });
 
-    function additionalSick(radio_val,set_daterange,$main_leave){
-        if(radio_val == 'VL'){
-            var additional_sick = '<ul>\n' +
-                '                                                                Half day in first day? Please select.\n' +
-                '                                                                <ul>\n' +
-                '                                                                    <li>\n' +
-                '                                                                        <label>\n' +
-                '                                                                            <input type="radio" id="leave_type" value="AM" name="half_day_first" />\n' +
-                '                                                                            AM sick\n' +
-                '                                                                        </label>\n' +
-                '                                                                        <label>\n' +
-                '                                                                            <input type="radio" id="leave_type" value="PM" name="half_day_first" />\n' +
-                '                                                                            PM sick\n' +
-                '                                                                        </label>\n' + '<button type="button" onclick="clearHalfDaySickFirst();">Clear</button>' +
-                '                                                                    </li>\n' +
-                '                                                                </ul>\n' +
-                '                                                                Half day in last day? Please select.\n' +
-                '                                                                <ul>\n' +
-                '                                                                    <li>\n' +
-                '                                                                        <label>\n' +
-                '                                                                            <input type="radio" id="leave_type" value="AM" name="half_day_last" />\n' +
-                '                                                                            AM sick\n' +
-                '                                                                        </label>\n' +
-                '                                                                        <label>\n' +
-                '                                                                            <input type="radio" id="leave_type" value="PM" name="half_day_last" />\n' +
-                '                                                                            PM sick\n' +
-                '                                                                        </label>\n' + '<button type="button" onclick="clearHalfDaySickLast();">Clear</button>' +
-                '                                                                    </li>\n' +
-                '                                                                </ul>\n' +
-                '                                                        </ul>';
-            $(".additional_sick").html(additional_sick);
-            applyDaterangepicker(set_daterange,$main_leave,radio_val);
+    $(".addButton1").click(function () {
+        console.log("button clicked!");
+        var clonedData = $('#clone_data').clone();
+
+        clonedData.find('input[type="text"]').val('');
+
+        $('#data_here').append(clonedData);
+    });
+
+    $(document).on("click", ".deleteButton1", function () {
+        var td = $(this).closest('td');
+        var totalRows = td.find('.table-data').length;
+        console.log("Total rows:", totalRows);
+
+        if (totalRows > 1) {
+            $(this).closest('.table-data').remove();
         } else {
-            $(".additional_sick").html('');
-            applyDaterangepicker(set_daterange,$main_leave,radio_val);
+            $('#applied_num_days').val('');
+            $('.datepickerInput1').val('');
         }
+
+        var days = totalDays();
+        $('#applied_num_days').val(days);
+    });
+
+    function getAllDates() {
+        var dates = [];
+        console.log("dates", $('.datepickerInput1').val());
+        $('.datepickerInput1').each (function(){
+            var selectedDate = $(this).val();
+            dates.push(selectedDate);
+            console.log("aww", selectedDate);
+        })
+        console.log("datesdates", dates);
+        return dates;
     }
 
-    function applyDaterangepicker(set_daterange,$main_leave,radio_val){
-        $('#inc_date').daterangepicker({
-            locale: {
-                format: 'MM/DD/YYYY'
-            },
-            minDate: set_daterange,
-            startDate: set_daterange,
-            endDate: set_daterange,
-        }).on('apply.daterangepicker', function(ev, picker)
-        {
-            var start = moment(picker.startDate.format('YYYY-MM-DD')).add(1, 'days');
-            var end   = moment(picker.endDate.format('YYYY-MM-DD')).add(1, 'days');
-            var interval_days = end.diff(start,'days')+1; // returns correct number
-            var applied_days = 0;
-            var sub_date,day_name,leave_condition = '';
-
-            for(var i = 0; i < interval_days; i++) {
-                sub_date = end.subtract(1,'d').format('YYYY-MM-DD');
-                day_name = days[new Date(sub_date).getDay()];
-                if(day_name != "Saturday" && day_name != "Sunday"){
-                    applied_days++;
+    function totalDays() {
+        var dates = getAllDates();
+        var totalDays = 0;
+        console.log("dates", dates)
+        dates.forEach(function (daterange) {
+            var startdate = daterange.split(" - ")[0];
+            var endDate = daterange.split(" - ")[1];
+            if(startdate !== '' && endDate !==''){
+                var start = moment(startdate, 'MM/DD/YYYY');
+                var end = moment(endDate, 'MM/DD/YYYY');
+                var diff = end.diff(start, 'days') + 1;
+                if(!isNaN(diff)){
+                    totalDays += diff;
                 }
             }
-
-            console.log("applied days:"+applied_days);
-            var leave_balance_applied = applied_days * 8;
-
-            var half_day_first = $('input[name="half_day_first"]:checked').val();
-            var half_day_last = $('input[name="half_day_last"]:checked').val();
-
-            if(half_day_first !== undefined){
-                leave_balance_applied -= 4;
-                applied_days -= 0.5;
-            }
-            if(half_day_last !== undefined){
-                leave_balance_applied -= 4;
-                applied_days -= 0.5;
-            }
-            if($main_leave == 'no'){
-                leave_balance_applied = 0;
-            }
-
-            if( (leave_balance_applied <= 4 && radio_val =='Sick' ) || radio_val == 'Sick' ){
-                leave_condition = sick_balance;
-                $("#credit_used").val('sick_balance');
-            }
-            else if(radio_val == 'VL'){
-                leave_condition = vacation_balance;
-                $("#credit_used").val('vacation_balance');
-            }
-            else{
-                leave_condition = 99999999;
-                $("#credit_used").val('');
-            }
-
-            console.log(leave_balance_applied);
-            console.log("leave condition = "+leave_condition);
-            console.log("radio val: "+radio_val);
-
-            if( leave_balance_applied < leave_condition ){
-                $("#applied_num_days").val(applied_days);
-            }
-            else {
-                Lobibox.alert('error', //AVAILABLE TYPES: "error", "info", "success", "warning"
-                    {
-                        msg: "INSUFFICIENT LEAVE BALANCE"
-                    });
-
-                $("#applied_num_days").val('');
-                $("#inc_date").val('');
-                $("#credit_used").val('');
-            }
-
         });
+        return totalDays;
+
     }
+
 
 </script>

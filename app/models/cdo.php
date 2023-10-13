@@ -10,4 +10,8 @@ class cdo extends Eloquent
 {
     protected $table = 'cdo';
     protected $primaryKey = 'id';
+
+    public function appliedDates(){
+        return $this->hasMany(CdoAppliedDate::class, 'cdo_id');
+    }
 }

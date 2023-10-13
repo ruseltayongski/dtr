@@ -26,6 +26,13 @@
             </ul>
         </li>
     @endif
+
+    <?php
+    $id= Auth::user()->userid;
+    $get = InformationPersonal::where('userid', $id)->first();
+    $field = !Empty($get->field_status)? $get->field_status : "NULL";
+     ?>
+
     @if(Auth::user()->region == "region_7")
         <li class="divider"></li>
         <li><a href="{{ url('calendar') }}"><i class="fa fa-calendar"></i> Calendar</a></li>
@@ -33,15 +40,20 @@
     <li class="dropdown">
         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-file"></i> Forms<span class="caret"></span></a>
         <ul class="dropdown-menu">
-            @if(Session::get("job_status") == 'Permanent')
-                <li><a href="{{ asset('form/leave/all') }}">Leave</a></li>
+            @if($field != "HRH")
+                @if(Session::get("job_status") == 'Permanent')
+                    <li><a href="{{ asset('form/leave/all') }}">Leave</a></li>
+                    <li class="divider"></li>
+                @endif
+                <li><a href="{{ asset('form/so_list') }}">Office Order</a></li>
                 <li class="divider"></li>
+                <li><a href="{{ asset("form/cdo_user") }}">CDO</a></li>
+            @else
+                <li><a href="{{ asset('form/so_list') }}">Office Order</a></li>
             @endif
-            <li><a href="{{ asset('form/so_list') }}">Office Order</a></li>
-            <li class="divider"></li>
-            <li><a href="{{ asset("form/cdo_user") }}">CDO</a></li>
         </ul>
     </li>
+
     <li class="divider"></li>
     <?php
     $user_roles = UserRoles::select('users_roles.id','users_claims.claim_type','users_claims.claim_value','users_claims.id as claims_id')

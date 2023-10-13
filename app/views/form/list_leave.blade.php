@@ -34,7 +34,6 @@
                             </form>
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>
@@ -46,26 +45,34 @@
                         <div class="panel-body">
                             <div class="row">
                                 <div class="col-md-12">
-                                    <a href="{{ asset('form/leave') }}" class="btn btn-success center-block col-md-3" onclick="checkBalance();">
+                                    <a style="margin-right: 10px" href="{{ asset('form/leave') }}" class="btn btn-success center-block col-md-2" onclick="checkBalance();">
                                         <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Create new
                                     </a>
+                                    <button class="btn btn-info center-block col-md-2" id="viewCard" name="viewCard" data-toggle="modal"
+                                            data-target="#ledger"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>View Card</button>
                                     <?php
-                                        if(!empty(Session::get("vacation_balance")) || Session::get('vacation_balance') != 0){
-                                            $vacation_balance = Session::get("vacation_balance").' hours';
-                                        } else {
-                                            $vacation_balance = 0;
-                                        }
-                                        if(!empty(Session::get("sick_balance")) || Session::get('sick_balance') != 0){
-                                            $sick_balance = Session::get("sick_balance").' hours';
-                                        } else {
-                                            $sick_balance = 0;
-                                        }
+                                    if(!empty(Session::get("vacation_balance")) || Session::get('vacation_balance') != 0){
+                                        $vacation_balance = Session::get("vacation_balance");
+                                    } else {
+                                        $vacation_balance = 0;
+                                    }
+                                    if(!empty(Session::get("sick_balance")) || Session::get('sick_balance') != 0){
+                                        $sick_balance = Session::get("sick_balance");
+                                    } else {
+                                        $sick_balance = 0;
+                                    }
+
+                                    $fl_total = !Empty($leave->FL)? $leave->FL : 0;
+                                    $spl_total = !Empty($leave->SPL)? $leave->SPL : 0;
                                     ?>
-                                    <label class="text-success">Vacation Balance: <span class="badge bg-blue">{{ $vacation_balance }}</span></label>
-                                    <label class="text-danger">Sick Balance: <span class="badge bg-red">{{ $sick_balance }}</span></label>
+                                    <div style="text-align: right">
+                                        <label class="text-success">VL Bal: <span class="badge bg-blue">{{ $vacation_balance }}</span></label>
+                                        <label class="text-danger">SL Bal: <span class="badge bg-red">{{ $sick_balance }}</span></label>
+                                        <label class="text-success">FL Bal: <span class="badge bg-blue">{{$fl_total}}</span></label>
+                                        <label class="text-danger">SPL Bal: <span class="badge bg-red">{{ $spl_total }}</span></label>
+                                    </div>
                                 </div>
                             </div>
-                            <br />
                             <div class="row">
                                 <div class="col-md-12">
                                     @if(isset($leaves) and count($leaves) >0)
@@ -102,7 +109,11 @@
                                                             else
                                                                 $color = 'danger';
                                                             ?>
-                                                            <small class="label label-{{ $color }}">{{ $leave->status }}</small>
+                                                            @if($leave->status == 'PENDING')
+                                                            <small class="label label-{{ $color }}">PENDING</small>
+                                                            @else
+                                                             <small class="label label-{{ $color }}">PROCESSED</small>
+                                                            @endif
                                                         </td>
                                                     </tr>
                                                 @endforeach
@@ -122,6 +133,78 @@
             </div>
         </div>
     </div>
+
+    <div class="modal fade" tabindex="-1" role="dialog" id="ledger">
+        <div class="modal-dialog modal-xl" role="document" id="size" style=" width: 70%;">
+            <div class="modal-content">
+                <div class="header-container">
+                    <div class="modal-header sticky-top" style="background-color: #9C8AA5;">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <strong><h4 class="modal-title"></h4></strong>
+                    </div>
+                </div>
+                <div  style="max-height: calc(100vh - 50px); overflow-y: auto;">
+                    <table class="table" id="card_table" border="1px" border-botom="1px">
+                        <thead style="position:sticky; top: 0; z-index: 5;">
+                            <tr style="text-align: center">
+                                <th colspan="6"><N>NAME</N>: &nbsp; &nbsp; &nbsp;{{$pis->lname}} , &nbsp;{{$pis->fname}} &nbsp;</th>
+                                <th colspan="6">DIVISION/OFFICE: &nbsp;&nbsp;&nbsp; {{$division->description}}/{{$designation->description}}</th>
+                            </tr>
+                            <tr>
+                                <th rowspan="2" STYLE="vertical-align: middle">PERIOD</th>
+                                <th rowspan="2" STYLE="vertical-align: middle">PARTICULARS</th>
+                                <th colspan="4" style="text-align: center">VACATION LEAVE
+                                <th colspan="4" style="text-align: center">SICK LEAVE
+                                <th rowspan="2" STYLE="vertical-align: middle">DATE AND ACTION TAKEN ON APPL. FOR LEAVE</th>
+                            </tr>
+                            <tr>
+                                <th>EARNED</th>
+                                <th>ABS.UND.W/P</th>
+                                <th>BAL.</th>
+                                <th>ABS.UND.WOP</th>
+                                <th>EARNED</th>
+                                <th>ABS.UND.W/P</th>
+                                <th>BAL.</th>
+                                <th>ABS.UND.WOP</th>
+                            </tr>
+                        </thead>
+                        <tbody id="t_body" name="t_body" style="overflow-y: auto;">
+
+                            @if(count($leave_card)>0)
+                                @foreach($leave_card as $card)
+                                    <tr>
+                                        <td>{{$card->period}}</td>
+                                        <td>{{$card->particulars}}</td>
+                                        <td>{{$card->vl_earned}}</td>
+                                        <td>{{$card->vl_abswp}}</td>
+                                        <td>{{$card->vl_bal}}</td>
+                                        <td>{{$card->vl_abswop}}</td>
+                                        <td>{{$card->sl_earned}}</td>
+                                        <td>{{$card->sl_abs}}</td>
+                                        <td>{{$card->sl_bal}}</td>
+                                        <td>{{$card->abswop}}</td>
+                                        <td>{{$card->date_used}}</td>
+                                    </tr>
+                                @endforeach
+                                @else
+                                   <tr>
+                                       <td colspan="12">No Data Available</td>
+                                   </tr>
+                            @endif
+                        </tbody>
+                    </table>
+                </div>
+                {{--</form>--}}
+                <div class="modal-footer">
+                    <input type ="hidden"value="" id="user_iid" name="user_iid">
+                    <ul class="pagination justify-content-center" id="pagination" style="margin: 0; padding: 0"></ul>
+                </div>
+            </div><!-- .modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
 @endsection
 @section('js')
     @parent
