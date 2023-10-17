@@ -127,10 +127,11 @@ class cdoController extends BaseController
 
             foreach(pdoController::section() as $row) {
                 $section_head[] = pdoController::user_search1($row['head']);
-
             }
             foreach(pdoController::division() as $row) {
-                $division_head[] = pdoController::user_search1($row['head']);
+                if($row['ppmp_used'] == null){
+                    $division_head[] = pdoController::user_search1($row['head']);
+                }
             }
         }
 
@@ -957,8 +958,10 @@ class cdoController extends BaseController
             }
             if ($action == 'update') {
                 if ($total_total == 0) {
+//                    return 0;
                     $card_view->status = ($otDateY == $todayYear && $otDateM == $todayMonth) ? 1 : 0;
                 } else {
+//                    return $total_total;
                     CardView::where('id', $row)->where('userid', $userid)->update(["status" => 2, "bal_credits" => 0, "ot_credits" => $cardcheckstat->ot_hours * $cardcheckstat->ot_rate]);
                     $stat = $cardcheckstat->status;
                     if ($stat != null && $stat == 0) {
@@ -967,8 +970,11 @@ class cdoController extends BaseController
                         CardView::where('id', '=', $row)->where('userid', $userid)->update(["status" => 2, "remarks" => Input:: get('remarks'), "bal_credits" => 0, "ot_credits" => $ch->ot_rate * $ch->ot_hours]);
                         $card2 = CardView::where('id', '>', $row)->whereNotIn('status', [0, 6, 5, 2])->where('userid', $userid)->get();
                         $array = [];
+//                        return $card2;
                         foreach ($card2 as $card) {
+
                             if ($card->status != 0 && $card->status != 2 && $card->status != 5) {
+
                                 $thiscardMonth = date('m', strtotime($card->ot_date));
                                 $thiscardYear = date('Y', strtotime($card->ot_date));
                                 $id_s = $card->id;
@@ -990,6 +996,7 @@ class cdoController extends BaseController
                                 $proBal = $cred + $cprevbal;
                                 $forA1 = $totalCheck - 40;  //36+12 = 48 - 40 = 8 12 -8= 4
                                 $forCred = $cred - $forA1;
+
 
                                 if ($card->status == 4) {
                                     CardView::where('id', $card->id)->update(["bal_credits" => $proBal - $card->hours_used]);
@@ -1035,6 +1042,7 @@ class cdoController extends BaseController
                         }
                     }
                 }
+
                 //for newly updated month
                 $informationPersonal = InformationPersonal::where('userid', $userid)->first();
                 $balance = (!empty($informationPersonal->bbalance_cto)) ? $informationPersonal->bbalance_cto : 0;
@@ -1048,31 +1056,43 @@ class cdoController extends BaseController
                 }
 
                 if ($otDateY == $todayYear && $otDateM == $todayMonth) {
+
                     $card_view->ot_credits = $beginning_balance;
                     $card_view->bal_credits = 0;
                     $card_view->status = 0;
                 } else {
 
+                    if($total_total==0){
+
+                    }else{
+                        $balance = $balance-$total_total;
+                    }
+
                     if ($balance < 120) {
+
 
                         $check = $balance + $beginning_balance;
                         if ($check < 120) {
+
                             if ($totalBal < 40) {
+
 
                                 $total1 = $totalBal + $beginning_balance;
                                 if ($total1 <= 40) {
+
                                     $card_view->ot_credits = $beginning_balance;
                                     $card_view->bal_credits = $balance + $beginning_balance;
                                     $card_view->status = 1;
+                                    InformationPersonal::where('userid', $userid)->update(["bbalance_cto" => $balance + $beginning_balance]);
                                 } else {
 
                                     $total2 = $total1 - 40;
                                     $card_view->ot_credits = 40 - $totalBal;
                                     $card_view->bal_credits = ($balance + $beginning_balance) - $total2;
                                     $card_view->status = 11;
+                                    InformationPersonal::where('userid', $userid)->update(["bbalance_cto" => ($balance + $beginning_balance) - $total2]);
                                 }
                             } else {
-
                                 $card_view->ot_credits = $beginning_balance;
                                 $card_view->bal_credits = 0;
                                 $card_view->status = 9;
@@ -1089,11 +1109,13 @@ class cdoController extends BaseController
                                     $card_view->ot_credits = $fcheck;
                                     $card_view->bal_credits = $fcheck + $balance;
                                     $card_view->status = 1;
+                                    InformationPersonal::where('userid', $userid)->update(["bbalance_cto" => $fcheck + $balance]);
                                 } else {
                                     $total2 = $total1 - 40;
                                     $card_view->ot_credits = 40 - $totalBal; // 40-30 = 10
                                     $card_view->bal_credits = ($fcheck + $balance) - $total2; // 15+105= 120 - 10 = 110
                                     $card_view->status = 11;
+                                    InformationPersonal::where('userid', $userid)->update(["bbalance_cto" => ($fcheck + $balance) - $total2]);
                                 }
                             } else {
                                 $card_view->ot_credits = $beginning_balance;
