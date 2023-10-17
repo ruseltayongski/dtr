@@ -111,22 +111,24 @@
                                     <tr>
 
                                         @if($card_viewL->ot_hours !== null)
-                                            <td>{{$card_viewL->ot_hours}}</td>
-                                            <td>x</td>
-                                            <td>{{$card_viewL->ot_rate}}</td>
-                                            <td>=</td>
-                                            <td>{{$card_viewL->ot_credits}}</td>
+                                            <td>@if($card_viewL->ot_hours != null) {{$card_viewL->ot_hours}} @endif</td>
+                                            <td>@if($card_viewL->ot_hours != null) x @endif</td>
+                                            <td>@if($card_viewL->ot_rate != null) {{$card_viewL->ot_rate}} @endif</td>
+                                            <td>@if($card_viewL->ot_hours != null) = @endif</td>
+                                            <td>@if($card_viewL->ot_credits != null) {{$card_viewL->ot_credits}} @endif</td>
                                             @else
                                             <td></td><td></td><td></td><td></td><td></td>
                                         @endif
 
                                         <td>
-                                            @if($card_viewL->ot_date !== null)
+                                            @if($card_viewL->ot_date == null || $card_viewL->ot_date == '0000-00-00')
+                                                @else
                                                 {{ date('F j, Y', strtotime($card_viewL->ot_date)) }}
                                             @endif
                                         </td>
-                                        <td>{{$card_viewL->hours_used}}</td>
-                                        <td>{{$card_viewL->date_used}}</td>
+                                        <td>@if($card_viewL->hours_used != 0 ) {{$card_viewL->hours_used}} @endif</td>
+                                        <td>@if($card_viewL->date_used == null || $card_viewL->date_used == '0000-00-00')@else
+                                                {{ $card_viewL->date_used}}@endif</td>
                                         <td>{{$card_viewL->bal_credits}}</td>
                                         <td>{{$card_viewL->created_at}}</td>
 
@@ -137,9 +139,9 @@
                                         @elseif($card_viewL->status == 3)
                                             <td id='remarks'style='color: red'>CANCELLED</td>
                                         @elseif($card_viewL->status == 4)
-                                            <td id='remarks'style='color: red'>PROCESSED</td>
+                                            <td id='remarks'style='color: blue'>PROCESSED</td>
                                         @elseif($card_viewL->status == 1)
-                                            <td id='remarks'style='color: #0b93ff'>PROCESSED</td>
+                                            <td id='remarks'style='color: blue'>PROCESSED</td>
                                         @elseif($card_viewL->status == 6)
                                             <td id='remarks'style='color: red'>MODIFIED(X)</td>
                                         @elseif($card_viewL->status == 7)
@@ -163,13 +165,20 @@
                     </table>
                 </div>
                 <div class="modal-footer">
-                    <div class="row">
-                        <div class="col-md-10"><p style=" padding: 0px; margin: 0px; text-align: center">Note: Credits applied for CDO within this
-                                month will be automatically processed in the following month. Each month has a maximum of 40 hours credits per employee,
-                                with a maximum limit of 120 hours credits per employee overall." </p></div>
-                        <div class="col-md-2"><ul class="pagination justify-content-center" id="pagination" style="margin: 0; padding: 0"></ul></div>
+                    <div class="alert-info" style=" display: inline-block; width: 70%;">
+                        <p style="padding: 2px; margin: 0; text-align: center">
+                            <span style="color: black;">
+                                <i class="fa fa-hand-o-right"></i>
+                                Note: CTO credits earned within the current month can only be availed of the following month.
+                                An employee can earn a maximum of 40 hours CTO credit per month and a total of 120 hours CTO balance overall.
+                            </span>
+                        </p>
+                    </div>
+                    <div style="display: inline-block; width: 20%;">
+                        <ul class="pagination justify-content-center" id="pagination" style="margin: 0; padding: 0"></ul>
                     </div>
                 </div>
+
 
             </div><!-- .modal-content -->
 

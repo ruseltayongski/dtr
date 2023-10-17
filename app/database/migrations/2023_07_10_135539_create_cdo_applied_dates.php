@@ -35,7 +35,7 @@ class CreateCdoAppliedDates extends Migration {
 	 */
 	public function down()
 	{
-		//
+        Schema::drop('cdo_applied_dates');
 	}
 
 }

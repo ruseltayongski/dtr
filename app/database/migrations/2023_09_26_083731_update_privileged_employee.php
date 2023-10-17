@@ -34,7 +34,7 @@ class UpdatePrivilegedEmployee extends Migration {
 	 */
 	public function down()
 	{
-		//
+        Schema::drop('privileged_employee');
 	}
 
 }

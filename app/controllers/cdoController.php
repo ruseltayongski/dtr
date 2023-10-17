@@ -760,28 +760,34 @@ class cdoController extends BaseController
 //        if(Auth::user()->usertype == 1)
 //            return "Cannot delete admin!";
 
-        $id = pdoController::user_search(Auth::user()->userid)['id'];
-
         $route_no = Session::get('route_no');
 
         //delete cdo and dtr file
         $cdo = cdo::where('route_no',$route_no)->first();
-        $cdo_Id= $cdo->id;
-        $details = CdoLogs::whereBetween('datein',array($cdo->start,$cdo->end));
-        $details->delete();
-        $cdo->delete();
-        //return $cdo_Id;
-        $cdo_applied_dates = CdoAppliedDate::where('cdo_id', $cdo_Id);
-        $cdo_applied_dates->delete();
+        if($cdo){
+            $cdo_Id= $cdo->id;
+            $details = CdoLogs::whereBetween('datein',array($cdo->start,$cdo->end));
+            $details->delete();
+            $cdo->delete();
+            //return $cdo_Id;
+            $cdo_applied_dates = CdoAppliedDate::where('cdo_id', $cdo_Id);
+            $cdo_applied_dates->delete();
+        }
 
         pdoController::delete_tracking_master($route_no);
         pdoController::delete_tracking_details($route_no);
 
         //ADD SYSTEM LOGS
-        $user_id = $id;
-        $name = Auth::user()->fname.' '.Auth::user()->mname.' '.Auth::user()->lname;
-        $activity = 'Deleted';
-        pdoController::insert_system_logs($user_id,$name,$activity,$route_no);
+
+        $userSearchResult = pdoController::user_search(Auth::user()->userid);
+
+        if ($userSearchResult !== false) {
+            $id = $userSearchResult['id'];
+            $user_id = $id;
+            $name = Auth::user()->fname.' '.Auth::user()->mname.' '.Auth::user()->lname;
+            $activity = 'Deleted';
+            pdoController::insert_system_logs($user_id, $name, $activity, $route_no);
+        }
 
         Session::put('deleted',true);
 
@@ -905,111 +911,274 @@ class cdoController extends BaseController
         return View::make('cdo.beginning_balance')->with(['pis'=>$pis, 'card_view'=>$card_view]);
     }
 
-    public function update_bbalance(){
-
-        $userid = Input::get('userid');
-        $action= Input:: get('action');
-        $row= Input:: get('row_id');
-        $total_total= floatval(Input::get('total_total'));
-        $beginning_balance = Input::get('cto_total');
-        $informationPersonal = InformationPersonal::where('userid', $userid)->first();
-        $current_bbcto = (!empty($informationPersonal->bbalance_cto)) ? $informationPersonal->bbalance_cto : 0;
-        $todayMonth = date('m');
-        $todayYear = date('Y');
-        $ot_date = date('Y-m-d', strtotime(Input:: get('overtime_date'))).' '.date('H:i:s');
-        $otDateM= date('m', strtotime($ot_date));
-        $otDateY= date('Y', strtotime($ot_date));
-        $ot_hours = Input:: get('ot_hours');
-        $ot_rate = floatval(Input:: get('ot_weight'));
-        $card_view = new CardView();
-        $totalBal=0;
-        $cardcheckstat = CardView::where('id', '=', $row)->where('userid', $userid)->first();
-
-        $cardView= CardView::where('userid', $userid)->get();
-
-        if($cardView ->isEmpty()){
-            $card_view2 = new CardView();
-            $card_view2->userid = $userid;
-            $card_view2->bal_credits = ($current_bbcto != null)? $current_bbcto : 0;
-            $card_view2->status = 7;
-            $card_view2->save();
+    public function update_bbalance()
+    {
+//return Input::get('check');
+        if (Input::get('check') == "second") {
+            $userid = Input::get('id_id');
+            $beginning_balance = Input::get('balances');
+            InformationPersonal::where('userid', $userid)->update([
+                "bbalance_cto" => $beginning_balance
+            ]);
+            return Redirect::back();
         }
-        if($action=='update'){
-            if($total_total == 0){
-                $card_view->status=($otDateY == $todayYear && $otDateM == $todayMonth)? 1 : 0;
-            }else{
-                CardView::where('id',$row)->where('userid', $userid)->update(["status" => 2, "bal_credits" => 0, "ot_credits" => $cardcheckstat->ot_hours * $cardcheckstat->ot_rate]);
+
+        // to be removed once HR is done//
+
+        // until here//
+        else {
+
+            $userid = Input::get('userid');
+            $action = Input:: get('action');
+            $row = Input:: get('row_id');
+            $total_total = floatval(Input::get('total_total'));
+            $beginning_balance = Input::get('cto_total');
+            $informationPersonal = InformationPersonal::where('userid', $userid)->first();
+            $current_bbcto = (!empty($informationPersonal->bbalance_cto)) ? $informationPersonal->bbalance_cto : 0;
+            $todayMonth = date('m');
+            $todayYear = date('Y');
+            $ot_date = date('Y-m-d', strtotime(Input:: get('overtime_date'))) . ' ' . date('H:i:s');
+            $otDateM = date('m', strtotime($ot_date));
+            $otDateY = date('Y', strtotime($ot_date));
+            $ot_hours = Input:: get('ot_hours');
+            $ot_rate = floatval(Input:: get('ot_weight'));
+            $card_view = new CardView();
+            $totalBal = 0;
+            $cardcheckstat = CardView::where('id', '=', $row)->where('userid', $userid)->first();
+
+            $cardView = CardView::where('userid', $userid)->get();
+
+            if ($cardView->isEmpty()) {
+                $card_view2 = new CardView();
+                $card_view2->userid = $userid;
+                $card_view2->bal_credits = ($current_bbcto != null) ? $current_bbcto : 0;
+                $card_view2->status = 7;
+                $card_view2->save();
+            }
+            if ($action == 'update') {
+                if ($total_total == 0) {
+                    $card_view->status = ($otDateY == $todayYear && $otDateM == $todayMonth) ? 1 : 0;
+                } else {
+                    CardView::where('id', $row)->where('userid', $userid)->update(["status" => 2, "bal_credits" => 0, "ot_credits" => $cardcheckstat->ot_hours * $cardcheckstat->ot_rate]);
+                    $stat = $cardcheckstat->status;
+                    if ($stat != null && $stat == 0) {
+                    } else {
+                        $ch = CardView::where('id', '=', $row)->where('userid', $userid)->first();
+                        CardView::where('id', '=', $row)->where('userid', $userid)->update(["status" => 2, "remarks" => Input:: get('remarks'), "bal_credits" => 0, "ot_credits" => $ch->ot_rate * $ch->ot_hours]);
+                        $card2 = CardView::where('id', '>', $row)->whereNotIn('status', [0, 6, 5, 2])->where('userid', $userid)->get();
+                        $array = [];
+                        foreach ($card2 as $card) {
+                            if ($card->status != 0 && $card->status != 2 && $card->status != 5) {
+                                $thiscardMonth = date('m', strtotime($card->ot_date));
+                                $thiscardYear = date('Y', strtotime($card->ot_date));
+                                $id_s = $card->id;
+
+                                $cardView2 = CardView::where('userid', $userid)->where('id', '<', $id_s)->whereMonth('ot_date', '=', $thiscardMonth)
+                                    ->whereYear('ot_date', '=', $thiscardYear)->whereNotIn('status', [0, 5, 6, 2])->whereIn('status', [1, 11])->get();
+                                $totalRef = 0;
+
+                                foreach ($cardView2 as $cardforRef) {
+                                    $hourRef = $cardforRef->ot_hours;
+                                    $rateref = $cardforRef->ot_rate;
+                                    $totalRef += $hourRef * $rateref;
+                                    $array [] = $totalRef;
+                                }
+                                $cred = ($card->ot_rate) * ($card->ot_hours);
+                                $totalCheck = $totalRef + $cred;
+                                $prevbal = CardView::where('userid', $userid)->where('id', '<', $card->id)->where('bal_credits', '!=', 0)->whereNotNull('bal_credits')->orderBy('id', 'desc')->first();
+                                $cprevbal = $prevbal ? ($prevbal->bal_credits !== null ? $prevbal->bal_credits : 0) : 0;
+                                $proBal = $cred + $cprevbal;
+                                $forA1 = $totalCheck - 40;  //36+12 = 48 - 40 = 8 12 -8= 4
+                                $forCred = $cred - $forA1;
+
+                                if ($card->status == 4) {
+                                    CardView::where('id', $card->id)->update(["bal_credits" => $proBal - $card->hours_used]);
+                                    InformationPersonal::where('userid', $userid)->update(["bbalance_cto" => $proBal - $card->hours_used]);
+                                } elseif ($card->status == 3) {
+                                    CardView::where('id', $card->id)->update(["bal_credits" => $proBal + $card->hours_used]);
+                                    InformationPersonal::where('userid', $userid)->update(["bbalance_cto" => $proBal + $card->hours_used]);
+                                } else {
+                                    if ($cprevbal < 120) {
+
+                                        if ($proBal <= 120) {
+                                            if ($totalRef < 40) {
+                                                if ($totalCheck <= 40) {
+                                                    CardView::where('id', $card->id)->update(["bal_credits" => $proBal, "ot_credits" => $cred, "status" => 1]);
+                                                    InformationPersonal::where('userid', $userid)->update(["bbalance_cto" => $proBal]);
+                                                } else {
+                                                    CardView::where('id', $card->id)->update(["bal_credits" => $cprevbal + $forCred, "ot_credits" => $forCred, "status" => 11]);
+                                                    InformationPersonal::where('userid', $userid)->update(["bbalance_cto" => $cprevbal + $forCred]);
+                                                }
+                                            } else {
+                                                CardView::where('id', $card->id)->update(["status" => 9, "bal_credits" => 0]);
+                                            }
+                                        } else {
+                                            $check_120 = $proBal - 120; // 130- 120 = 10
+                                            $display = ($forCred > $check_120) ? $check_120 : $forCred;
+                                            if ($totalRef < 40) {
+                                                if ($totalCheck <= 40) {
+                                                    CardView::where('id', $card->id)->update(["bal_credits" => $proBal - $check_120, "ot_credits" => $cred - $check_120, "status" => 1]);
+                                                    InformationPersonal::where('userid', $userid)->update(["bbalance_cto" => $proBal - $check_120]);
+                                                } else {
+                                                    CardView::where('id', $card->id)->update(["bal_credits" => $cprevbal + $display, "ot_credits" => $display, "status" => 11]);
+                                                    InformationPersonal::where('userid', $userid)->update(["bbalance_cto" => $cprevbal + $display]);
+                                                }
+                                            } else {
+                                                CardView::where('id', $card->id)->update(["status" => 9, "bal_credits" => 0]);
+                                            }
+                                        }
+                                    } else {
+                                        CardView::where('id', $card->id)->update(["status" => 9, "bal_credits" => 0]);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                //for newly updated month
+                $informationPersonal = InformationPersonal::where('userid', $userid)->first();
+                $balance = (!empty($informationPersonal->bbalance_cto)) ? $informationPersonal->bbalance_cto : 0;
+
+                $cardViewForDate = CardView::where('userid', $userid)->whereMonth('ot_date', '=', $otDateM)->whereYear('ot_date', '=', $otDateY)->whereIn('status', [1, 11])->get();
+                foreach ($cardViewForDate as $card) {
+                    $rate = $card->ot_rate;
+                    $hours = $card->ot_hours;
+                    $bal = $rate * $hours;
+                    $totalBal += $bal;
+                }
+
+                if ($otDateY == $todayYear && $otDateM == $todayMonth) {
+                    $card_view->ot_credits = $beginning_balance;
+                    $card_view->bal_credits = 0;
+                    $card_view->status = 0;
+                } else {
+
+                    if ($balance < 120) {
+
+                        $check = $balance + $beginning_balance;
+                        if ($check < 120) {
+                            if ($totalBal < 40) {
+
+                                $total1 = $totalBal + $beginning_balance;
+                                if ($total1 <= 40) {
+                                    $card_view->ot_credits = $beginning_balance;
+                                    $card_view->bal_credits = $balance + $beginning_balance;
+                                    $card_view->status = 1;
+                                } else {
+
+                                    $total2 = $total1 - 40;
+                                    $card_view->ot_credits = 40 - $totalBal;
+                                    $card_view->bal_credits = ($balance + $beginning_balance) - $total2;
+                                    $card_view->status = 11;
+                                }
+                            } else {
+
+                                $card_view->ot_credits = $beginning_balance;
+                                $card_view->bal_credits = 0;
+                                $card_view->status = 9;
+                            }
+                        } else {
+
+                            $fill = $check - 120;
+                            $fcheck = ($fill > $beginning_balance) ? $beginning_balance : $beginning_balance - $fill;
+
+                            if ($totalBal < 40) {
+
+                                $total1 = $totalBal + $fcheck;
+                                if ($total1 <= 40) {
+                                    $card_view->ot_credits = $fcheck;
+                                    $card_view->bal_credits = $fcheck + $balance;
+                                    $card_view->status = 1;
+                                } else {
+                                    $total2 = $total1 - 40;
+                                    $card_view->ot_credits = 40 - $totalBal; // 40-30 = 10
+                                    $card_view->bal_credits = ($fcheck + $balance) - $total2; // 15+105= 120 - 10 = 110
+                                    $card_view->status = 11;
+                                }
+                            } else {
+                                $card_view->ot_credits = $beginning_balance;
+                                $card_view->bal_credits = 0;
+                                $card_view->status = 9;
+                            }
+                        }
+                    } else {
+                        $card_view->ot_credits = $beginning_balance;
+                        $card_view->bal_credits = 0;
+                        $card_view->status = 9;
+                    }
+                }
+                $card_view->userid = $userid;
+                $card_view->ot_hours = $ot_hours;
+                $card_view->ot_rate = $ot_rate;
+                $card_view->ot_date = $ot_date;
+                $card_view->remarks = Input:: get('remarks');
+                $card_view->save();
+
+            } else { //for deletion
+
+                CardView::where('id', $row)->where('userid', $userid)->update(["status" => 5, "bal_credits" => 0, "ot_credits" => $cardcheckstat->ot_hours * $cardcheckstat->ot_rate]);
                 $stat = $cardcheckstat->status;
-                if($stat != null && $stat == 0){
-                }else{
-                    $ch = CardView::where('id','=', $row)->where('userid', $userid)->first();
-                    CardView::where('id','=', $row)->where('userid', $userid)->update(["status"=>2, "remarks"=>Input:: get('remarks'), "bal_credits"=>0, "ot_credits" => $ch->ot_rate * $ch->ot_hours]);
-                    $card2 = CardView::where('id', '>', $row)->whereNotIn('status',[0,6,5,2])->where('userid', $userid)->get();
-                    $array = [];
-                    foreach ($card2 as $card){
-                        if($card->status !=0 && $card->status !=2 && $card->status !=5){
+                if ($stat != null && $stat == 0) {
+                } else {
+                    $card2 = CardView::where('id', '>', $row)->whereNotIn('status', [0, 6, 5, 2])->where('userid', $userid)->get();
+                    foreach ($card2 as $card) {
+                        if ($card->status != 0 && $card->status != 2 && $card->status != 5) {
                             $thiscardMonth = date('m', strtotime($card->ot_date));
                             $thiscardYear = date('Y', strtotime($card->ot_date));
-                            $id_s= $card->id;
+                            $id_s = $card->id;
 
-                            $cardView2 = CardView::where('userid', $userid)->where('id', '<', $id_s)->whereMonth('ot_date','=', $thiscardMonth)
-                                ->whereYear('ot_date', '=', $thiscardYear)->whereNotIn('status', [0,5,6,2])->whereIn('status', [1, 11])->get();
-                            $totalRef=0;
+                            $cardView2 = CardView::where('userid', $userid)->where('id', '<', $id_s)->whereMonth('ot_date', '=', $thiscardMonth)
+                                ->whereYear('ot_date', '=', $thiscardYear)->whereNotIn('status', [0, 5, 6, 2])->whereIn('status', [1, 11])->get();
 
-                            foreach ($cardView2 as $cardforRef){
+                            $totalRef = 0;
+                            foreach ($cardView2 as $cardforRef) {
                                 $hourRef = $cardforRef->ot_hours;
                                 $rateref = $cardforRef->ot_rate;
                                 $totalRef += $hourRef * $rateref;
-                                $array []= $totalRef;
                             }
-                            $cred= ($card->ot_rate) * ($card->ot_hours);
-                            $totalCheck= $totalRef + $cred;
-                            $prevbal= CardView::where('userid', $userid)->where('id','<', $card->id)->where('bal_credits','!=',0 )->whereNotNull('bal_credits')->orderBy('id', 'desc')->first();
-                            $cprevbal= $prevbal ? ($prevbal->bal_credits !==null ? $prevbal->bal_credits :0) : 0;
-                            $proBal= $cred + $cprevbal;
-                            $forA1 = $totalCheck-40;  //36+12 = 48 - 40 = 8 12 -8= 4
-                            $forCred = $cred-$forA1;
+                            $cred = ($card->ot_rate) * ($card->ot_hours);
+                            $totalCheck = $totalRef + $cred;
+                            $prevbal = CardView::where('userid', $userid)->where('id', '<', $card->id)->where('bal_credits', '!=', 0)->whereNotNull('bal_credits')->orderBy('id', 'desc')->first();
+                            $cprevbal = $prevbal ? ($prevbal->bal_credits !== null ? $prevbal->bal_credits : 0) : 0;
+                            $proBal = $cred + $cprevbal;
+                            $forA1 = $totalCheck - 40;
+                            $forCred = $cred - $forA1;
 
-                            if($card->status == 4) {
+                            if ($card->status == 4) {
                                 CardView::where('id', $card->id)->update(["bal_credits" => $proBal - $card->hours_used]);
                                 InformationPersonal::where('userid', $userid)->update(["bbalance_cto" => $proBal - $card->hours_used]);
-                            }elseif($card->status == 3 ){
+                            } elseif ($card->status == 3) {
                                 CardView::where('id', $card->id)->update(["bal_credits" => $proBal + $card->hours_used]);
                                 InformationPersonal::where('userid', $userid)->update(["bbalance_cto" => $proBal + $card->hours_used]);
-                            }
-                            else{
-                                if($cprevbal<120){
-
-                                    if($proBal<=120){
-                                        if($totalRef <40){
-                                            if($totalCheck <= 40){
-                                                CardView::where('id', $card->id)->update(["bal_credits" => $proBal,"ot_credits"=>$cred, "status"=>1]);
-                                                InformationPersonal::where('userid', $userid)->update(["bbalance_cto" => $proBal]);
-                                            }else{
-                                                CardView::where('id', $card->id)->update(["bal_credits" => $cprevbal+$forCred,"ot_credits"=>$forCred, "status"=>11]);
-                                                InformationPersonal::where('userid', $userid)->update(["bbalance_cto" => $cprevbal+$forCred]);
+                            } else {
+                                if ($cprevbal < 120) {
+                                    if ($proBal <= 120) {
+                                        if ($totalRef < 40) {
+                                            if ($totalCheck <= 40) {
+                                                CardView::where('id', $card->id)->update(["bal_credits" => $proBal, "ot_credits" => $cred, "status" => 1]);
+                                            } else {
+                                                CardView::where('id', $card->id)->update(["bal_credits" => $cprevbal + $forCred, "ot_credits" => $forCred, "status" => 11]);
                                             }
-                                        }else{
+                                        } else {
                                             CardView::where('id', $card->id)->update(["status" => 9, "bal_credits" => 0]);
                                         }
-                                    }else{
-                                        $check_120 = $proBal - 120; // 130- 120 = 10
-                                        $display = ($forCred>$check_120)? $check_120 : $forCred;
-                                        if($totalRef <40){
-                                            if($totalCheck <= 40){
-                                                CardView::where('id', $card->id)->update(["bal_credits" => $proBal - $check_120,"ot_credits"=>$cred - $check_120, "status"=>1]);
+                                    } else {
+                                        $check_120 = $proBal - 120;
+                                        $display = ($forCred > $check_120) ? $check_120 : $forCred;
+
+                                        if ($totalRef < 40) {
+                                            if ($totalCheck <= 40) {
+                                                CardView::where('id', $card->id)->update(["bal_credits" => $proBal - $check_120, "ot_credits" => $cred - $check_120, "status" => 1]);
                                                 InformationPersonal::where('userid', $userid)->update(["bbalance_cto" => $proBal - $check_120]);
-                                            }else{
-                                                CardView::where('id', $card->id)->update(["bal_credits" => $cprevbal+$display,"ot_credits"=>$display, "status"=>11]);
-                                                InformationPersonal::where('userid', $userid)->update(["bbalance_cto" => $cprevbal+$display]);
+                                            } else {
+                                                CardView::where('id', $card->id)->update(["bal_credits" => $cprevbal + $display, "ot_credits" => $display, "status" => 11]);
+                                                InformationPersonal::where('userid', $userid)->update(["bbalance_cto" => $cprevbal + $display]);
                                             }
-                                        }
-                                        else{
+                                        } else {
                                             CardView::where('id', $card->id)->update(["status" => 9, "bal_credits" => 0]);
                                         }
                                     }
-                                }
-                                else{
+                                } else {
                                     CardView::where('id', $card->id)->update(["status" => 9, "bal_credits" => 0]);
                                 }
                             }
@@ -1017,167 +1186,14 @@ class cdoController extends BaseController
                     }
                 }
             }
-            //for newly updated month
-            $informationPersonal = InformationPersonal::where('userid', $userid)->first();
-            $balance = (!empty($informationPersonal->bbalance_cto))? $informationPersonal->bbalance_cto : 0;
+            $lastrow = CardView::where('userid', $userid)->where('bal_credits', '<>', 0)->orderBy('id', 'desc')->first();
 
-            $cardViewForDate= CardView::where('userid', $userid)->whereMonth('ot_date','=', $otDateM )->whereYear('ot_date', '=', $otDateY)->whereIn('status', [1, 11])->get();
-            foreach ($cardViewForDate as $card){
-                $rate= $card->ot_rate;
-                $hours= $card->ot_hours;
-                $bal= $rate * $hours;
-                $totalBal += $bal;
+            if ($lastrow != null) {
+                $overall = $lastrow->bal_credits;
             }
-
-            if($otDateY == $todayYear && $otDateM == $todayMonth){
-                $card_view->ot_credits = $beginning_balance;
-                $card_view->bal_credits = 0;
-                $card_view->status = 0;
-            }else{
-
-                if($balance<120){
-
-                    $check= $balance + $beginning_balance;
-                    if($check<120){
-                        if($totalBal<40){
-
-                            $total1= $totalBal + $beginning_balance;
-                            if($total1<=40 ){
-                                $card_view->ot_credits= $beginning_balance;
-                                $card_view->bal_credits= $balance + $beginning_balance;
-                                $card_view->status= 1;
-                            }else{
-
-                                $total2= $total1-40;
-                                $card_view->ot_credits= 40-$totalBal ;
-                                $card_view->bal_credits= ($balance + $beginning_balance)- $total2;
-                                $card_view->status= 11;
-                            }
-                        }else{
-
-                            $card_view->ot_credits= $beginning_balance;
-                            $card_view->bal_credits= 0;
-                            $card_view->status= 9;
-                        }
-                    }else{
-
-                        $fill = $check- 120;
-                        $fcheck = ($fill>$beginning_balance)? $beginning_balance : $beginning_balance - $fill;
-
-                        if($totalBal<40){
-
-                            $total1= $totalBal + $fcheck;
-                            if($total1<=40 ){
-                                $card_view->ot_credits= $fcheck;
-                                $card_view->bal_credits= $fcheck + $balance;
-                                $card_view->status= 1;
-                            }else{
-                                $total2= $total1-40;
-                                $card_view->ot_credits= 40-$totalBal ; // 40-30 = 10
-                                $card_view->bal_credits= ($fcheck + $balance)- $total2; // 15+105= 120 - 10 = 110
-                                $card_view->status= 11;
-                            }
-                        }else{
-                            $card_view->ot_credits= $beginning_balance;
-                            $card_view->bal_credits= 0;
-                            $card_view->status= 9;
-                        }
-                    }
-                }else{
-                    $card_view->ot_credits= $beginning_balance;
-                    $card_view->bal_credits= 0;
-                    $card_view->status= 9;
-                }
-            }
-            $card_view->userid = $userid;
-            $card_view->ot_hours = $ot_hours;
-            $card_view->ot_rate= $ot_rate;
-            $card_view->ot_date = $ot_date;
-            $card_view->remarks= Input:: get('remarks');
-            $card_view->save();
-
-        }else{ //for deletion
-
-            CardView::where('id',$row)->where('userid', $userid)->update(["status" => 5, "bal_credits" => 0, "ot_credits" => $cardcheckstat->ot_hours * $cardcheckstat->ot_rate]);
-            $stat = $cardcheckstat->status;
-            if($stat != null && $stat == 0){
-            }else{
-                $card2 = CardView::where('id', '>', $row)->whereNotIn('status',[0,6,5,2])->where('userid', $userid)->get();
-                foreach ($card2 as $card){
-                    if($card->status !=0 && $card->status !=2 && $card->status !=5){
-                        $thiscardMonth = date('m', strtotime($card->ot_date));
-                        $thiscardYear = date('Y', strtotime($card->ot_date));
-                        $id_s= $card->id;
-
-                        $cardView2 = CardView::where('userid', $userid)->where('id', '<', $id_s)->whereMonth('ot_date','=', $thiscardMonth)
-                            ->whereYear('ot_date', '=', $thiscardYear)->whereNotIn('status', [0,5,6,2])->whereIn('status', [1, 11])->get();
-
-                        $totalRef=0;
-                        foreach ($cardView2 as $cardforRef){
-                            $hourRef = $cardforRef->ot_hours;
-                            $rateref = $cardforRef->ot_rate;
-                            $totalRef += $hourRef * $rateref;
-                        }
-                        $cred= ($card->ot_rate) * ($card->ot_hours);
-                        $totalCheck= $totalRef + $cred;
-                        $prevbal= CardView::where('userid', $userid)->where('id','<', $card->id)->where('bal_credits','!=',0 )->whereNotNull('bal_credits')->orderBy('id', 'desc')->first();
-                        $cprevbal= $prevbal ? ($prevbal->bal_credits !==null ? $prevbal->bal_credits :0) : 0;
-                        $proBal= $cred + $cprevbal;
-                        $forA1 = $totalCheck-40;
-                        $forCred = $cred-$forA1;
-
-                        if($card->status == 4) {
-                            CardView::where('id', $card->id)->update(["bal_credits" => $proBal - $card->hours_used]);
-                            InformationPersonal::where('userid', $userid)->update(["bbalance_cto" => $proBal - $card->hours_used]);
-                        }elseif($card->status == 3 ){
-                            CardView::where('id', $card->id)->update(["bal_credits" => $proBal + $card->hours_used]);
-                            InformationPersonal::where('userid', $userid)->update(["bbalance_cto" => $proBal + $card->hours_used]);
-                        }
-                        else{
-                            if($cprevbal<120){
-                                if($proBal<=120){
-                                    if($totalRef <40){
-                                        if($totalCheck <= 40){
-                                            CardView::where('id', $card->id)->update(["bal_credits" => $proBal,"ot_credits"=>$cred, "status"=>1]);
-                                        }else{
-                                            CardView::where('id', $card->id)->update(["bal_credits" => $cprevbal+$forCred,"ot_credits"=>$forCred, "status"=>11]);
-                                        }
-                                    }else{
-                                        CardView::where('id', $card->id)->update(["status" => 9, "bal_credits" => 0]);
-                                    }
-                                }else{
-                                    $check_120 = $proBal - 120;
-                                    $display = ($forCred>$check_120)? $check_120 : $forCred;
-
-                                    if($totalRef <40){
-                                        if($totalCheck <= 40){
-                                            CardView::where('id', $card->id)->update(["bal_credits" => $proBal - $check_120,"ot_credits"=>$cred - $check_120, "status"=>1]);
-                                            InformationPersonal::where('userid', $userid)->update(["bbalance_cto" => $proBal - $check_120]);
-                                        }else{
-                                            CardView::where('id', $card->id)->update(["bal_credits" => $cprevbal+$display,"ot_credits"=>$display, "status"=>11]);
-                                            InformationPersonal::where('userid', $userid)->update(["bbalance_cto" => $cprevbal+$display]);
-                                        }
-                                    }
-                                    else{
-                                        CardView::where('id', $card->id)->update(["status" => 9, "bal_credits" => 0]);
-                                    }
-                                }
-                            }
-                            else{
-                                CardView::where('id', $card->id)->update(["status" => 9, "bal_credits" => 0]);
-                            }
-                        }
-                    }
-                }
-            }
+            InformationPersonal::where('userid', $userid)->update(["bbalance_cto" => $overall]);
+            return Redirect::back();
         }
-        $lastrow= CardView::where('userid', $userid)->where('bal_credits','<>', 0)->orderBy('id', 'desc')->first();
-
-        if($lastrow !=null){
-            $overall= $lastrow->bal_credits;
-        }
-        InformationPersonal::where('userid',$userid)->update(["bbalance_cto" => $overall]);
-        return Redirect::back();
     }
 
     public function superviseEmployee(){
