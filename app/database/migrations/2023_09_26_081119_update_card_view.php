@@ -40,7 +40,7 @@ class UpdateCardView extends Migration {
 	 */
 	public function down()
 	{
-		//
+        Schema::drop('card_view');
 	}
 
 }

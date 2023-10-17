@@ -387,8 +387,8 @@
                             </div>
                             <form action="{{ asset('FPDF/timelog/print_individual1.php') }}" target="_blank" method="POST">
                                 <div style="padding: 1%;margin-top: -2%;float: right">
+                                    <label class="bg-green" style=" height:34px; padding: 6px; color: white; border-radius: 3px; margin: 2px">{{Session::get('filter_dates')}}</label>
                                     <button class="btn btn-success" name="filter_range" value="{{ Session::get('filter_dates') }}"><i class="fa fa-print"></i> Generate PDF</button>
-                                    {{Session::get('filter_dates')}}
                                 </div>
                                 <input type="hidden" name="userid" value="{{ $userid }}">
                                 <input type="hidden" name="job_status" value="{{ $job_status }}">
