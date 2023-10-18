@@ -106,6 +106,7 @@ class cdoController extends BaseController
 
     //GENERATE PDF FILE...
     public function cdov1($pdf=null){
+//        return 1;
         if($pdf == 'pdf') {
             $cdo = cdo::where('route_no',Session::get('route_no'))->first();
             $personal_information = InformationPersonal::where('userid','=',$cdo->prepared_name)->first();
@@ -124,10 +125,26 @@ class cdoController extends BaseController
             $section_head = pdoController::user_search1($cdo['immediate_supervisor']);
             $division_head = pdoController::user_search1($cdo['division_chief']);
         } else{
-
+            $id_list = [];
+            $manually_added = [985329, 273, 11];
+//            return pdoController::section();
             foreach(pdoController::section() as $row) {
-                $section_head[] = pdoController::user_search1($row['head']);
+                if ($row['acronym'] !== null || in_array($row['head'], [243, 614, 110, 5, 163, 648384, 985698, 160, 985950, 830744])) {
+                    if(!in_array($row['head'], [51,172, 173, 96, 986774, 53, 114, 442, 155, 91])){
+                        if(!in_array($row['head'], $id_list)){
+                            $id_list[]=$row['head'];
+                        }
+                    }
+                }
             }
+            $list = array_merge($id_list,$manually_added);
+//            $section_head[] = pdoController::user_search1(985329);
+//            return implode(', ', $list);
+            foreach ($list as $data_list){
+                $section_head[] = pdoController::user_search1($data_list);
+            }
+
+
             foreach(pdoController::division() as $row) {
                 if($row['ppmp_used'] == null){
                     $division_head[] = pdoController::user_search1($row['head']);
