@@ -213,29 +213,8 @@
             var hours = parseFloat(document.getElementById("ot_hours").value);
             var weight = parseFloat(document.getElementById("ot_weight").value);
 
-
-
-            // Calculate the decimal part in JavaScript
-            var decimalPart = (hours - Math.floor(hours)).toFixed(2);
-            var wholeNumber = Math.floor(hours);
-
-            if (decimalPart >= 0.45 && decimalPart < 1.00) {
-                hours= wholeNumber+0.75;
-                console.log("dd", wholeNumber);
-            } else if (decimalPart >= 0.30 && decimalPart < 0.45) {
-                hours= wholeNumber+0.50;
-                console.log("cc", hours);
-            }else if (decimalPart >= 0.15 && decimalPart <0.30) {
-                hours= wholeNumber+0.25;
-                console.log("bb", hours);
-            }else if(decimalPart <15){
-                hours= wholeNumber;
-                console.log("aa", hours);
-            }
-
             var total = hours * weight;
             console.log("total", total);
-
 
             var totalDecimal = (total - Math.floor(total)).toFixed(2);
             var totalWhole = Math.floor(total);
@@ -257,10 +236,7 @@
 
             document.getElementById("cto_total").value = total || '';
             document.getElementById("beginning_balance").value = total || '';
-
         }
-
-
 
     $(document).ready(function () {
 //            console.log("jdsad");

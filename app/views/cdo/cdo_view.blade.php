@@ -119,8 +119,8 @@
                         <tr>
                             <td>
                                 <span style="display: inline-block;">Inclusive Dates:</span>
-                                <div style="display: inline-block; float: right;">
-                                    <button style="width: 50px; display: inline-block;" class="btn btn-sm btn-default addButton" type="button"><strong>+</strong></button>
+                                <div style="display: inline-block;">
+                                    <button style="width: 50px; display: inline-block; margin-left: 155px" class="btn btn-sm btn-default addButton" type="button"><strong>+</strong></button>
                                 </div>
                             </td>
                         </tr>
@@ -184,12 +184,12 @@
                                             <i class="fa fa-calendar"></i>
                                         </div>
                                         <input style="width: 100px; margin-right: 5px; display:inline-block;" type="text" class="form-control datepickerInput" value="" id="inclusive1" name="inclusive_dates[]" placeholder="Input date here..." required>
-                                        <select type="hidden" style="width: 120px; display:inline-block; margin-right: 5px" class="form-control cdo_hours" name="cdo_hours[]">
+                                        <select type="hidden" style="width: 100px; display:inline-block; margin-right: 5px" class="form-control cdo_hours" name="cdo_hours[]">
                                             <option value='cdo_wholeday'>WHOLEDAY</option>
                                             <option value='cdo_am'>AM</option>
                                             <option value='cdo_pm'>PM</option>
                                         </select>
-                                        <button style="width: 45px; height: 33px" type="button" class="btn btn-sm btn-default deleteButton"><strong>-</strong></button>
+                                        <button style="width: 50px; height: 33px; margin-left: 4%" type="button" class="btn btn-sm btn-default deleteButton"><strong>-</strong></button>
                                     </div>
                                 </td>
                             </tr>
