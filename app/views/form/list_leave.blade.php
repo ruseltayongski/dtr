@@ -49,7 +49,7 @@
                                         <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Create new
                                     </a>
                                     <button class="btn btn-info center-block col-md-2" id="viewCard" name="viewCard" data-toggle="modal"
-                                            data-target="#ledger"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>View Card</button>
+                                            data-target="#leave_ledger"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>View Card</button>
                                     <?php
                                     if(!empty(Session::get("vacation_balance")) || Session::get('vacation_balance') != 0){
                                         $vacation_balance = Session::get("vacation_balance");
@@ -134,7 +134,7 @@
         </div>
     </div>
 
-    <div class="modal fade" tabindex="-1" role="dialog" id="ledger">
+    <div class="modal fade" tabindex="-1" role="dialog" id="leave_ledger">
         <div class="modal-dialog modal-xl" role="document" id="size" style=" width: 70%;">
             <div class="modal-content">
                 <div class="header-container">
@@ -146,28 +146,29 @@
                     </div>
                 </div>
                 <div  style="max-height: calc(100vh - 50px); overflow-y: auto;">
-                    <table class="table" id="card_table" border="1px" border-botom="1px">
+                    {{--<table class="table table-bordered" id="card_table" style="border: 1px solid black !important;">--}}
+                    <table class="table" id="card_table table-bordered"  style="border-collapse: collapse;">
                         <thead style="position:sticky; top: 0; z-index: 5;">
                             <tr style="text-align: center">
-                                <th colspan="6"><N>NAME</N>: &nbsp; &nbsp; &nbsp;{{$pis->lname}} , &nbsp;{{$pis->fname}} &nbsp;</th>
-                                <th colspan="6">DIVISION/OFFICE: &nbsp;&nbsp;&nbsp; {{$division->description}}/{{$designation->description}}</th>
+                                <th colspan="6" style="border: 1px solid black"><N>NAME</N>: &nbsp; &nbsp; &nbsp;{{$pis->lname}} , &nbsp;{{$pis->fname}} &nbsp;</th>
+                                <th colspan="6" style="border: 1px solid black">DIVISION/OFFICE: &nbsp;&nbsp;&nbsp; {{$division->description}}/{{$designation->description}}</th>
                             </tr>
                             <tr>
-                                <th rowspan="2" STYLE="vertical-align: middle">PERIOD</th>
-                                <th rowspan="2" STYLE="vertical-align: middle">PARTICULARS</th>
-                                <th colspan="4" style="text-align: center">VACATION LEAVE
-                                <th colspan="4" style="text-align: center">SICK LEAVE
-                                <th rowspan="2" STYLE="vertical-align: middle">DATE AND ACTION TAKEN ON APPL. FOR LEAVE</th>
+                                <th rowspan="2" STYLE="vertical-align: middle; border: 1px solid black">PERIOD</th>
+                                <th rowspan="2" STYLE="vertical-align: middle; border: 1px solid black">PARTICULARS</th>
+                                <th colspan="4" style="text-align: center; border: 1px solid black">VACATION LEAVE
+                                <th colspan="4" style="text-align: center; border: 1px solid black">SICK LEAVE
+                                <th rowspan="2" STYLE="vertical-align: middle; border: 1px solid black">DATE AND ACTION TAKEN ON APPL. FOR LEAVE</th>
                             </tr>
                             <tr>
-                                <th>EARNED</th>
-                                <th>ABS.UND.W/P</th>
-                                <th>BAL.</th>
-                                <th>ABS.UND.WOP</th>
-                                <th>EARNED</th>
-                                <th>ABS.UND.W/P</th>
-                                <th>BAL.</th>
-                                <th>ABS.UND.WOP</th>
+                                <th style="border: 1px solid black">EARNED</th>
+                                <th style="border: 1px solid black">ABS.UND.W/P</th>
+                                <th style="border: 1px solid black">BAL.</th>
+                                <th style="border: 1px solid black">ABS.UND.WOP</th>
+                                <th style="border: 1px solid black">EARNED</th>
+                                <th style="border: 1px solid black">ABS.UND.W/P</th>
+                                <th style="border: 1px solid black">BAL.</th>
+                                <th style="border: 1px solid black">ABS.UND.WOP</th>
                             </tr>
                         </thead>
                         <tbody id="t_body" name="t_body" style="overflow-y: auto;">
@@ -175,17 +176,21 @@
                             @if(count($leave_card)>0)
                                 @foreach($leave_card as $card)
                                     <tr>
-                                        <td>{{$card->period}}</td>
-                                        <td>{{$card->particulars}}</td>
-                                        <td>{{$card->vl_earned}}</td>
-                                        <td>{{$card->vl_abswp}}</td>
-                                        <td>{{$card->vl_bal}}</td>
-                                        <td>{{$card->vl_abswop}}</td>
-                                        <td>{{$card->sl_earned}}</td>
-                                        <td>{{$card->sl_abs}}</td>
-                                        <td>{{$card->sl_bal}}</td>
-                                        <td>{{$card->abswop}}</td>
-                                        <td>{{$card->date_used}}</td>
+                                        <td style="border: 1px solid black">
+                                            @if(!empty($card->period))
+                                                <a href="#" data-toggle="modal" onclick="" data-target="">{{$card->period}}</a>
+                                            @endif
+                                            </td>
+                                        <td style="border: 1px solid black">{{$card->particulars}}</td>
+                                        <td style="border: 1px solid black">{{$card->vl_earned}}</td>
+                                        <td style="border: 1px solid black">{{$card->vl_abswp}}</td>
+                                        <td style="border: 1px solid black">{{$card->vl_bal}}</td>
+                                        <td style="border: 1px solid black">{{$card->vl_abswop}}</td>
+                                        <td style="border: 1px solid black">{{$card->sl_earned}}</td>
+                                        <td style="border: 1px solid black">{{$card->sl_abs}}</td>
+                                        <td style="border: 1px solid black">{{$card->sl_bal}}</td>
+                                        <td style="border: 1px solid black">{{$card->abswop}}</td>
+                                        <td style="border: 1px solid black">{{$card->date_used}}</td>
                                     </tr>
                                 @endforeach
                                 @else
@@ -210,6 +215,16 @@
     @parent
     <script>
         $('#inclusive3').daterangepicker();
+
+        {{--$('#leave_ledger').on("click", function () {--}}
+        {{--<?php if(count($leave_card)>0){?> --}}
+        {{--<?php foreach ($leave_card as $card){ ?>--}}
+        {{----}}
+        {{--<?php }?>--}}
+        {{--<?php }?>--}}
+        {{--});--}}
+
+
 
         $('a[href="#leave_info').click(function(){
             var id = $(this).data('id');
