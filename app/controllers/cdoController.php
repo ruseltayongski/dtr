@@ -155,7 +155,6 @@ class cdoController extends BaseController
         $data = array(
             "cdo" => $cdo,
             "cdo_applied_dates" => cdo::join('cdo_applied_dates', 'cdo.id', '=', 'cdo_applied_dates.cdo_id')
-                ->select('cdo_applied_dates.start_date', 'cdo_applied_dates.end_date')
                 ->where('cdo.route_no', Session::get('route_no'))
                 ->get(),
             "type" => "add",
@@ -991,6 +990,7 @@ class cdoController extends BaseController
                         foreach ($card2 as $card) {
 
                             if ($card->status != 0 && $card->status != 2 && $card->status != 5) {
+                                return 1;
 
                                 $thiscardMonth = date('m', strtotime($card->ot_date));
                                 $thiscardYear = date('Y', strtotime($card->ot_date));
@@ -1056,9 +1056,11 @@ class cdoController extends BaseController
                                     }
                                 }
                             }
+
                         }
                     }
                 }
+
 
                 //for newly updated month
                 $informationPersonal = InformationPersonal::where('userid', $userid)->first();
@@ -1079,20 +1081,30 @@ class cdoController extends BaseController
                     $card_view->status = 0;
                 } else {
 
-                    if($total_total==0){
-
+                    if($cardcheckstat){
+                        $prev_date= $cardcheckstat->ot_date;
+                        $thisotMonth = date('m', strtotime($prev_date));
+                        $thisotYear = date('Y', strtotime($prev_date));
+                        if($todayMonth == $thisotMonth && $todayYear == $thisotYear){
+                            $balance = $balance;
+                        }else{
+                            $balance = $balance-$total_total;
+                        }
                     }else{
-                        $balance = $balance-$total_total;
+                        if($total_total==0){
+                        }else{
+                            $balance = $balance-$total_total;
+                        }
                     }
 
                     if ($balance < 120) {
-
 
                         $check = $balance + $beginning_balance;
                         if ($check < 120) {
 
                             if ($totalBal < 40) {
 
+//                                return 1;
 
                                 $total1 = $totalBal + $beginning_balance;
                                 if ($total1 <= 40) {
@@ -1141,6 +1153,7 @@ class cdoController extends BaseController
                             }
                         }
                     } else {
+
                         $card_view->ot_credits = $beginning_balance;
                         $card_view->bal_credits = 0;
                         $card_view->status = 9;
