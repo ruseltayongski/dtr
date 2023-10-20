@@ -99,9 +99,9 @@
                 </div>
                 {{--</form>--}}
                 <div class="modal-footer">
-                    <input type ="hidden"value="" id="user_iid" name="user_iid">
-                    <ul class="pagination justify-content-center" id="pagination" style="margin: 0; padding: 0"></ul>
-                    <button></button>
+                    <input type ="hidden"value="" id="user_iid" name="user_iid" style="display: inline-block">
+                    <ul class="pagination justify-content-center" id="pagination" style="margin: 0; padding: 0; display: inline-block; float: right; margin-left:3%"></ul>
+                    <button class="button btn-sm btn-success process_pending" style="bdisplay:inline-block;color: white; float: right" data-toggle="modal" data-id="{{ $user->userid }}" data-target="#process_pending">Process_Pending</button>
                 </div>
             </div><!-- .modal-content -->
         </div><!-- /.modal-dialog -->
@@ -128,21 +128,55 @@
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
     {{-------------------------}}
+    {{----process pending application manually----}}
+    <div class="modal fade" tabindex="-1" role="dialog" id="process_pending">f
+        <div class="modal-dialog modal-sm" role="document" id="size">
+            <div class="modal-content">
+                <form action="{{ asset('process_pending') }}" method="get">
+                    <div class="modal-header" style="background-color: #9C8AA5;">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title"><i class="fa fa-question-circle"></i>DTR Says:</h4>
+                    </div>
+                    <div class="modal-body">
+
+                    </div>
+                    <div class="modal-footer">
+                        <input type="hidden" value="" id="id_to_process" name="id_to_process">
+                        <input type="hidden" value="" id="check" name="check">
+                        <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> No</button>
+                        <button type="submit" class="btn btn-success" style="color:white;" value="process" name="manual_process"><i class="fa fa-pencil"> Yes</i></button>
+                    </div>
+                </form>
+            </div><!-- .modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+    {{-------------------------}}
 
 @endsection
 
 @section('js')
     @parent
     <script>
-        console.log("here", $('.second_update').val());
+
+        $(".process_pending").on('click',function(e){
+
+            $('.modal-body').html(loadingState);
+            var userid = $(this).data('id');
+            $("#check").val("process");
+
+           $('#id_to_process'). val($('#user_iid').val());
+            setTimeout(function(){
+                $('.modal-body').html(
+                    "<span >Are you sure you want to process pending CTO credits?</span>");
+            },500);
+        });
 // to be removed once HR is done
         $(".balances").on('click',function(e){
             $('.modal-body').html(loadingState);
             var userid = $(this).data('id');
+            console.log("user", userid);
             $("#check").val("second");
-//            console.log("ahww",$("#check").val());
             $("#id_id").val(userid);
-            console.log(userid);
             setTimeout(function(){
                 $('.modal-body').html(
                     "<input type='text' class='form-control' id='balances' name='balances' required>");
@@ -165,6 +199,7 @@
             }
         });
 //        to be removed once HR is done //
+
 
         function setAction(action){
             $('#action').val(action);
@@ -219,16 +254,16 @@
             var totalDecimal = (total - Math.floor(total)).toFixed(2);
             var totalWhole = Math.floor(total);
 
-            if (totalDecimal >= 0.45 && totalDecimal < 1.00) {
+            if (totalDecimal >= 0.750 && totalDecimal < 1.00) {
                 total= totalWhole+0.75;
                 console.log("d", hours);
-            } else if (totalDecimal >= 0.30 && totalDecimal < 0.45) {
+            } else if (totalDecimal >= 0.500 && totalDecimal < 0.749) {
                 total= totalWhole+0.50;
                 console.log("c", hours);
-            }else if (totalDecimal >= 0.15 && totalDecimal <0.30) {
+            }else if (totalDecimal >= 0.250 && totalDecimal <0.499) {
                 total= totalWhole+0.25;
                 console.log("b", hours);
-            }else if(totalDecimal <15){
+            }else if(totalDecimal < 0.250){
                 total= totalWhole;
                 console.log("a", hours);
             }
@@ -265,8 +300,8 @@
                 var status = "<?php echo $card_viewL->status; ?>";
                 $("#user_iid").val(userid);
 
-                if (id == userid) {
-
+                if (id == userid && status != 5) {
+                    console.log("not equal po");
                     var tableData2 = "<tr>" +
                         <?php if ($card_viewL->ot_hours !== null): ?>
                             "<td><?php echo ($card_viewL->ot_hours !=0)? $card_viewL->ot_hours : ''; ?></td>" +
@@ -344,7 +379,6 @@
                     $("#t_body").append(tableData2);
                     count++;
                 }
-
 
                 <?php } ?>
                 if (count==0) {
