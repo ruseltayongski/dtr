@@ -362,6 +362,8 @@
 
 
     $(document).ready(function () {
+
+
         <?php
         $privilege_employee = PrivilegeEmployee::get();
         $userid = Auth::user()->userid;
@@ -732,6 +734,23 @@
                 }
                 return date;
             }
+
+            // get the latest 5 in cdo, check if cdo less_applied for is greater than 8, if yes get the corresponding data in applied dates
+            // then check if the applied dates - 5 consecutive days, if yes, then block the next working days
+            // trap - what if it is being filed same day, so the blocking is not working since it needs to block the date after 5 consecutive days
+
+            {{--<?php--}}
+                {{--$check = cdo::where('prepared_name', Auth::user()->userid)->orderBy('id', 'desc')->first();--}}
+                {{--$date_list = [];--}}
+                {{--if($check){--}}
+                    {{--$days_applied = $check->less_applied_for;--}}
+                {{--}--}}
+            {{--echo "var days_applied= " .json_encode($days_applied) .";"; ?>--}}
+
+            {{--var five_in_row = 0;--}}
+            {{--if(days_applied >= 35){--}}
+                {{--five_in_row = 1;--}}
+            {{--}--}}
                 var nextValidDay = getNextValidDay(new Date(yyyy, mm - 1, dd), Math.abs(beforeDaysToApply));
                 dd = nextValidDay.getDate();
                 mm = nextValidDay.getMonth() + 1;
@@ -770,19 +789,12 @@
                 minDate:isPrivilegeEmployee ? mm - 1 + '/01/' + yyyy : mm + '/' + dd + '/' + yyyy,
                 startDate: startDate,
                 endDate: endDate,
-                isInvalidDate: function (startDate, endDate) {
-                    for(var d= startDate; d.isBefore(endDate);d.add(1, 'days')){
-                        if(d.day()===0 || d.day()=== 6){
-                            return true;
-                        }
-                    }
-                    return false;
-                }
 
             }).on('apply.daterangepicker', function (ev, picker) {
 
                 var selectedStartDate = picker.startDate;
                 var selectedEndDate = picker.endDate;
+
                 var dateLabel = $(this).closest('.newRow').find('.date_label');
                 if (typeof dateLabel !== 'undefined' && dateLabel.length > 0) {
                     dateLabel.text(selectedStartDate.format('MM/DD/YYYY') + ' - ' + selectedEndDate.format('MM/DD/YYYY'));
