@@ -107,7 +107,7 @@
                         <?php if(isset($card_view) and count($card_view) >0): ?>
                             <?php foreach($card_view as $card_viewL): ?>
 
-                                <?php if(Auth::user()->userid == $card_viewL->userid): ?>
+                                <?php if(Auth::user()->userid == $card_viewL->userid && $card_viewL->status != 5): ?>
                                     <tr>
 
                                         <?php if($card_viewL->ot_hours !== null): ?>
@@ -171,7 +171,7 @@
                                         <?php elseif($card_viewL->status == 7): ?>
                                             <td id='remarks'style='color: blue'>BALANCE</td>
                                         <?php elseif($card_viewL->status == 9): ?>
-                                            <td id='remarks'style='color: green'>MAXIMUM</td>
+                                            <td id='remarks'style='color: green'>EXCEED</td>
                                         <?php else: ?>
                                             <td id='remarks'style='color: red'>EXCEED</td>
                                         <?php endif; ?>
