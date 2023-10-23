@@ -127,7 +127,7 @@ class cdoController extends BaseController
         } else{
             $id_list = [];
             $manually_added = [985329, 273, 11];
-//            return pdoController::section();
+
             foreach(pdoController::section() as $row) {
                 if ($row['acronym'] !== null || in_array($row['head'], [37, 72, 243, 614, 110, 5, 163, 648384, 985698, 160, 985950, 830744])) {
                     if(!in_array($row['head'], [172, 173, 96, 53, 114, 442, 155, 91])){
