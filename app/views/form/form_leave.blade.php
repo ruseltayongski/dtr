@@ -242,7 +242,7 @@
 @section('js')
     @parent
     @include('form.form_leave_script')
-    <script>
+   <script>
         $('#inc_date').daterangepicker();
         $('input[name="leave_type"]').change(function(){
 
@@ -267,8 +267,6 @@
             }else if(val == "SLBW") {
                 $('input[name="for_text_input"]').prop('disabled', true).val("");
             }else{
-//                $('[id^="checkboxSuccess"]').prop({ disabled: true, checked: false });
-//                $('input[name="for_text_input"]').prop('disabled', true).val("");
             }
         });
 

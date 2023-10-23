@@ -153,11 +153,6 @@ class DocumentController extends BaseController
             $leave->leave_type = Input::get('leave_type');
             $leave->leave_details = Input::get('leave_details');
             $leave->leave_specify = Input::get('for_text_input');
-//            $leave->vication_loc = Input::get('vication_loc');
-//            $leave->abroad_others = Input::get('abroad_others');
-//            $leave->sick_loc = Input::get('sick_loc');
-//            $leave->in_hospital_specify = Input::get('in_hospital_specify');
-//            $leave->out_patient_specify = Input::get('out_patient_specify');
             $leave->applied_num_days = Input::get('applied_num_days');
 
             $inclusive_dates = $_POST['inclusive_dates1'];

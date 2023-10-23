@@ -45,7 +45,7 @@
                         <div class="panel-body">
                             <div class="row">
                                 <div class="col-md-12">
-                                    <a style="margin-right: 10px" href="{{ asset('form/leave') }}" class="btn btn-success center-block col-md-2" onclick="checkBalance();">
+                                    <a style="margin-right: 10px" href="{{ asset('form/leave') }}" class="btn btn-success center-block col-md-2">
                                         <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Create new
                                     </a>
                                     <button class="btn btn-info center-block col-md-2 leave_ledger" id="viewCard" name="viewCard" data-toggle="modal"
@@ -226,10 +226,6 @@
                 <?php }?>
             });
         });
-
-
-
-
 
         $('a[href="#leave_info').click(function(){
             var id = $(this).data('id');

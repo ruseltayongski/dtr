@@ -83,70 +83,82 @@
                 console.log(" total number of days:", days);
 
                 <?php
-                    $leave = Leave::where('userid', Auth::user()->userid)->first();
-                    echo "var FL = {$leave->FL_total};";
-                    echo "var SPL = {$leave->SPL_total};";
-                    echo "var VL = {$leave->vacation_total};";
-                    echo "var SL = {$leave->sick_total};";
+                    $leave = InformationPersonal::where('userid', Auth::user()->userid)->first();
+                    $leave1 = AditionalLeave::where('userid', Auth:: user()->userid)->first();
+
+                    echo "var FL = ".json_encode(!Empty($leave1->FL)? $leave1->FL : 0). ";";
+                    echo "var SPL = ".json_encode(!Empty($leave1->SPL)? $leave1->SPL : 0). ";";
+                    echo "var VL = ".json_encode(!Empty($leave->vacation_balance) ? $leave-> vacation_balance : 0). ";";
+                    echo "var SL = ".json_encode(!Empty($leave->sick_balance)? $leave->sick_balance : 0). ";";
                     ?>
 
                 if(radio_val == "SPL"){
                     if(days>3 || days>SPL){
                         Lobibox.alert('error',{msg:"Exceed SPL Balance/Maximum of 3!"});
+                        $('.datepickerInput1').val("");
                     }else{
                         $('#applied_num_days').val(days);
                     }
                 }else if(radio_val == "VL"){
                     if(days > VL){
                         Lobibox.alert('error', {msg:"Exceed VL Balance!"});
+                        $('.datepickerInput1').val("");
                     }else{
                         $('#applied_num_days').val(days);
                     }
                 }else if(radio_val == "FL"){
                     if(days> FL){
                         Lobibox.alert('error', {msg:"Exceed FL Balance!"});
+                        $('.datepickerInput1').val("");
                     }else{
                         $('#applied_num_days').val(days);
                     }
                 }else if(radio_val == "SL"){
                     if(days> SL){
                         Lobibox.alert('error', {msg:"Exceed SL Balance"});
+                        $('.datepickerInput1').val("");
                     }else{
                         $('#applied_num_days').val(days);
                     }
                 }else if(radio_val == "PL" || radio_val == "SOLO_PL"){
                     if(days>7){
                         Lobibox.alert('error', {msg:"7 Days of Leave Only!"})
+                        $('.datepickerInput1').val("");
                     }else{
                         $('#applied_num_days').val(days);
                     }
                 }else if(radio_val == "ML"){
                     if(days>105){
                         Lobibox.alert('error', {msg:"105 Days of Leave Only!"});
+                        $('.datepickerInput1').val("");
                     }else{
                         $('#applied_num_days').val(days);
                     }
                 }else if(radio_val == "10D_VAWCL"){
                     if(days>10){
                         Lobibox.alert('error', {msg:"10 Days of Leave Only!"});
+                        $('.datepickerInput1').val("");
                     }else{
                         $('#applied_num_days').val(days);
                     }
                 }else if(radio_val == "STUD_L" || radio_val == "RL"){
                     if(days>180){
                         Lobibox.alert('error', {msg:"Up to 6 Months of Leave Only!"});
+                        $('.datepickerInput1').val("");
                     }else{
                         $('#applied_num_days').val(days);
                     }
                 }else if(radio_val == "SEL"){
                     if(days>5){
                         Lobibox.alert('error', {msg:"5 Days Only!"});
+                        $('.datepickerInput1').val("");
                     }else{
                         $('#applied_num_days').val(days);
                     }
                 }else if(radio_val == "SLBW"){
                     if(days>60){
                         Lobibox.alert('error', {msg:" Up to 2 Months Only!"});
+                        $('.datepickerInput1').val("");
                     }else{
                         $('#applied_num_days').val(days);
                     }
