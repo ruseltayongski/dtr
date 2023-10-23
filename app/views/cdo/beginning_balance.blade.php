@@ -174,7 +174,6 @@
         $(".balances").on('click',function(e){
             $('.modal-body').html(loadingState);
             var userid = $(this).data('id');
-            console.log("user", userid);
             $("#check").val("second");
             $("#id_id").val(userid);
             setTimeout(function(){
@@ -212,7 +211,6 @@
         }
 
         function modifiedUpdatedCTO(button) {
-//            console.log("jhdsfhdf");
             $("#option2").show();
             var row = $(button).closest('tr');
             var rowData = {};
@@ -220,7 +218,6 @@
                 var columnName = 'data' + (cellIndex + 1);
                 rowData[columnName] = $(cell).text().trim();
             });
-            console.log(rowData);
             var userid = $(this).data('id');
             $(".datepickercalendar").datepicker("setDate", new Date(rowData.data6));
             $("#ot_hours").val(rowData.data1 );
@@ -230,12 +227,10 @@
             $("#userid").val($("#user_iid").val());
             $("#row_id").val(rowData.data11);
 
-//            console.log("kjfjdf", $("#row_id").val());
             var total_first = parseFloat(rowData.data4);
             var total_second= parseFloat($("#cto_total").val());
             var total= total_first-total_second;
             $("#total_total").val(rowData.data5);
-//            console.log("save data",$("#total_total").val() )
         }
 
 
@@ -249,32 +244,25 @@
             var weight = parseFloat(document.getElementById("ot_weight").value);
 
             var total = hours * weight;
-            console.log("total", total);
 
             var totalDecimal = (total - Math.floor(total)).toFixed(2);
             var totalWhole = Math.floor(total);
 
             if (totalDecimal >= 0.750 && totalDecimal < 1.00) {
                 total= totalWhole+0.75;
-                console.log("d", hours);
             } else if (totalDecimal >= 0.500 && totalDecimal < 0.749) {
                 total= totalWhole+0.50;
-                console.log("c", hours);
             }else if (totalDecimal >= 0.250 && totalDecimal <0.499) {
                 total= totalWhole+0.25;
-                console.log("b", hours);
             }else if(totalDecimal < 0.250){
                 total= totalWhole;
-                console.log("a", hours);
             }
-            console.log("result", hours);
 
             document.getElementById("cto_total").value = total || '';
             document.getElementById("beginning_balance").value = total || '';
         }
 
     $(document).ready(function () {
-//            console.log("jdsad");
             $("#viewCard").on("click", function(){
                 $("#t_body").empty();
             });
@@ -301,7 +289,6 @@
                 $("#user_iid").val(userid);
 
                 if (id == userid && status != 5) {
-                    console.log("not equal po");
                     var tableData2 = "<tr>" +
                         <?php if ($card_viewL->ot_hours !== null): ?>
                             "<td><?php echo ($card_viewL->ot_hours !=0)? $card_viewL->ot_hours : ''; ?></td>" +
@@ -435,7 +422,6 @@
         });
 
         $(".beginning_balance").on('click',function(e){
-//            $(".beginning_balance").val("");
             $("#row_id").val("");
             $("#total_total").val("");
             $("#overtime_date").val("");
@@ -446,7 +432,6 @@
             var userid = $(this).data('id');
             $("#userid").val(userid);
             $("#user_id").val(userid);
-//            console.log(userid);
 
         });
 
