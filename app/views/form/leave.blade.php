@@ -216,7 +216,13 @@
 
                                 @foreach($leave_dates as $dates)
                                 <strong style="margin-left: 1%">
-                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i style="margin-left: 20px">{{ date('F d,Y',strtotime($dates->startdate)).' to '.date('F d,Y',strtotime($dates->enddate)) }}</i>
+
+                                    @if(  date('F d,Y',strtotime($dates->startdate)) == date('F d,Y',strtotime($dates->enddate)))
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<u><i style="margin-left: 20px">{{ date('F d,Y',strtotime($dates->startdate))}}</i></u>
+                                    @else
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i style="margin-left: 20px">{{ date('F d,Y',strtotime($dates->startdate)).' to '.date('F d,Y',strtotime($dates->enddate)) }}</i>
+                                    @endif
+                                    &nbsp;&nbsp;
                                 </strong><br>
                                 @endforeach
                                 <small class="text-orange" style="margin-left: 28%">

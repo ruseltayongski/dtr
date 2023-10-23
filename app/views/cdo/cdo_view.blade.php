@@ -739,13 +739,50 @@
             // then check if the applied dates - 5 consecutive days, if yes, then block the next working days
             // trap - what if it is being filed same day, so the blocking is not working since it needs to block the date after 5 consecutive days
 
+            //to be worked on
+
             {{--<?php--}}
                 {{--$check = cdo::where('prepared_name', Auth::user()->userid)->orderBy('id', 'desc')->first();--}}
                 {{--$date_list = [];--}}
                 {{--if($check){--}}
                     {{--$days_applied = $check->less_applied_for;--}}
+                {{--}else{--}}
+                    {{--$days_applied = 0;--}}
                 {{--}--}}
-            {{--echo "var days_applied= " .json_encode($days_applied) .";"; ?>--}}
+
+                {{--$datelist =[];--}}
+                {{--$applied1 = [];--}}
+                {{--$dates = cdo::where('prepared_name', Auth::user()->userid)->orderBy('id', 'desc')->take(5)->get();--}}
+                {{--if($dates){--}}
+                    {{--foreach ()//to be continued--}}
+                    {{--if($dates->less_applied_for == 8 or $dates->less_applied_for ==4){--}}
+                        {{--$date_list[]= $dates->start;--}}
+                    {{--}else{--}}
+                        {{--$applied = CdoAppliedDate::where('cdo_id','=', $dates->id)->get();--}}
+                        {{--$applied1[]=$applied;--}}
+
+                        {{--foreach ($applied as $date){--}}
+                            {{--$diff= intval(date('d', strtotime($date->start_date))) - intval(date('d',$date->end_date));--}}
+
+                            {{--if($diff ==1){--}}
+                                {{--$date_list[]= date('F j, Y', strtotime($date->start_date));--}}
+                            {{--}else{--}}
+                                {{--$start = date('F j, Y', strtotime($date->start_date));--}}
+                                {{--$end = date ('F j-1, Y', strtotime($date->end_date));--}}
+                                {{--while ($start <= $end){--}}
+                                    {{--$date_list[] = date('F j, Y', $start);--}}
+                                    {{--$start = strtotime('+1 day', $start);--}}
+                                {{--}--}}
+                            {{--}--}}
+                        {{--}--}}
+                    {{--}--}}
+                {{--}--}}
+            {{--echo "var days_applied= " .json_encode($days_applied) .";";--}}
+            {{--echo "var dates= " .json_encode($dates) .";";--}}
+            {{--echo "var date_list= " .json_encode($date_list) .";";--}}
+            {{--?>--}}
+
+            {{--console.log("dates", date_list);--}}
 
             {{--var five_in_row = 0;--}}
             {{--if(days_applied >= 35){--}}
@@ -822,7 +859,7 @@
                     else {
                         Lobibox.alert('error', //AVAILABLE TYPES: "error", "info", "success", "warning"
                             {
-                                msg: "Your beginning balance(credit) are not enough"
+                                msg: "Insufficient CTO balance."
                             });
                         $('.datepickerInput').val("");
                         $(".newRow").find("#date_label").text("");
@@ -832,7 +869,7 @@
 
                     Lobibox.alert('error', //AVAILABLE TYPES: "error", "info", "success", "warning"
                         {
-                            msg: "You can file 5 days only per application."
+                            msg: "The use of CTO can be used continuously up to a maximum of five(5) consecutive day per single availment, or on staggered basis within the year."
                         });
                     $('.datepickerInput').val("");
                     $(".newRow").find("#date_label").text("");
