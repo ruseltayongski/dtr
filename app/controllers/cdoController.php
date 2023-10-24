@@ -168,6 +168,7 @@ class cdoController extends BaseController
             "bbalance_cto" => $personal_information->bbalance_cto
         );
 
+
         if($pdf == 'pdf') {
             $display = View::make('cdo.cdo_pdf', ["data" => $data]);
             // return $display;
@@ -558,11 +559,41 @@ class cdoController extends BaseController
                 $card_view2->save();
             }
 
+            $datelist = [];
+            $dates = CdoAppliedDate::where('cdo_id', $cdo->id)->get();
+
+            if ($dates) {
+                foreach ($dates as $date) {
+
+                    $diff = (strtotime($date->start_date) - strtotime($date->end_date)) / (60 * 60 * 24) ;
+                    $diff = -($diff);
+                    if ($diff<=1) {
+                        $date_2 =date('F j, Y', strtotime($date->start_date));
+
+                        if ($date->cdo_hours == "cdo_am") {
+                            $date_2 = date('F j, Y', strtotime($date->start_date)).' (AM)';
+                        } elseif ($date->cdo_hours == "cdo_pm") {
+                            $date_2 = date('F j, Y', strtotime($date->start_date)).' (PM)';
+                        }
+                    } else {
+                        $date_2 = date('F j, Y', strtotime($date->start_date)). ' - ' . date('F j, Y', strtotime($date->end_date));
+                        if ($date->cdo_hours == "cdo_am") {
+                            $date_2 = date('F j, Y', strtotime($date->start_date)). ' - ' . date('F j, Y', strtotime($date->end_date)).' (AM)';
+                        } elseif ($date->cdo_hours == "cdo_pm") {
+                            $date_2 = date('F j, Y', strtotime($date->start_date)). ' - ' . date('F j, Y', strtotime($date->end_date)).' (PM) ';
+                        }
+                    }
+                    $datelist[] = $date_2;
+                }
+            }
+            $datelist= implode('$', $datelist);
+            $dateUsedJSON = str_replace(['[', ']', '"'], '',json_encode($datelist));
+//            $implode = implode('$', $dateUsedJSON);
+//            $dateUsed = str_replace(', ', '/', $dateUsedJSON);
             $hours_used= $cdo->less_applied_for;
-            $date_used = $cdo->applied_dates;
             $card_view->userid=$card_id;
             $card_view->hours_used=$hours_used;
-            $card_view->date_used=$date_used;
+            $card_view->date_used=$dateUsedJSON;
             $card_view->save();
 
             $keyword = '';

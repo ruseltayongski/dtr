@@ -128,20 +128,45 @@
                                         </td>
                                         <td>@if($card_viewL->hours_used != 0 ) {{$card_viewL->hours_used}} @endif</td>
                                         <td> <?php
+
                                             if(!Empty($card_viewL->date_used) ){
-                                                $datelist =[];
-                                                $dateRanges = explode(",", $card_viewL->date_used);
-                                                foreach ($dateRanges as $date){
-                                                    $dateParts = explode("-", $date);
-                                                    $startDate = date("m/d/Y", strtotime($dateParts[0]));
-                                                    $endDate = date("m/d/Y", strtotime($dateParts[1]));
-                                                    if($startDate == $endDate){
-                                                        $datelist[]=$startDate;
-                                                    }else{
-                                                        $datelist[]= $startDate. '-'. $endDate;
+                                                $created = strtotime($card_viewL->created_at);
+                                                $condition = strtotime('2023-11-01');
+                                                if($created<$condition){
+                                                    $dateRanges = explode(",", $card_viewL->date_used);
+                                                    $datelist = [];
+                                                    foreach ($dateRanges as $date){
+                                                        $pattern = '/(\d{1,2}\/\d{1,2}\/\d{4}) - (\d{1,2}\/\d{1,2}\/\d{4}(?: \([^)]*\))?)/';
+
+                                                        if(preg_match($pattern, $date, $matches)){
+                                                            $startDate = $matches[1];
+                                                            $endDate = $matches[2];
+                                                            $add_ons = isset($matches[3])? $matches[3]: '';
+                                                            $endDate2 = preg_replace('/ \([^)]*\)/', '', $matches[2]);
+                                                            $diff= (strtotime($startDate)- strtotime($endDate2))/ (60*60*24);
+                                                            $diff= $diff * -1;
+
+                                                            $additionalData = '';
+                                                            $additionalPattern = '/\(([^)]*)\)/';
+                                                            if (preg_match($additionalPattern, $endDate, $additionalMatches)) {
+                                                                $additionalData = $additionalMatches[1];
+                                                            }
+
+                                                            if($diff == 0){
+                                                                $datelist[]= date('F j, Y', strtotime($endDate2)).' '. $additionalData;
+                                                            }else{
+                                                                $datelist[]= date('F j, Y', strtotime($startDate)).'-'. date('F j, Y', strtotime($endDate)).' '. $additionalData;
+                                                            }
+                                                        }
                                                     }
+                                                    $dateRanges = implode('$', $datelist);
+                                                    echo str_replace('$', '<br>', $dateRanges);
+
+                                                }else{
+                                                    $dateRanges =str_replace('$', '<br>', $card_viewL->date_used);
+                                                    echo $dateRanges;
                                                 }
-                                                echo implode(', ', $datelist);
+
                                             }else{
                                                 echo "";
                                             }
@@ -149,7 +174,13 @@
                                         <td>{{$card_viewL->bal_credits}}</td>
                                         <td><?php
                                             if($card_viewL->status == "7" ){
-                                                echo "September 30, 2023";
+                                                $created = strtotime($card_viewL->created_at);
+                                                $condition = strtotime('2023-11-01');
+                                                if($created < $condition){
+                                                    echo "September 30, 2023";
+                                                }else{
+                                                    echo date("F j, Y", strtotime($card_viewL->created_at));
+                                                }
                                             }else{
                                                 echo date("F j, Y", strtotime($card_viewL->created_at));
                                             }
