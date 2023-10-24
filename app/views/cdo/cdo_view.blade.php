@@ -741,53 +741,6 @@
 
             //to be worked on
 
-            {{--<?php--}}
-                {{--$check = cdo::where('prepared_name', Auth::user()->userid)->orderBy('id', 'desc')->first();--}}
-                {{--$date_list = [];--}}
-                {{--if($check){--}}
-                    {{--$days_applied = $check->less_applied_for;--}}
-                {{--}else{--}}
-                    {{--$days_applied = 0;--}}
-                {{--}--}}
-
-                {{--$datelist =[];--}}
-                {{--$applied1 = [];--}}
-                {{--$dates = cdo::where('prepared_name', Auth::user()->userid)->orderBy('id', 'desc')->take(5)->get();--}}
-                {{--if($dates){--}}
-                    {{--foreach ()//to be continued--}}
-                    {{--if($dates->less_applied_for == 8 or $dates->less_applied_for ==4){--}}
-                        {{--$date_list[]= $dates->start;--}}
-                    {{--}else{--}}
-                        {{--$applied = CdoAppliedDate::where('cdo_id','=', $dates->id)->get();--}}
-                        {{--$applied1[]=$applied;--}}
-
-                        {{--foreach ($applied as $date){--}}
-                            {{--$diff= intval(date('d', strtotime($date->start_date))) - intval(date('d',$date->end_date));--}}
-
-                            {{--if($diff ==1){--}}
-                                {{--$date_list[]= date('F j, Y', strtotime($date->start_date));--}}
-                            {{--}else{--}}
-                                {{--$start = date('F j, Y', strtotime($date->start_date));--}}
-                                {{--$end = date ('F j-1, Y', strtotime($date->end_date));--}}
-                                {{--while ($start <= $end){--}}
-                                    {{--$date_list[] = date('F j, Y', $start);--}}
-                                    {{--$start = strtotime('+1 day', $start);--}}
-                                {{--}--}}
-                            {{--}--}}
-                        {{--}--}}
-                    {{--}--}}
-                {{--}--}}
-            {{--echo "var days_applied= " .json_encode($days_applied) .";";--}}
-            {{--echo "var dates= " .json_encode($dates) .";";--}}
-            {{--echo "var date_list= " .json_encode($date_list) .";";--}}
-            {{--?>--}}
-
-            {{--console.log("dates", date_list);--}}
-
-            {{--var five_in_row = 0;--}}
-            {{--if(days_applied >= 35){--}}
-                {{--five_in_row = 1;--}}
-            {{--}--}}
                 var nextValidDay = getNextValidDay(new Date(yyyy, mm - 1, dd), Math.abs(beforeDaysToApply));
                 dd = nextValidDay.getDate();
                 mm = nextValidDay.getMonth() + 1;
@@ -851,6 +804,119 @@
                 diff = end.diff(start, 'days'); // returns correct number
                 TotalDate = diff+1;
 
+                // to be continued //to avoid non consecutive days
+                {{--<?php--}}
+                {{--$check = cdo::where('prepared_name', Auth::user()->userid)->orderBy('id', 'desc')->first();--}}
+                {{--$date_list = [];--}}
+                {{--if($check){--}}
+                    {{--$days_applied = $check->less_applied_for;--}}
+                {{--}else{--}}
+                    {{--$days_applied = 0;--}}
+                {{--}--}}
+
+                {{--$datelist =[];--}}
+                {{--$applied1 = [];--}}
+                {{--$datess = cdo::where('prepared_name', Auth::user()->userid)->orderBy('id', 'desc')->take(5)->get();--}}
+                {{--if($datess){--}}
+                    {{--foreach ($datess as $dates){--}}
+                        {{--if(!Empty($dates)){--}}
+                            {{--if($dates->less_applied_for == 8 or $dates->less_applied_for ==4){--}}
+                                {{--$date_list[]= $dates->start;--}}
+                            {{--}else{--}}
+                                {{--$applied = CdoAppliedDate::where('cdo_id','=', $dates->id)->get();--}}
+                                {{--$applied1[]=$applied;--}}
+
+                                {{--foreach ($applied as $date){--}}
+
+                                    {{--$diff = (strtotime($date->start_date) - strtotime($date->end_date)) / (60 * 60 * 24) ;--}}
+                                    {{--$diff = -($diff);--}}
+                                    {{--if($diff ==1){--}}
+                                        {{--$date_list[]= date('F j, Y', strtotime($date->start_date));--}}
+                                    {{--}else{--}}
+                                        {{--$start = strtotime($date->start_date);--}}
+                                        {{--$end = strtotime($date->end_date);--}}
+
+                                        {{--while ($diff >= 1){--}}
+                                            {{--$start = strtotime('+1 day', $start);--}}
+                                            {{--$date_list[] = date('F j, Y', $start);--}}
+                                            {{--$diff--;--}}
+                                        {{--}--}}
+                                    {{--}--}}
+                                {{--}--}}
+                            {{--}--}}
+                        {{--}--}}
+                    {{--}--}}
+                {{--}--}}
+                {{--$sorted = array_map('strtotime',$date_list);--}}
+                {{--array_multisort($sorted, SORT_ASC, $date_list);--}}
+                {{--$last_five = array_slice($date_list, -5);--}}
+                {{--$index = count($last_five);--}}
+                {{--$first = strtotime($last_five[$index-1]);--}}
+                {{--$value = date('m/d/Y',$first);--}}
+                {{--$num = $index-1;--}}
+                {{--$i = $index-2;--}}
+                {{--$data = [];--}}
+                {{--$total = 1;--}}
+
+                {{--$holiday = Calendars::get();--}}
+                {{--$holiday_dates = array();--}}
+                {{--foreach ($holiday as $event) {--}}
+                    {{--$holiday_dates[] = $event['start'];--}}
+                {{--}--}}
+                {{--while($num>=1){ // condition - user cannot file date that is a consecutive of 5 days--}}
+                    {{--$data[] = date('F j, Y', $first);--}}
+                    {{--$first = strtotime('-1 day', $first); //this is for the last date downward che--}}
+{{--//                            break;--}}
+                    {{--if($last_five[$i] == date('F j, Y', $first)){ // 4-1= 3 // 3-1 2--}}
+                        {{--$total = $total+1;--}}
+                    {{--}--}}
+                    {{--else{--}}
+                        {{--$timestamp = strtotime($last_five[$i]);--}}
+                        {{--$weekday = date("1", $timestamp);--}}
+
+                        {{--if($weekday === "Sunday" || $weekday === "Saturday" || in_array($timestamp, $holiday_dates)){--}}
+                            {{--$total = $total+1;--}}
+                        {{--}else{--}}
+                            {{--break;--}}
+                        {{--}--}}
+                    {{--}--}}
+                    {{--$num--;--}}
+                    {{--$i--;--}}
+                {{--}--}}
+                {{--$res = 5-$total;--}}
+                {{--if($res ==0){--}}
+
+                {{--}else{--}}
+                    {{--$date_after_date = [];--}}
+                    {{--$first1 = strtotime($last_five[$index-1]);--}}
+                    {{--while ($res>=0){--}}
+                        {{--$first1 = strtotime('+1 day', $first1);--}}
+                        {{--$date_after_date[]= date('m/d/Y',$first1);--}}
+                        {{--$res--;--}}
+                    {{--}--}}
+                {{--}--}}
+
+                {{--echo "var days_applied= " .json_encode($days_applied) .";";--}}
+                {{--echo "var dates= " .json_encode($value) .";";--}}
+                {{--echo "var total_dates= " .json_encode($total) .";";--}}
+                {{--echo "var date_after_date= " .json_encode($last_five) .";";--}}
+                {{--echo "var res= " .json_encode($res) .";";--}}
+                {{--?>--}}
+
+                {{--console.log ('dates', date_after_date);--}}
+
+//                if(res == 0){
+//                    if(date_after_date[0] == selectedStartDate.format('MM/DD/YYYY')){
+//                        fivedays();
+//                    }else{
+//                    }
+//                }else{
+//                    if(date_after_date[date_after_date.length -1] == selectedStartDate.format('MM/DD/YYYY') && totalDays>=res){
+//                        fivedays();
+//                    }else{
+//
+//                    }
+//                }
 
                 if (totalDays<=5) {
                     if (less_applied2 < parseInt($(".beginning_balance").val()) + 8) {
@@ -866,13 +932,7 @@
                     }
                 }
                 else {
-
-                    Lobibox.alert('error', //AVAILABLE TYPES: "error", "info", "success", "warning"
-                        {
-                            msg: "The use of CTO can be used continuously up to a maximum of five(5) consecutive day per single availment, or on staggered basis within the year."
-                        });
-                    $('.datepickerInput').val("");
-                    $(".newRow").find("#date_label").text("");
+                    fivedays();
                 }
 
                 $(".remaining_balance").val(parseFloat($(".beginning_balance").val()) - parseFloat($(".less_applied").val()));
@@ -1068,6 +1128,14 @@
             {
                 msg: "Limit to 10 rows only!"
             });
+    }
+    function fivedays(){
+        Lobibox.alert('error', //AVAILABLE TYPES: "error", "info", "success", "warning"
+            {
+                msg: "The use of CTO can be used continuously up to a maximum of five(5) consecutive day per single availment, or on staggered basis within the year."
+            });
+        $('.datepickerInput').val("");
+        $(".newRow").find("#date_label").text("");
     }
 
 </script>
