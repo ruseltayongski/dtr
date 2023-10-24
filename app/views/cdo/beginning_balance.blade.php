@@ -313,7 +313,7 @@
 
                             if(!Empty($card_viewL->date_used) ){
                                 $created = strtotime($card_viewL->created_at);
-                                $condition = strtotime('2023-10-24');
+                                $condition = strtotime('2023-10-25');
                                 if($created<=$condition){
                                     $dateRanges = explode(",", $card_viewL->date_used);
                                     $datelist = [];
@@ -342,11 +342,10 @@
                                         }
                                     }
                                     $dateRanges = implode('$', $datelist);
-                                    echo str_replace('$', '<br>', $dateRanges);
-
+                                      echo str_replace('$', '<br>', $dateRanges);
                                 }else{
                                     $dateRanges =str_replace('$', '<br>', $card_viewL->date_used);
-                                    echo $dateRanges;
+                                    echo $additionalData;
                                 }
 
                             }else{
@@ -357,7 +356,7 @@
                         "<td><?php
                             if($card_viewL->status == "7" ){
                                 $created = strtotime($card_viewL->created_at);
-                                $condition = strtotime('2023-10-24');
+                                $condition = strtotime('2023-10-25');
                                 if($created <= $condition){
                                     echo "September 30, 2023";
                                 }else{
