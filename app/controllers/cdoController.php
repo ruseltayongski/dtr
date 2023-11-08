@@ -13,70 +13,77 @@ class cdoController extends BaseController
         $keyword = Session::get('keyword');
 
         if( Input::get('type') ){
-            //return $type;
             $type = Input::get('type');
-
         }
         else {
             $type = 'pending';
-
         }
-        // return $type;
-        $cdo["count_cancelled"] = cdo::where('status',3)
+        $cdo["count_cancelled"] = InformationPersonal::join('dohdtr.cdo', 'personal_information.userid', '=', 'cdo.prepared_name')
+            ->where('status',3)
             ->where(function($q) use ($keyword){
                 $q->where("route_no","like","%$keyword%")
-                    ->orWhere("subject","like","%$keyword%");
+                    ->orWhere("subject","like","%$keyword%")
+                    ->orWhere("lname", "like", "%$keyword%");
             })->get();
-
-//        return $cdo["count_cancelled"];
-        $cdo["count_pending"] = cdo::where('approved_status',0)
+        $cdo["count_pending"] = InformationPersonal::join('dohdtr.cdo', 'personal_information.userid', '=', 'cdo.prepared_name')
+            ->where('approved_status',0)
             ->where(function($q) use ($keyword){
                 $q->where("route_no","like","%$keyword%")
-                    ->orWhere("subject","like","%$keyword%");
+                    ->orWhere("subject","like","%$keyword%")
+                    ->orWhere("lname", "like", "%$keyword%");
             })->get();
-        $cdo["count_approve"] = cdo::where('approved_status',1)
-            ->where('status', '!=', 3)
+        $cdo["count_approve"] = InformationPersonal::join('dohdtr.cdo', 'personal_information.userid', '=', 'cdo.prepared_name')
+            ->where('approved_status',1)
             ->where(function($q) use ($keyword){
                 $q->where("route_no","like","%$keyword%")
-                    ->orWhere("subject","like","%$keyword%");
+                    ->orWhere("subject","like","%$keyword%")
+                    ->orWhere("lname", "like", "%$keyword%");
             })->get();
-        $cdo["count_all"] = cdo::where(function($q) use ($keyword){
+        $cdo["count_all"] = InformationPersonal::join('dohdtr.cdo', 'personal_information.userid', '=', 'cdo.prepared_name')
+            ->where(function($q) use ($keyword){
             $q->where("route_no","like","%$keyword%")
-                ->orWhere("subject","like","%$keyword%");
-        })->get();
+                ->orWhere("subject","like","%$keyword%")
+                ->orWhere("lname", "like", "%$keyword%");
+            })->get();
 
-        $cdo['paginate_cancelled'] = cdo::where('status',3)
+        $cdo['paginate_cancelled'] = InformationPersonal::join('dohdtr.cdo', 'personal_information.userid', '=', 'cdo.prepared_name')
+            ->where('status',3)
             ->where(function($q) use ($keyword){
                 $q->where("route_no","like","%$keyword%")
-                    ->orWhere("subject","like","%$keyword%");
+                    ->orWhere("subject","like","%$keyword%")
+                    ->orWhere("lname", "like", "%$keyword%");
             })
-
-            ->orderBy('id','desc')
+            ->orderBy('cdo.id','desc')
             ->paginate(10);
 
-        $cdo['paginate_pending'] = cdo::where('approved_status',0)
+        $cdo['paginate_pending'] = InformationPersonal::join('dohdtr.cdo', 'personal_information.userid', '=', 'cdo.prepared_name')
+            ->where('approved_status',0)
             ->where(function($q) use ($keyword){
                 $q->where("route_no","like","%$keyword%")
-                    ->orWhere("subject","like","%$keyword%");
+                    ->orWhere("subject","like","%$keyword%")
+                    ->orWhere("lname", "like", "%$keyword%");
             })
 
-            ->orderBy('id','desc')
+            ->orderBy('cdo.id','desc')
             ->paginate(10);
 
-        $cdo['paginate_approve'] = cdo::where('approved_status',1)
-            ->where('status', '!=', 3)
+        $cdo['paginate_approve'] = InformationPersonal::join('dohdtr.cdo', 'personal_information.userid', '=', 'cdo.prepared_name')
+            ->where('approved_status',1)
             ->where(function($q) use ($keyword){
                 $q->where("route_no","like","%$keyword%")
-                    ->orWhere("subject","like","%$keyword%");
+                    ->orWhere("subject","like","%$keyword%")
+                    ->orWhere("lname", "like", "%$keyword%");
             })
-            ->orderBy('id','desc')
+            ->orderBy('cdo.id','desc')
             ->paginate(10);
 
-        $cdo['paginate_all'] = cdo::where(function($q) use ($keyword){
-            $q->where("route_no","like","%$keyword%")
-                ->orWhere("subject","like","%$keyword%");
-        })
-            ->orderBy('id','desc')
+        $cdo['paginate_all'] = InformationPersonal::join('dohdtr.cdo', 'personal_information.userid', '=', 'cdo.prepared_name')
+            ->where(function($q) use ($keyword){
+                $q->where("route_no","like","%$keyword%")
+                    ->orWhere("subject","like","%$keyword%")
+                    ->orWhere("lname", "like", "%$keyword%");
+            })
+            ->orderBy('cdo.id','desc')
             ->paginate(10);
 
         if (Request::ajax() ) {
@@ -102,10 +109,10 @@ class cdoController extends BaseController
         return View::make('cdo.cdo_roles',[
             "cdo" => $cdo,
             "type" => $type,
+            "paginate_cancelled" => $cdo["paginate_cancelled"],
             "paginate_pending" => $cdo["paginate_pending"],
             "paginate_approve" => $cdo["paginate_approve"],
-            "paginate_cancelled" => $cdo["paginate_cancelled"],
-            "paginate_all" => $cdo["paginate_all"],
+            "paginate_all" => $cdo["paginate_all"]
         ]);
     }
 
@@ -906,6 +913,7 @@ class cdoController extends BaseController
             })
             ->orderBy('fname','asc')
             ->paginate(10);
+
         $card_view= CardView::get();
         $today = intval(date('m'));
         $year = intval(date('Y'));
