@@ -26,22 +26,33 @@
                     <td>
                         <?php if($row->applied_dates == null): ?>
                             <?php
+<<<<<<< HEAD
                             $hours = "";
                                 if($row->cdo_hours == "cdo_am"){
                                     $hours = " (AM)";
                                 }else if ($row->cdo_hours == "cdo_pm") {
                                     $hours = " (PM)";
                                 } 
+=======
+                            $hours = " ";
+                            if($row->cdo_hours == "cdo_am"){
+                                $hours=" (AM)";
+                            }else if($row->cdo_hours == "cdo_pm"){
+                                $hours=" (PM)";
+                            }
+>>>>>>> e735085183a01eeb6d7c9e06a741db6d60c1c501
                             $start_date = date('M j, Y', strtotime($row->start));
                             $end_date = date('M j, Y', strtotime('-1 day', strtotime($row->end)));
                             $dateStrings = ($start_date == $end_date) ? "$start_date $hours" : "$start_date - $end_date $hours";
                             echo $dateStrings;
                             ?>
-                        <?php else: ?>
+                        @else
+
                             <?php
                             $get_date = CdoAppliedDate::where('cdo_id', $row->id)->get();
                             $dateStrings=[];
                             if(count($get_date)>0){
+<<<<<<< HEAD
                                foreach ($get_date as $index=>$dates){
                                 $hours = "";
                                 if($dates->cdo_hours == "cdo_am"){
@@ -61,13 +72,36 @@
                                 }else if ($row->cdo_hours == "cdo_pm") {
                                     $hours = " (PM)";
                                 } 
+=======
+
+                                foreach ($get_date as $index=>$dates){
+                                    $hours = " ";
+                                    if($dates->cdo_hours == "cdo_am"){
+                                        $hours=" (AM)";
+                                    }else if($dates->cdo_hours == "cdo_pm"){
+                                        $hours=" (PM)";
+                                    }
+                                    $start_date = date('M j, Y', strtotime($dates->start_date));
+                                    $end_date = date('M j, Y', strtotime('-1 day', strtotime($dates->end_date)));
+                                    $dateStrings[] = ($start_date == $end_date) ? "$start_date $hours" : "$start_date - $end_date $hours";
+                                }
+                                echo implode(',<br>',$dateStrings);
+                            }else{
+
+                                $hours = " ";
+                                if($row->cdo_hours == "cdo_am"){
+                                    $hours=" (AM)";
+                                }else if($row->cdo_hours == "cdo_pm"){
+                                    $hours=" (PM)";
+                                }
+>>>>>>> e735085183a01eeb6d7c9e06a741db6d60c1c501
                                 $start_date = date('M j, Y', strtotime($row->start));
                                 $end_date = date('M j, Y', strtotime('-1 day', strtotime($row->end)));
                                 $dateStrings = ($start_date == $end_date) ? "$start_date $hours" : "$start_date - $end_date $hours";
                                 echo $dateStrings;
                             }
                             ?>
-                        <?php endif; ?>
+                        @endif
                     </td>
                     <td>
                         <?php
@@ -77,23 +111,21 @@
                     </td>
                     <td class="text-center">
                         <b style="color:green;">
-                            <?php echo $personal_information->bbalance_cto; ?>
-
+                            {{ $personal_information->bbalance_cto }}
                         </b>
                     </td>
                     <td>
-                        <button type="submit" class="btn-xs btn-info" value="<?php echo $row->id; ?>" onclick="pending_status($(this))"><i class="fa fa-smile-o"></i> Process</button>
+                        <button type="submit" class="btn-xs btn-info" value="{{ $row->id }}" onclick="pending_status($(this))"><i class="fa fa-smile-o"></i> Process</button>
                     </td>
                 </tr>
-            <?php endforeach; ?>
+            @endforeach
             </tbody>
         </table>
     </div>
-    <?php echo $paginate_pending->links(); ?>
-
-<?php else: ?>
+    {{ $paginate_pending->links() }}
+@else
     <div class="alert alert-danger" role="alert"><span style="color:red;">Documents records are empty.</span></div>
-<?php endif; ?>
+@endif
 
 <script>
 

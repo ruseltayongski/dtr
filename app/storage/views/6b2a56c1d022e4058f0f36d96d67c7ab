@@ -33,7 +33,7 @@
                                         <form class="form-inline" method="POST" action="<?php echo asset('form/cdo_list'); ?>" id="searchForm">
                                             <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
                                             <div class="col-md-8">
-                                                <input type="text" class="form-control" value="<?php echo Session::get('keyword'); ?>" id="inputEmail3" name="keyword" style="width: 100%" placeholder="Route no, Reason">
+                                                <input type="text" class="form-control" value="<?php echo Session::get('keyword'); ?>" id="inputEmail3" name="keyword" style="width: 100%" placeholder="Route no, Reason, Lname">
                                             </div>
                                             <button type="submit" class="btn btn-primary" name="search" id="search" data-loading-text="<i class='fa fa-refresh fa-spin'></i> Printing DTR">
                                                 <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Search
@@ -60,7 +60,7 @@
                                         <form class="form-inline" method="POST" action="<?php echo asset('form/cdo_list'); ?>" id="searchForm1">
                                             <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
                                             <div class="col-md-8">
-                                                <input type="text" class="form-control" value="<?php echo Session::get('keyword'); ?>" id="inputEmail2" name="keyword" style="width: 100%" placeholder="Route no, Reason">
+                                                <input type="text" class="form-control" value="<?php echo Session::get('keyword'); ?>" id="inputEmail2" name="keyword" style="width: 100%" placeholder="Route no, Reason, Lname">
                                             </div>
                                             <button type="submit" class="btn btn-primary" name="search" id="search" data-loading-text="<i class='fa fa-refresh fa-spin'></i> Printing DTR">
                                                 <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Search
@@ -86,7 +86,7 @@
                                         <form class="form-inline" method="POST" action="<?php echo asset('form/cdo_list'); ?>" id="searchForm2">
                                             <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
                                             <div class="col-md-8">
-                                                <input type="text" class="form-control" value="<?php echo Session::get('keyword'); ?>" id="inputEmail1" name="keyword" style="width: 100%" placeholder="Route no, Reason">
+                                                <input type="text" class="form-control" value="<?php echo Session::get('keyword'); ?>" id="inputEmail1" name="keyword" style="width: 100%" placeholder="Route no, Reason, Lname">
                                             </div>
                                             <button type="submit" class="btn btn-primary" name="search" id="search" data-loading-text="<i class='fa fa-refresh fa-spin'></i> Printing DTR">
                                                 <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Search
@@ -112,7 +112,7 @@
                                         <form class="form-inline" method="POST" action="<?php echo asset('form/cdo_list'); ?>" id="searchForm3">
                                             <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
                                             <div class="col-md-8">
-                                                <input type="text" class="form-control" value="<?php echo Session::get('keyword'); ?>" id="inputEmail0" name="keyword" style="width: 100%" placeholder="Route no, Reason">
+                                                <input type="text" class="form-control" value="<?php echo Session::get('keyword'); ?>" id="inputEmail" name="keyword" style="width: 100%" placeholder="Route no, Reason, Lname">
                                             </div>
                                             <button type="submit" class="btn btn-primary" name="search" id="search" data-loading-text="<i class='fa fa-refresh fa-spin'></i> Printing DTR">
                                                 <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Search
@@ -238,28 +238,32 @@
         $(".cancelled").text(<?php echo count($cdo["count_cancelled"]); ?>);
         $(".all").text(<?php echo count($cdo["count_all"]); ?>);
         $("a[href='#approve']").on("click",function(){
+            $("input[name='keyword']").val("");
             $('.ajax_approve').html(loadingState);
             type = 'approve';
-            getPosts(1,keyword);
+            getPosts(1,keyword ='');
             <?php Session::put('keyword',null); ?>
         });
         $("a[href='#pending']").on("click",function(){
+            $("input[name='keyword']").val("");
             $('.ajax_pending').html(loadingState);
             $('.input')
             type = 'pending';
-            getPosts(1,keyword);
+            getPosts(1,keyword = '');
             <?php Session::put('keyword',null); ?>
         });
         $("a[href='#cancelled']").on("click",function(){
+            $("input[name='keyword']").val("");
             $('.ajax_pending').html(loadingState);
             type = 'cancelled';
-            getPosts(1,keyword);
+            getPosts(1,keyword = '');
             <?php Session::put('keyword',null); ?>
         });
         $("a[href='#all']").on("click",function(){
+            $("input[name='keyword']").val("");
             $('.ajax_all').html(loadingState);
             type = 'all';
-            getPosts(1,keyword);
+            getPosts(1,keyword = '');
             <?php Session::put('keyword',null); ?>
         });
 
@@ -281,29 +285,29 @@
         });
 
         $("#searchForm").submit(function(e) {
-            keyword = $("input[name='keyword']").val();
+            keyword = $(this).find("input[name='keyword']").val();
             getPosts(1,keyword);
             return false;
         });
         $("#searchForm1").submit(function(e) {
-            keyword = $("input[name='keyword']").val();
+            keyword = $(this).find("input[name='keyword']").val();
             getPosts(1,keyword);
             return false;
         });
         $("#searchForm2").submit(function(e) {
-            keyword = $("input[name='keyword']").val();
+            keyword = $(this).find("input[name='keyword']").val();
             getPosts(1,keyword);
             return false;
         });
         $("#searchForm3").submit(function(e) {
-            keyword = $("input[name='keyword']").val();
+            keyword = $(this).find("input[name='keyword']").val();
             getPosts(1,keyword);
             return false;
         });
 
-        function getPosts(page,keyword) {
 
-            console.log("type", keyword);
+
+        function getPosts(page,keyword) {
             $.ajax({
                 url : '?type='+type+'&page='+page+"&keyword="+keyword,
                 type: 'GET',
@@ -322,12 +326,9 @@
             });
         }
 
-
         function cancel_dates(event) {
-            console.log("okiii");
             $('#cancel_body').empty();
             var name = event.target.getAttribute('value');
-            console.log("Value:", name);
             $('#route').val(name);
 
                         <?php $routes = cdo::get(); ?>
@@ -376,8 +377,6 @@
 
                         $('#dates').val(dateList);
                         $('#all_hours').val(dateTime);
-                        console.log("sdfdf",$('#dates').val());
-                        console.log("sdfdf",$('#cdo_hours').val());
                     }
                     <?php }?>
 
@@ -392,12 +391,10 @@
                                 selectedCheckboxes.push($(this).val());
                         });
                         $('#selected_date').val(selectedCheckboxes.join(', '));
-                        console.log("names", selectedCheckboxes);
                     });
 
 
             $(document).on('change', 'input[type="radio"]', function () {
-                console.log("sjdsd");
                 var selectedValues = $('input[type="radio"]:checked').map(function () {
                     return $(this).val();
                 }).get();
@@ -405,8 +402,6 @@
                     return value !== "JO";
                 });
                 $('#cdo_hours').val(selectedValues.join(', '));
-                    console.log("Selected values: " + selectedValues.join(', '));
-
             });
 
             $('input[type="radio"]').on('change', function () {
@@ -415,7 +410,6 @@
                     selectedBtn.push($(this).val());
                 });
                 $('#cdo_hours').val(selectedBtn.join(', '));
-                console.log("names", selectedBtn);
             });
         }
 
@@ -426,11 +420,11 @@
                 //$('.ajax_pending').html(loadingState);
                 setTimeout(function(){
                     if(result['count_pending'] && !result['paginate_pending']){
-                        console.log("asin1");
+//                        console.log("asin1");
                         getPosts(page-1,'');
                     }
                     else {
-                        console.log("asin2");
+//                        console.log("asin2");
                         $('.ajax_pending').html(result);
                     }
                     Lobibox.notify('info',{
