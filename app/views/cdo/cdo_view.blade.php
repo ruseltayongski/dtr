@@ -156,7 +156,6 @@
                                             <?php
                                             $start_date = $inclusiveDates['start_date'];
                                             $end_date = date('Y-m-d', strtotime('-1 day', strtotime($inclusiveDates['end_date'])));
-//                                            $end_date = date('Y-m-d', strtotime($inclusiveDates['end_date']));
                                             $formatted_range = date('m/d/Y', strtotime($start_date)) . ' - ' . date('m/d/Y', strtotime($end_date));
                                             ?>
                                             <label style="width: 300px; margin: 0; padding: 0;" id="date_label" name="date_label" class="date_label">

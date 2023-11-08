@@ -1426,9 +1426,10 @@ class cdoController extends BaseController
         $pis = InformationPersonal::where('userid', $cancelled->prepared_name)->first();
         $applied = CdoAppliedDate::where('cdo_id', $cancelled->id)->get();
 
-        if (count($applied)>0) {
+        $datelist=[];
+        if ($applied) {
             foreach ($applied as $date) {
-
+              
                 $diff = (strtotime($date->start_date) - strtotime($date->end_date)) / (60 * 60 * 24) ;
                 $diff = -($diff);
                 if ($diff<=1) {
