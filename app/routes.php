@@ -26,7 +26,7 @@ Route::match(array('GET','POST'),'beginning_balance','cdoController@beginning_ba
 Route::match(array('GET','POST'),'update_bbalance','cdoController@update_bbalance');
 //manual process
 Route::match(array('GET','POST'),'process_pending','cdoController@process_pending');
-
+Route::match(array('GET', 'POST'), 'cancel_dates', 'cdoController@cancel_dates');
 Route::get('list/regular', 'AdminController@list_regular');
 Route::match(array('GET','POST'), 'change/work-schedule', 'AdminController@change_schedule');
 Route::match(array('GET','POST'), 'print/individual', 'AdminController@print_individual');
@@ -51,6 +51,8 @@ Route::get('add_leave_table','AdminController@add_leave_table');
 Route::match(array('GET','POST'), 'print-monthly', 'PrintController@print_monthly');
 Route::get('print-monthly/attendance', 'PrintController@print_pdf');
 Route::match(array('GET','POST'), 'print/employee-attendance', 'PrintController@print_employee');
+//manual process
+Route::match(array('GET','POST'),'leave_card','cdoController@leave_card');
 
 Route::get('work-schedule' ,'HoursController@create');
 Route::match(array('GET','POST'), 'create/work-schedule', 'HoursController@work_schedule');

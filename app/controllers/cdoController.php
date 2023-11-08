@@ -8,6 +8,7 @@ class cdoController extends BaseController
     }
 
     public function cdo_list(){
+
         Session::put('keyword',Input::get('keyword'));
         $keyword = Session::get('keyword');
 
@@ -21,12 +22,20 @@ class cdoController extends BaseController
 
         }
         // return $type;
+        $cdo["count_cancelled"] = cdo::where('status',3)
+            ->where(function($q) use ($keyword){
+                $q->where("route_no","like","%$keyword%")
+                    ->orWhere("subject","like","%$keyword%");
+            })->get();
+
+//        return $cdo["count_cancelled"];
         $cdo["count_pending"] = cdo::where('approved_status',0)
             ->where(function($q) use ($keyword){
                 $q->where("route_no","like","%$keyword%")
                     ->orWhere("subject","like","%$keyword%");
             })->get();
         $cdo["count_approve"] = cdo::where('approved_status',1)
+            ->where('status', '!=', 3)
             ->where(function($q) use ($keyword){
                 $q->where("route_no","like","%$keyword%")
                     ->orWhere("subject","like","%$keyword%");
@@ -35,6 +44,15 @@ class cdoController extends BaseController
             $q->where("route_no","like","%$keyword%")
                 ->orWhere("subject","like","%$keyword%");
         })->get();
+
+        $cdo['paginate_cancelled'] = cdo::where('status',3)
+            ->where(function($q) use ($keyword){
+                $q->where("route_no","like","%$keyword%")
+                    ->orWhere("subject","like","%$keyword%");
+            })
+
+            ->orderBy('id','desc')
+            ->paginate(10);
 
         $cdo['paginate_pending'] = cdo::where('approved_status',0)
             ->where(function($q) use ($keyword){
@@ -46,6 +64,7 @@ class cdoController extends BaseController
             ->paginate(10);
 
         $cdo['paginate_approve'] = cdo::where('approved_status',1)
+            ->where('status', '!=', 3)
             ->where(function($q) use ($keyword){
                 $q->where("route_no","like","%$keyword%")
                     ->orWhere("subject","like","%$keyword%");
@@ -69,14 +88,15 @@ class cdoController extends BaseController
                 "cdo" => $cdo,
 
                 "type" => $type,
+                "count_cancelled" => count($cdo["count_cancelled"]),
                 "count_pending" => count($cdo["count_pending"]),
                 "count_approve" => count($cdo["count_approve"]),
                 "count_all" => count($cdo["count_all"]),
+                "paginate_cancelled" => $cdo["paginate_cancelled"],
                 "paginate_pending" => $cdo["paginate_pending"],
                 "paginate_approve" => $cdo["paginate_approve"],
                 "paginate_all" => $cdo["paginate_all"]
             ]);
-
         }
 //        return $cdo["count_pending"];
         return View::make('cdo.cdo_roles',[
@@ -87,7 +107,6 @@ class cdoController extends BaseController
     }
 
     public function cdo_user(){
-        //return "floraymay";
         Session::put('keyword',Input::get('keyword'));
         $keyword = Session::get('keyword');
 
@@ -185,7 +204,6 @@ class cdoController extends BaseController
 //        $results = Tracking_Master::paginate(10); // Retrieve 10 records per page
 //        return $results;
 
-
         $route_no = date('Y-') . pdoController::user_search(Auth::user()->userid)['id'] . date('mdHis');
         $doc_type = "TIME_OFF";
         $prepared_date = date('Y-m-d', strtotime(Input::get('prepared_date'))) . ' ' . date('H:i:s');
@@ -224,7 +242,6 @@ class cdoController extends BaseController
 
             $working_days += floor(strtotime($end_date) / (60 * 60 * 24)) - floor(strtotime($start_date) / (60 * 60 * 24));
         }
-
 
         //ADD CDO
         $cdo = new cdo();
@@ -588,8 +605,6 @@ class cdoController extends BaseController
             }
             $datelist= implode('$', $datelist);
             $dateUsedJSON = str_replace(['[', ']', '"'], '',json_encode($datelist));
-//            $implode = implode('$', $dateUsedJSON);
-//            $dateUsed = str_replace(', ', '/', $dateUsedJSON);
             $hours_used= $cdo->less_applied_for;
             $card_view->userid=$card_id;
             $card_view->hours_used=$hours_used;
@@ -597,9 +612,18 @@ class cdoController extends BaseController
             $card_view->save();
 
             $keyword = '';
+            $cdo["count_cancelled"] = cdo::where('status',3)->get();
             $cdo["count_pending"] = cdo::where('approved_status',0)->get();
-            $cdo["count_approve"] = cdo::where('approved_status',1)->get();
+            $cdo["count_approve"] = cdo::where('approved_status',1)->where('status', '!=', 3)->get();
             $cdo["count_all"] = cdo::all();
+
+            $cdo["paginate_cancelled"] = cdo::where('status',3)
+                ->where(function($q) use ($keyword){
+                    $q->where("route_no","like","%$keyword%")
+                        ->orWhere("subject","like","%$keyword%");
+                })
+                ->orderBy('id','desc')
+                ->paginate(10);
 
             $cdo["paginate_pending"] = cdo::where('approved_status',0)
                 ->where(function($q) use ($keyword){
@@ -609,6 +633,7 @@ class cdoController extends BaseController
                 ->orderBy('id','desc')
                 ->paginate(10);
             $cdo["paginate_approve"] = cdo::where('approved_status',1)
+                ->where('status', '!=', 3)
                 ->where(function($q) use ($keyword){
                     $q->where("route_no","like","%$keyword%")
                         ->orWhere("subject","like","%$keyword%");
@@ -631,6 +656,7 @@ class cdoController extends BaseController
                     "type" => $type,
                     "paginate_pending" => $cdo["paginate_pending"],
                     "paginate_approve" => $cdo["paginate_approve"],
+                    "paginate_cancelled" => $cdo["paginate_cancelled"],
                     "paginate_all" => $cdo["paginate_all"]
                 ]);
 
@@ -1373,6 +1399,138 @@ class cdoController extends BaseController
             InformationPersonal::where('userid', $userid)->update(["bbalance_cto" => $overall]);
             return Redirect::back();
         }
+    }
+
+    public function cancel_dates(){
+//        return 1;
+        $cdo_hours = explode(',', Input::get('all_hours'));
+        $selected_hours = explode(',', Input::get('cdo_hours'));
+        $dates= explode(',', Input::get('dates'));
+        $route = Input::get('route');
+        $selected = explode(',', Input::get('selected_date'));
+//        return $selected;
+        $cancelled = cdo::where('route_no', '=', $route)->first();
+        $pis = InformationPersonal::where('userid', $cancelled->prepared_name)->first();
+        $applied = CdoAppliedDate::where('cdo_id', $cancelled->id)->get();
+
+        if ($applied) {
+            foreach ($applied as $date) {
+
+                $diff = (strtotime($date->start_date) - strtotime($date->end_date)) / (60 * 60 * 24) ;
+                $diff = -($diff);
+                if ($diff<=1) {
+                    $date_2 =date('F j, Y', strtotime($date->start_date));
+
+                    if ($date->cdo_hours == "cdo_am") {
+                        $date_2 = date('F j, Y', strtotime($date->start_date)).' (AM)';
+                    } elseif ($date->cdo_hours == "cdo_pm") {
+                        $date_2 = date('F j, Y', strtotime($date->start_date)).' (PM)';
+                    }
+                } else {
+                    $date_2 = date('F j, Y', strtotime($date->start_date)). ' - ' . date('F j, Y', strtotime($date->end_date));
+                    if ($date->cdo_hours == "cdo_am") {
+                        $date_2 = date('F j, Y', strtotime($date->start_date)). ' - ' . date('F j, Y', strtotime($date->end_date)).' (AM)';
+                    } elseif ($date->cdo_hours == "cdo_pm") {
+                        $date_2 = date('F j, Y', strtotime($date->start_date)). ' - ' . date('F j, Y', strtotime($date->end_date)).' (PM) ';
+                    }
+                }
+                $datelist[] = $date_2;
+            }
+        }
+        $datelist= implode('$', $datelist);
+        $dateUsedJSON = str_replace(['[', ']', '"'], '',json_encode($datelist));
+
+        if(in_array("cancel_all", $selected)){
+            $cancelled->status= 3;
+            $cancelled->save();
+            $card = new CardView();
+            $card->userid = $cancelled->prepared_name;
+            $card->hours_used = $cancelled->less_applied_for;
+            $card->date_used = $dateUsedJSON;
+            $card->bal_credits = $pis->bbalance_cto + $cancelled->less_applied_for;
+            $card->status= 3;
+            $card->save();
+        }else{
+            if($cancelled){
+                foreach ($applied as $apply){
+                    $apply->delete();
+                }
+                $date_list = array_map('trim', $dates);
+                $date_time = array_map('trim', $cdo_hours);
+                $selected = array_map('trim', $selected);
+                $selected_hours = array_map('trim', $selected_hours);
+//            var_dump($date_list);
+//            var_dump($selected_hours);
+                foreach ($date_list as $index=> $date){
+
+                    $timestamp = strtotime($date);
+                    $new_applied = new CdoAppliedDate();
+                    $date_here = [];
+
+                    if(in_array($date, $selected)){
+                        $f = array_search($date, $selected);
+                        $card = new CardView();
+//                        return $cancelled->prepared_name;
+                        $card->userid = $cancelled->prepared_name;
+                        $card->status = 3;
+                        if($selected_hours[$f] == $cdo_hours[$index]){
+                            $new_applied->cdo_hours = $date_time[$index];
+                            $new_applied->status = 1;
+                            if($selected_hours[$f] == "cdo_wholeday"){
+                                $cancelled->less_applied_for = $cancelled->less_applied_for - 8;
+                                $pis->bbalance_cto = $pis->bbalance_cto + 8;
+                                $card->hours_used = 4;
+                            }else{
+                                $card->hours_used = 4;
+                                $card->bal_credits = $pis->bbalance_cto + 4;
+                                if($selected_hours[$f] == "cdo_am"){
+                                    $card->date_used = date('F j, Y', strtotime($date)).' (AM)';
+                                }else{
+                                    $card->date_used = date('F j, Y', strtotime($date)).' (PM)';
+                                }
+                                $cancelled->less_applied_for = $cancelled->less_applied_for - 4;
+                                $pis->bbalance_cto = $pis->bbalance_cto + 4;
+                            }
+                        }else{
+                            $cancelled->less_applied_for = $cancelled->less_applied_for - 4;
+                            $pis->bbalance_cto = $pis->bbalance_cto + 4;
+                            $new_applied->status = 1;
+                            $date_here[]=$date_list[$index];
+                            if($selected_hours[$f] == "cdo_wholeday"){
+                                $card->date_used = date('F j, Y', strtotime($date)).' (Wholeday)';
+                                $card->hours_used = 8;
+                            }else{
+                                $card->hours_used = 4;
+                                if ($selected_hours[$f] == "cdo_am" && $date_time[$index] == "cdo_wholeday"){
+                                    $card->date_used = date('F j, Y', strtotime($date)).' (AM)';
+                                    $new_applied->cdo_hours = "cdo_pm";
+                                }else if($selected_hours[$f] == "cdo_pm" && $date_time[$index] == "cdo_wholeday"){
+                                    $card->date_used = date('F j, Y', strtotime($date)).' (PM)';
+                                    $new_applied->cdo_hours = "cdo_am";
+                                }
+                            }
+                        }
+                        $pis->save();
+                        $card->bal_credits = $pis->bbalance_cto;
+                        $card->save();
+                    }else{
+                        $date_here[]=$date_list[$index];
+                        $new_applied->cdo_hours = $date_time[$index];
+                    }
+//                    return $date_here;
+                    $new_applied->start_date = date('Y-m-d', $timestamp);
+                    $new_applied->end_date = date('Y-m-d', $timestamp);
+                    $new_applied->cdo_id = $cancelled->id;
+//                    $cancelled->applied_dates = implode(',', $date_here);
+//                    $cancelled->status= 3;
+                    $new_applied->save();
+                    $cancelled->save();
+                }
+            }
+        }
+
+//        return View::make('cdo.cdo_approve');
+        return Redirect::back();
     }
 
     public function superviseEmployee(){
