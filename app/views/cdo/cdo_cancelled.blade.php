@@ -21,11 +21,26 @@
                     <td class="route-cell"><a class="title-info" data-backdrop="static" data-route="{{ $row->route_no }}" style="color: #f0ad4e;" data-link="{{ asset('/form/info/'.$row->route_no.'/cdo') }}" href="#document_info" data-toggle="modal">{{ $row->route_no }}</a></td>
                     <td>{{ $row->subject }}</td>
                     <td>
-                        @if($row->applied_dates ==null)
-
-                            <?php if(isset($row->start)) echo date('m/d/Y',strtotime($row->start)).' - '.date('m/d/Y',strtotime('-1 day',strtotime($row->end))); ?>
+                        @if($row->applied_dates == null)
+                            <?php
+                            $hours = ($row->cdo_hours == "cdo_am") ? "(AM)" : ($row->cdo_hours == "cdo_pm") ? "(PM)" : null;
+                            $start_date = date('M j, Y', strtotime($row->start));
+                            $end_date = date('M j, Y', strtotime('-1 day', strtotime($row->end)));
+                            $dateStrings = ($start_date == $end_date) ? "$start_date $hours" : "$start_date - $end_date $hours";
+                            echo $dateStrings;
+                            ?>
                         @else
-                            {{$formatted_dates = str_replace(',', '<br>', $row->applied_dates)}}
+                            <?php
+                            $get_date = CdoAppliedDate::where('cdo_id', $row->id)->get();
+                            $dateStrings=[];
+                            foreach ($get_date as $index=>$dates){
+                                $hours = ($dates->cdo_hours == "cdo_am") ? " (AM)" : ($dates->cdo_hours == "cdo_pm") ? " (PM)" : null;
+                                $start_date = date('M j, Y', strtotime($dates->start_date));
+                                $end_date = date('M j, Y', strtotime('-1 day', strtotime($dates->end_date)));
+                                $dateStrings[] = ($start_date == $end_date) ? "$start_date $hours" : "$start_date - $end_date $hours";
+                            }
+                            echo implode(',<br>',$dateStrings);
+                            ?>
                         @endif
                     </td>
                     <td>

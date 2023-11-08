@@ -103,6 +103,9 @@ class cdoController extends BaseController
             "cdo" => $cdo,
             "type" => $type,
             "paginate_pending" => $cdo["paginate_pending"],
+            "paginate_approve" => $cdo["paginate_approve"],
+            "paginate_cancelled" => $cdo["paginate_cancelled"],
+            "paginate_all" => $cdo["paginate_all"],
         ]);
     }
 
@@ -1519,10 +1522,8 @@ class cdoController extends BaseController
                     }
 //                    return $date_here;
                     $new_applied->start_date = date('Y-m-d', $timestamp);
-                    $new_applied->end_date = date('Y-m-d', $timestamp);
+                    $new_applied->end_date = date('Y-m-d', strtotime('+1 Day', $timestamp));
                     $new_applied->cdo_id = $cancelled->id;
-//                    $cancelled->applied_dates = implode(',', $date_here);
-//                    $cancelled->status= 3;
                     $new_applied->save();
                     $cancelled->save();
                 }
