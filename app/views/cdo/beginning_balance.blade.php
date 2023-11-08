@@ -101,7 +101,9 @@
                 <div class="modal-footer">
                     <input type ="hidden"value="" id="user_iid" name="user_iid" style="display: inline-block">
                     <ul class="pagination justify-content-center" id="pagination" style="margin: 0; padding: 0; display: inline-block; float: right; margin-left:3%"></ul>
+                    @if(isset($pis) and count($pis) > 0)
                     <button class="button btn-sm btn-success process_pending" style="bdisplay:inline-block;color: white; float: right" data-toggle="modal" data-id="{{ $user->userid }}" data-target="#process_pending">Process_Pending</button>
+                    @endif
                 </div>
             </div><!-- .modal-content -->
         </div><!-- /.modal-dialog -->

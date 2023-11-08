@@ -913,6 +913,7 @@ class cdoController extends BaseController
             })
             ->orderBy('fname','asc')
             ->paginate(10);
+
         $card_view= CardView::get();
         $today = intval(date('m'));
         $year = intval(date('Y'));
