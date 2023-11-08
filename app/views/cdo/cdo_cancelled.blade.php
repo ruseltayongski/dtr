@@ -35,6 +35,7 @@
                             echo $dateStrings;
                             ?>
                         @else
+
                             <?php
                             $get_date = CdoAppliedDate::where('cdo_id', $row->id)->get();
                             $dateStrings=[];
@@ -53,6 +54,7 @@
                                 }
                                 echo implode(',<br>',$dateStrings);
                             }else{
+
                                 $hours = " ";
                                 if($row->cdo_hours == "cdo_am"){
                                     $hours=" (AM)";
