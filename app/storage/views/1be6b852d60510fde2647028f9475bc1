@@ -54,10 +54,12 @@
                                                             <td><a class="title-info" data-backdrop="static" data-route="<?php echo $row->route_no; ?>" style="color: #f0ad4e;" data-link="<?php echo asset('/form/info/'.$row->route_no.'/cdo'); ?>" href="#document_info" data-toggle="modal"><?php echo $row->route_no; ?></a></td>
                                                             <td><?php echo date('M d, Y',strtotime($row->prepared_date)); ?><br><?php echo date('h:i:s A',strtotime($row->prepared_date)); ?></td>
                                                             <td><?php echo $row->subject; ?></td>
-                                                            <?php if($row->approved_status): ?>
+                                                            <?php if($row->status ==3): ?>
+                                                                <td class="text-center"><span class="label label-warning"><i class="fa fa-frown-o"></i> Cancelled </span></td>
+                                                            <?php elseif($row->approved_status): ?>
                                                                 <td class="text-center"><span class="label label-info"><i class="fa fa-smile-o"></i> Processed </span></td>
                                                             <?php else: ?>
-                                                                <td class="text-center"><span class="label label-danger"><i class="fa fa-frown-o"></i> Pending to process.. </span></td>
+                                                                <td class="text-center"><span class="label label-danger"><i class="fa fa-frown-o"></i> Pending </span></td>
                                                             <?php endif; ?>
                                                         </tr>
 
