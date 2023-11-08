@@ -10,7 +10,7 @@
                 <th class="text-center">Inclusive Dates</th>
                 <th class="text-center">Prepared Name</th>
                 <th class="text-center">Beginning Balance</th>
-                <th class="text-center" width="10%">Option</th>
+                <th class="text-center" width="15%">Option</th>
             </tr>
             </thead>
             <tbody style="font-size: 10pt;">
@@ -20,10 +20,26 @@
                     <td><a class="title-info" data-backdrop="static" data-route="{{ $row->route_no }}" data-link="{{ asset('/form/info/'.$row->route_no.'/cdo') }}" href="#document_info" data-toggle="modal" style="color: #f0ad4e;">{{ $row->route_no }}</a></td>
                     <td>{{ $row->subject }}</td>
                     <td>
-                        @if($row->applied_dates ==null)
-                            <?php if(isset($row->start)) echo date('m/d/Y',strtotime($row->start)).' - '.date('m/d/Y',strtotime('-1 day',strtotime($row->end))); ?>
+                        @if($row->applied_dates == null)
+                            <?php
+                            $hours = ($row->cdo_hours == "cdo_am") ? "(AM)" : ($row->cdo_hours == "cdo_pm") ? "(PM)" : null;
+                            $start_date = date('M j, Y', strtotime($row->start));
+                            $end_date = date('M j, Y', strtotime('-1 day', strtotime($row->end)));
+                            $dateStrings = ($start_date == $end_date) ? "$start_date $hours" : "$start_date - $end_date $hours";
+                            echo $dateStrings;
+                            ?>
                         @else
-                            {{$formatted_dates = str_replace(',', '<br>', $row->applied_dates)}}
+                            <?php
+                                $get_date = CdoAppliedDate::where('cdo_id', $row->id)->get();
+                                $dateStrings=[];
+                                foreach ($get_date as $index=>$dates){
+                                    $hours = ($dates->cdo_hours == "cdo_am") ? " (AM)" : ($dates->cdo_hours == "cdo_pm") ? " (PM)" : null;
+                                    $start_date = date('M j, Y', strtotime($dates->start_date));
+                                    $end_date = date('M j, Y', strtotime($dates->end_date));
+                                    $dateStrings[] = ($start_date == $end_date) ? "$start_date $hours" : "$start_date - $end_date $hours";
+                                }
+                                echo implode(',<br>',$dateStrings);
+                                ?>
                         @endif
                     </td>
                     <td>
@@ -37,10 +53,12 @@
                             {{ $personal_information->bbalance_cto }}
                         </b>
                     </td>
-                    @if($row->approved_status == 1)
-                        <td><button type="button" value="{{ $row->id }}" onclick="all_status($(this),'cancel')" class="btn-xs btn-danger" style="color:white;"><i class="fa fa-ban"></i> Cancel</button></td>
+                    @if($row->status == 3)
+                        <td class="text-center"><span class="label label-warning"><i class="fa fa-frown-o"></i> Cancelled </span></td>
+                    @elseif($row->approved_status == 1)
+                        <td  class="text-center"><button type="button" value="{{ $row->id }}" onclick="all_status($(this),'cancel')" class="btn-xs btn-danger" style="color:white;"><i class="fa fa-ban"></i> Unprocessed</button></td>
                     @else
-                        <td><button type="button" value="{{ $row->id }}" onclick="all_status($(this),'approve')" class="btn-xs btn-info" style="color:white;"><i class="fa fa-frown-o"></i> Process</button></td>
+                        <td  class="text-center"><button type="button" value="{{ $row->id }}" onclick="all_status($(this),'approve')" class="btn-xs btn-info" style="color:white;"><i class="fa fa-frown-o"></i> Processed</button></td>
                     @endif
                 </tr>
             @endforeach

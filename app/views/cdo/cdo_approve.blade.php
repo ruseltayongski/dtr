@@ -13,20 +13,37 @@
                 <th class="text-center">Inclusive Dates</th>
                 <th class="text-center">Prepared Name</th>
                 <th class="text-center">Beginning Balance</th>
-                <th class="text-center" width="10%">Option</th>
+                <th class="text-center" width="20%">Option</th>
             </tr>
             </thead>
             <tbody style="font-size: 10pt;">
             @foreach($paginate_approve as $row)
+                @if($row->status != 3)
                 <tr>
                     <td><a href="#track" data-link="{{ asset('form/track/'.$row->route_no) }}" data-route="{{ $row->route_no }}" data-toggle="modal" class="btn btn-sm btn-success col-sm-12" style="background-color:#9C8AA5;color:white;"><i class="fa fa-line-chart"></i> Track</a></td>
                     <td><a class="title-info" data-backdrop="static" data-route="{{ $row->route_no }}" style="color: #f0ad4e;" data-link="{{ asset('/form/info/'.$row->route_no.'/cdo') }}" href="#document_info" data-toggle="modal">{{ $row->route_no }}</a></td>
                     <td>{{ $row->subject }}</td>
                     <td>
-                        @if($row->applied_dates ==null)
-                            <?php if(isset($row->start)) echo date('m/d/Y',strtotime($row->start)).' - '.date('m/d/Y',strtotime('-1 day',strtotime($row->end))); ?>
+                        @if($row->applied_dates == null)
+                            <?php
+                            $hours = ($row->cdo_hours == "cdo_am") ? "(AM)" : ($row->cdo_hours == "cdo_pm") ? "(PM)" : null;
+                            $start_date = date('M j, Y', strtotime($row->start));
+                            $end_date = date('M j, Y', strtotime('-1 day', strtotime($row->end)));
+                            $dateStrings = ($start_date == $end_date) ? "$start_date $hours" : "$start_date - $end_date $hours";
+                            echo $dateStrings;
+                            ?>
                         @else
-                            {{$formatted_dates = str_replace(',', '<br>', $row->applied_dates)}}
+                            <?php
+                            $get_date = CdoAppliedDate::where('cdo_id', $row->id)->get();
+                            $dateStrings=[];
+                            foreach ($get_date as $index=>$dates){
+                                $hours = ($dates->cdo_hours == "cdo_am") ? " (AM)" : ($dates->cdo_hours == "cdo_pm") ? " (PM)" : null;
+                                $start_date = date('M j, Y', strtotime($dates->start_date));
+                                $end_date = date('M j, Y', strtotime($dates->end_date));
+                                $dateStrings[] = ($start_date == $end_date) ? "$start_date $hours" : "$start_date - $end_date $hours";
+                            }
+                            echo implode(',<br>',$dateStrings);
+                            ?>
                         @endif
 
                     </td>
@@ -41,8 +58,13 @@
                             {{ $personal_information->bbalance_cto }}
                         </b>
                     </td>
-                    <td><button type="submit" class="btn-xs btn-danger" value="{{ $row->id }}" onclick="approved_status($(this))" style="color:white;"><i class="fa fa-ban"></i> Cancel</button></td>
+                    <td>
+                        <button type="submit" class="btn-xs btn-danger" value="{{ $row->id }}" onclick="approved_status($(this))" style="color:white;"><i class="fa fa-ban"></i> Unprocessed</button>
+                        <button class="btn-xs btn-warning cancel_dates" id="cancel" onclick="cancel_dates(event)"  value="{{ $row->route_no }}" style="color: white;" data-toggle="modal"  data-target="#cancel_dates"><i class="fa fa-ban"></i>Cancel</button>
+                    </td>
+
                 </tr>
+                @endif
             @endforeach
             </tbody>
         </table>
@@ -51,6 +73,32 @@
 @else
     <div class="alert alert-danger" role="alert" style="color: red"><span style="color:red;">Documents records are empty.</span></div>
 @endif
+
+<div class="modal fade" tabindex="5" role="dialog" id="cancel_dates">
+    <div class="modal-dialog modal-xs" role="document" id="size">
+        <div class="modal-content" id="cancel_date">
+            <form action="{{asset('cancel_dates')}}" method="get">
+                <div class="modal-header" style="background-color: orange">
+                    <strong><h4 class="modal-title" style="display: inline-block"></h4></strong>
+                    <button style="display: inline-block" type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <div>
+                    <table class="modal-body table" id="cancel_body">
+
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <input type="hidden" id="route" name="route">
+                    <input type="hidden" id="selected_date" name="selected_date">
+                    <input type="hidden" id="dates" name="dates">
+                    <input type="hidden" id="cdo_hours" name="cdo_hours">
+                    <input type="hidden" id="all_hours" name="all_hours">
+                    <button type="submit" value="specific_date" class="btn btn-success">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 
 <script>
     //document information
@@ -120,6 +168,12 @@
     }
 
     $(function () {
+        $('input').iCheck({
+            checkboxClass: 'icheckbox_square-blue',
+            radioClass: 'iradio_square-blue',
+            increaseArea: '20%' // optional
+        });
+
         $('input').iCheck({
             checkboxClass: 'icheckbox_square-blue',
             radioClass: 'iradio_square-blue',

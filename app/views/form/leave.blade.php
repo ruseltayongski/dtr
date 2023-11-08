@@ -246,7 +246,7 @@
                                 @if($leave->com_requested == "1")
                                     <span style="text-decoration: underline; margin-left: 30px" class="glyphicon glyphicon-ok" aria-hidden="true"></span>
                                     <span>Requested</span><br>
-                                    <span style="margin-left: 45px">Not Requested</span>
+                                    <span style="margin-left: 45px">Requested</span>
                                 @else
                                     <span style="margin-left: 45px">Requested</span><br>
                                     <span style="text-decoration: underline; margin-left: 30px" class="glyphicon glyphicon-ok" aria-hidden="true"></span>

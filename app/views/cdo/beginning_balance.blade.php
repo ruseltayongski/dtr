@@ -129,7 +129,7 @@
     </div><!-- /.modal -->
     {{-------------------------}}
     {{----process pending application manually----}}
-    <div class="modal fade" tabindex="-1" role="dialog" id="process_pending">f
+    <div class="modal fade" tabindex="-1" role="dialog" id="process_pending">
         <div class="modal-dialog modal-sm" role="document" id="size">
             <div class="modal-content">
                 <form action="{{ asset('process_pending') }}" method="get">
