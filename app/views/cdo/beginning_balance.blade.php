@@ -345,7 +345,7 @@
                                       echo str_replace('$', '<br>', $dateRanges);
                                 }else{
                                     $dateRanges =str_replace('$', '<br>', $card_viewL->date_used);
-                                    echo $additionalData;
+                                    echo $dateRanges;
                                 }
 
                             }else{
