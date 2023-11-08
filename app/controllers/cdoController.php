@@ -900,7 +900,7 @@ class cdoController extends BaseController
 //            }else{
 //            }
 //        }
-
+//return 1;
         Session::put('keyword',Input::get('keyword'));
         $keyword = Session::get('keyword');
         $pis = InformationPersonal::
@@ -913,7 +913,11 @@ class cdoController extends BaseController
             })
             ->orderBy('fname','asc')
             ->paginate(10);
+        if(Input::get('keyword')){
+//            return Input::get('keyword') ;
+        }else{
 
+        }
         $card_view= CardView::get();
         $today = intval(date('m'));
         $year = intval(date('Y'));
@@ -1413,18 +1417,16 @@ class cdoController extends BaseController
     }
 
     public function cancel_dates(){
-//        return 1;
         $cdo_hours = explode(',', Input::get('all_hours'));
         $selected_hours = explode(',', Input::get('cdo_hours'));
         $dates= explode(',', Input::get('dates'));
         $route = Input::get('route');
         $selected = explode(',', Input::get('selected_date'));
-//        return $selected;
         $cancelled = cdo::where('route_no', '=', $route)->first();
         $pis = InformationPersonal::where('userid', $cancelled->prepared_name)->first();
         $applied = CdoAppliedDate::where('cdo_id', $cancelled->id)->get();
 
-        if ($applied) {
+        if (count($applied)>0) {
             foreach ($applied as $date) {
 
                 $diff = (strtotime($date->start_date) - strtotime($date->end_date)) / (60 * 60 * 24) ;
@@ -1447,6 +1449,8 @@ class cdoController extends BaseController
                 }
                 $datelist[] = $date_2;
             }
+        }else{
+
         }
         $datelist= implode('$', $datelist);
         $dateUsedJSON = str_replace(['[', ']', '"'], '',json_encode($datelist));
@@ -1470,8 +1474,7 @@ class cdoController extends BaseController
                 $date_time = array_map('trim', $cdo_hours);
                 $selected = array_map('trim', $selected);
                 $selected_hours = array_map('trim', $selected_hours);
-//            var_dump($date_list);
-//            var_dump($selected_hours);
+
                 foreach ($date_list as $index=> $date){
 
                     $timestamp = strtotime($date);
@@ -1481,7 +1484,6 @@ class cdoController extends BaseController
                     if(in_array($date, $selected)){
                         $f = array_search($date, $selected);
                         $card = new CardView();
-//                        return $cancelled->prepared_name;
                         $card->userid = $cancelled->prepared_name;
                         $card->status = 3;
                         if($selected_hours[$f] == $cdo_hours[$index]){
@@ -1490,7 +1492,8 @@ class cdoController extends BaseController
                             if($selected_hours[$f] == "cdo_wholeday"){
                                 $cancelled->less_applied_for = $cancelled->less_applied_for - 8;
                                 $pis->bbalance_cto = $pis->bbalance_cto + 8;
-                                $card->hours_used = 4;
+                                $card->hours_used = 8;
+                                $card->date_used = date('F j, Y', strtotime($date));
                             }else{
                                 $card->hours_used = 4;
                                 $card->bal_credits = $pis->bbalance_cto + 4;
@@ -1533,6 +1536,19 @@ class cdoController extends BaseController
                     $new_applied->end_date = date('Y-m-d', strtotime('+1 Day', $timestamp));
                     $new_applied->cdo_id = $cancelled->id;
                     $new_applied->save();
+                    $all= true;
+                    $data = CdoAppliedDate::where('cdo_id', $new_applied->cdo_id)->get();
+                    foreach ($data as $new){
+                        $check_stat=!Empty($new->status)?$new->status : 0;
+                        if($check_stat !=1){
+                            $all = false;
+                            break;
+                        }
+                    }
+                    if($all){
+                        $cancelled->status = 3;
+                    }
+
                     $cancelled->save();
                 }
             }
