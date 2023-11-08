@@ -57,10 +57,10 @@
                             <div class="tab-pane" id="approve">
                                 <div class="panel panel-default">
                                     <div class="panel-heading">
-                                        <form class="form-inline" method="POST" action="<?php echo asset('form/cdo_list'); ?>" id="searchForm">
+                                        <form class="form-inline" method="POST" action="<?php echo asset('form/cdo_list'); ?>" id="searchForm1">
                                             <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
                                             <div class="col-md-8">
-                                                <input type="text" class="form-control" value="<?php echo Session::get('keyword'); ?>" id="inputEmail3" name="keyword" style="width: 100%" placeholder="Route no, Reason">
+                                                <input type="text" class="form-control" value="<?php echo Session::get('keyword'); ?>" id="inputEmail2" name="keyword" style="width: 100%" placeholder="Route no, Reason">
                                             </div>
                                             <button type="submit" class="btn btn-primary" name="search" id="search" data-loading-text="<i class='fa fa-refresh fa-spin'></i> Printing DTR">
                                                 <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Search
@@ -83,10 +83,10 @@
                             <div class="tab-pane" id="cancelled">
                                 <div class="panel panel-default">
                                     <div class="panel-heading">
-                                        <form class="form-inline" method="POST" action="<?php echo asset('form/cdo_list'); ?>" id="searchForm">
+                                        <form class="form-inline" method="POST" action="<?php echo asset('form/cdo_list'); ?>" id="searchForm2">
                                             <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
                                             <div class="col-md-8">
-                                                <input type="text" class="form-control" value="<?php echo Session::get('keyword'); ?>" id="inputEmail3" name="keyword" style="width: 100%" placeholder="Route no, Reason">
+                                                <input type="text" class="form-control" value="<?php echo Session::get('keyword'); ?>" id="inputEmail1" name="keyword" style="width: 100%" placeholder="Route no, Reason">
                                             </div>
                                             <button type="submit" class="btn btn-primary" name="search" id="search" data-loading-text="<i class='fa fa-refresh fa-spin'></i> Printing DTR">
                                                 <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Search
@@ -109,10 +109,10 @@
                             <div class="tab-pane" id="all">
                                 <div class="panel panel-default">
                                     <div class="panel-heading">
-                                        <form class="form-inline" method="POST" action="<?php echo asset('form/cdo_list'); ?>" id="searchForm">
+                                        <form class="form-inline" method="POST" action="<?php echo asset('form/cdo_list'); ?>" id="searchForm3">
                                             <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
                                             <div class="col-md-8">
-                                                <input type="text" class="form-control" value="<?php echo Session::get('keyword'); ?>" id="inputEmail3" name="keyword" style="width: 100%" placeholder="Route no, Reason">
+                                                <input type="text" class="form-control" value="<?php echo Session::get('keyword'); ?>" id="inputEmail0" name="keyword" style="width: 100%" placeholder="Route no, Reason">
                                             </div>
                                             <button type="submit" class="btn btn-primary" name="search" id="search" data-loading-text="<i class='fa fa-refresh fa-spin'></i> Printing DTR">
                                                 <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Search
@@ -285,8 +285,25 @@
             getPosts(1,keyword);
             return false;
         });
+        $("#searchForm1").submit(function(e) {
+            keyword = $("input[name='keyword']").val();
+            getPosts(1,keyword);
+            return false;
+        });
+        $("#searchForm2").submit(function(e) {
+            keyword = $("input[name='keyword']").val();
+            getPosts(1,keyword);
+            return false;
+        });
+        $("#searchForm3").submit(function(e) {
+            keyword = $("input[name='keyword']").val();
+            getPosts(1,keyword);
+            return false;
+        });
 
         function getPosts(page,keyword) {
+
+            console.log("type", keyword);
             $.ajax({
                 url : '?type='+type+'&page='+page+"&keyword="+keyword,
                 type: 'GET',
@@ -400,14 +417,6 @@
                 $('#cdo_hours').val(selectedBtn.join(', '));
                 console.log("names", selectedBtn);
             });
-            console.log("folks");
-
-//            $('input').iCheck({
-//                checkboxClass: 'icheckbox_square-blue',
-//                radioClass: 'iradio_square-blue',
-//                increaseArea: '20%' // optional
-//            });
-
         }
 
         function pending_status(data){
