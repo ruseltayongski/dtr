@@ -35,7 +35,7 @@
                                 foreach ($get_date as $index=>$dates){
                                     $hours = ($dates->cdo_hours == "cdo_am") ? " (AM)" : ($dates->cdo_hours == "cdo_pm") ? " (PM)" : null;
                                     $start_date = date('M j, Y', strtotime($dates->start_date));
-                                    $end_date = date('M j, Y', strtotime($dates->end_date));
+                                    $end_date = date('M j, Y', strtotime('-1 day', strtotime($dates->end_date)));
                                     $dateStrings[] = ($start_date == $end_date) ? "$start_date $hours" : "$start_date - $end_date $hours";
                                 }
                                 echo implode(',<br>',$dateStrings);
