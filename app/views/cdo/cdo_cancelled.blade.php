@@ -23,7 +23,12 @@
                     <td>
                         @if($row->applied_dates == null)
                             <?php
-                            $hours = ($row->cdo_hours == "cdo_am") ? "(AM)" : ($row->cdo_hours == "cdo_pm") ? "(PM)" : null;
+                            $hours = " ";
+                            if($row->cdo_hours == "cdo_am"){
+                                $hours=" (AM)";
+                            }else if($row->cdo_hours == "cdo_pm"){
+                                $hours=" (PM)";
+                            }
                             $start_date = date('M j, Y', strtotime($row->start));
                             $end_date = date('M j, Y', strtotime('-1 day', strtotime($row->end)));
                             $dateStrings = ($start_date == $end_date) ? "$start_date $hours" : "$start_date - $end_date $hours";
@@ -33,13 +38,31 @@
                             <?php
                             $get_date = CdoAppliedDate::where('cdo_id', $row->id)->get();
                             $dateStrings=[];
-                            foreach ($get_date as $index=>$dates){
-                                $hours = ($dates->cdo_hours == "cdo_am") ? " (AM)" : ($dates->cdo_hours == "cdo_pm") ? " (PM)" : null;
-                                $start_date = date('M j, Y', strtotime($dates->start_date));
-                                $end_date = date('M j, Y', strtotime('-1 day', strtotime($dates->end_date)));
-                                $dateStrings[] = ($start_date == $end_date) ? "$start_date $hours" : "$start_date - $end_date $hours";
+                            if(count($get_date)>0){
+                                foreach ($get_date as $index=>$dates){
+                                    $hours = " ";
+                                    if($dates->cdo_hours == "cdo_am"){
+                                        $hours=" (AM)";
+                                    }else if($dates->cdo_hours == "cdo_pm"){
+                                        $hours=" (PM)";
+                                    }
+                                    $start_date = date('M j, Y', strtotime($dates->start_date));
+                                    $end_date = date('M j, Y', strtotime('-1 day', strtotime($dates->end_date)));
+                                    $dateStrings[] = ($start_date == $end_date) ? "$start_date $hours" : "$start_date - $end_date $hours";
+                                }
+                                echo implode(',<br>',$dateStrings);
+                            }else{
+                                $hours = " ";
+                                if($row->cdo_hours == "cdo_am"){
+                                    $hours=" (AM)";
+                                }else if($row->cdo_hours == "cdo_pm"){
+                                    $hours=" (PM)";
+                                }
+                                $start_date = date('M j, Y', strtotime($row->start));
+                                $end_date = date('M j, Y', strtotime('-1 day', strtotime($row->end)));
+                                $dateStrings = ($start_date == $end_date) ? "$start_date $hours" : "$start_date - $end_date $hours";
+                                echo $dateStrings;
                             }
-                            echo implode(',<br>',$dateStrings);
                             ?>
                         @endif
                     </td>

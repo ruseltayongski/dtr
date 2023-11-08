@@ -155,8 +155,8 @@
                                         <td>
                                             <?php
                                             $start_date = $inclusiveDates['start_date'];
-//                                            $end_date = date('Y-m-d', strtotime('-1 day', strtotime($inclusiveDates['end_date'])));
-                                            $end_date = date('Y-m-d', strtotime($inclusiveDates['end_date']));
+                                            $end_date = date('Y-m-d', strtotime('-1 day', strtotime($inclusiveDates['end_date'])));
+//                                            $end_date = date('Y-m-d', strtotime($inclusiveDates['end_date']));
                                             $formatted_range = date('m/d/Y', strtotime($start_date)) . ' - ' . date('m/d/Y', strtotime($end_date));
                                             ?>
                                             <label style="width: 300px; margin: 0; padding: 0;" id="date_label" name="date_label" class="date_label">
@@ -744,13 +744,6 @@
                 }
                 return date;
             }
-
-            // get the latest 5 in cdo, check if cdo less_applied for is greater than 8, if yes get the corresponding data in applied dates
-            // then check if the applied dates - 5 consecutive days, if yes, then block the next working days
-            // trap - what if it is being filed same day, so the blocking is not working since it needs to block the date after 5 consecutive days
-
-            //to be worked on
-
                 var nextValidDay = getNextValidDay(new Date(yyyy, mm - 1, dd), Math.abs(beforeDaysToApply));
                 dd = nextValidDay.getDate();
                 mm = nextValidDay.getMonth() + 1;
@@ -962,8 +955,6 @@
     });
 
        $ (".addButton").click(function(e){  //clonedRow =newRow;
-           console.log("ayy ambot");
-
             var row= $(this).closest("tr");
             var totalRows = row.siblings("tr").andSelf().length;
             if(totalRows-1<11){
