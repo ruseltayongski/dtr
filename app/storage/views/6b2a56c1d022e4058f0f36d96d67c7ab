@@ -343,8 +343,9 @@
                             <?php foreach ($dates as $date) {?>
                         var container = document.querySelector("#cancel_date table");
                         var diff = "<?php $diff=(strtotime($date->start_date)-strtotime($date->end_date))/ (60*60*24); echo $diff*-1; ?>";
-                        var startDate = new Date("<?php echo $date->start_date; ?>");
-                        var endDate = new Date("<?php echo $date->end_date; ?>");
+                        var startDate = new Date("<?php echo date('F j, Y', strtotime($date->start_date)); ?>");
+                        var endDate = new Date("<?php echo date('F j, Y', strtotime('-1 day', strtotime($date->end_date))); ?>");
+                        console.log("date", startDate);
                         if(diff == 1){
                             dateList.push(startDate.toLocaleDateString());
                             dateTime.push("<?php echo $date->cdo_hours?>");
