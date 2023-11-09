@@ -603,11 +603,11 @@ class cdoController extends BaseController
                             $date_2 = date('F j, Y', strtotime($date->start_date)).' (PM)';
                         }
                     } else {
-                        $date_2 = date('F j, Y', strtotime($date->start_date)). ' - ' . date('F j, Y', strtotime($date->end_date));
+                        $date_2 = date('F j, Y', strtotime($date->start_date)). ' - ' . date('F j, Y', strtotime('-1 day', strtotime($date->end_date)));
                         if ($date->cdo_hours == "cdo_am") {
-                            $date_2 = date('F j, Y', strtotime($date->start_date)). ' - ' . date('F j, Y', strtotime($date->end_date)).' (AM)';
+                            $date_2 = date('F j, Y', strtotime($date->start_date)). ' - ' . date('F j, Y', strtotime('-1 day', strtotime($date->end_date))).' (AM)';
                         } elseif ($date->cdo_hours == "cdo_pm") {
-                            $date_2 = date('F j, Y', strtotime($date->start_date)). ' - ' . date('F j, Y', strtotime($date->end_date)).' (PM) ';
+                            $date_2 = date('F j, Y', strtotime($date->start_date)). ' - ' . date('F j, Y', strtotime('-1 day', strtotime($date->end_date))).' (PM) ';
                         }
                     }
                     $datelist[] = $date_2;
@@ -1427,9 +1427,10 @@ class cdoController extends BaseController
         $applied = CdoAppliedDate::where('cdo_id', $cancelled->id)->get();
 
         $datelist=[];
+
         if ($applied) {
             foreach ($applied as $date) {
-              
+
                 $diff = (strtotime($date->start_date) - strtotime($date->end_date)) / (60 * 60 * 24) ;
                 $diff = -($diff);
                 if ($diff<=1) {
@@ -1441,18 +1442,17 @@ class cdoController extends BaseController
                         $date_2 = date('F j, Y', strtotime($date->start_date)).' (PM)';
                     }
                 } else {
-                    $date_2 = date('F j, Y', strtotime($date->start_date)). ' - ' . date('F j, Y', strtotime($date->end_date));
+                    $date_2 = date('F j, Y', strtotime($date->start_date)). ' - ' . date('F j, Y', strtotime('-1 day', strtotime($date->end_date)));
                     if ($date->cdo_hours == "cdo_am") {
-                        $date_2 = date('F j, Y', strtotime($date->start_date)). ' - ' . date('F j, Y', strtotime($date->end_date)).' (AM)';
+                        $date_2 = date('F j, Y', strtotime($date->start_date)). ' - ' . date('F j, Y', strtotime('-1 day', strtotime($date->end_date))).' (AM)';
                     } elseif ($date->cdo_hours == "cdo_pm") {
-                        $date_2 = date('F j, Y', strtotime($date->start_date)). ' - ' . date('F j, Y', strtotime($date->end_date)).' (PM) ';
+                        $date_2 = date('F j, Y', strtotime($date->start_date)). ' - ' . date('F j, Y', strtotime('-1 day', strtotime($date->end_date))).' (PM) ';
                     }
                 }
                 $datelist[] = $date_2;
             }
-        }else{
-
         }
+
         $datelist= implode('$', $datelist);
         $dateUsedJSON = str_replace(['[', ']', '"'], '',json_encode($datelist));
 
@@ -1465,6 +1465,8 @@ class cdoController extends BaseController
             $card->date_used = $dateUsedJSON;
             $card->bal_credits = $pis->bbalance_cto + $cancelled->less_applied_for;
             $card->status= 3;
+            $pis->bbalance_cto = $pis->bbalance_cto + $cancelled->less_appplied_for;
+            $pis->save();
             $card->save();
         }else{
             if($cancelled){

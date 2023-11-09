@@ -9,11 +9,11 @@
             <tr>
                 <th></th>
                 <th class="text-center">Route #</th>
-                <th class="text-center">Reason</th>
+                <th class="text-center" >Reason</th>
                 <th class="text-center">Inclusive Dates</th>
-                <th class="text-center">Prepared Name</th>
-                <th class="text-center">Beginning Balance</th>
-                <th class="text-center" width="20%">Option</th>
+                <th class="text-center" width="13%">Prepared Name</th>
+                <th class="text-center"width="15%">Beginning Balance</th>
+                <th class="text-center" width="17%">Option</th>
             </tr>
             </thead>
             <tbody style="font-size: 10pt;">
