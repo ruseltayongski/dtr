@@ -91,3 +91,41 @@
 @else
     <div class="alert alert-danger" role="alert"><span style="color:red;">Documents records are empty.</span></div>
 @endif
+<script>
+    $("a[href='#document_info']").on('click',function(){
+        var route_no = $(this).data('route');
+        $('.modal_content').html(loadingState);
+        $('.modal-title').html('Route #: '+route_no);
+        var url = $(this).data('link');
+        setTimeout(function(){
+            $.ajax({
+                url: url,
+                type: 'GET',
+                success: function(data) {
+                    $('.modal_content').html(data);
+                    $('#reservation').daterangepicker();
+                    var datePicker = $('body').find('.datepicker');
+                    $('input').attr('autocomplete', 'off');
+                }
+            });
+        },1000);
+    });
+
+    $("a[href='#document_form']").on('click',function(){
+        $('.modal-title').html('CTO');
+        var url = $(this).data('link');
+        $('.modal_content').html(loadingState);
+        setTimeout(function(){
+            $.ajax({
+                url: url,
+                type: 'GET',
+                success: function(data) {
+                    $('.modal_content').html(data);
+                    $('#reservation').daterangepicker();
+                    var datePicker = $('body').find('.datepicker');
+                    $('input').attr('autocomplete', 'off');
+                }
+            });
+        },700);
+    });
+</script>

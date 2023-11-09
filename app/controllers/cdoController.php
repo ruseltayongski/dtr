@@ -1532,24 +1532,10 @@ class cdoController extends BaseController
                         $date_here[]=$date_list[$index];
                         $new_applied->cdo_hours = $date_time[$index];
                     }
-//                    return $date_here;
                     $new_applied->start_date = date('Y-m-d', $timestamp);
                     $new_applied->end_date = date('Y-m-d', strtotime('+1 Day', $timestamp));
                     $new_applied->cdo_id = $cancelled->id;
                     $new_applied->save();
-                    $all= true;
-                    $data = CdoAppliedDate::where('cdo_id', $new_applied->cdo_id)->get();
-                    foreach ($data as $new){
-                        $check_stat=!Empty($new->status)?$new->status : 0;
-                        if($check_stat !=1){
-                            $all = false;
-                            break;
-                        }
-                    }
-                    if($all){
-                        $cancelled->status = 3;
-                    }
-
                     $cancelled->save();
                 }
             }
