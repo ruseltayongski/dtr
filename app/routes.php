@@ -77,6 +77,7 @@ Route::get('leave/delete/{id}','AdminController@delete_leave');
 Route::get('leave/update/{id}', 'AdminController@edit_leave');
 Route::get('leave/cancel/{route_no}','AdminController@cancel_leave');
 Route::get('search/leave','AdminController@search_leave');
+Route::match(array('GET','POST'), 'form/leave_list', 'cdoController@leave_list');
 
 
 //DTR
@@ -116,7 +117,7 @@ Route::post('delete/user/created/logs','PersonalController@delete_created_logs')
 
 //DOCUMENTS
 Route::match(array('GET','POST'),'form/leave','DocumentController@leave');
-Route::match(array('GET','POST'),'form/leave/all', 'DocumentController@all_leave');
+//Route::match(array('GET','POST'),'form/leave/all', 'DocumentController@all_leave');
 Route::get('leave/get/{id}','DocumentController@get_leave');
 Route::get('leave/print/{id}', 'DocumentController@print_leave');
 Route::get('leave/print/a/{id}', 'DocumentController@print_a');
@@ -188,9 +189,6 @@ Route::post('cdo_delete','cdoController@cdo_delete');
 Route::post('privilege/add','cdoController@superviseEmployee');
 Route::post('privilege/list','cdoController@superviseList');
 Route::get('privilege/list','cdoController@superviseList');
-
-
-//trial
 
 /////////CALENDAR
 Route::get('calendar','CalendarController@calendar');
