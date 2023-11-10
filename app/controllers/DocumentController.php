@@ -202,7 +202,6 @@ class DocumentController extends BaseController
 
     public function all_leave()
     {
-
         return "Leave is under development!";
         $userid = Auth::user()->userid;
         $pis = InformationPersonal::where("userid","=",$userid)->first();
@@ -244,7 +243,6 @@ class DocumentController extends BaseController
 
     public function get_leave($id)
     {
-//        return "sdj";
         $leave = Leave::
                     select('leave.*','personal_information.vacation_balance','personal_information.sick_balance')
                     ->where('leave.id','=',$id)
@@ -253,7 +251,6 @@ class DocumentController extends BaseController
         $leaveTypes = LeaveTypes::get();
         $leave_dates = LeaveAppliedDates::where('leave_id', $id)->get();
         return View::make('form.leave')->with(['leave' => $leave, 'leaveTypes' => $leaveTypes, 'leave_dates'=>$leave_dates]);
-
 
 //        $leave = Leave::select('leave.*', 'personal_information.vacation_balance', 'personal_information.sick_balance')
 //            ->where('leave.id', '=', $id)
