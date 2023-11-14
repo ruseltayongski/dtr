@@ -385,31 +385,16 @@
             });
         }
 
-        function pending_status(data){
-            var page = "<?php echo Session::get('page_pending') ?>";
-            var url = $("#cdo_updatev1").data('link')+'/'+data.val()+'/pending?page='+page;
-            $.post(url,function(result){
-                //$('.ajax_pending').html(loadingState);
-                setTimeout(function(){
-                    if(result['count_pending'] && !result['paginate_pending']){
-//                        console.log("asin1");
-                        getPosts(page-1,'');
-                    }
-                    else {
-//                        console.log("asin2");
-                        $('.ajax_pending').html(result);
-                    }
-                    Lobibox.notify('info',{
-                        msg:'Approve!'
-                    });
+        function pending_status(){
+            $(".leave_approved").click(function(){
+                $('#modal_leave_approved').modal({
+                    backdrop: 'static',
+                    keyboard: false,
+                    show: true
+                });
 
-                    var pendingCount = parseInt($(".pending").text()) - 1;
-                    var approveCount = parseInt($(".approve").text()) + 1;
-
-                    $(".pending").html(pendingCount);
-                    $(".approve").html(approveCount);
-
-                },700);
+                var route = $(this).data('route');
+                $("#leave_route_approved").val(route);
             });
         }
 

@@ -16,7 +16,6 @@ class DocumentController extends BaseController
     }
 
     public  function leave(){
-//        return Auth::user()->userid;
         if(Request::method() == 'GET'){
             $user = InformationPersonal::select("personal_information.lname","personal_information.fname","personal_information.mname","designation.description as designation","work_experience.monthly_salary")
                                         ->leftJoin("dts.designation","designation.id","=","personal_information.designation_id")
@@ -38,7 +37,6 @@ class DocumentController extends BaseController
                 }
             }
             $route_no = date('Y-') . Auth::user()->userid . date('mdHis');
-
             $inclusive_dates = $_POST['inclusive_dates1'];
 
             $leave = new Leave();

@@ -398,8 +398,6 @@ class cdoController extends BaseController
             $cdo_applied_dates->save();
         }
 
-
-
         //ADD TRACKING MASTER
         $tracking_master = new Tracking_Master();
         $tracking_master->route_no = $route_no;
@@ -408,11 +406,15 @@ class cdoController extends BaseController
         $tracking_master->prepared_by = $prepared_name;
         $tracking_master->description = $subject;
         $tracking_master->save();
+        $updated_route = date('Y').'-'.$tracking_master->id;
+        $cdo->route_no = $updated_route;
+        $cdo->save();
+        $tracking_master->route_no = $updated_route;
+        $tracking_master->save();
 
         //ADD TRACKING DETAILS
         $tracking_details = new Tracking_Details();
-        $tracking_details->route_no = $route_no;
-//        return $route_no;
+        $tracking_details->route_no = $updated_route;
         $tracking_details->date_in = $prepared_date;
         $tracking_details->received_by = $prepared_name;
         $tracking_details->delivered_by = $prepared_name;
@@ -423,7 +425,7 @@ class cdoController extends BaseController
         $user_id = $prepared_name;
         $name = Auth::user()->fname . ' ' . Auth::user()->mname . ' ' . Auth::user()->lname;
         $activity = 'Created';
-        pdoController::insert_system_logs($user_id, $name, $activity, $route_no);
+        pdoController::insert_system_logs($user_id, $name, $activity, $updated_route);
 
         Session::put('added', true);
 
@@ -1566,7 +1568,7 @@ class cdoController extends BaseController
             $card->date_used = $dateUsedJSON;
             $card->bal_credits = $pis->bbalance_cto + $cancelled->less_applied_for;
             $card->status= 3;
-            $pis->bbalance_cto = $pis->bbalance_cto + $cancelled->less_appplied_for;
+            $pis->bbalance_cto = $pis->bbalance_cto + $cancelled->less_applied_for;
             $pis->save();
             $card->save();
         }else{
