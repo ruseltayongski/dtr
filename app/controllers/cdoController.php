@@ -1566,7 +1566,7 @@ class cdoController extends BaseController
             $card->date_used = $dateUsedJSON;
             $card->bal_credits = $pis->bbalance_cto + $cancelled->less_applied_for;
             $card->status= 3;
-            $pis->bbalance_cto = $pis->bbalance_cto + $cancelled->less_appplied_for;
+            $pis->bbalance_cto = $pis->bbalance_cto + $cancelled->less_applied_for;
             $pis->save();
             $card->save();
         }else{
