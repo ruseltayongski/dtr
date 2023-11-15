@@ -519,7 +519,7 @@ class AdminController extends BaseController
         }
     }
 
-    public function track_leave()
+    public function track_leave() // leave applications
     {
         return "Leave is under development!";
         function conn(){
@@ -694,22 +694,102 @@ class AdminController extends BaseController
                 }
             }
         }
-        $keyword = Input::get('search');
-        $leaves = Leave::
-                        where(function($q) use ($keyword){
-                            $q->where('firstname','like',"%$keyword%")
-                                ->orwhere('middlename','like',"%$keyword%")
-                                ->orwhere('lastname','like',"%$keyword%")
-                                ->orwhere('route_no','like',"%$keyword%");
-                        })
-                        ->orderBy('created_at','desc')
-                        ->paginate(10);
-        return View::make('form.all_leave',
-            [
-                'leaves' => $leaves,
-                'search' => $keyword
-            ]
-        );
+        Session::put('keyword',Input::get('keyword'));
+        $keyword = Session::get('keyword');
+
+        if( Input::get('type') ){
+            $type = Input::get('type');
+        }
+        else {
+            $type = 'pending';
+        }
+        $leave["count_cancelled"] = Leave::where('status',"CANCELLED")
+            ->where(function($q) use ($keyword){
+                $q->where("route_no","like","%$keyword%")
+                    ->orWhere("leave_type", "like", "%$keyword%")
+                    ->orWhere("lastname", "like", "%$keyword%");
+            })->get();
+        $leave["count_pending"] = Leave::where('status',"PENDING")
+            ->where(function($q) use ($keyword){
+                $q->where("route_no","like","%$keyword%")
+                    ->orWhere("leave_type", "like", "%$keyword%")
+                    ->orWhere("lastname", "like", "%$keyword%");
+            })->get();
+        $leave["count_approve"] = Leave::where('status',"APPROVED")
+            ->where(function($q) use ($keyword){
+                $q->where("route_no","like","%$keyword%")
+                    ->orWhere("leave_type", "like", "%$keyword%")
+                    ->orWhere("lastname", "like", "%$keyword%");
+            })->get();
+        $leave["count_all"] = Leave::where(function($q) use ($keyword){
+            $q->where("route_no","like","%$keyword%")
+                ->orWhere("leave_type", "like", "%$keyword%")
+                ->orWhere("lastname", "like", "%$keyword%");
+        })->get();
+
+        $leave['paginate_cancelled'] = Leave::where('status',"CANCELLED")
+            ->where(function($q) use ($keyword){
+                $q->where("route_no","like","%$keyword%")
+                    ->orWhere("leave_type", "like", "%$keyword%")
+                    ->orWhere("lastname", "like", "%$keyword%");
+            })
+            ->orderBy('id','desc')
+            ->paginate(10);
+
+        $leave['paginate_pending'] =Leave::where('status','PENDING')
+            ->where(function($q) use ($keyword){
+                $q->where("route_no","like","%$keyword%")
+                    ->orWhere("leave_type", "like", "%$keyword%")
+                    ->orWhere("lastname", "like", "%$keyword%");
+            })
+
+            ->orderBy('id','desc')
+            ->paginate(10);
+
+        $leave['paginate_approve'] = Leave::where('status','APPROVED')
+            ->where(function($q) use ($keyword){
+                $q->where("route_no","like","%$keyword%")
+                    ->orWhere("leave_type", "like", "%$keyword%")
+                    ->orWhere("lastname", "like", "%$keyword%");
+            })
+            ->orderBy('id','desc')
+            ->paginate(10);
+
+        $leave['paginate_all'] = Leave::where(function($q) use ($keyword){
+            $q->where("route_no","like","%$keyword%")
+                ->orWhere("leave_type", "like", "%$keyword%")
+                ->orWhere("lastname", "like", "%$keyword%");
+        })
+            ->orderBy('id','desc')
+            ->paginate(10);
+
+        if (Request::ajax() ) {
+
+            $view = 'form.form_'.$type;
+            Session::put('page_'.$type,Input::get('page'));
+
+            return View::make($view,[
+                "leave" => $leave,
+
+                "type" => $type,
+                "count_cancelled" => count($leave["count_cancelled"]),
+                "count_pending" => count($leave["count_pending"]),
+                "count_approve" => count($leave["count_approve"]),
+                "count_all" => count($leave["count_all"]),
+                "paginate_cancelled" => $leave["paginate_cancelled"],
+                "paginate_pending" => $leave["paginate_pending"],
+                "paginate_approve" => $leave["paginate_approve"],
+                "paginate_all" => $leave["paginate_all"]
+            ]);
+        }
+        return View::make('form.all_leave',[
+            "leave" => $leave,
+            "type" => $type,
+            "paginate_cancelled" => $leave["paginate_cancelled"],
+            "paginate_pending" => $leave["paginate_pending"],
+            "paginate_approve" => $leave["paginate_approve"],
+            "paginate_all" => $leave["paginate_all"]
+        ]);
     }
 
     public function edit_leave($id)

@@ -117,7 +117,7 @@ Route::post('delete/user/created/logs','PersonalController@delete_created_logs')
 
 //DOCUMENTS
 Route::match(array('GET','POST'),'form/leave','DocumentController@leave');
-//Route::match(array('GET','POST'),'form/leave/all', 'DocumentController@all_leave');
+Route::match(array('GET','POST'),'form/leave/all', 'DocumentController@all_leave');
 Route::get('leave/get/{id}','DocumentController@get_leave');
 Route::get('leave/print/{id}', 'DocumentController@print_leave');
 Route::get('leave/print/a/{id}', 'DocumentController@print_a');
