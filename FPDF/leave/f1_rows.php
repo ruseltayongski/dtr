@@ -1,16 +1,41 @@
 <?php
-$st = $pdo->prepare("SELECT 
-                                    lea.*,pi.vacation_balance,pi.sick_balance 
-                                    FROM dohdtr.`leave` lea 
-                                    join pis.personal_information pi on pi.userid = lea.userid
-                                    WHERE lea.id = :id
-                              ");
-$st->bindParam(":id",$id,PDO::PARAM_INT);
-$st->execute();
-$leave = $st->fetch(PDO::FETCH_ASSOC);
+//$st = $pdo->prepare("SELECT
+//                                    lea.*,pi.vacation_balance,pi.sick_balance
+//                                    FROM dohdtr.`leave` lea
+//                                    join pis.personal_information pi on pi.userid = lea.userid
+//                                    WHERE lea.id = :id
+//                              ");
+//$st->bindParam(":id",$id,PDO::PARAM_INT);
+//$st->execute();
+//$leave = $st->fetch(PDO::FETCH_ASSOC);
+try{
+    $pdo = new PDO("mysql:host=localhost; dbname=dohdtr",'root','adm1n');
+    $pdo->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
+    $query = "SELECT lea.*, pi.vacation_balance, pi.sick_balance FROM dohdtr.`leave` lea JOIN pis.personal_information pi ON pi.userid = lea.userid WHERE lea.id = :id";
+    $st = $pdo->prepare($query);
+    $st->bindParam(":id", $id, PDO::PARAM_INT);
+    $st->execute();
+    $leave = $st->fetch(PDO::FETCH_ASSOC);
+}catch (Exception $e){
+
+}
+
+$image = __DIR__ . '/public/img/doh.png';
+$imagePath ='FPDF/image/doh.png';
+echo "okiii".$imagePath;
+
+
+if (file_exists($imagePath)) {
+    $pdf->Image($imagePath, $x = 10, $y = 10, $width = 50, $height = 0);
+} else {
+    var_dump($leave);
+}
+
 $pdf->setX('5');
-$pdf->Text(5,7,'CSC Form 6');
-$pdf->Text(5,9,'Revised 1998');
+$pdf->Text(5,7,'CSC Form No.8');
+$pdf->Text(5,9,'Revised 2020');
+
+$pdf->Image($image, 40, 7, 40, 10);
 
 // ROW 1
 $pdf->SetFont('Arial','B',15);

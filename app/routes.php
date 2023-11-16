@@ -53,6 +53,7 @@ Route::get('print-monthly/attendance', 'PrintController@print_pdf');
 Route::match(array('GET','POST'), 'print/employee-attendance', 'PrintController@print_employee');
 //manual process
 Route::match(array('GET','POST'),'leave_card','cdoController@leave_card');
+Route::get('leave_print/{route_no}', 'DocumentController@leave_print');
 
 Route::get('work-schedule' ,'HoursController@create');
 Route::match(array('GET','POST'), 'create/work-schedule', 'HoursController@work_schedule');
