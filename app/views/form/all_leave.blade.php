@@ -150,49 +150,39 @@
 @endsection
 @section('js')
     <script>
+//        $("a[href='#document_info']").on('click',function(){
+//            var route_no = $(this).data('route');
+//            $('.modal_content').html(loadingState);
+//            $('.modal-title').html('Route #: '+route_no);
+//            var url = $(this).data('link');
+//            setTimeout(function(){
+//                $.ajax({
+//                    url: url,
+//                    type: 'GET',
+//                    success: function(data) {
+//                        $('.modal_content').html(data);
+//                        $('#reservation').daterangepicker();
+//                        var datePicker = $('body').find('.datepicker');
+//                        $('input').attr('autocomplete', 'off');
+//                    }
+//                });
+//            },1000);
+//        });
 
         $("#inclusive3").daterangepicker();
         $('.input-daterange input').each(function() {
             $(this).datepicker("clearDates");
         });
-        //document information
-        $("a[href='#document_info']").on('click',function(){
-            var route_no = $(this).data('route');
-            $('.modal_content').html(loadingState);
-            $('.modal-title').html('Route #: '+route_no);
+        $('a[href="#leave_info').click(function(){
+            var id = $(this).data('id');
             var url = $(this).data('link');
-            setTimeout(function(){
-                $.ajax({
-                    url: url,
-                    type: 'GET',
-                    success: function(data) {
-                        $('.modal_content').html(data);
-                        $('#reservation').daterangepicker();
-                        var datePicker = $('body').find('.datepicker');
-                        $('input').attr('autocomplete', 'off');
-                    }
-                });
-            },500);
-        });
+            $('.modal-title').html('Route #: '+ $(this).data('route'));
 
-        $("a[href='#document_form']").on('click',function(){
-            $('.modal-title').html('CTO');
-            var url = $(this).data('link');
-            $('.modal_content').html(loadingState);
-            setTimeout(function(){
-                $.ajax({
-                    url: url,
-                    type: 'GET',
-                    success: function(data) {
-                        $('.modal_content').html(data);
-                        $('#reservation').daterangepicker();
-                        var datePicker = $('body').find('.datepicker');
-                        $('input').attr('autocomplete', 'off');
-                    }
-                });
-            },500);
+            $.get(url +'/' +id , function(data){
+                $('#leave_info').modal('show');
+                $('.modal-body_leave').html(data);
+            });
         });
-
         {{--$("a[href='#form_type']").on("click",function(){--}}
             {{--<?php--}}
             {{--$asset = asset('form/cdov1');--}}
@@ -310,21 +300,19 @@
                 $(".modal-title").html("Route No:<strong>"+route);
                     <?php $dates = LeaveAppliedDates::where('leave_id', '=', $route->id)->get(); ?>
                 var dateList= [];
-                var dateTime = [];
+//                var dateTime = [];//for cdo_hours
                     <?php foreach ($dates as $date) {?>
                 var container = document.querySelector("#cancel_date table");
-                var diff = "<?php $diff=(strtotime($date->start_date)-strtotime($date->end_date))/ (60*60*24); echo $diff*-1; ?>";
-                var startDate = new Date("<?php echo date('F j, Y', strtotime($date->start_date)); ?>");
-                var endDate = new Date("<?php echo date('F j, Y', strtotime('-1 day', strtotime($date->end_date))); ?>");
+                var diff = "<?php $diff=(strtotime($date->startdate)-strtotime($date->enddate))/ (60*60*24); echo $diff*-1; ?>";
+                var startDate = new Date("<?php echo date('F j, Y', strtotime($date->startdate)); ?>");
+                var endDate = new Date("<?php echo date('F j, Y', strtotime($date->enddate)); ?>");
                 console.log("date", startDate);
-                if(diff == 1){
+                if(diff == 0){
                     dateList.push(startDate.toLocaleDateString());
-                    dateTime.push("<?php echo $date->cdo_hours?>");
                 }else{
                     while (startDate <= endDate) {
                         dateList.push(startDate.toLocaleDateString());
                         startDate.setDate(startDate.getDate() + 1);
-                        dateTime.push("<?php echo $date->cdo_hours?>");
                     }
                 }
                     <?php }?>
@@ -338,17 +326,17 @@
                         '<label style="margin-left: 15%">' +
                         '<input type="checkbox" style="transform: scale(1.5)" class="minimal" id="applied_dates" name="applied_dates" value="' + dateList[i] + '"  />' +
                         dateList[i] +
-                        '</label><br>' +
-                        '<label style="margin-left: 30%; transform: scale(1.2)"><input type="radio" name="time' + i + '" value="cdo_am"  /> AM</label>' +
-                        '<label style="margin-left: 10%; transform: scale(1.2)"><input type="radio" name="time' + i + '" value="cdo_pm"  /> PM</label>' +
-                        '<label style="margin-left: 10%; transform: scale(1.2)"><input type="radio" name="time' + i + '" value="cdo_wholeday"  /> Whole Day</label>' +
+//                        '</label><br>' +
+//                        '<label style="margin-left: 30%; transform: scale(1.2)"><input type="radio" name="time' + i + '" value="cdo_am"  /> AM</label>' +
+//                        '<label style="margin-left: 10%; transform: scale(1.2)"><input type="radio" name="time' + i + '" value="cdo_pm"  /> PM</label>' +
+//                        '<label style="margin-left: 10%; transform: scale(1.2)"><input type="radio" name="time' + i + '" value="cdo_wholeday"  /> Whole Day</label>' +
                         '</div>';
                     container.innerHTML += html;
                     i = i + 1;
                 }
 
                 $('#dates').val(dateList);
-                $('#all_hours').val(dateTime);
+//                $('#all_hours').val(dateTime);
             }
             <?php }?>
 
@@ -366,23 +354,24 @@
             });
 
 
-            $(document).on('change', 'input[type="radio"]', function () {
-                var selectedValues = $('input[type="radio"]:checked').map(function () {
-                    return $(this).val();
-                }).get();
-                selectedValues = selectedValues.filter(function (value) {
-                    return value !== "JO";
-                });
-                $('#cdo_hours').val(selectedValues.join(', '));
-            });
+//            $(document).on('change', 'input[type="radio"]', function () {
+//                var selectedValues = $('input[type="radio"]:checked').map(function () {
+//                    return $(this).val();
+//                }).get();
+//                selectedValues = selectedValues.filter(function (value) {
+//                    return value !== "JO";
+//                });
+//                $('#cdo_hours').val(selectedValues.join(', '));
+//            });
 
-            $('input[type="radio"]').on('change', function () {
-                var selectedBtn = [];
-                $('input[name="time"]:checked').each(function () {
-                    selectedBtn.push($(this).val());
-                });
-                $('#cdo_hours').val(selectedBtn.join(', '));
-            });
+//            $('input[type="radio"]').on('change', function () {
+//                var selectedBtn = [];
+//                $('input[name="time"]:checked').each(function () {
+//                    selectedBtn.push($(this).val());
+//                });
+//                $('#cdo_hours').val(selectedBtn.join(', '));
+//            });
+            $('#cancel_type').val("leave");
         }
 
         function pending_status(){

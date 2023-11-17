@@ -1072,7 +1072,7 @@ class cdoController extends BaseController
                                         CardView::where('id', $card_Filter->id)->update(["bal_credits" => $proBal, "ot_credits" => $cred, "status" => 1]);
                                         InformationPersonal::where('userid', $card_Filter->userid)->update(["bbalance_cto" => $proBal]);
                                     } else {
-                                        CardView::where('id', $card_Filter->id)->update(["bal_credits" => $bal->bbalance_cto + $forCred, "ot_credits" => $forCred, "status" => $totalRef]);
+                                        CardView::where('id', $card_Filter->id)->update(["bal_credits" => $bal->bbalance_cto + $forCred, "ot_credits" => $cred, "status" => $totalRef]);
                                         InformationPersonal::where('userid', $card_Filter->userid)->update(["bbalance_cto" => $bal->bbalance_cto + $forCred]);
                                     }
                                 } else {
@@ -1085,10 +1085,10 @@ class cdoController extends BaseController
                                 $display = ($forCred >= $checkpoint) ? $checkpoint : $forCred;
                                 if ($totalRef < 40) {
                                     if ($totalCheck <= 40) {
-                                        CardView::where('id', $card_Filter->id)->update(["bal_credits" => $cprevbal + $display, "ot_credits" => $display, "status" => 1]);
+                                        CardView::where('id', $card_Filter->id)->update(["bal_credits" => $cprevbal + $display, "ot_credits" => $cred, "status" => 1]);
                                         InformationPersonal::where('userid', $card_Filter->userid)->update(["bbalance_cto" => $cprevbal ]);
                                     } else {
-                                        CardView::where('id', $card_Filter->id)->update(["bal_credits" => $cprevbal + $display, "ot_credits" => $display, "status" => 22]);
+                                        CardView::where('id', $card_Filter->id)->update(["bal_credits" => $cprevbal + $display, "ot_credits" => $cred, "status" => 22]);
                                         InformationPersonal::where('userid', $card_Filter->userid)->update(["bbalance_cto" => $cprevbal + $display]);
                                     }
                                 } else {
@@ -1165,7 +1165,7 @@ class cdoController extends BaseController
                                             CardView::where('id', $card_Filter->id)->update(["bal_credits" => $proBal, "ot_credits" => $cred, "status" => 1]);
                                             InformationPersonal::where('userid', $card_Filter->userid)->update(["bbalance_cto" => $proBal]);
                                         } else {
-                                            CardView::where('id', $card_Filter->id)->update(["bal_credits" => $bal->bbalance_cto + $forCred, "ot_credits" => $forCred, "status" => $totalRef]);
+                                            CardView::where('id', $card_Filter->id)->update(["bal_credits" => $bal->bbalance_cto + $forCred, "ot_credits" => $cred, "status" => $totalRef]);
                                             InformationPersonal::where('userid', $card_Filter->userid)->update(["bbalance_cto" => $bal->bbalance_cto + $forCred]);
                                         }
                                     } else {
@@ -1178,10 +1178,10 @@ class cdoController extends BaseController
                                     $display = ($forCred >= $checkpoint) ? $checkpoint : $forCred;
                                     if ($totalRef < 40) {
                                         if ($totalCheck <= 40) {
-                                            CardView::where('id', $card_Filter->id)->update(["bal_credits" => $cprevbal + $display, "ot_credits" => $display, "status" => 1]);
+                                            CardView::where('id', $card_Filter->id)->update(["bal_credits" => $cprevbal + $display, "ot_credits" => $cred, "status" => 1]);
                                             InformationPersonal::where('userid', $card_Filter->userid)->update(["bbalance_cto" => $cprevbal + $display]);
                                         } else {
-                                            CardView::where('id', $card_Filter->id)->update(["bal_credits" => $cprevbal + $display, "ot_credits" => $display, "status" => 22]);
+                                            CardView::where('id', $card_Filter->id)->update(["bal_credits" => $cprevbal + $display, "ot_credits" => $cred, "status" => 22]);
                                             InformationPersonal::where('userid', $card_Filter->userid)->update(["bbalance_cto" => $cprevbal + $display]);
                                         }
                                     } else {
@@ -1298,7 +1298,7 @@ class cdoController extends BaseController
                                                     CardView::where('id', $card->id)->update(["bal_credits" => $proBal, "ot_credits" => $cred, "status" => 1]);
                                                     InformationPersonal::where('userid', $userid)->update(["bbalance_cto" => $proBal]);
                                                 } else {
-                                                    CardView::where('id', $card->id)->update(["bal_credits" => $cprevbal + $forCred, "ot_credits" => $forCred, "status" => 11]);
+                                                    CardView::where('id', $card->id)->update(["bal_credits" => $cprevbal + $forCred, "ot_credits" => $cred, "status" => 11]);
                                                     InformationPersonal::where('userid', $userid)->update(["bbalance_cto" => $cprevbal + $forCred]);
                                                 }
                                             } else {
@@ -1310,10 +1310,10 @@ class cdoController extends BaseController
                                             $display = ($forCred >= $check_120) ? $check_120 : $forCred;
                                             if ($totalRef < 40) {
                                                 if ($totalCheck <= 40) {
-                                                    CardView::where('id', $card->id)->update(["bal_credits" => $cprevbal + $display, "ot_credits" => $display, "status" => 1]);
+                                                    CardView::where('id', $card->id)->update(["bal_credits" => $cprevbal + $display, "ot_credits" => $cred, "status" => 1]);
                                                     InformationPersonal::where('userid', $userid)->update(["bbalance_cto" => $cprevbal + $display]);
                                                 } else {
-                                                    CardView::where('id', $card->id)->update(["bal_credits" => $cprevbal + $display, "ot_credits" => $display, "status" => 11]);
+                                                    CardView::where('id', $card->id)->update(["bal_credits" => $cprevbal + $display, "ot_credits" => $cred, "status" => 11]);
                                                     InformationPersonal::where('userid', $userid)->update(["bbalance_cto" => $cprevbal + $display]);
                                                 }
                                             } else {
@@ -1382,7 +1382,7 @@ class cdoController extends BaseController
                                 } else {
                                     $total2 = $total1 - 40;
 
-                                    $card_view->ot_credits = 40 - $totalBal;
+                                    $card_view->ot_credits = $beginning_balance;
                                     $card_view->bal_credits = ($balance + $beginning_balance) - $total2;
                                     $card_view->status = 11;
                                     InformationPersonal::where('userid', $userid)->update(["bbalance_cto" => ($balance + $beginning_balance) - $total2]);
@@ -1402,13 +1402,13 @@ class cdoController extends BaseController
 
                                 $total1 = $totalBal + $fcheck;
                                 if ($total1 <= 40) {
-                                    $card_view->ot_credits = $fcheck;
+                                    $card_view->ot_credits = $beginning_balance;
                                     $card_view->bal_credits = $fcheck + $balance;
                                     $card_view->status = 1;
                                     InformationPersonal::where('userid', $userid)->update(["bbalance_cto" => $fcheck + $balance]);
                                 } else {
                                     $total2 = $total1 - 40;
-                                    $card_view->ot_credits = 40 - $totalBal; // 40-30 = 10
+                                    $card_view->ot_credits = $beginning_balance;
                                     $card_view->bal_credits = ($fcheck + $balance) - $total2; // 15+105= 120 - 10 = 110
                                     $card_view->status = 11;
                                     InformationPersonal::where('userid', $userid)->update(["bbalance_cto" => ($fcheck + $balance) - $total2]);
@@ -1478,7 +1478,7 @@ class cdoController extends BaseController
                                             if ($totalCheck <= 40) {
                                                 CardView::where('id', $card->id)->update(["bal_credits" => $proBal, "ot_credits" => $cred, "status" => 1]);
                                             } else {
-                                                CardView::where('id', $card->id)->update(["bal_credits" => $cprevbal + $forCred, "ot_credits" => $forCred, "status" => 11]);
+                                                CardView::where('id', $card->id)->update(["bal_credits" => $cprevbal + $forCred, "ot_credits" => $cred, "status" => 11]);
                                             }
                                         } else {
                                             CardView::where('id', $card->id)->update(["status" => 9, "bal_credits" => $cprevbal]);
@@ -1491,10 +1491,10 @@ class cdoController extends BaseController
                                         if ($totalRef < 40) {
                                             if ($totalCheck <= 40) {
 //                                                return $display; //114
-                                                CardView::where('id', $card->id)->update(["bal_credits" => $cprevbal + $display, "ot_credits" => $display, "status" => 1]);
+                                                CardView::where('id', $card->id)->update(["bal_credits" => $cprevbal + $display, "ot_credits" => $cred, "status" => 1]);
                                                 InformationPersonal::where('userid', $userid)->update(["bbalance_cto" => $cprevbal + $display]);
                                             } else {
-                                                CardView::where('id', $card->id)->update(["bal_credits" => $cprevbal + $display, "ot_credits" => $display, "status" => 11]);
+                                                CardView::where('id', $card->id)->update(["bal_credits" => $cprevbal + $display, "ot_credits" => $cred, "status" => 11]);
                                                 InformationPersonal::where('userid', $userid)->update(["bbalance_cto" => $cprevbal + $display]);
                                             }
                                         } else {
@@ -1520,133 +1520,196 @@ class cdoController extends BaseController
     }
 
     public function cancel_dates(){
+        $type = Input::get('cancel_type');
         $cdo_hours = explode(',', Input::get('all_hours'));
         $selected_hours = explode(',', Input::get('cdo_hours'));
         $dates= explode(',', Input::get('dates'));
         $route = Input::get('route');
         $selected = explode(',', Input::get('selected_date'));
-        $cancelled = cdo::where('route_no', '=', $route)->first();
-        $pis = InformationPersonal::where('userid', $cancelled->prepared_name)->first();
-        $applied = CdoAppliedDate::where('cdo_id', $cancelled->id)->get();
+        if ($type == "cto"){
+            $cancelled = cdo::where('route_no', '=', $route)->first();
+            $pis = InformationPersonal::where('userid', $cancelled->prepared_name)->first();
+            $applied = CdoAppliedDate::where('cdo_id', $cancelled->id)->get();
 
-        $datelist=[];
+            $datelist=[];
 
-        if ($applied) {
-            foreach ($applied as $date) {
+            if ($applied) {
+                foreach ($applied as $date) {
 
-                $diff = (strtotime($date->start_date) - strtotime($date->end_date)) / (60 * 60 * 24) ;
-                $diff = -($diff);
-                if ($diff<=1) {
-                    $date_2 =date('F j, Y', strtotime($date->start_date));
+                    $diff = (strtotime($date->start_date) - strtotime($date->end_date)) / (60 * 60 * 24) ;
+                    $diff = -($diff);
+                    if ($diff<=1) {
+                        $date_2 =date('F j, Y', strtotime($date->start_date));
 
-                    if ($date->cdo_hours == "cdo_am") {
-                        $date_2 = date('F j, Y', strtotime($date->start_date)).' (AM)';
-                    } elseif ($date->cdo_hours == "cdo_pm") {
-                        $date_2 = date('F j, Y', strtotime($date->start_date)).' (PM)';
+                        if ($date->cdo_hours == "cdo_am") {
+                            $date_2 = date('F j, Y', strtotime($date->start_date)).' (AM)';
+                        } elseif ($date->cdo_hours == "cdo_pm") {
+                            $date_2 = date('F j, Y', strtotime($date->start_date)).' (PM)';
+                        }
+                    } else {
+                        $date_2 = date('F j, Y', strtotime($date->start_date)). ' - ' . date('F j, Y', strtotime('-1 day', strtotime($date->end_date)));
+                        if ($date->cdo_hours == "cdo_am") {
+                            $date_2 = date('F j, Y', strtotime($date->start_date)). ' - ' . date('F j, Y', strtotime('-1 day', strtotime($date->end_date))).' (AM)';
+                        } elseif ($date->cdo_hours == "cdo_pm") {
+                            $date_2 = date('F j, Y', strtotime($date->start_date)). ' - ' . date('F j, Y', strtotime('-1 day', strtotime($date->end_date))).' (PM) ';
+                        }
                     }
-                } else {
-                    $date_2 = date('F j, Y', strtotime($date->start_date)). ' - ' . date('F j, Y', strtotime('-1 day', strtotime($date->end_date)));
-                    if ($date->cdo_hours == "cdo_am") {
-                        $date_2 = date('F j, Y', strtotime($date->start_date)). ' - ' . date('F j, Y', strtotime('-1 day', strtotime($date->end_date))).' (AM)';
-                    } elseif ($date->cdo_hours == "cdo_pm") {
-                        $date_2 = date('F j, Y', strtotime($date->start_date)). ' - ' . date('F j, Y', strtotime('-1 day', strtotime($date->end_date))).' (PM) ';
+                    $datelist[] = $date_2;
+                }
+            }
+
+            $datelist= implode('$', $datelist);
+            $dateUsedJSON = str_replace(['[', ']', '"'], '',json_encode($datelist));
+
+            if(in_array("cancel_all", $selected)){
+                $cancelled->status= 3;
+                $cancelled->save();
+                $card = new CardView();
+                $card->userid = $cancelled->prepared_name;
+                $card->hours_used = $cancelled->less_applied_for;
+                $card->date_used = $dateUsedJSON;
+                $card->bal_credits = $pis->bbalance_cto + $cancelled->less_applied_for;
+                $card->status= 3;
+                $pis->bbalance_cto = $pis->bbalance_cto + $cancelled->less_applied_for;
+                $pis->save();
+                $card->save();
+            }else{
+                if($cancelled){
+                    foreach ($applied as $apply){
+                        $apply->delete();
+                    }
+                    $date_list = array_map('trim', $dates);
+                    $date_time = array_map('trim', $cdo_hours);
+                    $selected = array_map('trim', $selected);
+                    $selected_hours = array_map('trim', $selected_hours);
+
+                    foreach ($date_list as $index=> $date){
+
+                        $timestamp = strtotime($date);
+                        $new_applied = new CdoAppliedDate();
+                        $date_here = [];
+
+                        if(in_array($date, $selected)){
+                            $f = array_search($date, $selected);
+                            $card = new CardView();
+                            $card->userid = $cancelled->prepared_name;
+                            $card->status = 3;
+                            if($selected_hours[$f] == $cdo_hours[$index]){
+                                $new_applied->cdo_hours = $date_time[$index];
+                                $new_applied->status = 1;
+                                if($selected_hours[$f] == "cdo_wholeday"){
+                                    $cancelled->less_applied_for = $cancelled->less_applied_for - 8;
+                                    $pis->bbalance_cto = $pis->bbalance_cto + 8;
+                                    $card->hours_used = 8;
+                                    $card->date_used = date('F j, Y', strtotime($date));
+                                }else{
+                                    $card->hours_used = 4;
+                                    $card->bal_credits = $pis->bbalance_cto + 4;
+                                    if($selected_hours[$f] == "cdo_am"){
+                                        $card->date_used = date('F j, Y', strtotime($date)).' (AM)';
+                                    }else{
+                                        $card->date_used = date('F j, Y', strtotime($date)).' (PM)';
+                                    }
+                                    $cancelled->less_applied_for = $cancelled->less_applied_for - 4;
+                                    $pis->bbalance_cto = $pis->bbalance_cto + 4;
+                                }
+                            }else{
+                                $cancelled->less_applied_for = $cancelled->less_applied_for - 4;
+                                $pis->bbalance_cto = $pis->bbalance_cto + 4;
+                                $new_applied->status = 1;
+                                $date_here[]=$date_list[$index];
+                                if($selected_hours[$f] == "cdo_wholeday"){
+                                    $card->date_used = date('F j, Y', strtotime($date)).' (Wholeday)';
+                                    $card->hours_used = 8;
+                                }else{
+                                    $card->hours_used = 4;
+                                    if ($selected_hours[$f] == "cdo_am" && $date_time[$index] == "cdo_wholeday"){
+                                        $card->date_used = date('F j, Y', strtotime($date)).' (AM)';
+                                        $new_applied->cdo_hours = "cdo_pm";
+                                    }else if($selected_hours[$f] == "cdo_pm" && $date_time[$index] == "cdo_wholeday"){
+                                        $card->date_used = date('F j, Y', strtotime($date)).' (PM)';
+                                        $new_applied->cdo_hours = "cdo_am";
+                                    }
+                                }
+                            }
+                            $pis->save();
+                            $card->bal_credits = $pis->bbalance_cto;
+                            $card->save();
+                        }else{
+                            $date_here[]=$date_list[$index];
+                            $new_applied->cdo_hours = $date_time[$index];
+                        }
+                        $new_applied->start_date = date('Y-m-d', $timestamp);
+                        $new_applied->end_date = date('Y-m-d', strtotime('+1 Day', $timestamp));
+                        $new_applied->cdo_id = $cancelled->id;
+                        $new_applied->save();
+                        $cancelled->save();
                     }
                 }
-                $datelist[] = $date_2;
             }
-        }
-
-        $datelist= implode('$', $datelist);
-        $dateUsedJSON = str_replace(['[', ']', '"'], '',json_encode($datelist));
-
-        if(in_array("cancel_all", $selected)){
-            $cancelled->status= 3;
-            $cancelled->save();
-            $card = new CardView();
-            $card->userid = $cancelled->prepared_name;
-            $card->hours_used = $cancelled->less_applied_for;
-            $card->date_used = $dateUsedJSON;
-            $card->bal_credits = $pis->bbalance_cto + $cancelled->less_applied_for;
-            $card->status= 3;
-            $pis->bbalance_cto = $pis->bbalance_cto + $cancelled->less_applied_for;
-            $pis->save();
-            $card->save();
         }else{
-            if($cancelled){
-                foreach ($applied as $apply){
+            $leave = Leave::where('route_no', $route)->first();
+            $leave_dates = LeaveAppliedDates::where('leave_id', $leave->id)->get();
+            $pis2 = InformationPersonal::where('userid', $leave->userid)->first();
+
+            $dateList = [];
+            if($leave_dates){
+                foreach ($leave_dates as $date){
+                    if ($date->startdate == $date->enddate){
+                        $dateList[] = date('F j, Y', strtotime($date->startdate));
+                    }else{
+                        $dateList[] = date('F j, Y', strtotime($date->startdate)).' - '. date('F j, Y', strtotime($date->startdate));
+                    }
+                }
+            }
+            $dateList = implode(',', $dateList);
+
+            if(in_array("cancel_all", $selected)){
+                $leave->status= "CANCELLED";
+                $leave->save();
+                $card = new LeaveCardView();
+                $card->userid = $leave->userid;
+                $card->particulars = $leave->leave_type;
+                if($leave->approved_for == 1){
+                    $card->vl_abswp = $leave->applied_num_days;
+                }else{
+                    $card->vl_abswop = $leave->applied_num_days;
+                }
+                $card->vl_bal = $pis2->vacation_balance + $leave->applied_num_days;
+                $card->date_used = str_replace(['[', ']', '"'], '', json_encode($dateList));
+                $pis2->vacation_balance = $pis2->vacation_balance + $leave->applied_num_days;
+                $pis2->save();
+                $card->save();
+            }else{
+                foreach ($leave_dates as $apply){
                     $apply->delete();
                 }
                 $date_list = array_map('trim', $dates);
-                $date_time = array_map('trim', $cdo_hours);
                 $selected = array_map('trim', $selected);
-                $selected_hours = array_map('trim', $selected_hours);
 
                 foreach ($date_list as $index=> $date){
 
                     $timestamp = strtotime($date);
-                    $new_applied = new CdoAppliedDate();
-                    $date_here = [];
+                    $new_applied = new LeaveAppliedDates();
 
                     if(in_array($date, $selected)){
-                        $f = array_search($date, $selected);
-                        $card = new CardView();
-                        $card->userid = $cancelled->prepared_name;
-                        $card->status = 3;
-                        if($selected_hours[$f] == $cdo_hours[$index]){
-                            $new_applied->cdo_hours = $date_time[$index];
-                            $new_applied->status = 1;
-                            if($selected_hours[$f] == "cdo_wholeday"){
-                                $cancelled->less_applied_for = $cancelled->less_applied_for - 8;
-                                $pis->bbalance_cto = $pis->bbalance_cto + 8;
-                                $card->hours_used = 8;
-                                $card->date_used = date('F j, Y', strtotime($date));
-                            }else{
-                                $card->hours_used = 4;
-                                $card->bal_credits = $pis->bbalance_cto + 4;
-                                if($selected_hours[$f] == "cdo_am"){
-                                    $card->date_used = date('F j, Y', strtotime($date)).' (AM)';
-                                }else{
-                                    $card->date_used = date('F j, Y', strtotime($date)).' (PM)';
-                                }
-                                $cancelled->less_applied_for = $cancelled->less_applied_for - 4;
-                                $pis->bbalance_cto = $pis->bbalance_cto + 4;
-                            }
-                        }else{
-                            $cancelled->less_applied_for = $cancelled->less_applied_for - 4;
-                            $pis->bbalance_cto = $pis->bbalance_cto + 4;
-                            $new_applied->status = 1;
-                            $date_here[]=$date_list[$index];
-                            if($selected_hours[$f] == "cdo_wholeday"){
-                                $card->date_used = date('F j, Y', strtotime($date)).' (Wholeday)';
-                                $card->hours_used = 8;
-                            }else{
-                                $card->hours_used = 4;
-                                if ($selected_hours[$f] == "cdo_am" && $date_time[$index] == "cdo_wholeday"){
-                                    $card->date_used = date('F j, Y', strtotime($date)).' (AM)';
-                                    $new_applied->cdo_hours = "cdo_pm";
-                                }else if($selected_hours[$f] == "cdo_pm" && $date_time[$index] == "cdo_wholeday"){
-                                    $card->date_used = date('F j, Y', strtotime($date)).' (PM)';
-                                    $new_applied->cdo_hours = "cdo_am";
-                                }
-                            }
-                        }
-                        $pis->save();
-                        $card->bal_credits = $pis->bbalance_cto;
+                        $card = new LeaveCardView();
+                        $card->userid = $leave->userid;
+                        $new_applied->status = 1;
+                        $pis2->vacation_balance = $pis2->vacation_balance + $leave->applied_num_days;
+                        $pis2->save();
+                        $card->vl_bal = $pis2->vacation_balance;
                         $card->save();
-                    }else{
-                        $date_here[]=$date_list[$index];
-                        $new_applied->cdo_hours = $date_time[$index];
                     }
-                    $new_applied->start_date = date('Y-m-d', $timestamp);
-                    $new_applied->end_date = date('Y-m-d', strtotime('+1 Day', $timestamp));
-                    $new_applied->cdo_id = $cancelled->id;
+                    $new_applied->startdate = date('Y-m-d', $timestamp);
+                    $new_applied->enddate = date('Y-m-d', $timestamp);
+                    $new_applied->leave_id = $leave->id;
                     $new_applied->save();
-                    $cancelled->save();
+                    $leave->save();
                 }
             }
         }
 
-//        return View::make('cdo.cdo_approve');
         return Redirect::back();
     }
 

@@ -72,11 +72,6 @@
                     <td>
                         {{$row->firstname.' '.$row->middlename.' '.$row->lastname}}
                     </td>
-                    {{--<td class="text-center">--}}
-                    {{--<b style="color:green;">--}}
-                    {{--{{ $personal_information->bbalance_cto }}--}}
-                    {{--</b>--}}
-                    {{--</td>--}}
                     <td class="text-center"><span class="label label-warning"><i class="fa fa-frown-o"></i> Cancelled </span></td>
 
                 </tr>
@@ -92,6 +87,7 @@
     $('a[href="#leave_info').click(function(){
         var id = $(this).data('id');
         var url = $(this).data('link');
+        $('.modal-title').html('Route #: '+ $(this).data('route'));
 
         $.get(url +'/' +id , function(data){
             $('#leave_info').modal('show');

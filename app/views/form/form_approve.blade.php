@@ -88,38 +88,12 @@
     <div class="alert alert-danger" role="alert" style="color: red"><span style="color:red;">Documents records are empty.</span></div>
 @endif
 
-<div class="modal fade" tabindex="5" role="dialog" id="cancel_dates">
-    <div class="modal-dialog modal-xs" role="document" id="size">
-        <div class="modal-content" id="cancel_date">
-            <form action="{{asset('cancel_dates')}}" method="get">
-                <div class="modal-header" style="background-color: orange">
-                    <strong><h4 class="modal-title" style="display: inline-block"></h4></strong>
-                    <button style="display: inline-block" type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                </div>
-                <div>
-                    <table class="modal-body table" id="cancel_body">
-
-                    </table>
-                </div>
-                <div class="modal-footer">
-                    <input type="hidden" id="route" name="route">
-                    <input type="hidden" id="selected_date" name="selected_date">
-                    <input type="hidden" id="dates" name="dates">
-                    <input type="hidden" id="cdo_hours" name="cdo_hours">
-                    <input type="hidden" id="all_hours" name="all_hours">
-                    <input type="hidden" id="cancel_type" name="cancel_type">
-                    <button type="submit" value="specific_date" class="btn btn-success">Submit</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-
 <script>
     //document information
     $('a[href="#leave_info').click(function(){
         var id = $(this).data('id');
         var url = $(this).data('link');
+        $('.modal-title').html('Route #: '+ $(this).data('route'));
 
         $.get(url +'/' +id , function(data){
             $('#leave_info').modal('show');
