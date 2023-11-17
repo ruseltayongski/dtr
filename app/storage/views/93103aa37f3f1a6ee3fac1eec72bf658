@@ -532,10 +532,12 @@
     <div class="modal-dialog modal-sm" role="document">
         <div class="modal-content" >
             <form action="<?php echo asset('leave/pending'); ?>" method="POST">
-                <div class="modal-body">
+                <div class="modal-body" style="padding-bottom: 0px">
                     <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
                     <input type="hidden" value="" name="route_no" id="leave_route_pending" />
-                    <div class="alert alert-info"><strong>Are you sure you want to set pending?</strong></div>
+                    <div class="alert alert-info" style="text-align: center"><strong>Are you sure you want to unprocess this application?</strong></div>
+                </div>
+                <div class="modal-footer">
                     <button type="submit" class="btn btn-success">Yes</button>
                     <button type="button" class="btn btn-warning" data-dismiss="modal">No</button>
                 </div>
