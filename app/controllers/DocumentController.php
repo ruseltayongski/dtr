@@ -258,7 +258,30 @@ class DocumentController extends BaseController
 //        $leaveTypes = LeaveTypes::get();
 
     }
+    //    public function leave_pdf(){
+////        return 1;
+//        $leave = Leave::where('route_no','2023-1986000291123103915')->first();
+////            return $leave;
+//
+//        $display = View::make('form.leave_pdf', ["leave" => $leave]);
+//        $pdf = App::make('dompdf');
+//        $pdf->loadHTML($display)->setPaper('a4', 'portrait');
+//        return $pdf->stream();
+//    }
 
+    public function leave_print($route_no)
+    {
+
+        $leave = InformationPersonal::join('dohdtr.leave', 'personal_information.userid', '=', 'leave.userid')
+            ->where('leave.route_no', '=', $route_no)->first();
+        $leaveTypes = LeaveTypes::get();
+        $leave_dates = LeaveAppliedDates::where('leave_id','=', $leave->id)->get();
+//        return $leave->id;
+        $display = View::make('form.leave_pdf', ["leave" => $leave, "leaveTypes"=>$leaveTypes, "leave_dates"=>$leave_dates]);
+        $pdf = App::make('dompdf');
+        $pdf->loadHTML($display)->setPaper('a4', 'portrait');
+        return $pdf->stream();
+    }
     public function print_leave($id)
     {
 

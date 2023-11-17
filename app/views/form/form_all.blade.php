@@ -144,6 +144,7 @@
     $('a[href="#leave_info').click(function(){
         var id = $(this).data('id');
         var url = $(this).data('link');
+        $('.modal-title').html('Route #: '+ $(this).data('route'));
 
         $.get(url +'/' +id , function(data){
             $('#leave_info').modal('show');

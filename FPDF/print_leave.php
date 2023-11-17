@@ -17,7 +17,7 @@ $pdo = conn();
 
 include_once 'leave/f1_rows.php';
 
-include_once 'leave/f2.rows.php';
+//include_once 'leave/f2.rows.php';
 
 include_once 'leave/f3_rows.php';
 
@@ -27,13 +27,18 @@ include_once 'leave/f5_rows.php';
 
 include_once 'leave/f6_rows.php';
 
-
-$st = $pdo->prepare("SELECT route_no FROM dohdtr.leave WHERE id = ? LIMIT 1");
+$pdo = new PDO("mysql:host=localhost; dbname=dohdtr",'root','adm1n');
+$pdo->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
+$query = "SELECT route_no FROM dohdtr.leave WHERE id = ? LIMIT 1";
+$st = $pdo->prepare($query);
 $st->execute(array($id));
-$route_no = $st->fetch(PDO::FETCH_ASSOC)['route_no'];
+$route_no = $st->fetch(PDO::FETCH_ASSOC);
 
+//$st = $pdo->prepare("SELECT route_no FROM dohdtr.leave WHERE id = ? LIMIT 1");
+//$st->execute(array($id));
+//$route_no = $st->fetch(PDO::FETCH_ASSOC)['route_no'];
 
-include_once 'print_barcode.php';
+//include_once 'print_barcode.php';
 
 $pdf->Output();
 ?>

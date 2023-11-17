@@ -232,7 +232,7 @@
         <div class="modal-content">
             <div class="modal-header" style="background-color:#9C8AA5   ;padding:15px;">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true" >&times;</span></button>
-                <h4 class="modal-title" style="color: white"><i class="fa fa-plus"></i> Application fo Leave</h4>
+                <h4 class="modal-title" style="color: white"><i class="fa fa-plus"></i> Leave Details</h4>
             </div>
             <div class="modal-body_leave" style="padding:10px;">
                 <div class="modal_content"><center><img src="{{ asset('public/img/spin.gif') }}" width="150" style="padding:20px;"></center></div>
@@ -743,6 +743,32 @@
                             </td>
                         </tr>
                     </table>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="modal fade" tabindex="5" role="dialog" id="cancel_dates">
+    <div class="modal-dialog modal-xs" role="document" id="size">
+        <div class="modal-content" id="cancel_date">
+            <form action="{{asset('cancel_dates')}}" method="get">
+                <div class="modal-header" style="background-color: orange">
+                    <strong><h4 class="modal-title" style="display: inline-block"></h4></strong>
+                    <button style="display: inline-block" type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <div>
+                    <table class="modal-body table" id="cancel_body">
+
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <input type="hidden" id="route" name="route">
+                    <input type="hidden" id="selected_date" name="selected_date">
+                    <input type="hidden" id="dates" name="dates">
+                    <input type="hidden" id="cdo_hours" name="cdo_hours">
+                    <input type="hidden" id="all_hours" name="all_hours">
+                    <input type="hidden" id="cancel_type" name="cancel_type">
+                    <button type="submit" value="specific_date" class="btn btn-success">Submit</button>
                 </div>
             </form>
         </div>
