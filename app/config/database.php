@@ -1,13 +1,8 @@
 <?php
 //
-//$host = '192.168.110.31';
-//$username = 'rtayong_31';
-//$password = 'rtayong_31';
-
-$host = 'localhost';
-$username = 'root';
-$password = 'adm1n';
-
+$host = '192.168.110.31';
+$username = 'rtayong_31';
+$password = 'rtayong_31';
 
 return array(
 
