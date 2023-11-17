@@ -200,6 +200,7 @@ class DocumentController extends BaseController
 
     public function all_leave()
     {
+//        return 1;
         return "Leave is under development!";
         $userid = Auth::user()->userid;
         $pis = InformationPersonal::where("userid","=",$userid)->first();

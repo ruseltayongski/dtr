@@ -17,15 +17,15 @@ $pdo = conn();
 
 include_once 'leave/f1_rows.php';
 
-//include_once 'leave/f2.rows.php';
+include_once 'leave/f2.rows.php';
 
 include_once 'leave/f3_rows.php';
 
 include_once 'leave/f4_rows.php';
 
-include_once 'leave/f5_rows.php';
+//include_once 'leave/f5_rows.php';
 
-include_once 'leave/f6_rows.php';
+//include_once 'leave/f6_rows.php';
 
 $pdo = new PDO("mysql:host=localhost; dbname=dohdtr",'root','adm1n');
 $pdo->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );

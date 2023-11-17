@@ -1,13 +1,4 @@
 <?php
-//$st = $pdo->prepare("SELECT
-//                                    lea.*,pi.vacation_balance,pi.sick_balance
-//                                    FROM dohdtr.`leave` lea
-//                                    join pis.personal_information pi on pi.userid = lea.userid
-//                                    WHERE lea.id = :id
-//                              ");
-//$st->bindParam(":id",$id,PDO::PARAM_INT);
-//$st->execute();
-//$leave = $st->fetch(PDO::FETCH_ASSOC);
 try{
     $pdo = new PDO("mysql:host=localhost; dbname=dohdtr",'root','adm1n');
     $pdo->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
@@ -20,66 +11,72 @@ try{
 
 }
 
-$image = __DIR__ . '/public/img/doh.png';
-$imagePath ='FPDF/image/doh.png';
-echo "okiii".$imagePath;
+//$imagePath = __DIR__ . '/FPDF/image/doh.png';
+$imagePath = 'C:/xampp/htdocs/dtrLatest/FPDF/image/doh.png';
 
-
-if (file_exists($imagePath)) {
-    $pdf->Image($imagePath, $x = 10, $y = 10, $width = 50, $height = 0);
-} else {
-    var_dump($leave);
-}
+//echo "okiii".$imagePath;
 
 $pdf->setX('5');
 $pdf->Text(5,7,'CSC Form No.8');
 $pdf->Text(5,9,'Revised 2020');
-
-$pdf->Image($image, 40, 7, 40, 10);
-
+$pdf->Image($imagePath, 40, 10, 20, 20);
+$pdf->SetFont('Arial','B',8);
+$pdf->Text(92,15,'Republic of the Philippines');
+$pdf->Text(96,19,'Department of Health');
+$pdf->Text(77,23,'CENTRAL VISAYAS for HEALTH DEVELOPMENT');
+$pdf->Text(77,26,'Osmeña Boulevard, Cebu City, 6000 Philippines');
+$pdf->Text(165,19,'__________________');
+$pdf->Text(169,23,'Date of Receipt');
 // ROW 1
-$pdf->SetFont('Arial','B',15);
-$pdf->Cell(200,6,'APPLICATION FOR LEAVE',1,'','C');
+//$pdf->setX(100);
+$pdf->setY($pdf->getY()+20);
+$pdf->SetFont('Arial','B',14);
+$pdf->Cell(200,6,'APPLICATION FOR LEAVE',0,'','C');
 $pdf->Ln();
+$pdf->setY($pdf->getY()+2);
 //ROW 2
+
 $pdf->setX('5');
+
 $pdf->SetFont('Arial','B',8);
 
-$pdf->Cell(65,13,'',1,'','C');
+$pdf->Cell(65,11,'',1,'','C');
 
-$pdf->Text(7,20,'(1.) Office / Agency');
-$pdf->Text(12,25,$leave['office_agency']);
+$pdf->Text(7,42,'1. OFFICE/DEPARTMENT');
+$pdf->Text(12,47,$leave['office_agency']);
 
-$pdf->Cell(135,13,'',1,'','C');
+$pdf->Cell(135,11,'',1,'','C');
 
-$pdf->Text(80,20,'(2.) Name');
-$pdf->Text(110,20,'(Last)');
-$pdf->Text(150,20,'(First)');
-$pdf->Text(180,20,'(MI.)');
+$pdf->Text(73,42,'2. NAME');
+$pdf->Text(102,42,'(Last)');
+$pdf->Text(138,42,'(First)');
+$pdf->Text(168,42,'(Middle)');
 
 
 // SAMPLE DATA
-$pdf->Text(110,25,$leave['lastname']);
-$pdf->Text(150,25,$leave['firstname']);
-$pdf->Text(180,25,$leave['middlename']);
+$pdf->Text(102,47,$leave['lastname']);
+$pdf->Text(138,47,$leave['firstname']);
+$pdf->Text(168,47,$leave['middlename']);
 
 $pdf->Ln();
 //ROW 3
 $pdf->setX('5');
-$pdf->Cell(65,13,'',1,'','C');
-$pdf->Cell(70,13,'',1,'','C');
-$pdf->Cell(65,13,'',1,'','C');
+$pdf->Cell(65,11,'',1,'','C');
+$pdf->Cell(135,11,'',1,'','C');
 
-$pdf->Text(7,33,'(3.) Date of Filling');
-$pdf->Text(75,33,'(4.) Position');
-$pdf->Text(145,33,'(5.) Salary (Monthly)');
+$pdf->Text(7,55,'3. DATE OF FILING');
+$pdf->Text(72,55,'4. POSITION');
+$pdf->Text(150,55,'5. SALARY');
 
 // SAMPLE DATA
 
 $date_time = new DateTime($leave['date_filling']);
 $date = $date_time->format('M')." ".$date_time->format('d') .", ". $date_time->format('Y');
-$pdf->Text(17,37,$date);
-$pdf->Text(80,37,$leave['position']);
-$pdf->Text(150,37,number_format($leave['salary'],2));
+$pdf->Text(42,55,$date);
+$pdf->Image(__DIR__.'../../image/line.png', 35,56,30,0.6);
+$pdf->Text(90,55,$leave['position']);
+$pdf->Image(__DIR__.'../../image/line.png', 86,56,50,0.6);
+$pdf->Text(175,55,number_format($leave['salary'],2));
+$pdf->Image(__DIR__.'../../image/line.png', 165,56,30,0.6);
 
 ?>
