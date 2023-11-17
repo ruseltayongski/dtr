@@ -522,10 +522,11 @@ class AdminController extends BaseController
     public function track_leave() // leave applications
     {
         return "Leave is under development!";
+//        return 1;
         function conn(){
             $server = '192.168.110.31';
             try{
-                $pdo = new PDO("mysql:host=$server; dbname=dohdtr",'rtayong_31','rtayong_31');
+                $pdo = new PDO("mysql:host=localhost; dbname=dohdtr",'root','adm1n');
                 $pdo->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
             }
             catch (PDOException $err) {
@@ -1233,31 +1234,35 @@ class AdminController extends BaseController
     }
 
     public function generateFlagAttendance() {
-        $dtr_files = EditedLogs::
-        select(
-                    DB::raw("concat(coalesce(personal_information.fname,''),' ',coalesce(personal_information.mname,''),' ',coalesce(personal_information.lname,'')) as name"),
-                    "personal_information.userid",
-                    "personal_information.job_status",
-                    "edited_logs.datein",
-                    "edited_logs.time",
-                    "edited_logs.remark",
-                    DB::raw("coalesce(edited_logs.log_image,'wew') as log_image")
-              )
-        ->where(function($query) {
-            $query->where("edited",8)
-            ->orWhere("edited",9);
-        })
-        ->join("pis.personal_information","personal_information.userid","=","edited_logs.userid")
-        ->orderBy("datein","asc")
-        ->get();
 
+            $daterange= Input::get('flag_attendance_date');
+            $date = explode('-', $daterange);
+            $start_date = date('Y-m-d', strtotime($date[0]));
+            $end_date = date('Y-m-d', strtotime($date[1]));
+            $dtr_files = EditedLogs::select(
+                DB::raw("concat(coalesce(personal_information.fname,''),' ',coalesce(personal_information.mname,''),' ',coalesce(personal_information.lname,'')) as name"),
+                "personal_information.userid",
+                "personal_information.job_status",
+                "edited_logs.datein",
+                "edited_logs.time",
+                "edited_logs.remark",
+                DB::raw("coalesce(edited_logs.log_image,'wew') as log_image")
+            )
+                ->where(function($query) {
+                    $query->where("edited", 8)
+                        ->orWhere("edited", 9);
+                })
+                ->whereBetween('edited_logs.datein',[$start_date, $end_date])
+                ->join("pis.personal_information", "personal_information.userid", "=", "edited_logs.userid")
+                ->orderBy("datein", "asc")
+                ->get();
 
-        header("Content-Type: application/xls");
-        header("Content-Disposition: attachment; filename=flags_attendance.xls");
-        header("Pragma: no-cache");
-        header("Expires: 0");
-        $title = 'Flags Attendance';
-        $table_body = "<tr>
+            header("Content-Type: application/xls");
+            header("Content-Disposition: attachment; filename=flags_attendance.xls");
+            header("Pragma: no-cache");
+            header("Expires: 0");
+            $title = 'Flags Attendance';
+            $table_body = "<tr>
                     <th></th>
                     <th>Employee Id</th>
                     <th>Employee Name</th>
@@ -1268,14 +1273,14 @@ class AdminController extends BaseController
                     <th>Log Image</th>
                 </tr>";
 
-        $count = 0;
-        $facility = [];
+            $count = 0;
+            $facility = [];
 
-        foreach($dtr_files as $row) {
-            $userid = "#".$row->userid;
-            $log_image = asset('public/logs_imageV2').'/'.$row->userid.'/'.'flag/'.$row->log_image;
-            $log_image = '<img class="profile-user-img img-responsive " src="'.$log_image.'" alt="User profile picture">';
-            $table_body .= "<tr>
+            foreach($dtr_files as $row) {
+                $userid = "#".$row->userid;
+                $log_image = asset('public/logs_imageV2').'/'.$row->userid.'/'.'flag/'.$row->log_image;
+                $log_image = '<img class="profile-user-img img-responsive " src="'.$log_image.'" alt="User profile picture">';
+                $table_body .= "<tr>
                     <td style='height:130px;'></td>
                     <td style='height:130px;'>$userid</td>
                     <td style='height:130px;'>$row->name</td>
@@ -1285,13 +1290,13 @@ class AdminController extends BaseController
                     <td style='height:130px;'>$row->remark</td>
                     <td style='height:130px;'>$log_image</td>
                 </tr>";
-        }
+            }
 
-        $display =
+            $display =
                 '<h1>'.$title.'</h1>'.
                 '<table cellspacing="1" cellpadding="5" border="1">'.$table_body.'</table>';
 
-        return $display;
+            return $display;
     }
 
 }
