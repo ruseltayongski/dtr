@@ -127,10 +127,33 @@
                                             @endif
                                         </td>
                                         <td>@if($card_viewL->hours_used != 0 ) {{$card_viewL->hours_used}} @endif</td>
-                                        <td>@if($card_viewL->date_used == null || $card_viewL->date_used == '0000-00-00')@else
-                                                {{ $card_viewL->date_used}}@endif</td>
+                                        <td> <?php
+                                            if(!Empty($card_viewL->date_used) ){
+                                                $datelist =[];
+                                                $dateRanges = explode(",", $card_viewL->date_used);
+                                                foreach ($dateRanges as $date){
+                                                    $dateParts = explode("-", $date);
+                                                    $startDate = date("m/d/Y", strtotime($dateParts[0]));
+                                                    $endDate = date("m/d/Y", strtotime($dateParts[1]));
+                                                    if($startDate == $endDate){
+                                                        $datelist[]=$startDate;
+                                                    }else{
+                                                        $datelist[]= $startDate. '-'. $endDate;
+                                                    }
+                                                }
+                                                echo implode(', ', $datelist);
+                                            }else{
+                                                echo "";
+                                            }
+                                            ?></td>
                                         <td>{{$card_viewL->bal_credits}}</td>
-                                        <td>{{$card_viewL->created_at}}</td>
+                                        <td><?php
+                                            if($card_viewL->status == "7" ){
+                                                echo "September 30, 2023";
+                                            }else{
+                                                echo date("F j, Y", strtotime($card_viewL->created_at));
+                                            }
+                                            ?></td>
 
                                         @if ($card_viewL->status == 5)
                                             <td id='remarks'style='color: red'>REMOVED: {{$card_viewL->remarks}}</td>
