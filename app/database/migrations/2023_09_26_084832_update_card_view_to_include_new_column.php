@@ -12,11 +12,8 @@ class UpdateCardViewToIncludeNewColumn extends Migration {
 	 */
 	public function up()
 	{
-		//
-        if(Schema::hasTable('cdo')){
-            return true;
-        }
-        Schema::create('cdo', function($table) {
+        Schema::table('cdo', function($table)
+        {
             $table->string('applied_dates');
         });
 
@@ -29,7 +26,7 @@ class UpdateCardViewToIncludeNewColumn extends Migration {
 	 */
 	public function down()
 	{
-		//
+        //DB::statement('ALTER TABLE cdo DROP COLUMN applied_dates');
 	}
 
 }

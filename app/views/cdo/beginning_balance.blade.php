@@ -28,7 +28,7 @@
                         <th class="text-center">Name</th>
                         <th class="text-center">Remaining Balance</th>
                         <th class="text-center">Section / Division</th>
-                        <th class="text-center">Option</th>
+                        <th width="30%" class="text-center">Option</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -52,9 +52,9 @@
                                 <small><em>(@if(isset(pdoController::search_division($user->division_id)['description'])) {{ pdoController::search_division($user->division_id)['description'] }} @else NO DIVISION @endif {{ ')' }}</em></small>
                             </td>
                             <td class="center">
-                                <button class="button btn-sm beginning_balance" id="update_balance"style="background-color: #9C8AA5;color: white" data-toggle="modal" data-id="{{ $user->userid }}" data-target="#beginning_balance">Update Beginning Balance</button>
+                                <button class="button btn-sm beginning_balance" id="update_balance"style="background-color: #9C8AA5;color: white" data-toggle="modal" data-id="{{ $user->userid }}" data-target="#beginning_balance">Add CTO Balance</button>
                                 <button class="button btn-sm ledger" id="viewCard" name="viewCard" style="background-color: #9C8AA5;color: white" data-toggle="modal" data-id="{{ $user->userid }}" data-target="#ledger">View Card</button>
-
+                                <button class="button btn-sm balances" style="background-color: #9C8AA5;color: white" data-toggle="modal" data-id="{{ $user->userid }}" data-target="#balances">Update Balance</button>
                             </td>
                         </tr>
                     @endforeach
@@ -101,11 +101,32 @@
                 <div class="modal-footer">
                     <input type ="hidden"value="" id="user_iid" name="user_iid">
                     <ul class="pagination justify-content-center" id="pagination" style="margin: 0; padding: 0"></ul>
+                    <button></button>
                 </div>
             </div><!-- .modal-content -->
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
+    {{--to be removed / waiting HR to be finally done with updating manually users' balances--}}
+    <div class="modal fade" tabindex="-1" role="dialog" id="balances">
+        <div class="modal-dialog modal-sm" role="document" id="size">
+            <div class="modal-content">
+                <form action="{{ asset('update_bbalance') }}" method="get">
+                    <div class="modal-header" style="background-color: #9C8AA5;">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title"><i class="fa fa-pencil"></i> Update Beginning Balance</h4>
+                    </div>
+                    <div class="modal-body">
 
+                    </div>
+                    <div class="modal-footer">
+                        <input type="hidden" value="" id="id_id" name="id_id">
+                        <input type="hidden" value="" id="check" name="check">
+                        <button type="submit" class="btn btn-success" style="color:white;" value="second" name="second_update"><i class="fa fa-pencil"> Update</i></button>
+                    </div>
+                </form>
+            </div><!-- .modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
     {{-------------------------}}
 
 @endsection
@@ -113,6 +134,38 @@
 @section('js')
     @parent
     <script>
+        console.log("here", $('.second_update').val());
+// to be removed once HR is done
+        $(".balances").on('click',function(e){
+            $('.modal-body').html(loadingState);
+            var userid = $(this).data('id');
+            $("#check").val("second");
+//            console.log("ahww",$("#check").val());
+            $("#id_id").val(userid);
+            console.log(userid);
+            setTimeout(function(){
+                $('.modal-body').html(
+                    "<input type='text' class='form-control' id='balances' name='balances' required>");
+            },500);
+        });
+
+        $("#balances").keydown(function (e) {
+            // Allow: backspace, delete, tab, escape, enter and .
+            if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110, 190]) !== -1 ||
+                // Allow: Ctrl+A, Command+A
+                (e.keyCode === 65 && (e.ctrlKey === true || e.metaKey === true)) ||
+                // Allow: home, end, left, right, down, up
+                (e.keyCode >= 35 && e.keyCode <= 40)) {
+                // let it happen, don't do anything
+                return;
+            }
+            // Ensure that it is a number and stop the keypress
+            if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
+                e.preventDefault();
+            }
+        });
+//        to be removed once HR is done //
+
         function setAction(action){
             $('#action').val(action);
             var button = $('#action').val();
@@ -150,21 +203,66 @@
 //            console.log("save data",$("#total_total").val() )
         }
 
-        function updateCTO(){
-            if($("#ot_hours").val()==0){
+
+        function updateCTO() {
+            if ($("#ot_hours").val() == 0) {
                 $("#ot_hours").val("");
-            }else if($("#ot_weight").val()==0){
+            } else if ($("#ot_weight").val() == 0) {
                 $("#ot_weight").val("");
             }
-            var hours= parseFloat(document.getElementById("ot_hours").value);
-            var weight=parseFloat(document.getElementById("ot_weight").value);
+            var hours = parseFloat(document.getElementById("ot_hours").value);
+            var weight = parseFloat(document.getElementById("ot_weight").value);
+
+
+
+            // Calculate the decimal part in JavaScript
+            var decimalPart = (hours - Math.floor(hours)).toFixed(2);
+            var wholeNumber = Math.floor(hours);
+
+            if (decimalPart >= 0.45 && decimalPart < 1.00) {
+                hours= wholeNumber+0.75;
+                console.log("dd", wholeNumber);
+            } else if (decimalPart >= 0.30 && decimalPart < 0.45) {
+                hours= wholeNumber+0.50;
+                console.log("cc", hours);
+            }else if (decimalPart >= 0.15 && decimalPart <0.30) {
+                hours= wholeNumber+0.25;
+                console.log("bb", hours);
+            }else if(decimalPart <15){
+                hours= wholeNumber;
+                console.log("aa", hours);
+            }
+
             var total = hours * weight;
-            document.getElementById("cto_total").value=total || '';
-            document.getElementById("beginning_balance").value=total || '';
-//            console.log("")
+            console.log("total", total);
+
+
+            var totalDecimal = (total - Math.floor(total)).toFixed(2);
+            var totalWhole = Math.floor(total);
+
+            if (totalDecimal >= 0.45 && totalDecimal < 1.00) {
+                total= totalWhole+0.75;
+                console.log("d", hours);
+            } else if (totalDecimal >= 0.30 && totalDecimal < 0.45) {
+                total= totalWhole+0.50;
+                console.log("c", hours);
+            }else if (totalDecimal >= 0.15 && totalDecimal <0.30) {
+                total= totalWhole+0.25;
+                console.log("b", hours);
+            }else if(totalDecimal <15){
+                total= totalWhole;
+                console.log("a", hours);
+            }
+            console.log("result", hours);
+
+            document.getElementById("cto_total").value = total || '';
+            document.getElementById("beginning_balance").value = total || '';
+
         }
 
-        $(document).ready(function () {
+
+
+    $(document).ready(function () {
 //            console.log("jdsad");
             $("#viewCard").on("click", function(){
                 $("#t_body").empty();
@@ -195,25 +293,25 @@
 
                     var tableData2 = "<tr>" +
                         <?php if ($card_viewL->ot_hours !== null): ?>
-                            "<td><?php echo $card_viewL->ot_hours; ?></td>" +
-                            "<td>x</td>" +
-                            "<td><?php echo $card_viewL->ot_rate; ?></td>" +
-                            "<td>=</td>"+
-                            "<td><?php echo $card_viewL->ot_credits; ?></td>"+
+                            "<td><?php echo ($card_viewL->ot_hours !=0)? $card_viewL->ot_hours : ''; ?></td>" +
+                            "<td><?php echo ($card_viewL->ot_hours !=0)? 'x' : ''; ?></td>" +
+                            "<td><?php echo ($card_viewL->ot_rate !=0)? $card_viewL->ot_rate : ''; ?></td>" +
+                            "<td><?php echo ($card_viewL->ot_rate !=0)? '=' : ''; ?></td>"+
+                            "<td><?php echo ($card_viewL->ot_credits !=0)? $card_viewL->ot_credits : '';?></td>"+
                             <?php else: ?>
                             "<td></td>"+"<td></td>"+"<td></td>"+"<td></td>"+"<td></td>"+
                         <?php endif; ?>
                         <?php if ($card_viewL->ot_date !== null): ?>
-                            <?php if ($card_viewL->status !=5 && $card_viewL->status !=2 && $card_viewL->status !=6): ?>
-                            "<td><a href= '#' data-toggle='modal' onclick='modifiedUpdatedCTO(this)' data-target='#beginning_balance'><?php echo date('F j, Y', strtotime($card_viewL->ot_date)); ?></a></td>"+
+                            <?php if ($card_viewL->status !=5 && $card_viewL->status !=2 && $card_viewL->status !=6  && $card_viewL->status !=7): ?>
+                            "<td><a href= '#' data-toggle='modal' onclick='modifiedUpdatedCTO(this)' data-target='#beginning_balance'><?php echo ($card_viewL->ot_date !== '0000-00-00')? date('F j, Y', strtotime($card_viewL->ot_date )): ''; ?></a></td>"+
                             <?php else: ?>
-                                "<td><?php echo date('F j, Y', strtotime($card_viewL->ot_date)); ?></td>"+
+                                "<td><?php echo ($card_viewL->ot_date !== '0000-00-00')? date('F j, Y', strtotime($card_viewL->ot_date )): ''; ?></td>"+
                             <?php endif; ?>
                         <?php else: ?>
                         "<td></td>"+
                         <?php endif; ?>
-                        "<td><?php echo $card_viewL->hours_used; ?></td>" +
-                        "<td><?php echo $card_viewL->date_used; ?></td>" +
+                        "<td><?php echo ($card_viewL->hours_used !=0)? $card_viewL->hours_used : ''; ?></td>" +
+                        "<td><?php echo (!Empty($card_viewL->hours_used))?$card_viewL->date_used:'' ; ?></td>"+
                         "<td><?php echo $card_viewL->bal_credits; ?></td>" +
                         "<td><?php echo $card_viewL->created_at; ?></td>"+
                         "<td style='display:none'><?php echo $card_viewL->id; ?></td>";

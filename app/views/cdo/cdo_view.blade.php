@@ -242,7 +242,8 @@
                             <td colspan="3">
                                 <div class="alert-info" style="padding: 2%;">
                                     <span style="color:black;">
-                                        <i class="fa fa-hand-o-right"></i> Note: The CDO/CTO beginning balance(credit) and remaining balance(credit) will be change when it was approve by the cdo/cto point person
+                                        <i class="fa fa-hand-o-right"></i>
+                                        Note: The CTO beginning balance and remaining balance will change once CTO is processed by the HRMO.
                                     </span>
                                 </div>
                             </td>
@@ -306,15 +307,15 @@
         @if($data['type'] == "update")
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
-                @if(Auth :: user()->usertype !=1)
+                {{--@if(Auth :: user()->usertype !=1)--}}
                     @if (!$data['cdo']['approved_status'])
                         <button type="button" class="btn btn-danger" data-dismiss="modal" data-toggle="modal" data-target="#deleteDocument" style="color:white"><i class="fa fa-trash"></i> Remove</button>
                     @else
                         <button onclick="warning()" type="button" class="btn btn-danger" ><i class="fa fa-trash"></i> Remove</button>
                     @endif
-                @else
-                    <button onclick="warning1()" type="button" class="btn btn-danger" ><i class="fa fa-trash"></i> Remove</button>
-                @endif
+                {{--@else--}}
+                    {{--<button onclick="warning1()" type="button" class="btn btn-danger" ><i class="fa fa-trash"></i> Remove</button>--}}
+                {{--@endif--}}
                 <button type="button" class="btn btn-success" data-dismiss="modal" style="color:white" data-toggle="modal" data-target="#paperSize"><i class="fa fa-barcode"></i> Barcode v1</button>
                 <a target="_blank" href="{{ asset('pdf/track') }}" class="btn btn-success" style="color:white"><i class="fa fa-barcode"></i> Barcode v2</a>
                 <a target="_blank" href="{{ asset('form/cdov1/pdf') }}" class="btn btn-success" style="color:white"><i class="fa fa-barcode"></i> Barcode v3</a>
@@ -804,7 +805,7 @@
                 TotalDate = diff+1;
 
 
-                if (TotalDate<=5) {
+                if (totalDays<=5) {
                     if (less_applied2 < parseInt($(".beginning_balance").val()) + 8) {
                         $(".less_applied").val(less_applied2); //
                     }
@@ -813,14 +814,18 @@
                             {
                                 msg: "Your beginning balance(credit) are not enough"
                             });
+                        $('.datepickerInput').val("");
+                        $(".newRow").find("#date_label").text("");
                     }
                 }
                 else {
 
                     Lobibox.alert('error', //AVAILABLE TYPES: "error", "info", "success", "warning"
                         {
-                            msg: "You can file 5 days only per date range."
+                            msg: "You can file 5 days only per application."
                         });
+                    $('.datepickerInput').val("");
+                    $(".newRow").find("#date_label").text("");
                 }
 
                 $(".remaining_balance").val(parseFloat($(".beginning_balance").val()) - parseFloat($(".less_applied").val()));
