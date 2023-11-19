@@ -48,7 +48,7 @@
                                     <a style="margin-right: 10px" href="{{ asset('form/leave') }}" class="btn btn-success center-block col-md-2" onclick="checkBalance();">
                                         <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Create new
                                     </a>
-                                    <button class="btn btn-info center-block col-md-2" id="viewCard" name="viewCard" data-toggle="modal"
+                                    <button class="btn btn-info center-block col-md-2 leave_ledger" id="viewCard" name="viewCard" data-toggle="modal"
                                             data-target="#leave_ledger"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>View Card</button>
                                     <?php
                                     if(!empty(Session::get("vacation_balance")) || Session::get('vacation_balance') != 0){
@@ -171,33 +171,9 @@
                                 <th style="border: 1px solid black">ABS.UND.WOP</th>
                             </tr>
                         </thead>
-                        <tbody id="t_body" name="t_body" style="overflow-y: auto;">
+                        <tbody id="ledger_body" name="ledger_body" style="overflow-y: auto;">
 
-                            @if(count($leave_card)>0)
-                                @foreach($leave_card as $card)
-                                    <tr>
-                                        <td style="border: 1px solid black">
-                                            @if(!empty($card->period))
-                                                <a href="#" data-toggle="modal" onclick="" data-target="">{{$card->period}}</a>
-                                            @endif
-                                            </td>
-                                        <td style="border: 1px solid black">{{$card->particulars}}</td>
-                                        <td style="border: 1px solid black">{{$card->vl_earned}}</td>
-                                        <td style="border: 1px solid black">{{$card->vl_abswp}}</td>
-                                        <td style="border: 1px solid black">{{$card->vl_bal}}</td>
-                                        <td style="border: 1px solid black">{{$card->vl_abswop}}</td>
-                                        <td style="border: 1px solid black">{{$card->sl_earned}}</td>
-                                        <td style="border: 1px solid black">{{$card->sl_abs}}</td>
-                                        <td style="border: 1px solid black">{{$card->sl_bal}}</td>
-                                        <td style="border: 1px solid black">{{$card->abswop}}</td>
-                                        <td style="border: 1px solid black">{{$card->date_used}}</td>
-                                    </tr>
-                                @endforeach
-                                @else
-                                   <tr>
-                                       <td colspan="12">No Data Available</td>
-                                   </tr>
-                            @endif
+
                         </tbody>
                     </table>
                 </div>
@@ -216,13 +192,42 @@
     <script>
         $('#inclusive3').daterangepicker();
 
-        {{--$('#leave_ledger').on("click", function () {--}}
-        {{--<?php if(count($leave_card)>0){?> --}}
-        {{--<?php foreach ($leave_card as $card){ ?>--}}
-        {{----}}
-        {{--<?php }?>--}}
-        {{--<?php }?>--}}
-        {{--});--}}
+        $(document).ready(function () {
+            $('.leave_ledger').on("click", function () {
+                console.log("fgshdfd");
+                var count=0;
+                    <?php if(count($leave_card)>0){?>
+                    <?php foreach ($leave_card as $card){ ?>
+
+                var tabledata1 = "<tr>" +
+                    "<td><?php echo $card->particulars ?></td>" +
+                    "<td><?php echo $card->particulars; ?></td>" +
+                    "<td><?php echo $card->particulars; ?></td>" +
+                    "<td><?php echo $card->particulars; ?></td>" +
+                    "<td><?php echo $card->particulars; ?></td>" +
+                    "<td><?php echo $card->particulars; ?></td>" +
+                    "<td><?php echo $card->particulars; ?></td>" +
+                    "<td><?php echo $card->particulars; ?></td>" +
+                    "<td><?php echo $card->particulars; ?></td>" +
+                    "<td><?php echo $card->particulars; ?></td>" +
+                    "<td><?php echo $card->particulars; ?></td>";
+                tabledata1 += "</tr>";
+                $('#ledger_body').append(tabledata1);
+                count++;
+                <?php }?>
+                if (count==0) {
+                    console.log("else");
+                    var tableData2 = "<tr>" +
+                        "<td>No Data Available</td>" +
+                        "</tr>";
+                    $("#ledger_body").append(tableData2);
+//
+                }
+                <?php }?>
+            });
+        });
+
+
 
 
 
