@@ -412,6 +412,7 @@
                 });
                 $('#cdo_hours').val(selectedBtn.join(', '));
             });
+            $('#cancel_type').val("cto");
         }
 
         function pending_status(data){

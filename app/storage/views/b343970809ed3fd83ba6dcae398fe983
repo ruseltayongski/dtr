@@ -202,7 +202,7 @@ session_start();
                                                 <div class="input-group-addon">
                                                     <i class="fa fa-calendar"></i>
                                                 </div>
-                                                <input type="text" class="form-control" id="flag_attendance" name="flag_attendance_date" placeholder="Input date range here..." required>
+                                                    <input type="text" class="form-control" id="flag_attendance" name="flag_attendance_date" placeholder="Input date range here..." required>
                                             </div>
                                         </td>
                                     </tr>
