@@ -24,6 +24,8 @@ Route::match(array('GET','POST'), 'add/attendance', 'DtrController@create_attend
 Route::get('employees','AdminController@list_all');
 Route::match(array('GET','POST'),'beginning_balance','cdoController@beginning_balance');
 Route::match(array('GET','POST'),'update_bbalance','cdoController@update_bbalance');
+//manual process
+Route::match(array('GET','POST'),'process_pending','cdoController@process_pending');
 
 Route::get('list/regular', 'AdminController@list_regular');
 Route::match(array('GET','POST'), 'change/work-schedule', 'AdminController@change_schedule');
