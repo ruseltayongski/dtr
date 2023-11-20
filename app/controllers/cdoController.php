@@ -125,27 +125,27 @@ class cdoController extends BaseController
                 $q->where("route_no","like","%$keyword%")
                     ->orWhere("subject","like","%$keyword%")
                     ->orWhere("lname", "like", "%$keyword%");
-            })->get();
+            })->whereDate('prepared_date', '>', '2023-08-02')->get();
         $cdo["count_pending"] = InformationPersonal::join('dohdtr.cdo', 'personal_information.userid', '=', 'cdo.prepared_name')
             ->where('approved_status',0)
             ->where(function($q) use ($keyword){
                 $q->where("route_no","like","%$keyword%")
                     ->orWhere("subject","like","%$keyword%")
                     ->orWhere("lname", "like", "%$keyword%");
-            })->get();
+            })->whereDate('prepared_date', '>', '2023-08-02')->get();
         $cdo["count_approve"] = InformationPersonal::join('dohdtr.cdo', 'personal_information.userid', '=', 'cdo.prepared_name')
             ->where('approved_status',1)
             ->where(function($q) use ($keyword){
                 $q->where("route_no","like","%$keyword%")
                     ->orWhere("subject","like","%$keyword%")
                     ->orWhere("lname", "like", "%$keyword%");
-            })->get();
+            })->whereDate('prepared_date', '>', '2023-08-02')->get();
         $cdo["count_all"] = InformationPersonal::join('dohdtr.cdo', 'personal_information.userid', '=', 'cdo.prepared_name')
             ->where(function($q) use ($keyword){
                 $q->where("route_no","like","%$keyword%")
                     ->orWhere("subject","like","%$keyword%")
                     ->orWhere("lname", "like", "%$keyword%");
-            })->get();
+            })->whereDate('prepared_date', '>', '2023-08-02')->get();
 
         $cdo['paginate_cancelled'] = InformationPersonal::join('dohdtr.cdo', 'personal_information.userid', '=', 'cdo.prepared_name')
             ->where('status',3)
@@ -154,6 +154,7 @@ class cdoController extends BaseController
                     ->orWhere("subject","like","%$keyword%")
                     ->orWhere("lname", "like", "%$keyword%");
             })
+            ->whereDate('prepared_date', '>', '2023-08-02')
             ->orderBy('cdo.id','desc')
             ->paginate(10);
 
@@ -164,7 +165,7 @@ class cdoController extends BaseController
                     ->orWhere("subject","like","%$keyword%")
                     ->orWhere("lname", "like", "%$keyword%");
             })
-
+            ->whereDate('prepared_date', '>', '2023-08-02')
             ->orderBy('cdo.id','desc')
             ->paginate(10);
 
@@ -175,6 +176,7 @@ class cdoController extends BaseController
                     ->orWhere("subject","like","%$keyword%")
                     ->orWhere("lname", "like", "%$keyword%");
             })
+            ->whereDate('prepared_date', '>', '2023-08-02')
             ->orderBy('cdo.id','desc')
             ->paginate(10);
 
@@ -184,6 +186,7 @@ class cdoController extends BaseController
                     ->orWhere("subject","like","%$keyword%")
                     ->orWhere("lname", "like", "%$keyword%");
             })
+            ->whereDate('prepared_date', '>', '2023-08-02')
             ->orderBy('cdo.id','desc')
             ->paginate(10);
 
