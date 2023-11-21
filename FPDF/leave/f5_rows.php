@@ -2,34 +2,35 @@
 
 $pdf->Ln();
 $pdf->setX('5');
-$pdf->Cell(97.5,28,'',1);
-$pdf->Cell(102.5,28,'',1);
+$pdf->Cell(200,28.5,'',1);
 
-$pdf->SetFont('Arial','B',8);
-$pdf->Text(11,214,'(7. C) Approved for:');
-
-$pdf->SetFont('Arial','BU',8);
-$pdf->Text(15,220,'             ');
-
-$pdf->SetFont('Arial','B',8);
-$pdf->Text(26,220,'day(s) with pay');
+$pdf->SetFont('Arial','',8);
+$pdf->Text(7,250,'7.C APPROVED FOR:');
 
 $pdf->SetFont('Arial','BU',8);
-$pdf->Text(15,225,'             ');
+$pdf->Text(15,255,'             ');
 
-$pdf->SetFont('Arial','B',8);
-$pdf->Text(26,225,'day(s) without pay');
+$pdf->SetFont('Arial','',8);
+$pdf->Text(26,255,'days with pay');
 
 $pdf->SetFont('Arial','BU',8);
-$pdf->Text(15,230,'             ');
+$pdf->Text(15,259,'             ');
 
+$pdf->SetFont('Arial','',8);
+$pdf->Text(26,259,'days without pay');
+
+$pdf->SetFont('Arial','BU',8);
+$pdf->Text(15,263,'             ');
+
+$pdf->SetFont('Arial','',8);
+$pdf->Text(26,263,'	others (Specify)');
+
+$pdf->Text(104,250,'7.D DISAPPROVED DUE TO:');
+
+$pdf->Image(__DIR__.'../../image/line.png',115,255,85,0.6);
+$pdf->Image(__DIR__.'../../image/line.png',115,259,85,0.6);
+$pdf->Image(__DIR__.'../../image/line.png',115,263,85,0.6);
+$pdf->Image(__DIR__.'../../image/line.png',70,269,60,0.6);
 $pdf->SetFont('Arial','B',8);
-$pdf->Text(26,230,'	others (specify) :');
-
-$pdf->SetFont('Arial','B',8);
-$pdf->Text(109,215,'(7. D) Disapproved due to:');
-
-
-
-
+$pdf->Text(88,273,'(Authorized Official)');
 ?>

@@ -521,7 +521,7 @@ class AdminController extends BaseController
 
     public function track_leave() // leave applications
     {
-        return "Leave is under development!";
+//        return "Leave is under development!";
 //        return 1;
         function conn(){
             $server = '192.168.110.31';
@@ -1151,7 +1151,7 @@ class AdminController extends BaseController
 
     public function leave_credits()
     {
-        return "Leave is under development";
+//        return "Leave is under development";
         $id= Input::get('viewCard');
 //        return $id;
         $keyword = Input::get('search');
