@@ -704,6 +704,7 @@
                 $holiday = Calendars::get();
                 $holiday_dates = array();
                 foreach ($holiday as $event) {
+                    if($event->status == "1")
                     $holiday_dates[] = $event['start'];
                 }
             echo "var holidays = " . json_encode($holiday_dates) . ";";
