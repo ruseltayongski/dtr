@@ -747,6 +747,7 @@
                 dd = nextValidDay.getDate();
                 mm = nextValidDay.getMonth() + 1;
                 yyyy = nextValidDay.getFullYear();
+                console.log('date', holidays);
 
              previousDate = $(this).val();
 
@@ -783,6 +784,7 @@
                 endDate: endDate,
 
             }).on('apply.daterangepicker', function (ev, picker) {
+
 
                 var selectedStartDate = picker.startDate;
                 var selectedEndDate = picker.endDate;
