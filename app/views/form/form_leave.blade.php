@@ -139,37 +139,37 @@
                                                         <label><i>In case of Vacation/Special Privilege leave</i></label><br>
                                                         <label>
                                                             <input type="radio" id="checkboxSuccess" class="vac_dis" value="1" name="leave_details"> Within the Philippines
-                                                            <input type="text" name="for_text_input" class="vac_dis" id="within_txt" style="margin-left: 60px; width: 300px" >
+                                                            <input type="text" name="for_text_input" class="vac_dis" id="within_txt" style="margin-left: 85px; width: 250px" >
                                                         </label><br>
                                                         <label>
                                                             <input type="radio" id="checkboxSuccess" class="vac_dis" value="2" name="leave_details"> Abroad (Specify)
-                                                            <input type="text" name="for_text_input" class="vac_dis" id="abroad_txt" style="margin-left: 92px; width: 300px" />
+                                                            <input type="text" name="for_text_input" class="vac_dis" id="abroad_txt" style="margin-left: 115px; width: 250px" />
                                                         </label> <br>
 
                                                         <label><i>In case of Sick Leave</i></label><br>
                                                         <label>
                                                             <input type="radio" id="checkboxSuccess" class="sick_dis" value="3" name="leave_details"> In Hospital (Specify Illness)
-                                                            <input type="text"  name="for_text_input" class="sick_dis" id="in_hos_txt" style="margin-left: 30px; width: 305px" >
+                                                            <input type="text"  name="for_text_input" class="sick_dis" id="in_hos_txt" style="margin-left: 55px; width: 250px" >
                                                         </label>
                                                         <label>
                                                             <input type="radio" id="checkboxSuccess" class="sick_dis" value="4" name="leave_details"> Out-patient (Specify Illness)
-                                                            <input type="text" name="for_text_input" class="sick_dis" id="out_hos_txt" style="margin-left: 26px; width: 305px" >
+                                                            <input type="text" name="for_text_input" class="sick_dis" id="out_hos_txt" style="margin-left: 50px; width: 250px" >
                                                         </label><br>
 
                                                         <label><i>In case of Special Leave Benefits for Women</i></label><br>
                                                         <label>
                                                             <input type="radio" id="checkboxSuccess" class="spec_dis" value="5" name="leave_details"> (Specify Illness)
-                                                            <input type="text"  name="for_text_input" class="spec_dis" id="spec_txt" style="margin-left: 98px; width: 300px" >
+                                                            <input type="text"  name="for_text_input" class="spec_dis" id="spec_txt" style="margin-left: 118px; width: 250px" >
                                                         </label><br>
 
                                                         <label><i>In case of Study Leave</i></label><br>
                                                         <label>
                                                             <input type="radio" id="checkboxSuccess" class="stud_dis" value="6" name="leave_details"> Completion of Master's Degree
-                                                            <input type="text"  name="for_text_input" class="stud_dis" id="master_txt" style="margin-left: 13px; width: 300px" />
+                                                            <input type="text"  name="for_text_input" class="stud_dis" id="master_txt" style="margin-left: 30px; width: 250px" />
                                                         </label>
                                                         <label>
                                                             <input type="radio" id="checkboxSuccess" class="stud_dis" value="7" name="leave_details"> BAR/Board Examination Review
-                                                            <input type="text" name="for_text_input" class="stud_dis" id="bar_txt" style="margin-left: 8px; width: 300px" />
+                                                            <input type="text" name="for_text_input" class="stud_dis" id="bar_txt" style="margin-left: 25px; width: 250px" />
                                                         </label><br>
 
                                                         <label><i>Other Purpose</i></label><br>
@@ -195,7 +195,7 @@
                                     <input type="text" class="form-control" name="applied_num_days" id="applied_num_days" style="margin-left: 10px; width: 96%" readonly/>
                                     <input type="hidden" class="form-control" name="credit_used" id="credit_used"/>
                                     <strong class="sm-m-3" style="display: inline-block; margin-right: 10px; margin-top: 10px; margin-bottom: 10px"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;INCLUSIVE DATES :</strong>
-                                    <button  style="width: 60px; display: inline-block; margin-left: 61.5%" class="btn btn-sm btn-default addButton1" type="button"><strong>+</strong></button>
+                                    <button  style="width: 60px; display: inline-block; margin-left: 61%" class="btn btn-sm btn-default addButton1" type="button"><strong>+</strong></button>
 
                                     <div class="table-data" id="clone_data">
                                         <div class="input-group" style="margin-left: 10px; margin-bottom: 10px" >
@@ -203,7 +203,7 @@
                                                 <i class="fa fa-calendar"></i>
                                             </div>
                                                 <input style="width: 70%" type="text" class="form-control datepickerInput1" id="inclusive11" name="inclusive_dates1[]" placeholder="Input date here..." required>
-                                            <button style="width: 60px; margin-left: 16%" type="button" class="btn btn-sm btn-default deleteButton1"><strong>-</strong></button>
+                                            <button style="width: 60px; margin-left: 15.5%" type="button" class="btn btn-sm btn-default deleteButton1"><strong>-</strong></button>
                                         </div>
                                     </div>
 

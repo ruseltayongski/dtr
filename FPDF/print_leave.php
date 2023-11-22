@@ -23,7 +23,7 @@ include_once 'leave/f3_rows.php';
 
 include_once 'leave/f4_rows.php';
 
-//include_once 'leave/f5_rows.php';
+include_once 'leave/f5_rows.php';
 
 //include_once 'leave/f6_rows.php';
 
@@ -38,7 +38,7 @@ $route_no = $st->fetch(PDO::FETCH_ASSOC);
 //$st->execute(array($id));
 //$route_no = $st->fetch(PDO::FETCH_ASSOC)['route_no'];
 
-//include_once 'print_barcode.php';
+include_once 'print_barcode.php';
 
 $pdf->Output();
 ?>

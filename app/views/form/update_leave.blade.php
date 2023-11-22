@@ -149,19 +149,19 @@
                                                         <label>
                                                             @if ($leave->leave_details == '1')
                                                             <input type="radio" id="checkboxSuccess" class="vac_dis" value="1" name="leave_details" checked > Within the Philippines
-                                                            <input type="text" name="for_text_input" class="vac_dis" id="within_txt" style="margin-left: 60px; width: 305px" value="{{$leave->leave_specify}}" >
+                                                            <input type="text" name="for_text_input" class="vac_dis" id="within_txt" style="margin-left: 60px; width: 250px" value="{{$leave->leave_specify}}" >
                                                             @else
                                                                 <input type="radio" id="checkboxSuccess" class="vac_dis" value="1" name="leave_details"> Within the Philippines
-                                                                <input type="text" name="for_text_input" class="vac_dis" id="within_txt" style="margin-left: 60px; width: 305px" >
+                                                                <input type="text" name="for_text_input" class="vac_dis" id="within_txt" style="margin-left: 60px; width: 250px" >
                                                                 @endif
                                                         </label><br>
                                                         <label>
                                                             @if ($leave->leave_details == '2')
                                                             <input type="radio" id="checkboxSuccess" class="vac_dis" value="2" name="leave_details" checked> Abroad (Specify)
-                                                            <input type="text" name="for_text_input" class="vac_dis" id="abroad_txt" style="margin-left: 92px; width: 305px" value="{{$leave->leave_specify}}" />
+                                                            <input type="text" name="for_text_input" class="vac_dis" id="abroad_txt" style="margin-left: 92px; width: 250px" value="{{$leave->leave_specify}}" />
                                                                 @else
                                                                 <input type="radio" id="checkboxSuccess" class="vac_dis" value="2" name="leave_details"> Abroad (Specify)
-                                                                <input type="text" name="for_text_input" class="vac_dis" id="abroad_txt" style="margin-left: 92px; width: 305px" />
+                                                                <input type="text" name="for_text_input" class="vac_dis" id="abroad_txt" style="margin-left: 92px; width: 250px" />
                                                                 @endif
                                                         </label> <br>
 
@@ -169,19 +169,19 @@
                                                         <label>
                                                             @if ($leave->leave_details == '3')
                                                             <input type="radio" id="checkboxSuccess" class="sick_dis" value="3" name="leave_details" checked> In Hospital (Specify Illness)
-                                                            <input type="text"  name="for_text_input" class="sick_dis" id="in_hos_txt" style="margin-left: 30px; width: 305px" value="{{$leave->leave_specify}}">
+                                                            <input type="text"  name="for_text_input" class="sick_dis" id="in_hos_txt" style="margin-left: 30px; width: 250px" value="{{$leave->leave_specify}}">
                                                                 @else
                                                                 <input type="radio" id="checkboxSuccess" class="sick_dis" value="3" name="leave_details"> In Hospital (Specify Illness)
-                                                                <input type="text"  name="for_text_input" class="sick_dis" id="in_hos_txt" style="margin-left: 30px; width: 305px" >
+                                                                <input type="text"  name="for_text_input" class="sick_dis" id="in_hos_txt" style="margin-left: 30px; width: 250px" >
                                                                 @endif
                                                         </label>
                                                         <label>
                                                             @if ($leave->leave_details == '4')
                                                             <input type="radio" id="checkboxSuccess" class="sick_dis" value="4" name="leave_details" checked> Out-patient (Specify Illness)
-                                                            <input type="text" name="for_text_input" class="sick_dis" id="out_hos_txt" style="margin-left: 26px; width: 305px" value="{{$leave->leave_specify}}">
+                                                            <input type="text" name="for_text_input" class="sick_dis" id="out_hos_txt" style="margin-left: 26px; width: 250px" value="{{$leave->leave_specify}}">
                                                                 @else
                                                                 <input type="radio" id="checkboxSuccess" class="sick_dis" value="4" name="leave_details"> Out-patient (Specify Illness)
-                                                                <input type="text" name="for_text_input" class="sick_dis" id="out_hos_txt" style="margin-left: 26px; width: 305px" >
+                                                                <input type="text" name="for_text_input" class="sick_dis" id="out_hos_txt" style="margin-left: 26px; width: 250px" >
                                                                 @endif
                                                         </label><br>
 
@@ -189,10 +189,10 @@
                                                         <label>
                                                             @if ($leave->leave_details == '5')
                                                             <input type="radio" id="checkboxSuccess" class="spec_dis" value="5" name="leave_details" checked> (Specify Illness)
-                                                            <input type="text"  name="for_text_input" class="spec_dis" id="spec_txt" style="margin-left: 98px; width: 302px" value="{{$leave->leave_specify}}" >
+                                                            <input type="text"  name="for_text_input" class="spec_dis" id="spec_txt" style="margin-left: 98px; width: 250px" value="{{$leave->leave_specify}}" >
                                                                 @else
                                                                 <input type="radio" id="checkboxSuccess" class="spec_dis" value="5" name="leave_details"> (Specify Illness)
-                                                                <input type="text"  name="for_text_input" class="spec_dis" id="spec_txt" style="margin-left: 98px; width: 302px" >
+                                                                <input type="text"  name="for_text_input" class="spec_dis" id="spec_txt" style="margin-left: 98px; width: 250px" >
                                                                 @endif
                                                         </label><br>
 
@@ -200,19 +200,19 @@
                                                         <label>
                                                             @if ($leave->leave_details == '6')
                                                             <input type="radio" id="checkboxSuccess" class="stud_dis" value="6" name="leave_details" checked> Completion of Master's Degree
-                                                            <input type="text"  name="for_text_input" class="stud_dis" id="master_txt" style="margin-left: 13px; width: 300px" value="{{$leave->leave_specify}}"/>
+                                                            <input type="text"  name="for_text_input" class="stud_dis" id="master_txt" style="margin-left: 13px; width: 250px" value="{{$leave->leave_specify}}"/>
                                                                 @else
                                                                 <input type="radio" id="checkboxSuccess" class="stud_dis" value="6" name="leave_details"> Completion of Master's Degree
-                                                                <input type="text"  name="for_text_input" class="stud_dis" id="master_txt" style="margin-left: 13px; width: 300px" />
+                                                                <input type="text"  name="for_text_input" class="stud_dis" id="master_txt" style="margin-left: 13px; width: 250px" />
                                                                 @endif
                                                         </label>
                                                         <label>
                                                             @if ($leave->leave_details == '7')
                                                             <input type="radio" id="checkboxSuccess" class="stud_dis" value="7" name="leave_details" checked> BAR/Board Examination Review
-                                                            <input type="text" name="for_text_input" class="stud_dis" id="bar_txt" style="margin-left: 8px; width: 300px" value="{{$leave->leave_specify}}"/>
+                                                            <input type="text" name="for_text_input" class="stud_dis" id="bar_txt" style="margin-left: 8px; width: 250px" value="{{$leave->leave_specify}}"/>
                                                                 @else
                                                                 <input type="radio" id="checkboxSuccess" class="stud_dis" value="7" name="leave_details"> BAR/Board Examination Review
-                                                                <input type="text" name="for_text_input" class="stud_dis" id="bar_txt" style="margin-left: 8px; width: 300px" />
+                                                                <input type="text" name="for_text_input" class="stud_dis" id="bar_txt" style="margin-left: 8px; width: 250px" />
                                                                 @endif
                                                         </label><br>
 
@@ -248,7 +248,7 @@
                                     <input type="hidden" class="form-control" name="credit_used" id="credit_used"/>
                                     <div style="display: flex; align-items: center;">
                                         <strong class="sm-m-3" style="margin-right: 10px;">&nbsp;&nbsp;&nbsp;&nbsp; INCLUSIVE DATES:</strong>
-                                        <button style="width: 60px;  margin-top: 5px; margin-bottom: 5px; margin-left: 59%" class="btn btn-sm btn-default addButton1" type="button"><strong>+</strong></button>
+                                        <button style="width: 60px;  margin-top: 5px; margin-bottom: 5px; margin-left: 58.5%" class="btn btn-sm btn-default addButton1" type="button"><strong>+</strong></button>
                                     </div>
                                     @foreach($leave_dates as $index => $date)
                                         <div class="table-data" id="clone_data">

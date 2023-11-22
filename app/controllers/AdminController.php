@@ -815,7 +815,7 @@ class AdminController extends BaseController
     }
 
     public function pending_leave(){
-//        return 1;
+        return 1;
 
         $route_no = Input::get('route_no');
         $leave = Leave::where('route_no','=',$route_no)->first();
@@ -855,9 +855,11 @@ class AdminController extends BaseController
     }
 
     public function disapproved_leave(){
+        return 1;
         $route_no = Input::get('route_no');
         $leave = Leave::where('route_no','=',$route_no)->first();
         $leave->status = 'DISAPPROVED';
+
         $leave->reason_for_disapproval = Input::get('disapproved_due_to');
         $leave->save();
 
@@ -891,7 +893,6 @@ class AdminController extends BaseController
 
     public function approved_leave()
     {
-//        return 13454875;
         $route_no = Input::get('route_no');
         $leave = Leave::where('route_no','=',$route_no)->first();
         $pis = InformationPersonal::where("userid","=",$leave->userid)->first();
@@ -902,26 +903,37 @@ class AdminController extends BaseController
         $vl = (!Empty($pis->vacation_balance)? $pis->vacation_balance : 0);
         $sl = (!Empty($pis->sick_balance)? $pis->sick_balance : 0);
 
+        if(Input::get('approved_for') == "1"){
+            $applied_days = $leave->applied_num_days;
+        }else{
+            $applied_days = 0;
+        }
         if($leave->leave_type == "VL"){
-            $pis->vacation_balance = $vl - (int)$leave->applied_num_days;
-            $leave->vacation_total = $vl - (int)$leave->applied_num_days;
-            $leave_card -> vl_bal = $vl - (int)$leave->applied_num_days;
+            $pis->vacation_balance = $vl - $applied_days;
+            $leave_card -> vl_bal = $vl - $applied_days;
             $leave_card -> sl_bal =  $sl;
             $leave_card -> particulars = "VL";
         }elseif($leave->leave_type == "SL"){
-            $pis->sick_balance = $sl - (int)$leave->applied_num_days;
-            $leave->sick_total = $sl - (int)$leave->applied_num_days;
-            $leave_card -> sl_bal = $sl - (int)$leave->applied_num_days;
+            $pis->sick_balance = $sl - $applied_days;
+            $leave_card -> sl_bal = $sl - $applied_days;
             $leave_card -> vl_bal = $vl;
             $leave_card -> particulars = "SL";
         }elseif ($leave->leave_type == "FL"){
-            $addtnl_leave->FL = $addtnl_leave->FL - (int)$leave->applied_num_days;
-            $leave->FL_total =  $addtnl_leave->FL - (int)$leave->applied_num_days;
+            $addtnl_leave->FL = $addtnl_leave->FL - $applied_days;
             $leave_card -> particulars = "FL";
+            if($vl >= $applied_days){
+                $pis->vacation_balance = $vl - $applied_days;
+                $leave_card->vl_bal = $pis->vacation_balance - $applied_days;
+            }else{
+                $rem = $applied_days - $vl;
+                $pis->vacation_balance = $pis->vacation_balance - $vl;
+                $pis->sick_balance = $pis->sick_balance - $rem;
+                $leave_card->vl_bal = $pis->vacation_balance - $vl;
+                $leave_card->sl_bal = $pis->sick_balance - $rem;
+            }
         }elseif ($leave->leave_type == "SPL"){
-            $addtnl_leave->SPL = $addtnl_leave->SPL - (int)$leave->applied_num_days;
-            $leave->SPL_total = $addtnl_leave->SPL - (int)$leave->applied_num_days;
-            $leave_card -> particulars = "SPL";
+            $addtnl_leave->SPL = $addtnl_leave->SPL - $applied_days;
+            $leave->SPL_total = $addtnl_leave->SPL - $applied_days;
         }else{
             $leave_card->particulars = $leave->leave_type;
         }
@@ -1003,79 +1015,83 @@ class AdminController extends BaseController
 //        $this->releasedStatusChecker($route_no,$receiver->section);
 //        ///END TRACKING
 
+        $all_dates = LeaveAppliedDates::where('leave_id', $leave->id)->get();
+        if($all_dates){
+            foreach ($all_dates as $date){
+                $from = date('Y-m-d',strtotime($date->startdate));
+                $end_date = date('Y-m-d',strtotime($date->enddate));
+                $f = new DateTime($from.' '. '24:00:00');
+                $t = new DateTime($end_date.' '. '24:00:00');
 
-        $from = date('Y-m-d',strtotime($leave->inc_from));
-        $end_date = date('Y-m-d',strtotime($leave->inc_to));
-        $f = new DateTime($from.' '. '24:00:00');
-        $t = new DateTime($end_date.' '. '24:00:00');
+                $interval = $f->diff($t);
+                $remarks = "LEAVE";
+                $f_from = explode('-',$from);
+                $startday = $f_from[2];
+                $j = 0;
+
+                $pdo = DB::connection()->getPdo();
+                $query1 = "INSERT IGNORE INTO leave_logs(userid,datein,time,event,remark,edited,holiday,route_no,created_at,updated_at) VALUES";
+                while($j <= $interval->days) {
+                    $datein = $f_from[0].'-'.$f_from[1] .'-'. $startday;
+                    $day_name = date('l', strtotime($datein));
+                    $userid = $leave->userid;
+                    $edited = '1';
+                    $holiday = '007';
+                    $remark = strtoupper($leave->leave_type)." ".$remarks;
+
+                    if($day_name != "Saturday" && $day_name != "Sunday"){
+                        if($leave->half_day_first == 'AM' || $leave->half_day_last == 'AM'){
+                            $timein = '08:00:00';
+                            $event = 'IN';
+                            $query1 .= "('" . $userid . "','" . $datein . "','" . $timein . "','" . $event . "','" . $remark . "','" . $edited . "','" . $holiday . "','" . $route_no . "',NOW(),NOW()),";
 
 
-        $interval = $f->diff($t);
-        $remarks = "LEAVE";
-        $f_from = explode('-',$from);
-        $startday = $f_from[2];
-        $j = 0;
-
-        $pdo = DB::connection()->getPdo();
-        $query1 = "INSERT IGNORE INTO leave_logs(userid,datein,time,event,remark,edited,holiday,route_no,created_at,updated_at) VALUES";
-        while($j <= $interval->days) {
-            $datein = $f_from[0].'-'.$f_from[1] .'-'. $startday;
-            $day_name = date('l', strtotime($datein));
-            $userid = $leave->userid;
-            $edited = '1';
-            $holiday = '007';
-            $remark = strtoupper($leave->leave_type)." ".$remarks;
-
-            if($day_name != "Saturday" && $day_name != "Sunday"){
-                if($leave->half_day_first == 'AM' || $leave->half_day_last == 'AM'){
-                    $timein = '08:00:00';
-                    $event = 'IN';
-                    $query1 .= "('" . $userid . "','" . $datein . "','" . $timein . "','" . $event . "','" . $remark . "','" . $edited . "','" . $holiday . "','" . $route_no . "',NOW(),NOW()),";
+                            $timein = '12:00:00';
+                            $event = 'OUT';
+                            $query1 .= "('" . $userid . "','" . $datein . "','" . $timein . "','" . $event . "','" . $remark . "','" . $edited . "','" . $holiday . "','" . $route_no . "',NOW(),NOW()),";
+                        }
+                        elseif($leave->half_day_first == 'PM' || $leave->half_day_last == 'PM') {
+                            $timein = '13:00:00';
+                            $event = 'IN';
+                            $query1 .= "('" . $userid . "','" . $datein . "','" . $timein . "','" . $event . "','" . $remark . "','" . $edited . "','" . $holiday . "','" . $route_no . "',NOW(),NOW()),";
 
 
-                    $timein = '12:00:00';
-                    $event = 'OUT';
-                    $query1 .= "('" . $userid . "','" . $datein . "','" . $timein . "','" . $event . "','" . $remark . "','" . $edited . "','" . $holiday . "','" . $route_no . "',NOW(),NOW()),";
+                            $timein = '18:00:00';
+                            $event = 'OUT';
+                            $query1 .= "('" . $userid . "','" . $datein . "','" . $timein . "','" . $event . "','" . $remark . "','" . $edited . "','" . $holiday . "','" . $route_no . "',NOW(),NOW()),";
+                        }
+                        else {
+                            $timein = '08:00:00';
+                            $event = 'IN';
+                            $query1 .= "('" . $userid . "','" . $datein . "','" . $timein . "','" . $event . "','" . $remark . "','" . $edited . "','" . $holiday . "','" . $route_no . "',NOW(),NOW()),";
+
+
+                            $timein = '12:00:00';
+                            $event = 'OUT';
+                            $query1 .= "('" . $userid . "','" . $datein . "','" . $timein . "','" . $event . "','" . $remark . "','" . $edited . "','" . $holiday . "','" . $route_no . "',NOW(),NOW()),";
+
+
+                            $timein = '13:00:00';
+                            $event = 'IN';
+                            $query1 .= "('" . $userid . "','" . $datein . "','" . $timein . "','" . $event . "','" . $remark . "','" . $edited . "','" . $holiday . "','" . $route_no . "',NOW(),NOW()),";
+
+
+                            $timein = '18:00:00';
+                            $event = 'OUT';
+                            $query1 .= "('" . $userid . "','" . $datein . "','" . $timein . "','" . $event . "','" . $remark . "','" . $edited . "','" . $holiday . "','" . $route_no . "',NOW(),NOW()),";
+                        }
+                    }
+
+                    $startday = $startday + 1;
+                    $j++;
                 }
-                elseif($leave->half_day_first == 'PM' || $leave->half_day_last == 'PM') {
-                    $timein = '13:00:00';
-                    $event = 'IN';
-                    $query1 .= "('" . $userid . "','" . $datein . "','" . $timein . "','" . $event . "','" . $remark . "','" . $edited . "','" . $holiday . "','" . $route_no . "',NOW(),NOW()),";
 
-
-                    $timein = '18:00:00';
-                    $event = 'OUT';
-                    $query1 .= "('" . $userid . "','" . $datein . "','" . $timein . "','" . $event . "','" . $remark . "','" . $edited . "','" . $holiday . "','" . $route_no . "',NOW(),NOW()),";
-                }
-                else {
-                    $timein = '08:00:00';
-                    $event = 'IN';
-                    $query1 .= "('" . $userid . "','" . $datein . "','" . $timein . "','" . $event . "','" . $remark . "','" . $edited . "','" . $holiday . "','" . $route_no . "',NOW(),NOW()),";
-
-
-                    $timein = '12:00:00';
-                    $event = 'OUT';
-                    $query1 .= "('" . $userid . "','" . $datein . "','" . $timein . "','" . $event . "','" . $remark . "','" . $edited . "','" . $holiday . "','" . $route_no . "',NOW(),NOW()),";
-
-
-                    $timein = '13:00:00';
-                    $event = 'IN';
-                    $query1 .= "('" . $userid . "','" . $datein . "','" . $timein . "','" . $event . "','" . $remark . "','" . $edited . "','" . $holiday . "','" . $route_no . "',NOW(),NOW()),";
-
-
-                    $timein = '18:00:00';
-                    $event = 'OUT';
-                    $query1 .= "('" . $userid . "','" . $datein . "','" . $timein . "','" . $event . "','" . $remark . "','" . $edited . "','" . $holiday . "','" . $route_no . "',NOW(),NOW()),";
-                }
+                $query1 .= "('','','','','','','','',NOW(),NOW())";
+                $st = $pdo->prepare($query1);
+                $st->execute();
             }
-
-            $startday = $startday + 1;
-            $j++;
         }
 
-        $query1 .= "('','','','','','','','',NOW(),NOW())";
-        $st = $pdo->prepare($query1);
-        $st->execute();
 
         Session::put('approved_leave',true);
         return Redirect::to('leave/roles');
