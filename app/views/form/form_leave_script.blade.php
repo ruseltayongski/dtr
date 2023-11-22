@@ -99,27 +99,6 @@
                     }else{
                         $('#applied_num_days').val(days);
                     }
-                }else if(radio_val == "VL"){
-                    if(days > VL){
-                        Lobibox.alert('error', {msg:"Exceed VL Balance!"});
-                        $('.datepickerInput1').val("");
-                    }else{
-                        $('#applied_num_days').val(days);
-                    }
-                }else if(radio_val == "FL"){
-                    if(days> FL){
-                        Lobibox.alert('error', {msg:"Exceed FL Balance!"});
-                        $('.datepickerInput1').val("");
-                    }else{
-                        $('#applied_num_days').val(days);
-                    }
-                }else if(radio_val == "SL"){
-                    if(days> SL){
-                        Lobibox.alert('error', {msg:"Exceed SL Balance"});
-                        $('.datepickerInput1').val("");
-                    }else{
-                        $('#applied_num_days').val(days);
-                    }
                 }else if(radio_val == "PL" || radio_val == "SOLO_PL"){
                     if(days>7){
                         Lobibox.alert('error', {msg:"7 Days of Leave Only!"})

@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <h3 class="page-header">Leave Documentsdsds
+    <h3 class="page-header">Leave Documents
     </h3>
     <div class="row">
         <div class="col-md-4">
@@ -110,7 +110,7 @@
                                                                 $color = 'danger';
                                                             ?>
                                                             @if($leave->status == 'PENDING')
-                                                            <small class="label label-{{ $color }}">PENDINGdfdsfd</small>
+                                                            <small class="label label-{{ $color }}">PENDING</small>
                                                             @else
                                                              <small class="label label-{{ $color }}">PROCESSED</small>
                                                             @endif

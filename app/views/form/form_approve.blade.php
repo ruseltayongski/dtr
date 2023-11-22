@@ -5,12 +5,12 @@
             <thead>
             <tr>
                 <th></th>
-                <th class="text-center">Route #</th>
-                <th class="text-center" >Reason</th>
-                <th class="text-center">Inclusive Dates</th>
-                <th class="text-center" width="13%">Prepared Name</th>
+                <th class="text-center" style="width: 15%">Route #</th>
+                <th class="text-center" style="width: 10%">Leave Type</th>
+                <th class="text-center" style="width: 25%">Inclusive Dates</th>
+                <th class="text-center" width="20%">Prepared Name</th>
                 {{--<th class="text-center"width="15%">Beginning Balance</th>--}}
-                <th class="text-center" width="17%">Option</th>
+                <th class="text-center" width="40%">Option</th>
             </tr>
             </thead>
             <tbody style="font-size: 10pt;">
@@ -74,7 +74,10 @@
                         </td>
                         <td>
                             <button type="submit" class="btn-xs btn-danger leave_pending" data-route="{{ $row->route_no }}" value="{{ $row->id }}" onclick="approved_status($(this))" style="color:white;"><i class="fa fa-ban"></i> Unprocess</button>
-                            <button class="btn-xs btn-warning cancel_dates" id="cancel" onclick="cancel_dates(event)"  value="{{ $row->route_no }}" style="color: white;" data-toggle="modal"  data-target="#cancel_dates"><i class="fa fa-ban"></i>Cancel</button>
+                            <button class="btn-xs btn-warning cancel_dates" id="cancel" onclick="cancel_dates(event)"  value="{{ $row->route_no }}" style="color: white;" data-toggle="modal"  data-target="#cancel_dates"><i class="fa fa-close"></i>Cancel</button>
+                            <button type="submit" class="btn-xs btn-info" data-route="{{ $row->route_no }}" value="{{ $row->id }}" onclick="approved_status($(this))" style="color:white;"><i class="fa fa-comment"></i> Remarks</button>
+                            <button class="btn-xs btn-success move_leave" id="move" onclick="cancel_dates(event)"  value="{{ $row->route_no }}" style="color: white;" data-toggle="modal"  data-target="#move_leave"><i class="fa fa-eraser"></i>Move</button>
+
                         </td>
 
                     </tr>
@@ -90,6 +93,9 @@
 
 <script>
     //document information
+    $('#cancel').click(function () {
+
+    });
     $('a[href="#leave_info').click(function(){
         var id = $(this).data('id');
         var url = $(this).data('link');
@@ -101,7 +107,6 @@
         });
     });
     function approved_status(data){
-        $(".leave_pending").click(function(){
             $('#modal_leave_pending').modal({
                 backdrop: 'static',
                 keyboard: false,
@@ -110,6 +115,5 @@
 
             var route = $(this).data('route');
             $("#leave_route_pending").val(route);
-        });
     }
 </script>

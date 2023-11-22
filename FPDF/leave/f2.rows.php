@@ -123,7 +123,7 @@ $pdf->Text(110,79,'In case of Vacation/Special Privilege leave:');
 if($leave['leave_details'] == '1'){
     $pdf->Image(__DIR__.'../../image/check.png', 115,81,4,4);
     $pdf->SetFont('Arial','U',8);
-    $pdf->Text(155, 88, $leave['leave_specify']);
+    $pdf->Text(155, 84, $leave['leave_specify']);
 } else {
     $pdf->Image(__DIR__.'../../image/square.png', 115,81,4,4);
 }
@@ -132,8 +132,8 @@ $pdf->Text(121,84,'Within the Philippines');
 
 if($leave['leave_details'] == '2'){
     $pdf->Image(__DIR__.'../../image/check.png', 115,86,4,4);
-    $pdf->SetFont('Arial','BU',8);
-    $pdf->Text(155, 93, $leave['leave_specify']);
+    $pdf->SetFont('Arial','U',8);
+    $pdf->Text(155, 89, $leave['leave_specify']);
 } else {
     $pdf->Image(__DIR__.'../../image/square.png', 115,86,4,4);
 }
@@ -141,10 +141,11 @@ $pdf->SetFont('Arial','',8);
 $pdf->Text(121,89,'Abroad(Specify)');
 $pdf->SetFont('Arial','I',8);
 $pdf->Text(110,94,'In case of Sick Leave:');
+
 if($leave['leave_details'] == '3'){
     $pdf->Image(__DIR__.'../../image/check.png', 115,96,4,4);
     $pdf->SetFont('Arial','U',8);
-    $pdf->Text(160, 103, $leave['leave_specify']);
+    $pdf->Text(160, 99, $leave['leave_specify']);
 } else {
     $pdf->Image(__DIR__.'../../image/square.png', 115,96,4,4);
 }
@@ -154,7 +155,7 @@ $pdf->Text(121,99,'In Hospital(Specify Illness)');
 if($leave['leave_details'] == '4'){
     $pdf->Image(__DIR__.'../../image/check.png', 115,101,4,4);
     $pdf->SetFont('Arial','U',8);
-    $pdf->Text(160, 108, $leave['leave_specify']);
+    $pdf->Text(160, 104, $leave['leave_specify']);
 } else {
     $pdf->Image(__DIR__.'../../image/square.png', 115,101,4,4);
 }
@@ -166,7 +167,7 @@ $pdf->Text(110,109,'In case of Special Leave Benefits for Women:');
 if($leave['leave_details'] == '5'){
     $pdf->Image(__DIR__.'../../image/check.png', 115,111,4,4);
     $pdf->SetFont('Arial','U',8);
-    $pdf->Text(150, 118, $leave['leave_specify']);
+    $pdf->Text(150, 114, $leave['leave_specify']);
 } else {
     $pdf->Image(__DIR__.'../../image/square.png', 115,111,4,4);
 }
@@ -177,8 +178,8 @@ $pdf->Text(110,119,'In case of Study Leave:');
 
 if($leave['leave_details'] == '6'){
     $pdf->Image(__DIR__.'../../image/check.png', 115,121,4,4);
-    $pdf->SetFont('Arial','BU',8);
-    $pdf->Text(165, 128, $leave['leave_specify']);
+    $pdf->SetFont('Arial','U',8);
+    $pdf->Text(165, 124, $leave['leave_specify']);
 } else {
     $pdf->Image(__DIR__.'../../image/square.png', 115,121,4,4);
 }
@@ -189,7 +190,7 @@ $pdf->Text(121,124,"Completion of Master's Degree");
 if($leave['leave_details'] == '7'){
     $pdf->Image(__DIR__.'../../image/check.png', 115,126,4,4);
     $pdf->SetFont('Arial','U',8);
-    $pdf->Text(167, 133, $leave['leave_specify']);
+    $pdf->Text(167, 129, $leave['leave_specify']);
 } else {
     $pdf->Image(__DIR__.'../../image/square.png', 115,126,4,4);
 }

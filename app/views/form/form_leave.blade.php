@@ -195,7 +195,7 @@
                                     <input type="text" class="form-control" name="applied_num_days" id="applied_num_days" style="margin-left: 10px; width: 96%" readonly/>
                                     <input type="hidden" class="form-control" name="credit_used" id="credit_used"/>
                                     <strong class="sm-m-3" style="display: inline-block; margin-right: 10px; margin-top: 10px; margin-bottom: 10px"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;INCLUSIVE DATES :</strong>
-                                    <button  style="width: 60px; display: inline-block; margin-left: 61.5%" class="btn btn-sm btn-default addButton1" type="button"><strong>+</strong></button>
+                                    <button  style="width: 60px; display: inline-block; margin-left: 61%" class="btn btn-sm btn-default addButton1" type="button"><strong>+</strong></button>
 
                                     <div class="table-data" id="clone_data">
                                         <div class="input-group" style="margin-left: 10px; margin-bottom: 10px" >
@@ -203,7 +203,7 @@
                                                 <i class="fa fa-calendar"></i>
                                             </div>
                                                 <input style="width: 70%" type="text" class="form-control datepickerInput1" id="inclusive11" name="inclusive_dates1[]" placeholder="Input date here..." required>
-                                            <button style="width: 60px; margin-left: 16%" type="button" class="btn btn-sm btn-default deleteButton1"><strong>-</strong></button>
+                                            <button style="width: 60px; margin-left: 15.5%" type="button" class="btn btn-sm btn-default deleteButton1"><strong>-</strong></button>
                                         </div>
                                     </div>
 

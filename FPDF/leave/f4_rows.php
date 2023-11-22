@@ -29,13 +29,21 @@ $pdf->Cell(29, 5, 'Sick Leave', 1,'', 'C');
 $pdf->Ln(); // Move to the next line
 $vl=0;
 $sl=0;
+$days = $leave['applied_num_days'];
 if($leave['leave_type'] == "VL"){
-    $vl = $leave['applied_num_days'];
+    $vl = $days;
 }else if($leave['leave_type'] == "SL"){
-    $sl = $leave['applied_num_days'];
+    $sl = $days;
+}else if ($leave['leave_type'] == "FL"){
+    if($leave['vacation_total'] >= $days){
+        $vl = $days;
+    }else{
+        $vl = $leave['vacation_total'];
+        $sl = $days - $leave['vacation_total'];
+    }
 }
-$vl_earned = !empty($leave['vacation_balance'])? $leave['vacation_balance']: 0;
-$sl_earned = !empty($leave['sick_balance'])?$leave['sick_balance']:0;
+$vl_earned = !empty($leave['vacation_total'])? $leave['vacation_total']: 0;
+$sl_earned = !empty($leave['sick_total'])?$leave['sick_total']:0;
 $vl_bal = $vl_earned - $vl;
 $sl_bal = $sl_earned - $sl;
 $pdf->Cell(30, 5, 'Total Earned', 1);

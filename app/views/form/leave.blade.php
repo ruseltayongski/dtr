@@ -132,7 +132,7 @@
                                         <div class="row">
                                             <span><i>In case of Sick Leave</i></span>
                                             @if ($leave->leave_details == '3')
-                                                <span style="text-decoration: underline; margin-left: 10px" class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                                                <br><span style="text-decoration: underline; margin-left: 10px" class="glyphicon glyphicon-ok" aria-hidden="true"></span>
                                                 <span class="{{ $leave->leave_details == '3' ? 'text-decoration-underline' : '' }}"  style="margin-left: 10px">In Hospital (Specify Illness)</span>
                                                 <u style="margin-left: 10px">{{$leave->leave_specify}}</u>
                                                 <br><span style="margin-left: 36px">Out Patient (Specify Illness)</span><br>
@@ -159,7 +159,7 @@
                                         <div class="row">
                                             <span><i>In case of Study Leave</i></span>
                                             @if ($leave->leave_details == '6')
-                                                <span style="text-decoration: underline; margin-left: 10px" class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                                                <br><span style="text-decoration: underline; margin-left: 10px" class="glyphicon glyphicon-ok" aria-hidden="true"></span>
                                                 <span class="{{ $leave->leave_details == '6' ? 'text-decoration-underline' : '' }}"  style="margin-left: 10px">Comppletion of Master's Degree</span>
                                                 <u style="margin-left: 10px">{{$leave->leave_specify}}</u>
                                                 <br><span style="margin-left: 36px">BAR/Board Examination Review</span>
@@ -176,7 +176,7 @@
                                         <div class="row">
                                             <span><i>Other Purpose</i></span>
                                             @if ($leave->leave_details == '6')
-                                                <span style="text-decoration: underline; margin-left: 10px" class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                                                <br><span style="text-decoration: underline; margin-left: 10px" class="glyphicon glyphicon-ok" aria-hidden="true"></span>
                                                 <span class="{{ $leave->leave_details == '6' ? 'text-decoration-underline' : '' }}"  style="margin-left: 10px">Monetization of Leave Credits</span>
                                                 <br><span style="margin-left: 36px">Terminal Leave</span>
                                             @elseif ($leave->leave_details == '7')
@@ -218,9 +218,9 @@
                                 <strong style="margin-left: 1%">
 
                                     @if(  date('F d,Y',strtotime($dates->startdate)) == date('F d,Y',strtotime($dates->enddate)))
-                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<u><i style="margin-left: 20px">{{ date('F d,Y',strtotime($dates->startdate))}}</i></u>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<u><i style="margin-left: 20px ; text-decoration: underline">{{ date('F d,Y',strtotime($dates->startdate))}}</i></u>
                                     @else
-                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i style="margin-left: 20px">{{ date('F d,Y',strtotime($dates->startdate)).' to '.date('F d,Y',strtotime($dates->enddate)) }}</i>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i style="margin-left: 20px; text-decoration: underline">{{ date('F d,Y',strtotime($dates->startdate)).' to '.date('F d,Y',strtotime($dates->enddate)) }}</i>
                                     @endif
                                     &nbsp;&nbsp;
                                 </strong><br>
@@ -295,8 +295,8 @@
                                             <tbody>
                                             <tr height="30">
                                                 <td>Total Earned</td>
-                                                <td>{{ $leave->vacation_balance }}</td>
-                                                <td>{{ $leave->sick_balance }}</td>
+                                                <td>{{ $leave->vacation_total }}</td>
+                                                <td>{{ $leave->sick_total }}</td>
                                             </tr>
                                             <tr height ="30">
                                                 <td>Less this application</td>
@@ -307,6 +307,14 @@
                                                     }else if($leave->credit_used == "SL"){
                                                         $total1 = 0;
                                                         $total2 = $leave->applied_num_days;
+                                                    }else if($leave->credit_used == "FL"){
+                                                        $days = $leave->applied_num_days;
+                                                        if($leave->vacation_total >= $days){
+                                                            $total1 = $days;
+                                                        }else{
+                                                            $total1 = $leave->vacation_total;
+                                                            $total2 = $days - $leave->vacation_total;
+                                                        }
                                                     }else{
                                                         $total1 = 0;
                                                         $total2 = 0;
@@ -317,8 +325,8 @@
                                             </tr>
                                             <tr height = "30">
                                                 <?php
-                                                $vac_bal = $leave->vacation_balance;
-                                                $sick_bal = $leave->sick_balance;
+                                                $vac_bal = $leave->vacation_total;
+                                                $sick_bal = $leave->sick_total;
 
                                                 $total_val = $vac_bal-$total1;
                                                 $total_sick = $sick_bal-$total2;
