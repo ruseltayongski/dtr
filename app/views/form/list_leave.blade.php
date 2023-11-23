@@ -200,17 +200,17 @@
                     <?php foreach ($leave_card as $card){ ?>
 
                 var tabledata1 = "<tr>" +
-                    "<td><?php echo $card->particulars ?></td>" +
-                    "<td><?php echo $card->particulars; ?></td>" +
-                    "<td><?php echo $card->particulars; ?></td>" +
-                    "<td><?php echo $card->particulars; ?></td>" +
-                    "<td><?php echo $card->particulars; ?></td>" +
-                    "<td><?php echo $card->particulars; ?></td>" +
-                    "<td><?php echo $card->particulars; ?></td>" +
-                    "<td><?php echo $card->particulars; ?></td>" +
-                    "<td><?php echo $card->particulars; ?></td>" +
-                    "<td><?php echo $card->particulars; ?></td>" +
-                    "<td><?php echo $card->particulars; ?></td>";
+                    "<td style= 'border: 1px solid black'><?php echo $card->period ?></td>" +
+                    "<td style= 'border: 1px solid black'><?php echo $card->particulars; ?></td>" +
+                    "<td style= 'border: 1px solid black'><?php echo $card->vl_earned; ?></td>" +
+                    "<td style= 'border: 1px solid black'><?php echo $card->vl_abswp; ?></td>" +
+                    "<td style= 'border: 1px solid black'><?php echo $card->vl_bal; ?></td>" +
+                    "<td style= 'border: 1px solid black'><?php echo $card->vl_abswop; ?></td>" +
+                    "<td style= 'border: 1px solid black'><?php echo $card->sl_earned; ?></td>" +
+                    "<td style= 'border: 1px solid black'><?php echo $card->sl_abswp; ?></td>" +
+                    "<td style= 'border: 1px solid black'><?php echo $card->sl_bal; ?></td>" +
+                    "<td style= 'border: 1px solid black'><?php echo $card->sl_abswop; ?></td>" +
+                    "<td style= 'border: 1px solid black'><?php echo $card->date_used; ?></td>";
                 tabledata1 += "</tr>";
                 $('#ledger_body').append(tabledata1);
                 count++;

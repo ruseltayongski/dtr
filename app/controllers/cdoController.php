@@ -130,7 +130,7 @@ class cdoController extends BaseController
 //            return pdoController::section();
             foreach(pdoController::section() as $row) {
                 if ($row['acronym'] !== null || in_array($row['head'], [37, 72, 243, 614, 110, 5, 163, 648384, 985698, 160, 985950, 830744])) {
-                    if(!in_array($row['head'], [172, 173, 96, 986774, 53, 114, 442, 155, 91])){
+                    if(!in_array($row['head'], [172, 173, 96, 53, 114, 442, 155, 91])){
                         if(!in_array($row['head'], $id_list)){
                             $id_list[]=$row['head'];
                         }
