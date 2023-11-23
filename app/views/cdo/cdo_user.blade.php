@@ -107,7 +107,7 @@
                         @if(isset($card_view) and count($card_view) >0)
                             @foreach($card_view as $card_viewL)
 
-                                @if(Auth::user()->userid == $card_viewL->userid)
+                                @if(Auth::user()->userid == $card_viewL->userid && $card_viewL->status != 5)
                                     <tr>
 
                                         @if($card_viewL->ot_hours !== null)
@@ -170,7 +170,7 @@
                                         @elseif($card_viewL->status == 7)
                                             <td id='remarks'style='color: blue'>BALANCE</td>
                                         @elseif($card_viewL->status == 9)
-                                            <td id='remarks'style='color: green'>MAXIMUM</td>
+                                            <td id='remarks'style='color: green'>EXCEED</td>
                                         @else
                                             <td id='remarks'style='color: red'>EXCEED</td>
                                         @endif

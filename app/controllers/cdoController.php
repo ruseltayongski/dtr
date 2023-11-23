@@ -910,8 +910,8 @@ class cdoController extends BaseController
                                 $display = ($forCred >= $checkpoint) ? $checkpoint : $forCred;
                                 if ($totalRef < 40) {
                                     if ($totalCheck <= 40) {
-                                        CardView::where('id', $card_Filter->id)->update(["bal_credits" => $proBal - $checkpoint, "ot_credits" => $cred - $checkpoint, "status" => 1]);
-                                        InformationPersonal::where('userid', $card_Filter->userid)->update(["bbalance_cto" => $proBal - $checkpoint]);
+                                        CardView::where('id', $card_Filter->id)->update(["bal_credits" => $cprevbal + $display, "ot_credits" => $display, "status" => 1]);
+                                        InformationPersonal::where('userid', $card_Filter->userid)->update(["bbalance_cto" => $cprevbal ]);
                                     } else {
                                         CardView::where('id', $card_Filter->id)->update(["bal_credits" => $cprevbal + $display, "ot_credits" => $display, "status" => 22]);
                                         InformationPersonal::where('userid', $card_Filter->userid)->update(["bbalance_cto" => $cprevbal + $display]);
@@ -1003,8 +1003,8 @@ class cdoController extends BaseController
                                     $display = ($forCred >= $checkpoint) ? $checkpoint : $forCred;
                                     if ($totalRef < 40) {
                                         if ($totalCheck <= 40) {
-                                            CardView::where('id', $card_Filter->id)->update(["bal_credits" => $proBal - $checkpoint, "ot_credits" => $cred - $checkpoint, "status" => 1]);
-                                            InformationPersonal::where('userid', $card_Filter->userid)->update(["bbalance_cto" => $proBal - $checkpoint]);
+                                            CardView::where('id', $card_Filter->id)->update(["bal_credits" => $cprevbal + $display, "ot_credits" => $display, "status" => 1]);
+                                            InformationPersonal::where('userid', $card_Filter->userid)->update(["bbalance_cto" => $cprevbal + $display]);
                                         } else {
                                             CardView::where('id', $card_Filter->id)->update(["bal_credits" => $cprevbal + $display, "ot_credits" => $display, "status" => 22]);
                                             InformationPersonal::where('userid', $card_Filter->userid)->update(["bbalance_cto" => $cprevbal + $display]);
@@ -1135,8 +1135,8 @@ class cdoController extends BaseController
                                             $display = ($forCred >= $check_120) ? $check_120 : $forCred;
                                             if ($totalRef < 40) {
                                                 if ($totalCheck <= 40) {
-                                                    CardView::where('id', $card->id)->update(["bal_credits" => $proBal - $check_120, "ot_credits" => $cred - $check_120, "status" => 1]);
-                                                    InformationPersonal::where('userid', $userid)->update(["bbalance_cto" => $proBal - $check_120]);
+                                                    CardView::where('id', $card->id)->update(["bal_credits" => $cprevbal + $display, "ot_credits" => $display, "status" => 1]);
+                                                    InformationPersonal::where('userid', $userid)->update(["bbalance_cto" => $cprevbal + $display]);
                                                 } else {
                                                     CardView::where('id', $card->id)->update(["bal_credits" => $cprevbal + $display, "ot_credits" => $display, "status" => 11]);
                                                     InformationPersonal::where('userid', $userid)->update(["bbalance_cto" => $cprevbal + $display]);
@@ -1310,13 +1310,14 @@ class cdoController extends BaseController
                                         }
                                     } else {
 
-                                        $check_120 = 120 - $cprevbal; // 114 + 24 = 134 -120 = 14 ; //check 120 - 4 < forcred = 16 =
-                                        $display = ($forCred>=$check_120)?$check_120 : $forCred;
+                                        $check_120 = 120 - $cprevbal; // 114 + 24 = 134 -120 = 14 ; //check 120 - 4 < forcred = 16 = // 120-114 = 6 = 114 + 16 - 130 - 6 =124 //114 + 6
+                                        $display = ($forCred>=$check_120)?$check_120 : $forCred; //
 
                                         if ($totalRef < 40) {
                                             if ($totalCheck <= 40) {
-                                                CardView::where('id', $card->id)->update(["bal_credits" => $proBal - $check_120, "ot_credits" => $cred - $check_120, "status" => 1]);
-                                                InformationPersonal::where('userid', $userid)->update(["bbalance_cto" => $proBal - $check_120]);
+//                                                return $display; //114
+                                                CardView::where('id', $card->id)->update(["bal_credits" => $cprevbal + $display, "ot_credits" => $display, "status" => 1]);
+                                                InformationPersonal::where('userid', $userid)->update(["bbalance_cto" => $cprevbal + $display]);
                                             } else {
                                                 CardView::where('id', $card->id)->update(["bal_credits" => $cprevbal + $display, "ot_credits" => $display, "status" => 11]);
                                                 InformationPersonal::where('userid', $userid)->update(["bbalance_cto" => $cprevbal + $display]);
