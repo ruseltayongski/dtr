@@ -924,22 +924,50 @@
                         {{--}--}}
                     {{--}--}}
                 {{--}--}}
-
-                if (totalDays<=5) {
-                    if (less_applied2 < parseInt($(".beginning_balance").val()) + 8) {
-                        $(".less_applied").val(less_applied2); //
+                var data = "<?php
+                    $id=Auth::user()->userid ;
+                    $all_cdo = cdo::where('prepared_name', $id)->get();
+                    $balance = 0;
+                    if($all_cdo){
+                        foreach ($all_cdo as $cdo){
+                            $balance += $cdo->less_applied_for;
+                        }
+                        echo $balance;
+                    }else{
+                        echo $balance;
+                    }
+                    ?>";
+                var balance = "<?php $pis = InformationPersonal::where('userid', Auth::user()->userid)->first(); echo !Empty($pis->bbalance_cto)?$pis->bbalance_cto :0;?>";
+                var to_consume = balance - data;
+                if(to_consume>=less_applied2){
+                    if (totalDays<=5) {
+                        if (less_applied2 < parseInt($(".beginning_balance").val()) + 8) {
+                            $(".less_applied").val(less_applied2); //
+                        }
+                        else {
+                            Lobibox.alert('error', //AVAILABLE TYPES: "error", "info", "success", "warning"
+                                {
+                                    msg: "Insufficient CTO balance."
+                                });
+                            $('.datepickerInput').val("");
+                            $(".newRow").find("#date_label").text("");
+                            $('.less_applied').val(0);
+                        }
                     }
                     else {
-                        Lobibox.alert('error', //AVAILABLE TYPES: "error", "info", "success", "warning"
-                            {
-                                msg: "Insufficient CTO balance."
-                            });
+                        fivedays();
                         $('.datepickerInput').val("");
                         $(".newRow").find("#date_label").text("");
+                        $('.less_applied').val(0);
                     }
-                }
-                else {
-                    fivedays();
+                }else{
+                    Lobibox.alert('error', //AVAILABLE TYPES: "error", "info", "success", "warning"
+                        {
+                            msg: "Insufficient CTO balance."
+                        });
+                    $('.datepickerInput').val("");
+                    $(".newRow").find("#date_label").text("");
+                    $('.less_applied').val(0);
                 }
 
                 $(".remaining_balance").val(parseFloat($(".beginning_balance").val()) - parseFloat($(".less_applied").val()));
