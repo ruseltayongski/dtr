@@ -748,7 +748,7 @@
                 dd = nextValidDay.getDate();
                 mm = nextValidDay.getMonth() + 1;
                 yyyy = nextValidDay.getFullYear();
-                console.log('date', holidays);
+                // console.log('date', holidays);
 
              previousDate = $(this).val();
 

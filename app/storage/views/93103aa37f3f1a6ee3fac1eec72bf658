@@ -546,27 +546,6 @@
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
-<div class="modal fade" tabindex="5" role="dialog" id="move_leave">
-    <div class="modal-dialog modal-xs" role="document" id="size">
-        <div class="modal-content" id="cancel_date">
-            <form action="<?php echo asset('cancel_dates'); ?>" method="get">
-                <div class="modal-header" style="background-color: orange">
-                    <strong><h4 class="modal-title" style="display: inline-block"></h4></strong>
-                    <button style="display: inline-block" type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                </div>
-                <div>
-                    <table class="modal-body table" id="move_leave">
-
-                    </table>
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" value="specific_date" class="btn btn-success">Submit</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-
 <div class="modal fade" tabindex="-1" role="dialog" id="supervise_view">
     <div class="modal-dialog modal-sm" role="document">
         <div class="modal-content" >
