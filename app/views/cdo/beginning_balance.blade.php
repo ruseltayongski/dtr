@@ -313,8 +313,8 @@
 
                             if(!Empty($card_viewL->date_used) ){
                                 $created = strtotime($card_viewL->created_at);
-                                $condition = strtotime('2023-11-01');
-                                if($created<$condition){
+                                $condition = strtotime('2023-10-24');
+                                if($created<=$condition){
                                     $dateRanges = explode(",", $card_viewL->date_used);
                                     $datelist = [];
                                     foreach ($dateRanges as $date){
@@ -357,8 +357,8 @@
                         "<td><?php
                             if($card_viewL->status == "7" ){
                                 $created = strtotime($card_viewL->created_at);
-                                $condition = strtotime('2023-11-01');
-                                if($created < $condition){
+                                $condition = strtotime('2023-10-24');
+                                if($created <= $condition){
                                     echo "September 30, 2023";
                                 }else{
                                     echo date("F j, Y", strtotime($card_viewL->created_at));
