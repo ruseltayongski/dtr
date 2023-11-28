@@ -526,7 +526,7 @@ class AdminController extends BaseController
         function conn(){
             $server = '192.168.110.31';
             try{
-                $pdo = new PDO("mysql:host=localhost; dbname=dohdtr",'root','adm1n');
+                $pdo = new PDO("mysql:host=localhost; dbname=dohdtr",'root','');
                 $pdo->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
             }
             catch (PDOException $err) {
@@ -1167,39 +1167,12 @@ class AdminController extends BaseController
 
     public function leave_credits()
     {
+//        return 2;
         return "Leave is under development";
         $id= Input::get('viewCard');
 //        return $id;
         $keyword = Input::get('search');
         $leave_card = LeaveCardView::get();
-        $id= DB::connection('pis')
-            ->table('pis.personal_information')->leftjoin('dohdtr.addtnl_leave', 'personal_information.userid', '=', 'addtnl_leave.userid')
-            ->whereNull('addtnl_leave.userid')->where('personal_information.job_status', '=', 'Permanent')->select('personal_information.userid')->get();
-        $add= new AditionalLeave();
-//        return $id;
-        foreach ($id as $idcheck){
-            $add->userid = $idcheck->userid;
-            $checkpoint = WorkExperience::where('userid', '=', $idcheck->userid)->first();
-            $firstYear = (!empty($checkpoint->date_from) ? $checkpoint->date_from : date('m-d-Y') );
-            $cpYear = intval(date('Y', strtotime($firstYear)));
-            $thisYear = intval(date('Y'));
-            $add->FL = (($thisYear-$cpYear)>0) ? 4 : 0;
-            $add->SPL=4;
-            $add->save();
-        }
-
-//        $pis = InformationPersonal::
-//        where('user_status','=','1')
-//            ->where(function($q) use ($keyword){
-//                $q->where('fname','like',"%$keyword%")
-//                    ->orWhere('mname','like',"%$keyword%")
-//                    ->orWhere('lname','like',"%$keyword%")
-//                    ->orWhere('userid','like',"%$keyword%");
-//            })
-//            ->orderBy('fname','asc')
-//            ->paginate(10);
-
-
         $pis = DB::connection('pis')
         ->table('pis.personal_information')
             ->join('dohdtr.addtnl_leave', 'addtnl_leave.userid', '=', 'personal_information.userid')
@@ -1218,6 +1191,38 @@ class AdminController extends BaseController
             "leave_card" => $leave_card,
             "keyword" => $keyword
         ]);
+    }
+
+    public function move_dates(){
+
+        $route = Input::get('move_route');
+        $current = explode(', ', Input::get('from_date'));
+        $to_replace = explode(', ', Input::get('to_date'));
+        $leave = Leave::where('route_no', $route)->first();
+        $all = LeaveAppliedDates::where('leave_id', $leave->id)->get();
+        foreach ($all as $al){
+            $al->delete();
+        }
+        $dates = explode(', ', Input::get('dates'));
+        $date_list = array_map('trim', $dates);
+//        return $date_list;
+        foreach ($date_list as $date_val){
+            return $date_val;
+            $applied = new LeaveAppliedDates();
+            $applied->startdate = strtotime($date_val);
+            $applied->enddate = strtotime($date_val);
+            $applied->leave_id = $leave->id;
+            if(in_array($date_val, $current)){
+                $index = array_search($date_val, $current);
+                $parts = explode(' - ', $to_replace[$index]);
+                $applied->from_date = strtotime($parts[0]);
+                $applied->to_date = strtotime($parts[1]);
+                $applied->status = 2;
+            }else{
+                $applied->save();
+            }
+        }
+        return Redirect::back();
     }
 
     public function updateLeaveBalance(){

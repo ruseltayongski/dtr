@@ -1,6 +1,6 @@
 <?php
 try{
-    $pdo = new PDO("mysql:host=localhost; dbname=dohdtr",'root','adm1n');
+    $pdo = new PDO("mysql:host=localhost; dbname=dohdtr",'root','');
     $pdo->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
     $query = "SELECT lea.*, pi.vacation_balance, pi.sick_balance FROM dohdtr.`leave` lea JOIN pis.personal_information pi ON pi.userid = lea.userid WHERE lea.id = :id";
     $st = $pdo->prepare($query);
@@ -19,7 +19,7 @@ try{
 }
 
 //$imagePath = __DIR__ . '/FPDF/image/doh.png';
-$imagePath = 'C:/xampp/htdocs/dtrLatest/FPDF/image/doh.png';
+$imagePath = 'C:/xampp/htdocs/dtr/FPDF/image/doh.png';
 
 //echo "okiii".$imagePath;
 

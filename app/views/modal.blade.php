@@ -547,20 +547,24 @@
 </div><!-- /.modal -->
 
 <div class="modal fade" tabindex="5" role="dialog" id="move_leave">
-    <div class="modal-dialog modal-xs" role="document" id="size">
-        <div class="modal-content" id="cancel_date">
-            <form action="{{asset('cancel_dates')}}" method="get">
+    <div class="modal-dialog modal-sm" role="document" id="size">
+        <div class="modal-content" id="move_date">
+            <form action="{{asset('move_dates')}}" method="get">
                 <div class="modal-header" style="background-color: orange">
                     <strong><h4 class="modal-title" style="display: inline-block"></h4></strong>
                     <button style="display: inline-block" type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 </div>
                 <div>
-                    <table class="modal-body table" id="move_leave">
+                    <table class="modal-body table" id="move_body">
 
                     </table>
                 </div>
                 <div class="modal-footer">
                     <button type="submit" value="specific_date" class="btn btn-success">Submit</button>
+                    <input type="hidden" id="from_date" name="from_date">
+                    <input type="hidden" id="to_date" name="to_date">
+                    <input type="hidden" id="move_route" name="move_route">
+                    <input type="hidden" id="dates" name="dates">
                 </div>
             </form>
         </div>
