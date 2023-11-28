@@ -5,7 +5,7 @@
             <thead>
             <tr>
                 <th></th>
-                <th class="text-center" style="width: 15%">Route #</th>
+                <th class="text-center" style="width: 10%">Route #</th>
                 <th class="text-center" style="width: 10%">Leave Type</th>
                 <th class="text-center" style="width: 25%">Inclusive Dates</th>
                 <th class="text-center" width="20%">Prepared Name</th>
@@ -76,7 +76,7 @@
                             <button type="submit" class="btn-xs btn-danger leave_pending" data-route="{{ $row->route_no }}" value="{{ $row->id }}" onclick="approved_status($(this))" style="color:white;"><i class="fa fa-ban"></i> Unprocess</button>
                             <button class="btn-xs btn-warning cancel_dates" id="cancel" onclick="cancel_dates(event)"  value="{{ $row->route_no }}" style="color: white;" data-toggle="modal"  data-target="#cancel_dates"><i class="fa fa-close"></i>Cancel</button>
                             <button type="submit" class="btn-xs btn-info" data-route="{{ $row->route_no }}" value="{{ $row->id }}" onclick="approved_status($(this))" style="color:white;"><i class="fa fa-comment"></i> Remarks</button>
-                            <button class="btn-xs btn-success move_leave" id="move" onclick="cancel_dates(event)"  value="{{ $row->route_no }}" style="color: white;" data-toggle="modal"  data-target="#move_leave"><i class="fa fa-eraser"></i>Move</button>
+                            <button class="btn-xs btn-success move_leave" id="move" onclick="move_dates(event)"  value="{{ $row->route_no }}" style="color: white;" data-toggle="modal"  data-target="#move_leave"><i class="fa fa-eraser"></i>Move</button>
 
                         </td>
 
