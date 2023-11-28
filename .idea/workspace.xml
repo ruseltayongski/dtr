@@ -13,15 +13,7 @@
   <component name="ChangeListManager">
     <list default="true" id="3d23eb58-b5c1-407c-b04e-480d452e50dc" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FPDF/leave/f1_rows.php" afterPath="$PROJECT_DIR$/FPDF/leave/f1_rows.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FPDF/print_leave.php" afterPath="$PROJECT_DIR$/FPDF/print_leave.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/config/database.php" afterPath="$PROJECT_DIR$/app/config/database.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/controllers/AdminController.php" afterPath="$PROJECT_DIR$/app/controllers/AdminController.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/routes.php" afterPath="$PROJECT_DIR$/app/routes.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/cdo/cdo_view.blade.php" afterPath="$PROJECT_DIR$/app/views/cdo/cdo_view.blade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/form/all_leave.blade.php" afterPath="$PROJECT_DIR$/app/views/form/all_leave.blade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/form/form_approve.blade.php" afterPath="$PROJECT_DIR$/app/views/form/form_approve.blade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/modal.blade.php" afterPath="$PROJECT_DIR$/app/views/modal.blade.php" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -67,10 +59,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="DocumentController.php" pinned="false" current-in-tab="true">
+      <file leaf-file-name="DocumentController.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/controllers/DocumentController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="253">
+            <state relative-caret-position="3791">
               <caret line="228" column="6" lean-forward="false" selection-start-line="228" selection-start-column="6" selection-end-line="228" selection-end-column="6" />
               <folding>
                 <marker date="1701150058089" expanded="true" signature="5483:5530" ph="SELECT id FR... users" />
@@ -78,6 +70,16 @@
                 <marker date="1701150058089" expanded="true" signature="6539:6669" ph="INSERT INTO TRACKING_DETAILS... " />
                 <marker date="1701150058089" expanded="true" signature="6971:7078" ph="INSERT INTO SYSTEMLOGS... " />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="database.php" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/config/database.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="68">
+              <caret line="4" column="25" lean-forward="false" selection-start-line="4" selection-start-column="25" selection-end-line="4" selection-end-column="25" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -114,16 +116,6 @@
                 <marker date="1701141736476" expanded="true" signature="23635:23668" ph="..." />
                 <marker date="1701141736476" expanded="true" signature="23801:23847" ph="..." />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="form_leave.blade.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/views/form/form_leave.blade.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3264">
-              <caret line="192" column="51" lean-forward="false" selection-start-line="192" selection-start-column="51" selection-end-line="192" selection-end-column="51" />
-              <folding />
             </state>
           </provider>
         </entry>
@@ -262,7 +254,6 @@
         <option value="$PROJECT_DIR$/app/views/form/leave.blade.php" />
         <option value="$PROJECT_DIR$/FPDF/leave/f2.rows.php" />
         <option value="$PROJECT_DIR$/FPDF/leave/f4_rows.php" />
-        <option value="$PROJECT_DIR$/app/config/database.php" />
         <option value="$PROJECT_DIR$/FPDF/leave/f1_rows.php" />
         <option value="$PROJECT_DIR$/FPDF/print_leave.php" />
         <option value="$PROJECT_DIR$/app/views/form/form_approve.blade.php" />
@@ -272,6 +263,7 @@
         <option value="$PROJECT_DIR$/app/views/cdo/cdo_view.blade.php" />
         <option value="$PROJECT_DIR$/app/controllers/AdminController.php" />
         <option value="$PROJECT_DIR$/app/controllers/DocumentController.php" />
+        <option value="$PROJECT_DIR$/app/config/database.php" />
       </list>
     </option>
   </component>
@@ -651,12 +643,12 @@
       <workItem from="1700458998583" duration="666000" />
       <workItem from="1700460076170" duration="877000" />
       <workItem from="1700612776318" duration="13783000" />
-      <workItem from="1701135521202" duration="11104000" />
+      <workItem from="1701135521202" duration="11678000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="2331270000" />
+    <option name="totallyTimeSpent" value="2331844000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -996,14 +988,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/config/database.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="7" column="13" lean-forward="false" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/views/cdo/cdo_all.blade.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-1130">
@@ -1117,7 +1101,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/controllers/DocumentController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="253">
+        <state relative-caret-position="3791">
           <caret line="228" column="6" lean-forward="false" selection-start-line="228" selection-start-column="6" selection-end-line="228" selection-end-column="6" />
           <folding>
             <marker date="1701150058089" expanded="true" signature="5483:5530" ph="SELECT id FR... users" />
@@ -1125,6 +1109,14 @@
             <marker date="1701150058089" expanded="true" signature="6539:6669" ph="INSERT INTO TRACKING_DETAILS... " />
             <marker date="1701150058089" expanded="true" signature="6971:7078" ph="INSERT INTO SYSTEMLOGS... " />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/config/database.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="4" column="25" lean-forward="false" selection-start-line="4" selection-start-column="25" selection-end-line="4" selection-end-column="25" />
+          <folding />
         </state>
       </provider>
     </entry>
