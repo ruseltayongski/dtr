@@ -416,9 +416,10 @@
         }
 
 function move_dates(event) {
-    $('#cancel_body').empty();
+    $('#move_body').empty();
     var name = event.target.getAttribute('value');
     $('#route').val(name);
+    $('#move_route').val(name);
 
         <?php $routes = Leave::get(); ?>
         <?php foreach ($routes as $route){ ?>
@@ -430,7 +431,7 @@ function move_dates(event) {
         var dateList= [];
 //                var dateTime = [];//for cdo_hours
             <?php foreach ($dates as $date) {?>
-        var container = document.querySelector("#cancel_date table");
+        var container = document.querySelector("#move_date table");
         var diff = "<?php $diff=(strtotime($date->startdate)-strtotime($date->enddate))/ (60*60*24); echo $diff*-1; ?>";
         var startDate = new Date("<?php echo date('F j, Y', strtotime($date->startdate)); ?>");
         var endDate = new Date("<?php echo date('F j, Y', strtotime($date->enddate)); ?>");
@@ -452,54 +453,46 @@ function move_dates(event) {
         while (length > i) {
             var html = '<div class="checkbox">' +
                 '<label style="margin-left: 15%">' +
-                '<input type="checkbox" style="transform: scale(1.5)" class="minimal" id="applied_dates" name="applied_dates" value="' + dateList[i] + '"  />' +
+                '<input type="checkbox" style="transform: scale(1.5)" class="minimal" id="applied_dates_'+ i +'" name="applied_dates" value="' + dateList[i] + '"  />' +
                 dateList[i] +
-                //                        '</label><br>' +
-                //                        '<label style="margin-left: 30%; transform: scale(1.2)"><input type="radio" name="time' + i + '" value="cdo_am"  /> AM</label>' +
-                //                        '<label style="margin-left: 10%; transform: scale(1.2)"><input type="radio" name="time' + i + '" value="cdo_pm"  /> PM</label>' +
-                //                        '<label style="margin-left: 10%; transform: scale(1.2)"><input type="radio" name="time' + i + '" value="cdo_wholeday"  /> Whole Day</label>' +
+                '<div class="table-data">'+
+                '<div class="input-group">'+
+                '<div class="input-group-addon" style="height: 10px; vertical-align: top">'+
+                '<i class="fa fa-calendar">' +
+                '</i>'+
+                '</div>'+
+                '<input style="width: 70%; vertical-align: top; height: 30px;" type="text" class="from control move_datepickerInput" id="move_datepicker _ '+ i +'" name="move_datepicker[]" placeholder="Select Date/s...">'+
+                '</div>'+
+                '</div>'+
                 '</div>';
             container.innerHTML += html;
             i = i + 1;
+            var latestSelectedDates = [];
+
+            $('.move_datepickerInput').daterangepicker({
+                autoclose: true
+            }).on('apply.daterangepicker', function (ev, picker) {
+                var date = $(this).val();
+                var inputIndex = $('.move_datepickerInput').index(this);
+                latestSelectedDates[inputIndex] = date;
+
+                console.log('Latest selected dates for all inputs:', latestSelectedDates);
+                $('#to_date').val(latestSelectedDates.join(', '));
+            });
         }
 
         $('#dates').val(dateList);
-//                $('#all_hours').val(dateTime);
     }
     <?php }?>
 
     $('input[type="checkbox"]').on('change', function () {
-        if ($(this).val() === "cancel_all") {
-            var isChecked = $(this).prop('checked');
-            $('input[name="applied_dates"]').prop('checked', isChecked);
-        }
 
         var selectedCheckboxes = [];
         $('input[name="applied_dates"]:checked').each(function () {
             selectedCheckboxes.push($(this).val());
         });
-        $('#selected_date').val(selectedCheckboxes.join(', '));
+        $('#from_date').val(selectedCheckboxes.join(', '));
     });
-
-
-//            $(document).on('change', 'input[type="radio"]', function () {
-//                var selectedValues = $('input[type="radio"]:checked').map(function () {
-//                    return $(this).val();
-//                }).get();
-//                selectedValues = selectedValues.filter(function (value) {
-//                    return value !== "JO";
-//                });
-//                $('#cdo_hours').val(selectedValues.join(', '));
-//            });
-
-//            $('input[type="radio"]').on('change', function () {
-//                var selectedBtn = [];
-//                $('input[name="time"]:checked').each(function () {
-//                    selectedBtn.push($(this).val());
-//                });
-//                $('#cdo_hours').val(selectedBtn.join(', '));
-//            });
-    $('#cancel_type').val("leave");
 }
 
     </script>
