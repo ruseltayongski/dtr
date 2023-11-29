@@ -112,7 +112,7 @@
                 console.log("vshduyjf");
                 <?php foreach($leave_card as $card){?>
                 var id = "<?php echo $card->userid;?>";
-
+                console.log("userid", userid);
                 if(id==userid){
 
                     <?php

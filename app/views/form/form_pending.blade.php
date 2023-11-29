@@ -73,10 +73,8 @@
                         {{--@endif--}}
                     </td>
                     <td>{{$row->firstname.' '.$row->middlename.' '.$row->lastname}}</td>
-                    <td><button type="button" class="btn btn-success btn-sm leave_approved" data-route="{{ $row->route_no }}" onclick="pending_status()"><span class="glyphicon glyphicon-ok"></span> Process</button>
+                    <td><button type="button" class="btn btn-success btn-sm leave_approved" data-route="{{$row->route_no}}" onclick="pending_status($(this))" data-target="#leave_approved"><span class="glyphicon glyphicon-ok"></span> Process</button>
                     </td>
-
-                    {{--<td><button type="button" class="btn btn-success btn-xs leave_approved" value="{{$row->id}}" data-route="{{ $row->route_no }}" onclick="pending_status($(this))"><span class="glyphicon glyphicon-ok"></span> Process</button></td>--}}
                 </tr>
             @endforeach
             </tbody>

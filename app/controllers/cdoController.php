@@ -1671,6 +1671,7 @@ class cdoController extends BaseController
                 $leave->status= "CANCELLED";
                 $leave->save();
                 $card = new LeaveCardView();
+                $card->leave_id = $leave->id;
                 $card->userid = $leave->userid;
                 $card->particulars = $leave->leave_type;
                 if($leave->approved_for == 1){

@@ -564,7 +564,54 @@
                     <input type="hidden" id="from_date" name="from_date">
                     <input type="hidden" id="to_date" name="to_date">
                     <input type="hidden" id="move_route" name="move_route">
-                    <input type="hidden" id="dates" name="dates">
+                    <input type="hidden" id="dates_leave" name="dates_leave">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" tabindex="5" role="dialog" id="remarks">
+    <div class="modal-dialog modal-sm" role="document" id="size">
+        <div class="modal-content" id="remarks">
+            <form action="{{asset('remarks')}}" method="get">
+                <div class="modal-header" style="background-color: orange">
+                    <strong><h4 class="modal-title" style="display: inline-block"></h4></strong>
+                    <button style="display: inline-block" type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <div>
+                    <table class="modal-body table" id="remarks_body">
+
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" value="submit" class="btn btn-success">Submit</button>
+                    {{--<button class="btn btn-info">Restore</button>--}}
+                    <input type="hidden" id="from_date" name="from_date">
+                    <input type="hidden" id="to_date" name="to_date">
+                    <input type="hidden" id="route_remarks" name="route_remarks">
+                    <input type="hidden" id="dates_remarks" name="dates_remarks">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" tabindex="-1" role="dialog" id="restore" style="display: none; background: none; border: none;">
+    <div class="modal-dialog modal-sm" role="document" id="size">
+        <div class="modal-content" id="restore">
+            <form action="{{asset('remarks')}}" method="get">
+                <div class="modal-header" style="background-color: orange">
+                    <strong><h4 class="modal-title" style="display: inline-block"></h4></strong>
+                    <button style="display: inline-block" type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <div>
+                    <table class="modal-body table" id="restore_body">
+
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" value="submit" class="btn btn-success">Submit</button>
                 </div>
             </form>
         </div>

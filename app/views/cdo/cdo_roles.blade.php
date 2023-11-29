@@ -377,6 +377,7 @@
                         }
 
                         $('#dates').val(dateList);
+                        console.log("datess", dateList);
                         $('#all_hours').val(dateTime);
                     }
                     <?php }?>
