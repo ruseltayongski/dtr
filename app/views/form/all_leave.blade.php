@@ -290,7 +290,8 @@
         function cancel_dates(event) {
             $('#cancel_body').empty();
             var name = event.target.getAttribute('value');
-            $('#route').val(name);
+
+            console.log("name", name);
 
                 <?php $routes = Leave::get(); ?>
                 <?php foreach ($routes as $route){ ?>
@@ -352,40 +353,25 @@
                 });
                 $('#selected_date').val(selectedCheckboxes.join(', '));
             });
-
-
-//            $(document).on('change', 'input[type="radio"]', function () {
-//                var selectedValues = $('input[type="radio"]:checked').map(function () {
-//                    return $(this).val();
-//                }).get();
-//                selectedValues = selectedValues.filter(function (value) {
-//                    return value !== "JO";
-//                });
-//                $('#cdo_hours').val(selectedValues.join(', '));
-//            });
-
-//            $('input[type="radio"]').on('change', function () {
-//                var selectedBtn = [];
-//                $('input[name="time"]:checked').each(function () {
-//                    selectedBtn.push($(this).val());
-//                });
-//                $('#cdo_hours').val(selectedBtn.join(', '));
-//            });
             $('#cancel_type').val("leave");
+            $('#route').val(name);
+            console.log(name);
         }
 
-        function pending_status(){
-            $(".leave_approved").click(function(){
+        function pending_status(data){
+//            $(".leave_approved").click(function(){
                 $('#modal_leave_approved').modal({
                     backdrop: 'static',
                     keyboard: false,
                     show: true
                 });
 
-                var route = $(this).data('route');
+                var route = $(data).data('route');
+                console.log("route", route);
                 $("#leave_route_approved").val(route);
-            });
+//            });
         }
+
 
         function click_all(type){
             var url = "<?php echo asset('click_all');?>"+"/"+type.val();
@@ -476,7 +462,6 @@ function move_dates(event) {
                 var inputIndex = $('.move_datepickerInput').index(this);
                 latestSelectedDates[inputIndex] = date;
 
-                console.log('Latest selected dates for all inputs:', latestSelectedDates);
                 $('#to_date').val(latestSelectedDates.join(', '));
             });
         }

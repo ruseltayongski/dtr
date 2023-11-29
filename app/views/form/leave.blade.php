@@ -446,10 +446,10 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
                 <a target="_blank" class="btn btn-success" href="{{ asset('FPDF/print_leave.php?id=' .$leave->id) }}" style="color: white;"><i class="fa fa-print"></i> Print</a>
-                @if(Auth::user()->usertype !=1 && $leave->status != 'APPROVED')
+                {{--@if(Auth::user()->usertype !=1 && $leave->status != 'APPROVED')--}}
                     <a href="{{ asset('leave/update/' . $leave->id) }}"  class="btn btn-primary btn-submit" style="color:white;"><i class="fa fa-pencil"></i> Update</a>
                     <a href="{{ asset('leave/delete/' .$leave->id) }}" style="color:white" class="btn btn-danger" ><i class="fa fa-trash"></i> Remove</a>
-                @endif
+                {{--@endif--}}
             </div>
         </div>
     </div>
