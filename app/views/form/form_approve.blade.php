@@ -75,7 +75,7 @@
                         <td>
                             <button type="submit" class="btn-xs btn-danger leave_pending" data-route="{{ $row->route_no }}" value="{{ $row->id }}" onclick="approved_status($(this))" style="color:white;"><i class="fa fa-ban"></i> Unprocess</button>
                             <button class="btn-xs btn-warning cancel_dates" id="cancel" onclick="cancel_dates(event)"  value="{{ $row->route_no }}" style="color: white;" data-toggle="modal"  data-target="#cancel_dates"><i class="fa fa-close"></i>Cancel</button>
-                            <button type="submit" class="btn-xs btn-info" data-route="{{ $row->route_no }}" value="{{ $row->id }}" onclick="approved_status($(this))" style="color:white;"><i class="fa fa-comment"></i> Remarks</button>
+                            <button type="submit" class="btn-xs btn-info remarks" data-target="#remarks" data-route="{{ $row->route_no }}" value="{{ $row->id }}" onclick="add_remarks($(this))" style="color:white;"><i class="fa fa-comment"></i> Remarks</button>
                             <button class="btn-xs btn-success move_leave" id="move" onclick="move_dates(event)"  value="{{ $row->route_no }}" style="color: white;" data-toggle="modal"  data-target="#move_leave"><i class="fa fa-eraser"></i>Move</button>
 
                         </td>
@@ -113,7 +113,106 @@
                 show: true
             });
 
-            var route = $(this).data('route');
+            var route = $(data).data('route');
             $("#leave_route_pending").val(route);
+            console.log("route", route);
+    }
+
+    function add_remarks(data){
+        $('#remarks').modal({
+            backdrop: 'static',
+            keyboard: false,
+            show: true
+        });
+
+        var date_route = $(data).data('route');
+        $("#route").val(date_route);
+        console.log("route", date_route);
+
+        $('#remarks_body').empty();
+
+            <?php $routes = Leave::get(); ?>
+            <?php foreach ($routes as $route){ ?>
+        var route = "<?php echo $route->route_no;?>";
+        if(date_route == route){
+            $(".modal-title").html("Route No:<strong>"+route);
+                <?php $dates = LeaveAppliedDates::where('leave_id', '=', $route->id)->get(); ?>
+            var dateList= [];
+//                var dateTime = [];//for cdo_hours
+                <?php foreach ($dates as $date) {?>
+            var container = document.querySelector("#remarks table");
+            var diff = "<?php $diff=(strtotime($date->startdate)-strtotime($date->enddate))/ (60*60*24); echo $diff*-1; ?>";
+            var startDate = new Date("<?php echo date('F j, Y', strtotime($date->startdate)); ?>");
+            var endDate = new Date("<?php echo date('F j, Y', strtotime($date->enddate)); ?>");
+            console.log("date", startDate);
+            if(diff == 0){
+                dateList.push(startDate.toLocaleDateString());
+            }else{
+                while (startDate <= endDate) {
+                    dateList.push(startDate.toLocaleDateString());
+                    startDate.setDate(startDate.getDate() + 1);
+                }
+            }
+                <?php }?>
+            var length = dateList.length;
+            var i=0;
+            var cancelAllCheckbox ='<label>Check to Disapproved All:</label>'+
+                '<input style="transform: scale(1.5)" type="checkbox" class="minimal" id="applied_dates" value="disapproved_all" name="applied_dates" />';
+            container.innerHTML += cancelAllCheckbox;
+            while (length > i) {
+                var html = '<div class="checkbox">' +
+                    '<label style="margin-left: 15%">' +
+                    '<input type="checkbox" style="transform: scale(1.5)" class="minimal" id="applied_dates_'+ i +'" name="applied_dates" value="' + dateList[i] + '"  />' +
+                    dateList[i] +
+                    '</div>';
+                container.innerHTML += html;
+                i = i + 1;
+            }
+            var remarks ='<label>Remarks:</label><br>'+
+                '<div align="center">'+
+                    '<input style="transform: scale(1.5); width: 60%; align-self: center" type="text" class="minimal" id="applied_dates" name="applied_dates" />'+
+                '</div>';
+            container.innerHTML += remarks;
+
+            var container2 = document.querySelector("#remarks .modal-footer");
+            var button = '<button class="btn btn-info restore" value="restore" id="restore_btn" onclick="restore_leave($(this))">Restore'+
+                    '</button>';
+            container2.innerHTML += button;
+
+            $('#dates').val(dateList);
+        }
+        <?php }?>
+
+        $('input[type="checkbox"]').on('change', function () {
+            if($(this).val() === "disapproved_all"){
+                var ischecked = $(this).prop('checked');
+                $('input[name="applied_dates"]').prop('checked', ischecked);
+            }
+            var selectedCheckboxes = [];
+            $('input[name="applied_dates"]:checked').each(function () {
+                selectedCheckboxes.push($(this).val());
+            });
+            $('#from_date').val(selectedCheckboxes.join(', '));
+        });
+
+        $('#restore_btn').on('click', function (e) {
+            e.preventDefault(e);
+        });
+
+    }
+    function restore_leave(button) {
+        console.log("restore_here");
+        $('#restore').modal({
+            show: true
+        });
+        var btn_pstn = $(button).offset();
+        $('#restore').css({
+            'top':(btn_pstn.top+10) + 'px',
+            'left':btn_pstn.left + 'px',
+            'display': 'none'
+        });
+//        var route = $(data).data('route');
+//        $("#leave_route_pending").val(route);
+//        console.log("route", route);
     }
 </script>

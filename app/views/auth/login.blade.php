@@ -26,9 +26,8 @@
     <div class="login-box">
       <div class="login-logo">
         <img src="{{ asset('public/img/doh.png') }}" style="width: 20%" />
-        <br />
-        <a href="#" style="font-weight:bolder;"><label style="font-size: 17pt;">DOH DTR 4.3</label></a>
-
+        <br>
+        <h3 >DOH DTR</h3>
       </div><!-- /.login-logo -->
           <div class="login-box-body">
               @if(Session::has('ops'))

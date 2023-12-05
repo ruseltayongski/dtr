@@ -815,7 +815,7 @@ class AdminController extends BaseController
     }
 
     public function pending_leave(){
-        return 1;
+//        return 1;
 
         $route_no = Input::get('route_no');
         $leave = Leave::where('route_no','=',$route_no)->first();
@@ -899,7 +899,7 @@ class AdminController extends BaseController
         $addtnl_leave = AditionalLeave::where("userid","=",$leave->userid)->first();
 
         $leave_card = new LeaveCardView();
-
+        $leave_card->leave_id = $leave->id;
         $vl = (!Empty($pis->vacation_balance)? $pis->vacation_balance : 0);
         $sl = (!Empty($pis->sick_balance)? $pis->sick_balance : 0);
 
@@ -1196,33 +1196,55 @@ class AdminController extends BaseController
     public function move_dates(){
 
         $route = Input::get('move_route');
-        $current = explode(', ', Input::get('from_date'));
-        $to_replace = explode(', ', Input::get('to_date'));
+        $date_replace = explode(',', Input::get('to_date'));
+        $to_replace = [];
+        foreach ($date_replace as $rep){
+            if(!empty($rep) && $rep != " " && $rep != ""){
+                $to_replace[] = $rep;
+            }
+        }
         $leave = Leave::where('route_no', $route)->first();
         $all = LeaveAppliedDates::where('leave_id', $leave->id)->get();
         foreach ($all as $al){
             $al->delete();
         }
-        $dates = explode(', ', Input::get('dates'));
-        $date_list = array_map('trim', $dates);
-//        return $date_list;
-        foreach ($date_list as $date_val){
-            return $date_val;
+        $dates = explode(',', Input::get('dates'));
+        $current = explode(',', Input::get('from_date'));
+        $num_days = 0;
+        $date_save = [];
+        foreach ($dates as $date_val){
             $applied = new LeaveAppliedDates();
-            $applied->startdate = strtotime($date_val);
-            $applied->enddate = strtotime($date_val);
+            $applied->startdate = date('Y-m-d', strtotime($date_val));
+            $applied->enddate = date('Y-m-d', strtotime($date_val));
             $applied->leave_id = $leave->id;
             if(in_array($date_val, $current)){
                 $index = array_search($date_val, $current);
                 $parts = explode(' - ', $to_replace[$index]);
-                $applied->from_date = strtotime($parts[0]);
-                $applied->to_date = strtotime($parts[1]);
+                $from = date('Y-m-d', strtotime($parts[0]));
+                $applied->from_date = $from;
+                $to = date('Y-m-d',strtotime($parts[1]));
+                $applied->to_date = $to;
                 $applied->status = 2;
+                if($from == $to){
+                    $date_save[] = date('F j, Y', strtotime($date_val)).'('.date('F j, Y', strtotime($from)).')';
+                }else{
+                    $date_save[] = date('F j, Y', strtotime($date_val)).'('.date('F j, Y', strtotime($from)).'-'.date('F j, Y', strtotime($to)).')';
+                }
+
             }else{
-                $applied->save();
+                $date_save[] = date('F j, Y', strtotime($date_val));
             }
+            $applied->save();
+            $num_days = $num_days + 1;
         }
+        $card = LeaveCardView::where('leave_id', $leave->id)->first();
+        $card->particulars = $card->particulars.'('.$num_days.')';
+        $card->date_used = implode(',', $date_save);
+        $card->save();
         return Redirect::back();
+    }
+    public function remarks(){
+        return "remarks";
     }
 
     public function updateLeaveBalance(){
