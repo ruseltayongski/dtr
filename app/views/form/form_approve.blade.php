@@ -126,8 +126,9 @@
         });
 
         var date_route = $(data).data('route');
-        $("#route").val(date_route);
         console.log("route", date_route);
+        $("#route_remarks").val(date_route);
+        console.log("route",$("#route_remarks").val());
 
         $('#remarks_body').empty();
 
@@ -138,13 +139,11 @@
             $(".modal-title").html("Route No:<strong>"+route);
                 <?php $dates = LeaveAppliedDates::where('leave_id', '=', $route->id)->get(); ?>
             var dateList= [];
-//                var dateTime = [];//for cdo_hours
                 <?php foreach ($dates as $date) {?>
             var container = document.querySelector("#remarks table");
             var diff = "<?php $diff=(strtotime($date->startdate)-strtotime($date->enddate))/ (60*60*24); echo $diff*-1; ?>";
             var startDate = new Date("<?php echo date('F j, Y', strtotime($date->startdate)); ?>");
             var endDate = new Date("<?php echo date('F j, Y', strtotime($date->enddate)); ?>");
-            console.log("date", startDate);
             if(diff == 0){
                 dateList.push(startDate.toLocaleDateString());
             }else{
@@ -156,9 +155,9 @@
                 <?php }?>
             var length = dateList.length;
             var i=0;
-            var cancelAllCheckbox ='<label>Check to Disapproved All:</label>'+
+            var disapprovedAll ='<label>Check to Disapproved All:</label>'+
                 '<input style="transform: scale(1.5)" type="checkbox" class="minimal" id="applied_dates" value="disapproved_all" name="applied_dates" />';
-            container.innerHTML += cancelAllCheckbox;
+            container.innerHTML += disapprovedAll;
             while (length > i) {
                 var html = '<div class="checkbox">' +
                     '<label style="margin-left: 15%">' +
@@ -170,16 +169,11 @@
             }
             var remarks ='<label>Remarks:</label><br>'+
                 '<div align="center">'+
-                    '<input style="transform: scale(1.5); width: 60%; align-self: center" type="text" class="minimal" id="applied_dates" name="applied_dates" />'+
+                    '<input style="transform: scale(1.5); width: 60%; align-self: center" type="text" class="minimal" id="remarks" name="remarks" required/>'+
                 '</div>';
             container.innerHTML += remarks;
 
-            var container2 = document.querySelector("#remarks .modal-footer");
-            var button = '<button class="btn btn-info restore" value="restore" id="restore_btn" onclick="restore_leave($(this))">Restore'+
-                    '</button>';
-            container2.innerHTML += button;
-
-            $('#dates').val(dateList);
+            $('#dates_remarks').val(dateList);
         }
         <?php }?>
 
@@ -192,27 +186,12 @@
             $('input[name="applied_dates"]:checked').each(function () {
                 selectedCheckboxes.push($(this).val());
             });
-            $('#from_date').val(selectedCheckboxes.join(', '));
+            $('#dis_dates').val(selectedCheckboxes.join(', '));
         });
 
         $('#restore_btn').on('click', function (e) {
             e.preventDefault(e);
         });
 
-    }
-    function restore_leave(button) {
-        console.log("restore_here");
-        $('#restore').modal({
-            show: true
-        });
-        var btn_pstn = $(button).offset();
-        $('#restore').css({
-            'top':(btn_pstn.top+10) + 'px',
-            'left':btn_pstn.left + 'px',
-            'display': 'none'
-        });
-//        var route = $(data).data('route');
-//        $("#leave_route_pending").val(route);
-//        console.log("route", route);
     }
 </script>

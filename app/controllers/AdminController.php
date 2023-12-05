@@ -1208,7 +1208,7 @@ class AdminController extends BaseController
         foreach ($all as $al){
             $al->delete();
         }
-        $dates = explode(',', Input::get('dates'));
+        $dates = explode(',', Input::get('dates_leave'));
         $current = explode(',', Input::get('from_date'));
         $num_days = 0;
         $date_save = [];
@@ -1241,10 +1241,48 @@ class AdminController extends BaseController
         $card->particulars = $card->particulars.'('.$num_days.')';
         $card->date_used = implode(',', $date_save);
         $card->save();
+
+        $leave->status = 2;
+        $leave->save();
+
         return Redirect::back();
     }
     public function remarks(){
-        return "remarks";
+        $route = Input::get('route_remarks');
+        $leave = Leave::where('route_no', $route)->first();
+        $dis_dates = explode(',', Input::get('dis_dates'));
+
+        if(in_array("disapproved_all", $dis_dates)){
+        }else{
+            $dates = explode(',', Input::get('dates_remarks'));
+            if($leave->status == 0){
+                $applied = LeaveAppliedDates::where('leave_id', $leave->id)->get();
+                $applied->deleteAll();
+                foreach ($dates as $date){
+                    $app = new LeaveAppliedDates();
+                    $app->leave_id = $leave->id;
+                    $app->startdate = date('Y-m-d', strtotime($date));
+                    $app->enddate = date('Y-m-d', strtotime($date));
+                    if(in_array($date, $dis_dates)){
+                        $app->status = 3;
+                        $app->remarks = Input::get('remarks');
+                    }
+                    $app->save();
+                }
+            }else{
+                foreach ($dates as $date){
+                    $select = LeaveAppliedDates::where('leave_id', $leave->id)->whereDate('startdate', $date)->first();
+                    $select->status = 3;
+                    $select->remarks = Input::get('remarks');
+                    $select->save();
+                }
+            }
+        }
+        $leave->status = 3;
+        $leave->save();
+//        return $leave;
+
+        return Redirect::back();
     }
 
     public function updateLeaveBalance(){

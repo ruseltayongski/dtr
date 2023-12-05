@@ -522,9 +522,7 @@ function move_dates(event) {
             <?php }?>
         var length = dateList.length;
         var i=0;
-        var cancelAllCheckbox ='<label>Check to Cancel All:</label>'+
-            '<input style="transform: scale(1.5)" type="checkbox" class="minimal" id="applied_dates" value="cancel_all" name="applied_dates" />';
-        container.innerHTML += cancelAllCheckbox;
+
         while (length > i) {
             var html = '<div class="checkbox">' +
                 '<label style="margin-left: 15%">' +
@@ -555,7 +553,7 @@ function move_dates(event) {
             });
         }
 
-        $('#dates').val(dateList);
+        $('#dates_leave').val(dateList);
     }
     <?php }?>
 

@@ -586,11 +586,9 @@
                 </div>
                 <div class="modal-footer">
                     <button type="submit" value="submit" class="btn btn-success">Submit</button>
-                    {{--<button class="btn btn-info">Restore</button>--}}
-                    <input type="hidden" id="from_date" name="from_date">
-                    <input type="hidden" id="to_date" name="to_date">
                     <input type="hidden" id="route_remarks" name="route_remarks">
                     <input type="hidden" id="dates_remarks" name="dates_remarks">
+                    <input type="hidden" id="dis_dates" name="dis_dates">
                 </div>
             </form>
         </div>
@@ -606,9 +604,15 @@
                     <button style="display: inline-block" type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 </div>
                 <div>
-                    <table class="modal-body table" id="restore_body">
-
-                    </table>
+                    <label>Leave Type:</label>
+                    <select class="chosen-select-static form-control" name="leave_type" required>
+                        <?php echo $leave = LeaveTypes::get();?>
+                    @if(isset($leave))
+                        @foreach($leave as $type)
+                            <option value="{{$type->code}}">{{$type->code}}</option>
+                        @endforeach
+                    @endif
+                    </select>
                 </div>
                 <div class="modal-footer">
                     <button type="submit" value="submit" class="btn btn-success">Submit</button>
