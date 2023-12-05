@@ -375,13 +375,6 @@ class cdoController extends BaseController
         $cdo->division_chief = Input::get('division_chief');
         $cdo->applied_dates = $inclusive_dates_string;
         $cdo->save();
-
-        $privilege= PrivilegeEmployee::where('userid', '=', $cdo->prepared_name)->first();
-        if($privilege){
-            $privilege->status=1;
-            $privilege->save();
-        }
-
         //Saving applied_dates in clone rows into cdo_applied_dates
         foreach ($inclusive_dates as $index => $date_range) {
             $cdo_hourss=$cdo_hours[$index];
@@ -414,6 +407,18 @@ class cdoController extends BaseController
         $cdo->save();
         $tracking_master->route_no = $updated_route;
         $tracking_master->save();
+
+        //privilege logs
+        $privilege= PrivilegeEmployee::where('userid', '=', $cdo->prepared_name)->first();
+        if($privilege){
+            $privilege->status=1;
+            $privilege->save();
+
+            $p_logs = new PrivilegeLogs();
+            $p_logs->cdo_id = $cdo->id;
+            $p_logs->route_no = $cdo->route_no;
+            $p_logs->save();
+        }
 
         //ADD TRACKING DETAILS
         $tracking_details = new Tracking_Details();
@@ -1652,6 +1657,8 @@ class cdoController extends BaseController
             }
         }else{
             $leave = Leave::where('route_no', $route)->first();
+            $leave->status = 1;
+            $leave->save();
             $leave_dates = LeaveAppliedDates::where('leave_id', $leave->id)->get();
             $pis2 = InformationPersonal::where('userid', $leave->userid)->first();
 
