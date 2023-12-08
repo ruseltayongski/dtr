@@ -55,10 +55,12 @@
                                                             <td><a class="title-info" data-backdrop="static" data-route="{{ $row->route_no }}" style="color: #f0ad4e;" data-link="{{ asset('/form/info/'.$row->route_no.'/cdo') }}" href="#document_info" data-toggle="modal">{{ $row->route_no }}</a></td>
                                                             <td>{{ date('M d, Y',strtotime($row->prepared_date)) }}<br>{{ date('h:i:s A',strtotime($row->prepared_date)) }}</td>
                                                             <td>{{ $row->subject }}</td>
-                                                            @if($row->approved_status)
+                                                            @if($row->status ==3)
+                                                                <td class="text-center"><span class="label label-warning"><i class="fa fa-frown-o"></i> Cancelled </span></td>
+                                                            @elseif($row->approved_status)
                                                                 <td class="text-center"><span class="label label-info"><i class="fa fa-smile-o"></i> Processed </span></td>
                                                             @else
-                                                                <td class="text-center"><span class="label label-danger"><i class="fa fa-frown-o"></i> Pending to process.. </span></td>
+                                                                <td class="text-center"><span class="label label-danger"><i class="fa fa-frown-o"></i> Pending </span></td>
                                                             @endif
                                                         </tr>
 

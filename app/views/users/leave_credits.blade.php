@@ -42,7 +42,7 @@
                             </label>
                         </td>
                         <td>
-                            <label class="text-info">
+                            <label class="name-cell">
                                 @if($user->fname || $user->lname || $user->mname || $user->name_extension) {{ $user->fname.' '.$user->mname.' '.$user->lname.' '.$user->name_extension }} @else <i>NO NAME</i> @endif
                             </label>
                         </td>
@@ -60,7 +60,8 @@
                         </td>
                         <td>
                             <button class="button btn-sm beginning_balance" style="background-color: #9C8AA5;color: white" data-toggle="modal" data-id="{{ $user->userid }}" data-vacation="{{ $user->vacation_balance }}" data-sick="{{ $user->sick_balance }}" data-target="#beginning_balance">Update Leave Balance</button>
-                            <button class="button btn-info btn sm view_card" style="width: 85%" >View Card</button>
+                            <button style="width: 80%" class="btn btn-info center-block col-md-2 leave_ledger" href="#leave_ledger"  data-id="{{ $user->userid }}" id="viewCard" name="viewCard" data-toggle="modal"
+                                    data-target="#leave_ledger"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>View Card</button>
                         </td>
                     </tr>
                 @endforeach
@@ -74,31 +75,81 @@
         </div>
     @endif
 
-    <div class="modal fade" tabindex="-1" role="dialog" id="beginning_balance">
-        <div class="modal-dialog modal-sm" role="document" id="size">
-            <div class="modal-content">
-                <form action="{{ asset('leave/credits/save') }}" method="POST">
-                    <div class="modal-header" style="background-color: #9C8AA5;">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title" style="color: white"><i class="fa fa-pencil"></i> Leave Credits</h4>
-                    </div>
-                    <div class="modal-body">
-                        <label>Month</label>
-                    </div>
-                    <div class="modal-footer">
-                        <input type="hidden" value="" id="userid" name="userid">
-                        <button type="submit" class="btn btn-success" style="color:white;"><i class="fa fa-pencil"> Update</i></button>
-                    </div>
-                </form>
-            </div><!-- .modal-content -->
-        </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
-
 @endsection
 
 @section('js')
     @parent
     <script>
+        $('.range').daterangepicker({
+            autoclose:true
+        });
+
+        //to be updatedddd
+        function updatePeriod(button) {
+            var row = $(button).closest('tr');
+            $('.userid').val($('.user_iid').val());
+            var rowData = {};
+            row.find('td').each(function (cellIndex, cell) {
+                var columnName = 'data' + (cellIndex+1);
+                rowData[columnName] = $(cell).text().trim();
+            });
+
+            $('#range').val(rowData.data1);
+        }
+
+        $(document).ready(function () {
+            console.log("akjdjsd");
+            $("#viewCard").on("click", function(){
+                $("#ledger_body").empty();
+            });
+
+            $(".leave_ledger").on('click', function(){
+                var userid= $(this).data('id');
+                $('.user_iid').val(userid);
+                console.log('suerid', userid);
+                var name = $(this).closest("tr").find(".name-cell").text();
+                <?php if(isset($leave_card) && count($leave_card)>0){ ?>
+                console.log("vshduyjf");
+                <?php foreach($leave_card as $card){?>
+                var id = "<?php echo $card->userid;?>";
+
+                if(id==userid){
+
+                    <?php
+                        $div = InformationPersonal::where('userid', '=', $card->userid)->first();
+                        $divi = !empty($div) ? $div->division_id : '';
+                        $division = Division::where('id', '=', $divi)->first();
+                        if($division){
+                            $div_p = $division->description;
+                        }
+                        echo "var division=".json_encode(($div_p)? $div_p : '' ).";";
+                        ?>
+                    $('.name').html("NAME: " + name + "<span style='margin-left: 100px; '> DIVISION/OFFICE:</span> " + division);
+
+                    var tabledata1 = "<tr>" +
+                        <?php if ($card->period !== null): ?>
+                            "<td style= 'border: 1px solid black'><a href= '#' data-toggle='modal' onclick='updatePeriod(this)' data-target='#update_period'><?php echo $card->period; ?></a></td>"+
+                        <?php else: ?>
+                            "<td style= 'border: 1px solid black'></td>"+
+                        <?php endif; ?>
+                        "<td style= 'border: 1px solid black'><?php echo $card->particulars; ?></td>" +
+                        "<td style= 'border: 1px solid black'><?php echo $card->vl_earned; ?></td>" +
+                        "<td style= 'border: 1px solid black'><?php echo $card->vl_abswp; ?></td>" +
+                        "<td style= 'border: 1px solid black'><?php echo $card->vl_bal; ?></td>" +
+                        "<td style= 'border: 1px solid black'><?php echo $card->vl_abswop; ?></td>" +
+                        "<td style= 'border: 1px solid black'><?php echo $card->sl_earned; ?></td>" +
+                        "<td style= 'border: 1px solid black'><?php echo $card->sl_abswp; ?></td>" +
+                        "<td style= 'border: 1px solid black'><?php echo $card->sl_bal; ?></td>" +
+                        "<td style= 'border: 1px solid black'><?php echo $card->sl_abswop; ?></td>" +
+                        "<td style= 'border: 1px solid black'><?php echo !empty($card->date_used)?$card->date_used: ''; ?></td>";
+                    tabledata1 += "</tr>";
+                    $('#ledger_body').append(tabledata1);
+                }
+                <?php }?>
+                <?php }?>
+
+            });
+        });
 
         $(".beginning_balance").on('click',function(e){
             $('.modal-body').html(loadingState);

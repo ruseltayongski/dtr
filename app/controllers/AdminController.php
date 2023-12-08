@@ -734,34 +734,32 @@ class AdminController extends BaseController
     }
 
     public function pending_leave(){
+//        return 1;
+
         $route_no = Input::get('route_no');
         $leave = Leave::where('route_no','=',$route_no)->first();
+        $leave_FLSPL = AditionalLeave::where('userid', $leave->userid)->first();
         if($leave->status == 'APPROVED'){
-
-            $add_logs= new LeaveCardView();
-            $add_logs->userid = $leave->userid;
-            $add_logs->date_used = date('F j, Y');
 
             $pis = InformationPersonal::where("userid","=",$leave->userid)->first();
             $credit_deduct = $leave->applied_num_days * 8;
             if($leave->credit_used == 'SL'){
                 $pis->sick_balance = $pis->sick_balance + $credit_deduct;
-                $pis->save();
-
-                $add_logs->particulars = "SL"; // -- to be continued -- LoL
-
+                // -- to be continued -- LoL // to be continued but I forgot what to do here , another LOL
             } else if($leave->credit_used == 'VL'){
                 $pis->vacation_balance = $pis->vacation_balance + $credit_deduct;
-                $pis->save();
-                $add_logs->particulars ="VL";
             }else if($leave->credit_used == 'FL'){
-                $add_logs->particulars = "FL";
+                $leave_FLSPL ->FL-$credit_deduct;
             }else if($leave->credits_used == 'SPL'){
-                $add_logs->particulars = "SPL";
+                $leave_FLSPL ->SPL-$credit_deduct;
+            }else{
             }
-
-            $add_logs->save();
             $leave->approved_for = null;
+            $leave->reason_for_disapproval= null;
+            $leave->status="PENDING";
+            $leave->save();
+            $pis->save();
+            $leave_FLSPL->save();
 
             LeaveLogs::where("route_no","=",$route_no)->delete();
         }
@@ -812,6 +810,7 @@ class AdminController extends BaseController
 
     public function approved_leave()
     {
+//        return 13454875;
         $route_no = Input::get('route_no');
         $leave = Leave::where('route_no','=',$route_no)->first();
         $pis = InformationPersonal::where("userid","=",$leave->userid)->first();
@@ -842,6 +841,8 @@ class AdminController extends BaseController
             $addtnl_leave->SPL = $addtnl_leave->SPL - (int)$leave->applied_num_days;
             $leave->SPL_total = $addtnl_leave->SPL - (int)$leave->applied_num_days;
             $leave_card -> particulars = "SPL";
+        }else{
+            $leave_card->particulars = $leave->leave_type;
         }
         $pis->save();
         $addtnl_leave->save();
@@ -853,14 +854,17 @@ class AdminController extends BaseController
             $dateF = date('F j, Y', strtotime($date->startdate));
             $dateL = date ('F j, Y', strtotime($date->enddate));
             $date_range = $dateF . ' - ' . $dateL;
-
-            $dateList[] = $date_range;
+            if($dateF == $dateL){
+                $dateList[]=$dateF;
+            }else{
+                $dateList[] = $date_range;
+            }
         }
-//        return $dateList;
-
+        $dateList= implode(',', $dateList);
+        $dateUsedJSON = str_replace(['[', ']', '"'], '',json_encode($dateList));
 
         $leave_card -> userid = $leave->userid;
-        $leave_card -> date_used = json_encode($dateList);
+        $leave_card -> date_used = $dateUsedJSON;
         $leave_card -> save();
 
 
@@ -1056,10 +1060,21 @@ class AdminController extends BaseController
         return View::make('print.mobile_logs',['data' => $data]);
 
     }
+
+    public function leave_card(){
+        $data = array(
+          "pis"=> "chanak"
+        );
+        return View:: make('form.leave_card', ['data' => $data]);
+    }
+
     public function leave_credits()
     {
-        return "Leave is under development!";
+         return "Leave is under development";
+        $id= Input::get('viewCard');
+//        return $id;
         $keyword = Input::get('search');
+        $leave_card = LeaveCardView::get();
         $id= DB::connection('pis')
             ->table('pis.personal_information')->leftjoin('dohdtr.addtnl_leave', 'personal_information.userid', '=', 'addtnl_leave.userid')
             ->whereNull('addtnl_leave.userid')->where('personal_information.job_status', '=', 'Permanent')->select('personal_information.userid')->get();
@@ -1103,6 +1118,7 @@ class AdminController extends BaseController
 
         return View::make('users.leave_credits',[
             "pis" => $pis,
+            "leave_card" => $leave_card,
             "keyword" => $keyword
         ]);
     }

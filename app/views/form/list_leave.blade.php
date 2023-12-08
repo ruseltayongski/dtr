@@ -48,7 +48,7 @@
                                     <a style="margin-right: 10px" href="{{ asset('form/leave') }}" class="btn btn-success center-block col-md-2">
                                         <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Create new
                                     </a>
-                                    <button class="btn btn-info center-block col-md-2 leave_ledger" id="viewCard" name="viewCard" data-toggle="modal"
+                                    <button class="btn btn-info center-block col-md-2 leave_ledger" href="#leave_ledger" id="viewCard" name="viewCard" data-toggle="modal"
                                             data-target="#leave_ledger"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>View Card</button>
                                     <?php
                                     if(!empty(Session::get("vacation_balance")) || Session::get('vacation_balance') != 0){
@@ -133,59 +133,6 @@
             </div>
         </div>
     </div>
-
-    <div class="modal fade" tabindex="-1" role="dialog" id="leave_ledger">
-        <div class="modal-dialog modal-xl" role="document" id="size" style=" width: 70%;">
-            <div class="modal-content">
-                <div class="header-container">
-                    <div class="modal-header sticky-top" style="background-color: #9C8AA5;">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                        <strong><h4 class="modal-title"></h4></strong>
-                    </div>
-                </div>
-                <div  style="max-height: calc(100vh - 50px); overflow-y: auto;">
-                    {{--<table class="table table-bordered" id="card_table" style="border: 1px solid black !important;">--}}
-                    <table class="table" id="card_table table-bordered"  style="border-collapse: collapse;">
-                        <thead style="position:sticky; top: 0; z-index: 5;">
-                            <tr style="text-align: center">
-                                <th colspan="6" style="border: 1px solid black"><N>NAME</N>: &nbsp; &nbsp; &nbsp;{{$pis->lname}} , &nbsp;{{$pis->fname}} &nbsp;</th>
-                                <th colspan="6" style="border: 1px solid black">DIVISION/OFFICE: &nbsp;&nbsp;&nbsp; {{$division->description}}/{{$designation->description}}</th>
-                            </tr>
-                            <tr>
-                                <th rowspan="2" STYLE="vertical-align: middle; border: 1px solid black">PERIOD</th>
-                                <th rowspan="2" STYLE="vertical-align: middle; border: 1px solid black">PARTICULARS</th>
-                                <th colspan="4" style="text-align: center; border: 1px solid black">VACATION LEAVE
-                                <th colspan="4" style="text-align: center; border: 1px solid black">SICK LEAVE
-                                <th rowspan="2" STYLE="vertical-align: middle; border: 1px solid black">DATE AND ACTION TAKEN ON APPL. FOR LEAVE</th>
-                            </tr>
-                            <tr>
-                                <th style="border: 1px solid black">EARNED</th>
-                                <th style="border: 1px solid black">ABS.UND.W/P</th>
-                                <th style="border: 1px solid black">BAL.</th>
-                                <th style="border: 1px solid black">ABS.UND.WOP</th>
-                                <th style="border: 1px solid black">EARNED</th>
-                                <th style="border: 1px solid black">ABS.UND.W/P</th>
-                                <th style="border: 1px solid black">BAL.</th>
-                                <th style="border: 1px solid black">ABS.UND.WOP</th>
-                            </tr>
-                        </thead>
-                        <tbody id="ledger_body" name="ledger_body" style="overflow-y: auto;">
-
-
-                        </tbody>
-                    </table>
-                </div>
-                {{--</form>--}}
-                <div class="modal-footer">
-                    <input type ="hidden"value="" id="user_iid" name="user_iid">
-                    <ul class="pagination justify-content-center" id="pagination" style="margin: 0; padding: 0"></ul>
-                </div>
-            </div><!-- .modal-content -->
-        </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
-
 @endsection
 @section('js')
     @parent
@@ -200,30 +147,42 @@
                     <?php foreach ($leave_card as $card){ ?>
 
                 var tabledata1 = "<tr>" +
-                    "<td style= 'border: 1px solid black'><?php echo $card->period ?></td>" +
-                    "<td style= 'border: 1px solid black'><?php echo $card->particulars; ?></td>" +
-                    "<td style= 'border: 1px solid black'><?php echo $card->vl_earned; ?></td>" +
-                    "<td style= 'border: 1px solid black'><?php echo $card->vl_abswp; ?></td>" +
-                    "<td style= 'border: 1px solid black'><?php echo $card->vl_bal; ?></td>" +
-                    "<td style= 'border: 1px solid black'><?php echo $card->vl_abswop; ?></td>" +
-                    "<td style= 'border: 1px solid black'><?php echo $card->sl_earned; ?></td>" +
-                    "<td style= 'border: 1px solid black'><?php echo $card->sl_abswp; ?></td>" +
-                    "<td style= 'border: 1px solid black'><?php echo $card->sl_bal; ?></td>" +
-                    "<td style= 'border: 1px solid black'><?php echo $card->sl_abswop; ?></td>" +
-                    "<td style= 'border: 1px solid black'><?php echo $card->date_used; ?></td>";
-                tabledata1 += "</tr>";
-                $('#ledger_body').append(tabledata1);
-                count++;
-                <?php }?>
-                if (count==0) {
-                    console.log("else");
-                    var tableData2 = "<tr>" +
-                        "<td>No Data Available</td>" +
-                        "</tr>";
-                    $("#ledger_body").append(tableData2);
-//
-                }
-                <?php }?>
+                        <?php if ($card->period !== null): ?>
+                            "<td style= 'border: 1px solid black'><a href= '#' data-toggle='modal' onclick='modifiedUpdatedCTO(this)' data-target='#beginning_balance'><?php echo $card->period; ?></a></td>"+
+                            <?php else: ?>
+                            "<td style= 'border: 1px solid black'></td>"+
+                        <?php endif; ?>
+                        "<td style= 'border: 1px solid black'><?php echo $card->particulars; ?></td>" +
+                        "<td style= 'border: 1px solid black'><?php echo $card->vl_earned; ?></td>" +
+                        "<td style= 'border: 1px solid black'><?php echo $card->vl_abswp; ?></td>" +
+                        "<td style= 'border: 1px solid black'><?php echo $card->vl_bal; ?></td>" +
+                        "<td style= 'border: 1px solid black'><?php echo $card->vl_abswop; ?></td>" +
+                        "<td style= 'border: 1px solid black'><?php echo $card->sl_earned; ?></td>" +
+                        "<td style= 'border: 1px solid black'><?php echo $card->sl_abswp; ?></td>" +
+                        "<td style= 'border: 1px solid black'><?php echo $card->sl_bal; ?></td>" +
+                        "<td style= 'border: 1px solid black'><?php echo $card->sl_abswop; ?></td>" +
+                        "<td style= 'border: 1px solid black'><?php echo $card->date_used; ?></td>";
+                    tabledata1 += "</tr>";
+                    $('#ledger_body').append(tabledata1);
+                    count++;
+                    <?php }?>
+                    if (count==0) {
+                        console.log("else");
+                        var tableData2 = "<tr>" +
+                            "<td>No Data Available</td>" +
+                            "</tr>";
+                        $("#ledger_body").append(tableData2);
+                    }
+                    <?php }?>
+                });
+
+            $('.pagination-link').on('click', function(e) {
+                e.preventDefault();
+                var nextPageUrl = $(this).attr('href');
+
+                $.get(nextPageUrl, function(data) {
+                    $('#modal-content').html(data);
+                });
             });
         });
 
@@ -236,16 +195,6 @@
                 $('.modal-body_leave').html(data);
             });
         });
-
-        function checkBalance(){
-            @if(!Session::get('vacation_balance') || !Session::get('sick_balance'))
-            Lobibox.alert('error', //AVAILABLE TYPES: "error", "info", "success", "warning"
-                {
-                    msg: "LEAVE BALANCE INSUFFICIENT"
-                });
-            event.preventDefault();
-            @endif
-        }
 
     </script>
 @endsection

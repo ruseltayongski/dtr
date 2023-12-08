@@ -9,9 +9,9 @@
                             <?php
                             $statusCount = 0;
                             $counter = 0;
-                            $color = ['red','aqua','green'];
-                            $fa = ['fa-exclamation-circle','fa-smile-o','fa-users'];
-                            $status = ['pending','approve','all'];
+                            $color = ['red','aqua','orange','green'];
+                            $fa = ['fa-exclamation-circle','fa-smile-o','fa-frown-o','fa-users'];
+                            $status = ['pending','approve','cancelled','all'];
                             ?>
                             @foreach($status as $row)
                                 <?php $statusCount++; ?>
@@ -72,6 +72,32 @@
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <div class="ajax_approve">
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--CANCELLED-->
+                            <div class="tab-pane" id="cancelled">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <form class="form-inline" method="POST" action="{{ asset('form/cdo_list') }}" id="searchForm">
+                                            <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
+                                            <div class="col-md-8">
+                                                <input type="text" class="form-control" value="{{ Session::get('keyword') }}" id="inputEmail3" name="keyword" style="width: 100%" placeholder="Route no, Reason">
+                                            </div>
+                                            <button type="submit" class="btn btn-primary" name="search" id="search" data-loading-text="<i class='fa fa-refresh fa-spin'></i> Printing DTR">
+                                                <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Search
+                                            </button>
+                                        </form>
+                                    </div>
+                                    <div class="panel-body">
+                                        <br />
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="ajax_cancelled">
 
                                                 </div>
                                             </div>
@@ -209,6 +235,7 @@
         var keyword = '';
         $(".pending").text(<?php echo count($cdo["count_pending"]); ?>);
         $(".approve").text(<?php echo count($cdo["count_approve"]); ?>);
+        $(".cancelled").text(<?php echo count($cdo["count_cancelled"]); ?>);
         $(".all").text(<?php echo count($cdo["count_all"]); ?>);
         $("a[href='#approve']").on("click",function(){
             $('.ajax_approve').html(loadingState);
@@ -218,7 +245,14 @@
         });
         $("a[href='#pending']").on("click",function(){
             $('.ajax_pending').html(loadingState);
+            $('.input')
             type = 'pending';
+            getPosts(1,keyword);
+            <?php Session::put('keyword',null); ?>
+        });
+        $("a[href='#cancelled']").on("click",function(){
+            $('.ajax_pending').html(loadingState);
+            type = 'cancelled';
             getPosts(1,keyword);
             <?php Session::put('keyword',null); ?>
         });
@@ -270,6 +304,112 @@
                 window.location.href = redirect_url;*/
             });
         }
+
+
+        function cancel_dates(event) {
+            console.log("okiii");
+            $('#cancel_body').empty();
+            var name = event.target.getAttribute('value');
+            console.log("Value:", name);
+            $('#route').val(name);
+
+                        <?php $routes = cdo::get(); ?>
+                        <?php foreach ($routes as $route){ ?>
+                    var route = "<?php echo $route->route_no;?>";
+                    if(name == route){
+
+                        $(".modal-title").html("Route No:<strong>"+route);
+                            <?php $dates = CdoAppliedDate::where('cdo_id', '=', $route->id)->get(); ?>
+                        var dateList= [];
+                        var dateTime = [];
+                            <?php foreach ($dates as $date) {?>
+                        var container = document.querySelector("#cancel_date table");
+                        var diff = "<?php $diff=(strtotime($date->start_date)-strtotime($date->end_date))/ (60*60*24); echo $diff*-1; ?>";
+                        var startDate = new Date("<?php echo $date->start_date; ?>");
+                        var endDate = new Date("<?php echo $date->end_date; ?>");
+                        if(diff == 1){
+                            dateList.push(startDate.toLocaleDateString());
+                            dateTime.push("<?php echo $date->cdo_hours?>");
+                        }else{
+                            while (startDate <= endDate) {
+                                dateList.push(startDate.toLocaleDateString());
+                                startDate.setDate(startDate.getDate() + 1);
+                                dateTime.push("<?php echo $date->cdo_hours?>");
+                            }
+                        }
+                            <?php }?>
+                        var length = dateList.length;
+                        var i=0;
+                        var cancelAllCheckbox ='<label>Check to Cancel All:</label>'+
+                            '<input style="transform: scale(1.5)" type="checkbox" class="minimal" id="applied_dates" value="cancel_all" name="applied_dates" />';
+                        container.innerHTML += cancelAllCheckbox;
+                        while (length > i) {
+                            var html = '<div class="checkbox">' +
+                                '<label style="margin-left: 15%">' +
+                                '<input type="checkbox" style="transform: scale(1.5)" class="minimal" id="applied_dates" name="applied_dates" value="' + dateList[i] + '"  />' +
+                                dateList[i] +
+                                '</label><br>' +
+                                '<label style="margin-left: 30%; transform: scale(1.2)"><input type="radio" name="time' + i + '" value="cdo_am"  /> AM</label>' +
+                                '<label style="margin-left: 10%; transform: scale(1.2)"><input type="radio" name="time' + i + '" value="cdo_pm"  /> PM</label>' +
+                                '<label style="margin-left: 10%; transform: scale(1.2)"><input type="radio" name="time' + i + '" value="cdo_wholeday"  /> Whole Day</label>' +
+                                '</div>';
+                            container.innerHTML += html;
+                            i = i + 1;
+                        }
+
+                        $('#dates').val(dateList);
+                        $('#all_hours').val(dateTime);
+                        console.log("sdfdf",$('#dates').val());
+                        console.log("sdfdf",$('#cdo_hours').val());
+                    }
+                    <?php }?>
+
+                    $('input[type="checkbox"]').on('change', function () {
+                        if ($(this).val() === "cancel_all") {
+                            var isChecked = $(this).prop('checked');
+                            $('input[name="applied_dates"]').prop('checked', isChecked);
+                        }
+
+                        var selectedCheckboxes = [];
+                        $('input[name="applied_dates"]:checked').each(function () {
+                                selectedCheckboxes.push($(this).val());
+                        });
+                        $('#selected_date').val(selectedCheckboxes.join(', '));
+                        console.log("names", selectedCheckboxes);
+                    });
+
+
+            $(document).on('change', 'input[type="radio"]', function () {
+                console.log("sjdsd");
+                var selectedValues = $('input[type="radio"]:checked').map(function () {
+                    return $(this).val();
+                }).get();
+                selectedValues = selectedValues.filter(function (value) {
+                    return value !== "JO";
+                });
+                $('#cdo_hours').val(selectedValues.join(', '));
+                    console.log("Selected values: " + selectedValues.join(', '));
+
+            });
+
+            $('input[type="radio"]').on('change', function () {
+                var selectedBtn = [];
+                $('input[name="time"]:checked').each(function () {
+                    selectedBtn.push($(this).val());
+                });
+                $('#cdo_hours').val(selectedBtn.join(', '));
+                console.log("names", selectedBtn);
+            });
+            console.log("folks");
+
+//            $('input').iCheck({
+//                checkboxClass: 'icheckbox_square-blue',
+//                radioClass: 'iradio_square-blue',
+//                increaseArea: '20%' // optional
+//            });
+
+        }
+
         function pending_status(data){
             var page = "<?php echo Session::get('page_pending') ?>";
             var url = $("#cdo_updatev1").data('link')+'/'+data.val()+'/pending?page='+page;

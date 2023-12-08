@@ -139,6 +139,7 @@ class DocumentController extends BaseController
     {
 
         $leave = Leave::where('id', Input::get('id'))->first();
+
 //        if(isset($leave) and count($leave) > 0) {
         if(isset($leave)) {
             $leave->userid = Auth::user()->userid;
@@ -201,6 +202,7 @@ class DocumentController extends BaseController
 
     public function all_leave()
     {
+
         return "Leave is under development!";
         $userid = Auth::user()->userid;
         $pis = InformationPersonal::where("userid","=",$userid)->first();
@@ -225,11 +227,9 @@ class DocumentController extends BaseController
                 ->orderBy("created_at","desc")
                 ->paginate(20);
         }
-//        return $leave;
 
         Session::put("vacation_balance",$pis->vacation_balance);
         Session::put("sick_balance",$pis->sick_balance);
-
 
         return View::make('form.list_leave',[
             "pis" => $pis,
