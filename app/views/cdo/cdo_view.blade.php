@@ -332,8 +332,8 @@
                     @else
                         <button type="submit" class="btn btn-primary btn-submit" style="color:white"><i class="fa fa-pencil"></i> Update</button>
                     @endif
-                {{--@else--}}
-                    {{--<button onclick="warning1()" type="button" class="btn btn-primary btn-submit" style="color:white"><i class="fa fa-pencil"></i> Update</button>--}}
+                @else
+                    <button type="button" class="btn btn-primary btn-submit" style="color:white"><i class="fa fa-pencil"></i> Update</button>
                 @endif
             </div>
         @else
