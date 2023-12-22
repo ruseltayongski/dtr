@@ -959,10 +959,15 @@
                         $('.less_applied').val(0);
                     }
                 }else{
-                    Lobibox.alert('error', //AVAILABLE TYPES: "error", "info", "success", "warning"
-                        {
-                            msg: "Insufficient CTO balance."
-                        });
+                    if (less_applied2 <= parseInt($(".beginning_balance").val())) {
+                        Lobibox.alert('error', {msg: "Insufficient CTO balance. Remove pending application."});
+                    }
+                    else{
+                        Lobibox.alert('error', {msg: "Insufficient CTO balance."});
+
+                    }
+                    console.log('balance',  less_applied2);
+                    console.log('balance',  parseInt($(".beginning_balance").val()));
                     $('.datepickerInput').val("");
                     $(".newRow").find("#date_label").text("");
                     $('.less_applied').val(0);
