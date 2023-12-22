@@ -721,7 +721,7 @@
             }
             else{
                 if (name_of_days === "Friday") {
-                    beforeDaysToApply = 3;
+                    beforeDaysToApply = 2;
                 } else {
                     beforeDaysToApply = 2;
                 }
@@ -966,8 +966,7 @@
                         Lobibox.alert('error', {msg: "Insufficient CTO balance."});
 
                     }
-                    console.log('balance',  less_applied2);
-                    console.log('balance',  parseInt($(".beginning_balance").val()));
+
                     $('.datepickerInput').val("");
                     $(".newRow").find("#date_label").text("");
                     $('.less_applied').val(0);
