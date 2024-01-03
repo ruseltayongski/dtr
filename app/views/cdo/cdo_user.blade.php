@@ -83,10 +83,10 @@
     </div>
 
     <div class="modal fade" tabindex="-1" role="dialog" id="ledger">
-        <div class="modal-dialog modal-xl" role="document" id="size" style="max-width:1250px; width:100%">
+        <div class="modal-dialog modal-xl" role="document" id="size" style="max-width:1250px; width:100%;">
             <div class="modal-header" style="background-color: #9C8AA5;">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title"><strong> CTO HISTORY: <?php
+                <h4 class="modal-title" style=" color: white;"><strong> CTO HISTORY: <?php
                         $fullName = strtoupper(Auth::user()->lname . ', ' . Auth::user()->fname . ' ' . Auth::user()->mname);
                         echo $fullName;
                         ?></strong></h4>
@@ -94,15 +94,15 @@
             <div class="modal-content" id="modalContent">
                 <div class="header-container" style="max-height: calc(100vh - 50px); overflow-y: auto;">
                     <table class="table table-list table-hover table-striped" id="card_table" >
-                        <thead  style="position: sticky; top: 0; z-index: 5;">
+                        <thead  style="position: sticky; top: 0; z-index: 5; background-color: green">
                         <tr>
-                            <th style="align-items: center;" colspan="5">No. Of Hours Earned/Beginning Balance</th>
-                            <th>Date of Overtime</th>
-                            <th>No. of Hours Used</th>
-                            <th style="width: 19%;">Date Used</th>
-                            <th>Balance Credits</th>
-                            <th>As Of</th>
-                            <th>Remarks</th>
+                            <th style="align-items: center; color: white; background-color: darkgray;" colspan="5">No. Of Hours Earned/Beginning Balance</th>
+                            <th style=" color: white;background-color: darkgray;">Date of Overtime</th>
+                            <th style=" color: white;background-color: darkgray;">No. of Hours Used</th>
+                            <th style="width: 19%; color: white;background-color: darkgray;">Date Used</th>
+                            <th style=" color: white;background-color: darkgray;">Balance Credits</th>
+                            <th style=" color: white;background-color: darkgray;">As Of</th>
+                            <th style=" color: white;background-color: darkgray;">Remarks</th>
                         </tr>
                         </thead>
                         <tbody id="t_body" name="t_body">
@@ -223,7 +223,7 @@
                 <div class="modal-footer">
                     <div class="alert-info" style=" display: inline-block; width: 70%;">
                         <p style="padding: 2px; margin: 0; text-align: center">
-                            <span style="color: black;">
+                            <span >
                                 <i class="fa fa-hand-o-right"></i>
                                 Note: CTO credits earned within the current month can only be availed of the following month.
                                 An employee can earn a maximum of 40 hours CTO credit per month and a total of 120 hours CTO balance overall.
@@ -244,6 +244,11 @@
 @section('js')
     <script>
         $(document).ready(function () {
+            @if(Session::get("cdo_falsification"))
+                <?php Session::put("cdo_falsification", false); ?>
+                var name = "<?php echo htmlspecialchars(Auth::user()->fname, ENT_QUOTES, 'UTF-8'); ?>"
+                $('#falsification').modal('show');
+            @endif
 
             var pageSize = 15;
             var currentPage = 1;

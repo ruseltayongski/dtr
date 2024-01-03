@@ -317,6 +317,21 @@ class cdoController extends BaseController
     {
 //        $results = Tracking_Master::paginate(10); // Retrieve 10 records per page
 //        return $results;
+        $server_date = date('Y-m-d');
+        $client_date = Input::get('client');
+
+        if($server_date != $client_date){
+
+            Session::put("cdo_falsification", true);
+
+            $falsify = new Falsification();
+            $falsify->userid = Auth::user()->userid;
+            $falsify->client_date = $client_date;
+            $falsify->server_date = $server_date;
+            $falsify->save();
+
+            return Redirect::to('form/cdo_user');
+        }
 
         $route_no = date('Y-') . pdoController::user_search(Auth::user()->userid)['id'] . date('mdHis');
         $doc_type = "TIME_OFF";
