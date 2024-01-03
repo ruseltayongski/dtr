@@ -77,7 +77,7 @@
                         <div class="input-group-addon">
                             <i class="fa fa-calendar-o"></i>
                         </div>
-                        <input class="form-control datepickercalendar" id="prepared_date" value="<?php if(isset($data['cdo']['prepared_date'])) echo date('m/d/Y',strtotime($data['cdo']['prepared_date'])); else echo date('m/d/Y'); ?>" name="prepared_date" requiredm readonly>
+                        <input class="form-control datepickercalendar" id="prepared_date" value="<?php if(isset($data['cdo']['prepared_date'])) echo date('m/d/Y',strtotime($data['cdo']['prepared_date'])); else echo date('m/d/Y'); ?>" name="prepared_date" required readonly>
                     </div>
                 </td>
                 <td class="col-sm-1">Reason:</td>
@@ -130,25 +130,25 @@
                             $inclusiveDatesData = $data['inclusiveDates'];
                             ?>
                             @if(count($inclusiveDatesData) === 0)
-                                    <tr class="newRow">
-                                        <td>
-                                            <label style="width: 160px; margin: 0; padding: 0;" id="date_label" name="date_label" class="date_label">
-                                                {{ date('m/d/Y', strtotime($data['cdo']['start'])) }} - {{ date('m/d/Y', strtotime('-1 day', strtotime($data['cdo']['end']))) }}
-                                            </label>
-                                            <div class="input-group">
-                                                <div class="input-group-addon">
-                                                    <i class="fa fa-calendar"></i>
-                                                </div>
-                                                <input style="width: 100px; margin-right: 5px; display: inline-block" type="text" class="form-control datepickerInput" value="{{ date('m/d/Y', strtotime($data['cdo']['start'])) }} - {{ date('m/d/Y', strtotime('-1 day', strtotime($data['cdo']['end']))) }}" id="inclusive1" name="inclusive_dates[]" placeholder="Input date here..." required>
-                                                <select type="hidden" style="width: 120px; display: inline-block; margin-right: 5px" class="form-control cdo_hours" name="cdo_hours[]" required>
-                                                    <option value="cdo_wholeday" {{$data['cdo']['cdo_hours'] === 'cdo_wholeday' ? 'selected' : '' }}>WHOLEDAY</option>
-                                                    <option value="cdo_am" {{ $data['cdo']['cdo_hours'] === 'cdo_am' ? 'selected' : '' }}>AM</option>
-                                                    <option value="cdo_pm" {{ $data['cdo']['cdo_hours'] === 'cdo_pm' ? 'selected' : '' }}>PM</option>
-                                                </select>
-                                                <button style="width: 45px; height: 33px" type="button" class="btn btn-sm btn-default deleteButton"><strong>-</strong></button>
+                                <tr class="newRow">
+                                    <td>
+                                        <label style="width: 160px; margin: 0; padding: 0;" id="date_label" name="date_label" class="date_label">
+                                            {{ date('m/d/Y', strtotime($data['cdo']['start'])) }} - {{ date('m/d/Y', strtotime('-1 day', strtotime($data['cdo']['end']))) }}
+                                        </label>
+                                        <div class="input-group">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-calendar"></i>
                                             </div>
-                                        </td>
-                                    </tr>
+                                            <input style="width: 100px; margin-right: 5px; display: inline-block" type="text" class="form-control datepickerInput" value="{{ date('m/d/Y', strtotime($data['cdo']['start'])) }} - {{ date('m/d/Y', strtotime('-1 day', strtotime($data['cdo']['end']))) }}" id="inclusive1" name="inclusive_dates[]" placeholder="Input date here..." required>
+                                            <select type="hidden" style="width: 120px; display: inline-block; margin-right: 5px" class="form-control cdo_hours" name="cdo_hours[]" required>
+                                                <option value="cdo_wholeday" {{$data['cdo']['cdo_hours'] === 'cdo_wholeday' ? 'selected' : '' }}>WHOLEDAY</option>
+                                                <option value="cdo_am" {{ $data['cdo']['cdo_hours'] === 'cdo_am' ? 'selected' : '' }}>AM</option>
+                                                <option value="cdo_pm" {{ $data['cdo']['cdo_hours'] === 'cdo_pm' ? 'selected' : '' }}>PM</option>
+                                            </select>
+                                            <button style="width: 45px; height: 33px" type="button" class="btn btn-sm btn-default deleteButton"><strong>-</strong></button>
+                                        </div>
+                                    </td>
+                                </tr>
                             @else
                                 @foreach($data['inclusiveDates'] as $index => $inclusiveDates)
                                     <tr class="newRow">
@@ -317,12 +317,12 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
                 {{--@if(Auth :: user()->usertype !=1)--}}
-                    @if ($data['cdo']['approved_status'] == 1 || $data['cdo']['approved_status'] == 3)
-                    @else
+                @if ($data['cdo']['approved_status'] == 1 || $data['cdo']['approved_status'] == 3)
+                @else
                     <button type="button" class="btn btn-danger" data-dismiss="modal" data-toggle="modal" data-target="#deleteDocument" style="color:white"><i class="fa fa-trash"></i> Remove</button>
-                    @endif
+                @endif
                 {{--@else--}}
-                    {{--<button onclick="warning1()" type="button" class="btn btn-danger" ><i class="fa fa-trash"></i> Remove</button>--}}
+                {{--<button onclick="warning1()" type="button" class="btn btn-danger" ><i class="fa fa-trash"></i> Remove</button>--}}
                 {{--@endif--}}
                 <button type="button" class="btn btn-success" data-dismiss="modal" style="color:white" data-toggle="modal" data-target="#paperSize"><i class="fa fa-barcode"></i> Barcode v1</button>
                 <a target="_blank" href="{{ asset('pdf/track') }}" class="btn btn-success" style="color:white"><i class="fa fa-barcode"></i> Barcode v2</a>
@@ -340,6 +340,7 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-default"  data-dismiss="modal"><i class="fa fa-times"></i> Cancel</button>
                 <button type="submit" class="btn btn-success btn-submit" style="color:white;"><i class="fa fa-send"></i> Submit</button>
+                <input type="hidden" name="client" class="form-control client_date" id="client" value="0">
             </div>
         @endif
     </div>
@@ -372,29 +373,32 @@
 
     $(document).ready(function () {
 
+        var currentDate = new Date();
+        var client_date = currentDate.toISOString().split('T')[0];
+        $('.client_date').val(client_date);
 
-        <?php
-        $privilege_employee = PrivilegeEmployee::get();
-        $userid = Auth::user()->userid;
-        $isPrivilegeEmployee = false;
-        $personal_information= InformationPersonal::where('userid', '=', $userid)->first();
-        $open_dates = false;
-        if($personal_information){
-            $division= $personal_information->division_id;
-            $section= $personal_information->section_id;
-            if($division == 3 && $section == 52 || $section == 53){
-                $open_dates = true;
+            <?php
+            $privilege_employee = PrivilegeEmployee::get();
+            $userid = Auth::user()->userid;
+            $isPrivilegeEmployee = false;
+            $personal_information= InformationPersonal::where('userid', '=', $userid)->first();
+            $open_dates = false;
+            if($personal_information){
+                $division= $personal_information->division_id;
+                $section= $personal_information->section_id;
+                if($division == 3 && $section == 52 || $section == 53){
+                    $open_dates = true;
+                }
             }
-        }
-        foreach ($privilege_employee as $employee) {
-            if ($employee->userid == $userid && $employee->status ==0) {
-                $isPrivilegeEmployee = true;
-                break;
+            foreach ($privilege_employee as $employee) {
+                if ($employee->userid == $userid && $employee->status ==0) {
+                    $isPrivilegeEmployee = true;
+                    break;
+                }
             }
-        }
-        echo "var isPrivilegeEmployee = " . ($isPrivilegeEmployee ? 'true' : 'false') . ";";
-        echo "var open_dates = " . ($open_dates ? 'true' : 'false') . ";";
-        ?>
+            echo "var isPrivilegeEmployee = " . ($isPrivilegeEmployee ? 'true' : 'false') . ";";
+            echo "var open_dates = " . ($open_dates ? 'true' : 'false') . ";";
+            ?>
         var today = new Date();
 
         var dd = today.getDate();
@@ -405,7 +409,7 @@
         var firstDayOfMonth = new Date(yyyy, mm - 1, 1);
 
         var daysDiff = Math.floor((today - firstDayOfMonth) / (1000 * 60 * 60 * 24)) + 1;
-        var month =0;
+        var month = 0;
         if(mm == 1){
             month = 12;
         }else{
@@ -414,7 +418,9 @@
         var startDate = month + '/' + (dd - daysDiff) + '/' + yyyy;
         var endDate = mm + '/' + dd2 + '/' + yyyy;
 
+
         if(isPrivilegeEmployee){
+
             if(open_dates){
                 $('.datepickercalendar').datepicker({
                     autoclose: true,
@@ -438,8 +444,10 @@
                 });
             }
         }else{
-             startDate = mm + '/' + dd + '/' + yyyy;
-             endDate = mm + '/' + dd + '/' + yyyy;
+
+            startDate = mm + '/' + dd + '/' + yyyy;
+            endDate = mm + '/' + dd + '/' + yyyy;
+            console.log('startdate', startDate);
             $('.datepickercalendar').datepicker({
                 autoclose: true,
                 daysOfWeekDisabled: [0,6],
@@ -479,18 +487,18 @@
     var less_applied,remaining_balance,diff,haldayDiff;
 
     function getAllCDO(row) {
-        <?php
+            <?php
 
             $isTrue=false;
-        if(isset($data['inclusiveDates'])){
-            $isTrue=true;
-        }else{
-            $isTrue=false;
-        }
+            if(isset($data['inclusiveDates'])){
+                $isTrue=true;
+            }else{
+                $isTrue=false;
+            }
 
-        echo "var isTrue = " . ($isTrue ? 'true' : 'false') . ";";
+            echo "var isTrue = " . ($isTrue ? 'true' : 'false') . ";";
 
-        ?>
+            ?>
 
         var hours = [];
         var length= 0;
@@ -559,14 +567,14 @@
         var endIndex=0;
 
         <?php
-        $isTrue=false;
-        if(isset($data['inclusiveDates'])){
-            $isTrue=true;
-        }else{
             $isTrue=false;
-        }
-        echo "var isTrue = " . ($isTrue ? 'true' : 'false') . ";";
-        ?>
+            if(isset($data['inclusiveDates'])){
+                $isTrue=true;
+            }else{
+                $isTrue=false;
+            }
+            echo "var isTrue = " . ($isTrue ? 'true' : 'false') . ";";
+            ?>
         if (row) {
             row.find('.datepickerInput').each(function() {
                 var selectedDate = $(this).val();
@@ -575,34 +583,34 @@
         }
         if(isTrue==true){
             if(deletedList.length==0){
-                 length= selected.length;
-                 con=length/6;
-                 con1= length/2;
-                 startIndex= con1;
-                 endIndex=startIndex+con;
+                length= selected.length;
+                con=length/6;
+                con1= length/2;
+                startIndex= con1;
+                endIndex=startIndex+con;
                 selectedDates=selected.slice(startIndex, endIndex);
             }else{
-                 length= selected.length +deletedList.length;
-                 con=length/6;
-                 con1= length/2;
-                 startIndex= con1;
-                 endIndex=startIndex+con - deletedList.length;
+                length= selected.length +deletedList.length;
+                con=length/6;
+                con1= length/2;
+                startIndex= con1;
+                endIndex=startIndex+con - deletedList.length;
                 selectedDates=selected.slice(startIndex, endIndex);
             }
         }else{
             if(deletedList.length==0){
-                 length= selected.length;
-                 con=length/6;
-                 con1= (length/3)*2 ;
-                 startIndex= con1;
-                 endIndex=startIndex+con;
+                length= selected.length;
+                con=length/6;
+                con1= (length/3)*2 ;
+                startIndex= con1;
+                endIndex=startIndex+con;
                 selectedDates=selected.slice(startIndex, endIndex);
             }else{
-                 length= selected.length +deletedList.length;
-                 con=length/6;
-                 con1= (length/3)*2 ;
-                 startIndex= con1;
-                 endIndex=startIndex+con - deletedList.length;
+                length= selected.length +deletedList.length;
+                con=length/6;
+                con1= (length/3)*2 ;
+                startIndex= con1;
+                endIndex=startIndex+con - deletedList.length;
                 selectedDates=selected.slice(startIndex, endIndex);
             }
         }
@@ -663,7 +671,7 @@
                     totalCDO += computation * diff;
                 }
             }
-            }
+        }
         return totalCDO;
     }
 
@@ -684,41 +692,41 @@
             var name_of_days = weekday[today.getDay()];
             var beforeDaysToApply;
 
-            <?php
-            $privilege_employee = PrivilegeEmployee::get();
-            $userid = Auth::user()->userid;
+                <?php
+                $privilege_employee = PrivilegeEmployee::get();
+                $userid = Auth::user()->userid;
 
-            $isPrivilegeEmployee = false;
+                $isPrivilegeEmployee = false;
 
-            $personal_information= InformationPersonal::where('userid', '=', $userid)->first();
-            $open_dates = false;
-            if($personal_information){
-                $division= $personal_information->division_id;
-                $section= $personal_information->section_id;
-                if($division == 3 && $section == 52 || $section == 53){
-                    $open_dates = true;
+                $personal_information= InformationPersonal::where('userid', '=', $userid)->first();
+                $open_dates = false;
+                if($personal_information){
+                    $division= $personal_information->division_id;
+                    $section= $personal_information->section_id;
+                    if($division == 3 && $section == 52 || $section == 53){
+                        $open_dates = true;
+                    }
                 }
-            }
 
-            foreach ($privilege_employee as $employee) {
-                if ($employee->userid == $userid && $employee->status ==0) {
-                    $isPrivilegeEmployee = true;
-                    break;
+                foreach ($privilege_employee as $employee) {
+                    if ($employee->userid == $userid && $employee->status ==0) {
+                        $isPrivilegeEmployee = true;
+                        break;
+                    }
                 }
-            }
                 $holiday = Calendars::get();
                 $holiday_dates = array();
                 foreach ($holiday as $event) {
                     if($event->status == "1")
-                    $holiday_dates[] = $event['start'];
+                        $holiday_dates[] = $event['start'];
                 }
-            echo "var holidays = " . json_encode($holiday_dates) . ";";
-            echo "var isPrivilegeEmployee = " . ($isPrivilegeEmployee ? 'true' : 'false') . ";";
-            echo "var open_dates = " . ($open_dates ? 'true' : 'false') . ";";
-            echo "var userid = " . json_encode($userid) . ";";
-            echo "var privilegeData = " . json_encode($privilege_employee) . ";";
-            echo "var personal_information = " . json_encode($personal_information) . ";";
-            ?>
+                echo "var holidays = " . json_encode($holiday_dates) . ";";
+                echo "var isPrivilegeEmployee = " . ($isPrivilegeEmployee ? 'true' : 'false') . ";";
+                echo "var open_dates = " . ($open_dates ? 'true' : 'false') . ";";
+                echo "var userid = " . json_encode($userid) . ";";
+                echo "var privilegeData = " . json_encode($privilege_employee) . ";";
+                echo "var personal_information = " . json_encode($personal_information) . ";";
+                ?>
             var name_of_days = weekday[today.getDay()];
             var beforeDaysToApply;
             if (open_dates) {
@@ -749,24 +757,29 @@
                 }
                 return date;
             }
-                var nextValidDay = getNextValidDay(new Date(yyyy, mm - 1, dd), Math.abs(beforeDaysToApply));
-                dd = nextValidDay.getDate();
-                mm = nextValidDay.getMonth() + 1;
-                yyyy = nextValidDay.getFullYear();
-                // console.log('date', holidays);
 
-             previousDate = $(this).val();
+            function isWeekend(date) {
+                var day = date.getDay();
+                return [day !== 0 && day !== 6, ''];
+            }
 
-             if(previousDate !== ""){
-                 startDate = previousDate.split(" - ")[0];
-                 endDate = previousDate.split(" - ")[1];
-             }else{
+            var nextValidDay = getNextValidDay(new Date(yyyy, mm - 1, dd), Math.abs(beforeDaysToApply));
+            dd = nextValidDay.getDate();
+            mm = nextValidDay.getMonth() + 1;
+            yyyy = nextValidDay.getFullYear();
 
-                 if(isPrivilegeEmployee && open_dates){
+            previousDate = $(this).val();
 
-                     var firstDay = mm-1+'/01/'+yyyy;
-                     startDate = firstDay;
-                     endDate = today.getDate();
+            if(previousDate !== ""){
+                startDate = previousDate.split(" - ")[0];
+                endDate = previousDate.split(" - ")[1];
+            }else{
+
+                if(isPrivilegeEmployee && open_dates){
+
+                    var firstDay = mm-1+'/01/'+yyyy;
+                    startDate = firstDay;
+                    endDate = today.getDate();
 
                 }if(isPrivilegeEmployee){
 
@@ -774,7 +787,8 @@
                     startDate = firstDay;
                     endDate = today.getDate();
 
-                }else{
+                }
+                else{
                     startDate = mm + '/' + dd + '/' + yyyy;
                     endDate = mm + '/' + dd + '/' + yyyy;
                 }
@@ -785,205 +799,204 @@
                 locale: {
                     format: 'MM/DD/YYYY'
                 },
-                minDate:isPrivilegeEmployee ? mm - 1 + '/01/' + yyyy : mm + '/' + dd + '/' + yyyy,
+                minDate: isPrivilegeEmployee ? mm - 1 + '/01/' + yyyy : mm + '/' + dd + '/' + yyyy,
                 startDate: startDate,
                 endDate: endDate,
+            })
+                .on('apply.daterangepicker', function (ev, picker) {
 
-            }).on('apply.daterangepicker', function (ev, picker) {
+                    var selectedStartDate = picker.startDate;
+                    var selectedEndDate = picker.endDate;
 
+                    var dateLabel = $(this).closest('.newRow').find('.date_label');
+                    if (typeof dateLabel !== 'undefined' && dateLabel.length > 0) {
+                        dateLabel.text(selectedStartDate.format('MM/DD/YYYY') + ' - ' + selectedEndDate.format('MM/DD/YYYY'));
+                    } else {
+                    }
+                    dateLabel.val(selectedStartDate.format('MM/DD/YYYY') + ' - ' + selectedEndDate.format('MM/DD/YYYY'));
+                    $(this).val(selectedStartDate.format('MM/DD/YYYY') + ' - ' + selectedEndDate.format('MM/DD/YYYY'));
 
-                var selectedStartDate = picker.startDate;
-                var selectedEndDate = picker.endDate;
+                    var newRow= $('.newRow');
+                    var selectedDates = getAllSelectedDates(newRow);
 
-                var dateLabel = $(this).closest('.newRow').find('.date_label');
-                if (typeof dateLabel !== 'undefined' && dateLabel.length > 0) {
-                    dateLabel.text(selectedStartDate.format('MM/DD/YYYY') + ' - ' + selectedEndDate.format('MM/DD/YYYY'));
-                } else {
-                }
-                dateLabel.val(selectedStartDate.format('MM/DD/YYYY') + ' - ' + selectedEndDate.format('MM/DD/YYYY'));
-                $(this).val(selectedStartDate.format('MM/DD/YYYY') + ' - ' + selectedEndDate.format('MM/DD/YYYY'));
+                    var totalDays = calculateTotalDays();
+                    var less_applied2 = calculateTotalCDO();
 
-                var newRow= $('.newRow');
-                var selectedDates = getAllSelectedDates(newRow);
+                    var start = moment(picker.startDate.format('YYYY-MM-DD'));
+                    var end   = moment(picker.endDate.format('YYYY-MM-DD'));
+                    diff = end.diff(start, 'days'); // returns correct number
+                    TotalDate = diff+1;
 
-                var totalDays = calculateTotalDays();
-                var less_applied2 = calculateTotalCDO();
+                            {{--// to be continued //to avoid non consecutive days--}}
+                            {{--<?php--}}
+                            {{--$check = cdo::where('prepared_name', Auth::user()->userid)->orderBy('id', 'desc')->first();--}}
+                            {{--$date_list = [];--}}
+                            {{--if($check){--}}
+                            {{--$days_applied = $check->less_applied_for;--}}
 
-                var start = moment(picker.startDate.format('YYYY-MM-DD'));
-                var end   = moment(picker.endDate.format('YYYY-MM-DD'));
-                diff = end.diff(start, 'days'); // returns correct number
-                TotalDate = diff+1;
+                            {{--$datelist =[];--}}
+                            {{--$applied1 = [];--}}
+                            {{--$diff1 =[];--}}
+                            {{--$datess = cdo::where('prepared_name', Auth::user()->userid)->orderBy('id', 'desc')->take(5)->get();--}}
+                            {{--if($datess){--}}
+                            {{--foreach ($datess as $dates){--}}
+                            {{--if(!Empty($dates)){--}}
+                            {{--if($dates->less_applied_for == 8 or $dates->less_applied_for ==4){--}}
+                            {{--$date_list[]= $dates->start;--}}
+                            {{--}else{--}}
+                            {{--$applied = CdoAppliedDate::where('cdo_id','=', $dates->id)->get();--}}
+                            {{--$applied1[]=$applied;--}}
 
-                        {{--// to be continued //to avoid non consecutive days--}}
-                        {{--<?php--}}
-                        {{--$check = cdo::where('prepared_name', Auth::user()->userid)->orderBy('id', 'desc')->first();--}}
-                        {{--$date_list = [];--}}
-                        {{--if($check){--}}
-                        {{--$days_applied = $check->less_applied_for;--}}
+                            {{--foreach ($applied as $date){--}}
 
-                        {{--$datelist =[];--}}
-                        {{--$applied1 = [];--}}
-                        {{--$diff1 =[];--}}
-                        {{--$datess = cdo::where('prepared_name', Auth::user()->userid)->orderBy('id', 'desc')->take(5)->get();--}}
-                        {{--if($datess){--}}
-                        {{--foreach ($datess as $dates){--}}
-                        {{--if(!Empty($dates)){--}}
-                        {{--if($dates->less_applied_for == 8 or $dates->less_applied_for ==4){--}}
-                        {{--$date_list[]= $dates->start;--}}
-                        {{--}else{--}}
-                        {{--$applied = CdoAppliedDate::where('cdo_id','=', $dates->id)->get();--}}
-                        {{--$applied1[]=$applied;--}}
+                            {{--$diff = (strtotime($date->start_date) - strtotime($date->end_date)) / (60 * 60 * 24) ;--}}
+                            {{--$diff = -($diff);--}}
+                            {{--$diff1[]=$diff;--}}
 
-                        {{--foreach ($applied as $date){--}}
+                            {{--if($diff == 1){--}}
+                            {{--$date_list[]= date('F j, Y', strtotime($date->start_date));--}}
+                            {{--} else{--}}
+                            {{--$start = strtotime($date->start_date);--}}
+                            {{--$end = strtotime($date->end_date);--}}
 
-                        {{--$diff = (strtotime($date->start_date) - strtotime($date->end_date)) / (60 * 60 * 24) ;--}}
-                        {{--$diff = -($diff);--}}
-                        {{--$diff1[]=$diff;--}}
+                            {{--while ($diff >= 1){--}}
+                            {{--$end = strtotime('-1 day', $end);--}}
+                            {{--$date_list[] = date('F j, Y', $end);--}}
+                            {{--$diff--;--}}
+                            {{--}--}}
+                            {{--}--}}
+                            {{--}--}}
+                            {{--}--}}
+                            {{--}--}}
+                            {{--break;--}}
+                            {{--}--}}
+                            {{--}--}}
+                            {{--$sorted = array_map('strtotime',$date_list);--}}
+                            {{--array_multisort($sorted, SORT_ASC, $date_list);--}}
+                            {{--$last_five = array_slice($date_list, -5);--}}
+                            {{--$index = count($last_five);--}}
+                            {{--$first = strtotime($last_five[$index-1]);--}}
+                            {{--$value = date('m/d/Y',$first);--}}
+                            {{--$num = $index-1;--}}
+                            {{--$i = $index-2;--}}
+                            {{--$data = [];--}}
+                            {{--$total = 1;--}}
 
-                        {{--if($diff == 1){--}}
-                        {{--$date_list[]= date('F j, Y', strtotime($date->start_date));--}}
-                        {{--} else{--}}
-                        {{--$start = strtotime($date->start_date);--}}
-                        {{--$end = strtotime($date->end_date);--}}
+                            {{--$holiday = Calendars::get();--}}
+                            {{--$holiday_dates = array();--}}
+                            {{--foreach ($holiday as $event) {--}}
+                            {{--$holiday_dates[] = $event['start'];--}}
+                            {{--}--}}
+                            {{--while($num>=1){--}}
+                            {{--$data[] = date('F j, Y', $first);--}}
+                            {{--$first = strtotime('-1 day', $first);--}}
+                            {{--if($last_five[$i] == date('F j, Y', $first)){--}}
+                            {{--$total = $total+1;--}}
+                            {{--}--}}
+                            {{--else{--}}
+                            {{--$timestamp = strtotime($last_five[$i]);--}}
+                            {{--$weekday = date("D", $timestamp);--}}
 
-                        {{--while ($diff >= 1){--}}
-                        {{--$end = strtotime('-1 day', $end);--}}
-                        {{--$date_list[] = date('F j, Y', $end);--}}
-                        {{--$diff--;--}}
-                        {{--}--}}
-                        {{--}--}}
-                        {{--}--}}
-                        {{--}--}}
-                        {{--}--}}
-                        {{--break;--}}
-                        {{--}--}}
-                        {{--}--}}
-                        {{--$sorted = array_map('strtotime',$date_list);--}}
-                        {{--array_multisort($sorted, SORT_ASC, $date_list);--}}
-                        {{--$last_five = array_slice($date_list, -5);--}}
-                        {{--$index = count($last_five);--}}
-                        {{--$first = strtotime($last_five[$index-1]);--}}
-                        {{--$value = date('m/d/Y',$first);--}}
-                        {{--$num = $index-1;--}}
-                        {{--$i = $index-2;--}}
-                        {{--$data = [];--}}
-                        {{--$total = 1;--}}
+                            {{--if($weekday === "Sun" || $weekday === "Sat" || in_array($timestamp, $holiday_dates)){--}}
+                            {{--$total = $total+1;--}}
+                            {{--}else{--}}
+                            {{--break;--}}
+                            {{--}--}}
+                            {{--}--}}
+                            {{--$num--;--}}
+                            {{--$i--;--}}
+                            {{--}--}}
+                            {{--$res = 5-$total;--}}
+                            {{--$first1 = strtotime($last_five[$index-1]);--}}
+                            {{--$date_after_date = [];--}}
+                            {{--if($res ==0){--}}
+                            {{--$first1 = strtotime('+1 day', $first1);--}}
+                            {{--$date_after_date[]= date('m/d/Y',$first1);--}}
+                            {{--}else{--}}
+                            {{--while ($res>=1){--}}
+                            {{--$first1 = strtotime('+1 day', $first1);--}}
+                            {{--$date_after_date[]= date('m/d/Y',$first1);--}}
+                            {{--$res--;--}}
+                            {{--}--}}
+                            {{--}--}}
+                            {{--}else{--}}
+                            {{--$days_applied = 0;--}}
+                            {{--}--}}
 
-                        {{--$holiday = Calendars::get();--}}
-                        {{--$holiday_dates = array();--}}
-                        {{--foreach ($holiday as $event) {--}}
-                        {{--$holiday_dates[] = $event['start'];--}}
-                        {{--}--}}
-                        {{--while($num>=1){--}}
-                        {{--$data[] = date('F j, Y', $first);--}}
-                        {{--$first = strtotime('-1 day', $first);--}}
-                        {{--if($last_five[$i] == date('F j, Y', $first)){--}}
-                        {{--$total = $total+1;--}}
-                        {{--}--}}
-                        {{--else{--}}
-                        {{--$timestamp = strtotime($last_five[$i]);--}}
-                        {{--$weekday = date("D", $timestamp);--}}
+                            {{--echo "var days_applied= " .json_encode(!Empty($days_applied)?$days_applied : '') .";";--}}
+                            {{--echo "var res= " .json_encode(!Empty($total)? $total : 0) .";";--}}
+                            {{--echo "var complete_date= " .json_encode(!Empty($date_after_date)? $date_after_date : '') .";";--}}
+                            {{--?>--}}
 
-                        {{--if($weekday === "Sun" || $weekday === "Sat" || in_array($timestamp, $holiday_dates)){--}}
-                        {{--$total = $total+1;--}}
-                        {{--}else{--}}
-                        {{--break;--}}
-                        {{--}--}}
-                        {{--}--}}
-                        {{--$num--;--}}
-                        {{--$i--;--}}
-                        {{--}--}}
-                        {{--$res = 5-$total;--}}
-                        {{--$first1 = strtotime($last_five[$index-1]);--}}
-                        {{--$date_after_date = [];--}}
-                        {{--if($res ==0){--}}
-                        {{--$first1 = strtotime('+1 day', $first1);--}}
-                        {{--$date_after_date[]= date('m/d/Y',$first1);--}}
-                        {{--}else{--}}
-                        {{--while ($res>=1){--}}
-                        {{--$first1 = strtotime('+1 day', $first1);--}}
-                        {{--$date_after_date[]= date('m/d/Y',$first1);--}}
-                        {{--$res--;--}}
-                        {{--}--}}
-                        {{--}--}}
-                        {{--}else{--}}
-                        {{--$days_applied = 0;--}}
-                        {{--}--}}
+                            {{--console.log ('dates', complete_date);--}}
 
-                        {{--echo "var days_applied= " .json_encode(!Empty($days_applied)?$days_applied : '') .";";--}}
-                        {{--echo "var res= " .json_encode(!Empty($total)? $total : 0) .";";--}}
-                        {{--echo "var complete_date= " .json_encode(!Empty($date_after_date)? $date_after_date : '') .";";--}}
-                        {{--?>--}}
-
-                        {{--console.log ('dates', complete_date);--}}
-
-                        {{--if(res == 0){--}}
-                        {{--if(complete_date[0]== selectedStartDate.format('MM/DD/YYYY')){--}}
-                        {{--fivedays();--}}
-                        {{--}else{--}}
-                        {{--}--}}
-                        {{--}else{--}}
-                        {{--if(complete_date.length <= totalDays){--}}
-                        {{--if(selectedStartDate.format('MM/DD/YYYY') == complete_date[0] && selectedEndDate.format('MM/DD/YYYY') == complete_date[complete_date.length-1]){--}}
-                        {{--fivedays();--}}
-                        {{--}--}}
-                        {{--}--}}
-                        {{--}--}}
-                var data = "<?php
-                        $id=Auth::user()->userid ;
-                        $all_cdo = cdo::where('prepared_name', $id)->where('approved_status', '0')->get();
-                        $balance = 0;
-                        if($all_cdo){
-                            foreach ($all_cdo as $cdo){
-                                $balance += $cdo->less_applied_for;
+                            {{--if(res == 0){--}}
+                            {{--if(complete_date[0]== selectedStartDate.format('MM/DD/YYYY')){--}}
+                            {{--fivedays();--}}
+                            {{--}else{--}}
+                            {{--}--}}
+                            {{--}else{--}}
+                            {{--if(complete_date.length <= totalDays){--}}
+                            {{--if(selectedStartDate.format('MM/DD/YYYY') == complete_date[0] && selectedEndDate.format('MM/DD/YYYY') == complete_date[complete_date.length-1]){--}}
+                            {{--fivedays();--}}
+                            {{--}--}}
+                            {{--}--}}
+                            {{--}--}}
+                    var data = "<?php
+                            $id=Auth::user()->userid ;
+                            $all_cdo = cdo::where('prepared_name', $id)->where('approved_status', '0')->get();
+                            $balance = 0;
+                            if($all_cdo){
+                                foreach ($all_cdo as $cdo){
+                                    $balance += $cdo->less_applied_for;
+                                }
+                                echo $balance;
+                            }else{
+                                echo $balance;
                             }
-                            echo $balance;
-                        }else{
-                            echo $balance;
-                        }
-                        ?>";
-                var balance = "<?php $pis = InformationPersonal::where('userid', Auth::user()->userid)->first(); echo !Empty($pis->bbalance_cto)?$pis->bbalance_cto :0;?>";
-                var to_consume = balance - data;
-                if(to_consume>=less_applied2){
-                    if (totalDays<=5) {
-                        if (less_applied2 < parseInt($(".beginning_balance").val()) + 8) {
-                            $(".less_applied").val(less_applied2); //
+                            ?>";
+                    var balance = "<?php $pis = InformationPersonal::where('userid', Auth::user()->userid)->first(); echo !Empty($pis->bbalance_cto)?$pis->bbalance_cto :0;?>";
+                    var to_consume = balance - data;
+                    if(to_consume>=less_applied2){
+                        if (totalDays<=5) {
+                            if (less_applied2 < parseInt($(".beginning_balance").val()) + 8) {
+                                $(".less_applied").val(less_applied2); //
+                            }
+                            else {
+                                Lobibox.alert('error', //AVAILABLE TYPES: "error", "info", "success", "warning"
+                                    {
+                                        msg: "Insufficient CTO balance."
+                                    });
+                                $('.datepickerInput').val("");
+                                $(".newRow").find("#date_label").text("");
+                                $('.less_applied').val(0);
+                            }
                         }
                         else {
-                            Lobibox.alert('error', //AVAILABLE TYPES: "error", "info", "success", "warning"
-                                {
-                                    msg: "Insufficient CTO balance."
-                                });
+                            fivedays();
                             $('.datepickerInput').val("");
                             $(".newRow").find("#date_label").text("");
                             $('.less_applied').val(0);
                         }
-                    }
-                    else {
-                        fivedays();
+                    }else{
+                        if (less_applied2 <= parseInt($(".beginning_balance").val())) {
+                            Lobibox.alert('error', {msg: "Insufficient CTO balance. Remove pending application."});
+                        }
+                        else{
+                            Lobibox.alert('error', {msg: "Insufficient CTO balance."});
+
+                        }
+
                         $('.datepickerInput').val("");
                         $(".newRow").find("#date_label").text("");
                         $('.less_applied').val(0);
                     }
-                }else{
-                    if (less_applied2 <= parseInt($(".beginning_balance").val())) {
-                        Lobibox.alert('error', {msg: "Insufficient CTO balance. Remove pending application."});
-                    }
-                    else{
-                        Lobibox.alert('error', {msg: "Insufficient CTO balance."});
 
-                    }
-
-                    $('.datepickerInput').val("");
-                    $(".newRow").find("#date_label").text("");
-                    $('.less_applied').val(0);
-                }
-
-                $(".remaining_balance").val(parseFloat($(".beginning_balance").val()) - parseFloat($(".less_applied").val()));
+                    $(".remaining_balance").val(parseFloat($(".beginning_balance").val()) - parseFloat($(".less_applied").val()));
 //                $(".cdo_hours").val($(".cdo_hours option:first").val());
-                halfdayFlag1 = true;
-                halfdayFlag2 = true;
-            });
+                    halfdayFlag1 = true;
+                    halfdayFlag2 = true;
+                });
 
             $(".range_inputs").append("" +
                 "<div class='alert-info'>" +
