@@ -409,18 +409,16 @@
         var firstDayOfMonth = new Date(yyyy, mm - 1, 1);
 
         var daysDiff = Math.floor((today - firstDayOfMonth) / (1000 * 60 * 60 * 24)) + 1;
-        var month = 0;
-        if(mm == 1){
-            month = 12;
+        if(mm = 1){
+            mm = 12;
+            yyyy = yyyy - 1;
         }else{
-            month = mm-1;
+            mm= mm-1;
         }
-        var startDate = month + '/' + (dd - daysDiff) + '/' + yyyy;
-        var endDate = mm + '/' + dd2 + '/' + yyyy;
-
+        var startDate = mm + '/' + daysDiff+ '/' + yyyy;
+        var endDate = today.getMonth() + 1 + '/' + dd2 + '/' + today.getFullYear();
 
         if(isPrivilegeEmployee){
-
             if(open_dates){
                 $('.datepickercalendar').datepicker({
                     autoclose: true,
@@ -430,8 +428,22 @@
                     minDate: mm + '/' + dd + '/' + yyyy,
                     startDate: startDate,
                     endDate: endDate,
+                    beforeShowDay: function(date) {
+                        console.log('start', startDate);
+                        console.log('end', endDate);
+                        var day = date.getDay();
+                        var validDate = (day !== 0 && day !== 6); // Exclude weekends
+
+                        if (date >= startDate && date <= endDate) {
+                            // Enable dates within the specified range
+                            validDate = true;
+                        }
+
+                        return [validDate, ''];
+                    }
                 });
             }else{
+
                 $('.datepickercalendar').datepicker({
                     autoclose: true,
                     daysOfWeekDisabled: [0,6],
@@ -441,12 +453,25 @@
                     minDate: mm + '/' + dd + '/' + yyyy,
                     startDate: startDate,
                     endDate: endDate,
+                    beforeShowDay: function(date) {
+                        console.log('start', startDate);
+                        console.log('end', endDate);
+                        var day = date.getDay();
+                        var validDate = (day !== 0 && day !== 6); // Exclude weekends
+
+                        if (date >= startDate && date <= endDate) {
+                            // Enable dates within the specified range
+                            validDate = true;
+                        }
+
+                        return [validDate, ''];
+                    }
                 });
             }
         }else{
 
-            startDate = mm + '/' + dd + '/' + yyyy;
-            endDate = mm + '/' + dd + '/' + yyyy;
+            startDate = today.getMonth() + 1 + '/' + dd + '/' + today.getFullYear();
+            endDate = today.getMonth() + 1 + '/' + dd + '/' + today.getFullYear();
             console.log('startdate', startDate);
             $('.datepickercalendar').datepicker({
                 autoclose: true,
