@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -23,7 +22,7 @@
 
     <!-- Bootstrap core CSS -->
     <link href="{{ asset('public/assets/css/bootstrap.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('public/assets/css/font-awesome.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('public/assets/css/font-awesome.min.css')}}" rel="stylesheet">
 
     <link href="{{ asset('public/assets/css/AdminLTE.min.css') }}" rel="stylesheet">
     <link href="{{ asset('public/plugin/dist/css/google-font.css') }}" rel="stylesheet">
