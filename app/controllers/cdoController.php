@@ -1069,7 +1069,7 @@ class cdoController extends BaseController
                     $array[]=$totalRef;
                     $cred=($card_Filter->ot_rate) * ($card_Filter->ot_hours);
                     $totalCheck = $totalRef + $cred; //36 + 12 = 48
-                    $prevbal = CardView::where('userid', $card_Filter->userid)->where('id', '<', $card_Filter->id)->where('bal_credits', '!=', 0)->orderBy('id', 'desc')->first();
+                    $prevbal = CardView::where('userid', $card_Filter->userid)->where('id', '<', $card_Filter->id)->whereNotIn('status', [5,2, 3, 6])->orderBy('id', 'desc')->first();
                     $cprevbal = $prevbal ? ($prevbal->bal_credits != null ? $prevbal->bal_credits :0) :0;
                     $proBal = $cred + $cprevbal;
                     $forA1 = $totalCheck-40;  //48 - 40
@@ -1297,7 +1297,7 @@ class cdoController extends BaseController
                                 }
                                 $cred = ($card->ot_rate) * ($card->ot_hours);
                                 $totalCheck = $totalRef + $cred;
-                                $prevbal = CardView::where('userid', $userid)->where('id', '<', $card->id)->where('bal_credits', '!=', 0)->whereNotNull('bal_credits')->orderBy('id', 'desc')->first();
+                                $prevbal = CardView::where('userid', $userid)->where('id', '<', $card->id)->whereNotIn('status', [5,2, 3, 6])->whereNotNull('bal_credits')->orderBy('id', 'desc')->first();
                                 $cprevbal = $prevbal ? ($prevbal->bal_credits !== null ? $prevbal->bal_credits : 0) : 0;
                                 $proBal = $cred + $cprevbal;
                                 $forA1 = $totalCheck - 40;  //36+12 = 48 - 40 = 8 12 -8= 4
@@ -1359,9 +1359,7 @@ class cdoController extends BaseController
 
                 $cardViewForDate = CardView::where('userid', $userid)->whereMonth('ot_date', '=', $otDateM)->whereYear('ot_date', '=', $otDateY)->whereIn('status', [1, 11])->get();
                 foreach ($cardViewForDate as $card) {
-                    $rate = $card->ot_rate;
-                    $hours = $card->ot_hours;
-                    $bal = $rate * $hours;
+                    $bal = $card->ot_credits;
                     $totalBal += $bal;
                 }
 
@@ -1479,7 +1477,7 @@ class cdoController extends BaseController
                             }
                             $cred = ($card->ot_rate) * ($card->ot_hours);
                             $totalCheck = $totalRef + $cred; // 48
-                            $prevbal = CardView::where('userid', $userid)->where('id', '<', $card->id)->where('bal_credits', '!=', 0)->whereNotNull('bal_credits')->orderBy('id', 'desc')->first();
+                            $prevbal = CardView::where('userid', $userid)->where('id', '<', $card->id)->whereNotIn('status', [5,2, 3, 6])->whereNotNull('bal_credits')->orderBy('id', 'desc')->first();
                             $cprevbal = $prevbal ? ($prevbal->bal_credits !== null ? $prevbal->bal_credits : 0) : 0;
                             $proBal = $cred + $cprevbal;
                             $forA1 = $totalCheck - 40; // 48 - 40 = 8
