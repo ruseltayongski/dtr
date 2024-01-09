@@ -102,7 +102,7 @@
                     <input type ="hidden"value="" id="user_iid" name="user_iid" style="display: inline-block">
                     <ul class="pagination justify-content-center" id="pagination" style="margin: 0; padding: 0; display: inline-block; float: right; margin-left:3%"></ul>
                     @if(isset($pis) and count($pis) > 0)
-                    <button class="button btn-sm btn-success process_pending" style="bdisplay:inline-block;color: white; float: right" data-toggle="modal" data-id="{{ $user->userid }}" data-target="#process_pending">Process_Pending</button>
+                    <button type ="hidden" class="button btn-sm btn-success process_pending" style="bdisplay:inline-block;color: white; float: right" data-toggle="modal" data-id="{{ $user->userid }}" data-target="#process_pending" >Process_Pending</button>
                     @endif
                 </div>
             </div><!-- .modal-content -->
@@ -265,11 +265,14 @@
         }
 
     $(document).ready(function () {
+        $(".process_pending").hide();
             $("#viewCard").on("click", function(){
+                $(".process_pending").hide();
                 $("#t_body").empty();
             });
 
             $(".ledger").on('click', function(e) {
+                $(".process_pending").hide();
                 $("#t_body").empty();
                 var userid = $(this).data('id');
                 $("#user_Id").text(userid);
@@ -278,7 +281,7 @@
                 var name= $(this).closest("tr").find(".name-cell").text();
                 $("#user_name").text("Name: "+ name);
                 $(".modal-title").html("CTO HISTORY of: <strong>" + name);
-                var count=0;
+                var count=0, check_for_pending =0;
 
                     <?php if (isset($card_view) && count($card_view) > 0) { ?>
 
@@ -291,6 +294,9 @@
                 $("#user_iid").val(userid);
 
                 if (id == userid && status != 5) {
+                    if(status == 0){
+                        check_for_pending =1;
+                    }
                     var tableData2 = "<tr>" +
                         <?php if ($card_viewL->ot_hours !== null): ?>
                             "<td><?php echo ($card_viewL->ot_hours !=0)? $card_viewL->ot_hours : ''; ?></td>" +
@@ -405,6 +411,10 @@
                         "</tr>";
                     $("#t_body").append(tableData3);
 //                    count=1;
+                }
+                if(check_for_pending == 1){
+                    console.log('check', check_for_pending);
+                    $(".process_pending").show();
                 }
                     <?php } ?>
                         var pageSize = 15;
