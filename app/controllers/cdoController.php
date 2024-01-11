@@ -1282,7 +1282,6 @@ class cdoController extends BaseController
                                 $cardView2 = CardView::where('userid', $userid)->where('id', '<', $id_s)->whereMonth('ot_date', '=', $thiscardMonth)
                                     ->whereYear('ot_date', '=', $thiscardYear)->whereNotIn('status', [0, 5, 6, 2])->whereIn('status', [1, 11])->get();
                                 $totalRef = $cardView2->sum('ot_credits');
-
                                 $prevbal = CardView::where('userid', $userid)->where('id', '<', $card->id)->whereNotNull('bal_credits')->orderBy('id', 'desc')->first();
                                 $cprevbal = $prevbal ? ($prevbal->bal_credits !== null ? $prevbal->bal_credits : 0) : 0;
 
@@ -1354,6 +1353,7 @@ class cdoController extends BaseController
 //                    $bal = $rate * $hours;
 //                    $totalBal += $bal;
 //                }
+
 
                 if ($otDateY == $todayYear && $otDateM == $todayMonth) {
 
@@ -1461,7 +1461,6 @@ class cdoController extends BaseController
                             $cardView2 = CardView::where('userid', $userid)->where('id', '<', $id_s)->whereMonth('ot_date', '=', $thiscardMonth)
                                 ->whereYear('ot_date', '=', $thiscardYear)->whereNotIn('status', [0, 5, 6, 2])->whereIn('status', [1, 11])->get();
                             $totalRef = $cardView2->sum('ot_credits');
-
                             $prevbal = CardView::where('userid', $userid)->where('id', '<', $card->id)->whereNotNull('bal_credits')->orderBy('id', 'desc')->first();
                             $cprevbal = $prevbal ? ($prevbal->bal_credits !== null ? $prevbal->bal_credits : 0) : 0;
 

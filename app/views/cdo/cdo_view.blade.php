@@ -782,6 +782,7 @@
                 }
                 return date;
             }
+
             function isWeekend(date) {
                 var day = date.getDay();
                 return [day !== 0 && day !== 6, ''];

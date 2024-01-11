@@ -67,7 +67,7 @@
                         <div class="row">
                             <div class="col-md-1">
                                 <div class="item">
-                                    <img src="{{ isset($defaultPicture->picture) ? 'https://pis.cvchd7.com/'.'public/upload_picture/picture/'.InformationPersonal::where('userid','=',Auth::user()->userid)->first()->picture : 'https://pis.cvchd7.com/'.'public/upload_picture/picture/uknown.png' }}"  alt="user image" class="online">
+                                    <img src="{{ isset($defaultPicture->picture) ? 'http://49.157.74.3/pis/'.'public/upload_picture/picture/'.InformationPersonal::where('userid','=',Auth::user()->userid)->first()->picture : 'http://49.157.74.3/pis/'.'public/upload_picture/picture/uknown.png' }}"  alt="user image" class="online">
                                 </div>
                             </div>
                             <div class="col-md-11 form-group">
@@ -85,7 +85,7 @@
                                     <div class="row">
                                         <div class="col-md-1">
                                             <div class="item">
-                                                <img src="{{ isset($com->picture) ? 'https://pis.cvchd7.com/'.'public/upload_picture/picture/'.$com->picture : 'https://pis.cvchd7.com/'.'public/upload_picture/picture/uknown.png' }}" alt="user image" class="online">
+                                                <img src="{{ isset($com->picture) ? 'http://49.157.74.3/pis/'.'public/upload_picture/picture/'.$com->picture : 'http://49.157.74.3/pis/'.'public/upload_picture/picture/uknown.png' }}" alt="user image" class="online">
                                             </div>
                                         </div>
                                         <div class="col-md-9">

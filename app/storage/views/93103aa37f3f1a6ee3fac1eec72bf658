@@ -546,6 +546,81 @@
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
+<div class="modal fade" tabindex="5" role="dialog" id="move_leave">
+    <div class="modal-dialog modal-sm" role="document" id="size">
+        <div class="modal-content" id="move_date">
+            <form action="<?php echo asset('move_dates'); ?>" method="get">
+                <div class="modal-header" style="background-color: orange">
+                    <strong><h4 class="modal-title" style="display: inline-block"></h4></strong>
+                    <button style="display: inline-block" type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <div>
+                    <table class="modal-body table" id="move_body">
+
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" value="specific_date" class="btn btn-success">Submit</button>
+                    <input type="hidden" id="from_date" name="from_date">
+                    <input type="hidden" id="to_date" name="to_date">
+                    <input type="hidden" id="move_route" name="move_route">
+                    <input type="hidden" id="dates_leave" name="dates_leave">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" tabindex="5" role="dialog" id="remarks">
+    <div class="modal-dialog modal-sm" role="document" id="size">
+        <div class="modal-content" id="remarks">
+            <form action="<?php echo asset('remarks'); ?>" method="get">
+                <div class="modal-header" style="background-color: orange">
+                    <strong><h4 class="modal-title" style="display: inline-block"></h4></strong>
+                    <button style="display: inline-block" type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <div>
+                    <table class="modal-body table" id="remarks_body">
+
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" value="submit" class="btn btn-success">Submit</button>
+                    <input type="hidden" id="route_remarks" name="route_remarks">
+                    <input type="hidden" id="dates_remarks" name="dates_remarks">
+                    <input type="hidden" id="dis_dates" name="dis_dates">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" tabindex="-1" role="dialog" id="restore" style="display: none; background: none; border: none;">
+    <div class="modal-dialog modal-sm" role="document" id="size">
+        <div class="modal-content" id="restore">
+            <form action="<?php echo asset('remarks'); ?>" method="get">
+                <div class="modal-header" style="background-color: orange">
+                    <strong><h4 class="modal-title" style="display: inline-block"></h4></strong>
+                    <button style="display: inline-block" type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <div>
+                    <label>Leave Type:</label>
+                    <select class="chosen-select-static form-control" name="leave_type" required>
+                        <?php echo $leave = LeaveTypes::get();?>
+                    <?php if(isset($leave)): ?>
+                        <?php foreach($leave as $type): ?>
+                            <option value="<?php echo $type->code; ?>"><?php echo $type->code; ?></option>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
+                    </select>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" value="submit" class="btn btn-success">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 
 <div class="modal fade" tabindex="-1" role="dialog" id="supervise_view">
     <div class="modal-dialog modal-sm" role="document">
@@ -771,6 +846,35 @@
                     <button type="submit" value="specific_date" class="btn btn-success">Submit</button>
                 </div>
             </form>
+        </div>
+    </div>
+</div>
+<div class="modal fade" tabindex="5" role="dialog" id="falsification" style="align-content: center">
+    <div class="modal-dialog modal-lg" role="document" id="size" style="width: 1100px;">
+        <div class="modal-container" id="falsification" >
+            <div class="modal-content" style="display: flex;">
+                <div style="width: 40%; text-align: right;  vertical-align: bottom">
+                    <div class="text-left">
+                        <img src="<?php echo asset('FPDF/image/WARNING.png'); ?>" alt="image" width="80%" />
+                    </div>
+                </div>
+                <div style="width: 60%;">
+                    <button style="color:rgb(220 38 38);" type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <br><br>
+                    <svg
+                            width="550"
+                            height="132"
+                            viewBox="0 0 327 132"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                    >
+                        <text x="10" y="90" font-family="Arial" font-size="120" font-weight="bold" stroke="rgb(220 38 38)" stroke-width="2" fill="none">Oopps!</text>
+                        <text x="15" y="92" font-family="Arial" font-size="120" font-weight="bold" stroke="rgb(220 38 38)" stroke-width="2" fill="rgb(220 38 38)">Oopps!</text>
+                    </svg>
+                    <h3 class="text-dark mb-6 text-2xl font-bold dark:text-white" style="text-align: center;">We've Detected That You Are Doing FALSIFICATION in Your Account!</h3><br>
+                    <p class="text-body-color dark:text-dark-6 mb-8 text-lg" style="margin-left: 170px;font-size: 15px">You're attempt to falsify has been recorded!</p>
+                </div>
+            </div>
         </div>
     </div>
 </div>

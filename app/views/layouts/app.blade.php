@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -15,6 +14,7 @@
     <meta http-equiv="cache-control" content="no-cache, no-store, must-revalidate" />
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
+    <!-- <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests"> -->
     <title>HRMIS</title>
 
     <!-- SELECT 2 i top para dile mausab ang color-->
@@ -22,7 +22,7 @@
 
     <!-- Bootstrap core CSS -->
     <link href="{{ asset('public/assets/css/bootstrap.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('public/assets/css/font-awesome.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('public/assets/css/font-awesome.min.css')}}" rel="stylesheet">
 
     <link href="{{ asset('public/assets/css/AdminLTE.min.css') }}" rel="stylesheet">
     <link href="{{ asset('public/plugin/dist/css/google-font.css') }}" rel="stylesheet">
