@@ -139,7 +139,7 @@
                                             <div class="input-group-addon">
                                                 <i class="fa fa-calendar"></i>
                                             </div>
-                                            <input style="width: 100px; margin-right: 5px; display: inline-block" type="text" class="form-control datepickerInput" value="{{ date('m/d/Y', strtotime($data['cdo']['start'])) }} - {{ date('m/d/Y', strtotime('-1 day', strtotime($data['cdo']['end']))) }}" id="inclusive1" name="inclusive_dates[]" placeholder="Input date here..." required>
+                                            <input style="width: 100px; margin-right: 5px; display: inline-block" type="text" class="form-control datepickerInput" value="{{ date('m/d/Y', strtotime($data['cdo']['start'])) }} - {{ date('m/d/Y', strtotime('-1 day', strtotime($data['cdo']['end']))) }}" id="inclusive1" name="inclusive_dates[]" placeholder="Input date here..." required readonly>
                                             <select type="hidden" style="width: 120px; display: inline-block; margin-right: 5px" class="form-control cdo_hours" name="cdo_hours[]" required>
                                                 <option value="cdo_wholeday" {{$data['cdo']['cdo_hours'] === 'cdo_wholeday' ? 'selected' : '' }}>WHOLEDAY</option>
                                                 <option value="cdo_am" {{ $data['cdo']['cdo_hours'] === 'cdo_am' ? 'selected' : '' }}>AM</option>
@@ -174,7 +174,7 @@
                                                 <div class="input-group-addon">
                                                     <i class="fa fa-calendar"></i>
                                                 </div>
-                                                <input style="width: 100px; margin-right: 5px; display: inline-block" type="text" class="form-control datepickerInput" value="<?php echo date('m/d/Y', strtotime($inclusiveDates['start_date'])) . ' - ' . date('m/d/Y', strtotime('-1 day', strtotime($inclusiveDates['end_date']))); ?>" id="inclusive1" name="inclusive_dates[]" placeholder="Input date here..." required>
+                                                <input style="width: 100px; margin-right: 5px; display: inline-block" type="text" class="form-control datepickerInput" value="<?php echo date('m/d/Y', strtotime($inclusiveDates['start_date'])) . ' - ' . date('m/d/Y', strtotime('-1 day', strtotime($inclusiveDates['end_date']))); ?>" id="inclusive1" name="inclusive_dates[]" placeholder="Input date here..." required readonly>
                                                 <select type="hidden" style="width: 120px; display: inline-block; margin-right: 5px" class="form-control cdo_hours" name="cdo_hours[]" required>
                                                     <option value="cdo_wholeday" {{ $inclusiveDates['cdo_hours'] === 'cdo_wholeday' ? 'selected' : '' }}>WHOLEDAY</option>
                                                     <option value="cdo_am" {{ $inclusiveDates['cdo_hours'] === 'cdo_am' ? 'selected' : '' }}>AM</option>
@@ -194,7 +194,7 @@
                                         <div class="input-group-addon">
                                             <i class="fa fa-calendar"></i>
                                         </div>
-                                        <input style="width: 100px; margin-right: 5px; display:inline-block;" type="text" class="form-control datepickerInput" value="" id="inclusive1" name="inclusive_dates[]" placeholder="Input date here..." required>
+                                        <input style="width: 100px; margin-right: 5px; display:inline-block;" type="text" class="form-control datepickerInput" value="" id="inclusive1" name="inclusive_dates[]" placeholder="Input date here..." required readonly>
                                         <select type="hidden" style="width: 100px; display:inline-block; margin-right: 5px" class="form-control cdo_hours" name="cdo_hours[]">
                                             <option value='cdo_wholeday'>WHOLEDAY</option>
                                             <option value='cdo_am'>AM</option>
@@ -324,9 +324,9 @@
                 {{--@else--}}
                 {{--<button onclick="warning1()" type="button" class="btn btn-danger" ><i class="fa fa-trash"></i> Remove</button>--}}
                 {{--@endif--}}
-                <button type="button" class="btn btn-success" data-dismiss="modal" style="color:white" data-toggle="modal" data-target="#paperSize"><i class="fa fa-barcode"></i> Barcode v1</button>
-                <a target="_blank" href="{{ asset('pdf/track') }}" class="btn btn-success" style="color:white"><i class="fa fa-barcode"></i> Barcode v2</a>
-                <a target="_blank" href="{{ asset('form/cdov1/pdf') }}" class="btn btn-success" style="color:white"><i class="fa fa-barcode"></i> Barcode v3</a>
+                <!-- <button type="button" class="btn btn-success" data-dismiss="modal" style="color:white" data-toggle="modal" data-target="#paperSize"><i class="fa fa-barcode"></i> Barcode v1</button>
+                <a target="_blank" href="{{ asset('pdf/track') }}" class="btn btn-success" style="color:white"><i class="fa fa-barcode"></i> Barcode v2</a> -->
+                <a target="_blank" href="{{ asset('form/cdov1/pdf') }}" class="btn btn-success" style="color:white"><i class="fa fa-barcode"></i> Generate PDF</a>
                 @if( Auth::user()->usertype !=1)
                     @if ($data['cdo']['approved_status'] == 1 || $data['cdo']['approved_status'] == 3)
                     @else
