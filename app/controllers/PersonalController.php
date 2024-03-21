@@ -12,9 +12,10 @@ class PersonalController extends Controller
 
     public function index()
     {
-        $information = InformationPersonal::where("userid","=",Auth::user()->userid)->first();
-        Session::put('region',$information->region);
-        Session::put('job_status',$information->job_status);
+//        $information = InformationPersonal::where("userid","=",Auth::user()->userid)->first();
+//        Session::put('region',$information->region);
+        $information = Users::where('userid',"=", Auth::user()->userid)->first();
+        Session::put('job_status',$information->emptype);
 
         $comments = Comments::Select("comment.*","personal_information.picture","personal_information.lname","personal_information.fname")
                     ->LeftJoin("pis.personal_information","personal_information.userid","=","comment.userid")

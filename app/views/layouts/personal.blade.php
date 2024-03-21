@@ -37,6 +37,7 @@
         <li class="divider"></li>
         <li><a href="{{ url('calendar') }}"><i class="fa fa-calendar"></i> Calendar</a></li>
     @endif
+    <!--
     <li class="dropdown">
         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-file"></i> Forms<span class="caret"></span></a>
         <ul class="dropdown-menu">
@@ -53,6 +54,7 @@
             @endif
         </ul>
     </li>
+    -->
 
     <li class="divider"></li>
     <?php
@@ -61,6 +63,7 @@
         ->LeftJoin('users_claims','users_claims.id','=','users_roles.claims_id')
         ->get();
     ?>
+    <!--
     @if(count($user_roles) >= 1)
         <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-cog"></i> User Roles<span class="caret"></span></a>
@@ -94,6 +97,7 @@
             </ul>
         </li>
     @endif
+    -->
     <!--
     <li class="dropdown">
         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-mobile-phone"></i> MobileDTR<span class="caret"></span></a>

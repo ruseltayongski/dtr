@@ -42,7 +42,8 @@ class TimeLogController extends Controller
             $this->csharpApi($userid,$date_from,$date_to);
             //C# API END
         }
-        $job_status = InformationPersonal::where('userid',$userid)->first()->job_status;
+        //$job_status = InformationPersonal::where('userid',$userid)->first()->job_status;
+        $job_status = Users::where('userid',$userid)->first()->emptype;
         if($job_status == 'Permanent')
             $timeLog = DB::connection('mysql')->select("call Gliding_2020('$userid','$date_from','$date_to')");
         else

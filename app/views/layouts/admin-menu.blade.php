@@ -48,60 +48,58 @@
     -->
 
     <li><a href="{{ url('calendar') }}"><i class="fa fa-calendar"></i> Holidays Calendar</a></li>
-    <li class="dropdown">
-        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="glyphicon glyphicon-duplicate"></i> Tracking Documents<span class="caret"></span></a>
-        <ul class="dropdown-menu">
-            <li>
-                <a href="{{ asset('form/so_list') }}"><i class="fa fa-file"></i> Office Order</a>
-            </li>
-            <li class="divider"></li>
-            <li class="dropdown-submenu">
-                <a href="#" data-toggle="dropdown"><i class="fa fa-file"></i> Leave</a>
-                <ul class="dropdown-menu">
-                    <li><a href="{{ asset('leave/roles') }}">Leave Applications</a></li>
-                    <li><a href="{{ asset('leave/credits') }}">Leave Credits</a></li>
-                </ul>
-            </li>
-            <li class="divider"></li>
-            <li class="dropdown-submenu">
-                <a href="#" data-toggle="dropdown"><i class="fa fa-file"></i> CTO</a>
-                <ul class="dropdown-menu">
-                    <li><a href="{{ asset('form/cdo_list') }}"><i class="fa fa-file-text"></i> Pending CTO</a></li>
-                    <li><a href="{{ asset('beginning_balance') }}"><i class="fa fa-user"></i> Beginning Balance</a></li>
-                </ul>
-            </li>
-        </ul>
-    </li>
+    {{--<li class="dropdown">--}}
+        {{--<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="glyphicon glyphicon-duplicate"></i> Tracking Documents<span class="caret"></span></a>--}}
+        {{--<ul class="dropdown-menu">--}}
+            {{--<li>--}}
+                {{--<a href="{{ asset('form/so_list') }}"><i class="fa fa-file"></i> Office Order</a>--}}
+            {{--</li>--}}
+            {{--<li class="divider"></li>--}}
+            {{--<li class="dropdown-submenu">--}}
+                {{--<a href="#" data-toggle="dropdown"><i class="fa fa-file"></i> Leave</a>--}}
+                {{--<ul class="dropdown-menu">--}}
+                    {{--<li><a href="{{ asset('leave/roles') }}">Leave Applications</a></li>--}}
+                    {{--<li><a href="{{ asset('leave/credits') }}">Leave Credits</a></li>--}}
+                {{--</ul>--}}
+            {{--</li>--}}
+            {{--<li class="divider"></li>--}}
+            {{--<li class="dropdown-submenu">--}}
+                {{--<a href="#" data-toggle="dropdown"><i class="fa fa-file"></i> CTO</a>--}}
+                {{--<ul class="dropdown-menu">--}}
+                    {{--<li><a href="{{ asset('form/cdo_list') }}"><i class="fa fa-file-text"></i> Pending CTO</a></li>--}}
+                    {{--<li><a href="{{ asset('beginning_balance') }}"><i class="fa fa-user"></i> Beginning Balance</a></li>--}}
+                {{--</ul>--}}
+            {{--</li>--}}
+        {{--</ul>--}}
+    {{--</li>--}}
 
     <li class="dropdown">
         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-wrench"></i> Manage<span class="caret"></span></a>
         <ul class="dropdown-menu">
             <li class="dropdown-submenu">
-                <a href="#"><i class="fa fa-map-marker"></i> Area of Assignment</a>
-                <ul class="dropdown-menu">
-                    <li><a href="{{ url('area-assignment/cebu') }}">Cebu</a></li>
-                    <li><a href="{{ url('area-assignment/bohol') }}">Bohol</a></li>
-                    <li><a href="{{ url('area-assignment/negros') }}">Negros</a></li>
-                    <li><a href="{{ url('area-assignment/siquijor') }}">Siquijor</a></li>
-                </ul>
+                <a href="{{ url('area-assignment/') }}"><i class="fa fa-map-marker"></i> Area of Assignment</a>
+                {{--<ul class="dropdown-menu">--}}
+                    {{--<li><a href="{{ url('area-assignment/cebu') }}">Cebu</a></li>--}}
+                    {{--<li><a href="{{ url('area-assignment/bohol') }}">Bohol</a></li>--}}
+                    {{--<li><a href="{{ url('area-assignment/negros') }}">Negros</a></li>--}}
+                    {{--<li><a href="{{ url('area-assignment/siquijor') }}">Siquijor</a></li>--}}
+                {{--</ul>--}}
              </li>   
         </ul>
     </li>
 
-    <li class="dropdown">
-        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-info-circle"></i> API<span class="caret"></span></a>
-        <ul class="dropdown-menu">
-            <li><a href="{{ asset('mobile/office/announcement/view') }}">Announcement</a></li>
-            <li><a href="{{ asset('mobile/office/version/view') }}">App Version</a></li>
-        </ul>
-    </li>
+    {{--<li class="dropdown">--}}
+        {{--<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-info-circle"></i> API<span class="caret"></span></a>--}}
+        {{--<ul class="dropdown-menu">--}}
+            {{--<li><a href="{{ asset('mobile/office/announcement/view') }}">Announcement</a></li>--}}
+            {{--<li><a href="{{ asset('mobile/office/version/view') }}">App Version</a></li>--}}
+        {{--</ul>--}}
+    {{--</li>--}}
 
     <li class="dropdown">
         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-cog"></i> Account<span class="caret"></span></a>
         <ul class="dropdown-menu">
-            <!--
             <li><a href="{{ asset('add/user')}}"><i class="fa fa-plus"></i> Add user</a></li>
-            -->
             <li><a href="{{ asset('resetpass')}}"><i class="fa fa-unlock"></i> Change Password</a></li>
             <li><a href="{{ asset('reset/password')}}"><i class="glyphicon glyphicon-cog"></i> Reset Password</a></li>
             <li><a href="{{ url('/logout') }}"><i class="fa fa-sign-out"></i> Logout</a></li>

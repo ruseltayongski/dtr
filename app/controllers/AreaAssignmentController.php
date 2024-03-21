@@ -8,10 +8,11 @@ class AreaAssignmentController extends BaseController{
     public function __construct(){
     }
 
-    public function index($province) {
-        $area = AreaAssignment::Where('province',$province)->OrderBy('name', 'asc')->paginate(20);
+    public function index() {
+//        $area = AreaAssignment::Where('province',$province)->OrderBy('name', 'asc')->paginate(20);
+        $province ="cebu";
         return View::make('area_assignment/area_assignment', [
-                    "area" => $area,
+//                    "area" => $area,
                     "province" => $province
             ]);
     }

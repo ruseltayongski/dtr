@@ -23,13 +23,13 @@ class PasswordController extends BaseController
     public function change_password(){
         if(Request::method() == 'GET')
         {
-            $information = InformationPersonal::where("userid","=",Auth::user()->userid)->first();
-            // $region = "region_7";
-            // if($information == null) {
-            //     Session::put('region',$region);
-            // }
-            // else
-            Session::put('region',$information->region);
+//            $information = InformationPersonal::where("userid","=",Auth::user()->userid)->first();
+//            // $region = "region_7";
+//            // if($information == null) {
+//            //     Session::put('region',$region);
+//            // }
+//            // else
+//            Session::put('region',$information->region);
             return View::make('auth.passwords.reset');
         }
         if(Request::method() == 'POST')

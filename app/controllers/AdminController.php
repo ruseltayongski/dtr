@@ -284,11 +284,17 @@ class AdminController extends BaseController
     {
         if(Request::method() == "GET") {
             $sched = WorkScheds::all();
-            $lastUserid = InformationPersonal::where('userid','REGEXP','^[0-9]+$')
+//            $lastUserid = InformationPersonal::where('userid','REGEXP','^[0-9]+$')
+//                ->where(DB::raw("LENGTH(userid)"),'<=',4)
+//                ->where('userid','<',1000)
+//                ->orderBy(DB::raw("CONVERT(SUBSTRING_INDEX(userid,'-',-1),UNSIGNED INTEGER)"),'desc')
+//                ->where('job_status','=','Job Order')
+//                ->first()->userid;
+            $lastUserid = Users::where('userid','REGEXP','^[0-9]+$')
                 ->where(DB::raw("LENGTH(userid)"),'<=',4)
-                ->where('userid','<',1000)
+//                ->where('userid','<',1000)
                 ->orderBy(DB::raw("CONVERT(SUBSTRING_INDEX(userid,'-',-1),UNSIGNED INTEGER)"),'desc')
-                ->where('job_status','=','Job Order')
+//                ->where('job_status','=','Job Order')
                 ->first()->userid;
 
             return View::make('users.adduser',[
@@ -301,6 +307,7 @@ class AdminController extends BaseController
         $user = new Users();
         $user->userid = Input::get('userid');
         $user->fname = Input::get('fname');
+        $user->mname = Input::get('mname');
         $user->lname = Input::get('lname');
         $user->sched = Input::get('sched');
         $user->username = Input::get('userid');
@@ -383,10 +390,9 @@ class AdminController extends BaseController
             $user_dts->user_priv = 0;
             $user_dts->status = 0;
             $user_dts->save();
-
+         */
             return Redirect::back()->with('userAdded','Added User');
-        }*/
-
+//        }
     }
 
     public function flexi_group()

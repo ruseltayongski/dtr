@@ -24,6 +24,12 @@
                                 </div>
                             </div>
                             <div class="form-group">
+                                <label for="inputEmail3" class="col-sm-3 control-label">Middle Initial</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" id="inputEmail3" name="mname" placeholder="Middle Initial">
+                                </div>
+                            </div>
+                            <div class="form-group">
                                 <label for="inputEmail3" class="col-sm-3 control-label">Lastname</label>
                                 <div class="col-sm-9">
                                     <input type="text" class="form-control" id="inputEmail3" name="lname" placeholder="Lastname" required>
@@ -74,7 +80,7 @@
             position: 'center top',
             msg: "<?php echo Session::get('useridExist'); ?>"
         });
-        @endif
+                @endif
 
         var input = $('#input-a');
         input.clockpicker({

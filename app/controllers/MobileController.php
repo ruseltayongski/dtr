@@ -50,7 +50,7 @@ class MobileController extends BaseController {
         $date = Input::get('date');
         $lat = Input::get('latitude');
         $long = Input::get('longitude');
-        $version = Input::get('app_version')
+        $version = Input::get('app_version');
 
         $base= $_POST['image'];
         $posted_filename = $_POST['filename'];
