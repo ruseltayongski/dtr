@@ -289,7 +289,7 @@ Route::post('mobile/add-logs','MobileController@add_logs');
 Route::post('mobile/add-cto','MobileController@add_cto');
 Route::post('mobile/add-so','MobileController@add_so');
 Route::post('mobile/add-leave','MobileController@add_leave');
-Route::post('mobile/get-login','MobileController@getLogin');
+Route::match(['GET','POST'],'mobile/get-login','MobileController@getLogin');
 Route::get('mobile/getCurrentVersion','MobileController@getCurrentVersion');
 Route::post('mobile/imei','MobileController@imei');
 Route::post('mobile/reset_password','MobileControllerV3@resetPassword');

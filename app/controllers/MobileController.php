@@ -26,14 +26,14 @@ class MobileController extends BaseController {
     }
 
      public function getLogin(){
-       $username = Input::get("username");
-       $password = Input::get("password");
+        $username = Input::get("username");
+        $password = Input::get("password");
         
-       if(Auth::attempt(array('username' => $username, 'password' => $password))){
+        if(Auth::attempt(array('username' => $username, 'password' => $password))){
             $result = DB::table('users')
                 ->where('userid','=',$username)
                 ->first(["userid","fname","mname","lname"]);    
-       } 
+        } 
         if(isset($result)){
             return json_encode($result);
         }   
@@ -50,7 +50,7 @@ class MobileController extends BaseController {
         $date = Input::get('date');
         $lat = Input::get('latitude');
         $long = Input::get('longitude');
-        $version = Input::get('app_version')
+        $version = Input::get('app_version');
 
         $base= $_POST['image'];
         $posted_filename = $_POST['filename'];

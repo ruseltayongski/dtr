@@ -269,6 +269,7 @@ if(isset($_POST['filter_range'])){
         ){
             if((empty($am_in) && empty($am_out)) || ($am_in == 'empty' && $am_out == 'empty')){
                 $morning_log_2 = '';
+                $date = $row['datein'];
                 if ($day_name != 'Sat' && $day_name != 'Sun'){
                     $morning_log_2 = 'HALF DAY';
                     $late += 240;
@@ -278,8 +279,13 @@ if(isset($_POST['filter_range'])){
 
             if($pm_in == $pm_out) {
                 if (empty($pm_in) && empty($pm_out)){
-                    $pm_in = 'HALF DAY';
-                    $late += 240;
+                    if($date == "2024-03-27") {
+                        $pm_in = 'MC 45';
+                    }
+                    else {
+                        $pm_in = 'HALF DAY';
+                        $late += 240;
+                    }
                 }
                 $late = $late == 0 ? '' : $late;
                 $undertime = $undertime == 0 ? '' : $undertime;
@@ -370,9 +376,15 @@ if(isset($_POST['filter_range'])){
         {
             if((empty($pm_in) && empty($pm_out)) || ($pm_in == 'empty' && $pm_out == 'empty')){
                 $afternoon_log_2 = '';
+                $date = $row['datein'];
                 if ($day_name != 'Sat' && $day_name != 'Sun'){
-                    $afternoon_log_2 = 'HALF DAY';
-                    $late += 240;
+                    if($date == "2024-03-27") {
+                        $afternoon_log_2 = 'MC 45';
+                    }
+                    else{
+                        $afternoon_log_2 = 'HALF DAY';
+                        $late += 240;
+                    }
                 }
             } else
                 $afternoon_log_2 = $pm_in;
@@ -399,6 +411,12 @@ if(isset($_POST['filter_range'])){
             } else {
                 $late = $late == 0 ? '' : $late;
                 $undertime = $undertime == 0 ? '' : $undertime;
+                $date = $row['datein'];
+                if($date == "2024-03-27") {
+                    if((empty($pm_in) && empty($pm_out)) || ($pm_in == 'empty' && $pm_out == 'empty')) {
+                        $pm_in = "MC 45";
+                        }
+                    }
                 if($am_in >= '00:00:00' and $am_in <= '01:00:00'){ //OFFSEN LOGS
                     $am_out = offsen_out($userid,$row['datein'])['time'];
                     $pm_in = '';

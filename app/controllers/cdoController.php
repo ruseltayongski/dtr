@@ -259,7 +259,7 @@ class cdoController extends BaseController
             $division_head = pdoController::user_search1($cdo['division_chief']);
         } else{
             $id_list = [];
-            $manually_added = [985329, 273, 11, 93053, 986445, 984538];
+            $manually_added = [985329, 273, 11, 93053, 986445, 984538, 985950, 80];
 
             foreach(pdoController::section() as $row) {
                 if ($row['acronym'] !== null || in_array($row['head'], [37, 72, 243, 614, 110, 5, 163, 648384, 985698, 160, 985950, 830744])) {
@@ -1448,7 +1448,13 @@ class cdoController extends BaseController
                 $card_view->save();
 
             } else { //for deletion
-                CardView::where('id', $row)->where('userid', $userid)->update(["status" => 5, "bal_credits" => $cardcheckstat->bal_credits - $cardcheckstat->ot_credits, "ot_credits" => $cardcheckstat->ot_hours * $cardcheckstat->ot_rate]);
+                $check_card_status = CardView::where('id', $row)->first();
+                if($check_card_status->status == 0){
+                    CardView::where('id', $row)->where('userid', $userid)->update(["status" => 5]);
+                }else{
+                    CardView::where('id', $row)->where('userid', $userid)->update(["status" => 5, "bal_credits" => $cardcheckstat->bal_credits - $cardcheckstat->ot_credits, "ot_credits" => $cardcheckstat->ot_hours * $cardcheckstat->ot_rate]);
+                }
+                
                 $stat = $cardcheckstat->status;
                 if ($stat != null && $stat == 0) {
                 } else {
