@@ -259,7 +259,7 @@ class cdoController extends BaseController
             $division_head = pdoController::user_search1($cdo['division_chief']);
         } else{
             $id_list = [];
-            $manually_added = [985329, 273, 11, 93053, 986445, 984538, 985950, 80];
+            $manually_added = [985329, 273, 11, 93053, 986445, 984538, 985950, 80, 976017];
 
             foreach(pdoController::section() as $row) {
                 if ($row['acronym'] !== null || in_array($row['head'], [37, 72, 243, 614, 110, 5, 163, 648384, 985698, 160, 985950, 830744])) {
@@ -685,6 +685,8 @@ class cdoController extends BaseController
 
             } else {
 
+                $cdo->beginning_balance = $personal_information->bbalance_cto;
+                $cdo->remaining_balance = $personal_information->bbalance_cto - $cdo->less_applied_for;
                 InformationPersonal::where('userid',$userid)->update([
                     "bbalance_cto" => (float)$personal_information->bbalance_cto - (float)$cdo->less_applied_for
                 ]);
@@ -1528,8 +1530,8 @@ class cdoController extends BaseController
 
             if ($lastrow != null) {
                 $overall = $lastrow->bal_credits;
+                InformationPersonal::where('userid', $userid)->update(["bbalance_cto" => $overall]);
             }
-            InformationPersonal::where('userid', $userid)->update(["bbalance_cto" => $overall]);
             return Redirect::back();
         }
     }
@@ -1631,7 +1633,7 @@ class cdoController extends BaseController
                             }else{
                                 $cancelled->less_applied_for = $cancelled->less_applied_for - 4;
                                 $pis->bbalance_cto = $pis->bbalance_cto + 4;
-                                $new_applied->status = 1;
+                                $new_applied->status = 11;
                                 $date_here[]=$date_list[$index];
                                 if($selected_hours[$f] == "cdo_wholeday"){
                                     $card->date_used = date('F j, Y', strtotime($date)).' (Wholeday)';

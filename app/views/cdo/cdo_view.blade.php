@@ -158,7 +158,7 @@
                                             $end_date = date('Y-m-d', strtotime('-1 day', strtotime($inclusiveDates['end_date'])));
                                             $formatted_range = date('m/d/Y', strtotime($start_date)) . ' - ' . date('m/d/Y', strtotime($end_date));
                                             ?>
-                                            <label style="width: 300px; margin: 0; padding: 0;" id="date_label" name="date_label" class="date_label">
+                                            <label style="width: 300px; margin: 0; padding: 0;" id="date_label" name="date_label" class="date_label"> 
                                                 <?php if($inclusiveDates['status'] == 1){
                                                     if($inclusiveDates['cdo_hours'] == "cdo_am"){
                                                         echo $formatted_range . '  (PM was CANCELLED)';
@@ -168,8 +168,12 @@
                                                         echo $formatted_range . '  (CANCELLED)';
                                                     }
 
+                                                }else if($inclusiveDates['status'] == 11){
+                                                    echo $formatted_range . '  (CANCELLED)';
                                                 } else{
-                                                    echo $formatted_range;} ?></label>
+                                                    echo $formatted_range;} 
+                                                ?>
+                                            </label>
                                             <div class="input-group">
                                                 <div class="input-group-addon">
                                                     <i class="fa fa-calendar"></i>
@@ -224,7 +228,13 @@
                         </tr>
                         <tr>
                             <td>
-                                <input type="text" value="{{ $data['bbalance_cto'] }}" class="form-control beginning_balance" name="beginning_balance" maxlength="15" readonly>
+                                <!--<input type="text" value="{{ $data['bbalance_cto'] }}" class="form-control beginning_balance" name="beginning_balance" maxlength="15" readonly>-->
+                                @if( isset($data['cdo']['approved_status']) && $data['cdo']['approved_status'] == 1 )
+                                    <input type="text" value="{{ $data['cdo']['beginning_balance'] }}" class="form-control beginning_balance" name="beginning_balance" maxlength="15" readonly>
+                                @else
+                                    <input type="text" value="{{ $data['bbalance_cto'] }}" class="form-control beginning_balance" name="beginning_balance" maxlength="15" readonly>
+                                @endif
+
                             </td>
                             <td>
                                 <input type="text" value="<?php
