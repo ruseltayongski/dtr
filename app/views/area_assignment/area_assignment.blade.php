@@ -12,7 +12,7 @@
                                 <input type="text" class="form-control" value="{{ Session::get('keyword') }}" name="keyword" style="width: 100%" placeholder="Area">
                             </div>
                             <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i> Search</button>
-                            <a href="#add_area" data-link="{{ asset('area-assignment/add').'/'.$province }}" class="btn btn-success" data-dismiss="modal" data-backdrop="static" data-toggle="modal" style="background-color:#1099;color: white;">
+                            <a href="#add_area" data-link="/dtr/area-assignment/add/{{$province}}" class="btn btn-success" data-dismiss="modal" data-backdrop="static" data-toggle="modal" style="background-color:#1099;color: white;">
                                 <i class="fa fa-plus"></i> 
                                 Add new
                             </a>
@@ -37,7 +37,7 @@
                                         @foreach($area as $a)
                                             <tr>
                                                 <td>
-                                                    <a class="title-info" style="color: #f0ad4e;" data-backdrop="static" data-link="{{ asset('area-assignment/info/'.$a->id).'/'.$province }}" href="#area_info" data-toggle="modal">{{ $a->name }}</a>
+                                                    <a class="title-info" style="color: #f0ad4e;" data-backdrop="static" data-link="/dtr/area-assignment/info/{{$a->id}}/{{$province}}" href="#area_info" data-toggle="modal">{{ $a->name }}</a>
                                                 </td>
                                                 <td class="text-center">{{ $a->latitude }}</td>
                                                 <td class="text-center">{{ $a->longitude }}</td>

@@ -722,6 +722,8 @@ class DocumentController extends BaseController
             foreach(pdoController::division() as $row){
                 $division_head[] = pdoController::user_search1($row['head']);
             }
+            $section_head[] = pdoController::user_search1('11');
+
             $data = array(
                 "cdo" => $cdo,
                 "type" => "update",

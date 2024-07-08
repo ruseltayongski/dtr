@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('content')
-    <span id="calendar_holiday" data-link=" {{ asset('calendar_holiday') }} "></span>
+    <span id="calendar_holiday" data-link="/dtr/calendar_holiday"></span>
     <span id="calendar_id" data-link="{{ asset('calendar_id') }}"></span>
     <span id="calendar_last_id" data-link="{{ asset('calendar_last_id') }}"></span>
     <span id="calendar_save" data-link=" {{ asset('calendar_save') }} "></span>

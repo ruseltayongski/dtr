@@ -259,7 +259,7 @@ class cdoController extends BaseController
             $division_head = pdoController::user_search1($cdo['division_chief']);
         } else{
             $id_list = [];
-            $manually_added = [985329, 273, 11, 93053, 986445, 984538, 985950, 80, 976017];
+            $manually_added = [985329, 273, 11, 93053, 986445, 984538, 985950, 80, 976017, 466];
 
             foreach(pdoController::section() as $row) {
                 if ($row['acronym'] !== null || in_array($row['head'], [37, 72, 243, 614, 110, 5, 163, 648384, 985698, 160, 985950, 830744])) {
@@ -335,6 +335,7 @@ class cdoController extends BaseController
         }
 
         $route_no = date('Y-') . pdoController::user_search(Auth::user()->userid)['id'] . date('mdHis');
+    
         $doc_type = "TIME_OFF";
         $prepared_date = date('Y-m-d', strtotime(Input::get('prepared_date'))) . ' ' . date('H:i:s');
         $prepared_name = pdoController::user_search(Auth::user()->userid)['id'];
@@ -406,8 +407,45 @@ class cdoController extends BaseController
             $cdo_applied_dates->start_date = $start_date;
             $cdo_applied_dates->end_date = $end_date;
             $cdo_applied_dates->cdo_hours = $cdo_hourss;
-
             $cdo_applied_dates->save();
+
+            //check falsification
+
+            $date = new DateTime();
+            $name = $date->format('l');
+            if($name == 'Friday'){
+                $date->modify('+3 days');
+
+            }else{
+                $date->modify('+2 days');
+            }
+
+            $twoDaysAhead = $date->format('Y-m-d');
+
+            $selectedDateTime = DateTime::createFromFormat('Y-m-d', $start_date);
+            $twoDaysAheadTime = DateTime::createFromFormat('Y-m-d', $twoDaysAhead);
+
+            $privilege = PrivilegeEmployee::where('userid', Auth::user()->userid)->first();
+            if(!$privilege || $privilege->status == 1){
+
+                if($selectedDateTime == $twoDaysAheadTime){
+                }else if($selectedDateTime < $twoDaysAheadTime){
+                    $selectedDateTimeString = $selectedDateTime->format('Y-m-d H:i:s');
+
+                    $falsify = new Falsification();
+                    $falsify->userid = Auth::user()->userid;
+                    $falsify->client_date = $client_date;
+                    $falsify->server_date = $server_date;
+                    $falsify->remarks = "The selected date is outside the permitted range - ".$selectedDateTimeString;
+                    $falsify->save();
+
+                    Session::put("cdo_falsification", true);
+
+                    CdoAppliedDate::where('cdo_id', $cdo->id)->delete();
+                    cdo::where('route_no', $cdo->route_no)->delete();
+                    return Redirect::to('form/cdo_user');
+                }
+            }
         }
 
         //ADD TRACKING MASTER
@@ -930,6 +968,43 @@ class cdoController extends BaseController
                 $enddate = date_create(date('Y-m-d', strtotime($tmp)));
                 date_add($enddate, date_interval_create_from_date_string('1days'));
                 $end_date = date_format($enddate, 'Y-m-d');
+
+                //check falsification
+
+                $date = new DateTime();
+                $name = $date->format('l');
+                if($name == 'Friday'){
+                    $date->modify('+3 days');
+
+                }else{
+                    $date->modify('+2 days');
+                }
+
+                $twoDaysAhead = $date->format('Y-m-d');
+
+                $selectedDateTime = DateTime::createFromFormat('Y-m-d', $start_date);
+                $twoDaysAheadTime = DateTime::createFromFormat('Y-m-d', $twoDaysAhead);
+
+                $server_date = date('Y-m-d');
+                $client_date = Input::get('client');
+
+                $privilege = PrivilegeEmployee::where('userid', Auth::user()->userid)->first();
+                if(!$privilege || $privilege->status == 1){
+                    if($selectedDateTime == $twoDaysAheadTime){
+                    }else if($selectedDateTime < $twoDaysAheadTime){
+                        $selectedDateTimeString = $selectedDateTime->format('Y-m-d H:i:s');
+
+                        $falsify = new Falsification();
+                        $falsify->userid = Auth::user()->userid;
+                        $falsify->client_date = $client_date;
+                        $falsify->server_date = $server_date;
+                        $falsify->remarks = "The selected date is outside the permitted range - ".$selectedDateTimeString;
+                        $falsify->save();
+
+                        Session::put("cdo_falsification", true);
+                        return Redirect::to('form/cdo_user');
+                    }
+                }
 
                 $cdoAppliedDate = CdoAppliedDate::where("cdo_id", $cdoId)->skip($index)->first();
 

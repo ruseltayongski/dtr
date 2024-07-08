@@ -1,5 +1,5 @@
 
-<span id="cdo_updatev1" data-link="{{ asset('cdo_updatev1') }}"></span>
+<span id="cdo_updatev1" data-link="{{ '/dtr/cdo_updatev1' }}"></span>
 @if(isset($paginate_cancelled) and count($paginate_cancelled) >0)
     <div class="table-responsive" style="margin-top: -20px;">
         <table class="table table-list table-hover table-striped">
@@ -17,8 +17,8 @@
             <tbody style="font-size: 10pt;">
             @foreach($paginate_cancelled as $row)
                 <tr>
-                    <td><a href="#track" data-link="{{ asset('form/track/'.$row->route_no) }}" data-route="{{ $row->route_no }}" data-toggle="modal" class="btn btn-sm btn-success col-sm-12" style="background-color:#9C8AA5;color:white;"><i class="fa fa-line-chart"></i> Track</a></td>
-                    <td class="route-cell"><a class="title-info" data-backdrop="static" data-route="{{ $row->route_no }}" style="color: #f0ad4e;" data-link="{{ asset('/form/info/'.$row->route_no.'/cdo') }}" href="#document_info" data-toggle="modal">{{ $row->route_no }}</a></td>
+                    <td><a href="#track" data-link="/dtr/form/track/'.$row->route_no" data-route="{{ $row->route_no }}" data-toggle="modal" class="btn btn-sm btn-success col-sm-12" style="background-color:#9C8AA5;color:white;"><i class="fa fa-line-chart"></i> Track</a></td>
+                    <td class="route-cell"><a class="title-info" data-backdrop="static" data-route="{{ $row->route_no }}" style="color: #f0ad4e;" data-link="/dtr/form/info/{{$row->route_no}}/cdo" href="#document_info" data-toggle="modal">{{ $row->route_no }}</a></td>
                     <td>{{ $row->subject }}</td>
                     <td>
                         @if($row->applied_dates == null)

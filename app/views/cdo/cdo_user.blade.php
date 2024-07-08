@@ -28,7 +28,7 @@
                                         <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Search
                                     </button>
                                     @if(Auth::user()->usertype != 1)
-                                        <a href="#document_form" data-link="{{ asset('form/cdov1/form') }}" class="btn btn-success" data-dismiss="modal" data-backdrop="static" data-toggle="modal" data-target="#document_form" style="background-color:#9C8AA5;color: white;"><i class="fa fa-plus"></i> Create new</a>
+                                        <a href="#document_form" data-link="/dtr/form/cdov1/form" class="btn btn-success" data-dismiss="modal" data-backdrop="static" data-toggle="modal" data-target="#document_form" style="background-color:#9C8AA5;color: white;"><i class="fa fa-plus"></i> Create new</a>
                                     @endif
                                     <a class="btn btn-info" data-dismiss="modal" data-toggle="modal" data-target="#ledger"><i class="fa fa-eye"></i> View Card</a>
 
@@ -52,7 +52,7 @@
                                                     @foreach($cdo["my_cdo"] as $row)
                                                         <tr>
                                                             {{--<td><a href="#track" data-link="{{ asset('form/track/'.$row->route_no) }}" data-route="{{ $row->route_no }}" data-toggle="modal" class="btn btn-sm btn-success col-sm-12" style="background-color:#9C8AA5;color:white;"><i class="fa fa-line-chart"></i> Track</a></td>--}}
-                                                            <td><a class="title-info" data-backdrop="static" data-route="{{ $row->route_no }}" style="color: #f0ad4e;" data-link="{{ asset('/form/info/'.$row->route_no.'/cdo') }}" href="#document_info" data-toggle="modal">{{ $row->route_no }}</a></td>
+                                                            <td><a class="title-info" data-backdrop="static" data-route="{{ $row->route_no }}" style="color: #f0ad4e;" data-link="/dtr/form/info/{{ $row->route_no }}/cdo" href="#document_info" data-toggle="modal">{{ $row->route_no }}</a></td>
                                                             <td>{{ date('M d, Y',strtotime($row->prepared_date)) }}<br>{{ date('h:i:s A',strtotime($row->prepared_date)) }}</td>
                                                             <td>{{ $row->subject }}</td>
                                                             @if($row->status ==3)

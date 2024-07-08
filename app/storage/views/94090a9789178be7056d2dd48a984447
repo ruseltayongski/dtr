@@ -1,5 +1,5 @@
 <?php $__env->startSection('content'); ?>
-    <span id="calendar_holiday" data-link=" <?php echo asset('calendar_holiday'); ?> "></span>
+    <span id="calendar_holiday" data-link="/dtr/calendar_holiday"></span>
     <span id="calendar_id" data-link="<?php echo asset('calendar_id'); ?>"></span>
     <span id="calendar_last_id" data-link="<?php echo asset('calendar_last_id'); ?>"></span>
     <span id="calendar_save" data-link=" <?php echo asset('calendar_save'); ?> "></span>

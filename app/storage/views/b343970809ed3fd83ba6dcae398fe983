@@ -367,8 +367,8 @@ session_start();
                                     <tbody>
                                     <?php foreach($users as $user): ?>
                                         <tr>
-                                            <td><a href="#edit" data-id="<?php echo $user->userid; ?>" data-toggle="modal" data-target="#update_user_info" data-link="<?php echo asset('user/edit'); ?>" class="title-info user_edit"><?php echo $user->userid; ?></a></td>
-                                            <td><a href="#edit" data-id="<?php echo $user->userid; ?>" data-toggle="modal" data-target="#update_user_info" data-link="<?php echo asset('user/edit'); ?>" class="text-bold user_edit text-blue"><?php echo $user->fname ." ". $user->mname." ".$user->lname; ?></a></td>
+                                            <td><a href="#edit" data-id="<?php echo $user->userid; ?>" data-toggle="modal" data-target="#update_user_info" data-link="/dtr/user/edit" class="title-info user_edit"><?php echo $user->userid; ?></a></td>
+                                            <td><a href="#edit" data-id="<?php echo $user->userid; ?>" data-toggle="modal" data-target="#update_user_info" data-link="/dtr/user/edit" class="text-bold user_edit text-blue"><?php echo $user->fname ." ". $user->mname." ".$user->lname; ?></a></td>
                                             <td>
                                                 <a href="#edit" data-id="<?php echo $user->userid; ?>" class="text-bold change_sched text-green"><?php echo $user->description; ?></a>
                                             </td>

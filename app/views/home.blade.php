@@ -366,8 +366,8 @@ session_start();
                                     <tbody>
                                     @foreach($users as $user)
                                         <tr>
-                                            <td><a href="#edit" data-id="{{ $user->userid }}" data-toggle="modal" data-target="#update_user_info" data-link="{{ asset('user/edit') }}" class="title-info user_edit">{{ $user->userid }}</a></td>
-                                            <td><a href="#edit" data-id="{{ $user->userid }}" data-toggle="modal" data-target="#update_user_info" data-link="{{ asset('user/edit') }}" class="text-bold user_edit text-blue">{{ $user->fname ." ". $user->mname." ".$user->lname }}</a></td>
+                                            <td><a href="#edit" data-id="{{ $user->userid }}" data-toggle="modal" data-target="#update_user_info" data-link="/dtr/user/edit" class="title-info user_edit">{{ $user->userid }}</a></td>
+                                            <td><a href="#edit" data-id="{{ $user->userid }}" data-toggle="modal" data-target="#update_user_info" data-link="/dtr/user/edit" class="text-bold user_edit text-blue">{{ $user->fname ." ". $user->mname." ".$user->lname }}</a></td>
                                             <td>
                                                 <a href="#edit" data-id="{{ $user->userid }}" class="text-bold change_sched text-green">{{ $user->description }}</a>
                                             </td>
