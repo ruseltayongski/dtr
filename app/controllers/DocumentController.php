@@ -18,17 +18,21 @@ class DocumentController extends BaseController
     public  function leave(){
 //        return 1;
         if(Request::method() == 'GET'){
-            $user = InformationPersonal::select("personal_information.lname","personal_information.fname","personal_information.mname","designation.description as designation","work_experience.monthly_salary")
-                                        ->leftJoin("dts.designation","designation.id","=","personal_information.designation_id")
-                                        ->leftJoin('pis.work_experience','work_experience.userid','=','personal_information.userid')
-                                        ->where('pis.work_experience.date_to','=','Present')
-                                        ->where('personal_information.userid','=',Auth::user()->userid)
-                                        ->groupBy('work_experience.userid')
-                                        ->first();
+            $user = InformationPersonal::select("personal_information.lname","personal_information.fname","personal_information.mname","designation.description as designation","work_experience.monthly_salary",
+                "personal_information.vacation_balance", "personal_information.sick_balance")
+                ->leftJoin("dts.designation","designation.id","=","personal_information.designation_id")
+                ->leftJoin('pis.work_experience','work_experience.userid','=','personal_information.userid')
+                ->where('pis.work_experience.date_to','=','Present')
+                ->where('personal_information.userid','=',Auth::user()->userid)
+                ->groupBy('work_experience.userid')
+                ->first();
             $leave_type = LeaveTypes::get();
+            $spl = AditionalLeave::where('userid', Auth::user()->userid)->first();
+
             return View::make('form.form_leave',[
                 "user" => $user,
-                "leave_type" => $leave_type
+                "leave_type" => $leave_type,
+                "spl" => $spl
             ]);
         }
         if(Request::method() == 'POST') {
@@ -38,7 +42,7 @@ class DocumentController extends BaseController
                 }
             }
             $route_no = date('Y-') . Auth::user()->userid . date('mdHis');
-            $inclusive_dates = $_POST['inclusive_dates1'];
+            $l_type = Input::get('leave_type');
 
             $leave = new Leave();
 
@@ -48,75 +52,78 @@ class DocumentController extends BaseController
             $leave->lastname = Input::get('lastname');
             $leave->firstname = Input::get('firstname');
             $leave->middlename = Input::get('middlename');
-
             $leave->date_filling = Input::get('date_filling');
-
             $leave->position = Input::get('position');
             $leave->salary = Input::get('salary');
             $leave->leave_type = Input::get('leave_type');
-            $leave->leave_details = Input::get('leave_details');
-            $leave->leave_specify = Input::get('for_text_input');
-            $leave->applied_num_days = Input::get('applied_num_days');
+            $leave->leave_details = (Input::get('leave_details') != null)?Input::get('leave_details'):'None' ;
+            $leave->leave_specify = (Input::get('for_text_input') != null)?Input::get('for_text_input'):'None' ;
             $leave->credit_used = Input::get('leave_type');
-            $leave->status = 'PENDING';
-
-            $last_date = end($inclusive_dates);
-            $last_date = array_slice($inclusive_dates, -1)[0];
-
-            $temp1 = explode('-',$last_date);
-
-            $date_from = date('Y-m-d',strtotime($temp1[0]));
-            $date_to = date('Y-m-d',strtotime($temp1[1]));
-
-            $leave->inc_from = $date_from;
-            $leave->inc_to = $date_to;
+            $leave->status = 0;
+            $leave->remarks = 0;
             $leave->commutation = Input::get('com_requested');
-            $leave->credit_date =  date('Y-m-d',strtotime(Input::get('credit_date')));
+
+            if(Input::get('com_requested') == 2){
+                $inclusive_dates = $_POST['inclusive_dates1'];
+                $last_date = end($inclusive_dates);
+                $last_date = array_slice($inclusive_dates, -1)[0];
+                $temp1 = explode('-',$last_date);
+                $date_from = date('Y-m-d',strtotime($temp1[0]));
+                $date_to = date('Y-m-d',strtotime($temp1[1]));
+                $leave->inc_from = $date_from;
+                $leave->inc_to = $date_to;
+                $leave->applied_num_days = Input::get('applied_num_days');
+            }
 
             $pis = InformationPersonal::where ('userid', Auth::user()->userid)->first();
             $addtnl_leave = AditionalLeave::where('userid', Auth::user()->userid)->first();
-//            $type = Input::get('leave_type');
-//            $days = Input::get('applied_num_days');
-//
-//            if($type=="VL"){
-//                $pis->vacation_balance = $pis->vacation_balance - $days;
-//                $pis->save();
-//            }else if($type == "FL"){
-//                if($pis->vacation_balance >= $days){
-//                    $pis->vacation_balance = $pis->vacation_balance - $days;
-//                    $pis->save();
-//                }else{
-//                    $rem = $days - $pis->vacation_balance;
-//                    $pis->sick_balance = $pis->sick_balance - $rem;
-//                    $pis->save();
-//                }
-//                $addtnl_leave->FL = $addtnl_leave->FL - $days;
-//                $addtnl_leave->save();
-//            }else if ($type == "SPL"){
-//                $addtnl_leave->SPL = $addtnl_leave->SPL - $days;
-//                $addtnl_leave->save();
-//            }
+
+            if($l_type == 'FL' || $l_type == 'VL'){
+                if($pis && $pis->vacation_balance != null && $pis->vacation_balance >= Input::get('applied_num_days')){
+                    $leave->approved_for = 1;
+                }else{
+                    $leave->approved_for = 2;
+                }
+            }else if($l_type == 'SL'){
+                if($pis && $pis->sick_balance != null && $pis->sick_balance >= Input::get('applied_num_days')){
+                    $leave->approved_for = 1;
+                }else{
+                    $leave->approved_for = 2;
+                }
+            }
+
             $leave->vacation_total = $pis->vacation_balance;
             $leave->sick_total = $pis->sick_balance;
+
+            if($l_type == 'SPL'){
+                $addtnl_leave->SPL = $addtnl_leave->SPL - Input::get('applied_num_days');
+                $leave->SPL_total = ($addtnl_leave)?$addtnl_leave->SPL:0;
+            }else if($l_type == 'FL'){
+                $addtnl_leave->FL = $addtnl_leave->FL - Input::get('applied_num_days');
+                $leave->FL_total = ($addtnl_leave)?$addtnl_leave->FL:0;
+            }
+
             $leave->SPL_total = $addtnl_leave->SPL;
             $leave->FL_total = $addtnl_leave->FL;
-            $leave->approved_for = Input::get('approved_for');
             $leave->for_others = Input :: get('others_type');
 
             $leave->save();
 
-            foreach ($inclusive_dates as $index => $date_range) {
-//                return $date_range;
-                $temp = explode('-', $date_range);
-                $start_date = date('Y-m-d', strtotime($temp[0]));
-                $end_date = date('Y-m-d', strtotime($temp[1]));
+            if(Input::get('com_requested') == 2){
 
-                $leave_applied_dates = new LeaveAppliedDates();
-                $leave_applied_dates->leave_id = $leave->id;
-                $leave_applied_dates->startdate = $start_date;
-                $leave_applied_dates->enddate = $end_date;
+                foreach ($inclusive_dates as $index => $date_range) {
 
-                $leave_applied_dates->save();
+                    $temp = explode('-', $date_range);
+                    $start_date = date('Y-m-d', strtotime($temp[0]));
+                    $end_date = date('Y-m-d', strtotime($temp[1]));
+
+                    $leave_applied_dates = new LeaveAppliedDates();
+                    $leave_applied_dates->leave_id = $leave->id;
+                    $leave_applied_dates->startdate = $start_date;
+                    $leave_applied_dates->enddate = $end_date;
+
+                    $leave_applied_dates->save();
+                }
             }
 
             $doc_type = 'APP_LEAVE';
@@ -162,43 +169,68 @@ class DocumentController extends BaseController
 
     public function save_edit_leave()
     {
-//        return 1;
-
         $leave = Leave::where('id', Input::get('id'))->first();
 
-//        if(isset($leave) and count($leave) > 0) {
         if(isset($leave)) {
             $inclusive_dates = $_POST['inclusive_dates1'];
-            $leave->userid = Auth::user()->userid;
+            $l_type = Input::get('leave_type');
+
+            $leave->office_agency = Input::get('office_agency');
+            $leave->lastname = Input::get('lastname');
+            $leave->firstname = Input::get('firstname');
+            $leave->middlename = Input::get('middlename');
             $leave->date_filling = Input::get('date_filling');
+            $leave->position = Input::get('position');
+            $leave->salary = Input::get('salary');
             $leave->leave_type = Input::get('leave_type');
-            $leave->leave_details = Input::get('leave_details');
-            $leave->leave_specify = Input::get('for_text_input');
-            $leave->applied_num_days = Input::get('applied_num_days');
+            $leave->leave_details = (Input::get('leave_details') != null)?Input::get('leave_details'):'None' ;
+            $leave->leave_specify = (Input::get('text_input') != null)?Input::get('text_input'):'None' ;
             $leave->credit_used = Input::get('leave_type');
-            $leave->status = 'PENDING';
-//return $inclusive_dates;
-            $last_date = end($inclusive_dates);
-            $last_date = array_slice($inclusive_dates, -1)[0];
-
-            $temp1 = explode('-',$last_date);
-
-            $date_from = date('Y-m-d',strtotime($temp1[0]));
-            $date_to = date('Y-m-d',strtotime($temp1[1]));
-
-            $leave->inc_from = $date_from;
-            $leave->inc_to = $date_to;
+            $leave->status = 0;
+            $leave->remarks = 0;
             $leave->commutation = Input::get('com_requested');
-            $leave->credit_date =  date('Y-m-d',strtotime(Input::get('credit_date')));
+
+            if(Input::get('com_requested') == 2){
+                $last_date = end($inclusive_dates);
+                $last_date = array_slice($inclusive_dates, -1)[0];
+                $temp1 = explode('-',$last_date);
+                $date_from = date('Y-m-d',strtotime($temp1[0]));
+                $date_to = date('Y-m-d',strtotime($temp1[1]));
+                $leave->inc_from = $date_from;
+                $leave->inc_to = $date_to;
+                $leave->applied_num_days = Input::get('applied_num_days');
+            }
 
             $pis = InformationPersonal::where ('userid', Auth::user()->userid)->first();
             $addtnl_leave = AditionalLeave::where('userid', Auth::user()->userid)->first();
 
+            if($l_type == 'FL' || $l_type == 'VL'){
+                if($pis && $pis->vacation_balance != null && $pis->vacation_balance >= Input::get('applied_num_days')){
+                    $leave->approved_for = 1;
+                }else{
+                    $leave->approved_for = 2;
+                }
+            }else if($l_type == 'SL'){
+                if($pis && $pis->sick_balance != null && $pis->sick_balance >= Input::get('applied_num_days')){
+                    $leave->approved_for = 1;
+                }else{
+                    $leave->approved_for = 2;
+                }
+            }
+
             $leave->vacation_total = $pis->vacation_balance;
             $leave->sick_total = $pis->sick_balance;
+
+            if($l_type == 'SPL'){
+                $addtnl_leave->SPL = $addtnl_leave->SPL - Input::get('applied_num_days');
+                $leave->SPL_total = ($addtnl_leave)?$addtnl_leave->SPL:0;
+            }else if($l_type == 'FL'){
+                $addtnl_leave->FL = $addtnl_leave->FL - Input::get('applied_num_days');
+                $leave->FL_total = ($addtnl_leave)?$addtnl_leave->FL:0;
+            }
+
             $leave->SPL_total = $addtnl_leave->SPL;
             $leave->FL_total = $addtnl_leave->FL;
-            $leave->approved_for = Input::get('approved_for');
             $leave->for_others = Input :: get('others_type');
 
             $leave->save();
@@ -224,15 +256,13 @@ class DocumentController extends BaseController
 
     public function all_leave()
     {
-//        return 1;
-        return "Leave is under development!";
         $userid = Auth::user()->userid;
         $pis = InformationPersonal::where("userid","=",$userid)->first();
         $division = Division::where('id', $pis->division_id)->first();
         $designation = Designation:: where('id', $pis->designation_id)->first();
         $leave_card = LeaveCardView::where('userid', $userid)->get();
         $leave = AditionalLeave::where('userid', $userid)->first();
-//        return $leave;
+
         if(Request::method() == 'POST'){//        return $division; // track designation
 
             $filter_range = explode(" - ",Input::get("filter_range"));
@@ -735,7 +765,8 @@ class DocumentController extends BaseController
                 "section_head" => $section_head,
                 "division_head" => $division_head,
                 "bbalance_cto" => $personal_information->bbalance_cto,
-                "inclusiveDates"=> $inclusiveDates
+                "inclusiveDates"=> $inclusiveDates,
+                "server_date" => date('Y-m-d')
             );
 //            return $inclusiveDates->cdo_hours;
             return View::make('cdo.cdo_view',['data' => $data]);

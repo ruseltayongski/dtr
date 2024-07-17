@@ -10,7 +10,7 @@
                         <div class="align small-text" style="text-align: center">
                             Republic of the Philippines<br>
                             <strong>DEPARTMENT OF HEALTH<br>
-                                CENTRAL VISAYAS CENTER for HEALTH DEVELOPMENT<br></strong>
+                                CENTRAL VISAYAS CENTER for HEALTH DEVELOPMENTblade<br></strong>
                             Osmeña Boulevard, Cebu City, 6000 Philippines<br>
                         </div>
                     </td>
@@ -116,13 +116,13 @@
                                             @if ($leave->leave_details == '1')
                                                 <br><span style="text-decoration: underline; margin-left: 10px" class="glyphicon glyphicon-ok" aria-hidden="true"></span>
                                                 <span class="{{ $leave->leave_details == '1' ? 'text-decoration-underline' : '' }}"  style="margin-left: 10px">Within the Philippines</span>
-                                                <u style="margin-left: 10px">{{$leave->leave_specify}}</u>
+                                                <u style="margin-left: 10px">{{($leave->leave_specify != 'None')?$leave->leave_specify:''}}</u>
                                                 <br><span style="margin-left: 36px">Abroad (Specify)</span><br>
                                             @elseif ($leave->leave_details == '2')
                                                 <br><span style="margin-left: 36px">Within the Philippines</span><br>
                                                 <span style="text-decoration: underline; margin-left: 10px" class="glyphicon glyphicon-ok" aria-hidden="true"></span>
                                                 <span class="{{ $leave->leave_details == '2' ? 'text-decoration-underline' : '' }}" style="margin-left: 10px">Abroad (Specify)</span>
-                                                <u style="margin-left: 10px">{{$leave->leave_specify}}</u>
+                                                <u style="margin-left: 10px">{{($leave->leave_specify != 'None')?$leave->leave_specify:''}}</u>
                                             @else
                                                 <br><span style="margin-left: 36px">Within the Philippines</span>
                                                 <br><span style="margin-left: 36px">Abroad (Specify)</span>
@@ -134,13 +134,13 @@
                                             @if ($leave->leave_details == '3')
                                                 <br><span style="text-decoration: underline; margin-left: 10px" class="glyphicon glyphicon-ok" aria-hidden="true"></span>
                                                 <span class="{{ $leave->leave_details == '3' ? 'text-decoration-underline' : '' }}"  style="margin-left: 10px">In Hospital (Specify Illness)</span>
-                                                <u style="margin-left: 10px">{{$leave->leave_specify}}</u>
+                                                <u style="margin-left: 10px">{{($leave->leave_specify != 'None')?$leave->leave_specify:''}}</u>
                                                 <br><span style="margin-left: 36px">Out Patient (Specify Illness)</span><br>
                                             @elseif ($leave->leave_details == '4')
                                                 <br><span style="margin-left: 36px">In Hospital (Specify Illness)</span><br>
                                                 <span style="text-decoration: underline; margin-left: 10px" class="glyphicon glyphicon-ok" aria-hidden="true"></span>
                                                 <span class="{{ $leave->leave_details == '4' ? 'text-decoration-underline' : '' }}" style="margin-left: 10px">Out Patient (Specify Illness)</span>
-                                                <u style="margin-left: 10px">{{$leave->leave_specify}}</u>
+                                                <u style="margin-left: 10px">{{($leave->leave_specify != 'None')?$leave->leave_specify:''}}</u>
                                             @else
                                                 <br><span style="margin-left: 36px">In Hospital (Specify Illness)</span>
                                                 <br><span style="margin-left: 36px">Out Patient (Specify Illness)</span>
@@ -151,7 +151,7 @@
                                             @if ($leave->leave_details == '5')
                                                 <span style="text-decoration: underline; margin-left: 10px" class="glyphicon glyphicon-ok" aria-hidden="true"></span>
                                                 <span class="{{ $leave->leave_details == '5' ? 'text-decoration-underline' : '' }}"  style="margin-left: 10px"> (Specify Illness)</span>
-                                                <u style="margin-left: 10px">{{$leave->leave_specify}}</u>
+                                                <u style="margin-left: 10px">{{($leave->leave_specify != 'None')?$leave->leave_specify:''}}</u>
                                             @else
                                                 <span style="margin-left: 36px">(Specify Illness)</span>
                                             @endif
@@ -161,13 +161,13 @@
                                             @if ($leave->leave_details == '6')
                                                 <br><span style="text-decoration: underline; margin-left: 10px" class="glyphicon glyphicon-ok" aria-hidden="true"></span>
                                                 <span class="{{ $leave->leave_details == '6' ? 'text-decoration-underline' : '' }}"  style="margin-left: 10px">Comppletion of Master's Degree</span>
-                                                <u style="margin-left: 10px">{{$leave->leave_specify}}</u>
+                                                <u style="margin-left: 10px">{{($leave->leave_specify != 'None')?$leave->leave_specify:''}}</u>
                                                 <br><span style="margin-left: 36px">BAR/Board Examination Review</span>
                                             @elseif ($leave->leave_details == '7')
                                                 <br><span style="margin-left: 36px">Completion of Master's Degree</span>
                                                 <span style="text-decoration: underline; margin-left: 10px" class="glyphicon glyphicon-ok" aria-hidden="true"></span>
                                                 <span class="{{ $leave->leave_details == '7' ? 'text-decoration-underline' : '' }}" style="margin-left: 10px">BAR/Board Examination Review</span>
-                                                <u style="margin-left: 10px">{{$leave->leave_specify}}</u>
+                                                <u style="margin-left: 10px">{{($leave->leave_specify != 'None')?$leave->leave_specify:''}}</u>
                                             @else
                                                 <br><span style="margin-left: 36px">Completion of Master's Degree</span>
                                                 <br><span style="margin-left: 36px">BAR/Board Examination Review</span>
@@ -301,20 +301,12 @@
                                             <tr height ="30">
                                                 <td>Less this application</td>
                                                 <?php
-                                                    if($leave->credit_used == "VL"){
+                                                    if($leave->credit_used == "VL" || $leave->credit_used == "FL"){
                                                         $total1 = $leave->applied_num_days;
                                                         $total2 = 0;
                                                     }else if($leave->credit_used == "SL"){
                                                         $total1 = 0;
                                                         $total2 = $leave->applied_num_days;
-                                                    }else if($leave->credit_used == "FL"){
-                                                        $days = $leave->applied_num_days;
-                                                        if($leave->vacation_total >= $days){
-                                                            $total1 = $days;
-                                                        }else{
-                                                            $total1 = $leave->vacation_total;
-                                                            $total2 = $days - $leave->vacation_total;
-                                                        }
                                                     }else{
                                                         $total1 = 0;
                                                         $total2 = 0;
@@ -446,10 +438,10 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
                 <a target="_blank" class="btn btn-success" href="{{ asset('FPDF/print_leave.php?id=' .$leave->id) }}" style="color: white;"><i class="fa fa-print"></i> Print</a>
-                {{--@if(Auth::user()->usertype !=1 && $leave->status != 'APPROVED')--}}
+                @if(Auth::user()->usertype !=1 && $leave->status != 'APPROVED')
                     <a href="{{ asset('leave/update/' . $leave->id) }}"  class="btn btn-primary btn-submit" style="color:white;"><i class="fa fa-pencil"></i> Update</a>
                     <a href="{{ asset('leave/delete/' .$leave->id) }}" style="color:white" class="btn btn-danger" ><i class="fa fa-trash"></i> Remove</a>
-                {{--@endif--}}
+                @endif
             </div>
         </div>
     </div>

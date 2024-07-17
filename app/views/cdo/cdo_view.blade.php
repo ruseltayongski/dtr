@@ -349,7 +349,7 @@
         @else
             <div class="modal-footer">
                 <button type="button" class="btn btn-default"  data-dismiss="modal"><i class="fa fa-times"></i> Cancel</button>
-                <button type="submit" class="btn btn-success btn-submit" style="color:white;"><i class="fa fa-send"></i> Submit</button>
+                <button type="submit" class="btn btn-success btn-submit" style="color:white;"><i class="fa fa-send"></i> Submit </button>
                 <input type="hidden" name="client" class="form-control client_date" id="client" value="0">
             </div>
         @endif
@@ -386,6 +386,18 @@
         var currentDate = new Date();
         var client_date = currentDate.toISOString().split('T')[0];
         $('.client_date').val(client_date);
+
+        var server_date = "<?php echo $data['server_date'] ?>";
+
+        if(client_date != server_date){
+            Lobibox.alert('error', //AVAILABLE TYPES: "error", "info", "success", "warning"
+                {
+                    msg: "Please ensure your date is set to the current date. After verifying, refresh the page to avoid any inaccuracies."
+                });
+        }
+        console.log('server_date', server_date);
+        console.log('client_date', client_date);
+
 
             <?php
             $privilege_employee = PrivilegeEmployee::get();
