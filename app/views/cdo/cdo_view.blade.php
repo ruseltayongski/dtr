@@ -349,7 +349,7 @@
         @else
             <div class="modal-footer">
                 <button type="button" class="btn btn-default"  data-dismiss="modal"><i class="fa fa-times"></i> Cancel</button>
-                <button type="submit" class="btn btn-success btn-submit" style="color:white;"><i class="fa fa-send"></i> Submit</button>
+                <button type="submit" class="btn btn-success btn-submit" style="color:white;"><i class="fa fa-send"></i> Submit </button>
                 <input type="hidden" name="client" class="form-control client_date" id="client" value="0">
             </div>
         @endif

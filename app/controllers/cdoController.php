@@ -1741,6 +1741,7 @@ class cdoController extends BaseController
                 }
             }
         }else{
+            //cancel leave_dates
             $leave = Leave::where('route_no', $route)->first();
             $leave->status = 1;
             $leave->save();
@@ -1758,51 +1759,83 @@ class cdoController extends BaseController
                 }
             }
             $dateList = implode(',', $dateList);
+            $card = new LeaveCardView();
 
             if(in_array("cancel_all", $selected)){
                 $leave->status= "CANCELLED";
                 $leave->save();
-                $card = new LeaveCardView();
                 $card->leave_id = $leave->id;
+                $card->particulars = "(".$leave->leave_type.")".$leave->applied_num_days;
                 $card->userid = $leave->userid;
                 $card->particulars = $leave->leave_type;
-                if($leave->approved_for == 1){
-                    $card->vl_abswp = $leave->applied_num_days;
-                }else{
-                    $card->vl_abswop = $leave->applied_num_days;
-                }
+
                 $card->vl_bal = $pis2->vacation_balance + $leave->applied_num_days;
-                $card->date_used = str_replace(['[', ']', '"'], '', json_encode($dateList));
-                $pis2->vacation_balance = $pis2->vacation_balance + $leave->applied_num_days;
+                $card->date_used = str_replace(['[', ']', '"'], '', json_encode($dateList)). '(cancelled)';
+                $spl = AditionalLeave::where('userid', $leave->userid)->first();
+
+                if($leave->approved_for == 1){
+
+                    if($leave->leave_type == "SPL"){
+
+                        $spl->SPL = $spl->SPL + $leave->applied_num_days;
+
+                    }else if($leave->leave_type == "FL" || $leave->leave_type == "VL"){
+
+                        $card->vl_bal = $pis2->vacation_balance + $leave->applied_num_days;
+                        $pis2->vacation_balance = $pis2->vacation_balance + $leave->applied_num_days;
+                        $card->vl_abswp = $leave->applied_num_days;
+
+                        if($leave->leave_type == "FL"){
+                            $spl->FL = $spl->FL + $leave->applied_num_days;
+                        }
+                    }else if($leave->leave_type == "SL"){
+                        $card->sl_bal = $pis2->sick_balance + $leave->applied_num_days;
+                        $pis2->sick_balance = $pis2->sick_balance + $leave->applied_num_days;
+                        $card->sl_abswp = $leave->applied_num_days;
+                    }
+                }else{
+                    if($leave->leave_type == "FL" || $leave->leave_type == "VL"){
+                        $card->vl_abswop = $leave->applied_num_days;
+                    }else if($leave->leave_type == "SL"){
+                        $card->sl_abswop = $leave->applied_num_days;
+                    }
+                }
+
                 $pis2->save();
                 $card->save();
+                $spl->save();
             }else{
+                //need to update, logically incorrect
                 foreach ($leave_dates as $apply){
                     $apply->delete();
                 }
                 $date_list = array_map('trim', $dates);
                 $selected = array_map('trim', $selected);
-
+                $used_date = [];
+                $count = 0;
                 foreach ($date_list as $index=> $date){
 
                     $timestamp = strtotime($date);
                     $new_applied = new LeaveAppliedDates();
 
                     if(in_array($date, $selected)){
-                        $card = new LeaveCardView();
-                        $card->userid = $leave->userid;
+                        $used_date[] = '('."<s>".date('F j, Y', strtotime($date))."</s>". ')';
                         $new_applied->status = 1;
                         $pis2->vacation_balance = $pis2->vacation_balance + $leave->applied_num_days;
                         $pis2->save();
                         $card->vl_bal = $pis2->vacation_balance;
-                        $card->save();
+                        $count++;
+                    }else{
+                        $used_date[] = date('F j, Y', strtotime($date));
                     }
                     $new_applied->startdate = date('Y-m-d', $timestamp);
                     $new_applied->enddate = date('Y-m-d', $timestamp);
                     $new_applied->leave_id = $leave->id;
                     $new_applied->save();
-                    $leave->save();
                 }
+                $leave->save();
+                $card->date_used = implode(',', $used_date);
+                $card->save();
             }
         }
 

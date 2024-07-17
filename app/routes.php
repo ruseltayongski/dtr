@@ -71,7 +71,7 @@ Route::match(array('GET','POST'),'resetpass', 'PasswordController@change_passwor
 //LEAVE PROCCESS
 
 Route::match(['GET','POST'],'leave/roles','AdminController@track_leave');
-Route::post('leave/approved','AdminController@approved_leave');
+Route::match(['GET', 'POST'],'leave/approved/{route_no}','AdminController@approved_leave');
 Route::post('leave/disapproved','AdminController@disapproved_leave');
 Route::post('leave/pending','AdminController@pending_leave');
 Route::get('leave/delete/{id}','AdminController@delete_leave');
@@ -81,7 +81,9 @@ Route::match(array('GET', 'POST'), 'move_dates', 'AdminController@move_dates'); 
 Route::match(array('GET', 'POST'), 'remarks', 'AdminController@remarks');
 Route::get('search/leave','AdminController@search_leave');
 Route::match(array('GET','POST'), 'form/leave_list', 'cdoController@leave_list');
-
+Route::get('leave/balance/{userid}','AdminController@get_balance');
+Route::post('leave/update_balance','AdminController@update_balance');
+Route::post('update_absence','AdminController@update_absence');
 
 //DTR
 Route::get('dtr/list/jo', 'GenerateDTRController@list_jo_dtr');
@@ -91,6 +93,7 @@ Route::get('search/regular', 'GenerateDTRController@search_reg_dtr');
 Route::get('dtr/download/{id}', 'GenerateDTRController@download_dtr');
 Route::match(['GET','POST'],'/personal/dtr/list', 'PersonalController@personal_dtrlist');
 Route::get('/ab','PersonalController@personal_filter_dtrlist');
+
 //FOR PERSONAL ROUTE GROUP
 
 Route::get('personal/home', function() {

@@ -37,6 +37,7 @@
             <div class="panel-body">
                 <div class="row">
                     <div class="col-md-12">
+                        <input type="hidden" name="text_input" class="text_input" value="{{($leave->leave_specify != 'None')? $leave->leave_specify: ''}}">
                         <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
                         <input type="hidden" name="id" value="{{ $leave->id }}" />
                         <table border="1px" width="100%">
@@ -148,88 +149,88 @@
                                                         <label><i>In case of Vacation/Special Privilege leave</i></label><br>
                                                         <label>
                                                             @if ($leave->leave_details == '1')
-                                                            <input type="radio" id="checkboxSuccess" class="vac_dis" value="1" name="leave_details" checked > Within the Philippines
-                                                            <input type="text" name="for_text_input" class="vac_dis" id="within_txt" style="margin-left: 60px; width: 250px" value="{{$leave->leave_specify}}" >
+                                                                <input type="radio" id="checkboxSuccess" class="vac_dis" value="1" name="leave_details" checked > Within the Philippines
+                                                                <input type="text" name="for_text_input" class="vac_dis" id="within_txt" style="margin-left: 60px; width: 250px" value="{{($leave->leave_specify != 'None')? $leave->leave_specify: ''}}">
                                                             @else
                                                                 <input type="radio" id="checkboxSuccess" class="vac_dis" value="1" name="leave_details"> Within the Philippines
-                                                                <input type="text" name="for_text_input" class="vac_dis" id="within_txt" style="margin-left: 60px; width: 250px" >
-                                                                @endif
+                                                                <input type="text" name="for_text_input" class="vac_dis" id="within_txt" style="margin-left: 60px; width: 250px">
+                                                            @endif
                                                         </label><br>
                                                         <label>
                                                             @if ($leave->leave_details == '2')
-                                                            <input type="radio" id="checkboxSuccess" class="vac_dis" value="2" name="leave_details" checked> Abroad (Specify)
-                                                            <input type="text" name="for_text_input" class="vac_dis" id="abroad_txt" style="margin-left: 92px; width: 250px" value="{{$leave->leave_specify}}" />
-                                                                @else
+                                                                <input type="radio" id="checkboxSuccess" class="vac_dis" value="2" name="leave_details" checked> Abroad (Specify)
+                                                                <input type="text" name="for_text_input" class="vac_dis" id="abroad_txt" style="margin-left: 92px; width: 250px" value="{{($leave->leave_specify != 'None')? $leave->leave_specify: ''}}" />
+                                                            @else
                                                                 <input type="radio" id="checkboxSuccess" class="vac_dis" value="2" name="leave_details"> Abroad (Specify)
                                                                 <input type="text" name="for_text_input" class="vac_dis" id="abroad_txt" style="margin-left: 92px; width: 250px" />
-                                                                @endif
+                                                            @endif
                                                         </label> <br>
 
                                                         <label><i>In case of Sick Leave</i></label><br>
                                                         <label>
                                                             @if ($leave->leave_details == '3')
-                                                            <input type="radio" id="checkboxSuccess" class="sick_dis" value="3" name="leave_details" checked> In Hospital (Specify Illness)
-                                                            <input type="text"  name="for_text_input" class="sick_dis" id="in_hos_txt" style="margin-left: 30px; width: 250px" value="{{$leave->leave_specify}}">
-                                                                @else
+                                                                <input type="radio" id="checkboxSuccess" class="sick_dis" value="3" name="leave_details" checked> In Hospital (Specify Illness)
+                                                                <input type="text"  name="for_text_input" class="sick_dis" id="in_hos_txt" style="margin-left: 30px; width: 250px" value="{{($leave->leave_specify != 'None')? $leave->leave_specify: ''}}">
+                                                            @else
                                                                 <input type="radio" id="checkboxSuccess" class="sick_dis" value="3" name="leave_details"> In Hospital (Specify Illness)
                                                                 <input type="text"  name="for_text_input" class="sick_dis" id="in_hos_txt" style="margin-left: 30px; width: 250px" >
-                                                                @endif
+                                                            @endif
                                                         </label>
                                                         <label>
                                                             @if ($leave->leave_details == '4')
-                                                            <input type="radio" id="checkboxSuccess" class="sick_dis" value="4" name="leave_details" checked> Out-patient (Specify Illness)
-                                                            <input type="text" name="for_text_input" class="sick_dis" id="out_hos_txt" style="margin-left: 26px; width: 250px" value="{{$leave->leave_specify}}">
-                                                                @else
+                                                                <input type="radio" id="checkboxSuccess" class="sick_dis" value="4" name="leave_details" checked> Out-patient (Specify Illness)
+                                                                <input type="text" name="for_text_input" class="sick_dis" id="out_hos_txt" style="margin-left: 26px; width: 250px" value="{{($leave->leave_specify != 'None')? $leave->leave_specify: ''}}">
+                                                            @else
                                                                 <input type="radio" id="checkboxSuccess" class="sick_dis" value="4" name="leave_details"> Out-patient (Specify Illness)
                                                                 <input type="text" name="for_text_input" class="sick_dis" id="out_hos_txt" style="margin-left: 26px; width: 250px" >
-                                                                @endif
+                                                            @endif
                                                         </label><br>
 
                                                         <label><i>In case of Special Leave Benefits for Women</i></label><br>
                                                         <label>
                                                             @if ($leave->leave_details == '5')
-                                                            <input type="radio" id="checkboxSuccess" class="spec_dis" value="5" name="leave_details" checked> (Specify Illness)
-                                                            <input type="text"  name="for_text_input" class="spec_dis" id="spec_txt" style="margin-left: 98px; width: 250px" value="{{$leave->leave_specify}}" >
-                                                                @else
+                                                                <input type="radio" id="checkboxSuccess" class="spec_dis" value="5" name="leave_details" checked> (Specify Illness)
+                                                                <input type="text"  name="for_text_input" class="spec_dis" id="spec_txt" style="margin-left: 98px; width: 250px" value="{{($leave->leave_specify != 'None')? $leave->leave_specify: ''}}" >
+                                                            @else
                                                                 <input type="radio" id="checkboxSuccess" class="spec_dis" value="5" name="leave_details"> (Specify Illness)
                                                                 <input type="text"  name="for_text_input" class="spec_dis" id="spec_txt" style="margin-left: 98px; width: 250px" >
-                                                                @endif
+                                                            @endif
                                                         </label><br>
 
                                                         <label><i>In case of Study Leave</i></label><br>
                                                         <label>
                                                             @if ($leave->leave_details == '6')
-                                                            <input type="radio" id="checkboxSuccess" class="stud_dis" value="6" name="leave_details" checked> Completion of Master's Degree
-                                                            <input type="text"  name="for_text_input" class="stud_dis" id="master_txt" style="margin-left: 13px; width: 250px" value="{{$leave->leave_specify}}"/>
-                                                                @else
+                                                                <input type="radio" id="checkboxSuccess" class="stud_dis" value="6" name="leave_details" checked> Completion of Master's Degree
+                                                                <input type="text"  name="for_text_input" class="stud_dis" id="master_txt" style="margin-left: 13px; width: 250px" value="{{($leave->leave_specify != 'None')? $leave->leave_specify: ''}}"/>
+                                                            @else
                                                                 <input type="radio" id="checkboxSuccess" class="stud_dis" value="6" name="leave_details"> Completion of Master's Degree
                                                                 <input type="text"  name="for_text_input" class="stud_dis" id="master_txt" style="margin-left: 13px; width: 250px" />
-                                                                @endif
+                                                            @endif
                                                         </label>
                                                         <label>
                                                             @if ($leave->leave_details == '7')
-                                                            <input type="radio" id="checkboxSuccess" class="stud_dis" value="7" name="leave_details" checked> BAR/Board Examination Review
-                                                            <input type="text" name="for_text_input" class="stud_dis" id="bar_txt" style="margin-left: 8px; width: 250px" value="{{$leave->leave_specify}}"/>
-                                                                @else
+                                                                <input type="radio" id="checkboxSuccess" class="stud_dis" value="7" name="leave_details" checked> BAR/Board Examination Review
+                                                                <input type="text" name="for_text_input" class="stud_dis" id="bar_txt" style="margin-left: 8px; width: 250px" value="{{($leave->leave_specify != 'None')? $leave->leave_specify: ''}}"/>
+                                                            @else
                                                                 <input type="radio" id="checkboxSuccess" class="stud_dis" value="7" name="leave_details"> BAR/Board Examination Review
                                                                 <input type="text" name="for_text_input" class="stud_dis" id="bar_txt" style="margin-left: 8px; width: 250px" />
-                                                                @endif
+                                                            @endif
                                                         </label><br>
 
                                                         <label><i>Other Purpose</i></label><br>
                                                         <label>
                                                             @if ($leave->leave_details == '8')
-                                                            <input type="radio" id="checkboxSuccess" class="others_dis" value="8" name="leave_details" checked> Monetization of Leave Credits
-                                                                @else
+                                                                <input type="radio" id="checkboxSuccess" class="others_dis" value="8" name="leave_details" checked> Monetization of Leave Credits
+                                                            @else
                                                                 <input type="radio" id="checkboxSuccess" class="others_dis" value="8" name="leave_details"> Monetization of Leave Credits
-                                                                @endif
+                                                            @endif
                                                         </label><br>
                                                         <label>
                                                             @if ($leave->leave_details == '9')
-                                                            <input type="radio" id="checkboxSuccess" class="others_dis" value="9" name="leave_details" checked> Terminal Leave
-                                                                @else
+                                                                <input type="radio" id="checkboxSuccess" class="others_dis" value="9" name="leave_details" checked> Terminal Leave
+                                                            @else
                                                                 <input type="radio" id="checkboxSuccess" class="others_dis" value="9" name="leave_details"> Terminal Leave
-                                                                @endif
+                                                            @endif
                                                         </label><br><br>
                                                     </div>
                                                 </div>
@@ -309,6 +310,11 @@
 
     @include('form.form_leave_script')
     <script>
+
+        $('.btn-primary').on('click', function(){
+            var content = document.querySelector('[name="for_text_input"]').value;
+            $('.text_input').val(content);
+        });
 
         $('input[name="leave_type"]').change(function(){
 

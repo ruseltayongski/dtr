@@ -31,14 +31,14 @@
 
             var radio_val = leave_value();
             //5 days prior
-             if (radio_val == "VL" || radio_val == "SOLO_PL" || radio_val == "SLBW" ||radio_val == "FL" ){
+             if (radio_val == "VL" || radio_val == "SOLO_PL" || radio_val == "SLBW" ){
                  console.log("ahw");
                  if( name_of_days == "Friday" ){
                      beforeDaysToApply = 7;
                  } else {
                      beforeDaysToApply = 5;
                  }
-             }else if(radio_val == "SPL" || radio_val == "RL"){
+             }else if(radio_val == "SPL" ){
                  if( name_of_days == "Friday" ){
                      beforeDaysToApply = 9;
                  } else {
@@ -57,7 +57,7 @@
                 endDate = mm + '/' + dd + '/' + yyyy;
 
             if(radio_val == "VL" || radio_val == "SOLO_PL" || radio_val == "SLBW" ||
-                radio_val == "SPL" || radio_val == "RL" ||radio_val == "FL"){
+                radio_val == "SPL" ){
                  startDate = startDate;
                  endDate = endDate;
             }else{
@@ -157,7 +157,7 @@
                     "<h6 style='color: #206ff0;padding-right: 5%;padding-left:5%'>Note: 1 week working days before apply</h6>" +
                     "</div>" +
                     "");
-            }else if(radio_val == "VL" || radio_val == "SPL" || radio_val == "SLBW"){
+            }else if(radio_val == "VL" || radio_val == "SOLO_PL" || radio_val == "SLBW"){
                 console.log("ahww");
                 $(".range_inputs").append("" +
                     "<div class='alert-info'>" +
@@ -167,17 +167,15 @@
             }else{
                 $(".range_inputs").append("" +
                     "<div class='alert-info'>" +
-                    "<h6 style='color: #206ff0;padding-right: 5%;padding-left:5%'>Note: HELLO MADLANG PEOPLE!</h6>" +
+                    "<h6 style='color: #206ff0;padding-right: 5%;padding-left:5%'>Note: Check application details for more info!</h6>" +
                     "</div>" +
                     "");
             }
-
-
         });
     });
 
     $(".addButton1").click(function () {
-        console.log("button clicked!");
+        console.log("button clicked!", $('.for_text_input').val());
         var clonedData = $('#clone_data').clone();
 
         clonedData.find('input[type="text"]').val('');
@@ -230,8 +228,6 @@
             }
         });
         return totalDays;
-
     }
-
 
 </script>

@@ -77,21 +77,21 @@
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="close">
                             <span aria-hidden="true">&times;</span>
                         </button>
-                        <strong><h4 class="modal-title"></h4></strong>
+                        <strong><h4 style="color:white" class="modal-title"></h4></strong>
                     </div>
                 </div>
                 <div class="table-container"  style="max-height: calc(100vh - 50px); overflow-y: auto;">
                     <table class="table  table-list table-hover table-striped" id="card_table">
                         <thead style="position:sticky; top: 0; z-index: 5;">
-                        <tr style="text-align: center">
-                            <th style="align-items: center; width: 22%" colspan="5">No. Of Hours Earned/Beginning Balance</th>
-                            <th>Date of Overtime</th>
-                            <th># of Hours Used</th>
-                            <th style="width: 19%;">Date Used</th>
-                            <th>Bal. Credits</th>
-                            <th>As Of</th>
-                            <th>Remarks</th>
-                        </tr>
+                            <tr style="text-align: center; color:white;">
+                                <th style="align-items: center;  color:white; width: 25%" colspan="5">No. Of Hours Earned/Beginning Balance</th>
+                                <th style="color:white;" colspan="5">Date of Overtime</th>
+                                <th style="color:white;"># of Hours Used</th>
+                                <th style="width: 19%;color:white;">Date Used</th>
+                                <th style="color:white;">Bal. Credits</th>
+                                <th style="color:white;">As Of</th>
+                                <th style="color:white;">Remarks</th>
+                            </tr>
                         </thead>
                         <tbody id="t_body" name="t_body" style="overflow-y: auto;">
                         </tbody>
@@ -113,9 +113,10 @@
         <div class="modal-dialog modal-sm" role="document" id="size">
             <div class="modal-content">
                 <form action="{{ asset('update_bbalance') }}" method="get">
-                    <div class="modal-header" style="background-color: #9C8AA5;">
+
+                    <div class="modal-header" style="background-color: #9C8AA5; color:white">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title"><i class="fa fa-pencil"></i> Update Beginning Balance</h4>
+                        <h4 class="begin_title"><i class="fa fa-pencil"></i> Update Beginning Balance</h4>
                     </div>
                     <div class="modal-body">
 

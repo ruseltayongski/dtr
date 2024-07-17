@@ -11,15 +11,16 @@
     </style>
     <div class="panel panel-default">
         <div>
+
             <table cellpadding="0" cellspacing="0" width="100%" style="margin-top: 10px">
                 <tr>
-                    <td class="align" width="12%" style="text-align: center; vertical-align: top;"><small>Civil Service Form No. 6<br>Revised 2020</small></td>
+                    <td class="align" width="12%" style="text-align: center; vertical-align: top;"><small>Civil Service Form No(create). 6<br>Revised 2020</small></td>
                     <td class="align" width="12%" style="text-align: right"><img src="{{ asset('public/img/doh.png') }}" width="100" ></td>
                     <td width="58%" >
                         <div class="align small-text" style="text-align: center">
                             Republic of the Philippines<br>
                             <strong>DEPARTMENT OF HEALTH<br>
-                                CENTRAL VISAYAS CENTER for HEALTH DEVELOPMENT<br></strong>
+                                CENTRAL VISAYAS CENTER for HEALTH DEVELOPMENTfor_leave<br></strong>
                             Osmeña Boulevard, Cebu City, 6000 Philippines<br>
                         </div>
                     </td>
@@ -33,7 +34,18 @@
         <div style="text-align: center;">
             <h4><strong style="margin-left: 3em;">APPLICATION FOR LEAVE</strong></h4>
         </div>
-
+        <div>
+            <i>
+                <label>SPL Balance: </label>
+                <label id="spl" style="color:red;">{{($spl)?$spl->SPL:0}}</label>
+                <label>FL Balance: </label>
+                <label id="fl" style=color:red;">{{($spl)?$spl->FL:0}}</label>
+                <label>VL Balance: </label>
+                <label id="vl" style="color:red;">{{($user->vacation_balance != null)?$user->vacation_balance:0}}</label>
+                <label>SL Balance: </label>
+                <label id="sl" style="color:red;">{{($user->sick_balance != null)?$user->sick_balance:0}}</label>
+            </i>
+        </div>
         <form action="{{ asset('form/leave') }}" method="POST">
             <div class="panel-body">
                 <div class="row">
@@ -108,6 +120,8 @@
                             <tr>
                                 <td style="width: 50%;">
                                     <strong>&nbsp;&nbsp;&nbsp;&nbsp;6.A TYPE OF LEAVE TO BE AVAILED OF</strong>
+                                    <a href="#application_details" data-toggle="modal" >( <i class="fa fa-info-circle" > <i>application details</i></i>)</a>
+
                                     <div class="row">
                                         <div class="col-md-12">
                                             <div class="form-group">
@@ -133,7 +147,7 @@
                                     <div class="row">
                                         <div class="col-md-12">
                                             <div class="form-group">
-                                                <div class="has-success">
+                                                <div class="has-success1">
                                                     <div class="checkbox">
 
                                                         <label><i>In case of Vacation/Special Privilege leave</i></label><br>
@@ -145,31 +159,30 @@
                                                             <input type="radio" id="checkboxSuccess" class="vac_dis" value="2" name="leave_details"> Abroad (Specify)
                                                             <input type="text" name="for_text_input" class="vac_dis" id="abroad_txt" style="margin-left: 115px; width: 250px" />
                                                         </label> <br>
-
                                                         <label><i>In case of Sick Leave</i></label><br>
                                                         <label>
-                                                            <input type="radio" id="checkboxSuccess" class="sick_dis" value="3" name="leave_details"> In Hospital (Specify Illness)
-                                                            <input type="text"  name="for_text_input" class="sick_dis" id="in_hos_txt" style="margin-left: 55px; width: 250px" >
+                                                            <input type="radio" id="checkboxSuccess" class="vac_dis" value="3" name="leave_details"> In Hospital (Specify Illness)
+                                                            <input type="text"  name="for_text_input" class="vac_dis" id="in_hos_txt" style="margin-left: 55px; width: 250px" >
                                                         </label>
                                                         <label>
-                                                            <input type="radio" id="checkboxSuccess" class="sick_dis" value="4" name="leave_details"> Out-patient (Specify Illness)
-                                                            <input type="text" name="for_text_input" class="sick_dis" id="out_hos_txt" style="margin-left: 50px; width: 250px" >
+                                                            <input type="radio" id="checkboxSuccess" class="vac_dis" value="4" name="leave_details"> Out-patient (Specify Illness)
+                                                            <input type="text" name="for_text_input" class="vac_dis" id="out_hos_txt" style="margin-left: 50px; width: 250px" >
                                                         </label><br>
 
                                                         <label><i>In case of Special Leave Benefits for Women</i></label><br>
                                                         <label>
-                                                            <input type="radio" id="checkboxSuccess" class="spec_dis" value="5" name="leave_details"> (Specify Illness)
-                                                            <input type="text"  name="for_text_input" class="spec_dis" id="spec_txt" style="margin-left: 118px; width: 250px" >
+                                                            <input type="radio" id="checkboxSuccess" class="vac_dis" value="5" name="leave_details"> (Specify Illness)
+                                                            <input type="text"  name="for_text_input" class="vac_dis" id="spec_txt" style="margin-left: 118px; width: 250px" >
                                                         </label><br>
 
                                                         <label><i>In case of Study Leave</i></label><br>
                                                         <label>
-                                                            <input type="radio" id="checkboxSuccess" class="stud_dis" value="6" name="leave_details"> Completion of Master's Degree
-                                                            <input type="text"  name="for_text_input" class="stud_dis" id="master_txt" style="margin-left: 30px; width: 250px" />
+                                                            <input type="radio" id="checkboxSuccess" class="vac_dis" value="6" name="leave_details"> Completion of Master's Degree
+                                                            <input type="text"  name="for_text_input" class="vac_dis" id="master_txt" style="margin-left: 30px; width: 250px" />
                                                         </label>
                                                         <label>
-                                                            <input type="radio" id="checkboxSuccess" class="stud_dis" value="7" name="leave_details"> BAR/Board Examination Review
-                                                            <input type="text" name="for_text_input" class="stud_dis" id="bar_txt" style="margin-left: 25px; width: 250px" />
+                                                            <input type="radio" id="checkboxSuccess" class="vac_dis" value="7" name="leave_details"> BAR/Board Examination Review
+                                                            <input type="text" name="for_text_input" class="vac_dis" id="bar_txt" style="margin-left: 25px; width: 250px" />
                                                         </label><br>
 
                                                         <label><i>Other Purpose</i></label><br>
@@ -202,24 +215,24 @@
                                             <div class="input-group-addon" style="margin-bottom: 10px">
                                                 <i class="fa fa-calendar"></i>
                                             </div>
-                                                <input style="width: 70%" type="text" class="form-control datepickerInput1" id="inclusive11" name="inclusive_dates1[]" placeholder="Input date here..." required>
+                                            <input style="width: 70%" type="text" class="form-control datepickerInput1" id="inclusive11" name="inclusive_dates1[]" placeholder="Input date here..." required>
                                             <button style="width: 60px; margin-left: 15.5%" type="button" class="btn btn-sm btn-default deleteButton1"><strong>-</strong></button>
                                         </div>
                                     </div>
 
                                 </td>
                                 <td style="width: 50%; margin-top: 10px; vertical-align: top" rowspan="2">
-                                        <strong style="vertical-align: top">&nbsp;&nbsp;&nbsp;&nbsp;6.D COMMUTATION</strong>
-                                        <div class="has-success">
-                                            <div class="checkbox">
-                                                <label>
-                                                    <input type="radio" id="commutation" value="1" name="com_requested"> Requested
-                                                </label><br>
-                                                <label>
-                                                    <input type="radio" id="commutation" value="2" name="com_requested"> Not Requested
-                                                </label>
-                                            </div>
+                                    <strong style="vertical-align: top">&nbsp;&nbsp;&nbsp;&nbsp;6.D COMMUTATION</strong>
+                                    <div class="has-success">
+                                        <div class="checkbox">
+                                            <label>
+                                                <input type="radio" id="commutation" value="1" name="com_requested"> Requested
+                                            </label><br>
+                                            <label>
+                                                <input type="radio" id="commutation2" value="2" name="com_requested"> Not Requested
+                                            </label>
                                         </div>
+                                    </div>
                                 </td>
                             </tr>
                         </table>
@@ -242,19 +255,27 @@
 @section('js')
     @parent
     @include('form.form_leave_script')
-   <script>
+    <script>
         $('#inc_date').daterangepicker();
         $('input[name="leave_type"]').change(function(){
+
+            $('#inclusive11').attr({ required: true, disabled: false });
+
+            $('.has-success1 input[type="radio"]').prop('checked', false);
 
             $('.datepickerInput1').val("");
             $('#applied_num_days').val("");
 
             var val = this.value;
+            console.log('value', val);
+
+            com2();
 
             if(val == "OTHERS") {
                 $('#others_txt').prop('disabled', false);
                 $('input[name="for_text_input"]').prop('disabled', true).val("");
-
+                $('#commutation').prop('checked', false);
+                $('#commutation2').prop('checked', false);
             }else if(val == "VL") {
                 $('input[name="for_text_input"]').prop('disabled', true).val("");
 
@@ -323,9 +344,27 @@
 
         });
         $('input[class="others_dis"]').change(function(){
+            var val = this.value;
+            if(val == 8){
+                com();
+                $('#inclusive11').attr({ required: false, disabled: true });
+            }else{
+                com2();
+                $('#inclusive11').attr({ required: true, disabled: false });
+            }
+
             $('#within_txt, #abroad_txt, #in_hos_txt, #out_hos_txt, #master_txt, #bar_txt, #spec_txt').prop('disabled', true);
         });
 
+        function com(){
+            $('#commutation').prop('checked', true);
+            $('#commutation2').prop('checked', false);
+        }
+
+        function com2(){
+            $('#commutation').prop('checked', false);
+            $('#commutation2').prop('checked', true);
+        }
 
         function validate(evt) {
             var theEvent = evt || window.event;
@@ -337,5 +376,6 @@
                 if(theEvent.preventDefault) theEvent.preventDefault();
             }
         }
+
     </script>
 @endsection

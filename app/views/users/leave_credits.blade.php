@@ -7,7 +7,7 @@
             <strong> <i class="fa fa-check-square-o" aria-hidden="true"></i> {{ Session::get('name') }}</strong>
         </div>
     @endif
-    <h2 class="page-header">Leave Credits</h2>
+    <h2 class="page-header">Leave Creditshere</h2>
     <form class="form-inline form-accept" action="{{ asset('leave/credits') }}" method="GET">
         <div class="form-group">
             <input type="text" name="search" value="{{ $keyword }}" class="form-control" placeholder="Quick Search" autofocus>
@@ -59,9 +59,9 @@
                             <label class="text-danger">Special Privilege: @if($user->SPL) {{ $user->SPL }} @else 0 @endif</label>
                         </td>
                         <td>
-                            <button class="button btn-sm beginning_balance" style="background-color: #9C8AA5;color: white" data-toggle="modal" data-id="{{ $user->userid }}" data-vacation="{{ $user->vacation_balance }}" data-sick="{{ $user->sick_balance }}" data-target="#beginning_balance">Update Leave Balance</button>
-                            <button style="width: 80%" class="btn btn-info center-block col-md-2 leave_ledger" href="#leave_ledger"  data-id="{{ $user->userid }}" id="viewCard" name="viewCard" data-toggle="modal"
-                                    data-target="#leave_ledger"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>View Card</button>
+                            <button class="button btn-sm leave_balance" style="background-color: #9C8AA5;color: white" data-toggle="modal" data-id="{{ $user->userid }}" data-vacation="{{ $user->vacation_balance }}" data-sick="{{ $user->sick_balance }}" data-target="#leave_balance">Update Leave Balance</button>
+                            <button class="button btn-sm leave_ledger" style="background-color: #31b0d5;color: white" data-toggle="modal" data-id="{{ $user->userid }}" id="viewCard" name="viewCard" data-toggle="modal"
+                                    data-target="#leave_ledger"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>View Leave Balance</button>
                         </td>
                     </tr>
                 @endforeach
@@ -85,34 +85,32 @@
         });
 
         //to be updatedddd
-        function updatePeriod(button) {
-            var row = $(button).closest('tr');
-            $('.userid').val($('.user_iid').val());
-            var rowData = {};
-            row.find('td').each(function (cellIndex, cell) {
-                var columnName = 'data' + (cellIndex+1);
-                rowData[columnName] = $(cell).text().trim();
-            });
-
-            $('#range').val(rowData.data1);
-        }
+//        function updatePeriod(button) {
+//            var row = $(button).closest('tr');
+//            $('.userid').val($('.user_iid').val());
+//            var rowData = {};
+//            row.find('td').each(function (cellIndex, cell) {
+//                var columnName = 'data' + (cellIndex+1);
+//                rowData[columnName] = $(cell).text().trim();
+//            });
+//
+//            $('#range').val(rowData.data1);
+//        }
 
         $(document).ready(function () {
-            console.log("akjdjsd");
             $("#viewCard").on("click", function(){
                 $("#ledger_body").empty();
             });
 
             $(".leave_ledger").on('click', function(){
+                $("#ledger_body").empty();
                 var userid= $(this).data('id');
                 $('.user_iid').val(userid);
                 console.log('suerid', userid);
                 var name = $(this).closest("tr").find(".name-cell").text();
                 <?php if(isset($leave_card) && count($leave_card)>0){ ?>
-                console.log("vshduyjf");
                 <?php foreach($leave_card as $card){?>
                 var id = "<?php echo $card->userid;?>";
-                console.log("userid", userid);
                 if(id==userid){
 
                     <?php
@@ -124,15 +122,20 @@
                         }
                         echo "var division=".json_encode(($div_p)? $div_p : '' ).";";
                         ?>
-                    $('.name').html("NAME: " + name + "<span style='margin-left: 100px; '> DIVISION/OFFICE:</span> " + division);
+                    $('.name').html("NAME: " + name + "<span style='margin-left: 100px; color:white;'> DIVISION/OFFICE:</span> " + division);
 
                     var tabledata1 = "<tr>" +
                         <?php if ($card->period !== null): ?>
-                            "<td style= 'border: 1px solid black'><a href= '#' data-toggle='modal' onclick='updatePeriod(this)' data-target='#update_period'><?php echo $card->period; ?></a></td>"+
+                            "<td style= 'border: 1px solid black'><?php echo $card->period; ?></td>"+
                         <?php else: ?>
                             "<td style= 'border: 1px solid black'></td>"+
                         <?php endif; ?>
-                        "<td style= 'border: 1px solid black'><?php echo $card->particulars; ?></td>" +
+                        <?php if (strpos($card->particulars, 'deduct') !== false): ?>
+                            "<td style= 'border: 1px solid black'><a href= '#' data-toggle='modal' onclick='checkAbsence(this)' data-target='#modify_deduction'><?php echo $card->particulars; ?></a></td>" +
+                        <?php else: ?>
+                            "<td style= 'border: 1px solid black'><?php echo $card->particulars; ?></td>" +
+                        <?php endif; ?>
+
                         "<td style= 'border: 1px solid black'><?php echo $card->vl_earned; ?></td>" +
                         "<td style= 'border: 1px solid black'><?php echo $card->vl_abswp; ?></td>" +
                         "<td style= 'border: 1px solid black'><?php echo $card->vl_bal; ?></td>" +
@@ -141,7 +144,10 @@
                         "<td style= 'border: 1px solid black'><?php echo $card->sl_abswp; ?></td>" +
                         "<td style= 'border: 1px solid black'><?php echo $card->sl_bal; ?></td>" +
                         "<td style= 'border: 1px solid black'><?php echo $card->sl_abswop; ?></td>" +
-                        "<td style= 'border: 1px solid black'><?php echo !empty($card->date_used)?$card->date_used: ''; ?></td>";
+                        "<td style= 'border: 1px solid black'><?php echo !empty($card->date_used)?$card->date_used: ''; ?></td>" +
+                        "<td style='display:none'><?php echo $card->userid; ?></td>" +
+                    "<td style='display:none'><?php echo $card->id; ?></td>";
+
                     tabledata1 += "</tr>";
                     $('#ledger_body').append(tabledata1);
                 }
@@ -151,20 +157,63 @@
             });
         });
 
-        $(".beginning_balance").on('click',function(e){
-            $('.modal-body').html(loadingState);
+        $(".leave_balance").on('click',function(e){
+            $('.leave_modal').html(loadingState);
             var vacation = $(this).data('vacation');
             var sick = $(this).data('sick');
             var userid = $(this).data('id');
-            $("#userid").val(userid);
+            $("#userid_bal").val(userid);
+            $(".leave_title").text(userid);
             setTimeout(function(){
-                $('.modal-body').html(
-                    "<label class='text-success'>Vacation Balance</label>" +
-                    "<input type='number' class='form-control' id='vacation' value='"+vacation+"' name='vacation' required>" +
-                    "<label class='text-success'>Sick Balance</label>" +
-                    "<input type='number' class='form-control' id='sick' value='"+sick+"' name='sick' required>");
+                $('.leave_modal').html(
+
+                "<table class='table'>"+
+                    "<tr>" +
+                        "<td class='col-sm-3'><strong>Vacation Balance</strong></td>" +
+                        "<td class='col-sm-1'>: </td>" +
+                        "<td class='col-sm-9'>" +
+                            "<input type='text' class='form-control ' id='vacation' value='"+vacation+"' name='vacation' required>" +
+                        "</td>" +
+                    "</tr>" +
+                    "<tr>" +
+                        "<td class='col-sm-3'><strong>Sick Balance</strong></td>" +
+                        "<td class='col-sm-1'>: </td>" +
+                        "<td class='col-sm-9'>" +
+                            "<input type='text' class='form-control' id='sick' value='"+sick+"' name='sick' required>" +
+                        "</td>" +
+                    "</tr>" +
+                "</table>");
             },500);
         });
+
+
+        function checkAbsence(button) {
+            $("#option2").show();
+            var row = $(button).closest('tr');
+            var rowData = {};
+            row.find('td').each(function(cellIndex, cell) {
+                var columnName = 'data' + (cellIndex + 1);
+                rowData[columnName] = $(cell).text().trim();
+            });
+            var dates = (rowData.data11).split("-");
+            var get_year = moment(dates[1],'MMMM D, YYYY');
+            var start = dates[0] +', '+get_year.year();
+            var startDate = moment(start,'MMMM D, YYYY');
+            var end = startDate.format('MMMM')+ " "+dates[1];
+            var endDate = moment(end, 'MMMM D, YYYY');
+            $('#month_date').daterangepicker({
+                startDate: startDate,
+                endDate: endDate,
+                locale: {
+                    format: 'MM/DD/YYYY'
+                }
+            });
+            $('#month_date').val(startDate.format('MM/DD/YYYY') + ' - ' + endDate.format('MM/DD/YYYY'));
+            var total = rowData.data10 / 0.0417;
+            $(".modify_userid").val(rowData.data12);
+            $(".card_id").val(rowData.data13);
+            $("#absence").val(total.toFixed(0));
+        }
     </script>
 @endsection
 
