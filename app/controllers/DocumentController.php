@@ -735,7 +735,8 @@ class DocumentController extends BaseController
                 "section_head" => $section_head,
                 "division_head" => $division_head,
                 "bbalance_cto" => $personal_information->bbalance_cto,
-                "inclusiveDates"=> $inclusiveDates
+                "inclusiveDates"=> $inclusiveDates,
+                "server_date" => date('Y-m-d')
             );
 //            return $inclusiveDates->cdo_hours;
             return View::make('cdo.cdo_view',['data' => $data]);

@@ -299,7 +299,8 @@ class cdoController extends BaseController
             "division" => $division,
             "section_head" => $section_head,
             "division_head" => $division_head,
-            "bbalance_cto" => $personal_information->bbalance_cto
+            "bbalance_cto" => $personal_information->bbalance_cto,
+            "server_date" => date('Y-m-d')
         );
 
 
