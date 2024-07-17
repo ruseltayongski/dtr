@@ -392,12 +392,11 @@
         if(client_date != server_date){
             Lobibox.alert('error', //AVAILABLE TYPES: "error", "info", "success", "warning"
                 {
-                    msg: "Please ensure your date is set to the current date. After verifying, refresh the page to avoid any inaccuracies."
+                    msg: "Please ensure your date is set to the current date. After verifying, refresh the page and clear cache to avoid any inaccuracies."
                 });
         }
         console.log('server_date', server_date);
         console.log('client_date', client_date);
-
 
             <?php
             $privilege_employee = PrivilegeEmployee::get();
