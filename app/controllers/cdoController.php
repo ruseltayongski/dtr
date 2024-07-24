@@ -262,8 +262,8 @@ class cdoController extends BaseController
             $manually_added = [985329, 273, 11, 93053, 986445, 984538, 985950, 80, 976017, 466];
 
             foreach(pdoController::section() as $row) {
-                if ($row['acronym'] !== null || in_array($row['head'], [37, 72, 243, 614, 110, 5, 163, 648384, 985698, 160, 985950, 830744])) {
-                    if(!in_array($row['head'], [172, 173, 96, 53, 114, 442, 155, 91])){
+                if ($row['acronym'] !== null || in_array($row['head'], [37, 72, 243, 614, 110, 5, 163, 648384, 160, 985950, 830744])) {
+                    if(!in_array($row['head'], [172, 173, 96, 53, 114, 442, 155, 91, 6])){
                         if(!in_array($row['head'], $id_list)){
                             $id_list[]=$row['head'];
                         }
@@ -271,9 +271,6 @@ class cdoController extends BaseController
                 }
             }
             $list = array_merge($id_list,$manually_added);
-//            $section_head[] = pdoController::user_search1(985329);
-//            return implode(', ', $list);
-            // return pdoController::user_search1(2691);
             foreach ($list as $data_list){
                 $section_head[] = pdoController::user_search1($data_list);
             }

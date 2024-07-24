@@ -291,7 +291,9 @@
                                     @endif
                                     @if(count($data['section_head']) > 0)
                                         @foreach($data['section_head'] as $section_head)
-                                            @if(isset($section_head['id']))
+                                            @if($data['section_head'][0]['id'] != $section_head['id'] and $data['type'] == 'update')
+                                                <option value="{{ $section_head['id'] }}">{{ $section_head['fname'].' '.$section_head['mname'].' '.$section_head['lname'] }}</option>
+                                            @elseif($data['type'] == 'add')
                                                 <option value="{{ $section_head['id'] }}">{{ $section_head['fname'].' '.$section_head['mname'].' '.$section_head['lname'] }}</option>
                                             @endif
                                         @endforeach
