@@ -256,6 +256,11 @@ class DocumentController extends BaseController
 
     public function all_leave()
     {
+        if(Auth::user()->userid != "0190046"){
+            return "still under development";
+        }
+        // return "still under development";
+
         $userid = Auth::user()->userid;
         $pis = InformationPersonal::where("userid","=",$userid)->first();
         $division = Division::where('id', $pis->division_id)->first();

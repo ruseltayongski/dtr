@@ -468,38 +468,63 @@
     <strong style="color:white;">Loading.....</strong>
 </center>
 
-
 <div class="modal fade" tabindex="-1" role="dialog" id="modal_leave_approved">
     <div class="modal-dialog modal-sm" role="document">
         <div class="modal-content">
             <div class="modal-header" style="background-color:#9C8AA5;color: white;">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title"> 7.C APPROVED FOR:</h4>
+                <h4 class="modal-title"> MONETIZATION:</h4>
             </div>
-            <form action="<?php echo asset('leave/approved'); ?>" method="POST">
+            <form action="<?php echo asset('leave/approved'); ?>" id="approved_form" method="POST">
                 <div class="modal-body">
                     <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
                     <input type="hidden" value="" name="route_no" id="leave_route_approved" />
+                    <input type="hidden" name="monetization" value="monetization">
                     <b>
-                        <div class="has-success">
-                            <div class="checkbox">
-                                <label>
-                                    <input type="radio" value="1" name="approved_for"> days with pay
-                                </label><br>
-                                <label>
-                                    <input type="radio" value="2" name="approved_for"> days without pay
-                                </label>
-                                <label>
-                                    <input type="radio" value="3" name="approved_for"> others (Specify)
-                                    <input type="text"  name="for_others" style=" height: 40px;width: 250px" />
-                                </label>
+                        <div class="">
+                            <div class="row">
+                                <label>VL Balance:</label>
+                                <input class="mon_vl" name="mon_vl" value="Balance" readonly>
+                            </div>
+                            <div class="row">
+                                <label>SL Balance:</label>
+                                <input class="mon_sl" name="mon_sl" value="Balance" readonly>
+                            </div>
+                            <div class="row">
+                                <label>50% MONETIZATION:</label>
+                            </div>
+                            <div class="row">
+                                <label style="">No of Days:</label>
+                                <input type="number" name="days" placeholder="10,15,20,25,30">
+                            </div>
+                            <div class="row">
+                                <label style="margin-right:52px;">VL:</label>
+                                <input type="number" name="vl_deduct">
+                            </div>
+                            <div class="row">
+                                <label style="margin-right:52px;">SL:</label>
+                                <input type="number" name="sl_deduct">
                             </div>
                         </div>
+                        <?php /*<div class="has-success">*/ ?>
+                        <?php /*<div class="checkbox">*/ ?>
+                        <?php /*<label>*/ ?>
+                        <?php /*<input type="radio" value="1" name="approved_for"> days with pay*/ ?>
+                        <?php /*</label><br>*/ ?>
+                        <?php /*<label>*/ ?>
+                        <?php /*<input type="radio" value="2" name="approved_for"> days without pay*/ ?>
+                        <?php /*</label>*/ ?>
+                        <?php /*<label>*/ ?>
+                        <?php /*<input type="radio" value="3" name="approved_for"> others (Specify)*/ ?>
+                        <?php /*<input type="text"  name="for_others" style=" height: 40px;width: 250px" />*/ ?>
+                        <?php /*</label>*/ ?>
+                        <?php /*</div>*/ ?>
+                        <?php /*</div>*/ ?>
                     </b>
                 </div>
                 <div class="modal-footer">
-                    <input type="submit" class="btn btn-success">
                     <button type="button" class="btn btn-warning" data-dismiss="modal">Cancel</button>
+                    <input type="submit" class="btn btn-success">
                 </div>
             </form>
         </div><!-- /.modal-content -->
@@ -665,9 +690,9 @@
     <div class="modal-dialog modal-sm" role="document" id="size">
         <div class="modal-content">
             <form action="<?php echo asset('update_bbalance'); ?>" method="get">
-                <div class="modal-header" style="background-color: #9C8AA5;">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title"><i class="fa fa-pencil"></i> Update Beginning Balance</h4>
+                <div class="modal-header" style="background-color: #9C8AA5; color:white">
+                    <button type="button" class="close" data-dismiss="modal" style="color:white" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="title"><i class="fa fa-pencil"></i> Update Beginning Balance</h4>
                 </div>
                 <div>
                     <table class="table">
@@ -742,39 +767,38 @@
 
             <div class="header-container">
                 <div class="modal-header sticky-top" style="background-color: #9C8AA5;">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="close">
-                        <span aria-hidden="true">&times;</span>
+                    <button type="button" style='color:white;' class="close" data-dismiss="modal" aria-label="Close" id="close">
+                        <span aria-hidden="true" >&times;</span>
                     </button>
-                    <b><label style="font-size: 15px; color: black; margin-bottom: 2px" class="name"></label></b>
+                    <b><label style="font-size: 15px; color: white; margin-bottom: 2px" class="name"></label></b>
                     <strong><h4 class="modal-title"></h4></strong>
                 </div>
             </div>
                 <div  style="max-height: calc(100vh - 50px); overflow-y: auto;">
-                    <table class="table" id="card_table table-bordered"  style="border-collapse: collapse;">
-                        <thead style="position:sticky; top: 0; z-index: 5;">
-                        <tr>
-                            <th rowspan="2" STYLE="vertical-align: middle; border: 1px solid black">PERIOD</th>
-                            <th rowspan="2" STYLE="vertical-align: middle; border: 1px solid black">PARTICULARS</th>
-                            <th colspan="4" style="text-align: center; border: 1px solid black">VACATION LEAVE
-                            <th colspan="4" style="text-align: center; border: 1px solid black">SICK LEAVE
-                            <th rowspan="2" STYLE="vertical-align: middle; border: 1px solid black">DATE AND ACTION TAKEN ON APPL. FOR LEAVE</th>
-                            <th type="hidden"></th>
-                        </tr>
-                        <tr>
-                            <th style="border: 1px solid black">EARNED</th>
-                            <th style="border: 1px solid black">ABS.UND.W/P</th>
-                            <th style="border: 1px solid black">BAL.</th>
-                            <th style="border: 1px solid black">ABS.UND.WOP</th>
-                            <th style="border: 1px solid black">EARNED</th>
-                            <th style="border: 1px solid black">ABS.UND.W/P</th>
-                            <th style="border: 1px solid black">BAL.</th>
-                            <th style="border: 1px solid black">ABS.UND.WOP</th>
-                        </tr>
+                    <table class="table table-list table-hover table-striped" id="card_table table-bordered"  style="border-collapse: collapse;">
+                        <thead style="position:sticky; top: 0; z-index: 5; background-color: darkgray;">
+                            <tr>
+                                <th rowspan="2" STYLE="vertical-align: middle; color: white ">PERIOD</th>
+                                <th rowspan="2" STYLE="vertical-align: middle; color: white">PARTICULARS</th>
+                                <th colspan="4" style="text-align: center; border-bottom: 1px solid darkgray; position:static; color: white">VACATION LEAVE</th>
+                                <th colspan="4" style="text-align: center; border-bottom: 1px solid darkgray; position:static; color: white">SICK LEAVE</th>
+                                <th rowspan="2" STYLE="vertical-align: middle;color: white ">DATE AND ACTION TAKEN ON APPL. FOR LEAVE</th>
+                                <?php /*<th type="hidden"></th>*/ ?>
+                            </tr>
+                            <tr>
+                                <th style="color: white">EARNED</th>
+                                <th style="color: white">ABS.UND.W/P</th>
+                                <th style="color: white">BAL.</th>
+                                <th style="color: white">ABS.UND.WOP</th>
+                                <th style="color: white">EARNED</th>
+                                <th style="color: white">ABS.UND.W/P</th>
+                                <th style="color: white">BAL.</th>
+                                <th style="color: white">ABS.UND.WOP</th>
+                            </tr>
                         </thead>
                         <tbody id="ledger_body" name="ledger_body" style="overflow-y: auto;"></tbody>
                     </table>
                 </div>
-
             <div class="modal-footer">
                 <input type ="hidden"value="" id="user_iid" name="user_iid">
             </div>
@@ -849,6 +873,7 @@
         </div>
     </div>
 </div>
+
 <div class="modal fade" tabindex="5" role="dialog" id="falsification" style="align-content: center">
     <div class="modal-dialog modal-lg" role="document" id="size" style="width: 1100px;">
         <div class="modal-container" id="falsification" >
@@ -878,6 +903,216 @@
         </div>
     </div>
 </div>
+<div class="modal fade" tabindex="-1" role="dialog" id="application_details">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4><i class="fa fa-info-circle" ></i>Leave Application Details</h4>
+            </div>
+            <div class="modal-body">
+                <table class="table table-hover table-form table-striped">
+                    <tr style="border: 1px solid black">
+                        <td class="col-sm-8 text-center" style="border: 1px solid black"><span type="text"><b>INSTRUCTIONS AND REQUIREMENTS</b></span></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div style="float:left; text-align: justify; width: calc(50% - 15px); margin-right: 10px;">
+                                <p>
+                                    Application for any type of leave shall be made on this Form and <u><b>to be accomplished at least in duplicate</b></u>
+                                    with documentary requirements, as follows:
+                                </p>
+                                <b>1. Vacation leave*</b>
+                                <p style="margin-left: 15px">
+                                    It shall be filed five (5) days in advance, whenever possible, of the effective date of such leave. Vacation leave within in he Philippines or
+                                    abroad shall be indicated in the form for purposes of such securing travel authority and completing clearance from money and work accountabilities.
+                                </p>
+                                <b>2. Mandatory/Forced leave</b>
+                                <p style="margin-left: 15px">
+                                    Annual five-day vacation leave shall be forfeited if not taken during the year. In case the scheduled leave has been cancelled in the exigency
+                                    of the service by the head of agency, it shall no longer be deducted from the accumulated vacation leave. Availment of one (1) day or more Vacation
+                                    Leave (VL) shall be considered for complying the mandatory/forced leave subject to the conditions under Section 25, Rule  XVI of the Omnibus Rules
+                                    Implementing E.O No. 292.
+                                </p>
+                                <b>3. Sick leave*</b>
+                                <p style="margin-left: 15px">
+                                    <b>&bull;</b> It shall be filed immediately upon employee's return from such leave.<br>
+                                    <b>&bull;</b> If filed in advance or exceeding five (5) days, application shall be accompanied by a <u>medical certificate</u>. In case medical
+                                    consultation was not availed of, an <u>affidavit</u> should be executed by an applicant.
+                                </p>
+                                <b>4. Maternity leave* - 105 days</b>
+                                <p style="margin-left: 15px">
+                                    <b>&bull;</b> Proof of pregnancy e.g. ultrasound, doctor's certificate on the expected date of delivery.<br>
+                                    <b>&bull;</b> Accomplished Notice of Allocation of Maternity Leave Credits (CS Form No. 6a), if needed.
+                                    <b>&bull;</b> Seconded female employees shall enjoy maternity leave with full pay in the recipient agency.
+                                </p>
+                                <b>5. Paternity leave - 7 days</b>
+                                <p style="margin-left: 15px">
+                                    Proof of child's delivery e.g. birth certificate, medical certificate and marriage contract.
+                                </p>
+                                <b>6. Special Privilege leave - 3 days</b>
+                                <p style="margin-left: 15px">
+                                    It shall be filed/approved for at least one (1) week prior to availment, except on emergency cases. Special privilege leave within the Philippines or
+                                    abroad shall be indicated in the form from money and work accountabilities.
+                                </p>
+                                <b>7. Solo Parent leave - 7 days</b>
+                                <p style="margin-left: 15px">
+                                    It shall be filed in advance of whenevr possible five (5) days before going such leave with updated Solo Parent Identification Card.
+                                </p>
+                                <b>8. Study leave* - up to 6 months</b>
+                                <p style="margin-left: 15px">
+                                    <b>&bull;</b> Shall meet the agency's internal requirements, if any;<br>
+                                    <b>&bull;</b> Contract between the agency head or authorized representative and employee concerned.
+                                </p>
+                                <b>9. VAWC leave - 10 days</b>
+                                <p style="margin-left: 15px">
+                                    <b>&bull;</b> It shall be filed in advance or immediately upon the woman employee's return from such leave.<br>
+                                    <b>&bull;</b> It shall be accompanied by any of the following supporting documents:
+                                </p>
+                                <p style="margin-left: 25px">
+                                    a. Barangay Protection Order (BPO) obtained from the barangay;<br>
+                                    b. Temporary/Permanent Protection Order (TPO/PPO) obtained from the court;<br>
+                                    b. If the protection order is not yet issued by the barangay or the court, a certification issued by the Punong Barangay/Kagawad or
+                                    Prosecuter or the Clerk of Court that the application for the BPO,
+                                </p>
+                            </div>
+                            <div style="float:right; width:50%; text-align: justify;">
+                                <p style="margin-left: 25px">
+                                    TPO or PPO has been filed with the said office shall be sufficient to support the application for the ten-day leave; or<br>
+                                    d. In the absence of the BPO/TPO/PPO or the certification, a police report specifying the details of the occurrence of
+                                    violence on the victim and a medical certificate may be considered, at the discretion of the immediate supervisor of the
+                                    woman employee concerned.
+                                </p>
+                                <b>10. Rehabilitation leave* - up to 6 months</b>
+                                <p style="margin-left: 15px">
+                                    <b>&bull;</b> Application shall be made within one (1) week from the time of the accident except when a longer period is warranted.<br>
+                                    <b>&bull;</b> Letter request supported by relevant reports such as the police report, if any,<br>
+                                    <b>&bull;</b> Medical certificate on the nature of the injuries, the course of treatment involved, and the need to undergo rest, recuperation,
+                                    and rehabilitation, as the case may be.<br>
+                                    <b>&bull;</b> Written concurrence of a government physician should be obtained relative to the recommendation for the rehabilitation
+                                    if the attending physician is a private practitioner, particularly on the duration of the period of rehabilitation.<br>
+                                </p>
+                                <b>11. Special leave benefits for women* - up to 2 months</b>
+                                <p style="margin-left: 15px">
+                                    <b>&bull;</b> The application may be filed in advance, that is, at least five (5) days prior to the scheduled date of the gynecological surgery
+                                    that will be undergone by the employee. In case of emergency, the application for special leave shall be filed immediately upon the employee's
+                                    return but during the confinement the agency shall be notified of said surgery.<br>
+                                    <b>&bull;</b> The application shall be accompanied by a medical certificate filled out by the proper medical authorities, e.g. the attending
+                                    surgeon accompanied by a clinical summary reflecting the gynecological disorder which shall be addressed or was addressed by the said surgery;
+                                    the histopathological report; the operative technique used for the surgery; the duration of the surgery including the perioperative period
+                                    (period of confinement around surgery); as well as the employees estimated period of recuperation for the same.
+                                </p>
+                                <b>12. Special Emergency (Calamity) leave - up to 5 days</b>
+                                <p style="margin-left: 15px">
+                                    <b>&bull;</b> The special emergency leave can be applied for a maximum of five (5) straight working days or staggered basis within thirty (30)
+                                    days from the actual occurence of the natural calamity/. Said privilege shall be enjoyed once a year, not in every instance of calamity or
+                                    disaster.<br>
+                                    <b>&bull;</b> The head of office shall take full responsibility for the grant of special emergency leave and verification of the employee's
+                                    eligibility to be granted thereof. Said verification shall include: validation of place of residence based on latest available records of the
+                                    affected employee; verification that the place of residence is covered in the declaration of calamity area by the proper government agency;
+                                    and such other proofs as may be necessary.
+                                </p>
+                                <b>13. Monetization of leave credits</b>
+                                <p style="margin-left: 15px">
+                                    Application for monetization of fifty percent (50%) or more of the accumulated leave credits shall be accompanied by letter request to the head
+                                    of the agency stating the valid and justifiable reasons.
+                                </p>
+                                <b>14. Terminal leave*</b>
+                                <p style="margin-left: 15px">
+                                    Proof of employee's resignation or retirement or separation from the service.
+                                </p>
+                                <b>15. Adoption Leave</b>
+                                <p style="margin-left: 15px">
+                                    <b>&bull;</b> Application for adoption leave shall be filed with an authenticated copy of the Pre-Adoptive Placement Authority issued by the
+                                    Department of Social Welfare and Development (DSWD).
+                                </p>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-sm-8 text-justify">
+                            <p>
+                                ____________________________________<br>
+                                &bull; For leave of absence for thirty (30) calendar days or more and terminal leave, application shall be accompanied by a
+                                <u>clearance from money, property and work-related accountabilities</u> (pursuant to CSC Memorandum Circular No. 2, s. 1985).
+                            </p>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<div class="modal fade" tabindex="5" role="dialog" id="leave_balance">
+    <div class="modal-dialog modal-sm" role="document" id="size">
+        <div class="modal-content" id="leave_balance">
+            <form action="<?php echo asset('leave/update_balance'); ?>" method="post">
+                <input type="hidden" id="userid_bal" name="userid_bal">
+                <div class="modal-header" style="background-color: orange">
+                    <strong><h4 class="leave_title" style="display: inline-block"></h4></strong>
+                    <button style="display: inline-block" type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="leave_modal">
+
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" value="specific_date" class="btn btn-success">Update</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="modal fade" tabindex="8" role="dialog" id="modify_deduction">
+    <div class="modal-dialog modal-sm" role="document" id="size">
+        <div class="modal-content">
+            <form action="<?php echo asset('update_absence'); ?>" method="post">
+                <div class="modal-header" style="background-color: #9C8AA5; color:white">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title"><i class="fa fa-pencil"></i> Update Leave Balance</h4>
+                </div>
+                <div>
+                    <table class="table">
+                        <tr>
+                            <td class="col-sm-3"><strong>User Id </strong></td>
+                            <td class="col-sm-1">: </td>
+                            <td class="col-sm-9">
+                                <input type="text" class="col-md-2 form-control modify_userid" id="user_id" name="user_id" value="" disabled>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-sm-3"><strong>Month</strong></td>
+                            <td class="col-sm-1"> :</td>
+                            <td class="col-sm-9">
+                                <div class="input-group">
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-calendar"></i>
+                                    </div>
+                                    <input class="form-control datarangepicker" value="" id="month_date" name="month_date" placeholder="select month range..." required autocomplete="off">
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-sm-3"><strong>Deduction/ Absence </strong></td>
+                            <td class="col-sm-1">: </td>
+                            <td class="col-sm-9">
+                                <input type="number" class="col-md-2 form-control" id="absence" name="absence" value="" required autocomplete="off">
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <input type="hidden" class="card_id" name="card_id">
+                    <button type="submit" value="update" name="action" class="btn btn-success" style="color:white;" ><i class="fa fa-pencil"> Update</i></button>
+                    <button type="submit" value="delete" name="action" class="btn btn-danger" style="color:white;"><i class="fa fa-trash"> Delete</i></button>
+                </div>
+            </form>
+
+        </div><!-- .modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 
 
 

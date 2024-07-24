@@ -70,7 +70,7 @@
         @endif
     </div>
     <div class="modal fade" tabindex="-1" role="dialog" id="ledger">
-        <div class="modal-dialog modal-xl" role="document" id="size" style=" width: 70%;">
+        <div class="modal-dialog modal-xl" role="document" id="size" style="max-width:1250px; width:100%;">
             <div class="modal-content">
                 <div class="header-container">
                     <div class="modal-header sticky-top" style="background-color: #9C8AA5;">
@@ -84,13 +84,13 @@
                     <table class="table  table-list table-hover table-striped" id="card_table">
                         <thead style="position:sticky; top: 0; z-index: 5;">
                             <tr style="text-align: center; color:white;">
-                                <th style="align-items: center;  color:white; width: 25%" colspan="5">No. Of Hours Earned/Beginning Balance</th>
-                                <th style="color:white;" colspan="5">Date of Overtime</th>
-                                <th style="color:white;"># of Hours Used</th>
-                                <th style="width: 19%;color:white;">Date Used</th>
-                                <th style="color:white;">Bal. Credits</th>
-                                <th style="color:white;">As Of</th>
-                                <th style="color:white;">Remarks</th>
+                                <th style="align-items: center; color: white; background-color: darkgray;" colspan="5">No. Of Hours Earned/Beginning Balance</th>
+                                <th style=" color: white;background-color: darkgray;">Date of Overtime</th>
+                                <th style=" color: white;background-color: darkgray;">No. of Hours Used</th>
+                                <th style="width: 19%; color: white;background-color: darkgray;">Date Used</th>
+                                <th style=" color: white;background-color: darkgray;">Balance Credits</th>
+                                <th style=" color: white;background-color: darkgray;">As Of</th>
+                                <th style=" color: white;background-color: darkgray;">Remarks</th>
                             </tr>
                         </thead>
                         <tbody id="t_body" name="t_body" style="overflow-y: auto;">

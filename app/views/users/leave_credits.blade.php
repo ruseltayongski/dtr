@@ -7,7 +7,7 @@
             <strong> <i class="fa fa-check-square-o" aria-hidden="true"></i> {{ Session::get('name') }}</strong>
         </div>
     @endif
-    <h2 class="page-header">Leave Creditshere</h2>
+    <h2 class="page-header">Leave Credits</h2>
     <form class="form-inline form-accept" action="{{ asset('leave/credits') }}" method="GET">
         <div class="form-group">
             <input type="text" name="search" value="{{ $keyword }}" class="form-control" placeholder="Quick Search" autofocus>

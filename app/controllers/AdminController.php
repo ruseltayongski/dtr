@@ -521,35 +521,7 @@ class AdminController extends BaseController
 
     public function track_leave() // leave applications
     {
-//        return "Leave is under development!";
-//        return 1;
-        function conn(){
-//            $server = '192.168.110.31';
-            $server = '';
-            try{
-                $pdo = new PDO("mysql:host=localhost; dbname=dohdtr",'root','D0h7_1T');
-                $pdo->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
-            }
-            catch (PDOException $err) {
-                echo "<h3>Can't connect to database server address $server</h3>";
-                exit();
-            }
-            return $pdo;
-        }
-
-        function getLogs($query_req){
-        $pdo = conn();
-
-        try {
-            $st = $pdo->prepare($query_req);
-            $st->execute();
-            $row = $st->fetchAll(PDO::FETCH_ASSOC);
-        }catch(PDOException $ex){
-            echo $ex->getMessage();
-            exit();
-        }
-            return $row;
-        }
+        return "not yet ready";
 
         Session::put('keyword',Input::get('keyword'));
         $keyword = Session::get('keyword');
