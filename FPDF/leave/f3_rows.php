@@ -1,28 +1,28 @@
 <?php
 
 $pdf->Ln();
-$pdf->setX('5');
-$pdf->Cell(97.5,40,'',1);
-$pdf->Cell(102.5,40,'',1);
-
+$pdf->setX('15');
+$pdf->Cell(97.5,35,'',1);
+$pdf->Cell(82.5,35,'',1);
+//
 $pdf->SetFont('Arial','',8);
-$pdf->Text(7,153,'6.C NUMBER OF WORKING DAYS APPLIED FOR');
-$pdf->Text(25,158,$leave['applied_num_days']);
-$pdf->Image(__DIR__.'../../image/line.png', 15,159,80,0.6);
+$pdf->Text(16,183,'6.C NUMBER OF WORKING DAYS APPLIED FOR');
+$pdf->Text(50,188.5, (int) $leave['applied_num_days']);
+$pdf->Image(__DIR__.'../../image/line.png', 22,188.5,80,0.6);
 
-$pdf->Text(13,165,'INCLUSIVE DATES :');
-$pdf->SetFont('Arial','',8);
-$y = 170;
-$yy = 171;
+$pdf->Text(25,194.5,'INCLUSIVE DATES :');
+//$pdf->SetFont('Arial','',8);
+$y = 202;
+$yy = 203;
 foreach ($applied_dates as $dates) {
     $start = date('F j, Y', strtotime($dates['startdate']));
     $end = date('F j, Y',strtotime($dates['enddate']));
     if($start == $end){
         $pdf->Text(25,$y,$start);
-        $pdf->Image(__DIR__.'../../image/line.png', 15,$yy,80,0.6);
+        $pdf->Image(__DIR__.'../../image/line.png', 22,$yy,80,0.6);
     }else{
         $pdf->Text(25   ,$y,$start.' - '. $end);
-        $pdf->Image(__DIR__.'../../image/line.png', 15,$yy,80,0.6);
+        $pdf->Image(__DIR__.'../../image/line.png', 22,$yy,80,0.6);
     }
     $y += 5;
     $yy = $y + 1;
@@ -39,23 +39,23 @@ foreach ($applied_dates as $dates) {
 //$pdf->Text(20,134.3,$half_day_message);
 $pdf->SetFont('Arial','',8);
 
-$pdf->Text(104,153,'6.D COMMUTATION');
-
+$pdf->Text(114,183,'6.D COMMUTATION');
+//
 if($leave['commutation'] == '1'){
-    $pdf->Image(__DIR__.'../../image/check.png', 115,156,4,4);
+    $pdf->Image(__DIR__.'../../image/check.png', 117,186,4,4);
 } else {
-    $pdf->Image(__DIR__.'../../image/square.png', 115,156,4,4);
+    $pdf->Image(__DIR__.'../../image/square.png', 117,186,4,4);
 }
-$pdf->Text(121,159,'Requested');
-
+$pdf->Text(122,189,'Requested');
+//
 if($leave['commutation'] == '2'){
-    $pdf->Image(__DIR__.'../../image/check.png', 115,162,4,4);
+    $pdf->Image(__DIR__.'../../image/check.png', 117,191.5,4,4);
 } else {
-    $pdf->Image(__DIR__.'../../image/square.png', 115,162,4,4);
+    $pdf->Image(__DIR__.'../../image/square.png', 117,191.5,4,4);
 }
-$pdf->Text(121,165,'Not Requested');
-
-$pdf->Image(__DIR__.'../../image/line.png', 113,180,83,0.6);
-$pdf->Text(138,184,'(Signature of Applicant)');
+$pdf->Text(122,195,'Not Requested');
+//
+$pdf->Image(__DIR__.'../../image/line.png', 122,203,72.8,0.6);
+$pdf->Text(138,207,'(Signature of Applicant)');
 
 ?>

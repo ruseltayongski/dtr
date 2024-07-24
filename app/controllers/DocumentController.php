@@ -342,11 +342,11 @@ class DocumentController extends BaseController
         $pdf->loadHTML($display)->setPaper('a4', 'portrait');
         return $pdf->stream();
     }
+
     public function print_leave($id)
     {
-
         $leave = Leave::find($id);
-        $display = View::make('pdf.leave_update')->with('leave', $leave);
+        $display = View::make('form.print_leave_pdf')->with('leave', $leave);
         return PDF::load($display, 'LEGAL', 'portrait')->show();
     }
 
