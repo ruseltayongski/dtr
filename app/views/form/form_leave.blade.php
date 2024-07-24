@@ -10,17 +10,18 @@
         }
     </style>
     <div class="panel panel-default">
-        <div>
+        <div style="margin-top: 50px; margin-left: 50px; margin-right: 40px">
 
-            <table cellpadding="0" cellspacing="0" width="100%" style="margin-top: 10px">
+            <table cellpadding="0" cellspacing="0" width="100%" style="margin-top: 30px">
                 <tr>
-                    <td class="align" width="12%" style="text-align: center; vertical-align: top;"><small>Civil Service Form No(create). 6<br>Revised 2020</small></td>
-                    <td class="align" width="12%" style="text-align: right"><img src="{{ asset('public/img/doh.png') }}" width="100" ></td>
+                    <td class="align" width="12%" style="text-align: center; vertical-align: top;"><small>Civil Service Form No. 6<br><i>Revised 2020</i></small></td>
+                    <td class="align" width="12%" style="text-align: right; "><br><br><img src="{{ asset('public/img/doh.png') }}" width="100" ></td>
                     <td width="58%" >
+                        <br><br>
                         <div class="align small-text" style="text-align: center">
                             Republic of the Philippines<br>
                             <strong>DEPARTMENT OF HEALTH<br>
-                                CENTRAL VISAYAS CENTER for HEALTH DEVELOPMENT<br></strong>
+                                CENTRAL VISAYAS CENTER for HEALTH DEVELOPMENTfor_leave<br></strong>
                             Osmeña Boulevard, Cebu City, 6000 Philippines<br>
                         </div>
                     </td>
@@ -30,11 +31,10 @@
                 </tr>
             </table>
         </div>
-
-        <div style="text-align: center;">
+        <div style="text-align: center; margin-top: 15px;">
             <h4><strong style="margin-left: 3em;">APPLICATION FOR LEAVE</strong></h4>
         </div>
-        <div>
+        <div style="margin-left: 50px; margin-right: 40px">
             <i>
                 <label>SPL Balance: </label>
                 <label id="spl" style="color:red;">{{($spl)?$spl->SPL:0}}</label>
@@ -46,7 +46,7 @@
                 <label id="sl" style="color:red;">{{($user->sick_balance != null)?$user->sick_balance:0}}</label>
             </i>
         </div>
-        <form action="{{ asset('form/leave') }}" method="POST">
+        <form action="{{ asset('form/leave') }}" method="POST" style="margin-top: 1px;margin-left: 50px; margin-right: 40px">
             <div class="panel-body">
                 <div class="row">
                     <div class="col-md-12">
@@ -56,7 +56,7 @@
                                 <div class="row">
                                     <div class="form-group">
                                         <label class="control-label" for="inputSuccess1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1. OFFICE/DEPARTMENT</label>
-                                        <input type="text" class="form-control" id="inputSuccess1" name="office_agency" value="DOH Central Visayas CHD" style="width:250px; margin-left: 80px;">
+                                        <input type="text" class="form-control" id="inputSuccess1" name="office_agency" value="DOH Central Visayas CHD" style="width:60%; margin-left: 20%;">
                                     </div>
                                 </div>
                             </td>
@@ -65,20 +65,20 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label class="control-label" for="inputSuccess1">2. NAME:</label>
-                                            <label class="control-label" for="inputSuccess1" style="margin-left: 25px"> (Last) </label>
-                                            <input type="text" class="form-control" id="inputSuccess1" name="lastname" value="{{ $user->lname }}" style=" width:200px; margin-left: 90px; margin-right: 10px">
+                                            <label class="control-label" for="inputSuccess1" style="margin-left: 20%"> (Last) </label>
+                                            <input type="text" class="form-control" id="inputSuccess1" name="lastname" value="{{ $user->lname }}" style=" width:85%; margin-left: 40%; margin-right: 5%">
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label class="control-label" for="inputSuccess1" style="margin-left: 80px">(First)</label>
-                                            <input type="text" class="form-control" id="inputSuccess1" name="firstname" value="{{ $user->fname }}" style="width:200px;  margin-left: 60px;">
+                                            <label class="control-label" for="inputSuccess1" style="margin-left: 40%">(First)</label>
+                                            <input type="text" class="form-control" id="inputSuccess1" name="firstname" value="{{ $user->fname }}" style="width:85%;  margin-left: 23%;">
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label class="control-label" for="inputSuccess1" style="margin-left: 80px">(Middle)</label>
-                                            <input type="text" class="form-control" id="inputSuccess1" name="middlename" value="{{ $user->mname }}" style=" width:200px; margin-left: 25px;">
+                                            <label class="control-label" for="inputSuccess1" style="margin-left: 25%">(Middle)</label>
+                                            <input type="text" class="form-control" id="inputSuccess1" name="middlename" value="{{ $user->mname }}" style=" width:85%; margin-left: 5%;">
                                         </div>
                                     </div>
                                 </div>

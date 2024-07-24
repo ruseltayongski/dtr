@@ -85,23 +85,23 @@
                                 <strong>6.A TYPE OF LEAVE TO BE AVAILED OF</strong>
                                 <br><br>
                                 @if(isset($leaveTypes))
-                                @foreach($leaveTypes as $row)
-                                    <div class="row">
-                                        @if($leave->leave_type == $row->code)
-                                            <span style="text-decoration: underline; margin-left: 40px" class="glyphicon glyphicon-ok" aria-hidden="true"></span>
-                                            @if($leave->leave_type == "OTHERS")
-                                                <u style="margin-left: 20px">{{$leave->for_others}}</u>
+                                    @foreach($leaveTypes as $row)
+                                        <div class="row">
+                                            @if($leave->leave_type == $row->code)
+                                                <span style="text-decoration: underline; margin-left: 40px" class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                                                @if($leave->leave_type == "OTHERS")
+                                                    <u style="margin-left: 20px">{{$leave->for_others}}</u>
+                                                @else
+                                                    <span style="margin-left: 22px;"> {{ $row->desc }} </span>
+                                                @endif
                                             @else
-                                                <span style="margin-left: 22px;"> {{ $row->desc }} </span>
+                                                <span style="margin-left: 80px;"> {{ $row->desc }} </span>
                                             @endif
-                                        @else
-                                            <span style="margin-left: 80px;"> {{ $row->desc }} </span>
-                                        @endif
 
 
-                                    </div>
-                                @endforeach
-                                    @endif
+                                        </div>
+                                    @endforeach
+                                @endif
                             </div>
                         </div>
                     </td>
@@ -215,15 +215,15 @@
                                 <strong >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Inclusive Dates : </strong><br>
 
                                 @foreach($leave_dates as $dates)
-                                <strong style="margin-left: 1%">
+                                    <strong style="margin-left: 1%">
 
-                                    @if(  date('F d,Y',strtotime($dates->startdate)) == date('F d,Y',strtotime($dates->enddate)))
-                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<u><i style="margin-left: 20px ; text-decoration: underline">{{ date('F d,Y',strtotime($dates->startdate))}}</i></u>
-                                    @else
-                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i style="margin-left: 20px; text-decoration: underline">{{ date('F d,Y',strtotime($dates->startdate)).' to '.date('F d,Y',strtotime($dates->enddate)) }}</i>
-                                    @endif
-                                    &nbsp;&nbsp;
-                                </strong><br>
+                                        @if(  date('F d,Y',strtotime($dates->startdate)) == date('F d,Y',strtotime($dates->enddate)))
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<u><i style="margin-left: 20px ; text-decoration: underline">{{ date('F d,Y',strtotime($dates->startdate))}}</i></u>
+                                        @else
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i style="margin-left: 20px; text-decoration: underline">{{ date('F d,Y',strtotime($dates->startdate)).' to '.date('F d,Y',strtotime($dates->enddate)) }}</i>
+                                        @endif
+                                        &nbsp;&nbsp;
+                                    </strong><br>
                                 @endforeach
                                 <small class="text-orange" style="margin-left: 28%">
                                     @if(!empty($leave->half_day_first) && !empty($leave->half_day_last))
@@ -243,15 +243,15 @@
                         <br />
                         <div class="row">
 
-                                @if($leave->com_requested == "1")
-                                    <span style="text-decoration: underline; margin-left: 30px" class="glyphicon glyphicon-ok" aria-hidden="true"></span>
-                                    <span>Requested</span><br>
-                                    <span style="margin-left: 45px">Requested</span>
-                                @else
-                                    <span style="margin-left: 45px">Requested</span><br>
-                                    <span style="text-decoration: underline; margin-left: 30px" class="glyphicon glyphicon-ok" aria-hidden="true"></span>
-                                    <span>Not Requested</span>
-                                @endif
+                            @if($leave->com_requested == "1")
+                                <span style="text-decoration: underline; margin-left: 30px" class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                                <span>Requested</span><br>
+                                <span style="margin-left: 45px">Requested</span>
+                            @else
+                                <span style="margin-left: 45px">Requested</span><br>
+                                <span style="text-decoration: underline; margin-left: 30px" class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                                <span>Not Requested</span>
+                            @endif
 
                         </div>
                         <div class="row">
@@ -301,16 +301,16 @@
                                             <tr height ="30">
                                                 <td>Less this application</td>
                                                 <?php
-                                                    if($leave->credit_used == "VL" || $leave->credit_used == "FL"){
-                                                        $total1 = $leave->applied_num_days;
-                                                        $total2 = 0;
-                                                    }else if($leave->credit_used == "SL"){
-                                                        $total1 = 0;
-                                                        $total2 = $leave->applied_num_days;
-                                                    }else{
-                                                        $total1 = 0;
-                                                        $total2 = 0;
-                                                    }
+                                                if($leave->credit_used == "VL" || $leave->credit_used == "FL"){
+                                                    $total1 = $leave->applied_num_days;
+                                                    $total2 = 0;
+                                                }else if($leave->credit_used == "SL"){
+                                                    $total1 = 0;
+                                                    $total2 = $leave->applied_num_days;
+                                                }else{
+                                                    $total1 = 0;
+                                                    $total2 = 0;
+                                                }
                                                 ?>
                                                 <td>{{$total1}} </td>
                                                 <td>{{$total2}}</td>
@@ -389,31 +389,31 @@
                                 <div class="row">
 
 
-                                            @if($leave->approved_for== "1")
-                                                    <span style="text-decoration: underline; margin-left: 20px" class="glyphicon glyphicon-ok" aria-hidden="true"></span>
-                                                    <strong>days with pay</strong><br>
-                                                    <strong style="margin-left: 40px">days without pay</strong><br>
-                                                    <strong style="margin-left: 40px">others (specify)</strong>
+                                    @if($leave->approved_for== "1")
+                                        <span style="text-decoration: underline; margin-left: 20px" class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                                        <strong>days with pay</strong><br>
+                                        <strong style="margin-left: 40px">days without pay</strong><br>
+                                        <strong style="margin-left: 40px">others (specify)</strong>
 
-                                            @elseif($leave->approved_for== "2")
+                                    @elseif($leave->approved_for== "2")
 
-                                                    <strong style="margin-left: 40px">days with pay</strong><br>
-                                                    <span style="text-decoration: underline; margin-left: 20px" class="glyphicon glyphicon-ok" aria-hidden="true"></span>
-                                                    <strong>days without pay</strong><br>
-                                                    <strong style="margin-left: 40px">others (specify)</strong>
+                                        <strong style="margin-left: 40px">days with pay</strong><br>
+                                        <span style="text-decoration: underline; margin-left: 20px" class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                                        <strong>days without pay</strong><br>
+                                        <strong style="margin-left: 40px">others (specify)</strong>
 
-                                             @elseif($leave->approved_for !=null)
+                                    @elseif($leave->approved_for !=null)
 
-                                                    <strong style="margin-left: 40px">days with pay</strong><br>
-                                                    <strong style="margin-left: 40px">days without pay</strong><br>
-                                                    <span style="text-decoration: underline; margin-left: 20px" class="glyphicon glyphicon-ok" aria-hidden="true"></span>
-                                                    <strong style="margin-left: 2px">others (specify)</strong>
-                                                    <u style="margin-left: 10px">{{$leave->approved_for}}</u>
-                                             @else
-                                                    <strong style="margin-left: 40px">days with pay</strong><br>
-                                                    <strong style="margin-left: 40px">days without pay</strong><br>
-                                                    <strong style="margin-left: 40px">others (specify)</strong>
-                                                @endif
+                                        <strong style="margin-left: 40px">days with pay</strong><br>
+                                        <strong style="margin-left: 40px">days without pay</strong><br>
+                                        <span style="text-decoration: underline; margin-left: 20px" class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                                        <strong style="margin-left: 2px">others (specify)</strong>
+                                        <u style="margin-left: 10px">{{$leave->approved_for}}</u>
+                                    @else
+                                        <strong style="margin-left: 40px">days with pay</strong><br>
+                                        <strong style="margin-left: 40px">days without pay</strong><br>
+                                        <strong style="margin-left: 40px">others (specify)</strong>
+                                    @endif
 
                                 </div>
                             </div>
@@ -424,7 +424,7 @@
                             <strong>7.D DISAPPROVED DUE TO :</strong>
                             <br />
                             @if(isset($leave->reason_for_disapproval))
-                               <u style="margin-left: 50px"><em>{{ $leave->reason_for_disapproval }}</em></u>
+                                <u style="margin-left: 50px"><em>{{ $leave->reason_for_disapproval }}</em></u>
                             @endif
                         </div>
                     </td>
@@ -436,12 +436,24 @@
     <div class="modal-footer">
         <div class="row">
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
-                <a target="_blank" class="btn btn-success" href="{{ asset('FPDF/print_leave.php?id=' .$leave->id) }}" style="color: white;"><i class="fa fa-print"></i> Print</a>
-                @if(Auth::user()->usertype !=1 && $leave->status != 'APPROVED')
-                    <a href="{{ asset('leave/update/' . $leave->id) }}"  class="btn btn-primary btn-submit" style="color:white;"><i class="fa fa-pencil"></i> Update</a>
-                    <a href="{{ asset('leave/delete/' .$leave->id) }}" style="color:white" class="btn btn-danger" ><i class="fa fa-trash"></i> Remove</a>
-                @endif
+
+                <div class="alert-info" style=" display: inline-block; width: 50%; float: left">
+                    <p style="padding: 2px; margin: 0; text-align: center">
+                            <span >
+                                <i class="fa fa-hand-o-right"></i>
+                                Please print the leave application details on the back of your form. HR will not accept your leave form unless these details are printed.
+                            </span>
+                    </p>
+                </div>
+                <div style="display: inline-block; width: 50%;">
+                    {{--<button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>--}}
+                    <a target="_blank" class="btn btn-success" href="{{ asset('FPDF/print_leave.php?id=' .$leave->id) }}" style="color: white;"><i class="fa fa-print"></i> Print(Front)</a>
+                    <a target="_blank" class="btn btn-success" href="{{ asset('leave/print/' .$leave->id) }}" style="color: white;"><i class="fa fa-print"></i> Print(Back)</a>
+                    @if(Auth::user()->usertype !=1 && $leave->status != 'APPROVED')
+                        <a href="{{ asset('leave/update/' . $leave->id) }}"  class="btn btn-primary btn-submit" style="color:white;"><i class="fa fa-pencil"></i> Update</a>
+                        <a href="{{ asset('leave/delete/' .$leave->id) }}" style="color:white" class="btn btn-danger" ><i class="fa fa-trash"></i> Remove</a>
+                    @endif
+                </div>
             </div>
         </div>
     </div>
