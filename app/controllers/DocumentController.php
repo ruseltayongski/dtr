@@ -16,7 +16,7 @@ class DocumentController extends BaseController
     }
 
     public  function leave(){
-//        return 1;
+       return "not yet ready";
         if(Request::method() == 'GET'){
             $user = InformationPersonal::select("personal_information.lname","personal_information.fname","personal_information.mname","designation.description as designation","work_experience.monthly_salary",
                 "personal_information.vacation_balance", "personal_information.sick_balance")

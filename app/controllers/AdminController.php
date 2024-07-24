@@ -1010,7 +1010,7 @@ class AdminController extends BaseController
     public function leave_credits()
     {
 //        return 2;
-//        return "Leave is under development";
+       return "Leave is under development";
         $id= Input::get('viewCard');
 //        return $id;
         $keyword = Input::get('search');
