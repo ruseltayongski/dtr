@@ -1,7 +1,11 @@
 <script>
 
-    var vacation_balance = "<?php echo Session::get('vacation_balance'); ?>";
-    var sick_balance = "<?php echo Session::get('sick_balance'); ?>";
+    var vl_bal = {{($user->vacation_balance != null)?$user->vacation_balance:0}};
+    var sl_bal = {{($user->sick_balance != null)?$user->sick_balance:0}};
+    var fl_bal = {{($spl)?$spl->FL:0}};
+    var spl_bal = {{($spl)?$spl->SPL:0}};
+
+
     var radio_val;
     function leave_value() {
          radio_val = $('input[name="leave_type"]:checked').val();
@@ -29,7 +33,8 @@
             var name_of_days = weekday[today.getDay()];
             var beforeDaysToApply;
 
-            var radio_val = leave_value();
+            radio_val = leave_value();
+            console.log('script',radio_val);
             //5 days prior
              if (radio_val == "VL" || radio_val == "SOLO_PL" || radio_val == "SLBW" ){
                  console.log("ahw");
@@ -39,10 +44,17 @@
                      beforeDaysToApply = 5;
                  }
              }else if(radio_val == "SPL" ){
-                 if( name_of_days == "Friday" ){
-                     beforeDaysToApply = 9;
-                 } else {
-                     beforeDaysToApply = 7;
+                 console.log('sample',$('spl_type').val());
+                 if($('spl_type').val() == 'unemergency'){
+                     if( name_of_days == "Friday" ){
+                         beforeDaysToApply = 9;
+                     } else {
+                         beforeDaysToApply = 7;
+                     }
+                     console.log('if');
+                 }else{
+                     console.log('else');
+
                  }
              }else {
                  var lastYear = today.getFullYear() - 1;
@@ -77,73 +89,103 @@
 //                var end   = moment(picker.endDate.format('YYYY-MM-DD'));
 //                diff = end.diff(start, 'days');
 //                $('#applied_num_days').val(diff+1);
+                $('#vl_less').val(0);
+                $('#sl_less').val(0);
+                $('#vl_rem').val(vl_bal);
+                $('#sl_rem').val(sl_bal);
 
                 var radio_val = $('input[name="leave_type"]:checked').val();
                 var days = totalDays();
-                console.log(" total number of days:", days);
-
-                <?php
-                    $leave = InformationPersonal::where('userid', Auth::user()->userid)->first();
-                    $leave1 = AditionalLeave::where('userid', Auth:: user()->userid)->first();
-
-                    echo "var FL = ".json_encode(!Empty($leave1->FL)? $leave1->FL : 0). ";";
-                    echo "var SPL = ".json_encode(!Empty($leave1->SPL)? $leave1->SPL : 0). ";";
-                    echo "var VL = ".json_encode(!Empty($leave->vacation_balance) ? $leave-> vacation_balance : 0). ";";
-                    echo "var SL = ".json_encode(!Empty($leave->sick_balance)? $leave->sick_balance : 0). ";";
-                    ?>
 
                 if(radio_val == "SPL"){
-                    if(days>3 || days>SPL){
-                        Lobibox.alert('error',{msg:"Exceed SPL Balance/Maximum of 3!"});
-                        $('.datepickerInput1').val("");
-                    }else{
-                        $('#applied_num_days').val(days);
-                    }
+//                    if(days>3 || days>SPL){
+//                        Lobibox.alert('error',{msg:"Exceed SPL Balance/Maximum of 3!"});
+//                        $('.datepickerInput1').val("");
+//                    }
                 }else if(radio_val == "PL" || radio_val == "SOLO_PL"){
                     if(days>7){
                         Lobibox.alert('error', {msg:"7 Days of Leave Only!"})
                         $('.datepickerInput1').val("");
-                    }else{
-                        $('#applied_num_days').val(days);
                     }
                 }else if(radio_val == "ML"){
                     if(days>105){
                         Lobibox.alert('error', {msg:"105 Days of Leave Only!"});
                         $('.datepickerInput1').val("");
-                    }else{
-                        $('#applied_num_days').val(days);
                     }
                 }else if(radio_val == "10D_VAWCL"){
                     if(days>10){
                         Lobibox.alert('error', {msg:"10 Days of Leave Only!"});
                         $('.datepickerInput1').val("");
-                    }else{
-                        $('#applied_num_days').val(days);
                     }
                 }else if(radio_val == "STUD_L" || radio_val == "RL"){
                     if(days>180){
                         Lobibox.alert('error', {msg:"Up to 6 Months of Leave Only!"});
                         $('.datepickerInput1').val("");
-                    }else{
-                        $('#applied_num_days').val(days);
                     }
                 }else if(radio_val == "SEL"){
                     if(days>5){
                         Lobibox.alert('error', {msg:"5 Days Only!"});
                         $('.datepickerInput1').val("");
-                    }else{
-                        $('#applied_num_days').val(days);
                     }
                 }else if(radio_val == "SLBW"){
                     if(days>60){
                         Lobibox.alert('error', {msg:" Up to 2 Months Only!"});
                         $('.datepickerInput1').val("");
-                    }else{
-                        $('#applied_num_days').val(days);
                     }
-                }else{
-                    $('#applied_num_days').val(days);
+                }else if(radio_val == "FL" || radio_val == "VL"){
+                    console.log('here');
+                    $('#vl_less').val(days);
+                    if(vl_bal >= days){
+                        $('#with_pay').val(days + ' day(s)');
+                        $('#vl_rem').val(vl_bal-days);
+                    }else{
+                        if(vl_bal > 0){
+                            $('#with_pay').val(vl_bal + ' day(s)');
+                        }
+                        var rem = days - vl_bal;
+                        $('#without_pay').val(rem + ' day(s)');
+                        $('#vl_rem').val(0);
+                    }
+
+                }else if(radio_val == 'SL'){
+                    console.log('here else');
+//                    $('#sl_less').val(days);
+                    if(sl_bal >= days){
+                        $('#with_pay').val(days + ' day(s)');
+                        $('#sl_rem').val(sl_bal-days);
+                        $('#sl_less').val(days);
+
+                    }else{
+                        var in_bal = sl_bal - days;
+                        var aft_bal = 0;
+                        console.log('else', -(in_bal));
+                        if(vl_bal >= -(in_bal)){
+                            console.log('here if');
+                            aft_bal = vl_bal - -(in_bal);
+                            $('#vl_less').val(-(in_bal));
+                            $('#vl_rem').val(aft_bal);
+                            $('#with_pay').val((-(in_bal) + sl_bal)  + ' day(s)');
+                            $('#sl_less').val(days - -(in_bal));
+                            $('#sl_rem').val(0);
+
+                        }else{
+                            console.log('here if else');
+                            console.log('here if else',-(in_bal) );
+
+                            var less_vl = -(in_bal) - vl_bal;
+//                            console.log('here if else',-(in_bal) );
+
+                            $('#vl_less').val(vl_bal);
+                            $('#vl_rem').val(0);
+                            $('#without_pay').val(less_vl +  ' day(s)');
+                            $('#sl_less').val(sl_bal);
+                            $('#sl_rem').val(0);
+                            $('#with_pay').val((sl_bal + vl_bal) + ' day(s)');
+                        }
+                    }
                 }
+//
+                    $('#applied_num_days').val(days);
 
             });
 
@@ -196,6 +238,7 @@
         }
 
         var days = totalDays();
+        console.log('jsdfdsf', radio_val);
         $('#applied_num_days').val(days);
     });
 
