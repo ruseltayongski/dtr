@@ -1113,6 +1113,33 @@
         </div><!-- .modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
+<div class="modal fade" tabindex="5" role="dialog" id="monetize">
+    <div class="modal-dialog modal-sm" role="document" id="size">
+        <div class="modal-content">
+            <form>
+                <div class="modal-header" style="background-color: orange">
+                    <strong><h4 class="modal-title" style="display: inline-block">Monetize Leave</h4></strong>
+                    <button style="display: inline-block" type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <div style="text-align: center; width: 100%">
+                    <select class="monetize_select form-control" onchange="monetize($(this).val())" style="margin-left:20%; width:150px !important; background-color: yellow" required>
+                        <option value="">Please select value</option>
+                        <option value="10">10</option>
+                        <option value="15">15</option>
+                        <option value="20">20</option>
+                        <option value="25">25</option>
+                        <option value="30">30</option>
+                        <option value="50">50% Monetization</option>
+                    </select>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" data-dismiss="modal" class="btn btn-success">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 
 
 

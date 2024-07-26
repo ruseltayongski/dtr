@@ -16,7 +16,7 @@ class DocumentController extends BaseController
     }
 
     public  function leave(){
-       return "not yet ready";
+//       return "not yet ready";
         if(Request::method() == 'GET'){
             $user = InformationPersonal::select("personal_information.lname","personal_information.fname","personal_information.mname","designation.description as designation","work_experience.monthly_salary",
                 "personal_information.vacation_balance", "personal_information.sick_balance")
@@ -29,10 +29,35 @@ class DocumentController extends BaseController
             $leave_type = LeaveTypes::get();
             $spl = AditionalLeave::where('userid', Auth::user()->userid)->first();
 
+            $id_list = [];
+            $manually_added = [985329, 273, 11, 93053, 986445, 984538, 985950, 80, 976017, 466];
+
+            foreach(pdoController::section() as $row) {
+                if ($row['acronym'] !== null || in_array($row['head'], [37, 72, 243, 614, 110, 5, 163, 648384, 160, 985950, 830744])) {
+                    if(!in_array($row['head'], [172, 173, 96, 53, 114, 442, 155, 91, 6])){
+                        if(!in_array($row['head'], $id_list)){
+                            $id_list[]=$row['head'];
+                        }
+                    }
+                }
+            }
+
+            $list = array_merge($id_list,$manually_added);
+            foreach ($list as $data_list){
+                $section_head[] = pdoController::user_search1($data_list);
+            }
+
+            foreach(pdoController::division() as $row) {
+                if($row['ppmp_used'] == null){
+                    $division_head[] = pdoController::user_search1($row['head']);
+                }
+            }
+
             return View::make('form.form_leave',[
                 "user" => $user,
                 "leave_type" => $leave_type,
-                "spl" => $spl
+                "spl" => $spl,
+                "officer" =>  $section_head
             ]);
         }
         if(Request::method() == 'POST') {
@@ -41,8 +66,10 @@ class DocumentController extends BaseController
                     return Redirect::to('resetpass')->with('pass_change','You must change your password for security after your first log in or resseting password');
                 }
             }
+            $pis = InformationPersonal::where ('userid', Auth::user()->userid)->first();
             $route_no = date('Y-') . Auth::user()->userid . date('mdHis');
             $l_type = Input::get('leave_type');
+//            $details = Input::get('leave_details');
 
             $leave = new Leave();
 
@@ -62,6 +89,24 @@ class DocumentController extends BaseController
             $leave->status = 0;
             $leave->remarks = 0;
             $leave->commutation = Input::get('com_requested');
+            $leave->with_pay = (Input::get('with_pay') != null)?Input::get('with_pay'):0;
+            $leave->without_pay = (Input::get('without_pay') != null)?Input::get('without_pay'):0;
+            $leave->applied_num_days = Input::get('applied_num_days');
+            $leave->as_of = Input::get('as_of');
+            $leave->vacation_total = $pis->vacation_balance;
+            $leave->sick_total = $pis->sick_balance;
+
+            $spl_leave = AditionalLeave::where('userid', Auth::user()->userid)->first();
+
+            if($l_type == "SPL"){
+//                $spl_leave->SPL = $spl_leave->SPL - Input::get('applied_num_days');
+                $leave->SPL_total = $spl_leave->SPL - Input::get('applied_num_days');
+            }else if($l_type == "FL"){
+//                $spl_leave->FL = $spl_leave->FL - Input::get('applied_num_days');
+                $leave->FL_total = $spl_leave->FL - Input::get('applied_num_days');
+            }
+
+//            $spl_leave->save();
 
             if(Input::get('com_requested') == 2){
                 $inclusive_dates = $_POST['inclusive_dates1'];
@@ -72,42 +117,17 @@ class DocumentController extends BaseController
                 $date_to = date('Y-m-d',strtotime($temp1[1]));
                 $leave->inc_from = $date_from;
                 $leave->inc_to = $date_to;
-                $leave->applied_num_days = Input::get('applied_num_days');
             }
 
-            $pis = InformationPersonal::where ('userid', Auth::user()->userid)->first();
-            $addtnl_leave = AditionalLeave::where('userid', Auth::user()->userid)->first();
-
-            if($l_type == 'FL' || $l_type == 'VL'){
-                if($pis && $pis->vacation_balance != null && $pis->vacation_balance >= Input::get('applied_num_days')){
-                    $leave->approved_for = 1;
-                }else{
-                    $leave->approved_for = 2;
-                }
-            }else if($l_type == 'SL'){
-                if($pis && $pis->sick_balance != null && $pis->sick_balance >= Input::get('applied_num_days')){
-                    $leave->approved_for = 1;
-                }else{
-                    $leave->approved_for = 2;
-                }
-            }
-
-            $leave->vacation_total = $pis->vacation_balance;
-            $leave->sick_total = $pis->sick_balance;
-
-            if($l_type == 'SPL'){
-                $addtnl_leave->SPL = $addtnl_leave->SPL - Input::get('applied_num_days');
-                $leave->SPL_total = ($addtnl_leave)?$addtnl_leave->SPL:0;
-            }else if($l_type == 'FL'){
-                $addtnl_leave->FL = $addtnl_leave->FL - Input::get('applied_num_days');
-                $leave->FL_total = ($addtnl_leave)?$addtnl_leave->FL:0;
-            }
-
-            $leave->SPL_total = $addtnl_leave->SPL;
-            $leave->FL_total = $addtnl_leave->FL;
             $leave->for_others = Input :: get('others_type');
-
+            $leave->officer_1 = Input::get('certification_officer');
+            $leave->officer_2 = Input::get('recommendation_officer');
+            $leave->officer_3 = Input::get('approved_officer');
             $leave->save();
+
+//            $pis->vacation_balance = Input::get('vl_rem');
+//            $pis->sick_balance = Input::get('sl_rem');
+//            $pis->save();
 
             if(Input::get('com_requested') == 2){
 
