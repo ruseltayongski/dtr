@@ -633,10 +633,43 @@ class AdminController extends BaseController
         $leave = Leave::where('id',$id)->first();
         $leave_type = LeaveTypes::get();
         $leave_dates = LeaveAppliedDates::where('leave_id', $leave->id)->get();
+        $user = InformationPersonal::where('userid', Auth::user()->userid)->first();
+        $spl = AditionalLeave::where('userid', Auth::user()->userid)->first();
+        $id_list = [];
+        $manually_added = [985329, 273, 11, 93053, 986445, 984538, 985950, 80, 976017, 466];
+
+        foreach(pdoController::section() as $row) {
+            if ($row['acronym'] !== null || in_array($row['head'], [37, 72, 243, 614, 110, 5, 163, 648384, 160, 985950, 830744])) {
+                if(!in_array($row['head'], [172, 173, 96, 53, 114, 442, 155, 91, 6])){
+                    if(!in_array($row['head'], $id_list)){
+                        $id_list[]=$row['head'];
+                    }
+                }
+            }
+        }
+        $list = array_merge($id_list,$manually_added);
+        foreach ($list as $data_list){
+            $section_head[] = pdoController::user_search1($data_list);
+        }
+
+
+        foreach(pdoController::division() as $row) {
+            if($row['ppmp_used'] == null){
+                $division_head[] = pdoController::user_search1($row['head']);
+            }
+        }
+
 //        return $leave_dates;
 //        if(isset($leave) and count($leave) > 0)  {
         if(isset($leave))  {
-            return View::make('form.update_leave')->with(['leave'=>$leave, 'leave_type'=>$leave_type, 'leave_dates'=>$leave_dates]);
+            return View::make('form.update_leave')->with([
+                'leave'=>$leave,
+                'leave_type'=>$leave_type,
+                'leave_dates'=>$leave_dates,
+                'user' => $user,
+                'spl' => $spl,
+                'officer' => $section_head
+            ]);
         }
         return Redirect::to('form/leave/all');
     }

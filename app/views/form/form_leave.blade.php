@@ -18,7 +18,6 @@
     </style>
     <div class="panel panel-default">
         <div style="margin-top: 50px; margin-left: 50px; margin-right: 40px">
-
             <table cellpadding="0" cellspacing="0" width="100%" style="margin-top: 30px">
                 <tr>
                     <td class="align" width="12%" style="text-align: center; vertical-align: top;"><small>Civil Service Form No. 6<br><i>Revised 2020</i></small></td>
@@ -314,13 +313,13 @@
                                                 </tr>
                                                 <tr height ="30" style="">
                                                     <td>Less this application</td>
-                                                    <td><input id="vl_less" name="vl_less" style="width: 30%; text-align: center" value="0" readonly></td>
-                                                    <td><input id="sl_less" name="sl_less" style="width: 30%; text-align: center" value="0" readonly></td>
+                                                    <td><input id="vl_less" name="vl_less" style="width: 30%; text-align: center; border:none" value="0" readonly></td>
+                                                    <td><input id="sl_less" name="sl_less" style="width: 30%; text-align: center; border: none" value="0" readonly></td>
                                                 </tr>
                                                 <tr height = "30">
                                                     <td class="col-md-2">Balance</td>
-                                                    <td class="col-md-2"><input id="vl_rem" name="vl_rem" style="width: 40%; text-align: center" value="{{($user->vacation_balance != null)?$user->vacation_balance:0}}" readonly></td>
-                                                    <td class="col-md-2"><input id="sl_rem" name="sl_rem" style="width: 40%; text-align: center" value="{{($user->sick_balance != null)?$user->sick_balance:0}}" readonly></td>
+                                                    <td class="col-md-2"><input id="vl_rem" name="vl_rem" style="width: 40%; text-align: center; border: none" value="{{($user->vacation_balance != null)?$user->vacation_balance:0}}" readonly></td>
+                                                    <td class="col-md-2"><input id="sl_rem" name="sl_rem" style="width: 40%; text-align: center; border: none" value="{{($user->sick_balance != null)?$user->sick_balance:0}}" readonly></td>
                                                 </tr>
                                                 </tbody>
                                             </table>
@@ -378,7 +377,7 @@
                                     <strong style="">&nbsp;&nbsp;&nbsp;7.C APPROVED FOR:</strong><br>
                                     <span style="margin-left: 10%"><input style="width: 22%; border: none; border-bottom: 2px solid black; height: 2%; margin-bottom: 0px" id="with_pay" name="with_pay" readonly> days with pay</span><br>
                                     <span style="margin-left: 10%"><input style="width: 22%; border: none; border-bottom: 2px solid black; height: 2%" id="without_pay" name="without_pay" readonly> days without pay</span><br>
-                                    <span style="margin-left: 10%"><input style="width: 22%; border: none; border-bottom: 2px solid black; height: 2%; margin-bottom: 0px" id="others_pay" name="others_pay" readonly> days with pay</span>
+                                    <span style="margin-left: 10%"><input style="width: 22%; border: none; border-bottom: 2px solid black; height: 2%; margin-bottom: 0px" id="others_pay" name="others_pay" readonly> others (Specify)</span>
                                 <td style="width: 48%; margin-top: 10px;border-left: 0px;border-bottom: 0px; vertical-align: top" rowspan="2">
                                     <strong>&nbsp;&nbsp;&nbsp;7.D DISAPPROVED DUE TO:</strong>
                                     <div class="row" >
@@ -631,6 +630,8 @@
             $('#monetize_type').val('');
             $('#applied_num_days').val();
             $('.monetize_select').attr('required', false);
+            $('#with_pay').val('');
+            $('#without_pay').val('');
             console.log('chaki');
         }
 
