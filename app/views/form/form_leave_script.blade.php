@@ -6,7 +6,8 @@
     var spl_bal = {{($spl)?$spl->SPL:0}};
 
 
-    var radio_val;
+    var radio_val = $('input[name="leave_type"]:checked').val();
+    console.log('above', radio_val);
     function leave_value() {
          radio_val = $('input[name="leave_type"]:checked').val();
          return radio_val;
@@ -240,6 +241,12 @@
         var days = totalDays();
         console.log('jsdfdsf', radio_val);
         $('#applied_num_days').val(days);
+        $('#vl_rem').val(vl_bal);
+        $('#sl_rem').val(sl_bal);
+        $('#vl_less').val(0);
+        $('#sl_less').val(0);
+        $('#with_pay').val('');
+        $('#without_pay').val('');
     });
 
     function getAllDates() {
