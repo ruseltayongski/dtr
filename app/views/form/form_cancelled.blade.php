@@ -18,7 +18,7 @@
                 <tr>
                     <td><a href="#track" data-link="{{ asset('form/track/'.$row->route_no) }}" data-route="{{ $row->route_no }}" data-toggle="modal" class="btn btn-sm btn-success col-sm-12" style="background-color:#9C8AA5;color:white;"><i class="fa fa-line-chart"></i> Track</a></td>
                     <td class="text-center route-cell"> <a class="title-info" data-route="{{ $row->route_no }}" data-id="{{ $row->id }}" data-backdrop="static" data-link="{{ asset('leave/get') }}" href="#leave_info" data-toggle="modal">{{ $row->route_no }}</a></td>
-                    <td class="text-center">{{ $row->leave_type }}</td>
+                    <td class="text-center">{{ ($row->leave_details == '8')?"Monetization" : $row->leave_type  }}</td>
                     <td class="text-center">
                         @foreach($row->appliedDates as $applied)
                             @if($applied->startdate == $applied->enddate)

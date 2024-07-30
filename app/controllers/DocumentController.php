@@ -85,7 +85,7 @@ class DocumentController extends BaseController
             $leave->leave_type = Input::get('leave_type');
             $leave->leave_details = (Input::get('leave_details') != null)?Input::get('leave_details'):'None' ;
             $leave->leave_specify = (Input::get('for_text_input') != null)?Input::get('for_text_input'):'None' ;
-            $leave->credit_used = Input::get('leave_type');
+            $leave->credit_used = (Input::get('leave_type') != null)?Input::get('leave_type'):'None' ;
             $leave->status = 0;
             $leave->remarks = 0;
             $leave->commutation = Input::get('com_requested');
@@ -191,6 +191,7 @@ class DocumentController extends BaseController
 
     public function save_edit_leave()
     {
+        return (Input::get('leave_type') != null)?Input::get('leave_type'):'None' ;
         $leave = Leave::where('id', Input::get('id'))->first();
         if($leave){
             $pis = InformationPersonal::where('userid', $leave->userid)->first();
@@ -206,7 +207,7 @@ class DocumentController extends BaseController
             $leave->leave_type = Input::get('leave_type');
             $leave->leave_details = (Input::get('leave_details') != null)?Input::get('leave_details'):'None' ;
             $leave->leave_specify = (Input::get('for_text_input') != null)?Input::get('for_text_input'):'None' ;
-            $leave->credit_used = Input::get('leave_type');
+            $leave->credit_used = (Input::get('leave_type') != null)?Input::get('leave_type'):'None' ;
             $leave->status = 0;
             $leave->remarks = 0;
             $leave->commutation = Input::get('com_requested');

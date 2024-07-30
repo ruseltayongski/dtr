@@ -158,7 +158,7 @@
                                                         ?>
                                                         <div class="checkbox">
                                                             <label style="margin-right: 5%; color:black">
-                                                                <input type="radio" class="minimal" style="margin-top: auto" id="leave_type" name="leave_type" onclick="here()" value="{{ $row->code }}">
+                                                                <input type="radio" class="minimal" style="margin-top: auto" id="leave_type" name="leave_type" onclick="" value="{{ $row->code }}">
                                                                 {{ $row->desc }} <small>{{($index == 13)?'':$details[$index]}}</small>
                                                                 @if($row->code == 'OTHERS')
                                                                     <input type="text"  name="others_type" class="others_type_dis others_type_dis_txt" id="others_txt" style="width: 370px; margin-left: 20px; border: none; border-bottom: 2px solid black;" />
@@ -414,7 +414,7 @@
                     <div class="row" style="padding: 1%">
                         <div class="col-md-12 float-right" style="text-align: right">
                             <button type="submit" name="submit" class="btn btn-primary btn-lg">Submit</button>
-                            <type type="hidden" id="spl_type"></type>
+                            <type type="hidden" id="spl_type" class="spl_type"></type>
                             <type type="hidden" id="monetize_val" name="monetize_val"></type>
 
                         </div>
@@ -433,16 +433,19 @@
 
         function monetize(data){
             $('#monetize_val').val(data);
+            $('#with_pay').val(data + " day(s)");
             $('#applied_num_days').val(data);
+            console.log('data');
 
             if(data == 50){
                 var total = Math.ceil((vl + sl)/2);
+                $('#applied_num_days').val(total);
                 var div = total/2;
                 console.log('div', vl + sl);
 
                 var vl_rem = vl - div;
                 var sl_rem = sl - div;
-                var vl_deduct = 0, sl_deduct = 0;
+                var vl_deduct = div, sl_deduct = div;
                 if(vl_rem < 0){
                     sl_rem = sl - (div + vl_rem);
                     vl_rem = 0;
@@ -524,12 +527,15 @@
                             }
                         },
                         callback: function (lobibox, type) {
+                            console.log('type', type);
                             if (type === 'emergency') {
                                 // Handle emergency button click
                                 $('#spl_type').val('emergency');
+                                console.log('sfsd', $('#spl_type').val())
                             } else if (type === 'notEmergency') {
                                 // Handle not emergency button click
                                 $('#spl_type').val('unemergency');
+                                console.log('sfsd', $('#spl_type').val())
                             }
                         }
                     });
@@ -608,6 +614,13 @@
                 if( vl >= 15){
                     $('#monetize_display').css('display', 'block');
                     $('.monetize_select').attr('required', true);
+                }else{
+                    Lobibox.alert('error', {
+                        msg:'Make sure your vacation balance is equal to or more than 15!',
+                        size:'mini'
+                    });
+                    $('input[name="leave_details"]').prop('checked', false);
+                    $('input[name="com_requested"]').prop('checked', false);
                 }
 
             }else{

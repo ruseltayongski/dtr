@@ -99,17 +99,17 @@
                                                         <td >
                                                             <a href="#" data-toggle="modal"><b>{{ date("F d,Y",strtotime($leave->date_filling)) }}</b></a>
                                                         </td>
-                                                        <td >{{ $leave->leave_type }}</td>
+                                                        <td >{{ ($leave->leave_details == '8')?"Monetization" : $leave->leave_type  }}</td>
                                                         <td>
                                                             <?php
-                                                            if($leave->status == 'PENDING')
+                                                            if($leave->status == 0)
                                                                 $color = 'primary';
-                                                            elseif($leave->status == 'APPROVED')
+                                                            elseif($leave->status == 1)
                                                                 $color = 'success';
                                                             else
                                                                 $color = 'danger';
                                                             ?>
-                                                            @if($leave->status == 'PENDING')
+                                                            @if($leave->status == 0)
                                                             <small class="label label-{{ $color }}">PENDING</small>
                                                             @else
                                                              <small class="label label-{{ $color }}">PROCESSED</small>
