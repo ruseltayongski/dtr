@@ -521,7 +521,7 @@ class AdminController extends BaseController
 
     public function track_leave() // leave applications
     {
-       return "not yet ready";
+//       return "not yet ready";
 
         Session::put('keyword',Input::get('keyword'));
         $keyword = Session::get('keyword');
@@ -687,38 +687,34 @@ class AdminController extends BaseController
 
         $route_no = Input::get('route_no');
         $leave = Leave::where('route_no','=',$route_no)->first();
-        $leave_FLSPL = AditionalLeave::where('userid', $leave->userid)->first();
-        if($leave->status == 'APPROVED'){
 
-            $pis = InformationPersonal::where("userid","=",$leave->userid)->first();
-            $credit_deduct = $leave->applied_num_days * 8;
-            if($leave->credit_used == 'SL'){
-                $pis->sick_balance = $pis->sick_balance + $credit_deduct;
-                // -- to be continued -- LoL // to be continued but I forgot what to do here , another LOL
-            } else if($leave->credit_used == 'VL'){
-                $pis->vacation_balance = $pis->vacation_balance + $credit_deduct;
-            }else if($leave->credit_used == 'FL'){
-                $leave_FLSPL ->FL-$credit_deduct;
-            }else if($leave->credits_used == 'SPL'){
-                $leave_FLSPL ->SPL-$credit_deduct;
-            }else{
+        if($leave){
+            $pis = InformationPersonal::where('userid', $leave->userid)->first();
+            $spl = AditionalLeave::where('userid', $leave->userid)->first();
+
+            $pis->vacation_balance = $pis->vacation_balance + $leave->vl_deduct;
+            $pis->sick_balance = $pis->sick_balance + $leave->sl_deduct;
+            if($leave->leave_type == "SPL"){
+                $spl->SPL = $spl->SPL + intval($leave->with_pay);
+            }else if($leave->leave_type == "FL"){
+                $spl->FL = $spl->FL + intval($leave->vl_deduct);
             }
-            $leave->approved_for = null;
-            $leave->reason_for_disapproval= null;
-            $leave->status="PENDING";
+            $leave->status = 0;
             $leave->save();
             $pis->save();
-            $leave_FLSPL->save();
+            $spl->save();
 
-            LeaveLogs::where("route_no","=",$route_no)->delete();
-        }
-        elseif($leave->status == 'DISAPPROVED'){
-            $leave->reason_for_disapproval = null;
-        }
-        $leave->status = 'PENDING';
-        $leave->save();
+            $leave_card = LeaveCardView::where('leave_id', $leave->id)->first();
+            $all_data = LeaveCardView::where('id', '>', $leave_card->id)->where('userid', $leave->userid)->get();
 
-        Session::put('pending_leave',true);
+            foreach ($all_data as $data){
+                $data->vl_bal = $data->vl_bal - $leave_card->vl_abswp;
+                $data->sl_bal = $data->sl_bal - $leave_card->sl_abswp;
+                $data->save();
+            }
+            $leave_card->delete();
+            Session::put('pending_leave',true);
+        }
         return Redirect::to('leave/roles');
     }
 
@@ -770,6 +766,7 @@ class AdminController extends BaseController
 
             $leave_card = new LeaveCardView();
             $leave_card->userid = $leave->userid;
+            $leave_card->leave_id = $leave->id;
 
             if($leave->leave_details == 8){
                 $leave_card->particulars = 'Monetization';
@@ -788,9 +785,9 @@ class AdminController extends BaseController
                 }else if($leave->leave_type == 'SL'){
                     $leave_card->sl_abswp = ($leave->sl_deduct == 0)?'':$leave->sl_deduct;
                     $leave_card->vl_abswp = ($leave->vl_deduct == 0)?'':$leave->vl_deduct;
-                    $leave_card->sl_abswop = intval($leave->without_pay);
+                    $leave_card->sl_abswop = ($leave->without_pay == 0)?'':intval($leave->without_pay);
                 }else if($leave->leave_type == 'VL'){
-                    $leave_card->vl_abswp = ($leave->vl_deduct > $pis->vacation_balance)?$pis->vacation_balance :$pis->vacation_balance->vl_deduct ;
+                    $leave_card->vl_abswp = ($leave->vl_deduct > $pis->vacation_balance)?$pis->vacation_balance : $leave->vl_deduct ;
                     $leave_card->vl_abswop = intval($leave->without_pay);
                 }
 
