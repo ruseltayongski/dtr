@@ -521,7 +521,7 @@ class AdminController extends BaseController
 
     public function track_leave() // leave applications
     {
-//        return "not yet ready";
+       return "not yet ready";
 
         Session::put('keyword',Input::get('keyword'));
         $keyword = Session::get('keyword');
