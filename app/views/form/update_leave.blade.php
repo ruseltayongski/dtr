@@ -159,7 +159,7 @@
                                                         ?>
                                                         <div class="checkbox">
                                                             <label style="margin-right: 5%; color:black">
-                                                                <input type="radio" class="minimal" style="margin-top: auto" id="leave_type" name="leave_type" onclick="here()" value="{{ $row->code }}" {{($leave->leave_type == $row->code)?'checked' :''}}>
+                                                                <input type="radio" class="minimal" style="margin-top: auto" id="leave_type" name="leave_type" onclick="" value="{{ $row->code }}" {{($leave->leave_type == $row->code)?'checked' :''}}>
                                                                 {{ $row->desc }} <small>{{($index == 13)?'':$details[$index]}}</small>
                                                                 @if($row->code == 'OTHERS')
                                                                     <input type="text"  value ="{{$leave->for_others}}" name="others_type" class="others_type_dis others_type_dis_txt" id="others_txt" style="width: 370px; margin-left: 20px; border: none; border-bottom: 2px solid black;" />
@@ -446,11 +446,13 @@
 
         function monetize(data){
             $('#monetize_val').val(data);
+            $('#with_pay').val(data + " day(s)");
             $('#applied_num_days').val(data);
 
             if(data == 50){
                 var total = Math.ceil((vl + sl)/2);
                 var div = total/2;
+                $('#applied_num_days').val(total);
                 console.log('div', vl + sl);
 
                 var vl_rem = vl - div;

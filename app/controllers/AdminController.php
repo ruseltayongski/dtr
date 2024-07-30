@@ -521,7 +521,7 @@ class AdminController extends BaseController
 
     public function track_leave() // leave applications
     {
-        return "not yet ready";
+//        return "not yet ready";
 
         Session::put('keyword',Input::get('keyword'));
         $keyword = Session::get('keyword');
@@ -761,85 +761,64 @@ class AdminController extends BaseController
 
     public function approved_leave($route_no)
     {
-        $leave = Leave::where('route_no','=',$route_no)->first();
-        $pis = InformationPersonal::where("userid","=",$leave->userid)->first();
-        $addtnl_leave = AditionalLeave::where("userid","=",$leave->userid)->first();
-        $leave_card = new LeaveCardView();
-        $leave_card->leave_id = $leave->id;
-        $leave_card->userid = $leave->userid;
-        $type = Input::get('monetization');
-        if($type){
+        $leave = Leave::where('route_no', $route_no)->first();
+        if($leave){
+            $pis = InformationPersonal::where('userid', $leave->userid)->first();
+            $add_leave = AditionalLeave::where('userid', $leave->userid)->first();
 
-            $total_days = (!empty(Input::get('vl_deduct')) ? Input::get('vl_deduct') : 0) + (!empty(Input::get('sl_deduct')) ? Input::get('sl_deduct') : 0);
-            $leave->applied_num_days = $total_days;
-            $leave_card->particulars = "Monetization (" . $total_days . ")";
-            $leave_card->vl_bal = $pis->vacation_balance - !Empty(Input::get('vl_deduct'))?Input::get('vl_deduct'):0;
-            $leave_card->sl_bal = $pis->sick_balance - !Empty(Input::get('sl_deduct'))?Input::get('sl_deduct'):0;
-            $today = new DateTime();
-            $leave_card -> date_used = $today->format('F j, Y');
+            $leave->status = 1;
 
-            $pis->vacation_balance = $pis->vacation_balance - (!Empty(Input::get('vl_deduct'))?Input::get('vl_deduct'):0);
-            $pis->sick_balance = $pis->sick_balance - (!Empty(Input::get('sl_deduct'))?Input::get('sl_deduct'):0);
-//            return $pis->sick_balance;
-            $mon = new Monetization();
-            $mon->userid = $leave->userid;
-            $mon->route_no = $route_no;
-            $mon->vl = !Empty(Input::get('vl_deduct'))?Input::get('vl_deduct'):0;
-            $mon->sl = !Empty(Input::get('sl_deduct'))?Input::get('sl_deduct'):0;
-            $mon->save();
+            $leave_card = new LeaveCardView();
+            $leave_card->userid = $leave->userid;
 
-        }else{
-            if($leave->leave_type == 'SL'){
-                if($pis->sick_balance >= $leave->applied_num_days){
-                    $pis->sick_balance = $pis->sick_balance - $leave->applied_num_days;
-                    $leave_card->sl_bal = $pis->sick_balance;
-                    $leave_card->sl_abswp = $leave->applied_num_days;
-                    $leave->approved_for = 1;
-                }else{
-                    $leave_card->sl_abswop = $leave->applied_num_days;
-                    $leave->approved_for = 2;
-                }
-            }
-            else if($leave->leave_type == 'VL' || $leave->leave_type == 'FL'){
-                if($pis->vacation_balance >= $leave->applied_num_days){
-                    $pis->vacation_balance = $pis->vacation_balance - $leave->applied_num_days;
-                    $leave_card->vl_bal = $pis->vacation_balance;
-                    $leave_card->vl_abswp = $leave->applied_num_days;
-                    $leave->approved_for = 1;
-                }else{
-                    $leave_card->vl_abswop = $leave->applied_num_days;
-                    $leave->approved_for = 2;
+            if($leave->leave_details == 8){
+                $leave_card->particulars = 'Monetization';
+                $leave_card->vl_abswp = $leave->vl_deduct;
+                $leave_card->vl_bal = $pis->vacation_balance - $leave->vl_deduct;
+                $leave_card->sl_abswp = $leave->sl_deduct;
+                $leave_card->sl_bal = $pis->sick_balance - $leave->sl_deduct;
+            }else{
+                $leave_card->particulars = $leave->leave_type .'('. (int) $leave->applied_num_days .')';
+
+                if($leave->leave_type == 'FL'){
+                    $add_leave->FL = $add_leave->FL - $leave->vl_deduct;
+                    $leave_card->vl_abswp = ($leave->vl_deduct == 0)?'': (int) $leave->vl_deduct;
+                }else if($leave->leave_type == 'SPL'){
+                    $add_leave->SPL = $add_leave->SPL - (int) $leave->applied_num_days;
+                }else if($leave->leave_type == 'SL'){
+                    $leave_card->sl_abswp = ($leave->sl_deduct == 0)?'':$leave->sl_deduct;
+                    $leave_card->vl_abswp = ($leave->vl_deduct == 0)?'':$leave->vl_deduct;
+                    $leave_card->sl_abswop = intval($leave->without_pay);
+                }else if($leave->leave_type == 'VL'){
+                    $leave_card->vl_abswp = ($leave->vl_deduct > $pis->vacation_balance)?$pis->vacation_balance :$pis->vacation_balance->vl_deduct ;
+                    $leave_card->vl_abswop = intval($leave->without_pay);
                 }
 
-            }else if($leave->leave_type == 'SPL'){
-                if($addtnl_leave){
-                    $addtnl_leave->SPL = $addtnl_leave->SPL - $leave->applied_num_days;
-                    $addtnl_leave->save();
+                $dates = LeaveAppliedDates::where('leave_id', $leave->id)->get();
+                $list = [];
+                foreach ($dates as $date){
+                    if($date->startdate == $date->enddate){
+                        $list[] = date('F j, Y', strtotime($date->startdate));
+                    }else{
+                        $list[] = date('F j, Y', strtotime($date->startdate)) .' - '. date('F j, Y', strtotime($date->enddate));
+                    }
                 }
+
+                $data = json_encode($list);
+                $leave_card->date_used = str_replace(['[', ']', '"'], '', $data);
+                $add_leave->save();
+
+                $leave_card->vl_bal = ($pis->vacation_balance > $leave->vl_deduct)?$pis->vacation_balance - $leave->vl_deduct : 0;
+                $leave_card->sl_bal = $pis->sick_balance - $leave->sl_deduct;
             }
 
-            $dates = LeaveAppliedDates::where('leave_id', $leave->id)->get();
-            $dateList =[];
-            foreach ($dates as $date){
-                $dateF = date('F j, Y', strtotime($date->startdate));
-                $dateL = date ('F j, Y', strtotime($date->enddate));
-                $date_range = $dateF . ' - ' . $dateL;
-                if($dateF == $dateL){
-                    $dateList[]=$dateF;
-                }else{
-                    $dateList[] = $date_range;
-                }
-            }
-            $dateList= implode(',', $dateList);
-            $dateUsedJSON = str_replace(['[', ']', '"'], '',json_encode($dateList));
-            $leave_card -> date_used = $dateUsedJSON;
-            $leave_card -> userid = $leave->userid;
-            $leave_card->particulars = '('.$leave->applied_num_days.') '.$leave->leave_type;
+            $pis->vacation_balance = $pis->vacation_balance - $leave->vl_deduct;
+            $pis->sick_balance = $pis->sick_balance - $leave->sl_deduct;
+
+            $pis->save();
+            $leave->save();
+            $leave_card->save();
         }
-        $leave->status = 1;
-        $leave->save();
-        $pis->save();
-        $leave_card->save();
 
         //TRACKING
         $doc = Tracking_Master::where('route_no',$route_no)

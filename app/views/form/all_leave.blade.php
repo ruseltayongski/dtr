@@ -344,36 +344,17 @@
             var route = $(data).data('route');
             $("#leave_route_approved").val(route);
             console.log('result', details);
-
-            if(details == 8){
-                $('#modal_leave_approved').modal({
-                    backdrop: 'static',
-                    keyboard: false,
-                    show: true
+            var url ="<?php echo asset('leave/approved')?>"+"/"+route;
+            $.get(url,function(result) {
+                console.log('chaka');
+                Lobibox.notify('success', {
+                    size: 'mini',
+                    title: '',
+                    msg: 'Leave application successfully approved!'
                 });
-                var action = "{{ url('leave/approved') }}/" + route;
-                $('#approved_form').attr('action', action);
-
-                var url ="<?php echo asset('leave/balance')?>"+"/"+userid;
-                $.get(url,function(result){
-                    $('.mon_vl').val(result.vacation_balance);
-                    $('.mon_sl').val(result.sick_balance);
-                });
-
-            }else{
-                var url ="<?php echo asset('leave/approved')?>"+"/"+route;
-                $.get(url,function(result){
-                    console.log('chaka');
-                    Lobibox.notify('success',{
-                        size:'mini',
-                        title:'',
-                        msg:'Leave application successfully approved!'
-                    });
-                    location.reload();
-                });
-            }
+                location.reload();
+            });
         }
-
 
         function click_all(type){
             var url = "<?php echo asset('click_all');?>"+"/"+type.val();
