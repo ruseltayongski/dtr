@@ -1,11 +1,11 @@
 @extends('layouts.app')
 @section('content')
     <span id="calendar_holiday" data-link="/dtr/calendar_holiday"></span>
-    <span id="calendar_id" data-link="{{ asset('calendar_id') }}"></span>
-    <span id="calendar_last_id" data-link="{{ asset('calendar_last_id') }}"></span>
-    <span id="calendar_save" data-link=" {{ asset('calendar_save') }} "></span>
-    <span id="calendar_delete" data-link="{{ asset('calendar_delete') }}"></span>
-    <span id="calendar_update" data-link=" {{ asset('calendar_update') }} "></span>
+    <span id="calendar_id" data-link="/dtr/calendar_id"></span>
+    <span id="calendar_last_id" data-link="/dtr/calendar_last_id"></span>
+    <span id="calendar_save" data-link="/dtr/calendar_save"></span>
+    <span id="calendar_delete" data-link="/dtr/calendar_delete"></span>
+    <span id="calendar_update" data-link="/dtr/calendar_update"></span>
     <span id="calendar_banner" data-link="{{ asset('resources/img/banner.png') }}"></span>
     <div class="row">
         <div class="<?php if(Auth::user()->usertype == '1') echo 'col-md-9 wrapper'; else echo 'col-md-12 wrapper'; ?>">
