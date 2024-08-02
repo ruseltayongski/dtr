@@ -809,8 +809,8 @@ class AdminController extends BaseController
                 $leave_card->sl_bal = $pis->sick_balance - $leave->sl_deduct;
             }
 
-            $pis->vacation_balance = $pis->vacation_balance - $leave->vl_deduct;
-            $pis->sick_balance = $pis->sick_balance - $leave->sl_deduct;
+            $pis->vacation_balance = ($pis->vacation_balance > $leave->vl_deduct)?$pis->vacation_balance - $leave->vl_deduct:0;
+            $pis->sick_balance = ($pis->sick_balance > $leave->sl_deduct)?$pis->sick_balance - $leave->sl_deduct:0;
 
             $pis->save();
             $leave->save();
