@@ -394,7 +394,8 @@
         if(client_date != server_date){
             Lobibox.alert('error', //AVAILABLE TYPES: "error", "info", "success", "warning"
                 {
-                    msg: "Please ensure your date is set to the current date. After verifying, refresh the page and clear cache to avoid any inaccuracies."
+                    msg: "The reason for this alert is that the system didn't capture the accurate current date." +
+                    " Please ensure your date is set correctly. After verifying, kindly refresh the page and clear the cache to avoid any inaccuracies."
                 });
         }
         console.log('server_date', server_date);

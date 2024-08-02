@@ -132,30 +132,30 @@
                 }else if(radio_val == "FL" || radio_val == "VL"){
                     $('#vl_less').val(days);
 
-                    if(radio_val == "FL"){
-                        if(days>FL){
-                            Lobibox.alert('error',{
-                                msg:'Insufficient FL balance!',
-                                size:'mini'
+                    if(radio_val == "FL") {
+                        if (days > FL) {
+                            Lobibox.alert('error', {
+                                msg: 'Insufficient FL balance!',
+                                size: 'mini'
                             });
                             $('.datepickerInput1').val("");
                             $('#applied_num_days').val("");
-                        }else{
-                            $('#with_pay').val(days + ' day(s)');
-                        }
-                    }else{
-                        if(vl_bal >= days){
-                            $('#with_pay').val(days + ' day(s)');
-                            $('#vl_rem').val(vl_bal-days);
-                        }else{
-                            if(vl_bal > 0){
-                                $('#with_pay').val(vl_bal + ' day(s)');
-                            }
-                            var rem = days - vl_bal;
-                            $('#without_pay').val(rem + ' day(s)');
-                            $('#vl_rem').val(0);
                         }
                     }
+                        if(vl_bal > 0){
+                            if(vl_bal >= days){
+                                $('#with_pay').val(days + ' day(s)');
+                                $('#vl_rem').val(vl_bal-days);
+                                $('#vl_less').val(days);
+                            }else{
+                                $('#without_pay').val( (days - vl_bal) + ' day(s)');
+                                $('#with_pay').val( vl_bal + ' day(s)');
+                                $('#vl_rem').val(0);
+                                $('#vl_less').val(vl_bal);
+                            }
+                        }else{
+                            $('#without_pay').val(days + ' day(s)');
+                        }
                 }else if(radio_val == 'SL'){
                     if(sl_bal >= days){
                         $('#with_pay').val(days + ' day(s)');

@@ -1739,11 +1739,13 @@ class cdoController extends BaseController
             }
         }else{
             //cancel leave_dates
+//            return $type;
             $leave = Leave::where('route_no', $route)->first();
             $leave->status = 1;
             $leave->save();
             $leave_dates = LeaveAppliedDates::where('leave_id', $leave->id)->get();
             $pis2 = InformationPersonal::where('userid', $leave->userid)->first();
+            $spl = AditionalLeave::where('userid', $leave->userid)->first();
 
             $dateList = [];
             if($leave_dates){
@@ -1756,53 +1758,40 @@ class cdoController extends BaseController
                 }
             }
             $dateList = implode(',', $dateList);
-            $card = new LeaveCardView();
-
+            $get_card = LeaveCardView::where('leave_id', $leave->id)->where('userid', $leave->userid)->first();
+            $all_card = LeaveCardView::where('id','>', $get_card->id)->where('userid', $leave->userid)->get();
             if(in_array("cancel_all", $selected)){
-                $leave->status= "CANCELLED";
+                $pis2->vacation_balance = $pis2->vacation_balance - $leave->vl_deduct;
+                $pis2->sick_balance = $pis2->sick_balance - $leave->sl_deduct;
+                $pis2->save();
+
+                $leave->status = 3;
                 $leave->save();
-                $card->leave_id = $leave->id;
-                $card->particulars = "(".$leave->leave_type.")".$leave->applied_num_days;
-                $card->userid = $leave->userid;
-                $card->particulars = $leave->leave_type;
 
-                $card->vl_bal = $pis2->vacation_balance + $leave->applied_num_days;
-                $card->date_used = str_replace(['[', ']', '"'], '', json_encode($dateList)). '(cancelled)';
-                $spl = AditionalLeave::where('userid', $leave->userid)->first();
-
-                if($leave->approved_for == 1){
-
-                    if($leave->leave_type == "SPL"){
-
-                        $spl->SPL = $spl->SPL + $leave->applied_num_days;
-
-                    }else if($leave->leave_type == "FL" || $leave->leave_type == "VL"){
-
-                        $card->vl_bal = $pis2->vacation_balance + $leave->applied_num_days;
-                        $pis2->vacation_balance = $pis2->vacation_balance + $leave->applied_num_days;
-                        $card->vl_abswp = $leave->applied_num_days;
-
-                        if($leave->leave_type == "FL"){
-                            $spl->FL = $spl->FL + $leave->applied_num_days;
-                        }
-                    }else if($leave->leave_type == "SL"){
-                        $card->sl_bal = $pis2->sick_balance + $leave->applied_num_days;
-                        $pis2->sick_balance = $pis2->sick_balance + $leave->applied_num_days;
-                        $card->sl_abswp = $leave->applied_num_days;
-                    }
-                }else{
-                    if($leave->leave_type == "FL" || $leave->leave_type == "VL"){
-                        $card->vl_abswop = $leave->applied_num_days;
-                    }else if($leave->leave_type == "SL"){
-                        $card->sl_abswop = $leave->applied_num_days;
-                    }
+                foreach ($all_card as $data){
+                    $data->vl_bal = $data->vl_bal + intval($get_card->vl_abswp);
+                    $data->sl_bal = $data->sl_bal + intval($get_card->sl_abswp);
+                    $data->save();
                 }
 
-                $pis2->save();
-                $card->save();
+                $get_card->date_used = str_replace(['[', ']', '"'], '', json_encode($dateList)). '(cancelled)';
+                $get_card->vl_bal = $get_card->vl_bal + intval($get_card->vl_abswp);
+                $get_card->sl_bal = $get_card->sl_bal + intval($get_card->sl_abswp);
+                $get_card->vl_abswp = null;
+                $get_card->sl_abswp = null;
+                $get_card->vl_abswop = null;
+                $get_card->sl_abswop = null;
+                $get_card->sl_bal = $get_card->sl_bal + intval($get_card->sl_abswp);
+                $get_card->save();
+
+                if($leave->leave_details == "FL"){
+                    $spl->FL = $spl->SPL + $leave->vl_deduct;
+                }else if($leave->leave_details == "SPL"){
+                    $spl->SPL = $spl->SPL + $leave->applied_num_days;
+                }
                 $spl->save();
             }else{
-                //need to update, logically incorrect
+//                return $get_card;
                 foreach ($leave_dates as $apply){
                     $apply->delete();
                 }
@@ -1810,17 +1799,14 @@ class cdoController extends BaseController
                 $selected = array_map('trim', $selected);
                 $used_date = [];
                 $count = 0;
+                $vl = 0; $sl = 0;
                 foreach ($date_list as $index=> $date){
 
                     $timestamp = strtotime($date);
                     $new_applied = new LeaveAppliedDates();
-
                     if(in_array($date, $selected)){
                         $used_date[] = '('."<s>".date('F j, Y', strtotime($date))."</s>". ')';
                         $new_applied->status = 1;
-                        $pis2->vacation_balance = $pis2->vacation_balance + $leave->applied_num_days;
-                        $pis2->save();
-                        $card->vl_bal = $pis2->vacation_balance;
                         $count++;
                     }else{
                         $used_date[] = date('F j, Y', strtotime($date));
@@ -1830,12 +1816,83 @@ class cdoController extends BaseController
                     $new_applied->leave_id = $leave->id;
                     $new_applied->save();
                 }
+                //get_card ->leave card
+                //leave -> leave
+                if($leave->leave_type == "FL" || $leave->leave_type == "VL"){
+                    if($leave->without_pay != null && floatval($leave->without_pay) != 0){
+//                        return 1;
+                        $diff = (floatval($leave->without_pay) > $count)? 0 : $count - floatval($leave->without_pay);
+                        $get_card->vl_abswop = $diff;
+                        $leave->without_pay = ($diff == 0)? null: $diff .' day(s)';
+                    }else{
+//                        return $leave->without_pay;
+                        $get_card->vl_abswp = $get_card->vl_abswp - $count;
+                        $leave->with_pay = $get_card->vl_abswp - $count .' day(s)';
+                        $vl = $count;
+                    }
+                    if($leave->leave_type == "FL"){
+                        $spl->FL = $spl->FL + $count;
+                    }
+                }else if($leave->leave_type == "SL"){
+                    if($leave->without_pay != null && floatval($leave->without_pay) != 0){
+                        $diff = (floatval($leave->without_pay) > $count)? 0 : $count - floatval($leave->without_pay);
+                        $get_card->sl_abswop = $diff;
+                        if($diff != 0){
+                            if($get_card->vl_abswp != null || $get_card->vl_abswp !=0){
+                                if($diff > $get_card->vl_abswp){
+                                    $vl = $get_card->vl_abswp;
+                                    $get_card->vl_abswp = 0;
+                                    $get_card->sl_abswp = $get_card->sl_abswp - ($diff - $get_card->vl_abswp);
+                                    $sl = $diff - $get_card->vl_abswp;
+                                }else{
+                                    $get_card->vl_abswp = $get_card->vl_abswp - $diff;
+                                    $vl = $diff;
+                                }
+                            }else{
+                                $get_card->sl_abswp = $get_card->sl_abswp - $diff;
+                                $sl = $diff;
+                            }
+                        }
+                    }else{
+                        if($get_card->vl_abswp != null || $get_card->vl_abswp !=0){
+                            if($count > $get_card->vl_abswp){
+                                $vl = $get_card->vl_abswp;
+                                $get_card->vl_abswp = 0;
+                                $get_card->sl_abswp = $get_card->sl_abswp - ($count - $get_card->vl_abswp);
+                                $sl = $count - $get_card->vl_abswp;
+                            }else{
+                                $get_card->vl_abswp = $get_card->vl_abswp - $count;
+                                $vl = $count;
+                            }
+                        }else{
+                            $get_card->sl_abswp = $get_card->sl_abswp - $count;
+                            $sl = $count;
+                        }
+                    }
+                }else if ($leave->leave_type == "SPL"){
+                    $spl->SPL = $spl->SPL - $count;
+                }
+//                return $sl;
+                $get_card->vl_bal = $leave->vl_bal + $vl;
+                $get_card->sl_bal = $leave->sl_bal + $sl;
+                $get_card->date_used = implode(',', $used_date);
+                $get_card->save();
+                $leave->vacation_total = $leave->vacation_total + $vl;
+                $leave->sick_total = $leave->sick_total + $sl;
                 $leave->save();
-                $card->date_used = implode(',', $used_date);
-                $card->save();
+                $pis2->vacation_balance = $pis2->vacation_balance + $vl;
+                $pis2->sick_balance = $pis2->sick_balance + $sl;
+                $pis2->save();
+                $spl->save();
+
+                $all_card = LeaveCardView::where('id', '>', $get_card->id)->where('userid', $leave->userid)->get();
+                foreach ($all_card as $data){
+                    $data->vl_bal = $data->vl_bal + $vl;
+                    $data->sl_bal = $data->sl_bal + $sl;
+                    $data->save();
+                }
             }
         }
-
         return Redirect::back();
     }
 
