@@ -1045,58 +1045,63 @@ class AdminController extends BaseController
     }
 
     public function move_dates(){
+        $route = Input::get('route_no');
+        $result = Input::get('result');
+        $dates = Input::get('dates');
 
-        $route = Input::get('move_route');
-        $date_replace = explode(',', Input::get('to_date'));
-        $to_replace = [];
-        foreach ($date_replace as $rep){
-            if(!empty($rep) && $rep != " " && $rep != ""){
-                $to_replace[] = $rep;
-            }
-        }
         $leave = Leave::where('route_no', $route)->first();
-        $all = LeaveAppliedDates::where('leave_id', $leave->id)->get();
-        foreach ($all as $al){
-            $al->delete();
-        }
-        $dates = explode(',', Input::get('dates_leave'));
-        $current = explode(',', Input::get('from_date'));
-        $num_days = 0;
-        $date_save = [];
-        foreach ($dates as $date_val){
-            $applied = new LeaveAppliedDates();
-            $applied->startdate = date('Y-m-d', strtotime($date_val));
-            $applied->enddate = date('Y-m-d', strtotime($date_val));
-            $applied->leave_id = $leave->id;
-            if(in_array($date_val, $current)){
-                $index = array_search($date_val, $current);
-                $parts = explode(' - ', $to_replace[$index]);
-                $from = date('Y-m-d', strtotime($parts[0]));
-                $applied->from_date = $from;
-                $to = date('Y-m-d',strtotime($parts[1]));
-                $applied->to_date = $to;
-                $applied->status = 2;
-                if($from == $to){
-                    $date_save[] = date('F j, Y', strtotime($date_val)).'('.date('F j, Y', strtotime($from)).')';
-                }else{
-                    $date_save[] = date('F j, Y', strtotime($date_val)).'('.date('F j, Y', strtotime($from)).'-'.date('F j, Y', strtotime($to)).')';
+        if($leave){
+            $applied_dates = LeaveAppliedDates::where('leave_id', $leave->id)->get();
+            $hasStatus = $applied_dates->filter(function ($date) {
+                    return !empty($date->status);
+                })->count() > 0;
+
+            if (!$hasStatus) {
+                LeaveAppliedDates::where('leave_id', $leave->id)->delete();
+                foreach ($dates as $date){
+                    $new_date = new LeaveAppliedDates();
+                    $new_date->leave_id = $leave->id;
+                    $new_date->startdate = date('Y-m-d', strtotime($date));
+                    $new_date->enddate =date('Y-m-d', strtotime($date));
+                    $new_date->save();
                 }
-
-            }else{
-                $date_save[] = date('F j, Y', strtotime($date_val));
             }
-            $applied->save();
-            $num_days = $num_days + 1;
+
+            foreach ($result as $data){
+                $check_leave = LeaveAppliedDates::where('startdate', date('Y-m-d', strtotime($data['from_date'])))->where('leave_id', $leave->id)->first();
+                if($check_leave){
+//                    return $check_leave;
+                    $check_leave->from_date = date('Y-m-d', strtotime($data['move_date']));
+                    $check_leave->to_date = date('Y-m-d', strtotime($data['move_date']));
+                    $check_leave->status = 2;
+                    $check_leave->save();
+                }
+            }
+
+            $leave_card = LeaveCardView::where('leave_id', $leave->id)->first();
+            $selected_dates= LeaveAppliedDates::where('leave_id', $leave->id)->get();
+            $date_used = [];
+            if($leave_card){
+                foreach ($selected_dates as $date){
+                    if($date->status == 1){
+                        $date_used[] = "<s>" . date('F j, Y', strtotime($date->startdate)) . "</s>";
+                    }elseif ($date->status == 2){
+                        $date_used[] = "("."<s>" . date('F j, Y', strtotime($date->startdate)) . "</s>".")". " ". date('F j, Y', strtotime($date->from_date));
+                    }else{
+                        if($date->startdate == $date->enddate){
+                            $date_used[] = date('F j, Y', strtotime($date->startdate));
+                        }else{
+                            $date_used[] = date('F j, Y', strtotime($date->startdate)) .'-'.  date('F j, Y', strtotime($date->enddate));
+                        }
+                    }
+                }
+                $leave_card->date_used = str_replace(['[', ']', '"'], '',json_encode($date_used));
+                $leave_card->save();
+            }
+            return "success";
+        }else{
+            return "error";
         }
-        $card = LeaveCardView::where('leave_id', $leave->id)->first();
-        $card->particulars = $card->particulars.'('.$num_days.')';
-        $card->date_used = implode(',', $date_save);
-        $card->save();
-
-        $leave->status = 2;
-        $leave->save();
-
-        return Redirect::back();
     }
     public function remarks(){
         $route = Input::get('route_remarks');

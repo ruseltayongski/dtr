@@ -21,7 +21,9 @@
                     <td class="text-center">
                         @foreach($row->appliedDates as $applied)
                             @if($applied->status == 1)
-                                {{date('F j, Y', strtotime($applied->startdate)). '(cancelled)'}}
+                                {{ '<s>'. date('F j, Y', strtotime($applied->startdate)) .'</s>'}}
+                            @elseif($applied->status == 2)
+                                {{ '<s>'. date('F j, Y', strtotime($applied->startdate)).'</s>'.' '. date('F j, Y', strtotime($applied->from_date))}}
                             @else
                                 @if($applied->startdate == $applied->enddate)
                                     {{date('F j, Y', strtotime($applied->startdate))}}

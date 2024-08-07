@@ -1,5 +1,10 @@
 @extends('layouts.app')
 @section('content')
+    <style>
+        .chosen-container-single{
+            width: 180px !important;
+        }
+    </style>
     <div class="box box-info">
         <div class="box-body">
             <div class="row">
@@ -383,12 +388,15 @@
                 }
             });
         }
-
+        var move_route = '';
+        var dateList = [];
         function move_dates(event) {
             $('#move_body').empty();
             var name = event.target.getAttribute('value');
+            move_route = name;
             $('#route').val(name);
             $('#move_route').val(name);
+            console.log('name', name);
 
                 <?php $routes = Leave::get(); ?>
                 <?php foreach ($routes as $route){ ?>
@@ -397,10 +405,7 @@
 
                 $(".modal-title").html("Route No:<strong>"+route);
                     <?php $dates = LeaveAppliedDates::where('leave_id', '=', $route->id)->where('status', '!=', 1)->get(); ?>
-                var dateList= [];
-                //                var dateTime = [];//for cdo_hours
                     <?php foreach ($dates as $date) {?>
-                var container = document.querySelector("#move_date table");
                 var diff = "<?php $diff=(strtotime($date->startdate)-strtotime($date->enddate))/ (60*60*24); echo $diff*-1; ?>";
                 var startDate = new Date("<?php echo date('F j, Y', strtotime($date->startdate)); ?>");
                 var endDate = new Date("<?php echo date('F j, Y', strtotime($date->enddate)); ?>");
@@ -417,49 +422,134 @@
                 var length = dateList.length;
                 var i=0;
 
-                while (length > i) {
-                    var html = '<div class="checkbox">' +
-                        '<label style="margin-left: 15%">' +
-                        '<input type="checkbox" style="transform: scale(1.5)" class="minimal" id="applied_dates_'+ i +'" name="applied_dates" value="' + dateList[i] + '"  />' +
-                        dateList[i] +
-                        '<div class="table-data">'+
-                        '<div class="input-group">'+
-                        '<div class="input-group-addon" style="height: 10px; vertical-align: top">'+
-                        '<i class="fa fa-calendar">' +
-                        '</i>'+
-                        '</div>'+
-                        '<input style="width: 90%; vertical-align: top; height: 30px;" type="text" class="from control move_datepickerInput" id="move_datepicker _ '+ i +'" name="move_datepicker[]" placeholder="Select Date/s...">'+
-                        '</div>'+
-                        '</div>'+
-                        '</div>';
-                    container.innerHTML += html;
-                    i = i + 1;
-                    var latestSelectedDates = [];
-
-                    $('.move_datepickerInput').daterangepicker({
-                        autoclose: true
-                    }).on('apply.daterangepicker', function (ev, picker) {
-                        var date = $(this).val();
-                        var inputIndex = $('.move_datepickerInput').index(this);
-                        latestSelectedDates[inputIndex] = date;
-
-                        $('#to_date').val(latestSelectedDates.join(', '));
-                    });
+                while(length > i){
+                    $('#move_select').append($('<option>', {
+                        value: dateList[i],
+                        text: dateList[i]
+                    }))
+                    i++;
                 }
 
-                $('#dates_leave').val(dateList);
+                $('.move_datepickerInput').datepicker({
+                    autoclose: true
+                });
+
             }
             <?php }?>
+            $('#move_select').chosen();
 
-            $('input[type="checkbox"]').on('change', function () {
 
-                var selectedCheckboxes = [];
-                $('input[name="applied_dates"]:checked').each(function () {
-                    selectedCheckboxes.push($(this).val());
+        }
+
+        var result = [];
+
+        function check() {
+            $('.for_clone').each(function() {
+                var $clone = $(this);
+                var date_move = $clone.find('select');
+                var move_date = $clone.find('.move_datepickerInput');
+
+                result.push({
+                    from_date: date_move.val(),
+                    move_date: move_date.val()
                 });
-                $('#from_date').val(selectedCheckboxes.join(', '));
+            });
+
+            var filteredResult = result.filter(function(item) {
+                return item.in_date && item.move_date;
+            });
+
+            var latestResult = filteredResult.reduce(function(acc, current) {
+                var moveDateParts = current.move_date.split(" - ")[0].split('/');
+                var currentMoveDate = new Date(moveDateParts[2], moveDateParts[0] - 1, moveDateParts[1]);
+
+                if (!acc[current.in_date] || currentMoveDate > acc[current.in_date].moveDateObj) {
+                    acc[current.in_date] = {
+                        move_date: current.move_date,
+                        moveDateObj: currentMoveDate
+                    };
+                }
+                return acc;
+            }, {});
+
+            var uniqueResult = Object.keys(latestResult).map(function(in_date) {
+                return {
+                    in_date: in_date,
+                    move_date: latestResult[in_date].move_date
+                };
             });
         }
+
+        function subsub(){
+            check();
+            $.ajax({
+                type: 'POST',
+                url: '/dtr/move_dates',
+                data: {
+                    _token: '{{ csrf_token() }}',
+                    result: result,
+                    route_no: move_route,
+                    dates: dateList
+                },
+                success: function(response) {
+                    console.log('res', response);
+                    if(response == "success"){
+                        setTimeout(function(){
+                            Lobibox.notify('success', {
+                                size: 'mini',
+                                title: '',
+                                msg: 'Leave application successfully moved!'
+                            });
+                        },700);
+                        location.reload();
+                    }else{
+                        setTimeout(function(){
+                            Lobibox.notify('error', {
+                                size: 'mini',
+                                title: '',
+                                msg: 'Leave application is not found!'
+                            });
+                        },700);
+                        location.reload();
+                    }
+                },
+                error: function(xhr, status, error) {
+                    // Log the status and error
+                    console.log('Status:', status);
+                    console.log('Error:', error);
+                    console.log('Response Text:', xhr.responseText);
+                    try {
+                        var jsonResponse = JSON.parse(xhr.responseText);
+                        console.log('Response JSON:', jsonResponse);
+                    } catch (e) {
+                        console.log('Response is not JSON:', xhr.responseText);
+                    }
+                    console.log('Status Code:', xhr.status);
+                }
+            });
+        }
+
+        function addMove(button) {
+            var $clone = button.closest('.for_clone').clone();
+            var $select = $clone.find('select');
+
+            $select.chosen('destroy');
+            $clone.find('.chosen-container').remove();
+
+            $clone.find('button').text(' - ').attr('onclick', 'removeMove($(this))');
+            $clone.find('button').attr('class', 'btn-danger');
+            $clone.find('.move_datepickerInput').val('');
+
+            $clone.insertAfter('.for_clone:last');
+
+            $select.chosen();
+            $clone.find('.move_datepickerInput').datepicker();
+        }
+
+        function removeMove(button) {
+            button.closest('.for_clone').remove();
+        }
+
 
     </script>
 @endsection

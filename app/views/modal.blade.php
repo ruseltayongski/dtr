@@ -506,20 +506,6 @@
                                 <input type="number" name="sl_deduct">
                             </div>
                         </div>
-                        {{--<div class="has-success">--}}
-                        {{--<div class="checkbox">--}}
-                        {{--<label>--}}
-                        {{--<input type="radio" value="1" name="approved_for"> days with pay--}}
-                        {{--</label><br>--}}
-                        {{--<label>--}}
-                        {{--<input type="radio" value="2" name="approved_for"> days without pay--}}
-                        {{--</label>--}}
-                        {{--<label>--}}
-                        {{--<input type="radio" value="3" name="approved_for"> others (Specify)--}}
-                        {{--<input type="text"  name="for_others" style=" height: 40px;width: 250px" />--}}
-                        {{--</label>--}}
-                        {{--</div>--}}
-                        {{--</div>--}}
                     </b>
                 </div>
                 <div class="modal-footer">
@@ -580,16 +566,28 @@
                     <button style="display: inline-block" type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 </div>
                 <div>
-                    <table class="modal-body table" id="move_body">
+                    <label style="margin-left: 3%">Select dates to Move:</label>
+                    <div style="margin-left: 5%; text-align: center" class="for_clone">
+                        <select class="chosen-select-static form-control" name="move_select" id="move_select" required style="width: 70%;margin-right: 10%">
 
-                    </table>
+                        </select>
+                        <button type="button" class="btn btn-sm btn-info" style="width: 15%; height: 33px" onclick="addMove($(this))"> + </button>
+                        <div class="input-group" style="background-color: green; margin-left: 10.5%; width: 180px;">
+                            <div class="input-group-addon" style="height: 10px; vertical-align: top;">
+                                <i class="fa fa-calendar"></i>
+                            </div>
+                            <input style="=vertical-align: top; height: 30px; width:100%" type="text" class="from-control move_datepickerInput" id="move_datepicker" name="move_datepicker[]" placeholder="Select Date/s...">
+                        </div>
+                    </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" value="specific_date" class="btn btn-success">Submit</button>
+                    <button type="button" id="check" value="" onclick="subsub()" class="btn btn-success ">Submit</button>
                     <input type="hidden" id="from_date" name="from_date">
                     <input type="hidden" id="to_date" name="to_date">
                     <input type="hidden" id="move_route" name="move_route">
                     <input type="hidden" id="dates_leave" name="dates_leave">
+                    <input type="hidden" id="new_dates" name="new_dates">
+
                 </div>
             </form>
         </div>
