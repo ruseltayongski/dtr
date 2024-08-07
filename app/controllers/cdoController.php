@@ -1792,9 +1792,21 @@ class cdoController extends BaseController
                 $spl->save();
             }else{
 //                return $get_card;
-                foreach ($leave_dates as $apply){
-                    $apply->delete();
+                $hasStatus = $leave_dates->filter(function ($date) {
+                        return !empty($date->status);
+                    })->count() > 0;
+
+                if (!$hasStatus) {
+                    LeaveAppliedDates::where('leave_id', $leave->id)->delete();
+                    foreach ($dates as $date){
+                        $new_date = new LeaveAppliedDates();
+                        $new_date->leave_id = $leave->id;
+                        $new_date->startdate = date('Y-m-d', strtotime($date));
+                        $new_date->enddate =date('Y-m-d', strtotime($date));
+                        $new_date->save();
+                    }
                 }
+
                 $date_list = array_map('trim', $dates);
                 $selected = array_map('trim', $selected);
                 $used_date = [];
@@ -1802,19 +1814,17 @@ class cdoController extends BaseController
                 $vl = 0; $sl = 0;
                 foreach ($date_list as $index=> $date){
 
-                    $timestamp = strtotime($date);
-                    $new_applied = new LeaveAppliedDates();
-                    if(in_array($date, $selected)){
-                        $used_date[] = '('."<s>".date('F j, Y', strtotime($date))."</s>". ')';
-                        $new_applied->status = 1;
-                        $count++;
-                    }else{
-                        $used_date[] = date('F j, Y', strtotime($date));
+                    $get_date = LeaveAppliedDates::where('leave_id', $leave->id)->where('startdate', date('Y-m-d', strtotime($date)))->first();
+                    if($get_date){
+                        if(in_array($date, $selected)){
+                            $used_date[] = '('."<s>".date('F j, Y', strtotime($date))."</s>". ')';
+                            $get_date->status = 1;
+                            $count++;
+                        }else{
+                            $used_date[] = date('F j, Y', strtotime($date));
+                        }
+                        $get_date->save();
                     }
-                    $new_applied->startdate = date('Y-m-d', $timestamp);
-                    $new_applied->enddate = date('Y-m-d', $timestamp);
-                    $new_applied->leave_id = $leave->id;
-                    $new_applied->save();
                 }
                 //get_card ->leave card
                 //leave -> leave
