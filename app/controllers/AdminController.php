@@ -1018,22 +1018,45 @@ class AdminController extends BaseController
 
     public function leave_credits()
     {
-//        return 2;
-       return "Leave is under development";
-        $id= Input::get('viewCard');
-//        return $id;
+        // pis list isn't updated for reqular employees, people who can avail leave as of august 2, 2024
+
+       $ids = [
+            "201700267", "001", "201400188", "202100303", "199900064", "200200097", "202300324", "199100053",
+            "201700272", "20230034", "198200051", "201600254", "201500252", "202300326", "199700045", "202100300",
+            "202300322", "202000299", "198600029", "199400080", "202200307", "201400180", "201400185", "200300038",
+            "199100050", "200000039", "201900293", "201400178", "202400339", "201900285", "201400184", "202300335",
+            "201400177", "200200059", "201400182", "202400337", "201400240", "201900280", "201700271", "199000006",
+            "201400181", "201800276", "198100040", "201900282", "199200016", "201700273", "199800018", "201900292",
+            "202300323", "199900085", "201400222", "202300329", "201900289", "202100301", "202400341", "201400221",
+            "199200075", "199600167", "201900290", "201500253", "201900281", "201400227", "202300331", "201600257",
+            "201400200", "201400224", "201400194", "202300317", "201900291", "202400340", "201400210", "201400213",
+            "202300320", "199100004", "202300330", "202400338", "201600258", "201800274", "201400242", "201400243",
+            "199900026", "201600256", "200300012", "201800279", "201400189", "202200312", "199800063", "201400202",
+            "202000300", "202100302", "202300325", "201400225", "201400208", "2014134", "201400219", "202300319",
+            "201400199", "202300332", "202100304", "202300333", "201900283", "201000076", "201400176", "201400211",
+            "0006", "202200311", "0553", "202200313", "0919", "202400342", "202100306", "201400209", "201400212",
+            "202300328", "201700264", "202100307", "202300314", "201800275", "199800169", "202400343", "201600260",
+            "201400206", "201400191", "202000305", "201800277", "199800028", "201400207", "201900287", "200200122",
+            "202300327", "199700084", "198200071", "199800124", "201400229", "201400193", "201400230", "20110004",
+            "201700265", "199500095", "201400244", "200300126", "202200310", "200400141", "202300315", "201400234",
+            "201400232", "202200308", "200800144", "201400231", "200400142", "200300125", "199100159", "201900294",
+            "199600168", "199300165", "201800278", "201900296", "201900288", "199000152", "201900295", "200800145",
+            "201400237", "201400239", "201900284", "2014000238", "1572", "1127", "0005", "0190046"
+        ];
+
         $keyword = Input::get('search');
         $leave_card = LeaveCardView::get();
         $pis = DB::connection('pis')
         ->table('pis.personal_information')
-            ->join('dohdtr.addtnl_leave', 'addtnl_leave.userid', '=', 'personal_information.userid')
-            ->where('personal_information.job_status', '=', 'Permanent')
+            ->whereIn('personal_information.userid', $ids)
             ->where(function ($q) use ($keyword) {
                 $q->where('personal_information.fname', 'like', "%$keyword%")
                     ->orWhere('personal_information.mname', 'like', "%$keyword%")
                     ->orWhere('personal_information.lname', 'like', "%$keyword%")
                     ->orWhere('personal_information.userid', 'like', "%$keyword%");
             })
+            ->leftjoin('dohdtr.addtnl_leave', 'addtnl_leave.userid', '=', 'personal_information.userid')
+            ->select('personal_information.*', 'addtnl_leave.FL','addtnl_leave.SPL')
             ->orderBy('personal_information.fname', 'asc')
             ->paginate(10);
 
@@ -1245,11 +1268,21 @@ class AdminController extends BaseController
         $userid = Input::get('userid_bal');
         $vl = Input::get('vacation');
         $sl = Input::get('sick');
+        $fl = Input::get('fl');
+        $spl = Input::get('spl');
         $pis = InformationPersonal::where('userid', $userid)->first();
         $pis->vacation_balance = $vl;
         $pis->sick_balance = $sl;
         $pis->save();
-        return Redirect::back()->with('update_leave_balance', "Successfully updated leave balance!");
+        $add_leave = AditionalLeave::where('userid', $userid)->first();
+        if($add_leave){
+            $add_leave->FL = $fl;
+            $add_leave->SPL = $spl;
+            $add_leave->save();
+            return Redirect::back()->with('update_leave_balance', "Leave data is not found!");
+        }
+
+        return Redirect::back()->with('update_leave_balance', "Successfully updated leave balances!");
     }
 
     public function update_absence(){
@@ -1257,35 +1290,63 @@ class AdminController extends BaseController
         $id = Input::get('card_id');
         $date = Input::get('month_date');
         $leave_card = LeaveCardView::where('id', $id)->first();
+        $before_card = LeaveCardView::where('id', '<', $id)->where('userid', $leave_card->userid)->first();
         $all_card = LeaveCardView::where('id', '>', $id)->where('userid', $leave_card->userid)->get();
         $new_days = Input::get('absence');
         $pis = InformationPersonal::where('userid', $leave_card->userid)->first();
-        if($action == 'update'){
-            $old_days = $leave_card->vl_abswop;
-            $pis->vacation_balance = $pis->vacation_balance + $leave_card->vl_abswop;
-            $pis->sick_balance = $pis->sick_balance + $leave_card->vl_abswop;
-            $pis->save();
-            $leave_card->particulars = 'deduct '.$new_days. ' day(s)';
-            $leave_card->vl_abswop = round($new_days * 0.04167, 3);
-            $leave_card->sl_abswop = round($new_days * 0.04167, 3);
-            $leave_card->save();
-            foreach ($all_card as $row){
-                $row->vl_bal = ($row->vl_bal != null)?$row->vl_bal + $old_days - round($new_days * 0.04167, 3) :'';
-                $row->sl_bal = ($row->vl_bal != null)?$row->sl_bal + $old_days - round($new_days * 0.04167, 3):'';
-                $row->save();
-            }
-        }else{
-            foreach ($all_card as $row){
-                $row->vl_bal = ($row->vl_bal != null)?$row->vl_bal - round($new_days * 0.04167, 3):'';
-                $row->sl_bal = ($row->sl_bal != null)?$row->sl_bal - round($new_days * 0.04167, 3):'';
-                $row->save();
+        if($leave_card->remarks == 0){
+            $deduction = floatval($leave_card->particulars);
+            // existing 2, 5,7,9 deduction 1 6,8,10 =  2-1 = val + res
+            // existing 2, 5,7,9 deduction 3 4,6,8  2-3 = val+ res
+            $deduction = $deduction - $new_days;
+            foreach ($all_card as $data){
+                $data->vl_bal = $data->vl_bal + $deduction;
+                $data->sl_bal = $data->sl_bal + $deduction;
+                $data->save();
             }
 
-            $pis->vacation_balance = $pis->vacation_balance - round($new_days * 0.04167, 3);
-            $pis->sick_balance = $pis->sick_balance - round($new_days * 0.04167, 3);
+            $pis->vacation_balance = $pis->vacation_balance + $deduction;
+            $pis->sick_balance = $pis->sick_balance + $deduction;
             $pis->save();
-            $leave_card->delete();
+            $date = explode('-', $date);
+            $date_from = date('Y-m-d', strtotime($date[0]));
+            $date_to = date('Y-m-d', strtotime($date[1]));
+            $displaydate = date('F', strtotime($date_from)) . " 1-" .  date('d', strtotime($date_to)) . ", ". date('Y', strtotime($date_to));
+            $leave_card->date_used = $displaydate;
+            $leave_card->vl_bal = $deduction + $before_card->vl_bal;
+            $leave_card->sl_bal = $deduction + $before_card->sl_bal;
+            $leave_card->particulars = 'UT ('.$deduction < 0 ? -($deduction) : $deduction .')';
+            $leave_card->status = 0;
+            $leave_card->save();
+        }else{
+            if($action == 'update'){
+                $old_days = $leave_card->vl_abswop;
+                $pis->vacation_balance = $pis->vacation_balance + $leave_card->vl_abswop;
+                $pis->sick_balance = $pis->sick_balance + $leave_card->vl_abswop;
+                $pis->save();
+                $leave_card->particulars = 'deduct '.$new_days. ' day(s)';
+                $leave_card->vl_abswop = round($new_days * 0.04167, 3);
+                $leave_card->sl_abswop = round($new_days * 0.04167, 3);
+                $leave_card->save();
+                foreach ($all_card as $row){
+                    $row->vl_bal = ($row->vl_bal != null)?$row->vl_bal + $old_days - round($new_days * 0.04167, 3) :'';
+                    $row->sl_bal = ($row->vl_bal != null)?$row->sl_bal + $old_days - round($new_days * 0.04167, 3):'';
+                    $row->save();
+                }
+            }else{
+                foreach ($all_card as $row){
+                    $row->vl_bal = ($row->vl_bal != null)?$row->vl_bal - round($new_days * 0.04167, 3):'';
+                    $row->sl_bal = ($row->sl_bal != null)?$row->sl_bal - round($new_days * 0.04167, 3):'';
+                    $row->save();
+                }
+
+                $pis->vacation_balance = $pis->vacation_balance - round($new_days * 0.04167, 3);
+                $pis->sick_balance = $pis->sick_balance - round($new_days * 0.04167, 3);
+                $pis->save();
+                $leave_card->delete();
+            }
         }
+
         return Redirect::back();
 
     }

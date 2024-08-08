@@ -59,7 +59,7 @@
                             <label class="text-danger">Special Privilege: @if($user->SPL) {{ $user->SPL }} @else 0 @endif</label>
                         </td>
                         <td>
-                            <button class="button btn-sm leave_balance" style="background-color: #9C8AA5;color: white" data-toggle="modal" data-id="{{ $user->userid }}" data-vacation="{{ $user->vacation_balance }}" data-sick="{{ $user->sick_balance }}" data-target="#leave_balance">Update Leave Balance</button>
+                            <button class="button btn-sm leave_balance" style="background-color: #9C8AA5;color: white" data-toggle="modal" data-id="{{ $user->userid }}" data-fl="{{$user->FL? $user->FL : 0}}" data-spl="{{$user->SPL? $user->SPL : 0}}" data-vacation="{{ $user->vacation_balance }}" data-sick="{{ $user->sick_balance }}" data-target="#leave_balance">Update Leave Balance</button>
                             <button class="button btn-sm leave_ledger" style="background-color: #31b0d5;color: white" data-toggle="modal" data-id="{{ $user->userid }}" id="viewCard" name="viewCard" data-toggle="modal"
                                     data-target="#leave_ledger"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>View Leave Balance</button>
                         </td>
@@ -83,19 +83,6 @@
         $('.range').daterangepicker({
             autoclose:true
         });
-
-        //to be updatedddd
-//        function updatePeriod(button) {
-//            var row = $(button).closest('tr');
-//            $('.userid').val($('.user_iid').val());
-//            var rowData = {};
-//            row.find('td').each(function (cellIndex, cell) {
-//                var columnName = 'data' + (cellIndex+1);
-//                rowData[columnName] = $(cell).text().trim();
-//            });
-//
-//            $('#range').val(rowData.data1);
-//        }
 
         $(document).ready(function () {
             $("#viewCard").on("click", function(){
@@ -132,6 +119,8 @@
                         <?php endif; ?>
                         <?php if (strpos($card->particulars, 'deduct') !== false): ?>
                             "<td style= 'border: 1px solid black'><a href= '#' data-toggle='modal' onclick='checkAbsence(this)' data-target='#modify_deduction'><?php echo $card->particulars; ?></a></td>" +
+                        <?php elseif ($card->remarks == 0): ?>
+                            "<td style= 'border: 1px solid black'><a href= '#' data-toggle='modal' onclick='updateUT(this)' data-target='#modify_deduction'><?php echo $card->particulars; ?></a></td>" +
                         <?php else: ?>
                             "<td style= 'border: 1px solid black'><?php echo $card->particulars; ?></td>" +
                         <?php endif; ?>
@@ -159,6 +148,8 @@
 
         $(".leave_balance").on('click',function(e){
             $('.leave_modal').html(loadingState);
+            var fl = $(this).data('fl');
+            var spl = $(this).data('spl');
             var vacation = $(this).data('vacation');
             var sick = $(this).data('sick');
             var userid = $(this).data('id');
@@ -182,13 +173,28 @@
                             "<input type='text' class='form-control' id='sick' value='"+sick+"' name='sick' required>" +
                         "</td>" +
                     "</tr>" +
+                        "<tr>" +
+                        "<td class='col-sm-3'><strong>SPL Balance</strong></td>" +
+                        "<td class='col-sm-1'>: </td>" +
+                        "<td class='col-sm-9'>" +
+                        "<input type='text' class='form-control' id='spl' value='"+spl+"' name='spl' required>" +
+                        "</td>" +
+                    "</tr>" +
+                    "<tr>" +
+                        "<td class='col-sm-3'><strong>FL Balance</strong></td>" +
+                        "<td class='col-sm-1'>: </td>" +
+                        "<td class='col-sm-9'>" +
+                        "<input type='text' class='form-control' id='fl' value='"+fl+"' name='fl' required>" +
+                        "</td>" +
+                    "</tr>" +
                 "</table>");
             },500);
         });
 
-
         function checkAbsence(button) {
-            $("#option2").show();
+            $('#month_date').val('');
+            $('#absence').val('');
+            $(".card_id").val('');
             var row = $(button).closest('tr');
             var rowData = {};
             row.find('td').each(function(cellIndex, cell) {
@@ -213,6 +219,44 @@
             $(".modify_userid").val(rowData.data12);
             $(".card_id").val(rowData.data13);
             $("#absence").val(total.toFixed(0));
+        }
+
+        function updateUT(button){
+            console.log('update ut');
+            $('#month_date').val('');
+            $('#absence').val('');
+            $(".card_id").val('');
+
+            $(".delete_btn").hide();
+            var row = $(button).closest('tr');
+            var rowData = {};
+            row.find('td').each(function(cellIndex, cell) {
+                var columnName = 'data' + (cellIndex + 1);
+                rowData[columnName] = $(cell).text().trim();
+            });
+
+            if(rowData.data11 == null ||rowData.data11 == '' ){
+                $('#month_date').daterangepicker();
+            }else{
+                var dates = (rowData.data11).split("-");
+                var get_year = moment(dates[1],'MMMM D, YYYY');
+                var start = dates[0] +', '+get_year.year();
+                var startDate = moment(start,'MMMM D, YYYY');
+                var end = startDate.format('MMMM')+ " "+dates[1];
+                var endDate = moment(end, 'MMMM D, YYYY');
+                $('#month_date').daterangepicker({
+                    startDate: startDate,
+                    endDate: endDate,
+                    locale: {
+                        format: 'MM/DD/YYYY'
+                    }
+                });
+                $('#month_date').val(startDate.format('MM/DD/YYYY') + ' - ' + endDate.format('MM/DD/YYYY'));
+            }
+
+            $(".modify_userid").val(rowData.data12);
+            $(".card_id").val(rowData.data13);
+            $("#absence").val((rowData.data10 == '')? 0 : rowData.data10);
         }
     </script>
 @endsection

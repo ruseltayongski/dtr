@@ -1759,7 +1759,7 @@ class cdoController extends BaseController
             }
             $dateList = implode(',', $dateList);
             $get_card = LeaveCardView::where('leave_id', $leave->id)->where('userid', $leave->userid)->first();
-            $all_card = LeaveCardView::where('id','>', $get_card->id)->where('userid', $leave->userid)->get();
+            $all_card = LeaveCardView::where('id','>', $get_card->id)->where('userid', $leave->userid)->where('status', '!=', 1)->get();
             if(in_array("cancel_all", $selected)){
                 $pis2->vacation_balance = $pis2->vacation_balance - $leave->vl_deduct;
                 $pis2->sick_balance = $pis2->sick_balance - $leave->sl_deduct;
@@ -1895,7 +1895,7 @@ class cdoController extends BaseController
                 $pis2->save();
                 $spl->save();
 
-                $all_card = LeaveCardView::where('id', '>', $get_card->id)->where('userid', $leave->userid)->get();
+                $all_card = LeaveCardView::where('id', '>', $get_card->id)->where('userid', $leave->userid)->where('status', '!=', 1)->get();
                 foreach ($all_card as $data){
                     $data->vl_bal = $data->vl_bal + $vl;
                     $data->sl_bal = $data->sl_bal + $sl;

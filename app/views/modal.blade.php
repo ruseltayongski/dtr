@@ -1072,7 +1072,7 @@
                     <h4 class="modal-title"><i class="fa fa-pencil"></i> Update Leave Balance</h4>
                 </div>
                 <div>
-                    <table class="table">
+                    <table class="table" id="absence_table">
                         <tr>
                             <td class="col-sm-3"><strong>User Id </strong></td>
                             <td class="col-sm-1">: </td>
@@ -1096,7 +1096,7 @@
                             <td class="col-sm-3"><strong>Deduction/ Absence </strong></td>
                             <td class="col-sm-1">: </td>
                             <td class="col-sm-9">
-                                <input type="number" class="col-md-2 form-control" id="absence" name="absence" value="" required autocomplete="off">
+                                <input type="text" class="col-md-2 form-control" id="absence" name="absence" value="" required autocomplete="off">
                             </td>
                         </tr>
                     </table>
@@ -1104,7 +1104,7 @@
                 <div class="modal-footer">
                     <input type="hidden" class="card_id" name="card_id">
                     <button type="submit" value="update" name="action" class="btn btn-success" style="color:white;" ><i class="fa fa-pencil"> Update</i></button>
-                    <button type="submit" value="delete" name="action" class="btn btn-danger" style="color:white;"><i class="fa fa-trash"> Delete</i></button>
+                    <button type="submit" value="delete" name="action" class="btn btn-danger delete_btn" style="color:white;"><i class="fa fa-trash"> Delete</i></button>
                 </div>
             </form>
 
