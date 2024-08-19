@@ -119,7 +119,7 @@ Route::match(['get','post'], 'edit/personal/attendance/{id?}', 'PersonalControll
 Route::match(array('GET','POST'),'/personal/add/logs', 'PersonalController@add_logs');
 Route::match(['GET','POST'],'create/absent/description', 'PersonalController@absent_description');
 Route::post('delete/user/created/logs','PersonalController@delete_created_logs');
-
+Route::match(['GET', 'POST'],'personal/excel/{id}','DocumentController@timelogs_excel');
 
 //DOCUMENTS
 Route::match(array('GET','POST'),'form/leave','DocumentController@leave');
