@@ -1291,7 +1291,7 @@ class AdminController extends BaseController
         $date = Input::get('month_date');
         $leave_card = LeaveCardView::where('id', $id)->first();
         $before_card = LeaveCardView::where('id', '<', $id)->where('userid', $leave_card->userid)->first();
-        $all_card = LeaveCardView::where('id', '>', $id)->where('userid', $leave_card->userid)->get();
+        $all_card = LeaveCardView::where('id', '>', $id)->where('userid', $leave_card->userid)->where('status', '!=', 1)->get();
         $new_days = Input::get('absence');
         $pis = InformationPersonal::where('userid', $leave_card->userid)->first();
         if($leave_card->remarks == 0){
@@ -1311,8 +1311,8 @@ class AdminController extends BaseController
             $date = explode('-', $date);
             $date_from = date('Y-m-d', strtotime($date[0]));
             $date_to = date('Y-m-d', strtotime($date[1]));
-            $displaydate = date('F', strtotime($date_from)) . " 1-" .  date('d', strtotime($date_to)) . ", ". date('Y', strtotime($date_to));
-            $leave_card->date_used = $displaydate;
+            $display_date = date('F', strtotime($date_from)) . " 1-" .  date('d', strtotime($date_to)) . ", ". date('Y', strtotime($date_to));
+            $leave_card->date_used = $display_date;
             $leave_card->vl_bal = $deduction + $before_card->vl_bal;
             $leave_card->sl_bal = $deduction + $before_card->sl_bal;
             $leave_card->particulars = 'UT ('.$deduction < 0 ? -($deduction) : $deduction .')';

@@ -16,31 +16,15 @@ $pdf->Text(35,282.5,'days with pay');
 $pdf->Text(35,286.5,'others without pay');
 $pdf->Text(35,290.5,'others (Specify)');
 
-//
-//$pdf->SetFont('Arial','BU',8);
-//$pdf->Text(15,255,'             ');
-//
-//$pdf->SetFont('Arial','',8);
-//$pdf->Text(26,255,'days with pay');
-//
-//$pdf->SetFont('Arial','BU',8);
-//$pdf->Text(15,259,'             ');
-//
-//$pdf->SetFont('Arial','',8);
-//$pdf->Text(26,259,'days without pay');
-//
-//$pdf->SetFont('Arial','BU',8);
-//$pdf->Text(15,263,'             ');
-//
-//$pdf->SetFont('Arial','',8);
-//$pdf->Text(26,263,'	others (Specify)');
-//
+$pdf->Text(22,282.5,($leave['with_pay'] != 0) ? $leave['with_pay'] : '');
+$pdf->Text(35,286.5,($leave['without_pay'] != 0) ? $leave['without_pay'] : '');
 $pdf->Text(114,278,'7.D DISAPPROVED DUE TO:');
 //
 $pdf->Image(__DIR__.'../../image/line.png',122,282.5,66,0.6);
 $pdf->Image(__DIR__.'../../image/line.png',122,286.5,66,0.6);
 $pdf->Image(__DIR__.'../../image/line.png',122,290.5,66,0.6);
 $pdf->Image(__DIR__.'../../image/line.png',72,304,60,0.6);
+$pdf->Text(78,304,$officer_1['fname'] .' '.$officer_1['lname']);
 $pdf->SetFont('Arial','B',8);
 $pdf->Text(88,308,'(Authorized Official)');
 ?>

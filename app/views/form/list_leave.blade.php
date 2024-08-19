@@ -145,26 +145,27 @@
                 var count=0;
                 <?php if(count($leave_card)>0){?>
                     <?php foreach ($leave_card as $card){ ?>
-
-                        var tabledata1 = "<tr>" +
-                            <?php if ($card->period !== null): ?>
-                                "<td style= 'border: 1px solid black'><?php echo $card->period; ?></td>"+
-                            <?php else: ?>
-                                "<td style= 'border: 1px solid black'></td>"+
-                            <?php endif; ?>
-                                "<td style= 'border: 1px solid black'><?php echo $card->particulars; ?></td>" +
-                                "<td style= 'border: 1px solid black'><?php echo $card->vl_earned; ?></td>" +
-                                "<td style= 'border: 1px solid black'><?php echo $card->vl_abswp; ?></td>" +
-                                "<td style= 'border: 1px solid black'><?php echo $card->vl_bal; ?></td>" +
-                                "<td style= 'border: 1px solid black'><?php echo $card->vl_abswop; ?></td>" +
-                                "<td style= 'border: 1px solid black'><?php echo $card->sl_earned; ?></td>" +
-                                "<td style= 'border: 1px solid black'><?php echo $card->sl_abswp; ?></td>" +
-                                "<td style= 'border: 1px solid black'><?php echo $card->sl_bal; ?></td>" +
-                                "<td style= 'border: 1px solid black'><?php echo $card->sl_abswop; ?></td>" +
-                                "<td style= 'border: 1px solid black'><?php echo $card->date_used; ?></td>";
-                            tabledata1 += "</tr>";
-                            $('#ledger_body').append(tabledata1);
-                            count++;
+                        <?php if ($card->status !== 1): ?>
+                            var tabledata1 = "<tr>" +
+                                <?php if ($card->period !== null): ?>
+                                    "<td style= 'border: 1px solid black'><?php echo $card->period; ?></td>"+
+                                <?php else: ?>
+                                    "<td style= 'border: 1px solid black'></td>"+
+                                <?php endif; ?>
+                                    "<td style= 'border: 1px solid black'><?php echo $card->particulars; ?></td>" +
+                                    "<td style= 'border: 1px solid black'><?php echo $card->vl_earned; ?></td>" +
+                                    "<td style= 'border: 1px solid black'><?php echo $card->vl_abswp; ?></td>" +
+                                    "<td style= 'border: 1px solid black'><?php echo $card->vl_bal; ?></td>" +
+                                    "<td style= 'border: 1px solid black'><?php echo $card->vl_abswop; ?></td>" +
+                                    "<td style= 'border: 1px solid black'><?php echo $card->sl_earned; ?></td>" +
+                                    "<td style= 'border: 1px solid black'><?php echo $card->sl_abswp; ?></td>" +
+                                    "<td style= 'border: 1px solid black'><?php echo $card->sl_bal; ?></td>" +
+                                    "<td style= 'border: 1px solid black'><?php echo $card->sl_abswop; ?></td>" +
+                                    "<td style= 'border: 1px solid black'><?php echo $card->date_used; ?></td>";
+                                tabledata1 += "</tr>";
+                                $('#ledger_body').append(tabledata1);
+                                count++;
+                        <?php endif; ?>
                     <?php }?>
                     if (count==0) {
                         console.log("else");

@@ -227,10 +227,10 @@
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
-<div class="modal fade" tabindex="-1" role="dialog" id="leave_info">
+<div class="modal fade" tabindex="-1" role="dialog" id="leave_info" >
     <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header" style="background-color:#9C8AA5   ;padding:15px;">
+        <div class="modal-content" style="width: 1010px">
+            <div class="modal-header" style="background-color:#9C8AA5   ;padding:15px; width: 1010px">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true" >&times;</span></button>
                 <h4 class="modal-title" style="color: white"><i class="fa fa-plus"></i> Leave Details</h4>
             </div>

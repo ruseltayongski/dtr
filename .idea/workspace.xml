@@ -7,17 +7,24 @@
     <bookmark url="file://$PROJECT_DIR$/app/views/users/user_edit.blade.php" line="114" />
     <bookmark url="file://$PROJECT_DIR$/app/views/cdo/cdo_view.blade.php" />
     <bookmark url="file://$PROJECT_DIR$/app/views/form/all_leave.blade.php" line="420" />
-    <bookmark url="file://$PROJECT_DIR$/app/controllers/cdoController.php" line="1383" />
     <bookmark url="file://$PROJECT_DIR$/app/views/form/form_leave_script.blade.php" line="238" />
     <bookmark url="file://$PROJECT_DIR$/app/controllers/cdoController.php" line="1851" mnemonic="9" />
+    <bookmark url="file://$PROJECT_DIR$/app/controllers/cdoController.php" line="1383" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3d23eb58-b5c1-407c-b04e-480d452e50dc" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FPDF/leave/f1_rows.php" afterPath="$PROJECT_DIR$/FPDF/leave/f1_rows.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FPDF/leave/f3_rows.php" afterPath="$PROJECT_DIR$/FPDF/leave/f3_rows.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FPDF/leave/f4_rows.php" afterPath="$PROJECT_DIR$/FPDF/leave/f4_rows.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FPDF/leave/f5_rows.php" afterPath="$PROJECT_DIR$/FPDF/leave/f5_rows.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FPDF/print_barcode.php" afterPath="$PROJECT_DIR$/FPDF/print_barcode.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/controllers/AdminController.php" afterPath="$PROJECT_DIR$/app/controllers/AdminController.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/controllers/DocumentController.php" afterPath="$PROJECT_DIR$/app/controllers/DocumentController.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/controllers/cdoController.php" afterPath="$PROJECT_DIR$/app/controllers/cdoController.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/form/leave.blade.php" afterPath="$PROJECT_DIR$/app/views/form/leave.blade.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/form/list_leave.blade.php" afterPath="$PROJECT_DIR$/app/views/form/list_leave.blade.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/modal.blade.php" afterPath="$PROJECT_DIR$/app/views/modal.blade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/users/leave_credits.blade.php" afterPath="$PROJECT_DIR$/app/views/users/leave_credits.blade.php" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -31,9 +38,21 @@
       <file leaf-file-name="routes.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/routes.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="215">
-              <caret line="85" column="60" lean-forward="false" selection-start-line="85" selection-start-column="46" selection-end-line="85" selection-end-column="60" />
+            <state relative-caret-position="2074">
+              <caret line="122" column="0" lean-forward="false" selection-start-line="122" selection-start-column="0" selection-end-line="122" selection-end-column="0" />
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="cdoController.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/controllers/cdoController.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="680">
+              <caret line="1415" column="25" lean-forward="false" selection-start-line="1415" selection-start-column="25" selection-end-line="1415" selection-end-column="25" />
+              <folding>
+                <element signature="e#79450#94876#0#PHP" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -41,8 +60,51 @@
       <file leaf-file-name="database.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/config/database.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="68">
-              <caret line="4" column="25" lean-forward="false" selection-start-line="4" selection-start-column="25" selection-end-line="4" selection-end-column="25" />
+            <state relative-caret-position="85">
+              <caret line="5" column="0" lean-forward="true" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="leave.blade.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/views/form/leave.blade.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="7038">
+              <caret line="414" column="38" lean-forward="false" selection-start-line="414" selection-start-column="38" selection-end-line="414" selection-end-column="38" />
+              <folding>
+                <marker date="1723446268909" expanded="false" signature="37065:37076" ph="..." />
+                <marker date="1723446268909" expanded="false" signature="37157:37174" ph="..." />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="update_leave.blade.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/views/form/update_leave.blade.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="918">
+              <caret line="54" column="32" lean-forward="false" selection-start-line="54" selection-start-column="32" selection-end-line="54" selection-end-column="49" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="list_leave.blade.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/views/form/list_leave.blade.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="799">
+              <caret line="47" column="82" lean-forward="false" selection-start-line="47" selection-start-column="82" selection-end-line="47" selection-end-column="92" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="modal.blade.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/views/modal.blade.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="3927">
+              <caret line="231" column="53" lean-forward="false" selection-start-line="231" selection-start-column="53" selection-end-line="231" selection-end-column="53" />
               <folding />
             </state>
           </provider>
@@ -51,82 +113,37 @@
       <file leaf-file-name="AdminController.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/controllers/AdminController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="310">
-              <caret line="1303" column="59" lean-forward="true" selection-start-line="1303" selection-start-column="59" selection-end-line="1303" selection-end-column="59" />
+            <state relative-caret-position="16490">
+              <caret line="970" column="37" lean-forward="false" selection-start-line="970" selection-start-column="27" selection-end-line="970" selection-end-column="37" />
               <folding>
-                <marker date="1723097578048" expanded="true" signature="16451:16743" ph="SELECT CONCA... users" />
-                <marker date="1723097578048" expanded="true" signature="50826:51153" ph="..." />
-                <marker date="1723097578048" expanded="true" signature="51563:51594" ph="..." />
-                <marker date="1723097578048" expanded="true" signature="51563:52078" ph="..." />
-                <marker date="1723097578048" expanded="false" signature="51596:51609" ph="..." />
-                <marker date="1723097578048" expanded="false" signature="51648:51661" ph="..." />
-                <marker date="1723097578048" expanded="false" signature="51707:51720" ph="..." />
-                <marker date="1723097578048" expanded="false" signature="51769:51782" ph="..." />
-                <marker date="1723097578048" expanded="false" signature="51837:51850" ph="..." />
-                <marker date="1723097578048" expanded="false" signature="51901:51914" ph="..." />
-                <marker date="1723097578048" expanded="false" signature="51963:51976" ph="..." />
-                <marker date="1723097578048" expanded="false" signature="52027:52040" ph="..." />
+                <marker date="1723191563966" expanded="true" signature="16451:16743" ph="SELECT CONCA... users" />
+                <marker date="1723191563966" expanded="true" signature="50826:51153" ph="..." />
+                <marker date="1723191563966" expanded="true" signature="51563:51594" ph="..." />
+                <marker date="1723191563966" expanded="true" signature="51563:52078" ph="..." />
+                <marker date="1723191563966" expanded="false" signature="51596:51609" ph="..." />
+                <marker date="1723191563966" expanded="false" signature="51648:51661" ph="..." />
+                <marker date="1723191563966" expanded="false" signature="51707:51720" ph="..." />
+                <marker date="1723191563966" expanded="false" signature="51769:51782" ph="..." />
+                <marker date="1723191563966" expanded="false" signature="51837:51850" ph="..." />
+                <marker date="1723191563966" expanded="false" signature="51901:51914" ph="..." />
+                <marker date="1723191563966" expanded="false" signature="51963:51976" ph="..." />
+                <marker date="1723191563966" expanded="false" signature="52027:52040" ph="..." />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="leave_credits.blade.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/views/users/leave_credits.blade.php">
+      <file leaf-file-name="DocumentController.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/controllers/DocumentController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="276">
-              <caret line="192" column="0" lean-forward="false" selection-start-line="192" selection-start-column="0" selection-end-line="192" selection-end-column="0" />
+            <state relative-caret-position="204">
+              <caret line="17" column="23" lean-forward="false" selection-start-line="17" selection-start-column="23" selection-end-line="17" selection-end-column="23" />
               <folding>
-                <marker date="1723098873878" expanded="true" signature="6125:6157" ph="..." />
+                <marker date="1723539104328" expanded="true" signature="7038:7085" ph="SELECT id FR... users" />
+                <marker date="1723539104328" expanded="true" signature="7542:7678" ph="INSERT INTO TRACKING_MASTER... " />
+                <marker date="1723539104328" expanded="true" signature="8094:8224" ph="INSERT INTO TRACKING_DETAILS... " />
+                <marker date="1723539104328" expanded="true" signature="8526:8633" ph="INSERT INTO SYSTEMLOGS... " />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="cdoController.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/controllers/cdoController.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="419">
-              <caret line="1761" column="127" lean-forward="false" selection-start-line="1761" selection-start-column="127" selection-end-line="1761" selection-end-column="127" />
-              <folding>
-                <element signature="e#79450#94798#0#PHP" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="all_leave.blade.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/views/form/all_leave.blade.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="642">
-              <caret line="504" column="26" lean-forward="false" selection-start-line="504" selection-start-column="26" selection-end-line="504" selection-end-column="26" />
-              <folding>
-                <marker date="1722993860241" expanded="true" signature="16269:16290" ph="..." />
-                <marker date="1722993860241" expanded="true" signature="16596:16612" ph="..." />
-                <marker date="1722993860241" expanded="true" signature="16677:16698" ph="..." />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="modal.blade.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/views/modal.blade.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="232">
-              <caret line="1074" column="58" lean-forward="false" selection-start-line="1074" selection-start-column="45" selection-end-line="1074" selection-end-column="58" />
-              <folding>
-                <element signature="n#style#0;n#button#1;n#div#2;n#form#0;n#div#0;n#div#0;n#div#33;n#!!top" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="form_leave.blade.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/views/form/form_leave.blade.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="238">
-              <caret line="14" column="8" lean-forward="false" selection-start-line="14" selection-start-column="8" selection-end-line="16" selection-end-column="9" />
-              <folding />
             </state>
           </provider>
         </entry>
@@ -135,36 +152,36 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>refre</find>
-      <find>cdov</find>
-      <find>cancel</find>
-      <find>move_dates</find>
-      <find>ajax</find>
-      <find>subsub</find>
-      <find>innerHTML</find>
-      <find>move_date</find>
-      <find>cdov1</find>
-      <find>move</find>
-      <find>fore</find>
-      <find>leave</find>
-      <find>Lobi</find>
-      <find>move_</find>
-      <find>move_da</find>
-      <find>$dateUsedJSON</find>
-      <find>$used_date</find>
-      <find>suerid</find>
-      <find>Leave is under development</find>
-      <find>leave_balance</find>
-      <find>leave_ba</find>
-      <find>leave_modal</find>
-      <find>move_dat</find>
-      <find>checkAbsence</find>
-      <find>modify_deduction</find>
-      <find>leave/update_balance</find>
-      <find>update_balance</find>
+      <find>still under development</find>
       <find>update_absence</find>
-      <find>option2</find>
-      <find>#option2</find>
+      <find>cancel_</find>
+      <find>NUMBER OF WORKING DAYS APPLIED FOR :</find>
+      <find>diff</find>
+      <find>getAllSelectedDates</find>
+      <find>inclusi</find>
+      <find>inclusive da</find>
+      <find>inclu</find>
+      <find>update_leave</find>
+      <find>function update_leave</find>
+      <find>return $leave</find>
+      <find>update/save</find>
+      <find>$division_head</find>
+      <find>pdoController</find>
+      <find>for d</find>
+      <find>7.A</find>
+      <find>DEVELOPMENTblade</find>
+      <find>form.leave</find>
+      <find>INCLUSIVE DATES :</find>
+      <find>Leave Documentshere</find>
+      <find>leave_info</find>
+      <find>save_edit_leave</find>
+      <find>form</find>
+      <find>edit_leave</find>
+      <find>leave/update/save</find>
+      <find>create</find>
+      <find>all_leave</find>
+      <find>form/leave</find>
+      <find>leave(</find>
     </findStrings>
     <replaceStrings>
       <replace />
@@ -199,22 +216,13 @@
         <option value="$PROJECT_DIR$/FPDF/print_leave_back.php" />
         <option value="$PROJECT_DIR$/FPDF/leave/back.php" />
         <option value="$PROJECT_DIR$/app/views/form/print_leave_pdf.blade.php" />
-        <option value="$PROJECT_DIR$/FPDF/print_leave.php" />
-        <option value="$PROJECT_DIR$/FPDF/leave/f1_rows.php" />
         <option value="$PROJECT_DIR$/FPDF/leave/f2.rows.php" />
-        <option value="$PROJECT_DIR$/FPDF/leave/f3_rows.php" />
-        <option value="$PROJECT_DIR$/FPDF/leave/f4_rows.php" />
-        <option value="$PROJECT_DIR$/FPDF/leave/f5_rows.php" />
-        <option value="$PROJECT_DIR$/FPDF/print_barcode.php" />
         <option value="$PROJECT_DIR$/app/database/migrations/2024_07_26_101255_add_with_pay_column.php" />
         <option value="$PROJECT_DIR$/app/database/migrations/2024_07_26_135853_add_officer_column.php" />
-        <option value="$PROJECT_DIR$/app/controllers/DocumentController.php" />
         <option value="$PROJECT_DIR$/app/views/form/form_cancelled.blade.php" />
         <option value="$PROJECT_DIR$/app/views/form/form_pending.blade.php" />
         <option value="$PROJECT_DIR$/app/views/form/form_leave.blade.php" />
         <option value="$PROJECT_DIR$/app/views/form/update_leave.blade.php" />
-        <option value="$PROJECT_DIR$/app/views/form/list_leave.blade.php" />
-        <option value="$PROJECT_DIR$/app/views/form/leave.blade.php" />
         <option value="$PROJECT_DIR$/app/views/form/form_leave_script.blade.php" />
         <option value="$PROJECT_DIR$/app/views/cdo/cdo_view.blade.php" />
         <option value="$PROJECT_DIR$/app/views/form/form_approve.blade.php" />
@@ -223,11 +231,20 @@
         <option value="$PROJECT_DIR$/app/views/form/all_leave.blade.php" />
         <option value="$PROJECT_DIR$/app/database/migrations/2024_08_08_082940_add_status.php" />
         <option value="$PROJECT_DIR$/app/database/migrations/2024_08_08_083252_add_status.php" />
-        <option value="$PROJECT_DIR$/app/controllers/cdoController.php" />
-        <option value="$PROJECT_DIR$/app/routes.php" />
-        <option value="$PROJECT_DIR$/app/controllers/AdminController.php" />
-        <option value="$PROJECT_DIR$/app/views/modal.blade.php" />
         <option value="$PROJECT_DIR$/app/views/users/leave_credits.blade.php" />
+        <option value="$PROJECT_DIR$/app/views/form/list_leave.blade.php" />
+        <option value="$PROJECT_DIR$/app/controllers/AdminController.php" />
+        <option value="$PROJECT_DIR$/FPDF/print_leave.php" />
+        <option value="$PROJECT_DIR$/FPDF/leave/f1_rows.php" />
+        <option value="$PROJECT_DIR$/FPDF/leave/f5_rows.php" />
+        <option value="$PROJECT_DIR$/FPDF/leave/f4_rows.php" />
+        <option value="$PROJECT_DIR$/FPDF/print_barcode.php" />
+        <option value="$PROJECT_DIR$/FPDF/leave/f3_rows.php" />
+        <option value="$PROJECT_DIR$/app/views/modal.blade.php" />
+        <option value="$PROJECT_DIR$/app/views/form/leave.blade.php" />
+        <option value="$PROJECT_DIR$/app/controllers/DocumentController.php" />
+        <option value="$PROJECT_DIR$/app/routes.php" />
+        <option value="$PROJECT_DIR$/app/controllers/cdoController.php" />
         <option value="$PROJECT_DIR$/app/config/database.php" />
       </list>
     </option>
@@ -264,44 +281,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope">
-        <subPane subId="Changed Files">
-          <expand>
-            <path>
-              <item name="Root" type="cbb8eebc:String" user="Root" />
-              <item name="dtrF" type="cbb8eebc:String" user="dtrF" />
-            </path>
-          </expand>
-          <select />
-        </subPane>
-        <subPane subId="Project Files">
-          <expand>
-            <path>
-              <item name="Root" type="cbb8eebc:String" user="Root" />
-              <item name="dtr" type="cbb8eebc:String" user="dtr" />
-            </path>
-            <path>
-              <item name="Root" type="cbb8eebc:String" user="Root" />
-              <item name="dtr" type="cbb8eebc:String" user="dtr" />
-              <item name="app" type="cbb8eebc:String" user="app" />
-            </path>
-            <path>
-              <item name="Root" type="cbb8eebc:String" user="Root" />
-              <item name="dtr" type="cbb8eebc:String" user="dtr" />
-              <item name="app" type="cbb8eebc:String" user="app" />
-              <item name="database" type="cbb8eebc:String" user="database" />
-            </path>
-            <path>
-              <item name="Root" type="cbb8eebc:String" user="Root" />
-              <item name="dtr" type="cbb8eebc:String" user="dtr" />
-              <item name="app" type="cbb8eebc:String" user="app" />
-              <item name="database" type="cbb8eebc:String" user="database" />
-              <item name="migrations" type="cbb8eebc:String" user="migrations" />
-            </path>
-          </expand>
-          <select />
-        </subPane>
-      </pane>
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -318,14 +297,7 @@
               <item name="dtr" type="b2602c69:ProjectViewProjectNode" />
               <item name="dtr" type="2a2b976b:PhpTreeStructureProvider$1" />
               <item name="app" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="database" type="2a2b976b:PhpTreeStructureProvider$1" />
-            </path>
-            <path>
-              <item name="dtr" type="b2602c69:ProjectViewProjectNode" />
-              <item name="dtr" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="app" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="database" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="migrations" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="controllers" type="2a2b976b:PhpTreeStructureProvider$1" />
             </path>
             <path>
               <item name="dtr" type="b2602c69:ProjectViewProjectNode" />
@@ -368,6 +340,44 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope">
+        <subPane subId="Changed Files">
+          <expand>
+            <path>
+              <item name="Root" type="cbb8eebc:String" user="Root" />
+              <item name="dtrF" type="cbb8eebc:String" user="dtrF" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+        <subPane subId="Project Files">
+          <expand>
+            <path>
+              <item name="Root" type="cbb8eebc:String" user="Root" />
+              <item name="dtr" type="cbb8eebc:String" user="dtr" />
+            </path>
+            <path>
+              <item name="Root" type="cbb8eebc:String" user="Root" />
+              <item name="dtr" type="cbb8eebc:String" user="dtr" />
+              <item name="app" type="cbb8eebc:String" user="app" />
+            </path>
+            <path>
+              <item name="Root" type="cbb8eebc:String" user="Root" />
+              <item name="dtr" type="cbb8eebc:String" user="dtr" />
+              <item name="app" type="cbb8eebc:String" user="app" />
+              <item name="database" type="cbb8eebc:String" user="database" />
+            </path>
+            <path>
+              <item name="Root" type="cbb8eebc:String" user="Root" />
+              <item name="dtr" type="cbb8eebc:String" user="dtr" />
+              <item name="app" type="cbb8eebc:String" user="app" />
+              <item name="database" type="cbb8eebc:String" user="database" />
+              <item name="migrations" type="cbb8eebc:String" user="migrations" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
       <pane id="Scratches" />
     </panes>
   </component>
@@ -375,20 +385,20 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="nodejs_interpreter_path" value="C:/Program Files/nodejs/node" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="SearchEverywhereHistoryKey" value="cdoCon&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/controllers/cdoController.php&#10;data&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/config/database.php&#10;moda&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/modal.blade.php&#10;cdoCo&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/controllers/cdoController.php&#10;form_a&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/form/form_all.blade.php&#10;app&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/form/form_approve.blade.php&#10;cdoC&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/controllers/cdoController.php&#10;form&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/form/form_leave.blade.php&#10;leave&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/form/leave.blade.php&#10;all_&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/form/all_leave.blade.php&#10;cd&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/cdo/cdo_view.blade.php&#10;script&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/form/form_leave_script.blade.php&#10;all&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/form/all_leave.blade.php&#10;form_app&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/form/form_approve.blade.php&#10;databa&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/config/database.php&#10;blade&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/form/leave.blade.php&#10;route&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/routes.php&#10;form_all&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/form/form_all.blade.php&#10;form_ca&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/form/form_cancelled.blade.php&#10;form_pe&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/form/form_pending.blade.php&#10;Doc&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/controllers/DocumentController.php&#10;ADm&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/controllers/AdminController.php&#10;update_l&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/form/update_leave.blade.php&#10;datab&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/config/database.php&#10;leave.bl&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/form/leave.blade.php&#10;upda&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/form/update_leave.blade.php&#10;modal&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/modal.blade.php&#10;cdoCOn&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/controllers/cdoController.php&#10;leave_s&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/form/form_leave_script.blade.php&#10;cdov&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/cdo/cdo_view.blade.php&#10;Docum&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/controllers/DocumentController.php&#10;cdo&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/cdo/cdo_view.blade.php&#10;cdoContr&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/controllers/cdoController.php&#10;Documen&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/controllers/DocumentController.php&#10;pendin&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/form/form_pending.blade.php&#10;all_lea&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/form/all_leave.blade.php&#10;PDO&#9;null&#9;null&#10;Infor&#9;null&#9;null&#10;Adit&#9;null&#9;null&#10;DtrDetails&#9;null&#9;null&#10;appro&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/form/form_approve.blade.php&#10;cance&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/form/form_cancelled.blade.php&#10;pendi&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/form/form_pending.blade.php&#10;Leave&#9;null&#9;null&#10;Admin&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/controllers/AdminController.php&#10;term&#9;ACTION&#9;ActivateTerminalToolWindow&#10;f2&#9;FILE&#9;file://C:/xampp/htdocs/dtr/FPDF/leave/f2.rows.php&#10;f1&#9;FILE&#9;file://C:/xampp/htdocs/dtr/FPDF/leave/f1_rows.php&#10;falsi&#9;null&#9;null&#10;termina&#9;ACTION&#9;ActivateTerminalToolWindow" />
+    <property name="SearchEverywhereHistoryKey" value="databa&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/config/database.php&#10;cdoContro&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/controllers/cdoController.php&#10;ter&#9;ACTION&#9;ActivateTerminalToolWindow&#10;route&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/routes.php&#10;rout&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/routes.php&#10;modal&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/modal.blade.php&#10;lea&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/form/list_leave.blade.php&#10;Docume&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/controllers/DocumentController.php&#10;ADmin&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/controllers/AdminController.php&#10;update&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/form/update_leave.blade.php&#10;web&#9;FILE&#9;jar://C:/Program Files/JetBrains/PhpStorm 2017.2.3/lib/phpstorm.jar!/resources/html5-schema/html5/web-forms.rnc&#10;leave_&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/pdf/leave_update.blade.php&#10;form&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/form/form_leave.blade.php&#10;cdo&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/cdo/cdo_view.blade.php&#10;cdoCon&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/controllers/cdoController.php&#10;data&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/config/database.php&#10;moda&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/modal.blade.php&#10;cdoCo&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/controllers/cdoController.php&#10;form_a&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/form/form_all.blade.php&#10;app&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/form/form_approve.blade.php&#10;cdoC&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/controllers/cdoController.php&#10;leave&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/form/leave.blade.php&#10;all_&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/form/all_leave.blade.php&#10;cd&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/cdo/cdo_view.blade.php&#10;script&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/form/form_leave_script.blade.php&#10;all&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/form/all_leave.blade.php&#10;form_app&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/form/form_approve.blade.php&#10;blade&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/form/leave.blade.php&#10;form_all&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/form/form_all.blade.php&#10;form_ca&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/form/form_cancelled.blade.php&#10;form_pe&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/form/form_pending.blade.php&#10;Doc&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/controllers/DocumentController.php&#10;ADm&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/controllers/AdminController.php&#10;update_l&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/form/update_leave.blade.php&#10;datab&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/config/database.php&#10;leave.bl&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/form/leave.blade.php&#10;upda&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/form/update_leave.blade.php&#10;cdoCOn&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/controllers/cdoController.php&#10;leave_s&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/form/form_leave_script.blade.php&#10;cdov&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/cdo/cdo_view.blade.php&#10;Docum&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/controllers/DocumentController.php&#10;cdoContr&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/controllers/cdoController.php&#10;Documen&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/controllers/DocumentController.php&#10;pendin&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/form/form_pending.blade.php&#10;all_lea&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/form/all_leave.blade.php&#10;PDO&#9;null&#9;null&#10;Infor&#9;null&#9;null&#10;Adit&#9;null&#9;null&#10;DtrDetails&#9;null&#9;null&#10;appro&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/form/form_approve.blade.php" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
     <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
   </component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\xampp\htdocs\dtr" />
-      <recent name="C:\xampp\htdocs\dtrLatest\vendor" />
-      <recent name="C:\xampp\htdocs\dtr\mobiscroll" />
-    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\xampp\htdocs\dtrF\app\views\form" />
       <recent name="C:\xampp\htdocs\dtr\public\admin\plugins" />
       <recent name="C:\xampp\htdocs\dtr\public\plugin" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\xampp\htdocs\dtr" />
+      <recent name="C:\xampp\htdocs\dtrLatest\vendor" />
+      <recent name="C:\xampp\htdocs\dtr\mobiscroll" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -662,12 +672,18 @@
       <workItem from="1722558400054" duration="15124000" />
       <workItem from="1722818091268" duration="20843000" />
       <workItem from="1722989184045" duration="12607000" />
-      <workItem from="1723076145569" duration="16039000" />
+      <workItem from="1723076145569" duration="19469000" />
+      <workItem from="1723162055499" duration="24703000" />
+      <workItem from="1723419887491" duration="16100000" />
+      <workItem from="1723538728142" duration="123000" />
+      <workItem from="1723538969875" duration="269000" />
+      <workItem from="1723613065576" duration="3311000" />
+      <workItem from="1724028283984" duration="22000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="2727393000" />
+    <option name="totallyTimeSpent" value="2775351000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -682,14 +698,14 @@
     <frame x="-8" y="-8" width="1936" height="1048" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.20989583" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.115625" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.040570177" sideWeight="0.4936034" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2379386" sideWeight="0.5554371" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.22566845" sideWeight="0.56145835" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.22566845" sideWeight="0.4445629" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.22566845" sideWeight="0.43854168" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.13925439" sideWeight="0.4978678" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -706,12 +722,12 @@
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2379386" sideWeight="0.5554371" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2379386" sideWeight="0.5554371" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2379386" sideWeight="0.4445629" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.16684435" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.22566845" sideWeight="0.4445629" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.20989583" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection Results" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.069078945" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -750,21 +766,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/database/migrations/2024_07_08_104848_create_leave_table.php" />
-    <entry file="file://$PROJECT_DIR$/app/models/Leave.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="13" column="0" lean-forward="true" selection-start-line="13" selection-start-column="0" selection-end-line="13" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/models/Monetization.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="4" column="1" lean-forward="false" selection-start-line="4" selection-start-column="1" selection-end-line="4" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/database/migrations/2024_07_08_144226_create_monetization_table.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="595">
@@ -814,13 +815,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/controllers/pdoController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="323">
-          <caret line="106" column="111" lean-forward="true" selection-start-line="106" selection-start-column="111" selection-end-line="106" selection-end-column="111" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/FPDF/timelog/print_timelog.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="357">
@@ -851,20 +845,6 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/FPDF/print_leave_back.php" />
     <entry file="file://$PROJECT_DIR$/FPDF/leave/back.php" />
-    <entry file="file://$PROJECT_DIR$/FPDF/print_leave.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="446">
-          <caret line="42" column="2" lean-forward="false" selection-start-line="42" selection-start-column="2" selection-end-line="42" selection-end-column="2" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/FPDF/leave/f1_rows.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="446">
-          <caret line="81" column="2" lean-forward="false" selection-start-line="81" selection-start-column="2" selection-end-line="81" selection-end-column="2" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/FPDF/leave/f2.rows.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="446">
@@ -872,38 +852,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/FPDF/leave/f3_rows.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="446">
-          <caret line="60" column="2" lean-forward="false" selection-start-line="60" selection-start-column="2" selection-end-line="60" selection-end-column="2" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/FPDF/leave/f4_rows.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="446">
-          <caret line="97" column="2" lean-forward="false" selection-start-line="97" selection-start-column="2" selection-end-line="97" selection-end-column="2" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/FPDF/leave/f5_rows.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="446">
-          <caret line="45" column="2" lean-forward="false" selection-start-line="45" selection-start-column="2" selection-end-line="45" selection-end-column="2" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/FPDF/leave/f6_rows.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/FPDF/print_barcode.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="5" column="2" lean-forward="false" selection-start-line="5" selection-start-column="2" selection-end-line="5" selection-end-column="2" />
         </state>
       </provider>
     </entry>
@@ -918,13 +870,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="72">
           <caret line="17" column="39" lean-forward="true" selection-start-line="17" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$APPLICATION_HOME_DIR$/lib/phpstorm.jar!/resources/html5-schema/html5/web-forms.rnc">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="184">
-          <caret line="25" column="45" lean-forward="true" selection-start-line="25" selection-start-column="45" selection-end-line="25" selection-end-column="45" />
         </state>
       </provider>
     </entry>
@@ -949,40 +894,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/form/list_leave.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1564">
-          <caret line="92" column="61" lean-forward="false" selection-start-line="92" selection-start-column="61" selection-end-line="92" selection-end-column="61" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/form/update_leave.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="334">
-          <caret line="168" column="63" lean-forward="true" selection-start-line="168" selection-start-column="63" selection-end-line="168" selection-end-column="63" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/controllers/DocumentController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="642">
-          <caret line="76" column="41" lean-forward="false" selection-start-line="76" selection-start-column="41" selection-end-line="76" selection-end-column="41" />
-          <folding>
-            <marker date="1722235274673" expanded="true" signature="7015:7062" ph="SELECT id FR... users" />
-            <marker date="1722235274673" expanded="true" signature="7519:7655" ph="INSERT INTO TRACKING_MASTER... " />
-            <marker date="1722235274673" expanded="true" signature="8071:8201" ph="INSERT INTO TRACKING_DETAILS... " />
-            <marker date="1722235274673" expanded="true" signature="8503:8610" ph="INSERT INTO SYSTEMLOGS... " />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/cdo/cdo_view.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="330">
-          <caret line="406" column="41" lean-forward="true" selection-start-line="406" selection-start-column="41" selection-end-line="406" selection-end-column="41" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/views/form/form_leave_script.blade.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="544">
@@ -995,23 +906,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/form/leave.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="6307">
-          <caret line="371" column="30" lean-forward="false" selection-start-line="363" selection-start-column="24" selection-end-line="371" selection-end-column="30" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/views/form/form_approve.blade.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="442">
           <caret line="26" column="157" lean-forward="false" selection-start-line="25" selection-start-column="32" selection-end-line="26" selection-end-column="157" />
-          <folding>
-            <marker date="1722991429815" expanded="true" signature="7086:7107" ph="..." />
-            <marker date="1722991429815" expanded="true" signature="7383:7399" ph="..." />
-            <marker date="1722991429815" expanded="true" signature="7456:7477" ph="..." />
-            <marker date="1722991429815" expanded="true" signature="7859:7912" ph="..." />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1026,31 +924,14 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1836">
           <caret line="108" column="25" lean-forward="false" selection-start-line="108" selection-start-column="0" selection-end-line="109" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/form/form_leave.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="14" column="8" lean-forward="false" selection-start-line="14" selection-start-column="8" selection-end-line="16" selection-end-column="9" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/database/migrations/2024_08_08_082940_add_status.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="17" column="12" lean-forward="false" selection-start-line="17" selection-start-column="12" selection-end-line="17" selection-end-column="12" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/app/database/migrations/2024_08_08_082940_add_status.php" />
     <entry file="file://$PROJECT_DIR$/app/database/migrations/2024_08_08_083252_add_status.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="459">
           <caret line="28" column="5" lean-forward="true" selection-start-line="28" selection-start-column="5" selection-end-line="28" selection-end-column="5" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1058,23 +939,12 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="340">
           <caret line="21" column="67" lean-forward="true" selection-start-line="20" selection-start-column="12" selection-end-line="21" selection-end-column="67" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/controllers/cdoController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="419">
-          <caret line="1761" column="127" lean-forward="false" selection-start-line="1761" selection-start-column="127" selection-end-line="1761" selection-end-column="127" />
-          <folding>
-            <element signature="e#79450#94798#0#PHP" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/views/form/all_leave.blade.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="642">
+        <state relative-caret-position="8568">
           <caret line="504" column="26" lean-forward="false" selection-start-line="504" selection-start-column="26" selection-end-line="504" selection-end-column="26" />
           <folding>
             <marker date="1722993860241" expanded="true" signature="16269:16290" ph="..." />
@@ -1084,59 +954,223 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/routes.php">
+    <entry file="file://$PROJECT_DIR$/app/views/users/leave_credits.blade.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="215">
-          <caret line="85" column="60" lean-forward="false" selection-start-line="85" selection-start-column="46" selection-end-line="85" selection-end-column="60" />
+        <state relative-caret-position="3264">
+          <caret line="192" column="0" lean-forward="false" selection-start-line="192" selection-start-column="0" selection-end-line="192" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/cdo/cdo_view.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-142">
+          <caret line="608" column="32" lean-forward="false" selection-start-line="608" selection-start-column="13" selection-end-line="608" selection-end-column="32" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/pdf/leave_update.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2754">
+          <caret line="162" column="66" lean-forward="false" selection-start-line="162" selection-start-column="66" selection-end-line="162" selection-end-column="66" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/form/form_leave.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="232">
+          <caret line="248" column="52" lean-forward="true" selection-start-line="248" selection-start-column="52" selection-end-line="248" selection-end-column="52" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$APPLICATION_HOME_DIR$/lib/phpstorm.jar!/resources/html5-schema/html5/web-forms.rnc">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="184">
+          <caret line="25" column="45" lean-forward="false" selection-start-line="25" selection-start-column="45" selection-end-line="25" selection-end-column="45" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/FPDF/print_leave.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="15" column="0" lean-forward="true" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/FPDF/leave/f1_rows.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="412">
+          <caret line="27" column="0" lean-forward="true" selection-start-line="27" selection-start-column="0" selection-end-line="27" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/FPDF/leave/f5_rows.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="323">
+          <caret line="19" column="70" lean-forward="false" selection-start-line="19" selection-start-column="70" selection-end-line="19" selection-end-column="70" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/FPDF/print_barcode.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="4" column="13" lean-forward="false" selection-start-line="4" selection-start-column="13" selection-end-line="4" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/FPDF/leave/f4_rows.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="731">
+          <caret line="79" column="2" lean-forward="true" selection-start-line="79" selection-start-column="2" selection-end-line="79" selection-end-column="2" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/FPDF/leave/f3_rows.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="701">
+          <caret line="55" column="2" lean-forward="true" selection-start-line="55" selection-start-column="2" selection-end-line="55" selection-end-column="2" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/controllers/pdoController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="493">
+          <caret line="29" column="54" lean-forward="true" selection-start-line="29" selection-start-column="54" selection-end-line="29" selection-end-column="54" />
+          <folding>
+            <marker date="1721791021680" expanded="true" signature="590:643" ph="SELECT * FRO... personal_information" />
+            <marker date="1721791021680" expanded="true" signature="879:917" ph="SELECT * FRO... USERS" />
+            <marker date="1721791021680" expanded="true" signature="1163:1201" ph="SELECT * FRO... USERS" />
+            <marker date="1721791021680" expanded="true" signature="1455:1487" ph="SELECT * FRO... USERS" />
+            <marker date="1721791021680" expanded="true" signature="1750:1788" ph="select * fro... designation" />
+            <marker date="1721791021680" expanded="true" signature="2034:2056" ph="SELECT * FRO... DIVISION" />
+            <marker date="1721791021680" expanded="true" signature="2305:2342" ph="SELECT * FRO... DIVISION" />
+            <marker date="1721791021680" expanded="true" signature="2589:2610" ph="SELECT * FRO... SECTION" />
+            <marker date="1721791021680" expanded="true" signature="2858:2895" ph="SELECT * FRO... DIVISION" />
+            <marker date="1721791021680" expanded="true" signature="3217:3353" ph="INSERT INTO TRACKING_MASTER... " />
+            <marker date="1721791021680" expanded="true" signature="3647:3691" ph="delete from " />
+            <marker date="1721791021680" expanded="true" signature="4038:4082" ph="delete from " />
+            <marker date="1721791021680" expanded="true" signature="4429:4474" ph="delete from " />
+            <marker date="1721791021680" expanded="true" signature="4844:4974" ph="INSERT INTO TRACKING_DETAILS... " />
+            <marker date="1721791021680" expanded="true" signature="5261:5368" ph="INSERT INTO SYSTEMLOGS... " />
+            <marker date="1721791021680" expanded="true" signature="5615:5663" ph="SELECT * FRO... tracking_master" />
+            <marker date="1721791021680" expanded="true" signature="5939:6004" ph="SELECT * FRO... tracking_details" />
+            <marker date="1721791021680" expanded="true" signature="6283:6317" ph="SELECT * FRO... section" />
+            <marker date="1721791021680" expanded="true" signature="6573:6608" ph="SELECT * FRO... division" />
+            <marker date="1721791021680" expanded="true" signature="6900:6980" ph="UPDATE track... " />
+            <marker date="1721791021680" expanded="true" signature="7237:7294" ph="UPDATE track... " />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/controllers/BaseController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/controllers/Controller.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="4" column="4" lean-forward="true" selection-start-line="4" selection-start-column="4" selection-end-line="4" selection-end-column="4" />
+          <folding>
+            <element signature="e#40#85#0#PHP" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/controllers/AdminController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="310">
-          <caret line="1303" column="59" lean-forward="true" selection-start-line="1303" selection-start-column="59" selection-end-line="1303" selection-end-column="59" />
+        <state relative-caret-position="16490">
+          <caret line="970" column="37" lean-forward="false" selection-start-line="970" selection-start-column="27" selection-end-line="970" selection-end-column="37" />
           <folding>
-            <marker date="1723097578048" expanded="true" signature="16451:16743" ph="SELECT CONCA... users" />
-            <marker date="1723097578048" expanded="true" signature="50826:51153" ph="..." />
-            <marker date="1723097578048" expanded="true" signature="51563:51594" ph="..." />
-            <marker date="1723097578048" expanded="true" signature="51563:52078" ph="..." />
-            <marker date="1723097578048" expanded="false" signature="51596:51609" ph="..." />
-            <marker date="1723097578048" expanded="false" signature="51648:51661" ph="..." />
-            <marker date="1723097578048" expanded="false" signature="51707:51720" ph="..." />
-            <marker date="1723097578048" expanded="false" signature="51769:51782" ph="..." />
-            <marker date="1723097578048" expanded="false" signature="51837:51850" ph="..." />
-            <marker date="1723097578048" expanded="false" signature="51901:51914" ph="..." />
-            <marker date="1723097578048" expanded="false" signature="51963:51976" ph="..." />
-            <marker date="1723097578048" expanded="false" signature="52027:52040" ph="..." />
+            <marker date="1723191563966" expanded="true" signature="16451:16743" ph="SELECT CONCA... users" />
+            <marker date="1723191563966" expanded="true" signature="50826:51153" ph="..." />
+            <marker date="1723191563966" expanded="true" signature="51563:51594" ph="..." />
+            <marker date="1723191563966" expanded="true" signature="51563:52078" ph="..." />
+            <marker date="1723191563966" expanded="false" signature="51596:51609" ph="..." />
+            <marker date="1723191563966" expanded="false" signature="51648:51661" ph="..." />
+            <marker date="1723191563966" expanded="false" signature="51707:51720" ph="..." />
+            <marker date="1723191563966" expanded="false" signature="51769:51782" ph="..." />
+            <marker date="1723191563966" expanded="false" signature="51837:51850" ph="..." />
+            <marker date="1723191563966" expanded="false" signature="51901:51914" ph="..." />
+            <marker date="1723191563966" expanded="false" signature="51963:51976" ph="..." />
+            <marker date="1723191563966" expanded="false" signature="52027:52040" ph="..." />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/views/modal.blade.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="232">
-          <caret line="1074" column="58" lean-forward="false" selection-start-line="1074" selection-start-column="45" selection-end-line="1074" selection-end-column="58" />
+        <state relative-caret-position="3927">
+          <caret line="231" column="53" lean-forward="false" selection-start-line="231" selection-start-column="53" selection-end-line="231" selection-end-column="53" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/form/update_leave.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="918">
+          <caret line="54" column="32" lean-forward="false" selection-start-line="54" selection-start-column="32" selection-end-line="54" selection-end-column="49" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/form/leave.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="7038">
+          <caret line="414" column="38" lean-forward="false" selection-start-line="414" selection-start-column="38" selection-end-line="414" selection-end-column="38" />
           <folding>
-            <element signature="n#style#0;n#button#1;n#div#2;n#form#0;n#div#0;n#div#0;n#div#33;n#!!top" expanded="true" />
+            <marker date="1723446268909" expanded="false" signature="37065:37076" ph="..." />
+            <marker date="1723446268909" expanded="false" signature="37157:37174" ph="..." />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/users/leave_credits.blade.php">
+    <entry file="file://$PROJECT_DIR$/app/views/form/list_leave.blade.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="276">
-          <caret line="192" column="0" lean-forward="false" selection-start-line="192" selection-start-column="0" selection-end-line="192" selection-end-column="0" />
+        <state relative-caret-position="799">
+          <caret line="47" column="82" lean-forward="false" selection-start-line="47" selection-start-column="82" selection-end-line="47" selection-end-column="92" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/controllers/DocumentController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="17" column="23" lean-forward="false" selection-start-line="17" selection-start-column="23" selection-end-line="17" selection-end-column="23" />
           <folding>
-            <marker date="1723098873878" expanded="true" signature="6125:6157" ph="..." />
+            <marker date="1723539104328" expanded="true" signature="7038:7085" ph="SELECT id FR... users" />
+            <marker date="1723539104328" expanded="true" signature="7542:7678" ph="INSERT INTO TRACKING_MASTER... " />
+            <marker date="1723539104328" expanded="true" signature="8094:8224" ph="INSERT INTO TRACKING_DETAILS... " />
+            <marker date="1723539104328" expanded="true" signature="8526:8633" ph="INSERT INTO SYSTEMLOGS... " />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/routes.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2074">
+          <caret line="122" column="0" lean-forward="false" selection-start-line="122" selection-start-column="0" selection-end-line="122" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/controllers/cdoController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="680">
+          <caret line="1415" column="25" lean-forward="false" selection-start-line="1415" selection-start-column="25" selection-end-line="1415" selection-end-column="25" />
+          <folding>
+            <element signature="e#79450#94876#0#PHP" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/config/database.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="4" column="25" lean-forward="false" selection-start-line="4" selection-start-column="25" selection-end-line="4" selection-end-column="25" />
+        <state relative-caret-position="85">
+          <caret line="5" column="0" lean-forward="true" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
           <folding />
         </state>
       </provider>

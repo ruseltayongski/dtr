@@ -8,37 +8,43 @@ $pdf->Cell(82.5,35,'',1);
 $pdf->SetFont('Arial','',8);
 $pdf->Text(16,183,'6.C NUMBER OF WORKING DAYS APPLIED FOR');
 $pdf->Text(50,188.5, (int) $leave['applied_num_days']);
-$pdf->Image(__DIR__.'../../image/line.png', 22,188.5,80,0.6);
+$pdf->Image(__DIR__.'../../image/line.png', 22,188.5,82.7,0.6);
 
-$pdf->Text(25,194.5,'INCLUSIVE DATES :');
+$pdf->Text(22,194.5,'INCLUSIVE DATES :');
 //$pdf->SetFont('Arial','',8);
 $y = 202;
 $yy = 203;
-foreach ($applied_dates as $dates) {
-    $start = date('F j, Y', strtotime($dates['startdate']));
-    $end = date('F j, Y',strtotime($dates['enddate']));
+$x = 22;
+$date_list = [];
+foreach ($dates as $index => $date) {
+    $check = 0;
+    $this_date = explode(' - ', $date);
+    $start = date('F j, Y', strtotime($this_date[0]));
+    $end = date('F j, Y',strtotime($this_date[1]));
     if($start == $end){
-        $pdf->Text(25,$y,$start);
-        $pdf->Image(__DIR__.'../../image/line.png', 22,$yy,80,0.6);
+        $pdf->Text($x,$y,$start .' , ');
+        $pdf->Image(__DIR__.'../../image/line.png', 22,$yy,82.7,0.6);
     }else{
-        $pdf->Text(25   ,$y,$start.' - '. $end);
-        $pdf->Image(__DIR__.'../../image/line.png', 22,$yy,80,0.6);
+        $date_from = date('Y-m-d', strtotime($this_date[0]));
+        $date_to = date('Y-m-d', strtotime($this_date[1]));
+        if(date('F', strtotime($date_from)) == date('F', strtotime($date_to))){
+            $display_date = date('F', strtotime($date_from)) .' '. date('d', strtotime($date_from)) .'-'.  date('d', strtotime($date_to)) . ", ". date('Y', strtotime($date_to));
+        }else{
+//            $index = $index +1;
+            $check = 1;
+            $display_date = date('F j, Y', strtotime($this_date[0])).' - '.date('F j, Y',strtotime($this_date[1]));
+        }
+        $date_list[] = $display_date;
+//        $pdf->Text($x   ,$y,$display_date .', ');
+//        $pdf->Image(__DIR__.'../../image/line.png', 22,$yy,82.7,0.6);
     }
-    $y += 5;
-    $yy = $y + 1;
 }
+$pdf->SetXY(21, 198); // Set the position
+$pdf->SetFont('Arial','BU',8);
+$pdf->MultiCell(90, 5, implode(', ', $date_list), 0, 'L');
 
-//if(!empty($leave['half_day_first']) && !empty($leave['half_day_last']))
-//    $half_day_message = 'Half day in first day('.$leave['half_day_first'].') and half day('.$leave['half_day_last'].') in last day';
-//elseif(!empty($leave['half_day_first']))
-//    $half_day_message = 'Half day in first day('.$leave['half_day_first'].')';
-//elseif(!empty($leave['half_day_last']))
-//    $half_day_message = 'Half day in last day('.$leave['half_day_last'].')';
-//else
-//    $half_day_message = '';
-//$pdf->Text(20,134.3,$half_day_message);
 $pdf->SetFont('Arial','',8);
-
+$pdf->SetXY(22, 208);
 $pdf->Text(114,183,'6.D COMMUTATION');
 //
 if($leave['commutation'] == '1'){

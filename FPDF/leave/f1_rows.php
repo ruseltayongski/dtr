@@ -8,11 +8,69 @@ try{
     $st->execute();
     $leave = $st->fetch(PDO::FETCH_ASSOC);
 
-    $dates_q = "SELECT * FROM dohdtr.`leave_applied_dates` WHERE leave_id = :id";
+    $dates_q = "SELECT * FROM dohdtr.`leave_applied_dates` WHERE leave_id = :id AND status != 1";
     $dates_st = $pdo->prepare($dates_q);
     $dates_st->bindParam(":id", $id, PDO::PARAM_INT);
     $dates_st->execute();
-    $applied_dates= $dates_st->fetchAll(PDO::FETCH_ASSOC);
+    $leave_dates= $dates_st->fetchAll(PDO::FETCH_ASSOC);
+
+    $officer_1 = "SELECT dts.fname, dts.lname, dts.mname FROM dohdtr.`leave` lea JOIN dts.users dts ON dts.id = lea.officer_1 WHERE lea.id = :id";
+    $st = $pdo->prepare($officer_1);
+    $st->bindParam(":id", $id, PDO::PARAM_INT);
+    $st->execute();
+    $officer_1 = $st->fetch(PDO::FETCH_ASSOC);
+
+    $officer_2 = "SELECT dts.fname, dts.lname, dts.mname FROM dohdtr.`leave` lea JOIN dts.users dts ON dts.id = lea.officer_2 WHERE lea.id = :id";
+    $st = $pdo->prepare($officer_2);
+    $st->bindParam(":id", $id, PDO::PARAM_INT);
+    $st->execute();
+    $officer_2 = $st->fetch(PDO::FETCH_ASSOC);
+
+    $officer_3 = "SELECT dts.fname, dts.lname, dts.mname FROM dohdtr.`leave` lea JOIN dts.users dts ON dts.id = lea.officer_3 WHERE lea.id = :id";
+    $st = $pdo->prepare($officer_3);
+    $st->bindParam(":id", $id, PDO::PARAM_INT);
+    $st->execute();
+    $officer_3 = $st->fetch(PDO::FETCH_ASSOC);
+
+    $dates = [];
+    $length = count($leave_dates);
+    $check=[];
+
+    if ($length > 0) {
+        $start = ($leave_dates[0]['status'] != 2)?$leave_dates[0]['startdate']: $leave_dates[0]['from_date'];
+        $initial_date = ($leave_dates[0]['status'] != 2)?$leave_dates[0]['startdate']: $leave_dates[0]['from_date'];
+
+        foreach ($leave_dates as $index => $date) {
+            $start_date = ($date['status'] != 2)?$date['startdate']:$date['from_date'];
+            $end_date = ($date['status'] != 2)?$date['enddate']:$date['to_date'];
+
+            if ($start_date == $end_date) {
+                if ($index + 1 != $length) {
+                    $current_date = new DateTime($initial_date);
+                    $next_date = ($leave_dates[$index + 1]['status'] != 2)? new DateTime($leave_dates[$index + 1]['startdate']) : new DateTime($leave_dates[$index + 1]['from_date']);
+                    $diff = $next_date->diff($current_date)->days;
+
+                    if ($diff == 1) {
+                        $start_date = $current_date->format('Y-m-d');
+                        $end_date = $next_date->format('Y-m-d');
+                        $initial_date = ($date['status'] != 2)?$leave_dates[$index + 1]['startdate'] :$leave_dates[$index + 1]['from_date'];
+                        $check[] = 'check1 '.$diff. $start_date .$end_date;
+                    } else {
+                        $dates[] = $start . ' - ' . $end_date;
+                        $start = ($leave_dates[$index + 1]['status'] != 2)?$leave_dates[$index + 1]['startdate'] :$leave_dates[$index + 1]['from_date'];
+                        $initial_date = ($leave_dates[$index + 1]['status'] != 2)?$leave_dates[$index + 1]['startdate'] :$leave_dates[$index + 1]['from_date'];
+                        $check[] = 'check2 '.$diff . $start. $initial_date.'---'.$date['status'];
+
+                    }
+                } else {
+                    $dates[] = $start . ' - ' . $end_date;
+                }
+            } else {
+                $dates[] = $start_date . ' - ' . $end_date;
+            }
+        }
+    }
+
 //    var_dump($leave['route_no']);
 }catch (Exception $e){
 

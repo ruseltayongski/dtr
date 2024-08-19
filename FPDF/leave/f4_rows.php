@@ -21,11 +21,8 @@ $pdf->Text(16,225,'7. A CERTIFICATION OF LEAVE CREDITS');
 $pdf->Text(40,231,'As of ');
 $pdf->Text(50,231,$leave['date_filling']);
 $pdf->Image(__DIR__.'../../image/line.png',47,231.5,35,0.6);
-//$pdf->Image(__DIR__.'../../image/table.png',30,163,55,25);
-//
-//$pdf->SetFont('Arial', '', 8);
-//
-//// Table data
+
+// Table data
 //$pdf->Ln();
 $pdf->setY(234.5);
 $pdf->setX('22');
@@ -67,7 +64,7 @@ $pdf->setX('22');
 $pdf->Cell(27, 5, 'Balance', 1);
 $pdf->Cell(28, 5, $vl_bal, 1,'', 'C');
 $pdf->Cell(28, 5, $sl_bal, 1,'', 'C');
-$pdf->Text(47,264.5,'THERESA Q. TRAGICO');
+$pdf->Text(40,264.5,$officer_1['fname'] .' '.$officer_1['lname']);
 $pdf->Image(__DIR__.'../../image/line.png',22,265,83,0.6);
 $pdf->Text(51,269,'(Authorized Officer)');
 //
@@ -86,12 +83,13 @@ if(false){
 } else {
     $pdf->Image(__DIR__.'../../image/square.png', 117,234,4,4);
 }
-$pdf->Text(122,235,'For disapproval due to');
+$pdf->Text(122,238,'For disapproval due to');
 $pdf->Image(__DIR__.'../../image/line.png',151,237,37,0.6);
 $pdf->Image(__DIR__.'../../image/line.png',122,243,66,0.6);
 $pdf->Image(__DIR__.'../../image/line.png',122,249,66,0.6);
 $pdf->Image(__DIR__.'../../image/line.png',122,255,66,0.6);
 //
+$pdf->Text(130,264.5,$officer_2['fname'] .' '.$officer_2['lname']);
 $pdf->Image(__DIR__.'../../image/line.png',122,265,66,0.6);
 $pdf->Text(145,269,'(Authorized Officer)');
 //
