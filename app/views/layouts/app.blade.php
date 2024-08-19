@@ -140,7 +140,7 @@
         </div>
         <div class="clearfix"></div>
     </div>
-    <div class="header" style="background-color:#59ab91	;padding:10px;">
+    <div class="header" style="background-color:#9C8AA5	;padding:10px;">
         <div class="container">
             @if(Session::get('region') == 'region_8')
                 <img src="{{ asset('public/img/reg8_banner.png') }}" class="img-responsive" />
