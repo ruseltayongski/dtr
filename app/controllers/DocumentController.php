@@ -1274,7 +1274,7 @@ class DocumentController extends BaseController
         }else{
             $timeLog = DB::connection('mysql')->select("call getLogs2('$id','$date_from','$date_to')");
         }
-        return $timeLog;
+
         header("Content-Type: application/xls");
         header("Content-Disposition: attachment; filename=timelogs.xls");
         header("Pragma: no-cache");
