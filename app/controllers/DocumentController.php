@@ -1263,4 +1263,49 @@ class DocumentController extends BaseController
         return View::make('form.absent');
     }
 
+    public function timelogs_excel($id){
+        $excel_range = explode(' - ',Input::get("excel_range"));
+        $date_from = date("Y-m-d",strtotime($excel_range[0]));
+        $date_to = date("Y-m-d",strtotime($excel_range[1]));
+
+        $job_status = InformationPersonal::where('userid',$id)->first()->job_status;
+        if($job_status == 'Permanent'){
+            $timeLog = DB::connection('mysql')->select("call Gliding_2020('$id','$date_from','$date_to')");
+        }else{
+            $timeLog = DB::connection('mysql')->select("call getLogs2('$id','$date_from','$date_to')");
+        }
+        header("Content-Type: application/xls");
+        header("Content-Disposition: attachment; filename=timelogs.xls");
+        header("Pragma: no-cache");
+        header("Expires: 0");
+        $title = $id .' - '.$timeLog[0]->name;
+        $table_body = "<tr>
+                    <th>DATE IN</th>
+                    <th>AM IN</th>
+                    <th>AM OUT</th>
+                    <th>PM IN</th>
+                    <th>PM OUT</th>
+                </tr>";
+        foreach($timeLog as $row) {
+
+            $am_in_time = isset(explode("_",explode('|',$row->time)[0])[0]) ? explode("_",explode('|',$row->time)[0])[0] : "empty";
+            $am_out_time = isset(explode("_",explode('|',$row->time)[1])[0]) ? explode("_",explode('|',$row->time)[1])[0] : "empty";
+            $pm_in_time = isset(explode("_",explode('|',$row->time)[2])[0]) ? explode("_",explode('|',$row->time)[2])[0] : "empty";
+            $pm_out_time = isset(explode("_",explode('|',$row->time)[3])[0]) ? explode("_",explode('|',$row->time)[3])[0] : "empty";
+            $date = date("F d, Y",strtotime($row->datein));
+            $table_body .= "<tr style='text-align: center'>
+                    <td style='width: 150px'>$date</td>
+                    <td style='width: 150px'>$am_in_time</td>
+                    <td style='width: 150px'>$am_out_time</td>
+                    <td style='width: 150px'>$pm_in_time</td>
+                    <td style='width: 150px'>$pm_out_time</td>
+                </tr>";
+        }
+        $display =
+            '<h2>'.$title.'</h2>'.
+            '<table cellspacing="1" cellpadding="5" border="1">'.$table_body.'</table>';
+
+        return $display;
+    }
+
 }

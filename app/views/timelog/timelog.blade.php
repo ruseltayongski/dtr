@@ -388,6 +388,9 @@
                             <form action="{{ asset('FPDF/timelog/print_individual1.php') }}" target="_blank" method="POST">
                                 <div style="padding: 1%;margin-top: -2%;float: right">
                                     <label class="bg-green" style=" height:34px; padding: 6px; color: white; border-radius: 3px; margin: 2px">{{Session::get('filter_dates')}}</label>
+                                    <a target="_blank" href="{{ url('personal/excel/' . $userid . '?excel_range=' . Session::get('filter_dates')) }}" class="btn btn-success" style="color:white">
+                                        <i class="fa fa-barcode"></i> Generate EXCEL
+                                    </a>
                                     <button class="btn btn-success" name="filter_range" value="{{ Session::get('filter_dates') }}"><i class="fa fa-print"></i> Generate PDF</button>
                                 </div>
                                 <input type="hidden" name="userid" value="{{ $userid }}">
