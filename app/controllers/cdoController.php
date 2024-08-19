@@ -229,12 +229,12 @@ class cdoController extends BaseController
                 $q->where("route_no","like","%$keyword%")
                     ->orWhere("subject","like","%$keyword%");
             })
+            ->with('appliedDates')
             ->orderBy('id','desc')
             ->paginate(10);
-
         $card_view = CardView::where('userid', Auth:: user()->userid)->get();
+
         return View::make('cdo.cdo_user')->with(["cdo" => $cdo, "card_view"=>$card_view]);
-//        return View::make('cdo.beginning_balance')->with(['pis'=>$pis, 'card_view'=>$card_view]);
     }
 
     //GENERATE PDF FILE...
