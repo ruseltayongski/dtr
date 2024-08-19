@@ -176,7 +176,7 @@
         console.log(count);
         function submitComment(){
             if($("#text_comment").val() != ''){
-                var url = "<?php echo asset('faq/comment_append'); ?>";
+                var url = "{{ url('faq/comment_append') }}";
                 var json = {
                     "userid" : "<?php echo Auth::user()->userid; ?>",
                     "post_id" : 1,
@@ -201,7 +201,7 @@
             $("#"+this.id).submit(function(form){
                 var inputElement = $("#"+this.id).find('input');
                 var ID = this.id;
-                var url = "<?php echo asset('faq/reply_append'); ?>";
+                var url = "{{ url('faq/reply_append') }}";
                 var json = {
                     "userid" : "<?php echo Auth::user()->userid; ?>",
                     "post_id" : 1,
