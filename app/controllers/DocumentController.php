@@ -6,7 +6,6 @@
  * Time: 9:41 AM
  */
 
-
 class DocumentController extends BaseController
 {
     public function __construct()
@@ -16,6 +15,7 @@ class DocumentController extends BaseController
     }
 
     public  function leave(){
+        return 'leave';
 //       return "not yet ready";
         if(Request::method() == 'GET'){
             $user = InformationPersonal::select("personal_information.lname","personal_information.fname","personal_information.mname","designation.description as designation","work_experience.monthly_salary",
@@ -191,7 +191,8 @@ class DocumentController extends BaseController
 
     public function save_edit_leave()
     {
-        return (Input::get('leave_type') != null)?Input::get('leave_type'):'None' ;
+        return 1;
+//        return (Input::get('leave_type') != null)?Input::get('leave_type'):'None' ;
         $leave = Leave::where('id', Input::get('id'))->first();
         if($leave){
             $pis = InformationPersonal::where('userid', $leave->userid)->first();
@@ -271,7 +272,8 @@ class DocumentController extends BaseController
 
     public function all_leave()
     {
-        if(Auth::user()->userid != "0190046"){
+        return 'all leave';
+        if(Auth::user()->userid != "0190046" and Auth::user()->userid != "198600029" ){
             return "still under development";
         }
         // return "still under development";
@@ -322,7 +324,8 @@ class DocumentController extends BaseController
                     ->leftJoin('pis.personal_information','personal_information.userid','=','leave.userid')
                     ->first();
         $leaveTypes = LeaveTypes::get();
-        $leave_dates = LeaveAppliedDates::where('leave_id', $id)->get();
+        $leave_dates = LeaveAppliedDates::where('leave_id', $id)->where('status', '!=', 1)->get();
+        $user = InformationPersonal::where('userid', Auth::user()->userid)->first();
         $id_list = [];
         $manually_added = [985329, 273, 11, 93053, 986445, 984538, 985950, 80, 976017, 466];
 
@@ -341,11 +344,52 @@ class DocumentController extends BaseController
             $section_head[] = pdoController::user_search1($data_list);
         }
 
+
+        $dates = [];
+        $length = count($leave_dates);
+        $check=[];
+
+        if ($length > 0) {
+            $start = ($leave_dates[0]['status'] != 2)?$leave_dates[0]['startdate']: $leave_dates[0]['from_date'];
+            $initial_date = ($leave_dates[0]['status'] != 2)?$leave_dates[0]['startdate']: $leave_dates[0]['from_date'];
+
+            foreach ($leave_dates as $index => $date) {
+                $start_date = ($date['status'] != 2)?$date['startdate']:$date['from_date'];
+                $end_date = ($date['status'] != 2)?$date['enddate']:$date['to_date'];
+
+                if ($start_date == $end_date) {
+                    if ($index + 1 != $length) {
+                        $current_date = new DateTime($initial_date);
+                        $next_date = ($leave_dates[$index + 1]['status'] != 2)? new DateTime($leave_dates[$index + 1]['startdate']) : new DateTime($leave_dates[$index + 1]['from_date']);
+                        $diff = $next_date->diff($current_date)->days;
+
+                        if ($diff == 1) {
+                            $start_date = $current_date->format('Y-m-d');
+                            $end_date = $next_date->format('Y-m-d');
+                            $initial_date = ($date['status'] != 2)?$leave_dates[$index + 1]['startdate'] :$leave_dates[$index + 1]['from_date'];
+                            $check[] = 'check1 '.$diff. $start_date .$end_date;
+                        } else {
+                            $dates[] = $start . ' - ' . $end_date;
+                            $start = ($leave_dates[$index + 1]['status'] != 2)?$leave_dates[$index + 1]['startdate'] :$leave_dates[$index + 1]['from_date'];
+                            $initial_date = ($leave_dates[$index + 1]['status'] != 2)?$leave_dates[$index + 1]['startdate'] :$leave_dates[$index + 1]['from_date'];
+                            $check[] = 'check2 '.$diff . $start. $initial_date.'---'.$date['status'];
+
+                        }
+                    } else {
+                        $dates[] = $start . ' - ' . $end_date;
+                    }
+                } else {
+                    $dates[] = $start_date . ' - ' . $end_date;
+                }
+            }
+        }
         return View::make('form.leave')->with([
             'leave' => $leave,
-            'leaveTypes' => $leaveTypes,
+            'leave_type' => $leaveTypes,
             'leave_dates'=>$leave_dates,
-            'officer' => $section_head
+            'date_list' => $dates,
+            'officer' => $section_head,
+            'user' => $user
             ]);
 
 //        $leave = Leave::select('leave.*', 'personal_information.vacation_balance', 'personal_information.sick_balance')

@@ -1893,6 +1893,7 @@ class cdoController extends BaseController
                 $get_card->save();
                 $leave->vacation_total = $leave->vacation_total + $vl;
                 $leave->sick_total = $leave->sick_total + $sl;
+                $leave->applied_num_days = $leave->applied_num_days - $count;
                 $leave->save();
                 $pis2->vacation_balance = $pis2->vacation_balance + $vl;
                 $pis2->sick_balance = $pis2->sick_balance + $sl;
