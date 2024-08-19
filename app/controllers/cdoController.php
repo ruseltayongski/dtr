@@ -611,6 +611,7 @@ class cdoController extends BaseController
     }
 
     public function dtr_file($start_date,$end_date,$prepared_name,$cdo_hours = null) {
+
         $dtr_enddate  = date('Y-m-d',(strtotime ( '-1 day' , strtotime ($end_date))));
 
         $f = new DateTime($start_date.' '. '00:00:00');
@@ -672,7 +673,6 @@ class cdoController extends BaseController
                     $details->save();
                 }
 
-
             endfor;
 
 //            $startday++;
@@ -693,8 +693,7 @@ class cdoController extends BaseController
             ->delete();
     }
 
-    public function cdo_updatev1($id = null,$type = null){
-
+    public function cdo_updatev1($id = null, $type = null){
         if($id){ //AJAX PROCESS
             $cdo = cdo::where('id',$id)->first();
             $cdoAppliedDate= CdoAppliedDate::where('cdo_id',$cdo->id)->get();
@@ -706,6 +705,7 @@ class cdoController extends BaseController
             $card_view->bal_credits= $balance;
 
             if($cdo->approved_status){
+
                 InformationPersonal::where('userid',$userid)->update([
                     "bbalance_cto" => (float)$personal_information->bbalance_cto + (float)$cdo->less_applied_for
                 ]);
@@ -1052,10 +1052,7 @@ class cdoController extends BaseController
         $cdo = cdo::where('route_no',$route_no)->first();
         if($cdo){
             $cdo_Id= $cdo->id;
-            $details = CdoLogs::whereBetween('datein',array($cdo->start,$cdo->end));
-            $details->delete();
             $cdo->delete();
-            //return $cdo_Id;
             $cdo_applied_dates = CdoAppliedDate::where('cdo_id', $cdo_Id);
             $cdo_applied_dates->delete();
         }

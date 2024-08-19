@@ -820,7 +820,7 @@ class DocumentController extends BaseController
             ]);
         }
         else {
-            $cdo = cdo::where('route_no',$route_no)->get()->first();
+            $cdo = cdo::where('route_no',$route_no)->first();
             $inclusiveDates = CdoAppliedDate::where('cdo_id', $cdo->id)->get();
 
             if(Auth::user()->usertype)
@@ -1274,6 +1274,7 @@ class DocumentController extends BaseController
         }else{
             $timeLog = DB::connection('mysql')->select("call getLogs2('$id','$date_from','$date_to')");
         }
+        return $timeLog;
         header("Content-Type: application/xls");
         header("Content-Disposition: attachment; filename=timelogs.xls");
         header("Pragma: no-cache");
