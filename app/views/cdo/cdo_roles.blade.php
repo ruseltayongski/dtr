@@ -360,7 +360,8 @@
                         var length = dateList.length;
                         var i=0;
                         var cancelAllCheckbox ='<label>Check to Cancel All:</label>'+
-                            '<input style="transform: scale(1.5)" type="checkbox" class="minimal" id="applied_dates" value="cancel_all" name="applied_dates" />';
+                            '<input style="transform: scale(1.5)" type="checkbox" class="minimal" id="applied_dates" value="cancel_all" name="applied_dates" />'+
+                            '<br><small style="margin-left: 10%" class="text-info"><i>please make sure to select dates and hours to cancel</i></small>';
                         container.innerHTML += cancelAllCheckbox;
                         while (length > i) {
                             var html = '<div class="checkbox">' +
