@@ -192,6 +192,9 @@
                     $(".comment_append").prepend(view);
                     $("#"+comment_id).hide().fadeIn();
                     count++;
+                     setTimeout(function() {
+                        location.reload(); // Refresh the page
+                    }, 100); // 
                 });
             }
         }
@@ -216,7 +219,7 @@
                         $(".reply_append"+ID.split('submit_reply')[1]).append(result);
                         $("#reply"+replyCount).hide().fadeIn();
                         replyCount++;
-                    });
+                    }); 
                 }
                 form.preventDefault();
             });
