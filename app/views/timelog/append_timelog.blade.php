@@ -48,11 +48,11 @@
         Please fill up {{ $log_type == 'AM_OUT' ? 'am in' : 'pm in' }} first
     </div>
 @else
-    <table class="table table-list table-hover table-striped">
+    <table class="table table-list table-hover table-striped" style="width: 150%;">
         <tr>
             <td >Time Log:</td>
             <td >
-                <input type="time" style="width: 100%" id="{{ $elementId.'time_log' }}" min="{{ $min }}" max="{{ $max }}" {{ $disabled }}>
+                <input type="time" style="width: 170px" id="{{ $elementId.'time_log' }}" min="{{ $min }}" max="{{ $max }}" {{ $disabled }}>
             </td>
         </tr>
         <tr>
@@ -61,12 +61,12 @@
                 <!--
                 <input type="number" style="width: 100%" min="-4" max="9999" id="{{ $elementId.'office_order' }}" {{ $disabled }}>
                 -->
-                <input type="text" style="width: 100%" id="{{ $elementId.'office_order' }}" {{ $disabled }}>
+                <input type="text" style="width: 170px; box-sizing: border-box;" id="{{ $elementId.'office_order' }}" {{ $disabled }} onclick="displayAll($(this))">
             </td>
         </tr>
         <tr>
             <td >Travel Order:</td>
-            <td ><input type="number" style="width: 100%" min="-4" max="9999" id="{{ $elementId.'travel_order' }}" {{ $disabled }}></td>
+            <td ><input type="number" style="width: 170px" min="-4" max="9999" id="{{ $elementId.'travel_order' }}" {{ $disabled }} onclick="displayAll($(this))"></td>
         </tr>
         <!--
         <tr>
@@ -78,7 +78,7 @@
             <tr>
                 <td >LEAVE:</td>
                 <td >
-                    <select name="" style="width: 100%" id="{{ $elementId.'leave' }}" class="form-control" {{ $disabled }}>
+                    <select name="" style="width: 170px" id="{{ $elementId.'leave' }}" class="form-control" {{ $disabled }} onchange="displayAll($(this))">
                         <option value="">Select Leave Type</option>
                         <option value="VACATION LEAVE">VACATION LEAVE</option>
                         <option value="SICK LEAVE">SICK LEAVE</option>
@@ -92,30 +92,32 @@
             </tr>
             <tr>
                 <td >CDO:</td>
-                <td ><input type="checkbox" name="{{ $elementId.'cdo' }}" style="width: 20%;transform: scale(1.5);" id="{{ $elementId.'cdo' }}" {{ $disabled }}></td>
+                <td >
+                    <input type="checkbox" name="{{ $elementId.'cdo' }}" style="width: 20%;transform: scale(1.5);" id="{{ $elementId.'cdo' }}" {{ $disabled }} onclick="displayAll($(this))">
+                </td>
             </tr>
             <tr>
                 <td >JO BREAK:</td>
-                <td ><input type="checkbox" name="{{ $elementId.'jobreak' }}" style="width: 20%;transform: scale(1.5);" id="{{ $elementId.'jobreak' }}" {{ $disabled }}></td>
+                <td ><input type="checkbox" name="{{ $elementId.'jobreak' }}" style="width: 20%;transform: scale(1.5);" id="{{ $elementId.'jobreak' }}" {{ $disabled }} onclick="displayAll($(this))"></td>
             </tr>
             <tr>
                 <td >HOLIDAY:</td>
-                <td ><input type="checkbox" name="{{ $elementId.'holiday' }}" style="width: 20%;transform: scale(1.5);" id="{{ $elementId.'holiday' }}" {{ $disabled }}></td>
+                <td ><input type="checkbox" name="{{ $elementId.'holiday' }}" style="width: 20%;transform: scale(1.5);" id="{{ $elementId.'holiday' }}" {{ $disabled }} onclick="displayAll($(this))"></td>
             </tr>
             <tr>
                 <td >DAY OFF:</td>
-                <td ><input type="checkbox" name="{{ $elementId.'dayoff' }}" style="width: 20%;transform: scale(1.5);" id="{{ $elementId.'dayoff' }}" {{ $disabled }}></td>
+                <td ><input type="checkbox" name="{{ $elementId.'dayoff' }}" style="width: 20%;transform: scale(1.5);" id="{{ $elementId.'dayoff' }}" {{ $disabled }} onclick="displayAll($(this))"></td>
             </tr>
             @if(Session::get("flexi-time_roles"))
             <tr>
                 <td >FLEXI-TIME:</td>
-                <td ><input type="checkbox" name="{{ $elementId.'flexi' }}" style="width: 20%;transform: scale(1.5);" id="{{ $elementId.'flexi' }}" {{ $disabled }}></td>
+                <td ><input type="checkbox" name="{{ $elementId.'flexi' }}" style="width: 20%;transform: scale(1.5);" id="{{ $elementId.'flexi' }}" {{ $disabled }} onclick="displayAll($(this))"></td>
             </tr>
             @endif
         @endif
         <tr>
             <td >EMPTY:</td>
-            <td ><input type="checkbox" name="{{ $elementId.'empty' }}" style="width: 20%;transform: scale(1.5);" id="{{ $elementId.'empty' }}"></td>
+            <td ><input type="checkbox" name="{{ $elementId.'empty' }}" style="width: 20%;transform: scale(1.5);" id="{{ $elementId.'empty' }}" onclick="displayAll($(this))"></td>
         </tr>
     </table>
 @endif
