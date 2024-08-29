@@ -438,8 +438,19 @@
             });
         });
 
+        function displayAll(element) {
+            var check_all = '<span class="all_rows_span" style="margin-left: 5px">CHECK ALL:</span><input type="checkbox" class="all_rows_checkbox" name="update_all" style="margin-left:5px; width: 20px; transform: scale(1.5);" id="update_all">';
+
+            $('.editable-popup .all_rows_span').remove();
+            $('.editable-popup .all_rows_checkbox').remove();
+
+            $(element).after(check_all);
+
+        }
+
         $(function(){
             $(".editable").each(function(){
+                console.log('editable');
                 $('#'+this.id).editable({
                     type: 'radiolist',
                     value: '',
@@ -506,6 +517,7 @@
                             log_status_change = "empty";
                             edited_display = "EMPTY";
                         }
+
                         json = {
                             "userid":userid,
                             "datein":datein,
@@ -516,20 +528,62 @@
                             "log_type":log_type
                         };
                         var url = "<?php echo asset('logs/timelog/edit'); ?>";
-                        $.post(url,json,function(result){
-                            var input_hidden_time = result.display_time; //display hidden time for trapping and where purposes
-                            input_hidden_element.val(input_hidden_time);
-                            var new_id = ID.replace(new RegExp(log_status, "g"),log_status_change == 'empty' ? log_status_change : log_status_change.split('_')[0]);
-                            console.log("log_status: "+log_status);
-                            console.log("log_status_change: "+log_status_change);
-                            console.log(json);
-                            console.log("new_id: "+new_id);
-                            $("#"+ID).attr('id',new_id);
-                            Lobibox.notify(result.notification,{
-                                msg:result.message
+
+                        if($("#update_all").is(':checked')){
+                            var all_entry = ['AM_IN', 'AM_OUT', 'PM_IN', 'PM_OUT'];
+                            var all_data = this.id;
+                            var part = all_data.split('ñ');
+
+                            all_entry.forEach(function(data){
+                                console.log("data "+data);
+                                var input = $('#'+part[5]+'ñ'+data);
+                                var strong_element = input.closest('td').find('strong');
+                                var ID = strong_element.attr('id');
+                                var id_parts = ID.split('ñ');
+                                log_status = id_parts[3];
+                                log_type = data;
+                                time = input.val();
+
+                                json = {
+                                    "userid":userid,
+                                    "datein":datein,
+                                    "time":time,
+                                    "edited_display":edited_display,
+                                    "log_status":log_status,
+                                    "log_status_change": log_status_change,
+                                    "log_type":log_type
+                                };
+
+                                $.post(url,json,function(result){
+                                    var input_hidden_time = result.display_time;
+                                    input_hidden_element.val(input_hidden_time);
+                                    var new_id = ID.replace(new RegExp(log_status, "g"),log_status_change == 'empty' ? log_status_change : log_status_change.split('_')[0]);
+
+                                    $("#"+ID).attr('id',new_id); // this.id
+
+                                    Lobibox.notify(result.notification,{
+                                        msg:result.message
+                                    });
+                                });
+                                $("#"+ID).html(edited_display);
                             });
-                        });
-                        $("#"+this.id).html(edited_display);
+                        }else{
+                            $.post(url,json,function(result){
+                                var input_hidden_time = result.display_time; //display hidden time for trapping and where purposes
+                                input_hidden_element.val(input_hidden_time);
+                                var new_id = ID.replace(new RegExp(log_status, "g"),log_status_change == 'empty' ? log_status_change : log_status_change.split('_')[0]);
+                                console.log("log_status: "+log_status);
+                                console.log("log_status_change: "+log_status_change);
+                                console.log(json);
+                                console.log("new_id: "+new_id);
+                                $("#"+ID).attr('id',new_id);
+                                Lobibox.notify(result.notification,{
+                                    msg:result.message
+                                });
+                            });
+
+                            $("#"+this.id).html(edited_display);
+                        }
                     }
                 });
             })
@@ -540,6 +594,7 @@
                 this.init('radiolist', options, Radiolist.defaults);
             };
             $.fn.editableutils.inherit(Radiolist, $.fn.editabletypes.checklist);
+            console.log('radiobuttton');
 
             $.extend(Radiolist.prototype, {
                 renderList : function() {
@@ -600,7 +655,7 @@
                  @property tpl
                  @default <div></div>
                  **/
-                tpl : '<div class="editable-radiolist"></div>',
+                tpl : '<div class="editable-radiolist" style="background-color: yellow"></div>',
 
                 /**
                  @property inputclass, attached to the <label> wrapper instead of the input element
