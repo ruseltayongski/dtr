@@ -90,13 +90,12 @@
                                         </div>
                                         <div class="col-md-9">
                                             <div class="message">
-                                                        <span href="#" class="name text-blue" style="display: inline;">
-                                                            {{ strtoupper($com->fname." ".$com->lname) }}
-                                                        </span>
-                                                <small class="text-success">
-                                                    {{ nl2br($com->description) }}<br>
+                                                <span href="#" class="name text-blue" style="display: inline;">
+                                                    {{ strtoupper($com->fname." ".$com->lname) }}
+                                                </span>
+                                                <small class="text-success"><br>
+                                                    <p>{{ trim(strip_tags(nl2br($com->description))) }}</p>
                                                 </small>
-
                                                 <a data-toggle="collapse" class="text-blue" href="#collapse{{ $com->id }}" aria-expanded="false" aria-controls="collapseExample" style="font-size: 8pt"> Reply</a>
                                             </div>
                                         </div>
@@ -140,7 +139,7 @@
                                     <div class="collapse" id="collapse{{ $com->id }}">
                                         <div class="box-footer" style="margin-left:8%;">
                                             <form action="#" method="post" id="{{ 'submit_reply'.$com->id }}" class="{{ $com->id }} form_reply" autocomplete="off">
-                                                <img class="img-responsive img-circle img-sm" src="{{ isset($defaultPicture->picture) ? str_replace('dtr','pis',asset('')).'public/upload_picture/picture/'.$defaultPicture->picture : str_replace('dtr','pis',asset('')).'public/upload_picture/picture/uknown.png' }}" alt="Alt Text">
+                                                <img class="img-responsive img-circle img-sm" src="{{ isset($defaultPicture->picture) ? 'https://pis.cvchd7.com/pis/public/upload_picture/picture/'.$defaultPicture->picture : 'https://pis.cvchd7.com/pis/public/upload_picture/picture/uknown.png' }}" alt="Alt Text">
                                                 <div class="img-push">
                                                     <input type="text" class="form-control input-sm" value="" id="text_reply{{ $com->id }}" placeholder="Press enter to reply">
                                                 </div>
@@ -151,10 +150,7 @@
                             @endforeach
                         @endif
                     </div>
-
                 </div>
-
-
             </div>
         </div>
     </div>
@@ -175,6 +171,7 @@
         var count = parseInt("<?php echo count($comments) ?>")+1;
         console.log(count);
         function submitComment(){
+            console.log('comment');
             if($("#text_comment").val() != ''){
                 var url = "{{ url('faq/comment_append') }}";
                 var json = {
@@ -194,7 +191,7 @@
                     count++;
                      setTimeout(function() {
                         location.reload(); // Refresh the page
-                    }, 100); // 
+                    }, 100); //
                 });
             }
         }
@@ -219,7 +216,7 @@
                         $(".reply_append"+ID.split('submit_reply')[1]).append(result);
                         $("#reply"+replyCount).hide().fadeIn();
                         replyCount++;
-                    }); 
+                    });
                 }
                 form.preventDefault();
             });
