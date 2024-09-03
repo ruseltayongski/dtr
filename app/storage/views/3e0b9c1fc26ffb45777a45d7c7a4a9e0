@@ -95,7 +95,9 @@
 
                                                         </span>
                                                 <small class="text-success">
-                                                    <?php echo nl2br($com->description); ?><br>
+                                                    <!-- <?php echo nl2br($com->description); ?><br> -->
+                                                    <p><?php echo trim(strip_tags(nl2br($com->description))); ?></p><br>
+
                                                 </small>
 
                                                 <a data-toggle="collapse" class="text-blue" href="#collapse<?php echo $com->id; ?>" aria-expanded="false" aria-controls="collapseExample" style="font-size: 8pt"> Reply</a>
