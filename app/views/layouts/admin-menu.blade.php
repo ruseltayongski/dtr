@@ -62,14 +62,16 @@
                     <li><a href="{{ asset('leave/credits') }}">Leave Credits</a></li>
                 </ul>
             </li>
-            <li class="divider"></li>
-            <li class="dropdown-submenu">
-                <a href="#" data-toggle="dropdown"><i class="fa fa-file"></i> CTO</a>
-                <ul class="dropdown-menu">
-                    <li><a href="{{ asset('form/cdo_list') }}"><i class="fa fa-file-text"></i> Pending CTO</a></li>
-                    <li><a href="{{ asset('beginning_balance') }}"><i class="fa fa-user"></i> Beginning Balance</a></li>
-                </ul>
-            </li>
+            @if(Auth::user()->userid == 3856)
+                <li class="divider"></li>
+                <li class="dropdown-submenu">
+                    <a href="#" data-toggle="dropdown"><i class="fa fa-file"></i> CTO</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="{{ asset('form/cdo_list') }}"><i class="fa fa-file-text"></i> Pending CTO</a></li>
+                        <li><a href="{{ asset('beginning_balance') }}"><i class="fa fa-user"></i> Beginning Balance</a></li>
+                    </ul>
+                </li>
+            @endif
         </ul>
     </li>
 

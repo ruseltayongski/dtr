@@ -100,7 +100,7 @@
     </div>
     {{ $paginate_approve->links() }}
 @else
-    <div class="alert alert-danger" role="alert" style="color: red"><span style="color:red;">Documents records are empty.</span></div>
+    <div class="alert alert-danger" role="alert" style="color: white"><span style="color:white;">Documents records are empty.</span></div>
 @endif
 
 <script>

@@ -39,7 +39,7 @@
     </div>
     {{ $paginate_cancelled->links() }}
 @else
-    <div class="alert alert-danger" role="alert"><span style="color:red;">Documents records are empty.</span></div>
+    <div class="alert alert-danger" role="alert"><span style="color:white;">Documents records are empty.</span></div>
 @endif
 <script>
     $('a[href="#leave_info').click(function(){

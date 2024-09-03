@@ -93,7 +93,7 @@
     </div>
     {{ $paginate_pending->links() }}
 @else
-    <div class="alert alert-danger" role="alert"><span style="color:red;">Documents records are empty.</span></div>
+    <div class="alert alert-danger" role="alert"><span style="color:white;">Documents records are empty.</span></div>
 @endif
 
 <script>
