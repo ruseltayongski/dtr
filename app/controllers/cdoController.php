@@ -319,17 +319,19 @@ class cdoController extends BaseController
         $server_date = date('Y-m-d');
         $client_date = Input::get('client');
 
-        if($server_date != $client_date){
+        if($client_date && $server_date){
+            if($server_date != $client_date){
 
-            Session::put("cdo_falsification", true);
+                Session::put("cdo_falsification", true);
 
-            $falsify = new Falsification();
-            $falsify->userid = Auth::user()->userid;
-            $falsify->client_date = $client_date;
-            $falsify->server_date = $server_date;
-            $falsify->save();
+                $falsify = new Falsification();
+                $falsify->userid = Auth::user()->userid;
+                $falsify->client_date = $client_date;
+                $falsify->server_date = $server_date;
+                $falsify->save();
 
-            return Redirect::to('form/cdo_user');
+                return Redirect::to('form/cdo_user');
+            }
         }
 
         $route_no = date('Y-') . pdoController::user_search(Auth::user()->userid)['id'] . date('mdHis');

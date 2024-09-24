@@ -257,12 +257,12 @@ class MobileControllerV2 extends BaseController
                 ->first();
 
             // to enable this uncomment line 258 to 263
-            //if($check_userid === '201400213') { //doc 
-              //  return [
-                //    "code" => 0,
-                  //  "response" => "error"
-                //];
-            //}    
+            if($check_userid === '202400337') { //doc 
+               return [
+                   "code" => 0,
+                   "response" => "error"
+                ];
+            }    
 
             foreach ($json_object['logs'] as $value) {
                 $userid = $value['userid'];

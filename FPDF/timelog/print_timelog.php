@@ -104,9 +104,26 @@ if(isset($_POST['filter_range'])){
     $filter_date = explode(' - ',$_POST['filter_range']);
     $date_from = date("Y-m-d",strtotime($filter_date[0]));
     $date_to = date("Y-m-d",strtotime($filter_date[1]));
-
+    $september_2_2024 = "2024-09-01";
+    
     isset($_POST['job_status']) ? $job_status = $_POST['job_status'] : $job_status = getJobStatus($userid)['job_status'];
-    date("Y",strtotime($date_from)) >= 2020 && $job_status == 'Permanent' ? $query_req = "CALL Gliding_2020('$userid','$date_from','$date_to')" : $query_req = "CALL GETLOGS2('$userid','$date_from','$date_to')";
+//    date("Y",strtotime($date_from)) >= 2020 && $job_status == 'Permanent' ? $query_req = "CALL Gliding_2020('$userid','$date_from','$date_to')"
+// : $query_req = "CALL GETLOGS2('$userid','$date_from','$date_to')";
+
+    if($job_status == 'Permanent' && date("Y",strtotime($date_from)) >= 2020){
+        if($date_from >= $september_2_2024){
+            $query_req = "CALL Gliding_2024('$userid','$date_from','$date_to')";
+        }else{
+            $query_req = "CALL Gliding_2020('$userid','$date_from','$date_to')";
+        }
+    }else{
+        if($date_from >= $september_2_2024 && date("Y",strtotime($date_from)) >= 2020){
+            $query_req = "CALL GETLOGS2024('$userid','$date_from','$date_to')";
+        }else{
+            $query_req = "CALL GETLOGS2('$userid','$date_from','$date_to')";
+        }
+    }
+
 
     api_get_logs($userid,$date_from,$date_to);
     $timelog = getLogs($query_req);
