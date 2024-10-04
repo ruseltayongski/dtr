@@ -72,10 +72,10 @@ Route::match(array('GET','POST'),'resetpass', 'PasswordController@change_passwor
 
 Route::match(['GET','POST'],'leave/roles','AdminController@track_leave');
 Route::match(['GET', 'POST'],'leave/approved/{route_no}','AdminController@approved_leave');
-Route::post('leave/disapproved','AdminController@disapproved_leave');
+Route::match(['GET', 'POST'], 'leave/disapproved/{route_no}','AdminController@disapproved_leave');
 Route::post('leave/pending','AdminController@pending_leave');
 Route::get('leave/delete/{id}','AdminController@delete_leave');
-Route::get('leave/update/{id}', 'AdminController@edit_leave');
+//Route::get('leave/update/{id}', 'AdminController@edit_leave');
 Route::get('leave/cancel/{route_no}','AdminController@cancel_leave');
 Route::match(array('GET', 'POST'), 'move_dates', 'AdminController@move_dates');
 Route::match(array('GET', 'POST'), 'remarks', 'AdminController@remarks');
@@ -313,11 +313,12 @@ Route::post('mobileV2/imei','MobileControllerV2@imei');
 
 Route::get('mobile/office/announcement','MobileControllerV2@announcementAPI');
 Route::get('mobile/office/version','MobileControllerV2@appVersionAPIOld');
-Route::get('mobile/get/version','MobileControllerV2@appVersionAPINew');
+Route::get('mobile/get/version/{device_type}','MobileControllerV2@appVersionAPINew');
 Route::get('mobile/office/announcement/view','MobileControllerV2@announcementView');
-Route::get('mobile/office/version/view','MobileControllerV2@appVersionView');
+Route::get('mobile/office/version/view/{type}','MobileControllerV2@appVersionView');
 Route::post('mobile/office/announcement/post','MobileControllerV2@announcementPost');
 Route::post('mobile/office/version/post','MobileControllerV2@appVersionPost');
+Route::get('mobile/office/force-update/{id}','MobileControllerV2@forceUpdate');
 
 Route::match(['GET','POST'],'mobileV3/area_of_assignment', 'MobileControllerV3@getAreaAssignment');
 

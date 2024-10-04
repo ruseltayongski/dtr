@@ -122,7 +122,7 @@
                                             </div>
                                             {{ $cdo['my_cdo']->links() }}
                                         @else
-                                            <div class="alert alert-danger" role="alert"><span style="color: #ffeff1">Documents records are empty.</span></div>
+                                            <div class="alert alert-danger" role="alert"><span style="color: white">Documents records are empty.</span></div>
                                         @endif
                                     </div>
                                 </div>

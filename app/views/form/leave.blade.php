@@ -12,7 +12,7 @@
                             <div class="align small-text" style="text-align: center">
                                 Republic of the Philippines<br>
                                 <strong>DEPARTMENT OF HEALTH<br>
-                                    CENTRAL VISAYAS CENTER for HEALTH DEVELOPMENTfor_leave<br></strong>
+                                    CENTRAL VISAYAS CENTER for HEALTH DEVELOPMENTleave<br></strong>
                                 Osmeña Boulevard, Cebu City, 6000 Philippines<br>
                             </div>
                         </td>
@@ -25,13 +25,12 @@
             <div style="text-align: center; margin-top: 15px;">
                 <h4><strong style="margin-left: 3em;">APPLICATION FOR LEAVE</strong></h4>
             </div>
-
-            <form action="{{ asset('leave/update/save') }}" method="POST" style="margin-top: 1px;margin-left: 0.5%; margin-right: 0.5%">
-                <input type="hidden" name="id" value="{{$leave->id}}">
+            <form action="{{ asset('leave/update/save') }}" method="POST"  style="margin-top: 1px;margin-left: 0.5%; margin-right: 0.5%">
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-md-12">
                             <input type="hidden" id="token" name="_token" value="<?php echo csrf_token(); ?>">
+                            <input type="hidden" name="id" value="{{$leave->id}}">
                             <table border="1px" width="100%">
                                 <td style="width: 30%">
                                     <div class="row">
@@ -83,7 +82,7 @@
                                             </div>
                                             <div class="col-md-5">
                                                 <label class="control-label" for="inputSuccess1">5. SALARY</label>
-                                                <input type="text" class="form-control" id="inputSuccess1" name="salary" value="{{ $leave->salary }}" readonly style="display: inline-block; width: 60%; margin-top: 4px">
+                                                <input type="text" class="form-control" id="inputSuccess1" name="salary" value="{{ number_format($leave->salary, 2, '.', ',') }}" readonly style="display: inline-block; width: 60%; margin-top: 4px">
                                             </div>
 
                                         </div>
@@ -193,7 +192,7 @@
                                                             <label>
                                                                 <input type="radio" id="checkboxSuccess" class="others_dis" value="8" name="leave_details" {{($leave->leave_details == 8 )?'checked' :''}}> Monetization of Leave Credits
                                                             </label><br>
-                                                            <div style="text-align: center; width: 100%; display: none" id="monetize_display">
+                                                            <div style="margin-left: 10%; width: 80%; text-align: center; display: none" id="monetize_display">
                                                                 <select class="monetize_select form-control" id="monetizeSelect" name="monetize_select" onchange="monetize($(this).val())">
                                                                     <option value="">Please select value</option>
                                                                     <option value="10">10</option>
@@ -222,7 +221,7 @@
                                         <input type="text" class="form-control" name="applied_num_days" id="applied_num_days" value="{{(int)$leave->applied_num_days}}" style="text-align:center; margin-left: 5%; width: 50%;margin-top: 2%" readonly/>
                                         <input type="hidden" class="form-control" name="credit_used" id="credit_used"/>
                                         <strong class="sm-m-3" style="display: inline-block; margin-left: 5%; margin-top: 2%; margin-bottom: 10px">INCLUSIVE DATES :</strong>
-                                        <button  style="width: 10%; display: inline-block; margin-left: 40%" class="btn btn-sm btn-info addButton1" type="button"><strong>+</strong></button>
+                                        <button  style="width: 10.1%; display: inline-block; margin-left: 39.6%" class="btn btn-sm btn-info addButton1" type="button"><strong>+</strong></button>
 
                                         @foreach($leave_dates as $dates)
                                             {{--<strong style="margin-left: 1%">--}}
@@ -273,7 +272,7 @@
                                 <tr style="width: 52%" id="row_data">
                                     <td style="vertical-align: top">
                                         <strong style="margin-left: 2%">7.A CERTIFICATION OF LEAVE CREDITS</strong><br>
-                                        <p style="margin-left: 20%">As of <input name="as_of" style="border:none;border-bottom: 2px solid black; width:30%; text-align: center" value="<?php echo date('F j, Y') ?>"></p>
+                                        <p style="margin-left: 20%">As of <input name="as_of" style="border:none;border-bottom: 2px solid black; width:35%; text-align: center" value="<?php echo date('F j, Y', strtotime('last day of this month')); ?>" readonly></p>
                                         <div class="row">
                                             <div>
                                                 <table border="2" style="width: 80%; text-align: center; align-items: center; margin-left: 10%">
@@ -407,37 +406,271 @@
                         {{--</div>--}}
                     {{--</div>--}}
                 {{--</div> <!-- PANEL BODY -->--}}
-            </form>
-        </div>
-    </div>
-    <div class="modal-footer">
-        <div class="row">
-            <div class="modal-footer">
+                <div class="modal-footer">
+                    <div class="row">
+                        <div class="modal-footer">
 
-                <div class="alert-info" style=" display: inline-block; width: 50%; float: left">
-                    <p style="padding: 2px; margin: 0; text-align: center">
+                            <div class="alert-info" style=" display: inline-block; width: 50%; float: left">
+                                <p style="padding: 2px; margin: 0; text-align: center">
                         <span >
                             <i class="fa fa-hand-o-right"></i>
                             Please print the leave application details on the back of your form. HR will not accept your leave form unless these details are printed.
                         </span>
-                    </p>
+                                </p>
+                            </div>
+                            <div style="display: inline-block; width: 50%;">
+                                {{--<button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>--}}
+                                <a target="_blank" class="btn btn-success" href="{{ asset('FPDF/print_leave.php?id=' .$leave->id) }}" style="color: white;"><i class="fa fa-print"></i> Print(Front)</a>
+                                <a target="_blank" class="btn btn-success" href="{{ asset('leave/print/' .$leave->id) }}" style="color: white;"><i class="fa fa-print"></i> Print(Back)</a>
+                                @if( Auth::user()->usertype !=1 && $leave->status == 0 )
+                                    <button href="{{ asset('leave/update/save') }}"  class="btn btn-primary btn-submit" style="color:white;"><i class="fa fa-pencil"></i> Update</button>
+                                    <a href="{{ asset('leave/delete/' .$leave->id) }}" style="color:white" class="btn btn-danger" ><i class="fa fa-trash"></i> Remove</a>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div style="display: inline-block; width: 50%;">
-                    {{--<button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>--}}
-                    <a target="_blank" class="btn btn-success" href="{{ asset('FPDF/print_leave.php?id=' .$leave->id) }}" style="color: white;"><i class="fa fa-print"></i> Print(Front)</a>
-                    <a target="_blank" class="btn btn-success" href="{{ asset('leave/print/' .$leave->id) }}" style="color: white;"><i class="fa fa-print"></i> Print(Back)</a>
-                    @if(Auth::user()->usertype !=1 && $leave->status == 0 )
-                        <a href="{{ asset('leave/update/save') }}"  class="btn btn-primary btn-submit" style="color:white;"><i class="fa fa-pencil"></i> Update</a>
-                        <a href="{{ asset('leave/delete/' .$leave->id) }}" style="color:white" class="btn btn-danger" ><i class="fa fa-trash"></i> Remove</a>
-                    @endif
-                </div>
-            </div>
+            </form>
         </div>
     </div>
+
 </div>
 <style>
 
 </style>
+@include('form.form_leave_script')
 <script>
+    var vl = {{($user->vacation_balance != null)?$user->vacation_balance:0}};
+    var sl = {{($user->sick_balance != null)?$user->sick_balance:0}};
+
+    function monetize(data){
+
+        $('#monetize_val').val(data);
+        $('#with_pay').val(data + " day(s)");
+        $('#applied_num_days').val(data);
+        console.log('data');
+
+        if(data == 50){
+            var total = Math.ceil((vl + sl)/2);
+            $('#applied_num_days').val(total);
+            var div = total/2;
+            console.log('div', vl + sl);
+
+            var vl_rem = vl - div;
+            var sl_rem = sl - div;
+            var vl_deduct = div, sl_deduct = div;
+            if(vl_rem < 0){
+                sl_rem = sl - (div + vl_rem);
+                vl_rem = 0;
+                sl_deduct = div + vl_rem;
+//                    sl_deduct = div + flow;
+                vl_deduct = vl;
+                console.log('res', div + vl_rem);
+
+            }else if (sl_rem < 0){
+                console.log('else', div + vl_rem);
+                vl_rem = vl - (div + sl_rem);
+                sl_rem = 0;
+                vl_deduct = div + sl_rem;
+//                    vl_deduct = div + flow;
+                sl_deduct = sl;
+            }
+            console.log('after',sl_deduct);
+
+            $('#vl_rem').val(vl_rem);
+            $('#sl_rem').val(sl_rem);
+            $('#vl_less').val(vl_deduct);
+            $('#sl_less').val(sl_deduct);
+        }else{
+            $('#vl_less').val(data);
+            $('#vl_rem').val(vl-data);
+            $('#sl_less').val(0);
+            $('#sl_rem').val(sl);
+        }
+    }
+//    $('#monetizeSelect').chosen();
     $('.chosen-select-static').chosen();
+    $('#inc_date').daterangepicker();
+    $('input[name="leave_type"]').change(function(){
+
+        $('#inclusive11').attr({ required: true, disabled: false });
+
+        $('.has-success1 input[type="radio"]').prop('checked', false);
+
+        $('.datepickerInput1').val("");
+        $('#applied_num_days').val("");
+        $('#vl_less').val(0);
+        $('#sl_less').val(0);
+        $('#vl_rem').val(vl);
+        $('#sl_rem').val(sl);
+
+        var val = this.value;
+        console.log('value', val);
+
+        com2();
+
+        if(val == "OTHERS") {
+            $('#others_txt').prop('disabled', false);
+            $('input[name="for_text_input"]').prop('disabled', true).val("");
+            $('#commutation').prop('checked', false);
+            $('#commutation2').prop('checked', false);
+        }else if(val == "VL") {
+            $('input[name="for_text_input"]').prop('disabled', true).val("");
+
+        } else if(val == "SL") {
+            $('input[name="for_text_input"]').prop('disabled', true).val("");
+
+        } else if(val == "SPL") {
+            $('input[name="for_text_input"]').prop('disabled', true).val("");
+
+            Lobibox.alert('success', // AVAILABLE TYPES: "error", "info", "success", "warning"
+                {
+                    msg: "Is this an emergency type of Special Privilege Leave?",
+                    size: 'mini',
+                    buttons: {
+                        emergency: {
+                            text: 'Emergency',
+                            class: 'btn-success custom-font-size',
+                            closeOnClick: true
+                        },
+                        notEmergency: {
+                            text: 'Not an Emergency',
+                            class: 'btn-danger custom-font-size',
+                            closeOnClick: true
+                        }
+                    },
+                    callback: function (lobibox, type) {
+                        console.log('type', type);
+                        if (type === 'emergency') {
+                            // Handle emergency button click
+                            $('#spl_type').val('emergency');
+                            console.log('sfsd', $('#spl_type').val())
+                        } else if (type === 'notEmergency') {
+                            // Handle not emergency button click
+                            $('#spl_type').val('unemergency');
+                            console.log('sfsd', $('#spl_type').val())
+                        }
+                    }
+                });
+
+        }else if(val == "STUD_L") {
+            $('input[name="for_text_input"]').prop('disabled', true).val("");
+
+        }else if(val == "SLBW") {
+            $('input[name="for_text_input"]').prop('disabled', true).val("");
+        }else{
+        }
+    });
+
+
+    $('input[class="vac_dis"]').change(function(){
+        com2();
+        var val = this.value;
+        if(val == "1")
+        {
+            console.log('here1');
+            $('#within_txt').prop('disabled', false).val('');
+            $('#abroad_txt').prop('disabled', true);
+            $('#in_hos_txt, #in_hos_txt, #master_txt, #bar_txt, #spec_txt, #spec_txt2').prop('disabled', true);
+
+        } else if(val == "2"){
+            $('#abroad_txt').prop('disabled', false);
+            $('#within_txt').prop('disabled', true).val('');
+            $('#in_hos_txt, #out_hos_txt, #master_txt, #bar_txt, #spec_txt, #spec_txt2').prop('disabled', true);
+        }
+    });
+
+    $('input[class="sick_dis"]').change(function(){
+        var val = this.value;
+        com2();
+        console.log('sick', val);
+        if(val == "3")
+        {
+            console.log('here3');
+            $('#in_hos_txt').prop('disabled', false).val('');
+            $('#out_hos_txt').prop('disabled', true);
+            $('#within_txt, #abroad_txt, #master_txt, #bar_txt, #spec_txt, #spec_txt2').prop('disabled', true);
+        } else if(val == "4"){
+            $('#out_hos_txt').prop('disabled', false);
+            $('#in_hos_txt').prop('disabled', true).val('');
+            $('#within_txt, #abroad_txt, #master_txt, #bar_txt, #spec_txt, #spec_txt2').prop('disabled', true);
+        }
+    });
+    $('input[class="stud_dis"]').change(function(){
+        var val = this.value;
+        com2();
+        if(val == "6")
+        {
+            $('#master_txt').prop('disabled', false).val('');
+            $('#bar_txt').prop('disabled', true);
+            $('#within_txt, #abroad_txt, #in_hos_txt, #out_hos_txt, #spec_txt, #spec_txt2').prop('disabled', true);
+        } else if(val == "7"){
+            $('#bar_txt').prop('disabled', false);
+            $('#master_txt').prop('disabled', true).val('');
+            $('#within_txt, #abroad_txt, #in_hos_txt, #out_hos_txt, #spec_txt, #spec_txt2').prop('disabled', true);
+        }
+    });
+
+    $('input[class="spec_dis"]').change(function(){
+        com2();
+        console.log('sdf');
+        $('#spec_txt, #spec_txt2').prop('disabled', false).val('');
+        $('#within_txt, #abroad_txt, #in_hos_txt, #out_hos_txt, #master_txt, #bar_txt').prop('disabled', true);
+
+    });
+    $('input[class="others_dis"]').change(function(){
+        var val = this.value;
+        if(val == 8){
+            alert('Please make sure to attach approved letter from RD!');
+            com();
+            $('#inclusive11').attr({ required: false, disabled: true });
+            console.log('vl', vl);
+            if( vl >= 15){
+                $('#monetizeSelect').attr('required', true);
+                $('#monetize_display').css('display', 'block');
+            }else{
+                Lobibox.alert('error', {
+                    msg:'Make sure your vacation balance is equal to or more than 15!',
+                    size:'mini'
+                });
+                $('input[name="leave_details"]').prop('checked', false);
+                $('input[name="com_requested"]').prop('checked', false);
+            }
+
+        }else{
+            com2();
+            $('#inclusive11').attr({ required: true, disabled: false });
+        }
+
+        $('#within_txt, #abroad_txt, #in_hos_txt, #out_hos_txt, #master_txt, #bar_txt, #spec_txt, #spec_txt2').prop('disabled', true);
+    });
+
+    function com(){
+        $('#commutation').prop('checked', true);
+        $('#commutation2').prop('checked', false);
+    }
+
+    function com2(){
+        $('#commutation').prop('checked', false);
+        $('#commutation2').prop('checked', true);
+        $('#monetize_display').css('display', 'none');
+        $('#monetize_type').val('');
+        $('#applied_num_days').val();
+        $('#monetizeSelect').attr('required', false);
+        $('#with_pay').val('');
+        $('#without_pay').val('');
+        console.log('chaki');
+    }
+
+    function validate(evt) {
+        var theEvent = evt || window.event;
+        var key = theEvent.keyCode || theEvent.which;
+        key = String.fromCharCode( key );
+        var regex = /[0-9]|\./;
+        if( !regex.test(key) ) {
+            theEvent.returnValue = false;
+            if(theEvent.preventDefault) theEvent.preventDefault();
+        }
+    }
+
 </script>
