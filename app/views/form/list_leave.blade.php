@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <h3 class="page-header">Leave Documentshere
+    <h3 class="page-header">Leave Documents
     </h3>
     <div class="row">
         <div class="col-md-4">
@@ -83,7 +83,7 @@
                                                     <th ></th>
                                                     <th >Route #</th>
                                                     <th ><b>Date Created</b></th>
-                                                    <th ><b>Application for Leave</b></th>
+                                                    <th ><b>Leave Type</b></th>
                                                     <th>Status</th>
                                                 </tr>
                                                 </thead>
@@ -97,22 +97,19 @@
                                                             <a class="title-info" data-route="{{ $leave->route_no }}" data-id="{{ $leave->id }}" data-backdrop="static" data-link="{{ asset('leave/get') }}" href="#leave_info" data-toggle="modal">{{ $leave->route_no }}</a>
                                                         </td>
                                                         <td >
-                                                            <a href="#" data-toggle="modal"><b>{{ date("F d,Y",strtotime($leave->date_filling)) }}</b></a>
+                                                            {{ date("F d,Y",strtotime($leave->date_filling)) }}
                                                         </td>
                                                         <td >{{ ($leave->leave_details == '8')?"Monetization" : $leave->leave_type  }}</td>
                                                         <td>
-                                                            <?php
-                                                            if($leave->status == 0)
-                                                                $color = 'primary';
-                                                            elseif($leave->status == 1)
-                                                                $color = 'success';
-                                                            else
-                                                                $color = 'danger';
-                                                            ?>
                                                             @if($leave->status == 0)
-                                                            <small class="label label-{{ $color }}">PENDING</small>
+                                                                <small class="label label-primary">PENDING&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</small>
+                                                            @elseif($leave->status == 3)
+                                                                 <small class="label label-warning">CANCELLED&nbsp;&nbsp;&nbsp;&nbsp;</small>
+                                                            @elseif($leave->status == 4)
+                                                                <small class="label label-danger">DISAPPROVED</small><br>
+                                                                <p>Reason: {{ $leave->disapproval_remarks }}</p>
                                                             @else
-                                                             <small class="label label-{{ $color }}">PROCESSED</small>
+                                                                 <small class="label label-success">PROCESSED&nbsp;&nbsp;&nbsp;&nbsp;</small>
                                                             @endif
                                                         </td>
                                                     </tr>
@@ -122,7 +119,7 @@
                                         </div>
                                         {{ $leaves->links() }}
                                     @else
-                                        <div class="alert alert-danger" role="alert">Documents records are empty.</div>
+                                        <div class="alert alert-danger" role="alert" style="color:white">Documents records are empty.</div>
                                     @endif
                                 </div>
                             </div>
@@ -141,7 +138,6 @@
 
         $(document).ready(function () {
             $('.leave_ledger').on("click", function () {
-                console.log("fgshdfd");
                 var count=0;
                 <?php if(count($leave_card)>0){?>
                     <?php foreach ($leave_card as $card){ ?>

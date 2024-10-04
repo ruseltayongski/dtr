@@ -423,5 +423,15 @@
     </script>
     <?php Session::forget('superviseAdd'); ?>
 @endif
+@if(Session::get('force_update'))
+    <script>
+        Lobibox.notify('success',{
+            size:'mini',
+            title:'',
+            msg:'Success!'
+        });
+    </script>
+    <?php Session::forget('force_update'); ?>
+@endif
 </body>
 </html>

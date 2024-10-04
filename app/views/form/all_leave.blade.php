@@ -14,16 +14,16 @@
                             <?php
                             $statusCount = 0;
                             $counter = 0;
-                            $color = ['red','aqua','orange','green'];
-                            $fa = ['fa-exclamation-circle','fa-smile-o','fa-frown-o','fa-users'];
-                            $status = ['pending','approve','cancelled','all'];
+                            $color = ['yellow','aqua','orange','red','green'];
+                            $fa = ['fa-exclamation-circle','fa-smile-o','fa-frown-o','fa-times','fa-users'];
+                            $status = ['pending','approve','cancelled','disapprove','all'];
                             ?>
                             @foreach($status as $row)
                                 <?php $statusCount++; ?>
                                 <li class="@if($statusCount == 1){{ 'active' }}@endif">
                                     <a href="#{{ $row }}" class="btn btn-app" data-toggle="tab">
                                         <span class="badge bg-{{ $color[$counter] }} {{ $row }}">0</span>
-                                        <i class="fa {{ $fa[$counter] }}"></i> {{ $row }}
+                                        <i class="fa {{ $fa[$counter] }}"></i> {{ $row == 'disapprove' ? 'disapproved' : $row }}
                                         <?php $counter++; ?>
                                     </a>
                                 </li>
@@ -38,7 +38,7 @@
                                         <form class="form-inline" method="POST" action="{{ asset('form/leave_list') }}" id="searchForm">
                                             <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
                                             <div class="col-md-8">
-                                                <input type="text" class="form-control" value="{{ Session::get('keyword') }}" id="inputEmail3" name="keyword" style="width: 100%" placeholder="Route no, Reason, Lname">
+                                                <input type="text" class="form-control" value="{{ Session::get('keyword') }}" id="inputEmail4" name="keyword" style="width: 100%" placeholder="Route no, Reason, Lname">
                                             </div>
                                             <button type="submit" class="btn btn-primary" name="search" id="search" data-loading-text="<i class='fa fa-refresh fa-spin'></i> Printing DTR">
                                                 <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Search
@@ -57,6 +57,32 @@
                                     </div>
                                 </div>
                             </div>
+                            <!--DISAPPROVED-->
+                            <div class="tab-pane" id="disapprove">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <form class="form-inline" method="POST" action="{{ asset('form/leave_list') }}" id="searchForm2">
+                                            <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
+                                            <div class="col-md-8">
+                                                <input type="text" class="form-control" value="{{ Session::get('keyword') }}" id="inputEmail2" name="keyword" style="width: 100%" placeholder="Route no, Reason, Lname">
+                                            </div>
+                                            <button type="submit" class="btn btn-primary" name="search" id="search" data-loading-text="<i class='fa fa-refresh fa-spin'></i> Printing DTR">
+                                                <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Search
+                                            </button>
+                                        </form>
+                                    </div>
+                                    <div class="panel-body">
+                                        <br />
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="ajax_disapproved">
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                             <!--APPROVE-->
                             <div class="tab-pane" id="approve">
                                 <div class="panel panel-default">
@@ -64,7 +90,7 @@
                                         <form class="form-inline" method="POST" action="{{ asset('form/leave_list') }}" id="searchForm1">
                                             <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
                                             <div class="col-md-8">
-                                                <input type="text" class="form-control" value="{{ Session::get('keyword') }}" id="inputEmail2" name="keyword" style="width: 100%" placeholder="Route no, Reason, Lname">
+                                                <input type="text" class="form-control" value="{{ Session::get('keyword') }}" id="inputEmail3" name="keyword" style="width: 100%" placeholder="Route no, Reason, Lname">
                                             </div>
                                             <button type="submit" class="btn btn-primary" name="search" id="search" data-loading-text="<i class='fa fa-refresh fa-spin'></i> Printing DTR">
                                                 <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Search
@@ -83,11 +109,12 @@
                                     </div>
                                 </div>
                             </div>
+
                             <!--CANCELLED-->
                             <div class="tab-pane" id="cancelled">
                                 <div class="panel panel-default">
                                     <div class="panel-heading">
-                                        <form class="form-inline" method="POST" action="{{ asset('form/leave_list') }}" id="searchForm2">
+                                        <form class="form-inline" method="POST" action="{{ asset('form/leave_list') }}" id="searchForm3">
                                             <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
                                             <div class="col-md-8">
                                                 <input type="text" class="form-control" value="{{ Session::get('keyword') }}" id="inputEmail1" name="keyword" style="width: 100%" placeholder="Route no, Reason, Lname">
@@ -113,7 +140,7 @@
                             <div class="tab-pane" id="all">
                                 <div class="panel panel-default">
                                     <div class="panel-heading">
-                                        <form class="form-inline" method="POST" action="{{ asset('form/leave_list') }}" id="searchForm3">
+                                        <form class="form-inline" method="POST" action="{{ asset('form/leave_list') }}" id="searchForm4">
                                             <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
                                             <div class="col-md-8">
                                                 <input type="text" class="form-control" value="{{ Session::get('keyword') }}" id="inputEmail" name="keyword" style="width: 100%" placeholder="Route no, Reason, Lname">
@@ -192,12 +219,25 @@
         $(".pending").text(<?php echo count($leave["count_pending"]); ?>);
         $(".approve").text(<?php echo count($leave["count_approve"]); ?>);
         $(".cancelled").text(<?php echo count($leave["count_cancelled"]); ?>);
+        $(".disapprove").text(<?php echo count($leave["count_disapproved"]); ?>);
         $(".all").text(<?php echo count($leave["count_all"]); ?>);
+
         $("a[href='#approve']").on("click",function(){
+            console.log('here');
             $("input[name='keyword']").val("");
             $('.ajax_approve').html(loadingState);
             type = 'approve';
             getPosts(1,keyword ='');
+            <?php Session::put('keyword',null); ?>
+        });
+
+        $("a[href='#disapprove']").on("click",function(){
+            console.log('ajax_disapproved content:', loadingState);
+
+            $("input[name='keyword']").val("");
+            $('.ajax_disapproved').html(loadingState);
+            type = 'disapproved';
+            getPosts(1,keyword = '');
             <?php Session::put('keyword',null); ?>
         });
         $("a[href='#pending']").on("click",function(){
@@ -215,6 +255,7 @@
             getPosts(1,keyword = '');
             <?php Session::put('keyword',null); ?>
         });
+
         $("a[href='#all']").on("click",function(){
             $("input[name='keyword']").val("");
             $('.ajax_all').html(loadingState);
@@ -236,6 +277,7 @@
         $(document).ready(function() {
             $(document).on('click', '.pagination a', function (e) {
                 getPosts($(this).attr('href').split('page=')[1],keyword);
+                console.log('chalidol');
                 e.preventDefault();
             });
         });
@@ -260,18 +302,23 @@
             getPosts(1,keyword);
             return false;
         });
-
-
+        $("#searchForm4").submit(function(e) {
+            keyword = $(this).find("input[name='keyword']").val();
+            getPosts(1,keyword);
+            return false;
+        });
 
         function getPosts(page,keyword) {
             $.ajax({
                 url : '?type='+type+'&page='+page+"&keyword="+keyword,
                 type: 'GET',
             }).done(function (result) {
-
+                console.log('keyword', keyword);
                 $('.ajax_'+type).html(loadingState);
                 setTimeout(function(){
-                    $('.ajax_'+type).html(result);
+                    $('.ajax_'+type).html(result)
+                    console.log('result', result);
+
                 },700);
 
             }).fail(function (data) {

@@ -19,7 +19,7 @@ $pdf->Cell(82.5,52,'',1);
 $pdf->SetFont('Arial','',8);
 $pdf->Text(16,225,'7. A CERTIFICATION OF LEAVE CREDITS');
 $pdf->Text(40,231,'As of ');
-$pdf->Text(50,231,$leave['date_filling']);
+$pdf->Text(50,231,$leave['as_of']);
 $pdf->Image(__DIR__.'../../image/line.png',47,231.5,35,0.6);
 
 // Table data

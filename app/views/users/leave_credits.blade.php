@@ -119,7 +119,7 @@
                         <?php endif; ?>
                         <?php if (strpos($card->particulars, 'deduct') !== false): ?>
                             "<td style= 'border: 1px solid black'><a href= '#' data-toggle='modal' onclick='checkAbsence(this)' data-target='#modify_deduction'><?php echo $card->particulars; ?></a></td>" +
-                        <?php elseif ($card->remarks == 0): ?>
+                        <?php elseif ($card->remarks === 0): ?>
                             "<td style= 'border: 1px solid black'><a href= '#' data-toggle='modal' onclick='updateUT(this)' data-target='#modify_deduction'><?php echo $card->particulars; ?></a></td>" +
                         <?php else: ?>
                             "<td style= 'border: 1px solid black'><?php echo $card->particulars; ?></td>" +

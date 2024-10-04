@@ -27,7 +27,7 @@
                         <div class="align small-text" style="text-align: center">
                             Republic of the Philippines<br>
                             <strong>DEPARTMENT OF HEALTH<br>
-                                CENTRAL VISAYAS CENTER for HEALTH DEVELOPMENTfor_leave<br></strong>
+                                CENTRAL VISAYAS CENTER for HEALTH DEVELOPMENTupdate_leave<br></strong>
                             Osmeña Boulevard, Cebu City, 6000 Philippines<br>
                         </div>
                     </td>
@@ -299,7 +299,7 @@
                             <tr style="width: 52%" id="row_data">
                                 <td style="vertical-align: top">
                                     <strong style="margin-left: 2%">7.A CERTIFICATION OF LEAVE CREDITS</strong><br>
-                                    <p style="margin-left: 20%">As of <input name="as_of" style="border:none;border-bottom: 2px solid black; width:30%; text-align: center" value="<?php echo date('F j, Y') ?>"></p>
+                                    <p style="margin-left: 20%">As of <input name="as_of" style="border:none;border-bottom: 2px solid black; width:30%; text-align: center" value="<?php echo date('F j, Y', strtotime('last day of this month')); ?>"></p>
                                     <div class="row">
                                         <div>
                                             <table border="2" style="width: 80%; text-align: center; align-items: center; margin-left: 10%">

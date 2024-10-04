@@ -532,6 +532,13 @@ class AdminController extends BaseController
         else {
             $type = 'pending';
         }
+        $leave["count_disapproved"] = Leave::where('status',4)
+            ->where(function($q) use ($keyword){
+                $q->where("route_no","like","%$keyword%")
+                    ->orWhere("leave_type", "like", "%$keyword%")
+                    ->orWhere("lastname", "like", "%$keyword%");
+            })
+            ->get();
         $leave["count_cancelled"] = Leave::where('status',"3")
             ->where(function($q) use ($keyword){
                 $q->where("route_no","like","%$keyword%")
@@ -559,6 +566,16 @@ class AdminController extends BaseController
                 ->orWhere("lastname", "like", "%$keyword%");
         })
             ->get();
+
+        $leave['paginate_disapproved'] = Leave::where('status',4)
+            ->where(function($q) use ($keyword){
+                $q->where("route_no","like","%$keyword%")
+                    ->orWhere("leave_type", "like", "%$keyword%")
+                    ->orWhere("lastname", "like", "%$keyword%");
+            })
+            ->with('appliedDates')
+            ->orderBy('id','desc')
+            ->paginate(10);
 
         $leave['paginate_cancelled'] = Leave::where('status',"3")
             ->where(function($q) use ($keyword){
@@ -600,7 +617,6 @@ class AdminController extends BaseController
             ->paginate(10);
 
         if (Request::ajax() ) {
-
             $view = 'form.form_'.$type;
             Session::put('page_'.$type,Input::get('page'));
 
@@ -608,10 +624,12 @@ class AdminController extends BaseController
                 "leave" => $leave,
 
                 "type" => $type,
+                "count_disapproved" => count($leave["count_disapproved"]),
                 "count_cancelled" => count($leave["count_cancelled"]),
                 "count_pending" => count($leave["count_pending"]),
                 "count_approve" => count($leave["count_approve"]),
                 "count_all" => count($leave["count_all"]),
+                "paginate_disapproved" => $leave["paginate_disapproved"],
                 "paginate_cancelled" => $leave["paginate_cancelled"],
                 "paginate_pending" => $leave["paginate_pending"],
                 "paginate_approve" => $leave["paginate_approve"],
@@ -621,6 +639,7 @@ class AdminController extends BaseController
         return View::make('form.all_leave',[
             "leave" => $leave,
             "type" => $type,
+            "paginate_disapproved" => $leave["paginate_disapproved"],
             "paginate_cancelled" => $leave["paginate_cancelled"],
             "paginate_pending" => $leave["paginate_pending"],
             "paginate_approve" => $leave["paginate_approve"],
@@ -702,7 +721,7 @@ class AdminController extends BaseController
             $leave->status = 0;
             $leave->save();
             $pis->save();
-            $spl->save();
+            $spl?$spl->save():'';
 
             $leave_card = LeaveCardView::where('leave_id', $leave->id)->first();
             $all_data = LeaveCardView::where('id', '>', $leave_card->id)->where('userid', $leave->userid)->get();
@@ -718,13 +737,11 @@ class AdminController extends BaseController
         return Redirect::to('leave/roles');
     }
 
-    public function disapproved_leave(){
-        return 1;
-        $route_no = Input::get('route_no');
-        $leave = Leave::where('route_no','=',$route_no)->first();
-        $leave->status = 'DISAPPROVED';
+    public function disapproved_leave($route_no){
 
-        $leave->reason_for_disapproval = Input::get('disapproved_due_to');
+        $leave = Leave::where('route_no', $route_no)->first();
+        $leave->status = 4;
+        $leave->disapproval_remarks = Input::get('remarks');
         $leave->save();
 
         Session::put('disapproved_leave',true);
@@ -803,7 +820,7 @@ class AdminController extends BaseController
 
                 $data = json_encode($list);
                 $leave_card->date_used = str_replace(['[', ']', '"'], '', $data);
-                $add_leave->save();
+                $add_leave?$add_leave->save():'';
 
                 $leave_card->vl_bal = ($pis->vacation_balance > $leave->vl_deduct)?$pis->vacation_balance - $leave->vl_deduct : 0;
                 $leave_card->sl_bal = $pis->sick_balance - $leave->sl_deduct;

@@ -37,9 +37,9 @@
                     <td class="text-center">
                         {{$row->firstname.' '.$row->middlename.' '.$row->lastname}}
                     </td>
-                    @if($row->status == "CANCELLED")
+                    @if($row->status == 3)
                         <td class="text-center"><span class="label label-warning"><i class="fa fa-frown-o"></i> Cancelled </span></td>
-                    @elseif($row->status == "APPROVED")
+                    @elseif($row->status == 1)
                         <td  class="text-center"><button type="button" value="{{ $row->route_no }}" onclick="all_status($(this),'cancel')" class="btn-xs btn-danger" style="color:white;"><i class="fa fa-ban"></i> Unprocess</button></td>
                     @else
                         <td  class="text-center"><button type="button" class="btn btn-success btn-xs leave_approved" value="{{$row->id}}" data-route="{{ $row->route_no }}" onclick="pending_status($(this))"><span class="glyphicon glyphicon-ok"></span> Process</button></td>

@@ -15,7 +15,7 @@ class DocumentController extends BaseController
     }
 
     public  function leave(){
-        return 'leave';
+//        return 'leave';
 //       return "not yet ready";
         if(Request::method() == 'GET'){
             $user = InformationPersonal::select("personal_information.lname","personal_information.fname","personal_information.mname","designation.description as designation","work_experience.monthly_salary",
@@ -66,6 +66,7 @@ class DocumentController extends BaseController
                     return Redirect::to('resetpass')->with('pass_change','You must change your password for security after your first log in or resseting password');
                 }
             }
+
             $pis = InformationPersonal::where ('userid', Auth::user()->userid)->first();
             $route_no = date('Y-') . Auth::user()->userid . date('mdHis');
             $l_type = Input::get('leave_type');
@@ -92,7 +93,7 @@ class DocumentController extends BaseController
             $leave->with_pay = (Input::get('with_pay') != null)?Input::get('with_pay'):0;
             $leave->without_pay = (Input::get('without_pay') != null)?Input::get('without_pay'):0;
             $leave->applied_num_days = Input::get('applied_num_days');
-            $leave->as_of = Input::get('as_of');
+            $leave->as_of = date('Y-m-d',strtotime(Input::get('as_of')));
             $leave->vacation_total = $pis->vacation_balance;
             $leave->sick_total = $pis->sick_balance;
 
@@ -191,9 +192,10 @@ class DocumentController extends BaseController
 
     public function save_edit_leave()
     {
-        return 1;
+//        return 1;
 //        return (Input::get('leave_type') != null)?Input::get('leave_type'):'None' ;
         $leave = Leave::where('id', Input::get('id'))->first();
+//        return Input::get('id');
         if($leave){
             $pis = InformationPersonal::where('userid', $leave->userid)->first();
             $l_type = Input::get('leave_type');
@@ -215,7 +217,7 @@ class DocumentController extends BaseController
             $leave->with_pay = (Input::get('with_pay') != null)?Input::get('with_pay'):0;
             $leave->without_pay = (Input::get('without_pay') != null)?Input::get('without_pay'):0;
             $leave->applied_num_days = Input::get('applied_num_days');
-            $leave->as_of = Input::get('as_of');
+            $leave->as_of = date('Y-m-d', strtotime(Input::get('as_of')));
             $leave->vacation_total = $pis->vacation_balance;
             $leave->sick_total = $pis->sick_balance;
 
@@ -272,7 +274,7 @@ class DocumentController extends BaseController
 
     public function all_leave()
     {
-        return 'all leave';
+//        return 'all leave';
         if(Auth::user()->userid != "0190046" and Auth::user()->userid != "198600029" ){
             return "still under development";
         }
@@ -323,11 +325,13 @@ class DocumentController extends BaseController
                     ->where('leave.id','=',$id)
                     ->leftJoin('pis.personal_information','personal_information.userid','=','leave.userid')
                     ->first();
+//        return $leave;
         $leaveTypes = LeaveTypes::get();
         $leave_dates = LeaveAppliedDates::where('leave_id', $id)->where('status', '!=', 1)->get();
-        $user = InformationPersonal::where('userid', Auth::user()->userid)->first();
+        $user = InformationPersonal::where('userid', $leave->userid)->first();
         $id_list = [];
         $manually_added = [985329, 273, 11, 93053, 986445, 984538, 985950, 80, 976017, 466];
+        $spl = AditionalLeave::where('userid', Auth::user()->userid)->first();
 
         foreach(pdoController::section() as $row) {
             if ($row['acronym'] !== null || in_array($row['head'], [37, 72, 243, 614, 110, 5, 163, 648384, 160, 985950, 830744])) {
@@ -389,7 +393,8 @@ class DocumentController extends BaseController
             'leave_dates'=>$leave_dates,
             'date_list' => $dates,
             'officer' => $section_head,
-            'user' => $user
+            'user' => $user,
+            'spl' => $spl
             ]);
 
 //        $leave = Leave::select('leave.*', 'personal_information.vacation_balance', 'personal_information.sick_balance')

@@ -10,7 +10,7 @@
                     <th>Link</th>
                     <th>Message</th>
                     <th>Code</th>
-                    <th>Latest Version</th>
+                    <th style="width:200px">Latest Version</th>
                     <th>Option</th>
                 </tr>
                 </thead>
@@ -21,8 +21,9 @@
                     <td>{{ $app_version_api->code }}</td>
                     <td>{{ $app_version_api->latest_version }}</td>
                     <td>
-                        <button type="button" class="btn btn-primary btn-sm update" ><span class="glyphicon glyphicon-question-sign"></span> Update</button>
-                        <a href="{{ asset('mobile/get/version') }}" target="_blank" class="btn btn-success btn-sm" ><span class="fa fa-eye"></span> View API</a>
+                        <button type="button" class="btn btn-primary btn-sm update" style="width:100px"><span class="glyphicon glyphicon-question-sign"></span> Update</button>
+                        <a href="{{ asset('mobile/get/version/' . $app_version_api->device_type) }}" target="_blank" class="btn btn-success btn-sm" style="width:100px"><span class="fa fa-eye"></span> View API</a>
+                        {{--<a href="{{ asset('mobile/office/force-update/'. $app_version_api->id) }}" target="_blank" class="btn btn-warning btn-sm" style="width:100px" ><span class="fa fa-eye"></span>Force Update</a>--}}
                     </td>
                 </tr>
                 </tbody>

@@ -22,8 +22,7 @@ foreach ($dates as $index => $date) {
     $start = date('F j, Y', strtotime($this_date[0]));
     $end = date('F j, Y',strtotime($this_date[1]));
     if($start == $end){
-        $pdf->Text($x,$y,$start .' , ');
-        $pdf->Image(__DIR__.'../../image/line.png', 22,$yy,82.7,0.6);
+        $date_list[] = $start;
     }else{
         $date_from = date('Y-m-d', strtotime($this_date[0]));
         $date_to = date('Y-m-d', strtotime($this_date[1]));

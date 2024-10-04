@@ -189,12 +189,27 @@ class MobileControllerV2 extends BaseController
         ]);
     }
 
-    public function appVersionView() {
-        $app_version_api = AppAPI::first();
+    public function appVersionView($type) {
+        $app_version_api = AppAPI::where('device_type', $type)->first();
+        if($app_version_api) {
+            return View::make('api.app_version', [
+                "app_version_api" => $app_version_api
+            ]);
+        }else{
+            return 'No app version found for this device!';
+        }
+    }
 
-        return View::make('api.app_version',[
-            "app_version_api" => $app_version_api
-        ]);
+    public function forceUpdate($id){
+        $app_version = AppAPI::where('id', $id)->first();
+        if($app_version){
+            $app_version->force_update = true;
+            $app_version->code = 1;
+            $app_version->save();
+            AppAPI::where('id', '!=', $id)->where('device_type', $app_version->device_type)->update(['code' => 0]);
+        }
+        Session::put("force_update",true);
+        return Redirect::back();
     }
 
     public function announcementPost(){
@@ -235,8 +250,8 @@ class MobileControllerV2 extends BaseController
         ];
     }
 
-    public function appVersionAPINew(){
-        $app_version_api = AppAPI::first();
+    public function appVersionAPINew($device_type){
+        $app_version_api = AppAPI::where('device_type', $device_type)->first();
         return [
             "message" => $app_version_api->message,
             "code" => $app_version_api->code,

@@ -108,7 +108,7 @@
                                         </div>
                                         <div class="col-md-5">
                                             <label class="control-label" for="inputSuccess1">5. SALARY</label>
-                                            <input type="text" class="form-control" id="inputSuccess1" name="salary" value="{{ $user->monthly_salary }}" readonly style="display: inline-block; width: 60%; margin-top: 4px">
+                                            <input type="text" class="form-control" id="inputSuccess1" name="salary" value="{{ number_format($user->monthly_salary, 2, '.',',') }}" readonly style="display: inline-block; width: 60%; margin-top: 4px">
                                         </div>
 
                                     </div>
@@ -243,10 +243,10 @@
                             <tr style="width: 52%" id="row_data">
                                 <td id="data_here">
                                     <strong>&nbsp;&nbsp;&nbsp;&nbsp;6.C NUMBER OF WORKING DAYS APPLIED FOR :</strong><br>
-                                    <input type="text" class="form-control" name="applied_num_days" id="applied_num_days" style="text-align:center; margin-left: 5%; width: 50%;margin-top: 2%" readonly/>
+                                    <input type="text" class="form-control" name="applied_num_days" id="applied_num_days" style="text-align:center; margin-left: 5%; width: 51%;margin-top: 2%" readonly/>
                                     <input type="hidden" class="form-control" name="credit_used" id="credit_used"/>
                                     <strong class="sm-m-3" style="display: inline-block; margin-left: 5%; margin-top: 2%; margin-bottom: 10px">INCLUSIVE DATES :</strong>
-                                    <button  style="width: 10%; display: inline-block; margin-left: 40%" class="btn btn-sm btn-info addButton1" type="button"><strong>+</strong></button>
+                                    <button  style="width: 10.1%; display: inline-block; margin-left: 39.6%" class="btn btn-sm btn-info addButton1" type="button"><strong>+</strong></button>
 
                                     <div class="table-data" id="clone_data">
                                         <div class="input-group" style="margin-left:5%; margin-bottom: 10px" >
@@ -294,7 +294,7 @@
                             <tr style="width: 52%" id="row_data">
                                 <td style="vertical-align: top">
                                     <strong style="margin-left: 2%">7.A CERTIFICATION OF LEAVE CREDITS</strong><br>
-                                    <p style="margin-left: 20%">As of <input name="as_of" style="border:none;border-bottom: 2px solid black; width:30%; text-align: center" value="<?php echo date('F j, Y') ?>"></p>
+                                    <p style="margin-left: 20%">As of <input name="as_of" style="border:none;border-bottom: 2px solid black; width:35%; text-align: center" value="<?php echo date('F j, Y', strtotime('last day of this month')); ?>" readonly></p>
                                     <div class="row">
                                         <div>
                                             <table border="2" style="width: 80%; text-align: center; align-items: center; margin-left: 10%">
@@ -614,6 +614,7 @@
                 if( vl >= 15){
                     $('#monetize_display').css('display', 'block');
                     $('.monetize_select').attr('required', true);
+                    alert('Please make sure to attach approved letter from RD!');
                 }else{
                     Lobibox.alert('error', {
                         msg:'Make sure your vacation balance is equal to or more than 15!',

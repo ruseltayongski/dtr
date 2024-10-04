@@ -33,14 +33,8 @@
                     </td>
                     <td class="text-center">{{$row->firstname.' '.$row->middlename.' '.$row->lastname}}</td>
                     <td class="text-center">
-                        @if($row->leave_details == 8)
-                            <a class="btn btn-success btn-sm leave_approved" href="{{ url('leave/approved/' .$row->route_no) }}"><span class="glyphicon glyphicon-ok"></span> Process</a>
-                            {{--<button type="button" class="btn btn-success btn-sm leave_approved" data-route="{{$row->route_no}}" onclick="pending_leave($(this), '{{$row->leave_details}}', '{{$row->userid}}')" data-target="#leave_approved"><span class="glyphicon glyphicon-ok"></span> Process</button>--}}
-                        @else
-                            <a class="btn btn-success btn-sm leave_approved" href="{{ url('leave/approved/' .$row->route_no) }}"><span class="glyphicon glyphicon-ok"></span> Process</a>
-
-                            {{--<button type="button" class="btn btn-success btn-sm leave_approved" data-route="{{$row->route_no}}" onclick="pending_leave($(this), '{{$row->leave_details}}', '{{$row->userid}}')" data-target="#leave_approved"><span class="glyphicon glyphicon-ok"></span> Process</button>--}}
-                        @endif
+                        <a class="btn btn-success btn-xs leave_approved" href="{{ url('leave/approved/' .$row->route_no) }}"><span class="glyphicon glyphicon-ok"></span> Process</a>
+                        <a class="btn btn-danger btn-xs leave_disapprove" data-toggle="modal" onclick="disapproved('{{ $row->route_no }}')" href="#disapproved"><span class="glyphicon glyphicon-remove"></span> Disapprove</a>
                     </td>
                 </tr>
             @endforeach
@@ -52,6 +46,27 @@
     <div class="alert alert-danger" role="alert"><span style="color:white;">Documents records are empty.</span></div>
 @endif
 
-<script>
+<div class="modal fade" tabindex="5" role="dialog" id="disapproved">
+    <div class="modal-dialog modal-xs" role="document" id="size">
+        <div class="modal-content">
+            <form method="POST" id="disapproved_form">
+                <div class="modal-header" style="background-color: orange; font-weight: bold">
+                    <strong><h4 class="modal-title" style="display: inline-block">Disapproved Leave</h4></strong>
+                    <button style="display: inline-block" type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal_body" style="text-align: center; padding:2%;">
+                    <textarea class="form-control" name="remarks" style="margin-left: 1%; height: 100px; width: 98%;" placeholder="Reason ..." required></textarea>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 
+<script>
+    function disapproved(route_no){
+        $('#disapproved_form').attr('action', '/dtr/leave/disapproved/' + route_no);
+    }
 </script>
