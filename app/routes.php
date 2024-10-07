@@ -318,7 +318,7 @@ Route::get('mobile/office/announcement/view','MobileControllerV2@announcementVie
 Route::get('mobile/office/version/view/{type}','MobileControllerV2@appVersionView');
 Route::post('mobile/office/announcement/post','MobileControllerV2@announcementPost');
 Route::post('mobile/office/version/post','MobileControllerV2@appVersionPost');
-Route::get('mobile/office/force-update/{id}','MobileControllerV2@forceUpdate');
+Route::get('mobile/office/force-update/ios','MobileControllerV2@forceUpdate');
 
 Route::match(['GET','POST'],'mobileV3/area_of_assignment', 'MobileControllerV3@getAreaAssignment');
 

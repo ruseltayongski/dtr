@@ -200,16 +200,10 @@ class MobileControllerV2 extends BaseController
         }
     }
 
-    public function forceUpdate($id){
-        $app_version = AppAPI::where('id', $id)->first();
-        if($app_version){
-            $app_version->force_update = true;
-            $app_version->code = 1;
-            $app_version->save();
-            AppAPI::where('id', '!=', $id)->where('device_type', $app_version->device_type)->update(['code' => 0]);
-        }
-        Session::put("force_update",true);
-        return Redirect::back();
+    public function forceUpdate(){
+        $app_version = AppAPI::where('device_type', 'ios')->first();
+
+        return $app_version;
     }
 
     public function announcementPost(){
