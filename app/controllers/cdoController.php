@@ -275,12 +275,14 @@ class cdoController extends BaseController
                 $section_head[] = pdoController::user_search1($data_list);
             }
 
-
             foreach(pdoController::division() as $row) {
                 if($row['ppmp_used'] == null){
                     $division_head[] = pdoController::user_search1($row['head']);
                 }
             }
+
+            $division_head[] = pdoController::user_search1(27);
+
         }
 
         $data = array(

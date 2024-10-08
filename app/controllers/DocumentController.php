@@ -862,6 +862,8 @@ class DocumentController extends BaseController
                 }
             }
 
+            $division_head[] = pdoController::user_search1(27);
+
             $data = array(
                 "cdo" => $cdo,
                 "type" => "update",
