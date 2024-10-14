@@ -28,9 +28,9 @@
                             <?php
                             $hours = " ";
                             if($row->cdo_hours == "cdo_am"){
-                                $hours=" (AM)";
-                            }else if($row->cdo_hours == "cdo_pm"){
                                 $hours=" (PM)";
+                            }else if($row->cdo_hours == "cdo_pm"){
+                                $hours=" (AM)";
                             }
                             $start_date = date('M j, Y', strtotime($row->start));
                             $end_date = date('M j, Y', strtotime('-1 day', strtotime($row->end)));

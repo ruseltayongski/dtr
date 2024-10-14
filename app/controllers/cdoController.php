@@ -1670,75 +1670,113 @@ class cdoController extends BaseController
                 $card->save();
             }else{
                 if($cancelled){
-                    foreach ($applied as $apply){
-                        $apply->delete();
-                    }
                     $date_list = array_map('trim', $dates);
                     $date_time = array_map('trim', $cdo_hours);
                     $selected = array_map('trim', $selected);
                     $selected_hours = array_map('trim', $selected_hours);
+//                    return $selected_hours;
+                    $app_exist = CdoAppliedDate::where('cdo_id', $applied[0]->cdo_id)->whereIn('status', [1,11])->get();
+                    if(count($app_exist)>0){
+                        $card = new CardView();
+                        foreach ($selected as $index=> $date){
+                            $timestamp = strtotime($date);
+                            $new_applied = CdoAppliedDate::where('cdo_id', $applied[0]->cdo_id)->where('start_date', date('Y-m-d', $timestamp))->first();
 
-                    foreach ($date_list as $index=> $date){
+                            $date_here = [];
+                            $card_total = 0;
 
-                        $timestamp = strtotime($date);
-                        $new_applied = new CdoAppliedDate();
-                        $date_here = [];
+                            if($new_applied){
+//                                return $new_applied->cdo_hours;
+                                $card_date = $selected_hours[$index] == 'cdo_wholeday' ? date('F j, Y', strtotime($date)) :
+                                    ($selected_hours[$index] == 'cdo_am' ? date('F j, Y', strtotime($date) . ' AM') :
+                                        ($selected_hours[$index] == 'cdo_pm' ? date('F j, Y', strtotime($date) . ' PM') : ''));
 
-                        if(in_array($date, $selected)){
-                            $f = array_search($date, $selected);
-                            $card = new CardView();
-                            $card->userid = $cancelled->prepared_name;
-                            $card->status = 3;
-                            if($selected_hours[$f] == $cdo_hours[$index]){
-                                $new_applied->cdo_hours = $date_time[$index];
-                                $new_applied->status = 1;
-                                if($selected_hours[$f] == "cdo_wholeday"){
-                                    $cancelled->less_applied_for = $cancelled->less_applied_for - 8;
-                                    $pis->bbalance_cto = $pis->bbalance_cto + 8;
-                                    $card->hours_used = 8;
-                                    $card->date_used = date('F j, Y', strtotime($date));
+                                $new_applied->status = $selected_hours[$index] == $new_applied->cdo_hours ? 11 : 1;
+                                if( $new_applied->cdo_hours == 'cdo_wholeday'){
+                                    $card_total = $selected_hours[$index] == 'cdo_wholeday' ? 8 + $card_total : 4 + $card_total;
                                 }else{
-                                    $card->hours_used = 4;
-                                    $card->bal_credits = $pis->bbalance_cto + 4;
-                                    if($selected_hours[$f] == "cdo_am"){
-                                        $card->date_used = date('F j, Y', strtotime($date)).' (AM)';
+                                    $card_total = 4 + $card_total;
+                                }
+                                $new_applied->cdo_hours = $selected_hours[$index] == 'cdo_wholeday' ? 'cdo_wholeday' :
+                                    ($selected_hours[$index] == 'cdo_am' ? 'cdo_am':
+                                        ($selected_hours[$index] == 'cdo_pm' ? 'cdo_pm' : ''));
+                                $date_here[] = $card_date;
+                                $new_applied->save();
+                            }
+                        }
+                        $card->userid = $pis->userid;
+                        $card->hours_used = $card_total;
+                        $card->date_used = implode(',', $date_here);
+                        $card->bal_credits = $pis->bbalance_cto + $card_total;
+                        $card->status = 3;
+                        $card->save();
+                        $pis->bbalance_cto = $pis->bbalance_cto + $card_total;
+                        $pis->save();
+                    }else{
+                        foreach ($applied as $apply){
+                            $apply->delete();
+                        }
+                        foreach ($date_list as $index=> $date){
+                            $timestamp = strtotime($date);
+                            $new_applied = new CdoAppliedDate();
+                            $date_here = [];
+
+                            if(in_array($date, $selected)){
+                                $f = array_search($date, $selected);
+                                $card = new CardView();
+                                $card->userid = $cancelled->prepared_name;
+                                $card->status = 3;
+                                if($selected_hours[$f] == $cdo_hours[$index]){
+                                    $new_applied->cdo_hours = $date_time[$index];
+                                    $new_applied->status = 11;
+                                    if($selected_hours[$f] == "cdo_wholeday"){
+                                        $cancelled->less_applied_for = $cancelled->less_applied_for - 8;
+                                        $pis->bbalance_cto = $pis->bbalance_cto + 8;
+                                        $card->hours_used = 8;
+                                        $card->date_used = date('F j, Y', strtotime($date));
                                     }else{
-                                        $card->date_used = date('F j, Y', strtotime($date)).' (PM)';
+                                        $card->hours_used = 4;
+                                        $card->bal_credits = $pis->bbalance_cto + 4;
+                                        if($selected_hours[$f] == "cdo_am"){
+                                            $card->date_used = date('F j, Y', strtotime($date)).' (AM)';
+                                        }else{
+                                            $card->date_used = date('F j, Y', strtotime($date)).' (PM)';
+                                        }
+                                        $cancelled->less_applied_for = $cancelled->less_applied_for - 4;
+                                        $pis->bbalance_cto = $pis->bbalance_cto + 4;
                                     }
+                                }else{
                                     $cancelled->less_applied_for = $cancelled->less_applied_for - 4;
                                     $pis->bbalance_cto = $pis->bbalance_cto + 4;
-                                }
-                            }else{
-                                $cancelled->less_applied_for = $cancelled->less_applied_for - 4;
-                                $pis->bbalance_cto = $pis->bbalance_cto + 4;
-                                $new_applied->status = 11;
-                                $date_here[]=$date_list[$index];
-                                if($selected_hours[$f] == "cdo_wholeday"){
-                                    $card->date_used = date('F j, Y', strtotime($date)).' (Wholeday)';
-                                    $card->hours_used = 8;
-                                }else{
-                                    $card->hours_used = 4;
-                                    if ($selected_hours[$f] == "cdo_am" && $date_time[$index] == "cdo_wholeday"){
-                                        $card->date_used = date('F j, Y', strtotime($date)).' (AM)';
-                                        $new_applied->cdo_hours = "cdo_pm";
-                                    }else if($selected_hours[$f] == "cdo_pm" && $date_time[$index] == "cdo_wholeday"){
-                                        $card->date_used = date('F j, Y', strtotime($date)).' (PM)';
-                                        $new_applied->cdo_hours = "cdo_am";
+                                    $new_applied->status = 1;
+                                    $date_here[]=$date_list[$index];
+                                    if($selected_hours[$f] == "cdo_wholeday"){
+                                        $card->date_used = date('F j, Y', strtotime($date)).' (Wholeday)';
+                                        $card->hours_used = 8;
+                                    }else{
+                                        $card->hours_used = 4;
+                                        if ($selected_hours[$f] == "cdo_am" && $date_time[$index] == "cdo_wholeday"){
+                                            $card->date_used = date('F j, Y', strtotime($date)).' (AM)';
+                                            $new_applied->cdo_hours = "cdo_pm";
+                                        }else if($selected_hours[$f] == "cdo_pm" && $date_time[$index] == "cdo_wholeday"){
+                                            $card->date_used = date('F j, Y', strtotime($date)).' (PM)';
+                                            $new_applied->cdo_hours = "cdo_am";
+                                        }
                                     }
                                 }
+                                $pis->save();
+                                $card->bal_credits = $pis->bbalance_cto;
+                                $card->save();
+                            }else{
+                                $date_here[]=$date_list[$index];
+                                $new_applied->cdo_hours = $date_time[$index];
                             }
-                            $pis->save();
-                            $card->bal_credits = $pis->bbalance_cto;
-                            $card->save();
-                        }else{
-                            $date_here[]=$date_list[$index];
-                            $new_applied->cdo_hours = $date_time[$index];
+                            $new_applied->start_date = date('Y-m-d', $timestamp);
+                            $new_applied->end_date = date('Y-m-d', strtotime('+1 Day', $timestamp));
+                            $new_applied->cdo_id = $cancelled->id;
+                            $new_applied->save();
+                            $cancelled->save();
                         }
-                        $new_applied->start_date = date('Y-m-d', $timestamp);
-                        $new_applied->end_date = date('Y-m-d', strtotime('+1 Day', $timestamp));
-                        $new_applied->cdo_id = $cancelled->id;
-                        $new_applied->save();
-                        $cancelled->save();
                     }
                 }
             }
@@ -1929,6 +1967,7 @@ class cdoController extends BaseController
         Session::put("privilegeAdd",true);
         return Redirect::back();
     }
+
     public function superviseList(){
         $supervised_employee = [];
         foreach(PrivilegeEmployee::where('status', '=', '0')->get(['userid']) as $row){
@@ -1937,5 +1976,36 @@ class cdoController extends BaseController
         return View::make('cdo.employee_select',[
             'supervised_employee' => json_encode($supervised_employee)
         ]);
+    }
+
+    public function genCertificate($ids){
+        $cert = new CdoCertificate();
+        $cert->card_id = $ids;
+        $cert->save();
+        $list = array_map('intval', explode(',', $ids));
+
+        $data = CardView::where('id', $list[0])->first();
+        $pis = InformationPersonal::where('userid', $data->userid)->first();
+        $div = Division::where('id', $pis->division_id)->first();
+        $division_head = pdoController::user_search1($div->head);
+        $card = CardView::whereIn('id', $list)->get();
+        $sum = CardView::whereIn('id', $list)->sum('ot_credits');
+
+//        return InformationPersonal::where('field_status', 'Office Personnel')->whereIn('division_id', [19,12,14,21,18])->get();
+//        return $division_head;
+        $data = [
+          'pis' => $pis,
+            'division_head' => $division_head,
+            'card' => $card,
+            'sum' => $sum
+        ];
+
+//        return $data;
+
+        $display = View::make('cdo.cdo_cert', $data)->render();
+        // return $display;
+        $pdf = App::make('dompdf');
+        $pdf->loadHTML($display)->setPaper('a4', 'portrait');
+        return $pdf->stream();
     }
 }

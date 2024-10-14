@@ -183,6 +183,7 @@ Route::get('so_append','DocumentController@so_append');
 Route::get('form/info/{route}/{doc_type}', 'DocumentController@show');
 
 //////CDO
+Route::get('card/certificate/{ids}','cdoController@genCertificate');
 Route::match(array('GET','POST'), 'form/cdo_list', 'cdoController@cdo_list');
 Route::match(array('GET','POST'), 'form/cdo_user', 'cdoController@cdo_user');
 Route::match(array("GET","POST"), "form/cdov1/{pdf}","cdoController@cdov1");
