@@ -433,5 +433,15 @@
     </script>
     <?php Session::forget('force_update'); ?>
 @endif
+@if(Session::get('transfer_balance'))
+    <script>
+        Lobibox.notify('success',{
+            size:'mini',
+            title:'',
+            msg:'Cto balance successfully transferred!'
+        });
+    </script>
+    <?php Session::forget('transfer_balance'); ?>
+@endif
 </body>
 </html>

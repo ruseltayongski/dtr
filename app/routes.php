@@ -184,6 +184,8 @@ Route::get('form/info/{route}/{doc_type}', 'DocumentController@show');
 
 //////CDO
 Route::get('card/certificate/{ids}','cdoController@genCertificate');
+Route::get('cdo/applied-dates/{route_no}','cdoController@appliedDates');
+Route::post('cdo/transfer','cdoController@transfer');
 Route::match(array('GET','POST'), 'form/cdo_list', 'cdoController@cdo_list');
 Route::match(array('GET','POST'), 'form/cdo_user', 'cdoController@cdo_user');
 Route::match(array("GET","POST"), "form/cdov1/{pdf}","cdoController@cdov1");
