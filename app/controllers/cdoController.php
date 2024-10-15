@@ -1997,7 +1997,8 @@ class cdoController extends BaseController
           'pis' => $pis,
             'division_head' => $division_head,
             'card' => $card,
-            'sum' => $sum
+            'sum' => $sum,
+            'total' => 13 - count($card)
         ];
 
 //        return $data;
