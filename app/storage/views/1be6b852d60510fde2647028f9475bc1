@@ -77,9 +77,9 @@
                                                                         foreach ($get_date as $index=>$dates){
                                                                             $hours = " ";
                                                                             if($dates->cdo_hours == "cdo_am"){
-                                                                                $hours=" (AM)";
-                                                                            }else if($dates->cdo_hours == "cdo_pm"){
                                                                                 $hours=" (PM)";
+                                                                            }else if($dates->cdo_hours == "cdo_pm"){
+                                                                                $hours=" (AM)";
                                                                             }
                                                                             $start_date = date('M j, Y', strtotime($dates->start_date));
                                                                             $end_date = date('M j, Y', strtotime('-1 day', strtotime($dates->end_date)));
@@ -309,17 +309,32 @@
             var totalItems = $("#t_body tr").length;
             var totalPages = Math.ceil(totalItems / pageSize);
 
+            currentPage = totalPages;
+
             function updateTableRows(page) {
                 var startIndex = (page - 1) * pageSize;
                 $("#t_body tr").hide().slice(startIndex, startIndex + pageSize).show();
             }
 
+//            function createPaginationButtons() {
+//                var buttons = [];
+//                buttons.push('<li class="page-item"><a class="page-link" href="#" data-page="prev">&laquo;</a></li>');
+//                for (var i = 1; i <= totalPages; i++) {
+//                    buttons.push('<li class="page-item"><a class="page-link" href="#" data-page="' + i + '">' + i + '</a></li>');
+//                }
+//                buttons.push('<li class="page-item"><a class="page-link" href="#" data-page="next">&raquo;</a></li>');
+//                pagination.html(buttons.join(''));
+//            }
+
             function createPaginationButtons() {
                 var buttons = [];
                 buttons.push('<li class="page-item"><a class="page-link" href="#" data-page="prev">&laquo;</a></li>');
-                for (var i = 1; i <= totalPages; i++) {
+
+                // Reverse the pagination order
+                for (var i = totalPages; i >= 1; i--) {
                     buttons.push('<li class="page-item"><a class="page-link" href="#" data-page="' + i + '">' + i + '</a></li>');
                 }
+
                 buttons.push('<li class="page-item"><a class="page-link" href="#" data-page="next">&raquo;</a></li>');
                 pagination.html(buttons.join(''));
             }

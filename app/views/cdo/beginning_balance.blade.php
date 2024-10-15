@@ -378,7 +378,7 @@
 
                 var name= $(this).closest("tr").find(".name-cell").text();
                 $("#user_name").text("Name: "+ name);
-                $(".modal-title").html("CTO HISTORY offf: <strong>" + name);
+                $(".modal-title").html("CTO HISTORY off: <strong>" + name);
                 var count=0, check_for_pending =0;
 
                 <?php if (isset($card_view) && count($card_view) > 0) { ?>
@@ -500,7 +500,7 @@
                                     tableData2 += "<td > </td>";
                                 }
 
-                            if(status==1 || status==11){
+                            if(status== 1 || status== 11 || status== 9){
                                 tableData2 += "<td style='text-align: center'>" +
                                     "<input type='checkbox' onclick='generateCert(" + card_id + ")'>" +
                                     "</td>";

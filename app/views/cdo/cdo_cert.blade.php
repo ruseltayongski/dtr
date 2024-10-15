@@ -79,19 +79,19 @@
                     <td style="width:.2%">x</td>
                     <td style="width:1%">{{ $row['ot_rate'] }}</td>
                     <td style="width:.2%">=</td>
-                    <td style="width:12%">{{ $row['ot_credits'].' hrs' }}&nbsp;&nbsp;</td>
+                    <td style="width:13%; text-align:right">{{ $row['ot_credits'].' hrs' }}&nbsp;&nbsp;&nbsp;</td>
                     <td style="border-left: 1.5px solid black; width: 31%; vertical-align: top; text-align: left; padding:1px">
                         {{ date('F j, Y', strtotime($row->ot_date)) }}
                     </td>
                     <td style="border-left: 1.5px solid black; width: 14%"></td>
-                    <td style="border-left: 1.5px solid black; width: 16.6%"></td>
+                    <td style="border-left: 1.5px solid black; width: 15.6%"></td>
                     <td style="border-left: 1.5px solid black; width: 14%"></td>
                 </tr>
             @endforeach
             <tr style="">
                 <td style=""></td>
-                <td style="text-align: center" colspan="4">
-                    <img src="{{realpath(__DIR__ . '/../../..').'/FPDF/image/line.png'}}" style="width: 170px; height: 1.5px">
+                <td style="text-align: center;" colspan="4">
+                    <img src="{{realpath(__DIR__ . '/../../..').'/FPDF/image/line.png'}}" style="width: 180px; height: 1.5px">
                 </td>
                 <td style="border-left: 1.5px solid black; vertical-align: top; text-align: left;"></td>
                 <td style="border-left: 1.5px solid black;">&nbsp;</td>
@@ -100,7 +100,7 @@
             </tr>
             <tr style="">
                 <td style=""></td>
-                <td style="text-align: right" colspan="4">{{ $sum.' hrs' }}&nbsp;&nbsp;</td>
+                <td style="text-align: right" colspan="4">{{ $sum.' hrs' }}&nbsp;&nbsp;&nbsp;</td>
                 <td style="border-left: 1.5px solid black; vertical-align: top; text-align: left;"></td>
                 <td style="border-left: 1.5px solid black;"></td>
                 <td style="border-left: 1.5px solid black;"></td>
@@ -120,7 +120,7 @@
                     <td style="width:.5%"></td>
                     <td style="width:1%"></td>
                     <td style="width:.5%">=></td>
-                    <td style="width:9%">40 hrs </td>
+                    <td style="width:9%; text-align:right">40 hrs&nbsp;&nbsp;&nbsp;</td>
                     <td style="border-left: 1.5px solid black; vertical-align: top; text-align: left;"> maximum credit per month</td>
                     <td style="border-left: 1.5px solid black;"></td>
                     <td style="border-left: 1.5px solid black;"></td>
