@@ -260,8 +260,10 @@
                                             <td id='remarks'style='color: red'>EXCEED</td>
                                         @endif
                                     </tr>
-
                                 @else
+                                    @if(Auth::user()->userid == $card_viewL->userid && $card_viewL->remarks == '0')
+                                        <td style='color: red; text-align: center' colspan="12">{{ $card_viewL->date_used .' on '. date('F j, Y', strtotime($card_viewL->ot_date)) }}</td>
+                                    @endif
                                 @endif
                             @endforeach
                         @else

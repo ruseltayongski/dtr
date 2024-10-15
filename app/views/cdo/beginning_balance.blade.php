@@ -8,7 +8,7 @@
         </div>
     @endif
     <div class="alert alert-jim" id="inputText">
-        <h2 class="page-header">Employee</h2>
+        <h2 class="page-header">Employeesd</h2>
         <form class="form-inline form-accept" action="{{ asset('beginning_balance') }}" method="GET">
             <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
             <div class="form-group">
@@ -27,34 +27,39 @@
                         <th class="text-center">Employee ID</th>
                         <th class="text-center">Name</th>
                         <th class="text-center">Remaining Balance</th>
-                        <th class="text-center">Section / Division</th>
-                        <th width="30%" class="text-center">Option</th>
+                        <th class="text-center" width="28%">Section / Division</th>
+                        <th width="25%" class="text-center">Option</th>
                     </tr>
                     </thead>
                     <tbody>
                     @foreach($pis as $user)
                         <tr>
-                            <td>
+                            <td  class="text-center">
                                 @if(strpos($user->userid,'no_userid'))
                                     NO USERID
                                 @else
                                     {{ $user->userid }}
                                 @endif
                             </td>
-                            <td class="name-cell">
+                            <td class="text-center name-cell">
                                 @if($user->fname || $user->lname || $user->mname || $user->name_extension) {{ $user->fname.' '.$user->mname.' '.$user->lname.' '.$user->name_extension }} @else <i>NO NAME</i> @endif
                             </td>
                             <td class="text-center">
                                 <label style='color:green'>@if($user->bbalance_cto) {{ $user->bbalance_cto }} @else 0 @endif</label>
                             </td>
-                            <td>
+                            <td class="text-center" style="padding:0px; line-height: 1">
                                 <label class="orange">@if(isset(pdoController::search_section($user->section_id)['description'])) {{ pdoController::search_section($user->section_id)['description'] }} @else NO SECTION @endif</label><br>
-                                <small><em>(@if(isset(pdoController::search_division($user->division_id)['description'])) {{ pdoController::search_division($user->division_id)['description'] }} @else NO DIVISION @endif {{ ')' }}</em></small>
+                                <small style="line-height: 1"><em>(@if(isset(pdoController::search_division($user->division_id)['description'])) {{ pdoController::search_division($user->division_id)['description'] }} @else NO DIVISION @endif {{ ')' }}</em></small>
                             </td>
-                            <td class="center">
-                                <button class="button btn-sm beginning_balance" id="update_balance"style="background-color: #9C8AA5;color: white" data-toggle="modal" data-id="{{ $user->userid }}" data-target="#beginning_balance">Add CTO Balance</button>
-                                <button class="button btn-sm ledger" id="viewCard" name="viewCard" style="background-color: #9C8AA5;color: white" data-toggle="modal" data-id="{{ $user->userid }}" data-target="#ledger">View Card</button>
-                                <button class="button btn-sm balances" style="background-color: #9C8AA5;color: white" data-toggle="modal" data-id="{{ $user->userid }}" data-target="#balances">Update Balance</button>
+                            <td class="center" style="text-align: center">
+                                @if(count($user->transferred) > 0)
+                                    <button class="btn btn-sm btn-info ledger" id="viewCard" name="viewCard" style="color: white; width:80px" data-toggle="modal" data-id="{{ $user->userid }}" data-target="#ledger">View Card</button><br>
+                                @else
+                                    <button class="btn btn-sm beginning_balance" id="update_balance"style="background-color: #9C8AA5;color: white; width:120px" data-toggle="modal" data-id="{{ $user->userid }}" data-target="#beginning_balance">Add CTO Balance</button>
+                                    <button class="btn btn-sm btn-info ledger" id="viewCard" name="viewCard" style="color: white; width:80px" data-toggle="modal" data-id="{{ $user->userid }}" data-target="#ledger">View Card</button><br>
+                                    <button class="btn btn-sm btn-primary balances" style="color: white; width:120px; margin-top: 2px" data-toggle="modal" data-id="{{ $user->userid }}" data-target="#balances">Update Balance</button>
+                                    <button class="btn btn-sm btn-warning transfer" style="color: white; width:80px" data-toggle="modal" data-id="{{ $user->userid }}" data-target="#transfer">Transfer</button>
+                                @endif
                             </td>
                         </tr>
                     @endforeach
@@ -137,6 +142,37 @@
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
     {{-------------------------}}
+    <div class="modal fade" tabindex="-1" role="dialog" id="transfer">
+        <div class="modal-dialog modal-sm" role="document" id="size">
+            <div class="modal-content">
+                <form action="{{ asset('cdo/transfer') }}" method="post">
+
+                    <div class="modal-header" style="background-color: #9C8AA5; color:white">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="begin_title"><i class="fa fa-arrow-right"></i>Transfer Balance</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div style="display: flex; align-items: center;margin-bottom:10px;">
+                            <label style="margin-right: 10px;">Userid:</label>
+                            <input class="form-control" id="trans_id">
+                        </div>
+                        <select type="hidden" style="margin-top:10px; width: 250px; display:inline-block; margin-right: 5px; border-radius: 0px" class="chosen-select-static form-control" name="trans_details" required>
+                            <option value=''>Please select details</option>
+                            <option value='1'>Forwarded to HHRDU</option>
+                            <option value='2'>Resigned</option>
+                            <option value='3'>Retired</option>
+                        </select>
+                        <input class="form-control datepickercalendar" style="margin-top: 10px" id="trans_date" value="<?php echo date('m/d/Y'); ?>" name="trans_date" required>
+
+                    </div>
+                    <div class="modal-footer">
+                        <input type="hidden" value="" id="trans_userid" name="trans_userid">
+                        <button type="submit" class="btn btn-success" style="color:white;"><i class="fa fa-pencil"> Transfer</i></button>
+                    </div>
+                </form>
+            </div><!-- .modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
     {{----process pending application manually----}}
     <div class="modal fade" tabindex="-1" role="dialog" id="process_pending">
         <div class="modal-dialog modal-sm" role="document" id="size">
@@ -167,6 +203,44 @@
     @parent
     <script>
 
+        function cloneField(button) {
+            var cloneableFields = document.querySelector('.trans_clone');
+            console.log('asd0', cloneableFields);
+            var newFields = cloneableFields.cloneNode(true);
+            var inputs = newFields.querySelectorAll('input');
+            inputs.forEach(function(input) {
+                input.value = '';
+                input.removeAttribute('id');
+            });
+            $(newFields).find(".datepickercalendar").datepicker({
+                autoclose:true
+            });
+
+            $(newFields).find(".add_bal")
+                .text('Remove Clone')
+                .removeClass("btn btn-xs btn-info add_bal")
+                .addClass("btn btn-xs btn-danger remove_bal")
+                .removeAttr('onclick')
+                .on('click', function() {
+                    removeClone(this);
+                });
+            button.parentElement.parentElement.appendChild(newFields);
+        }
+
+        function removeClone(button){
+            $(button).closest(".trans_clone").remove();
+            console.log('remove');
+        }
+
+        $('.remove_bal').on('click', function () {
+            console.log('remove');
+        });
+
+        $('.trans_amount').on('click', function (){
+            var clone = $(this).closest('.for_clone');
+            console.log('clone', clone);
+        });
+
         $(".process_pending").on('click',function(e){
 
             $('.modal-body').html(loadingState);
@@ -179,7 +253,16 @@
                     "<span >Are you sure you want to process pending CTO credits?</span>");
             },500);
         });
-// to be removed once HR is done
+
+        $(".transfer").on('click',function(e){
+            $('.chosen-container-single').css('width', '270px');
+            $('.chosen-select-static').chosen();
+            var userid = $(this).data('id');
+            $('#trans_id').val(userid);
+            $("#trans_userid").val(userid);
+        });
+
+        // to be removed once HR is done
         $(".balances").on('click',function(e){
             $('.modal-body').html(loadingState);
             var userid = $(this).data('id');
@@ -206,8 +289,7 @@
                 e.preventDefault();
             }
         });
-//        to be removed once HR is done //
-
+        // to be removed once HR is done //
 
         function setAction(action){
             $('#action').val(action);
@@ -220,6 +302,7 @@
         }
 
         function modifiedUpdatedCTO(button) {
+            $('.add_bal').css('display', 'none');
             $("#option2").show();
             var row = $(button).closest('tr');
             var rowData = {};
@@ -243,14 +326,22 @@
         }
 
 
-        function updateCTO() {
-            if ($("#ot_hours").val() == 0) {
-                $("#ot_hours").val("");
-            } else if ($("#ot_weight").val() == 0) {
-                $("#ot_weight").val("");
+        function updateCTO(element) {
+            var cloned = $(element).closest('.trans_clone');
+            var ot_hours = cloned.find('.ot_hours');
+            var ot_weight = cloned.find('.ot_weight')
+            var cto_total = cloned.find('.cto_total');
+
+            console.log('update_click', ot_weight.val());
+            if(ot_hours.val() == 0) {
+                ot_hours.val("");
             }
-            var hours = parseFloat(document.getElementById("ot_hours").value);
-            var weight = parseFloat(document.getElementById("ot_weight").value);
+            if(ot_weight.val() == 0) {
+                ot_weight.val("");
+            }
+
+            var hours = parseFloat(ot_hours.val());
+            var weight = parseFloat(ot_weight.val());
 
             var total = hours * weight;
 
@@ -267,7 +358,7 @@
                 total= totalWhole;
             }
 
-            document.getElementById("cto_total").value = total || '';
+            cto_total.val(total || '');
             document.getElementById("beginning_balance").value = total || '';
         }
 
@@ -298,6 +389,7 @@
                         var id = "<?php echo $card_viewL->userid; ?>";
                         var date = "<?php echo $card_viewL->ot_date; ?>";
                         var status = "<?php echo $card_viewL->status; ?>";
+                        var remarks = "<?php echo $card_viewL->remarks; ?>";
                         var card_id = "<?php echo $card_viewL->id; ?>";
                         $("#user_iid").val(userid);
 
@@ -419,11 +511,17 @@
                             tableData2 += "</tr>";
                             $("#t_body").append(tableData2);
                             count++;
+                        }else if(id == userid && remarks == '0'){
+                            var transferred = "<tr>" +
+                                "<td colspan='12' style='text-align:center; font-weight:bold'><?php echo $card_viewL->date_used; ?> on <?php echo date('F j, Y', strtotime($card_viewL->ot_date)); ?></td>" +
+                                "</tr>";
+                            $("#t_body").append(transferred);
+                            count++;
                         }
                     <?php } ?>
                     if (count==0) {
                         var tableData3 = "<tr>" +
-                            "<td colspan='8'>No Data Available</td>" +
+                            "<td colspan='12'>No Data Available</td>" +
                             "</tr>";
                         $("#t_body").append(tableData3);
     //                    count=1;
