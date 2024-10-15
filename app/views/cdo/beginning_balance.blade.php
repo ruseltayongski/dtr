@@ -8,7 +8,7 @@
         </div>
     @endif
     <div class="alert alert-jim" id="inputText">
-        <h2 class="page-header">Employeesd</h2>
+        <h2 class="page-header">Employees</h2>
         <form class="form-inline form-accept" action="{{ asset('beginning_balance') }}" method="GET">
             <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
             <div class="form-group">

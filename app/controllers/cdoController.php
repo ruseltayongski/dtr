@@ -2029,7 +2029,6 @@ class cdoController extends BaseController
     public function transfer(){
 
         $pis = InformationPersonal::where('userid', Input::get('trans_userid'))->first();
-
         $transfer = new TransferCdo();
         $transfer->userid = Input::get('trans_userid');
         $transfer->reason = Input::get('trans_details');
@@ -2041,7 +2040,7 @@ class cdoController extends BaseController
         $card->userid = Input::get('trans_userid');
         $card->ot_date = date('Y-m-d', strtotime(Input::get('trans_date')));
         $card->date_used = Input::get('trans_details') == 1 ? 'Forwarded to HHRDU' : (Input::get('trans_details') ? 'Resigned' : 'Retired');
-        $card->bal_credits = $pis->bbalance_cto;
+        $card->bal_credits = $pis->bbalance_cto ? $pis->bbalance_cto:0;
         $card->remarks = '0';
         $card->status = 5;
         $card->save();

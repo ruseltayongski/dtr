@@ -261,8 +261,10 @@
                                             <td id='remarks'style='color: red'>EXCEED</td>
                                         <?php endif; ?>
                                     </tr>
-
                                 <?php else: ?>
+                                    <?php if(Auth::user()->userid == $card_viewL->userid && $card_viewL->remarks == '0'): ?>
+                                        <td style='color: red; text-align: center' colspan="12"><?php echo $card_viewL->date_used .' on '. date('F j, Y', strtotime($card_viewL->ot_date)); ?></td>
+                                    <?php endif; ?>
                                 <?php endif; ?>
                             <?php endforeach; ?>
                         <?php else: ?>
