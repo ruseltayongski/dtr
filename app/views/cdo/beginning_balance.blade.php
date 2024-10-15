@@ -154,7 +154,7 @@
                     <div class="modal-body">
                         <div style="display: flex; align-items: center;margin-bottom:10px;">
                             <label style="margin-right: 10px;">Userid:</label>
-                            <input class="form-control" id="trans_id">
+                            <input class="form-control" id="trans_id" disabled>
                         </div>
                         <select type="hidden" style="margin-top:10px; width: 250px; display:inline-block; margin-right: 5px; border-radius: 0px" class="chosen-select-static form-control" name="trans_details" required>
                             <option value=''>Please select details</option>

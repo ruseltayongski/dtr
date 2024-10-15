@@ -698,7 +698,7 @@
                             <div class="col-sm-3"><strong>User Id</strong></div>
                             <div class="col-sm-1">:</div>
                             <div class="col-sm-7">
-                                <input type="text" class="form-control" id="user_id" name="user_id" value="" readonly>
+                                <input type="text" class="form-control" id="user_id" name="user_id" value="" disabled>
                             </div>
                         </div>
                         <div class="trans_clone">
