@@ -687,63 +687,65 @@
 <div class="modal fade" tabindex="8" role="dialog" id="beginning_balance">
     <div class="modal-dialog modal-sm" role="document" id="size">
         <div class="modal-content">
-            <form action="<?php echo asset('update_bbalance'); ?>" method="get">
+            <form action="<?php echo asset('update_bbalance'); ?>" method="POST">
                 <div class="modal-header" style="background-color: #9C8AA5; color:white">
                     <button type="button" class="close" data-dismiss="modal" style="color:white" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                     <h4 class="title"><i class="fa fa-pencil"></i> Update Beginning Balance</h4>
                 </div>
-                <div>
-                    <table class="table">
-                        <tr>
-                            <td class="col-sm-3"><strong>User Id </strong></td>
-                            <td class="col-sm-1">: </td>
-                            <td class="col-sm-9">
-                                <input type="text" class="col-md-2 form-control" id="user_id" name="user_id" value="" disabled>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="col-sm-3"><strong>Overtime Date </strong></td>
-                            <td class="col-sm-1"> :</td>
-                            <td class="col-sm-9">
-                                <div class="input-group">
-                                    <div class="input-group-addon">
-                                        <i class="fa fa-calendar"></i>
+                <div class="balance_body">
+                    <div class="form-group" style="padding: 10px">
+                        <div class="row">
+                            <div class="col-sm-3"><strong>User Id</strong></div>
+                            <div class="col-sm-1">:</div>
+                            <div class="col-sm-7">
+                                <input type="text" class="form-control" id="user_id" name="user_id" value="" disabled>
+                            </div>
+                        </div>
+                        <div class="trans_clone">
+                            <button type="button" onclick="cloneField(this)" style="display:flex; text-align: left" class="btn btn-xs btn-info add_bal">Add More</button>
+                            <div class="row" style="margin-top: 5px">
+                                <div class="col-sm-3"><strong>Date</strong></div>
+                                <div class="col-sm-1">:</div>
+                                <div class="col-sm-7">
+                                    <div class="input-group">
+                                        <div class="input-group-addon">
+                                            <i class="fa fa-calendar"></i>
+                                        </div>
+                                        <input class="form-control datepickercalendar" value="" id="overtime_date" name="overtime_date[]" placeholder="select date..." required autocomplete="off">
                                     </div>
-                                    <input class="form-control datepickercalendar" value="" id="overtime_date" name="overtime_date" placeholder="select date..." required autocomplete="off">
                                 </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="col-sm-3"><strong>Number of Hours </strong></td>
-                            <td class="col-sm-1">: </td>
-                            <td class="col-sm-9">
-                                <input type="text" class="col-md-2 form-control" id="ot_hours" name="ot_hours" value="" required oninput="updateCTO()" autocomplete="off">
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="col-sm-3"><strong>Rate </strong></td>
-                            <td class="col-sm-1">: </td>
-                            <td class="col-sm-9">
-                                <input type="text" class="col-md-2 form-control" id="ot_weight" name="ot_weight" value="" required oninput="updateCTO()" autocomplete="off">
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="col-sm-3"><strong>Total CTO to Add</strong></td>
-                            <td class="col-sm-1">: </td>
-                            <td class="col-sm-9">
-                                <input type="text" class="col-md-2 form-control" id="cto_total" name="cto_total" readonly>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="col-sm-3"><strong>Remarks</strong></td>
-                            <td class="col-sm-1">: </td>
-                            <td class="col-sm-9">
-                                <input type="text" class="col-md-2 form-control" id="remarks" name="remarks" value="" autocomplete="off">
-                            </td>
-                        </tr>
-                    </table>
+                            </div>
+                            <div class="row" style="margin-top: 5px">
+                                <div class="col-sm-3"><strong>Hours #</strong></div>
+                                <div class="col-sm-1">:</div>
+                                <div class="col-sm-7">
+                                    <input type="text" class="form-control ot_hours" id="ot_hours" name="ot_hours[]" value="" required oninput="updateCTO(this)" autocomplete="off">
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top: 5px">
+                                <div class="col-sm-3"><strong>Rate</strong></div>
+                                <div class="col-sm-1">:</div>
+                                <div class="col-sm-7">
+                                    <input type="text" class="form-control ot_weight" id="ot_weight" name="ot_weight[]" value="" required oninput="updateCTO(this)" autocomplete="off">
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top: 5px">
+                                <div class="col-sm-3"><strong>Total</strong></div>
+                                <div class="col-sm-1">:</div>
+                                <div class="col-sm-7">
+                                    <input type="text" class="form-control cto_total" id="cto_total" name="cto_total[]" readonly>
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top: 5px">
+                                <div class="col-sm-3"><strong>Remarks</strong></div>
+                                <div class="col-sm-1">:</div>
+                                <div class="col-sm-7">
+                                    <input type="text" class="form-control" id="remarks" name="remarks[]" value="" autocomplete="off">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-
                 <div class="modal-footer">
                     <input type="hidden" value="" id="userid" name="userid">
                     <input type="hidden" value="" id="total_total" name="total_total">
