@@ -1118,7 +1118,10 @@ class cdoController extends BaseController
             ->orderBy('fname','asc')
             ->where('fname', '!=', '')
             ->where('region', 'region_7')
-            ->whereIn('field_status', ['', 'Office Personnel'])
+            ->where(function($query) {
+                $query->whereNull('field_status')
+                      ->orWhere('field_status', 'Office Personnel');
+            })
             ->paginate(10);
         if(Input::get('keyword')){
 //            return Input::get('keyword') ;

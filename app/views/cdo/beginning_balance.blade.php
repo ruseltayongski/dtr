@@ -58,7 +58,7 @@
                                     <button class="btn btn-sm beginning_balance" id="update_balance"style="background-color: #9C8AA5;color: white; width:120px" data-toggle="modal" data-id="{{ $user->userid }}" data-target="#beginning_balance">Add CTO Balance</button>
                                     <button class="btn btn-sm btn-info ledger" id="viewCard" name="viewCard" style="color: white; width:80px" data-toggle="modal" data-id="{{ $user->userid }}" data-target="#ledger">View Card</button><br>
                                     <button class="btn btn-sm btn-primary balances" style="color: white; width:120px; margin-top: 2px" data-toggle="modal" data-id="{{ $user->userid }}" data-target="#balances">Update Balance</button>
-                                    <button class="btn btn-sm btn-warning transfer" style="color: white; width:80px" data-toggle="modal" data-id="{{ $user->userid }}" data-target="#transfer">Transfer</button>
+                                    <button class="btn btn-sm btn-warning transfer" style="color: white; width:80px" data-toggle="modal" data-id="{{ $user->userid }}" data-target="#transfer">Reset</button>
                                 @endif
                             </td>
                         </tr>
@@ -149,14 +149,14 @@
 
                     <div class="modal-header" style="background-color: #9C8AA5; color:white">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="begin_title"><i class="fa fa-arrow-right"></i>Transfer Balance</h4>
+                        <h4 class="begin_title"><i class="fa fa-arrow-right"></i>Reset Balance</h4>
                     </div>
                     <div class="modal-body">
                         <div style="display: flex; align-items: center;margin-bottom:10px;">
                             <label style="margin-right: 10px;">Userid:</label>
                             <input class="form-control" id="trans_id" disabled>
                         </div>
-                        <select type="hidden" style="margin-top:10px; width: 250px; display:inline-block; margin-right: 5px; border-radius: 0px" class="chosen-select-static form-control" name="trans_details" required>
+                        <select type="hidden" onchange="resetBal(this)" style="margin-top:10px; width: 250px; display:inline-block; margin-right: 5px; border-radius: 0px" class="chosen-select-static form-control" name="trans_details" required>
                             <option value=''>Please select details</option>
                             <option value='1'>Forwarded to HHRDU</option>
                             <option value='2'>Resigned</option>
@@ -167,7 +167,7 @@
                     </div>
                     <div class="modal-footer">
                         <input type="hidden" value="" id="trans_userid" name="trans_userid">
-                        <button type="submit" class="btn btn-success" style="color:white;"><i class="fa fa-pencil"> Transfer</i></button>
+                        <button type="submit" class="btn btn-success reset_btn" style="color:white;"><i class="fa fa-pencil"> Reset</i></button>
                     </div>
                 </form>
             </div><!-- .modal-content -->
@@ -202,6 +202,14 @@
 @section('js')
     @parent
     <script>
+
+        function resetBal(element){
+            if(element.value == 1){
+                $('.reset_btn').text('Transfer');
+            }else{
+                $('.reset_btn').text('Reset');
+            }
+        }
 
         function cloneField(button) {
             var cloneableFields = document.querySelector('.trans_clone');
