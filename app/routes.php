@@ -376,4 +376,8 @@ Route::get('download_apk',function(){
 
 //GENERATE FLAG ATTENDANCE
 Route::post('generate/flag/attendance', 'AdminController@generateFlagAttendance');
+
+//API for JWT
+Route::get('info/{userid}','HomeController@info');
+
 ?>

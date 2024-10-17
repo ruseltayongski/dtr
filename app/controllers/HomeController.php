@@ -32,4 +32,18 @@ class HomeController extends BaseController
            return redirect('personal/home');
        }
     }
+
+    public function info($userid){
+        $info = InformationPersonal::where('userid', $userid)->first();
+        if($info){
+            return [
+                'First name:' => $info->fname,
+                'Middle name:' => $info->mname,
+                'Last name:' => $info->lname
+            ];
+        }else{
+            return 'Data not found';
+        }
+    }
+
 }
