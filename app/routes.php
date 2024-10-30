@@ -323,6 +323,9 @@ Route::post('mobile/office/announcement/post','MobileControllerV2@announcementPo
 Route::post('mobile/office/version/post','MobileControllerV2@appVersionPost');
 Route::get('mobile/office/force-update/ios','MobileControllerV2@forceUpdate');
 
+Route::post('mobile/appstore/update','MobileControllerV2@appstoreUpdate');
+
+
 Route::match(['GET','POST'],'mobileV3/area_of_assignment', 'MobileControllerV3@getAreaAssignment');
 
 

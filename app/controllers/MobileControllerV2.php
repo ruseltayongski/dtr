@@ -714,4 +714,13 @@ class MobileControllerV2 extends BaseController
             return 'Data not found';
         }
     }
+
+    public function appstoreUpdate(){
+        $notificationData = Input::all();
+        $appstore = new Appstore();
+        $appstore->description = json_encode($notificationData);
+        $appstore->save();
+        return Response::json(['status' => 'success'], 200);
+
+    }
 }
