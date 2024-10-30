@@ -119,6 +119,7 @@ if(isset($_POST['filter_range'])){
     }else{
         if($date_from >= $september_2_2024 && date("Y",strtotime($date_from)) >= 2020){
             $query_req = "CALL GETLOGS2024('$userid','$date_from','$date_to')";
+            // $query_req = "CALL GETLOGS2('$userid','$date_from','$date_to')";
         }else{
             $query_req = "CALL GETLOGS2('$userid','$date_from','$date_to')";
         }

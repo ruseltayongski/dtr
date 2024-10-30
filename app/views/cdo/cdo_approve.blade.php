@@ -47,9 +47,9 @@
                                 foreach ($get_date as $index=>$dates){
                                     $hours = " ";
                                     if($dates->cdo_hours == "cdo_am"){
-                                        $hours=" (PM)";
-                                    }else if($dates->cdo_hours == "cdo_pm"){
                                         $hours=" (AM)";
+                                    }else if($dates->cdo_hours == "cdo_pm"){
+                                        $hours=" (PM)";
                                     }
                                     $start_date = date('M j, Y', strtotime($dates->start_date));
                                     $end_date = date('M j, Y', strtotime('-1 day', strtotime($dates->end_date)));

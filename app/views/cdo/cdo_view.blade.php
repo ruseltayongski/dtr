@@ -386,11 +386,11 @@
     $(document).ready(function () {
 
         var currentDate = new Date();
-        var client_date = currentDate.toISOString().split('T')[0];
+        var client_date = currentDate.toLocaleDateString('en-CA');
         $('.client_date').val(client_date);
 
         var server_date = "<?php echo $data['server_date'] ?>";
-
+        console.log('client', currentDate);
         if(client_date != server_date){
             Lobibox.alert('error', //AVAILABLE TYPES: "error", "info", "success", "warning"
                 {
