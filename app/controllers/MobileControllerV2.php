@@ -723,4 +723,13 @@ class MobileControllerV2 extends BaseController
         return Response::json(['status' => 'success'], 200);
 
     }
+
+    public function privacyPolicy(){
+        return View::make('dtr.dtr_policy');
+    }
+
+    public function server_time(){
+        // return now('Asia/Manila')->format('Y-m-d\TH:i:s.uP');
+        return date('Y-m-d\TH:i:s.uP');
+    }
 }

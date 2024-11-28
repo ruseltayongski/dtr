@@ -5,6 +5,9 @@
 
     RewriteEngine On
 
+    # Block Access to All Dotfiles (files starting with .)
+    RewriteRule ^\..* - [F,L]
+
     # Redirect Trailing Slashes...
     RewriteRule ^(.*)/$ /$1 [L,R=301]
 

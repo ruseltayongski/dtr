@@ -322,9 +322,10 @@ Route::get('mobile/office/version/view/{type}','MobileControllerV2@appVersionVie
 Route::post('mobile/office/announcement/post','MobileControllerV2@announcementPost');
 Route::post('mobile/office/version/post','MobileControllerV2@appVersionPost');
 Route::get('mobile/office/force-update/ios','MobileControllerV2@forceUpdate');
+Route::get('mobile/office/time','MobileControllerV2@server_time');
 
 Route::post('mobile/appstore/update','MobileControllerV2@appstoreUpdate');
-
+Route::get('mobile/privacy-policy','MobileControllerV2@privacyPolicy');
 
 Route::match(['GET','POST'],'mobileV3/area_of_assignment', 'MobileControllerV3@getAreaAssignment');
 

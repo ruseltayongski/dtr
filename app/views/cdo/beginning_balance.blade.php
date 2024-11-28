@@ -52,14 +52,11 @@
                                 <small style="line-height: 1"><em>(@if(isset(pdoController::search_division($user->division_id)['description'])) {{ pdoController::search_division($user->division_id)['description'] }} @else NO DIVISION @endif {{ ')' }}</em></small>
                             </td>
                             <td class="center" style="text-align: center">
-                                @if(count($user->transferred) > 0)
-                                    <button class="btn btn-sm btn-info ledger" id="viewCard" name="viewCard" style="color: white; width:80px" data-toggle="modal" data-id="{{ $user->userid }}" data-target="#ledger">View Card</button><br>
-                                @else
+                            
                                     <button class="btn btn-sm beginning_balance" id="update_balance"style="background-color: #9C8AA5;color: white; width:120px" data-toggle="modal" data-id="{{ $user->userid }}" data-target="#beginning_balance">Add CTO Balance</button>
                                     <button class="btn btn-sm btn-info ledger" id="viewCard" name="viewCard" style="color: white; width:80px" data-toggle="modal" data-id="{{ $user->userid }}" data-target="#ledger">View Card</button><br>
                                     <button class="btn btn-sm btn-primary balances" style="color: white; width:120px; margin-top: 2px" data-toggle="modal" data-id="{{ $user->userid }}" data-target="#balances">Update Balance</button>
                                     <button class="btn btn-sm btn-warning transfer" style="color: white; width:80px" data-toggle="modal" data-id="{{ $user->userid }}" data-target="#transfer">Reset</button>
-                                @endif
                             </td>
                         </tr>
                     @endforeach
