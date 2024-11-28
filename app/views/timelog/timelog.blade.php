@@ -137,14 +137,15 @@
                                                             $lat_element = 'lat'.date("YmdHis",strtotime($row->datein.$time)).'am_in';
                                                             $lon_element = 'lon'.date("YmdHis",strtotime($row->datein.$time)).'am_in';
                                                         ?>
-                                                        <strong class="badge bg-red" style="position: absolute;margin-top: -20px;margin-left: 90px;">Click image to rotate</strong>
+                                                        {{--<strong class="badge bg-red" style="position: absolute;margin-top: -20px;margin-left: 90px;">Click image to rotate</strong>--}}
                                                         <?php
                                                             $am_in_lat = $latitude;
                                                             $am_in_lon = $longitude;
                                                             $am_in_time = $time;
                                                         ?>
-                                                        <div style="padding: 2%;">
-                                                            <img class="profile-user-img img-responsive " src="{{ $src_image }}" alt="User profile picture" onclick="rotate(this)">
+                                                        <div style="position: relative; padding: 2%;">
+                                                            <img class="profile-user-img img-responsive " src="{{ $src_image }}" alt="User profile picture" onclick="displayImage('{{ $src_image }}')">
+                                                            <i class="fa fa-rotate-right" style="position: absolute; top: 2px; right:7px;  margin: 10px; color:dodgerblue" onclick="rotate(this)"></i>
                                                         </div>
                                                         <table class="table table-bordered table-striped">
                                                             <tr>
@@ -209,8 +210,9 @@
                                                             $am_out_lon = $longitude;
                                                             $am_out_time = $time;
                                                             ?>
-                                                        <div style="padding: 2%;">
-                                                            <img class="profile-user-img img-responsive" src="{{ $src_image }}" alt="User profile picture" onclick="rotate(this)">
+                                                        <div style="position: relative; padding: 2%;">
+                                                            <img class="profile-user-img img-responsive " src="{{ $src_image }}" alt="User profile picture" onclick="displayImage('{{ $src_image }}')">
+                                                            <i class="fa fa-rotate-right" style="position: absolute; top: 2px; right:7px;  margin: 10px; color:dodgerblue" onclick="rotate(this)"></i>
                                                         </div>
                                                         <table class="table table-bordered table-striped">
                                                             <tr>
@@ -266,7 +268,6 @@
                                                             else
                                                                 $src_image = $path_timelog;
 
-
                                                             $lat_element = 'lat'.date("YmdHis",strtotime($row->datein.$time)).'pm_in';
                                                             $lon_element = 'lon'.date("YmdHis",strtotime($row->datein.$time)).'pm_in';
                                                         ?>
@@ -275,8 +276,9 @@
                                                                 $pm_in_lon = $longitude;
                                                                 $pm_in_time = $time;
                                                             ?>
-                                                            <div style="padding: 2%;">
-                                                                <img class="profile-user-img img-responsive" src="{{ $src_image }}" alt="User profile picture" onclick="rotate(this)">
+                                                            <div style="position: relative; padding: 2%;">
+                                                                <img class="profile-user-img img-responsive " src="{{ $src_image }}" alt="User profile picture" onclick="displayImage('{{ $src_image }}')">
+                                                                <i class="fa fa-rotate-right" style="position: absolute; top: 2px; right:7px;  margin: 10px; color:dodgerblue" onclick="rotate(this)"></i>
                                                             </div>
                                                             <table class="table table-bordered table-striped">
                                                                 <tr>
@@ -343,8 +345,9 @@
                                                             $pm_out_lon = $longitude;
                                                             $pm_out_time = $time;
                                                         ?>
-                                                        <div style="padding: 2%;">
-                                                            <img class="profile-user-img img-responsive" src="{{ $src_image }}" alt="User profile picture" onclick="rotate(this)">
+                                                        <div style="position: relative; padding: 2%;">
+                                                            <img class="profile-user-img img-responsive " src="{{ $src_image }}" alt="User profile picture" onclick="displayImage('{{ $src_image }}')">
+                                                            <i class="fa fa-rotate-right" style="position: absolute; top: 2px; right:14px;  margin: 10px; color:dodgerblue" onclick="rotate(this)"></i>
                                                         </div>
                                                         <table class="table table-bordered table-striped">
                                                             <tr>
@@ -403,16 +406,35 @@
         </div>
     </div>
 
+    <div class="modal fade" id="image_file" tabindex="-1" role="dialog" style="background: transparent; border: none;">
+        <div class="modal-dialog" role="document" style="background: transparent; border: none; position: fixed; top: 47.5%; left: 52.5%; transform: translate(-50%, -50%);">
+            <div class="modal-content" style="background: transparent; border: none;">
+                <div class="modal_body_files" style="background: transparent; border: none;">
+                    <div id="image_modal" style="background: transparent; border: none;">
+                        <!-- Your content here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 @endsection
 
 @section('js')
     @parent
     <script>
 
-        function rotate(image) {
-            let rotateAngle = Number(image.getAttribute("rotangle")) + 90;
+        function rotate(element) {
+            var closestProfileImg = $(element).closest('td').find('.profile-user-img');
+            var image = closestProfileImg[0];
+            var rotateAngle = Number(image.getAttribute("rotangle")) + 90;
             image.setAttribute("style", "transform: rotate(" + rotateAngle + "deg)");
             image.setAttribute("rotangle", "" + rotateAngle);
+        }
+
+        function displayImage(image){
+            $('#image_file').modal('show');
+            $('#image_modal').html('<img src="' + image + '" alt="Image" class="img-fluid mb-2" style="width: 85%;">');
         }
 
         $.fn.editable.defaults.mode = 'popup';
@@ -450,7 +472,6 @@
 
         $(function(){
             $(".editable").each(function(){
-                console.log('editable');
                 $('#'+this.id).editable({
                     type: 'radiolist',
                     value: '',
@@ -459,8 +480,6 @@
                     ],
                     validate: function(value) {
                         var ID = this.id;
-                        console.log(ID);
-
                         var timelog = $("#"+this.id+"time_log").val();
                         var office_order = $("#"+this.id+"office_order").val();
                         var travel_order = $("#"+this.id+"travel_order").val();
@@ -535,7 +554,6 @@
                             var part = all_data.split('ñ');
 
                             all_entry.forEach(function(data){
-                                console.log("data "+data);
                                 var input = $('#'+part[5]+'ñ'+data);
                                 var strong_element = input.closest('td').find('strong');
                                 var ID = strong_element.attr('id');
@@ -572,10 +590,6 @@
                                 var input_hidden_time = result.display_time; //display hidden time for trapping and where purposes
                                 input_hidden_element.val(input_hidden_time);
                                 var new_id = ID.replace(new RegExp(log_status, "g"),log_status_change == 'empty' ? log_status_change : log_status_change.split('_')[0]);
-                                console.log("log_status: "+log_status);
-                                console.log("log_status_change: "+log_status_change);
-                                console.log(json);
-                                console.log("new_id: "+new_id);
                                 $("#"+ID).attr('id',new_id);
                                 Lobibox.notify(result.notification,{
                                     msg:result.message
@@ -594,7 +608,6 @@
                 this.init('radiolist', options, Radiolist.defaults);
             };
             $.fn.editableutils.inherit(Radiolist, $.fn.editabletypes.checklist);
-            console.log('radiobuttton');
 
             $.extend(Radiolist.prototype, {
                 renderList : function() {
@@ -617,7 +630,6 @@
                     this.$input = this.$tpl.find('input[type="radio"]');
                     var timelogToAppend = this.$tpl;
                     var am_in,am_out,pm_in,pm_out;
-                    console.log(ID);
                     $(".arrow").removeClass("arrow");
                     am_in = $("#"+ID).parent().parent().children('td').children('input').get(0).value;
                     am_out = $("#"+ID).parent().parent().children('td').children('input').get(1).value;
