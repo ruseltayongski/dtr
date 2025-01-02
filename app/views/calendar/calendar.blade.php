@@ -128,7 +128,8 @@
                         var url = $('#calendar_update').data('link');
                         var object = {
                             'type' : 'resize',
-                            'event_id' : event.event_id+"<?php echo Auth::user()->userid; ?>",
+                            //'event_id' : event.event_id+"<?php echo Auth::user()->userid; ?>",
+                            'event_id' : event.event_id,
                             'end' : event.end.format()
                         };
                         $.post(url,object,function(result){
@@ -149,7 +150,8 @@
                                 callback: function ($this, type, ev) {
                                     if(type == 'yes'){
                                         $('#calendar').fullCalendar('removeEvents',event.id);
-                                        var calendar_delete = $('#calendar_delete').data('link')+'/'+event.event_id+"<?php echo Auth::user()->userid; ?>";
+                                        //var calendar_delete = $('#calendar_delete').data('link')+'/'+event.event_id+"<?php echo Auth::user()->userid; ?>";
+                                        var calendar_delete = $('#calendar_delete').data('link')+'/'+event.event_id;
                                         $.get(calendar_delete,function(){
                                             Lobibox.notify('error',{
                                                 msg:'Successfully Deleted!'
@@ -175,7 +177,8 @@
                         var url = $('#calendar_update').data('link');
                         var object = {
                             'type' : 'drop',
-                            'event_id' : event.event_id+"<?php echo Auth::user()->userid; ?>",
+                            //'event_id' : event.event_id+"<?php echo Auth::user()->userid; ?>",
+                            'event_id' : event.event_id,
                             'start' : event.start.format()
                         };
                         $.post(url,object,function(result){
