@@ -708,13 +708,12 @@ class cdoController extends BaseController
             $card_view->bal_credits= $balance;
 
             if($cdo->approved_status){
-
+                $card_bal = (float)$personal_information->bbalance_cto + (float)$cdo->less_applied_for;
                 InformationPersonal::where('userid',$userid)->update([
-                    "bbalance_cto" => (float)$personal_information->bbalance_cto + (float)$cdo->less_applied_for
+                    "bbalance_cto" => $card_bal <= 120 ? $card_bal : 120
                 ]);
                 $cdo->approved_status = 0;
-
-                $card_view->bal_credits= (float)$personal_information->bbalance_cto + (float)$cdo->less_applied_for;
+                $card_view->bal_credits= $card_bal <= 120 ? $card_bal : 120;
                 $card_view->status=3;
 
                 foreach($cdoAppliedDate as $cdoApplied){
@@ -1665,13 +1664,14 @@ class cdoController extends BaseController
             if(in_array("cancel_all", $selected)){
                 $cancelled->status= 3;
                 $cancelled->save();
+                $am_can = $pis->bbalance_cto + $cancelled->less_applied_for;
                 $card = new CardView();
                 $card->userid = $cancelled->prepared_name;
                 $card->hours_used = $cancelled->less_applied_for;
                 $card->date_used = $dateUsedJSON;
-                $card->bal_credits = $pis->bbalance_cto + $cancelled->less_applied_for;
+                $card->bal_credits = $am_can <= 120 ? $am_can : 120;
                 $card->status= 3;
-                $pis->bbalance_cto = $pis->bbalance_cto + $cancelled->less_applied_for;
+                $pis->bbalance_cto = $am_can <= 120 ? $am_can : 120;
                 $pis->save();
                 $card->save();
             }else{
@@ -1706,13 +1706,15 @@ class cdoController extends BaseController
                                 $new_applied->save();
                             }
                         }
+
+                        $cancelled_bal = $pis->bbalance_cto + $card_total;
                         $card->userid = $pis->userid;
                         $card->hours_used = $card_total;
                         $card->date_used = implode(',', $date_here);
-                        $card->bal_credits = $pis->bbalance_cto + $card_total;
+                        $card->bal_credits = $cancelled_bal <= 120 ? $cancelled_bal : 120;
                         $card->status = 3;
                         $card->save();
-                        $pis->bbalance_cto = $pis->bbalance_cto + $card_total;
+                        $pis->bbalance_cto = $cancelled_bal <= 120 ? $cancelled_bal : 120;
                         $pis->save();
                     }else{
                         foreach ($applied as $apply){
@@ -1738,18 +1740,18 @@ class cdoController extends BaseController
                                         $card->date_used = date('F j, Y', strtotime($date));
                                     }else{
                                         $card->hours_used = 4;
-                                        $card->bal_credits = $pis->bbalance_cto + 4;
+                                        $card->bal_credits = ($pis->bbalance_cto + 4 <= 120) ? $pis->bbalance_cto + 4 : 120 ;
                                         if($selected_hours[$f] == "cdo_am"){
                                             $card->date_used = date('F j, Y', strtotime($date)).' (AM)';
                                         }else{
                                             $card->date_used = date('F j, Y', strtotime($date)).' (PM)';
                                         }
                                         $cancelled->less_applied_for = $cancelled->less_applied_for - 4;
-                                        $pis->bbalance_cto = $pis->bbalance_cto + 4;
+                                        $pis->bbalance_cto = ($pis->bbalance_cto + 4 <= 120) ? $pis->bbalance_cto + 4 : 120 ;
                                     }
                                 }else{
                                     $cancelled->less_applied_for = $cancelled->less_applied_for - 4;
-                                    $pis->bbalance_cto = $pis->bbalance_cto + 4;
+                                    $pis->bbalance_cto = ($pis->bbalance_cto + 4 <= 120) ? $pis->bbalance_cto + 4 : 120 ;
                                     $new_applied->status = 1;
                                     $date_here[]=$date_list[$index];
                                     if($selected_hours[$f] == "cdo_wholeday"){
@@ -1767,7 +1769,7 @@ class cdoController extends BaseController
                                     }
                                 }
                                 $pis->save();
-                                $card->bal_credits = $pis->bbalance_cto;
+                                $card->bal_credits = $pis->bbalance_cto <= 120 ? $pis->bbalance_cto : 120;
                                 $card->save();
                             }else{
                                 $date_here[]=$date_list[$index];
