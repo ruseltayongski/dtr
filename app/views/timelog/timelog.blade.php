@@ -145,7 +145,7 @@
                                                         ?>
                                                         <div style="position: relative; padding: 2%;">
                                                             <img class="profile-user-img img-responsive " src="{{ $src_image }}" alt="User profile picture" onclick="displayImage('{{ $src_image }}')">
-                                                            <i class="fa fa-rotate-right" style="position: absolute; top: 2px; right:7px;  margin: 10px; color:dodgerblue" onclick="rotate(this)"></i>
+                                                            <i class="fa fa-rotate-right" style="position: absolute; top: 2px; right:13px;  margin: 10px; color:dodgerblue" onclick="rotate(this)"></i>
                                                         </div>
                                                         <table class="table table-bordered table-striped">
                                                             <tr>
@@ -212,7 +212,7 @@
                                                             ?>
                                                         <div style="position: relative; padding: 2%;">
                                                             <img class="profile-user-img img-responsive " src="{{ $src_image }}" alt="User profile picture" onclick="displayImage('{{ $src_image }}')">
-                                                            <i class="fa fa-rotate-right" style="position: absolute; top: 2px; right:7px;  margin: 10px; color:dodgerblue" onclick="rotate(this)"></i>
+                                                            <i class="fa fa-rotate-right" style="position: absolute; top: 2px; right:13px;  margin: 10px; color:dodgerblue" onclick="rotate(this)"></i>
                                                         </div>
                                                         <table class="table table-bordered table-striped">
                                                             <tr>
@@ -278,7 +278,7 @@
                                                             ?>
                                                             <div style="position: relative; padding: 2%;">
                                                                 <img class="profile-user-img img-responsive " src="{{ $src_image }}" alt="User profile picture" onclick="displayImage('{{ $src_image }}')">
-                                                                <i class="fa fa-rotate-right" style="position: absolute; top: 2px; right:7px;  margin: 10px; color:dodgerblue" onclick="rotate(this)"></i>
+                                                                <i class="fa fa-rotate-right" style="position: absolute; top: 2px; right:13px;  margin: 10px; color:dodgerblue" onclick="rotate(this)"></i>
                                                             </div>
                                                             <table class="table table-bordered table-striped">
                                                                 <tr>
@@ -347,7 +347,7 @@
                                                         ?>
                                                         <div style="position: relative; padding: 2%;">
                                                             <img class="profile-user-img img-responsive " src="{{ $src_image }}" alt="User profile picture" onclick="displayImage('{{ $src_image }}')">
-                                                            <i class="fa fa-rotate-right" style="position: absolute; top: 2px; right:14px;  margin: 10px; color:dodgerblue" onclick="rotate(this)"></i>
+                                                            <i class="fa fa-rotate-right" style="position: absolute; top: 2px; right:16px;  margin: 10px; color:dodgerblue" onclick="rotate(this)"></i>
                                                         </div>
                                                         <table class="table table-bordered table-striped">
                                                             <tr>
@@ -405,19 +405,17 @@
             @endif
         </div>
     </div>
-
     <div class="modal fade" id="image_file" tabindex="-1" role="dialog" style="background: transparent; border: none;">
-        <div class="modal-dialog" role="document" style="background: transparent; border: none; position: fixed; top: 47.5%; left: 52.5%; transform: translate(-50%, -50%);">
-            <div class="modal-content" style="background: transparent; border: none;">
-                <div class="modal_body_files" style="background: transparent; border: none;">
-                    <div id="image_modal" style="background: transparent; border: none;">
+        <div class="modal-dialog modal-lg" role="document" style="text-align: center; display: flex; justify-content: center; align-items: center; height: 100vh;">
+            <div class="modal-content" style="background: transparent; border: none; text-align: center; width: 100%; max-width: 100%; margin: 0;">
+                <div class="modal_body_files" style="background: transparent; border: none; width: 100%; margin-bottom: 50px;">
+                    <div id="image_modal" style="background: transparent; border: none; display: flex; justify-content: center; align-items: center; height: 100%;">
                         <!-- Your content here -->
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
 @endsection
 
 @section('js')
@@ -433,8 +431,11 @@
         }
 
         function displayImage(image){
+            image = image.replace(/http:\/\/192\.168\.110\.44/g, "https://pis.cvchd7.com");
             $('#image_file').modal('show');
-            $('#image_modal').html('<img src="' + image + '" alt="Image" class="img-fluid mb-2" style="width: 85%;">');
+            // $('#image_modal').html('<img src="' + image + '" alt="Image" class="" style="width: 120%; object-fit: cover;">');
+            $('#image_modal').html('<img src="' + image + '" alt="Image" class="img-fluid" style="width: 110%; object-fit: cover; border: 5px solid white; box-shadow: 0 0px 5px gray;">');
+
         }
 
         $.fn.editable.defaults.mode = 'popup';

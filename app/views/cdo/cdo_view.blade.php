@@ -382,7 +382,6 @@
     });
     $('.chosen-select-static').chosen();
 
-
     $(document).ready(function () {
 
         var currentDate = new Date();
@@ -519,7 +518,12 @@
         }
         $(this).remove();
     });
-
+    var cdo_bal = "<?php
+        if(isset($data['cdo']['less_applied_for']))
+            echo $data['cdo']['less_applied_for'];
+        else
+            echo 0;
+        ?>";
     var cdo_hoursDefault = "<?php if(isset($data['inclusiveDates'])) foreach($data['inclusiveDates'] as $index=>$inclusiveDates)echo $inclusiveDates['cdo_hours'] ?>";
     var halfdayFlag1  = true;
     var halfdayFlag2 = true;
@@ -1005,7 +1009,7 @@
                             }
                             ?>";
                     var balance = "<?php $pis = InformationPersonal::where('userid', Auth::user()->userid)->first(); echo !Empty($pis->bbalance_cto)?$pis->bbalance_cto :0;?>";
-                    var to_consume = balance - data;
+                    var to_consume = (balance + cdo_bal) - data;
                     if(to_consume>=less_applied2){
                         if (totalDays<=5) {
                             if (less_applied2 < parseInt($(".beginning_balance").val()) + 8) {

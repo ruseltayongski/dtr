@@ -213,6 +213,7 @@ class MobileControllerV2 extends BaseController
             'force_update_btn' => $app_version->force_update_btn,
             'device_type' => $app_version->device_type,
             'announcement_status' => $app_version->announcement_status,
+            'incremental_updates' => $app_version->incremental_updates
         ];
     }
 
@@ -276,12 +277,12 @@ class MobileControllerV2 extends BaseController
                 ->first();
 
             // to enable this uncomment line 258 to 263
-            if($check_userid === '202400337') { //doc 
-               return [
-                   "code" => 0,
-                   "response" => "error"
-                ];
-            }    
+            // if($check_userid === '') { //doc 
+            //    return [
+            //        "code" => 0,
+            //        "response" => "error"
+            //     ];
+            // }    
 
             foreach ($json_object['logs'] as $value) {
                 $userid = $value['userid'];

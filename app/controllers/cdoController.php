@@ -433,10 +433,9 @@ class cdoController extends BaseController
                 if($selectedDateTime == $twoDaysAheadTime){
                 }else if($selectedDateTime < $twoDaysAheadTime){
                     $selectedDateTimeString = $selectedDateTime->format('Y-m-d H:i:s');
-
                     $falsify = new Falsification();
                     $falsify->userid = Auth::user()->userid;
-                    $falsify->client_date = $client_date;
+                    $falsify->client_date = $client_date ? $client_date : $server_date;
                     $falsify->server_date = $server_date;
                     $falsify->remarks = "The selected date is outside the permitted range - ".$selectedDateTimeString;
                     $falsify->save();
@@ -998,7 +997,7 @@ class cdoController extends BaseController
 
                         $falsify = new Falsification();
                         $falsify->userid = Auth::user()->userid;
-                        $falsify->client_date = $client_date;
+                        $falsify->client_date = $client_date ? $client_date : $server_date;
                         $falsify->server_date = $server_date;
                         $falsify->remarks = "The selected date is outside the permitted range - ".$selectedDateTimeString;
                         $falsify->save();
