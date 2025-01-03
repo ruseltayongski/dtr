@@ -7,14 +7,16 @@
     <bookmark url="file://$PROJECT_DIR$/app/views/users/user_edit.blade.php" line="114" />
     <bookmark url="file://$PROJECT_DIR$/app/views/cdo/cdo_view.blade.php" />
     <bookmark url="file://$PROJECT_DIR$/app/views/form/all_leave.blade.php" line="467" />
-    <bookmark url="file://$PROJECT_DIR$/app/views/form/form_leave_script.blade.php" line="238" />
+    <bookmark url="file://$PROJECT_DIR$/app/views/form/form_leave_script.blade.php" line="266" />
     <bookmark url="file://$PROJECT_DIR$/app/controllers/cdoController.php" line="1898" mnemonic="9" />
     <bookmark url="file://$PROJECT_DIR$/app/controllers/cdoController.php" line="1396" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3d23eb58-b5c1-407c-b04e-480d452e50dc" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/controllers/cdoController.php" afterPath="$PROJECT_DIR$/app/controllers/cdoController.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/controllers/DocumentController.php" afterPath="$PROJECT_DIR$/app/controllers/DocumentController.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/form/form_leave.blade.php" afterPath="$PROJECT_DIR$/app/views/form/form_leave.blade.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/form/form_leave_script.blade.php" afterPath="$PROJECT_DIR$/app/views/form/form_leave_script.blade.php" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -28,8 +30,8 @@
       <file leaf-file-name="database.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/config/database.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="204">
-              <caret line="12" column="5" lean-forward="true" selection-start-line="12" selection-start-column="5" selection-end-line="12" selection-end-column="5" />
+            <state relative-caret-position="68">
+              <caret line="4" column="25" lean-forward="false" selection-start-line="4" selection-start-column="25" selection-end-line="4" selection-end-column="25" />
               <folding />
             </state>
           </provider>
@@ -38,8 +40,8 @@
       <file leaf-file-name="routes.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/routes.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="234">
-              <caret line="193" column="66" lean-forward="false" selection-start-line="193" selection-start-column="54" selection-end-line="193" selection-end-column="66" />
+            <state relative-caret-position="2108">
+              <caret line="124" column="71" lean-forward="false" selection-start-line="124" selection-start-column="66" selection-end-line="124" selection-end-column="71" />
               <folding />
             </state>
           </provider>
@@ -48,64 +50,48 @@
       <file leaf-file-name="DocumentController.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/controllers/DocumentController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="217">
-              <caret line="286" column="35" lean-forward="false" selection-start-line="286" selection-start-column="35" selection-end-line="286" selection-end-column="35" />
+            <state relative-caret-position="986">
+              <caret line="63" column="34" lean-forward="false" selection-start-line="63" selection-start-column="34" selection-end-line="63" selection-end-column="34" />
               <folding>
-                <marker date="1730256244880" expanded="true" signature="7066:7113" ph="SELECT id FR... users" />
-                <marker date="1730256244880" expanded="true" signature="7570:7706" ph="INSERT INTO TRACKING_MASTER... " />
-                <marker date="1730256244880" expanded="true" signature="8122:8252" ph="INSERT INTO TRACKING_DETAILS... " />
-                <marker date="1730256244880" expanded="true" signature="8554:8661" ph="INSERT INTO SYSTEMLOGS... " />
-                <marker date="1730256244880" expanded="true" signature="51980:52181" ph="..." />
-                <marker date="1730256244880" expanded="true" signature="52851:52869" ph="..." />
-                <marker date="1730256244880" expanded="true" signature="52870:53198" ph="..." />
-                <marker date="1730256244880" expanded="false" signature="52903:52915" ph="..." />
-                <marker date="1730256244880" expanded="false" signature="52959:52971" ph="..." />
-                <marker date="1730256244880" expanded="false" signature="53021:53033" ph="..." />
-                <marker date="1730256244880" expanded="false" signature="53084:53096" ph="..." />
-                <marker date="1730256244880" expanded="false" signature="53146:53158" ph="..." />
+                <marker date="1735873019736" expanded="true" signature="7156:7203" ph="SELECT id FR... users" />
+                <marker date="1735873019736" expanded="true" signature="7660:7796" ph="INSERT INTO TRACKING_MASTER... " />
+                <marker date="1735873019736" expanded="true" signature="8212:8342" ph="INSERT INTO TRACKING_DETAILS... " />
+                <marker date="1735873019736" expanded="true" signature="8644:8751" ph="INSERT INTO SYSTEMLOGS... " />
+                <marker date="1735873019736" expanded="true" signature="52070:52271" ph="..." />
+                <marker date="1735873019736" expanded="true" signature="52941:52959" ph="..." />
+                <marker date="1735873019736" expanded="true" signature="52960:53288" ph="..." />
+                <marker date="1735873019736" expanded="false" signature="52993:53005" ph="..." />
+                <marker date="1735873019736" expanded="false" signature="53049:53061" ph="..." />
+                <marker date="1735873019736" expanded="false" signature="53111:53123" ph="..." />
+                <marker date="1735873019736" expanded="false" signature="53174:53186" ph="..." />
+                <marker date="1735873019736" expanded="false" signature="53236:53248" ph="..." />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="CalendarController.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/controllers/CalendarController.php">
+      <file leaf-file-name="form_leave_script.blade.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/views/form/form_leave_script.blade.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="13">
-              <caret line="202" column="35" lean-forward="false" selection-start-line="202" selection-start-column="20" selection-end-line="202" selection-end-column="35" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="cdoController.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/controllers/cdoController.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="251">
-              <caret line="712" column="72" lean-forward="false" selection-start-line="712" selection-start-column="72" selection-end-line="712" selection-end-column="72" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="cdo_pending.blade.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/views/cdo/cdo_pending.blade.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="217">
-              <caret line="86" column="164" lean-forward="false" selection-start-line="86" selection-start-column="157" selection-end-line="86" selection-end-column="164" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="cdo_approve.blade.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/views/cdo/cdo_approve.blade.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="251">
-              <caret line="146" column="34" lean-forward="false" selection-start-line="146" selection-start-column="22" selection-end-line="146" selection-end-column="34" />
+            <state relative-caret-position="276">
+              <caret line="103" column="37" lean-forward="false" selection-start-line="103" selection-start-column="37" selection-end-line="103" selection-end-column="37" />
               <folding>
-                <element signature="n#style#0;n#button#1;n#td#6;n#tr#0;n#tbody#0;n#table#0;n#div#0;n#!!top" expanded="true" />
+                <marker date="1735873264270" expanded="true" signature="4259:4301" ph="..." />
+                <marker date="1735873264270" expanded="true" signature="4522:4554" ph="..." />
+                <marker date="1735873264270" expanded="true" signature="9881:9929" ph="..." />
+                <marker date="1735873264270" expanded="true" signature="10252:10300" ph="..." />
+                <marker date="1735873264270" expanded="true" signature="10547:10595" ph="..." />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="form_leave.blade.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/views/form/form_leave.blade.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="4692">
+              <caret line="276" column="64" lean-forward="false" selection-start-line="276" selection-start-column="64" selection-end-line="276" selection-end-column="64" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -114,17 +100,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>image_div</find>
-      <find>click</find>
-      <find>profile-user</find>
-      <find>AM OUT</find>
-      <find>displa</find>
-      <find>displayI</find>
-      <find>displayImage</find>
-      <find>profile-user-img</find>
-      <find>black</find>
-      <find>blue</find>
-      <find>skyblue</find>
       <find>conso</find>
       <find>rotate</find>
       <find>&lt;div class=&quot;daterangepicker dropdown-menu show-calendar opensright&quot; style=&quot;top: 34px; left: 0px; right: auto;&quot;&gt;&lt;div class=&quot;calendar first right&quot;&gt;&lt;div class=&quot;calendar-date&quot;&gt;&lt;table class=&quot;table-condensed&quot;&gt;&lt;thead&gt;&lt;tr&gt;&lt;th&gt;&lt;/th&gt;&lt;th colspan=&quot;5&quot; class=&quot;month&quot;&gt;Jan 2025&lt;/th&gt;&lt;th class=&quot;next available&quot;&gt;&lt;i class=&quot;fa fa-arrow-right icon icon-arrow-right glyphicon glyphicon-arrow-right&quot;&gt;&lt;/i&gt;&lt;/th&gt;&lt;/tr&gt;&lt;tr&gt;&lt;th&gt;Su&lt;/th&gt;&lt;th&gt;Mo&lt;/th&gt;&lt;th&gt;Tu&lt;/th&gt;&lt;th&gt;We&lt;/th&gt;&lt;th&gt;Th&lt;/th&gt;&lt;th&gt;Fr&lt;/th&gt;&lt;th&gt;Sa&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;off disabled&quot; data-title=&quot;r0c0&quot;&gt;29&lt;/td&gt;&lt;td class=&quot;off disabled&quot; data-title=&quot;r0c1&quot;&gt;30&lt;/td&gt;&lt;td class=&quot;off disabled&quot; data-title=&quot;r0c2&quot;&gt;31&lt;/td&gt;&lt;td class=&quot;off disabled&quot; data-title=&quot;r0c3&quot;&gt;1&lt;/td&gt;&lt;td class=&quot;available active start-date end-date&quot; data-title=&quot;r0c4&quot;&gt;2&lt;/td&gt;&lt;td class=&quot;available&quot; data-title=&quot;r0c5&quot;&gt;3&lt;/td&gt;&lt;td class=&quot;available&quot; data-title=&quot;r0c6&quot;&gt;4&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td class=&quot;available&quot; data-title=&quot;r1c0&quot;&gt;5&lt;/td&gt;&lt;td class=&quot;available&quot; data-title=&quot;r1c1&quot;&gt;6&lt;/td&gt;&lt;td class=&quot;available&quot; data-title=&quot;r1c2&quot;&gt;7&lt;/td&gt;&lt;td class=&quot;available&quot; data-title=&quot;r1c3&quot;&gt;8&lt;/td&gt;&lt;td class=&quot;available&quot; data-title=&quot;r1c4&quot;&gt;9&lt;/td&gt;&lt;td class=&quot;available&quot; data-title=&quot;r1c5&quot;&gt;10&lt;/td&gt;&lt;td class=&quot;available&quot; data-title=&quot;r1c6&quot;&gt;11&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td class=&quot;available&quot; data-title=&quot;r2c0&quot;&gt;12&lt;/td&gt;&lt;td class=&quot;available&quot; data-title=&quot;r2c1&quot;&gt;13&lt;/td&gt;&lt;td class=&quot;available&quot; data-title=&quot;r2c2&quot;&gt;14&lt;/td&gt;&lt;td class=&quot;available&quot; data-title=&quot;r2c3&quot;&gt;15&lt;/td&gt;&lt;td class=&quot;available&quot; data-title=&quot;r2c4&quot;&gt;16&lt;/td&gt;&lt;td class=&quot;available&quot; data-title=&quot;r2c5&quot;&gt;17&lt;/td&gt;&lt;td class=&quot;available&quot; data-title=&quot;r2c6&quot;&gt;18&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td class=&quot;available&quot; data-title=&quot;r3c0&quot;&gt;19&lt;/td&gt;&lt;td class=&quot;available&quot; data-title=&quot;r3c1&quot;&gt;20&lt;/td&gt;&lt;td class=&quot;available&quot; data-title=&quot;r3c2&quot;&gt;21&lt;/td&gt;&lt;td class=&quot;available&quot; data-title=&quot;r3c3&quot;&gt;22&lt;/td&gt;&lt;td class=&quot;available&quot; data-title=&quot;r3c4&quot;&gt;23&lt;/td&gt;&lt;td class=&quot;available&quot; data-title=&quot;r3c5&quot;&gt;24&lt;/td&gt;&lt;td class=&quot;available&quot; data-title=&quot;r3c6&quot;&gt;25&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td class=&quot;available&quot; data-title=&quot;r4c0&quot;&gt;26&lt;/td&gt;&lt;td class=&quot;available&quot; data-title=&quot;r4c1&quot;&gt;27&lt;/td&gt;&lt;td class=&quot;available&quot; data-title=&quot;r4c2&quot;&gt;28&lt;/td&gt;&lt;td class=&quot;available&quot; data-title=&quot;r4c3&quot;&gt;29&lt;/td&gt;&lt;td class=&quot;available&quot; data-title=&quot;r4c4&quot;&gt;30&lt;/td&gt;&lt;td class=&quot;available&quot; data-title=&quot;r4c5&quot;&gt;31&lt;/td&gt;&lt;td class=&quot;available off&quot; data-title=&quot;r4c6&quot;&gt;1&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td class=&quot;available off&quot; data-title=&quot;r5c0&quot;&gt;2&lt;/td&gt;&lt;td class=&quot;available off&quot; data-title=&quot;r5c1&quot;&gt;3&lt;/td&gt;&lt;td class=&quot;available off&quot; data-title=&quot;r5c2&quot;&gt;4&lt;/td&gt;&lt;td class=&quot;available off&quot; data-title=&quot;r5c3&quot;&gt;5&lt;/td&gt;&lt;td class=&quot;available off&quot; data-title=&quot;r5c4&quot;&gt;6&lt;/td&gt;&lt;td class=&quot;available off&quot; data-title=&quot;r5c5&quot;&gt;7&lt;/td&gt;&lt;td class=&quot;available off&quot; data-title=&quot;r5c6&quot;&gt;8&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;calendar second left&quot;&gt;&lt;div class=&quot;calendar-date&quot;&gt;&lt;table class=&quot;table-condensed&quot;&gt;&lt;thead&gt;&lt;tr&gt;&lt;th class=&quot;prev available&quot;&gt;&lt;i class=&quot;fa fa-arrow-left icon icon-arrow-left glyphicon glyphicon-arrow-left&quot;&gt;&lt;/i&gt;&lt;/th&gt;&lt;th colspan=&quot;5&quot; class=&quot;month&quot;&gt;Jan 2025&lt;/th&gt;&lt;th class=&quot;next available&quot;&gt;&lt;i class=&quot;fa fa-arrow-right icon icon-arrow-right glyphicon glyphicon-arrow-right&quot;&gt;&lt;/i&gt;&lt;/th&gt;&lt;/tr&gt;&lt;tr&gt;&lt;th&gt;Su&lt;/th&gt;&lt;th&gt;Mo&lt;/th&gt;&lt;th&gt;Tu&lt;/th&gt;&lt;th&gt;We&lt;/th&gt;&lt;th&gt;Th&lt;/th&gt;&lt;th&gt;Fr&lt;/th&gt;&lt;th&gt;Sa&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;available off&quot; data-title=&quot;r0c0&quot;&gt;29&lt;/td&gt;&lt;td class=&quot;available off&quot; data-title=&quot;r0c1&quot;&gt;30&lt;/td&gt;&lt;td class=&quot;available off&quot; data-title=&quot;r0c2&quot;&gt;31&lt;/td&gt;&lt;td class=&quot;available&quot; data-title=&quot;r0c3&quot;&gt;1&lt;/td&gt;&lt;td class=&quot;available active start-date end-date&quot; data-title=&quot;r0c4&quot;&gt;2&lt;/td&gt;&lt;td class=&quot;available&quot; data-title=&quot;r0c5&quot;&gt;3&lt;/td&gt;&lt;td class=&quot;available&quot; data-title=&quot;r0c6&quot;&gt;4&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td class=&quot;available&quot; data-title=&quot;r1c0&quot;&gt;5&lt;/td&gt;&lt;td class=&quot;available&quot; data-title=&quot;r1c1&quot;&gt;6&lt;/td&gt;&lt;td class=&quot;available&quot; data-title=&quot;r1c2&quot;&gt;7&lt;/td&gt;&lt;td class=&quot;available&quot; data-title=&quot;r1c3&quot;&gt;8&lt;/td&gt;&lt;td class=&quot;available&quot; data-title=&quot;r1c4&quot;&gt;9&lt;/td&gt;&lt;td class=&quot;available&quot; data-title=&quot;r1c5&quot;&gt;10&lt;/td&gt;&lt;td class=&quot;available&quot; data-title=&quot;r1c6&quot;&gt;11&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td class=&quot;available&quot; data-title=&quot;r2c0&quot;&gt;12&lt;/td&gt;&lt;td class=&quot;available&quot; data-title=&quot;r2c1&quot;&gt;13&lt;/td&gt;&lt;td class=&quot;available&quot; data-title=&quot;r2c2&quot;&gt;14&lt;/td&gt;&lt;td class=&quot;available&quot; data-title=&quot;r2c3&quot;&gt;15&lt;/td&gt;&lt;td class=&quot;available&quot; data-title=&quot;r2c4&quot;&gt;16&lt;/td&gt;&lt;td class=&quot;available&quot; data-title=&quot;r2c5&quot;&gt;17&lt;/td&gt;&lt;td class=&quot;available&quot; data-title=&quot;r2c6&quot;&gt;18&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td class=&quot;available&quot; data-title=&quot;r3c0&quot;&gt;19&lt;/td&gt;&lt;td class=&quot;available&quot; data-title=&quot;r3c1&quot;&gt;20&lt;/td&gt;&lt;td class=&quot;available&quot; data-title=&quot;r3c2&quot;&gt;21&lt;/td&gt;&lt;td class=&quot;available&quot; data-title=&quot;r3c3&quot;&gt;22&lt;/td&gt;&lt;td class=&quot;available&quot; data-title=&quot;r3c4&quot;&gt;23&lt;/td&gt;&lt;td class=&quot;available&quot; data-title=&quot;r3c5&quot;&gt;24&lt;/td&gt;&lt;td class=&quot;available&quot; data-title=&quot;r3c6&quot;&gt;25&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td class=&quot;available&quot; data-title=&quot;r4c0&quot;&gt;26&lt;/td&gt;&lt;td class=&quot;available&quot; data-title=&quot;r4c1&quot;&gt;27&lt;/td&gt;&lt;td class=&quot;available&quot; data-title=&quot;r4c2&quot;&gt;28&lt;/td&gt;&lt;td class=&quot;available&quot; data-title=&quot;r4c3&quot;&gt;29&lt;/td&gt;&lt;td class=&quot;available&quot; data-title=&quot;r4c4&quot;&gt;30&lt;/td&gt;&lt;td class=&quot;available&quot; data-title=&quot;r4c5&quot;&gt;31&lt;/td&gt;&lt;td class=&quot;available off&quot; data-title=&quot;r4c6&quot;&gt;1&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td class=&quot;available off&quot; data-title=&quot;r5c0&quot;&gt;2&lt;/td&gt;&lt;td class=&quot;available off&quot; data-title=&quot;r5c1&quot;&gt;3&lt;/td&gt;&lt;td class=&quot;available off&quot; data-title=&quot;r5c2&quot;&gt;4&lt;/td&gt;&lt;td class=&quot;available off&quot; data-title=&quot;r5c3&quot;&gt;5&lt;/td&gt;&lt;td class=&quot;available off&quot; data-title=&quot;r5c4&quot;&gt;6&lt;/td&gt;&lt;td class=&quot;available off&quot; data-title=&quot;r5c5&quot;&gt;7&lt;/td&gt;&lt;td class=&quot;available off&quot; data-title=&quot;r5c6&quot;&gt;8&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;ranges&quot;&gt;&lt;div class=&quot;range_inputs&quot;&gt;&lt;div class=&quot;daterangepicker_start_input&quot;&gt;&lt;label for=&quot;daterangepicker_start&quot;&gt;From&lt;/label&gt;&lt;input class=&quot;input-mini&quot; type=&quot;text&quot; name=&quot;daterangepicker_start&quot; value=&quot;&quot;&gt;&lt;/div&gt;&lt;div class=&quot;daterangepicker_end_input&quot;&gt;&lt;label for=&quot;daterangepicker_end&quot;&gt;To&lt;/label&gt;&lt;input class=&quot;input-mini&quot; type=&quot;text&quot; name=&quot;daterangepicker_end&quot; value=&quot;&quot;&gt;&lt;/div&gt;&lt;button class=&quot;applyBtn btn btn-small btn-sm btn-success&quot;&gt;Apply&lt;/button&gt;&amp;nbsp;&lt;button class=&quot;cancelBtn btn btn-small btn-sm btn-default&quot;&gt;Cancel&lt;/button&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;</find>
@@ -144,6 +119,17 @@
       <find>process</find>
       <find>approved_status</find>
       <find>cdo_updatev1</find>
+      <find>DEVELOPMENTfor_leave</find>
+      <find>leave_list</find>
+      <find>form/leave</find>
+      <find>Exceed SPL Balance/Maximum of 3!</find>
+      <find>emergen</find>
+      <find>if</find>
+      <find>endDate</find>
+      <find>7.A CERTIFICATION OF LEAVE CREDITS</find>
+      <find>end_date</find>
+      <find>signat</find>
+      <find>leave(</find>
     </findStrings>
     <replaceStrings>
       <replace />
@@ -157,12 +143,9 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/app/views/users/leave_credits.blade.php" />
         <option value="$PROJECT_DIR$/FPDF/leave/f3_rows.php" />
-        <option value="$PROJECT_DIR$/app/controllers/DocumentController.php" />
         <option value="$PROJECT_DIR$/FPDF/leave/f4_rows.php" />
         <option value="$PROJECT_DIR$/app/views/form/leave.blade.php" />
-        <option value="$PROJECT_DIR$/app/views/form/form_leave.blade.php" />
         <option value="$PROJECT_DIR$/app/views/form/form_pending.blade.php" />
         <option value="$PROJECT_DIR$/app/database/migrations/2024_09_24_142330_reason_for_disapproval.php" />
         <option value="$PROJECT_DIR$/app/views/form/form_all.blade.php" />
@@ -207,6 +190,9 @@
         <option value="$PROJECT_DIR$/app/controllers/CalendarController.php" />
         <option value="$PROJECT_DIR$/app/views/calendar/calendar.blade.php" />
         <option value="$PROJECT_DIR$/app/controllers/cdoController.php" />
+        <option value="$PROJECT_DIR$/app/views/form/form_leave.blade.php" />
+        <option value="$PROJECT_DIR$/app/controllers/DocumentController.php" />
+        <option value="$PROJECT_DIR$/app/views/form/form_leave_script.blade.php" />
         <option value="$PROJECT_DIR$/app/config/database.php" />
       </list>
     </option>
@@ -243,44 +229,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope">
-        <subPane subId="Changed Files">
-          <expand>
-            <path>
-              <item name="Root" type="cbb8eebc:String" user="Root" />
-              <item name="dtrF" type="cbb8eebc:String" user="dtrF" />
-            </path>
-          </expand>
-          <select />
-        </subPane>
-        <subPane subId="Project Files">
-          <expand>
-            <path>
-              <item name="Root" type="cbb8eebc:String" user="Root" />
-              <item name="dtr" type="cbb8eebc:String" user="dtr" />
-            </path>
-            <path>
-              <item name="Root" type="cbb8eebc:String" user="Root" />
-              <item name="dtr" type="cbb8eebc:String" user="dtr" />
-              <item name="app" type="cbb8eebc:String" user="app" />
-            </path>
-            <path>
-              <item name="Root" type="cbb8eebc:String" user="Root" />
-              <item name="dtr" type="cbb8eebc:String" user="dtr" />
-              <item name="app" type="cbb8eebc:String" user="app" />
-              <item name="database" type="cbb8eebc:String" user="database" />
-            </path>
-            <path>
-              <item name="Root" type="cbb8eebc:String" user="Root" />
-              <item name="dtr" type="cbb8eebc:String" user="dtr" />
-              <item name="app" type="cbb8eebc:String" user="app" />
-              <item name="database" type="cbb8eebc:String" user="database" />
-              <item name="migrations" type="cbb8eebc:String" user="migrations" />
-            </path>
-          </expand>
-          <select />
-        </subPane>
-      </pane>
+      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -361,14 +310,51 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scratches" />
+      <pane id="Scope">
+        <subPane subId="Changed Files">
+          <expand>
+            <path>
+              <item name="Root" type="cbb8eebc:String" user="Root" />
+              <item name="dtrF" type="cbb8eebc:String" user="dtrF" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+        <subPane subId="Project Files">
+          <expand>
+            <path>
+              <item name="Root" type="cbb8eebc:String" user="Root" />
+              <item name="dtr" type="cbb8eebc:String" user="dtr" />
+            </path>
+            <path>
+              <item name="Root" type="cbb8eebc:String" user="Root" />
+              <item name="dtr" type="cbb8eebc:String" user="dtr" />
+              <item name="app" type="cbb8eebc:String" user="app" />
+            </path>
+            <path>
+              <item name="Root" type="cbb8eebc:String" user="Root" />
+              <item name="dtr" type="cbb8eebc:String" user="dtr" />
+              <item name="app" type="cbb8eebc:String" user="app" />
+              <item name="database" type="cbb8eebc:String" user="database" />
+            </path>
+            <path>
+              <item name="Root" type="cbb8eebc:String" user="Root" />
+              <item name="dtr" type="cbb8eebc:String" user="dtr" />
+              <item name="app" type="cbb8eebc:String" user="app" />
+              <item name="database" type="cbb8eebc:String" user="database" />
+              <item name="migrations" type="cbb8eebc:String" user="migrations" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="nodejs_interpreter_path" value="C:/Program Files/nodejs/node" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="SearchEverywhereHistoryKey" value="cdo_a&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/cdo/cdo_approve.blade.php&#10;pending&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/cdo/cdo_pending.blade.php&#10;Documen&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/controllers/DocumentController.php&#10;AdminC&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/controllers/AdminController.php&#10;cdoCon&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/controllers/cdoController.php&#10;Calenda&#9;null&#9;null&#10;route&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/routes.php&#10;databa&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/config/database.php&#10;print&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/FPDF/timelog/print_timelog.php&#10;cdo_&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/cdo/cdo_roles.blade.php&#10;data&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/config/database.php&#10;pdo&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/controllers/pdoController.php&#10;Mobile&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/controllers/MobileControllerV2.php&#10;Docume&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/controllers/DocumentController.php&#10;admin&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/controllers/AdminController.php&#10;Admin&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/controllers/AdminController.php&#10;ter&#9;ACTION&#9;ActivateTerminalToolWindow&#10;cdo&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/cdo/cdo_cert.blade.php&#10;Infor&#9;null&#9;null&#10;cdoCo&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/controllers/cdoController.php&#10;cdo_view&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/cdo/cdo_view.blade.php&#10;cdo_vi&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/cdo/cdo_view.blade.php&#10;cdo_pdf&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/cdo/cdo_pdf.blade.php&#10;cdo_cer&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/cdo/cdo_cert.blade.php&#10;cdoC&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/controllers/cdoController.php&#10;cance&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/form/form_cancelled.blade.php&#10;cdo_pe&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/cdo/cdo_pending.blade.php&#10;termina&#9;ACTION&#9;ActivateTerminalToolWindow&#10;cd&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/cdo/cdo_all.blade.php&#10;moda&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/modal.blade.php&#10;AppAPI&#9;null&#9;null&#10;termin&#9;ACTION&#9;ActivateTerminalToolWindow&#10;time&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/timelog/timelog.blade.php&#10;modal&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/modal.blade.php&#10;cdoCOn&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/controllers/cdoController.php&#10;leave&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/form/leave.blade.php&#10;update&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/form/update_leave.blade.php&#10;index&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/employee/index.blade.php&#10;cdo_all&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/cdo/cdo_all.blade.php&#10;cdo_app&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/cdo/cdo_approve.blade.php&#10;Time&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/controllers/TimeLogController.php&#10;timelo&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/timelog/timelog.blade.php&#10;datab&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/config/database.php&#10;cdo_pen&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/cdo/cdo_pending.blade.php&#10;layou&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/vendor/filp/whoops/src/Whoops/Resources/views/layout.html.php&#10;form_app&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/form/form_approve.blade.php&#10;Document&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/controllers/DocumentController.php&#10;CDO&#9;null&#9;null&#10;Doc&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/controllers/DocumentController.php&#10;cdoContro&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/controllers/cdoController.php" />
+    <property name="SearchEverywhereHistoryKey" value="Documen&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/controllers/DocumentController.php&#10;cdoC&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/controllers/cdoController.php&#10;route&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/routes.php&#10;cdo_a&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/cdo/cdo_approve.blade.php&#10;pending&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/cdo/cdo_pending.blade.php&#10;AdminC&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/controllers/AdminController.php&#10;cdoCon&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/controllers/cdoController.php&#10;Calenda&#9;null&#9;null&#10;databa&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/config/database.php&#10;print&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/FPDF/timelog/print_timelog.php&#10;cdo_&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/cdo/cdo_roles.blade.php&#10;data&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/config/database.php&#10;pdo&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/controllers/pdoController.php&#10;Mobile&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/controllers/MobileControllerV2.php&#10;Docume&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/controllers/DocumentController.php&#10;admin&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/controllers/AdminController.php&#10;Admin&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/controllers/AdminController.php&#10;ter&#9;ACTION&#9;ActivateTerminalToolWindow&#10;cdo&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/cdo/cdo_cert.blade.php&#10;Infor&#9;null&#9;null&#10;cdoCo&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/controllers/cdoController.php&#10;cdo_view&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/cdo/cdo_view.blade.php&#10;cdo_vi&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/cdo/cdo_view.blade.php&#10;cdo_pdf&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/cdo/cdo_pdf.blade.php&#10;cdo_cer&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/cdo/cdo_cert.blade.php&#10;cance&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/form/form_cancelled.blade.php&#10;cdo_pe&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/cdo/cdo_pending.blade.php&#10;termina&#9;ACTION&#9;ActivateTerminalToolWindow&#10;cd&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/cdo/cdo_all.blade.php&#10;moda&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/modal.blade.php&#10;AppAPI&#9;null&#9;null&#10;termin&#9;ACTION&#9;ActivateTerminalToolWindow&#10;time&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/timelog/timelog.blade.php&#10;modal&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/modal.blade.php&#10;cdoCOn&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/controllers/cdoController.php&#10;leave&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/form/leave.blade.php&#10;update&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/form/update_leave.blade.php&#10;index&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/employee/index.blade.php&#10;cdo_all&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/cdo/cdo_all.blade.php&#10;cdo_app&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/cdo/cdo_approve.blade.php&#10;Time&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/controllers/TimeLogController.php&#10;timelo&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/timelog/timelog.blade.php&#10;datab&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/config/database.php&#10;cdo_pen&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/cdo/cdo_pending.blade.php&#10;layou&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/vendor/filp/whoops/src/Whoops/Resources/views/layout.html.php&#10;form_app&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/form/form_approve.blade.php&#10;Document&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/controllers/DocumentController.php&#10;CDO&#9;null&#9;null&#10;Doc&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/controllers/DocumentController.php&#10;cdoContro&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/controllers/cdoController.php" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
     <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
   </component>
@@ -693,11 +679,13 @@
       <workItem from="1732761538729" duration="32000" />
       <workItem from="1732761579482" duration="253000" />
       <workItem from="1732761844304" duration="7166000" />
+      <workItem from="1735864284362" duration="9909000" />
+      <workItem from="1735881312087" duration="483000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="2950797000" />
+    <option name="totallyTimeSpent" value="2961868000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -712,35 +700,25 @@
     <frame x="-8" y="-8" width="1936" height="1048" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.23072916" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.14166667" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.040570177" sideWeight="0.4936034" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.22566845" sideWeight="0.36875" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32894737" sideWeight="0.4978678" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.21925133" sideWeight="0.63125" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2224599" sideWeight="0.63125" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.13925439" sideWeight="0.4978678" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.040570177" sideWeight="0.4936034" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32941177" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.22566845" sideWeight="0.36875" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2224599" sideWeight="0.63125" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.14166667" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Inspection Results" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.069078945" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32894737" sideWeight="0.4978678" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.13925439" sideWeight="0.4978678" order="3" side_tool="false" content_ui="tabs" />
     </layout>
     <layout-to-restore>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.040570177" sideWeight="0.4936034" order="6" side_tool="false" content_ui="tabs" />
@@ -795,20 +773,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/database/migrations/2024_10_08_144702_new_column_app_api.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="17" column="73" lean-forward="false" selection-start-line="17" selection-start-column="73" selection-end-line="17" selection-end-column="73" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/models/Division.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="2" column="6" lean-forward="false" selection-start-line="2" selection-start-column="6" selection-end-line="2" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/database/migrations/2024_07_17_132614_create_leave_applied_dates.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="187">
@@ -935,54 +899,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="9248">
           <caret line="544" column="26" lean-forward="false" selection-start-line="544" selection-start-column="26" selection-end-line="544" selection-end-column="26" />
-          <folding>
-            <marker date="1735779544987" expanded="true" signature="48629:50669" ph="{...}" />
-            <marker date="1735779544987" expanded="true" signature="48629:50938" ph="{...}" />
-            <marker date="1735779544987" expanded="true" signature="48629:50946" ph="{...}" />
-            <marker date="1735779544987" expanded="true" signature="48687:49786" ph="{...}" />
-            <marker date="1735779544987" expanded="true" signature="48731:49482" ph="{...}" />
-            <marker date="1735779544987" expanded="true" signature="48826:48931" ph="{...}" />
-            <marker date="1735779544987" expanded="true" signature="48965:49456" ph="{...}" />
-            <marker date="1735779544987" expanded="true" signature="49115:49227" ph="{&quot;msg&quot;: &quot;Insufficient CTO balance.&quot;...}" />
-            <marker date="1735779544987" expanded="true" signature="49512:49764" ph="{...}" />
-            <marker date="1735779544987" expanded="true" signature="49790:50362" ph="{...}" />
-            <marker date="1735779544987" expanded="true" signature="49878:50021" ph="{...}" />
-            <marker date="1735779544987" expanded="true" signature="50050:50166" ph="{...}" />
-            <marker date="1735779544987" expanded="true" signature="50789:50837" ph="..." />
-            <marker date="1735779544987" expanded="true" signature="50988:51661" ph="{...}" />
-            <marker date="1735779544987" expanded="true" signature="51139:51558" ph="{...}" />
-            <marker date="1735779544987" expanded="true" signature="51563:51627" ph="{...}" />
-            <marker date="1735779544987" expanded="true" signature="51719:52896" ph="{...}" />
-            <marker date="1735779544987" expanded="true" signature="52103:52488" ph="{...}" />
-            <marker date="1735779544987" expanded="true" signature="52342:52478" ph="{...}" />
-            <marker date="1735779544987" expanded="true" signature="52393:52464" ph="{...}" />
-            <marker date="1735779544987" expanded="true" signature="52514:52623" ph="{...}" />
-            <marker date="1735779544987" expanded="true" signature="52953:52997" ph="{...}" />
-            <marker date="1735779544987" expanded="true" signature="53055:54231" ph="{...}" />
-            <marker date="1735779544987" expanded="true" signature="53257:53338" ph="{...}" />
-            <marker date="1735779544987" expanded="true" signature="53750:53827" ph="{...}" />
-            <marker date="1735779544987" expanded="true" signature="54105:54222" ph="{...}" />
-            <marker date="1735779544987" expanded="true" signature="54265:54940" ph="{...}" />
-            <marker date="1735779544987" expanded="true" signature="54343:54554" ph="{...}" />
-            <marker date="1735779544987" expanded="true" signature="54373:54544" ph="{...}" />
-            <marker date="1735779544987" expanded="true" signature="54568:54817" ph="{...}" />
-            <marker date="1735779544987" expanded="true" signature="54598:54807" ph="{...}" />
-            <marker date="1735779544987" expanded="true" signature="54987:55571" ph="{...}" />
-            <marker date="1735779544987" expanded="true" signature="55031:55535" ph="..." />
-            <marker date="1735779544987" expanded="true" signature="55060:55528" ph="..." />
-            <marker date="1735779544987" expanded="true" signature="55156:55220" ph="{...}" />
-            <marker date="1735779544987" expanded="true" signature="55234:55512" ph="{...}" />
-            <marker date="1735779544987" expanded="true" signature="55344:55436" ph="{&quot;msg&quot;: &quot;Your beginning balance(credit) are not enough&quot;...}" />
-            <marker date="1735779544987" expanded="true" signature="55636:55701" ph="{...}" />
-            <marker date="1735779544987" expanded="true" signature="55852:56041" ph="{...}" />
-            <marker date="1735779544987" expanded="true" signature="55880:56033" ph="{&quot;checkboxClass&quot;: 'icheckbox_square-blue'...}" />
-            <marker date="1735779544987" expanded="true" signature="56067:56249" ph="{...}" />
-            <marker date="1735779544987" expanded="true" signature="56168:56241" ph="{&quot;msg&quot;: &quot;Cannot update/remove approved CTO.&quot;...}" />
-            <marker date="1735779544987" expanded="true" signature="56273:56458" ph="{...}" />
-            <marker date="1735779544987" expanded="true" signature="56374:56450" ph="{&quot;msg&quot;: &quot;Admin cannot modify/remove filed cto!&quot;...}" />
-            <marker date="1735779544987" expanded="true" signature="56479:56649" ph="{...}" />
-            <marker date="1735779544987" expanded="true" signature="56580:56641" ph="{&quot;msg&quot;: &quot;Limit to 10 rows only!&quot;...}" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1107,11 +1023,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="459">
           <caret line="525" column="32" lean-forward="true" selection-start-line="525" selection-start-column="32" selection-end-line="525" selection-end-column="32" />
-          <folding>
-            <marker date="1730256244879" expanded="true" signature="739:803" ph="SELECT job_s... personal_information" />
-            <marker date="1730256244879" expanded="true" signature="1000:1090" ph="SELECT time " />
-            <marker date="1730256244879" expanded="true" signature="1296:1387" ph="SELECT time " />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1119,69 +1030,12 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="6919">
           <caret line="407" column="71" lean-forward="false" selection-start-line="407" selection-start-column="71" selection-end-line="407" selection-end-column="71" />
-          <folding>
-            <marker date="1735779544987" expanded="true" signature="6481:6685" ph="..." />
-            <marker date="1735779544987" expanded="false" signature="10908:10944" ph="..." />
-            <marker date="1735779544987" expanded="true" signature="37095:37105" ph="{...}" />
-            <marker date="1735779544987" expanded="true" signature="37095:48426" ph="..." />
-            <marker date="1735779544987" expanded="true" signature="37197:37562" ph="{...}" />
-            <marker date="1735779544987" expanded="true" signature="37406:37474" ph="{...}" />
-            <marker date="1735779544987" expanded="true" signature="37651:37817" ph="{...}" />
-            <marker date="1735779544987" expanded="true" signature="37694:37805" ph="{&quot;backdrop&quot;: 'static'...}" />
-            <marker date="1735779544987" expanded="true" signature="37858:38279" ph="{...}" />
-            <marker date="1735779544987" expanded="true" signature="37924:37940" ph="..." />
-            <marker date="1735779544987" expanded="true" signature="38033:38085" ph="..." />
-            <marker date="1735779544987" expanded="true" signature="38301:45149" ph="{...}" />
-            <marker date="1735779544987" expanded="true" signature="38345:45138" ph="{...}" />
-            <marker date="1735779544987" expanded="true" signature="38387:45122" ph="{&quot;type&quot;: 'radiolist'...}" />
-            <marker date="1735779544987" expanded="true" signature="38487:38556" ph="[...]" />
-            <marker date="1735779544987" expanded="true" signature="38604:45104" ph="{...}" />
-            <marker date="1735779544987" expanded="true" signature="39472:39624" ph="{...}" />
-            <marker date="1735779544987" expanded="true" signature="39670:39825" ph="{...}" />
-            <marker date="1735779544987" expanded="true" signature="39871:40025" ph="{...}" />
-            <marker date="1735779544987" expanded="true" signature="40075:40233" ph="{...}" />
-            <marker date="1735779544987" expanded="true" signature="40302:40443" ph="{...}" />
-            <marker date="1735779544987" expanded="true" signature="40482:40625" ph="{...}" />
-            <marker date="1735779544987" expanded="true" signature="40698:40848" ph="{...}" />
-            <marker date="1735779544987" expanded="true" signature="40921:41070" ph="{...}" />
-            <marker date="1735779544987" expanded="true" signature="41142:41290" ph="{...}" />
-            <marker date="1735779544987" expanded="true" signature="41361:41511" ph="{...}" />
-            <marker date="1735779544987" expanded="true" signature="41582:41720" ph="{...}" />
-            <marker date="1735779544987" expanded="true" signature="41753:42141" ph="{&quot;userid&quot;: userid...}" />
-            <marker date="1735779544987" expanded="true" signature="42183:42217" ph="..." />
-            <marker date="1735779544987" expanded="true" signature="42282:44293" ph="{...}" />
-            <marker date="1735779544987" expanded="true" signature="42541:44265" ph="{...}" />
-            <marker date="1735779544987" expanded="true" signature="43030:43482" ph="{&quot;userid&quot;: userid...}" />
-            <marker date="1735779544987" expanded="true" signature="43549:44169" ph="{...}" />
-            <marker date="1735779544987" expanded="true" signature="44035:44133" ph="{&quot;msg&quot;: result.message...}" />
-            <marker date="1735779544987" expanded="true" signature="44297:45082" ph="{...}" />
-            <marker date="1735779544987" expanded="true" signature="44359:44988" ph="{...}" />
-            <marker date="1735779544987" expanded="true" signature="44866:44956" ph="{&quot;msg&quot;: result.message...}" />
-            <marker date="1735779544987" expanded="true" signature="45175:48395" ph="{...}" />
-            <marker date="1735779544987" expanded="true" signature="45223:45307" ph="{...}" />
-            <marker date="1735779544987" expanded="true" signature="45433:47748" ph="{...}" />
-            <marker date="1735779544987" expanded="true" signature="45475:47287" ph="{...}" />
-            <marker date="1735779544987" expanded="true" signature="45601:45656" ph="{...}" />
-            <marker date="1735779544987" expanded="true" signature="45727:46148" ph="{...}" />
-            <marker date="1735779544987" expanded="true" signature="45886:46072" ph="{&quot;type&quot;: 'radio'...}" />
-            <marker date="1735779544987" expanded="true" signature="46826:47058" ph="{&quot;elementId&quot;: ID...}" />
-            <marker date="1735779544987" expanded="true" signature="47096:47131" ph="..." />
-            <marker date="1735779544987" expanded="true" signature="47188:47267" ph="{...}" />
-            <marker date="1735779544987" expanded="true" signature="47330:47414" ph="{...}" />
-            <marker date="1735779544987" expanded="true" signature="47457:47516" ph="{...}" />
-            <marker date="1735779544987" expanded="true" signature="47564:47629" ph="{...}" />
-            <marker date="1735779544987" expanded="true" signature="47674:47733" ph="{...}" />
-            <marker date="1735779544987" expanded="true" signature="47832:48328" ph="{&quot;name&quot;: 'defaultname'...}" />
-            <marker date="1735779544987" expanded="true" signature="47850:47943" ph="/**@property tpl ...*/" />
-            <marker date="1735779544987" expanded="true" signature="48006:48030" ph="..." />
-            <marker date="1735779544987" expanded="true" signature="48058:48243" ph="/**@property inputclass, attached to the &lt;label&gt; wrapper instead of the input element ...*/" />
-          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/controllers/CalendarController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="13">
+        <state relative-caret-position="3434">
           <caret line="202" column="35" lean-forward="false" selection-start-line="202" selection-start-column="20" selection-end-line="202" selection-end-column="35" />
           <folding />
         </state>
@@ -1191,9 +1045,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="585">
           <caret line="184" column="48" lean-forward="true" selection-start-line="184" selection-start-column="48" selection-end-line="184" selection-end-column="48" />
-          <folding>
-            <marker date="1735783947074" expanded="true" signature="7132:7142" ph="..." />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1217,65 +1068,83 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/controllers/DocumentController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="217">
-          <caret line="286" column="35" lean-forward="false" selection-start-line="286" selection-start-column="35" selection-end-line="286" selection-end-column="35" />
-          <folding>
-            <marker date="1730256244880" expanded="true" signature="7066:7113" ph="SELECT id FR... users" />
-            <marker date="1730256244880" expanded="true" signature="7570:7706" ph="INSERT INTO TRACKING_MASTER... " />
-            <marker date="1730256244880" expanded="true" signature="8122:8252" ph="INSERT INTO TRACKING_DETAILS... " />
-            <marker date="1730256244880" expanded="true" signature="8554:8661" ph="INSERT INTO SYSTEMLOGS... " />
-            <marker date="1730256244880" expanded="true" signature="51980:52181" ph="..." />
-            <marker date="1730256244880" expanded="true" signature="52851:52869" ph="..." />
-            <marker date="1730256244880" expanded="true" signature="52870:53198" ph="..." />
-            <marker date="1730256244880" expanded="false" signature="52903:52915" ph="..." />
-            <marker date="1730256244880" expanded="false" signature="52959:52971" ph="..." />
-            <marker date="1730256244880" expanded="false" signature="53021:53033" ph="..." />
-            <marker date="1730256244880" expanded="false" signature="53084:53096" ph="..." />
-            <marker date="1730256244880" expanded="false" signature="53146:53158" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/views/cdo/cdo_pending.blade.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="217">
+        <state relative-caret-position="1462">
           <caret line="86" column="164" lean-forward="false" selection-start-line="86" selection-start-column="157" selection-end-line="86" selection-end-column="164" />
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/views/cdo/cdo_approve.blade.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="251">
+        <state relative-caret-position="2482">
           <caret line="146" column="34" lean-forward="false" selection-start-line="146" selection-start-column="22" selection-end-line="146" selection-end-column="34" />
-          <folding>
-            <element signature="n#style#0;n#button#1;n#td#6;n#tr#0;n#tbody#0;n#table#0;n#div#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/routes.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="234">
-          <caret line="193" column="66" lean-forward="false" selection-start-line="193" selection-start-column="54" selection-end-line="193" selection-end-column="66" />
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/controllers/cdoController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="251">
-          <caret line="712" column="72" lean-forward="false" selection-start-line="712" selection-start-column="72" selection-end-line="712" selection-end-column="72" />
+        <state relative-caret-position="-765">
+          <caret line="9" column="32" lean-forward="false" selection-start-line="9" selection-start-column="22" selection-end-line="9" selection-end-column="32" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/routes.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2108">
+          <caret line="124" column="71" lean-forward="false" selection-start-line="124" selection-start-column="66" selection-end-line="124" selection-end-column="71" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/form/form_leave.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4692">
+          <caret line="276" column="64" lean-forward="false" selection-start-line="276" selection-start-column="64" selection-end-line="276" selection-end-column="64" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/controllers/DocumentController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="986">
+          <caret line="63" column="34" lean-forward="false" selection-start-line="63" selection-start-column="34" selection-end-line="63" selection-end-column="34" />
+          <folding>
+            <marker date="1735873019736" expanded="true" signature="7156:7203" ph="SELECT id FR... users" />
+            <marker date="1735873019736" expanded="true" signature="7660:7796" ph="INSERT INTO TRACKING_MASTER... " />
+            <marker date="1735873019736" expanded="true" signature="8212:8342" ph="INSERT INTO TRACKING_DETAILS... " />
+            <marker date="1735873019736" expanded="true" signature="8644:8751" ph="INSERT INTO SYSTEMLOGS... " />
+            <marker date="1735873019736" expanded="true" signature="52070:52271" ph="..." />
+            <marker date="1735873019736" expanded="true" signature="52941:52959" ph="..." />
+            <marker date="1735873019736" expanded="true" signature="52960:53288" ph="..." />
+            <marker date="1735873019736" expanded="false" signature="52993:53005" ph="..." />
+            <marker date="1735873019736" expanded="false" signature="53049:53061" ph="..." />
+            <marker date="1735873019736" expanded="false" signature="53111:53123" ph="..." />
+            <marker date="1735873019736" expanded="false" signature="53174:53186" ph="..." />
+            <marker date="1735873019736" expanded="false" signature="53236:53248" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/form/form_leave_script.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="276">
+          <caret line="103" column="37" lean-forward="false" selection-start-line="103" selection-start-column="37" selection-end-line="103" selection-end-column="37" />
+          <folding>
+            <marker date="1735873264270" expanded="true" signature="4259:4301" ph="..." />
+            <marker date="1735873264270" expanded="true" signature="4522:4554" ph="..." />
+            <marker date="1735873264270" expanded="true" signature="9881:9929" ph="..." />
+            <marker date="1735873264270" expanded="true" signature="10252:10300" ph="..." />
+            <marker date="1735873264270" expanded="true" signature="10547:10595" ph="..." />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/config/database.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="12" column="5" lean-forward="true" selection-start-line="12" selection-start-column="5" selection-end-line="12" selection-end-column="5" />
+        <state relative-caret-position="68">
+          <caret line="4" column="25" lean-forward="false" selection-start-line="4" selection-start-column="25" selection-end-line="4" selection-end-column="25" />
           <folding />
         </state>
       </provider>

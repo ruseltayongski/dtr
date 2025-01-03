@@ -158,7 +158,9 @@
                                                         ?>
                                                         <div class="checkbox">
                                                             <label style="margin-right: 5%; color:black">
-                                                                <input type="radio" class="minimal" style="margin-top: auto" id="leave_type" name="leave_type" onclick="" value="{{ $row->code }}">
+                                                                <input type="radio" class="minimal" style="margin-top: auto" id="leave_type" name="leave_type" onclick="" value="{{ $row->code }}"
+                                                                    {{ ($row->code == 'SPL' && (!$spl || ($spl && $spl->SPL == 0))) ? 'disabled' : '' }}
+                                                                >
                                                                 {{ $row->desc }} <small>{{($index == 13)?'':$details[$index]}}</small>
                                                                 @if($row->code == 'OTHERS')
                                                                     <input type="text"  name="others_type" class="others_type_dis others_type_dis_txt" id="others_txt" style="width: 370px; margin-left: 20px; border: none; border-bottom: 2px solid black;" />
@@ -257,7 +259,7 @@
                                             <button style="width: 11.3%; margin-left: 12.5%" type="button" class="btn btn-sm btn-danger deleteButton1"><strong>-</strong></button>
                                         </div>
                                     </div>
-
+                                    <div class="row text-center" id="date_remarks" style="padding:10px; width:90%; margin-left: 5%"></div>
                                 </td>
                                 <td style="width: 48%; margin-top: 10px; vertical-align: top" rowspan="2">
                                     <strong style="vertical-align: top">&nbsp;&nbsp;&nbsp;&nbsp;6.D COMMUTATION</strong>
@@ -271,9 +273,13 @@
                                             </label>
                                         </div>
                                     </div>
-                                    <img src="{{ asset('FPDF/image/line.png') }}" width="30%" style="position: absolute; left: 60%; top: 59%; height: .1px; margin-top: 6%;" >
                                     <br>
-                                    <span style="margin-left: 37%">(Signature of Applicant)</span>
+                                    <span style="margin-left: 30%; border-top: 1.5px solid black; padding-top: 5px;">
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                        (Signature of Applicant)
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    </span>
+
                                 </td>
                             </tr>
                         </table>
