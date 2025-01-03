@@ -79,9 +79,37 @@
                 endDate: endDate,
             }).on('apply.daterangepicker', function (ev, picker) {
 //                var start = moment(picker.startDate.format('YYYY-MM-DD'));
-//                var end   = moment(picker.endDate.format('YYYY-MM-DD'));
+                var end_date   = moment(picker.endDate.format('YYYY-MM-DD'));
 //                diff = end.diff(start, 'days');
 //                $('#applied_num_days').val(diff+1);
+
+                var currentDate = new Date(); // Get the current date
+                var endDateForLoop = new Date(currentDate);
+                endDateForLoop.setDate(endDateForLoop.getDate() - 1);
+
+                // Clear previous content
+                $('#date_remarks').empty();
+
+                // Check if endDate is not later than the current date
+                if (end_date <= currentDate) {
+                    var dayAfterEndDate = new Date(end_date);
+                    dayAfterEndDate.setDate(dayAfterEndDate.getDate() + 1); // Increment endDate by 1 day
+
+                    // Loop through dates from the day after endDate to currentDate
+                    for (var date = dayAfterEndDate; date <= endDateForLoop; date.setDate(date.getDate() + 1)) {
+                        // Format the date to MM/DD/YYYY
+                        var formattedDate = new Date(date).toLocaleDateString('en-US');
+                        // Append the date to the `date_remarks` div
+                        $('#date_remarks').append(
+                            '<div>' +
+                                '<span style="display: inline-block; margin-right: 10px;">' + formattedDate + '</span>' +
+                                '<input type="text" class="form-control" name="date_remarks[]" placeholder="Enter remarks" name="remarks_' + formattedDate.replace(/\//g, '-') + '" style="display: inline-block;width: 85%" />' +
+                                '<input type="hidden" name="s_dates[]" value="'+formattedDate+'">' +
+                            '</div>'
+                        );
+                    }
+                }
+
                 $('#vl_less').val(0);
                 $('#sl_less').val(0);
                 $('#vl_rem').val(vl_bal);
@@ -90,7 +118,7 @@
                 var radio_val = $('input[name="leave_type"]:checked').val();
                 var days = totalDays();
                 $('#applied_num_days').val(days);
-
+                console.log('spl', SPL);
                 if(radio_val == "SPL"){
                     if(days>SPL){
                         Lobibox.alert('error',{msg:"Exceed SPL Balance/Maximum of 3!"});

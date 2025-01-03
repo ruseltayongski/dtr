@@ -61,6 +61,7 @@ class DocumentController extends BaseController
             ]);
         }
         if(Request::method() == 'POST') {
+            return $_POST['s_dates'];
             if(Auth::check() AND Auth::user()->usertype == 0){
                 if(Auth::user()->pass_change == NULL){
                     return Redirect::to('resetpass')->with('pass_change','You must change your password for security after your first log in or resseting password');
@@ -94,8 +95,8 @@ class DocumentController extends BaseController
             $leave->without_pay = (Input::get('without_pay') != null)?Input::get('without_pay'):0;
             $leave->applied_num_days = Input::get('applied_num_days');
             $leave->as_of = date('Y-m-d',strtotime(Input::get('as_of')));
-            $leave->vacation_total = $pis->vacation_balance;
-            $leave->sick_total = $pis->sick_balance;
+            $leave->vacation_total = $pis->vacation_balance ? $pis->vacation_balance:0;
+            $leave->sick_total = $pis->sick_balance ? $pis->sick_balance : 0;
 
             $spl_leave = AditionalLeave::where('userid', Auth::user()->userid)->first();
 
