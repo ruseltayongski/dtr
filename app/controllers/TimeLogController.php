@@ -110,7 +110,6 @@ class TimeLogController extends Controller
         $log_status = Input::get("log_status");
         $log_status_change = Input::get("log_status_change");
         $log_type = Input::get("log_type");
-
         switch ($log_status){ //REMOVE
             case "so":
                 SoLogs::where("userid",$userid)
@@ -501,6 +500,255 @@ class TimeLogController extends Controller
                     "notification" => "warning",
                     "message" => "Log set empty",
                     "display_time" => $time_display
+                ];
+                break;
+        }
+
+        return Input::get();
+    }
+
+    public function allEdit(){
+        $userid = Input::get("userid");
+        $datein = Input::get("datein");
+        $edited_display = Input::get("edited_display");
+        $log_status = Input::get("log_status");
+        $log_status_change = Input::get("log_status_change");
+        $log_type = ['AM_IN', 'AM_OUT', 'PM_IN', 'PM_OUT'];
+
+            SoLogs::where("userid",$userid)
+                ->where("datein",$datein)
+                ->delete();
+
+            CdoLogs::where("userid",$userid)
+                ->where("datein",$datein)
+                ->delete();
+
+            LeaveLogs::where("userid",$userid)
+                ->where("datein",$datein)
+                ->delete();
+
+            EditedLogs::where("userid",$userid)
+                ->where("datein",$datein)
+                ->where("edited",1)
+                ->delete();
+
+            EditedLogs::where("userid",$userid)
+                ->where("datein",$datein)
+                ->where("edited",2)
+                ->where("remark","JO BREAK")
+                ->delete();
+
+            EditedLogs::where("userid",$userid)
+                ->where("datein",$datein)
+                ->where("edited",3)
+                ->delete();
+
+            EditedLogs::where("userid",$userid)
+                ->where("datein",$datein)
+                ->where("edited",4)
+                ->delete();
+
+            EditedLogs::where("userid",$userid)
+                ->where("datein",$datein)
+                ->where("edited",5)
+                ->delete();
+
+            EditedLogs::where("userid",$userid)
+                ->where("datein",$datein)
+                ->where("edited",6)
+                ->delete();
+
+            EditedLogs::where("userid",$userid)
+                ->where("datein",$datein)
+                ->where("edited",7)
+                ->delete();
+
+        $time_display = '';
+        $time_loop = ["08:00:00", "12:00:00", "13:00:00", "18:00:00"];
+
+        switch ($log_status_change){ //INSERT
+            case "so_change":
+                foreach ($log_type as $index => $l_type){
+                    $so = new SoLogs();
+                    $so->userid = $userid;
+                    $so->time = $time_loop[$index];
+                    $so->datein = $datein;
+                    $so->event = explode("_",$l_type)[1];
+                    $so->remark = explode("#",$edited_display)[1];
+                    $so->edited = 1;
+                    $so->holiday = 003;
+                    $so->save();
+                }
+                return [
+                    "notification" => "info",
+                    "message" => "Successfully added SO",
+                    "display_time" => $time_display
+                ];
+                break;
+            case "cdo_change":
+                foreach($log_type as $index => $l_type){
+                    $cdo = new CdoLogs();
+                    $cdo->userid = $userid;
+                    $cdo->datein = $datein;
+                    $cdo->time = $time_loop[$index];
+                    $cdo->event = explode("_",$l_type)[1];
+                    $cdo->remark = "CTO";
+                    $cdo->edited = 1;
+                    $cdo->holiday = 006;
+                    $cdo->save();
+                }
+                return [
+                    "notification" => "info",
+                    "message" => "Successfully added CDO",
+                    "display_time" => $time_display
+                ];
+                break;
+            case "leave_change":
+                foreach($log_type as $index => $l_type) {
+                    $leave = new LeaveLogs();
+                    $leave->userid = $userid;
+                    $leave->datein = $datein;
+                    $leave->time = $time_loop[$index];
+                    $leave->event = explode("_",$l_type)[1];
+                    $leave->remark = $edited_display;
+                    $leave->edited = 1;
+                    $leave->holiday = 007;
+                    $leave->save();
+                }
+                return [
+                    "notification" => "info",
+                    "message" => "Successfully added LEAVE",
+                    "display_time" => $time_display
+                ];
+                break;
+            case "edited_change":
+                foreach($log_type as $index => $l_type) {
+                    $edited = new EditedLogs();
+                    $edited->userid = $userid;
+                    $edited->datein = $datein;
+                    $edited->time = $edited_display;
+                    $edited->event = explode("_",$l_type)[1];
+                    $edited->remark = "WEB CREATED";
+                    $edited->edited = 1;
+                    $edited->holiday = 'A';
+                    $edited->save();
+                }
+                return [
+                    "notification" => "info",
+                    "message" => "Successfully added LOG",
+                    "display_time" => $time_display
+                ];
+                break;
+            case "jobreak_change":
+                foreach($log_type as $index => $l_type) {
+                    $jo_break = new EditedLogs();
+                    $jo_break->userid = $userid;
+                    $jo_break->datein = $datein;
+                    $jo_break->time = $time_loop[$index];
+                    $jo_break->event = explode("_",$l_type)[1];
+                    $jo_break->remark = $edited_display;
+                    $jo_break->edited = 2;
+                    $jo_break->save();
+                }
+                return [
+                    "notification" => "info",
+                    "message" => "Successfully added JO BREAK",
+                    "display_time" => $time_display
+                ];
+                break;
+            case "to_change":
+                foreach($log_type as $index => $l_type) {
+                    $so = new EditedLogs();
+                    $so->userid = $userid;
+                    $so->datein = $datein;
+                    $so->time = $time_loop[$index];
+                    $so->event = explode("_",$l_type)[1];
+                    $so->remark = explode("#",$edited_display)[1];
+                    $so->edited = 3;
+                    $so->holiday = 003;
+                    $so->save();
+                }
+                return [
+                    "notification" => "info",
+                    "message" => "Successfully added travel order",
+                    "display_time" => $time_display
+                ];
+                break;
+            case "mo_change":
+                foreach($log_type as $index => $l_type) {
+                    $so = new EditedLogs();
+                    $so->userid = $userid;
+                    $so->datein = $datein;
+                    $so->time = $time_loop[$index];
+                    $so->event = explode("_",$l_type)[1];
+                    $so->remark = explode("#",$edited_display)[1];
+                    $so->edited = 4;
+                    $so->holiday = 003;
+                    $so->save();
+                }
+                return [
+                    "notification" => "info",
+                    "message" => "Successfully added memorandum order",
+                    "display_time" => $time_display
+                ];
+                break;
+            case "holiday_change":
+                foreach($log_type as $index => $l_type) {
+                    $jo_break = new EditedLogs();
+                    $jo_break->userid = $userid;
+                    $jo_break->datein = $datein;
+                    $jo_break->time = $time_loop[$index];
+                    $jo_break->event = explode("_",$l_type)[1];
+                    $jo_break->remark = $edited_display;
+                    $jo_break->edited = 5;
+                    $jo_break->save();
+                }
+                return [
+                    "notification" => "info",
+                    "message" => "Successfully added HOLIDAY",
+                    "display_time" => $time_display
+                ];
+                break;
+            case "dayoff_change":
+                foreach($log_type as $index => $l_type) {
+                    $jo_break = new EditedLogs();
+                    $jo_break->userid = $userid;
+                    $jo_break->datein = $datein;
+                    $jo_break->time = $time_loop[$index];
+                    $jo_break->event = explode("_",$l_type)[1];
+                    $jo_break->remark = $edited_display;
+                    $jo_break->edited = 6;
+                    $jo_break->save();
+                }
+                return [
+                    "notification" => "info",
+                    "message" => "Successfully added DAYOFF",
+                    "display_time" => $time_display
+                ];
+                break;
+            case "flexi_change":
+                foreach($log_type as $index => $l_type) {
+
+                    $jo_break = new EditedLogs();
+                    $jo_break->userid = $userid;
+                    $jo_break->datein = $datein;
+                    $jo_break->time = $time_loop[$index];
+                    $jo_break->event = explode("_", $log_type)[1];
+                    $jo_break->remark = $edited_display;
+                    $jo_break->edited = 7;
+                    $jo_break->save();
+                }
+                return [
+                    "notification" => "info",
+                    "message" => "Successfully added FLEXI-TIME",
+                    "display_time" => $time_display
+                ];
+                break;
+            case "empty":
+                return [
+                    "notification" => "warning",
+                    "message" => "Log set empty",
+                    "display_time" => ''
                 ];
                 break;
         }
