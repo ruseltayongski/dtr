@@ -558,21 +558,9 @@
                             var part = all_data.split('ñ');
 
                             $.post(url, json, function(result) {
-                                // Success response
                                 console.log('result', result);
                                 Lobibox.notify(result.notification, {
                                     msg: result.message
-                                });
-                            }).fail(function(xhr, status, error) {
-                                // Error handling
-                                console.error("Error Details:");
-                                console.error("Status:", status); // E.g., "error", "timeout"
-                                console.error("Error:", error);  // E.g., "Internal Server Error"
-                                console.error("Response:", xhr.responseText); // Full server response (if available)
-
-                                // Notify user about the error
-                                Lobibox.notify("error", {
-                                    msg: "An error occurred. Please check the console for details."
                                 });
                             });
 
@@ -582,38 +570,17 @@
                                 var ID = strong_element.attr('id');
                                 console.log('IDD', ID);
                                 if(ID != undefined){
-//                                    console.log('if', strong_element);
                                     var id_parts = ID.split('ñ');
                                     log_status = id_parts[3];
                                     log_type = data;
                                     time = input.val();
 
                                     var input_hidden_time = all_time[index];
-//                                    console.log('input_hidden_time', input_hidden_time);
                                     input_hidden_element.val(input_hidden_time);
                                     var new_id = ID.replace(new RegExp(log_status, "g"), log_status_change == 'empty' ? log_status_change : log_status_change.split('_')[0]);
                                     $("#"+ID).attr('id', new_id); // this.id
-                                    console.log('iddd', "#" + ID);
-                                    console.log('log_status', log_status);
-                                    console.log('log_status_change', log_status_change);
-                                    console.log('new_id', new_id);
 
                                     $("#"+new_id).html(edited_display);
-                                    if ($("#" + new_id).length > 0) {
-                                        $("#" + new_id).html(edited_display); // Update the content
-                                        console.log("Element with ID '" + ID + "' does  exist.");
-
-                                    } else {
-                                        console.log("Element with ID '" + ID + "' does not exist.");
-                                    }
-
-                                    console.log('iddd23', ID);
-
-                                    console.log('edited_display', edited_display);
-
-                                }else{
-                                    console.log('else', strong_element);
-
                                 }
 
                             });
@@ -622,23 +589,15 @@
 
                             $.post(url,json,function(result){
                                 var input_hidden_time = result.display_time; //display hidden time for trapping and where purposes
-                                console.log('dasd', log_status);
                                 input_hidden_element.val(input_hidden_time);
                                 var new_id = ID.replace(new RegExp(log_status, "g"),log_status_change == 'empty' ? log_status_change : log_status_change.split('_')[0]);
-                                console.log('new_id', new_id);
 
                                 $("#"+ID).attr('id',new_id);
                                 Lobibox.notify(result.notification,{
                                     msg:result.message
                                 });
                             });
-                            console.log('elseID', ID);
                             $("#"+this.id).html(edited_display);
-                            console.log('iddd', "#"+ID);
-                            console.log('iddd45', "#"+this.id);
-                            console.log('edited_display', edited_display);
-
-
                         }
                     }
                 });
