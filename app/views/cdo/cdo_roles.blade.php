@@ -343,7 +343,7 @@
                     var type = result.type;
                     var dates = result.date_applied;
                     var container = document.querySelector("#cancel_date table");
-
+                    console.log('type', type);
                     var cancelAllCheckbox ='<label>Check to Cancel All:</label>'+
                         '<input style="transform: scale(1.5)" type="checkbox" class="minimal" id="applied_dates" value="cancel_all" name="applied_dates" />'+
                         '<br><small style="margin-left: 10%" class="text-info"><i>please make sure to select dates and hours to cancel</i></small>';
@@ -388,9 +388,12 @@
                         });
 
                     }else{
+                        console.log('dsad', dates);
                         dates.forEach(function(date) {
                             var startDate = new Date(date.start_date);
                             var endDate = new Date(date.end_date);
+                            endDate.setDate(endDate.getDate() - 1);
+                            console.log('enddate', endDate);
                             var diff = Math.round((endDate - startDate) / (1000 * 60 * 60 * 24));
                             if(diff == 1){
                                 dateList.push(startDate.toLocaleDateString());
