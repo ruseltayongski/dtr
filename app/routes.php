@@ -344,6 +344,7 @@ Route::get('git_commit','GitController@git_commit');
 Route::match(['POST','GET'],'logs/timelogs','TimeLogController@timelog');
 Route::match(['POST','GET'],'logs/timelogs/{supervisor}','TimeLogController@timelog');
 Route::post('logs/timelog/edit','TimeLogController@edit');
+Route::post('logs/timelog/check_all/edit','TimeLogController@allEdit');
 Route::post('logs/timelog/append','TimeLogController@append');
 
 //COMMENT

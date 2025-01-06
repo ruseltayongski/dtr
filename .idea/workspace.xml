@@ -14,9 +14,9 @@
   <component name="ChangeListManager">
     <list default="true" id="3d23eb58-b5c1-407c-b04e-480d452e50dc" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/controllers/DocumentController.php" afterPath="$PROJECT_DIR$/app/controllers/DocumentController.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/form/form_leave.blade.php" afterPath="$PROJECT_DIR$/app/views/form/form_leave.blade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/form/form_leave_script.blade.php" afterPath="$PROJECT_DIR$/app/views/form/form_leave_script.blade.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/controllers/TimeLogController.php" afterPath="$PROJECT_DIR$/app/controllers/TimeLogController.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/routes.php" afterPath="$PROJECT_DIR$/app/routes.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/timelog/timelog.blade.php" afterPath="$PROJECT_DIR$/app/views/timelog/timelog.blade.php" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -40,58 +40,35 @@
       <file leaf-file-name="routes.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/routes.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2108">
-              <caret line="124" column="71" lean-forward="false" selection-start-line="124" selection-start-column="66" selection-end-line="124" selection-end-column="71" />
+            <state relative-caret-position="5882">
+              <caret line="346" column="35" lean-forward="false" selection-start-line="346" selection-start-column="26" selection-end-line="346" selection-end-column="35" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="DocumentController.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/controllers/DocumentController.php">
+      <file leaf-file-name="TimeLogController.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/controllers/TimeLogController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="986">
-              <caret line="63" column="34" lean-forward="false" selection-start-line="63" selection-start-column="34" selection-end-line="63" selection-end-column="34" />
-              <folding>
-                <marker date="1735873019736" expanded="true" signature="7156:7203" ph="SELECT id FR... users" />
-                <marker date="1735873019736" expanded="true" signature="7660:7796" ph="INSERT INTO TRACKING_MASTER... " />
-                <marker date="1735873019736" expanded="true" signature="8212:8342" ph="INSERT INTO TRACKING_DETAILS... " />
-                <marker date="1735873019736" expanded="true" signature="8644:8751" ph="INSERT INTO SYSTEMLOGS... " />
-                <marker date="1735873019736" expanded="true" signature="52070:52271" ph="..." />
-                <marker date="1735873019736" expanded="true" signature="52941:52959" ph="..." />
-                <marker date="1735873019736" expanded="true" signature="52960:53288" ph="..." />
-                <marker date="1735873019736" expanded="false" signature="52993:53005" ph="..." />
-                <marker date="1735873019736" expanded="false" signature="53049:53061" ph="..." />
-                <marker date="1735873019736" expanded="false" signature="53111:53123" ph="..." />
-                <marker date="1735873019736" expanded="false" signature="53174:53186" ph="..." />
-                <marker date="1735873019736" expanded="false" signature="53236:53248" ph="..." />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="form_leave_script.blade.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/views/form/form_leave_script.blade.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="276">
-              <caret line="103" column="37" lean-forward="false" selection-start-line="103" selection-start-column="37" selection-end-line="103" selection-end-column="37" />
-              <folding>
-                <marker date="1735873264270" expanded="true" signature="4259:4301" ph="..." />
-                <marker date="1735873264270" expanded="true" signature="4522:4554" ph="..." />
-                <marker date="1735873264270" expanded="true" signature="9881:9929" ph="..." />
-                <marker date="1735873264270" expanded="true" signature="10252:10300" ph="..." />
-                <marker date="1735873264270" expanded="true" signature="10547:10595" ph="..." />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="form_leave.blade.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/views/form/form_leave.blade.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="4692">
-              <caret line="276" column="64" lean-forward="false" selection-start-line="276" selection-start-column="64" selection-end-line="276" selection-end-column="64" />
+            <state relative-caret-position="394">
+              <caret line="556" column="41" lean-forward="true" selection-start-line="556" selection-start-column="41" selection-end-line="556" selection-end-column="41" />
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="timelog.blade.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/views/timelog/timelog.blade.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="374">
+              <caret line="602" column="54" lean-forward="false" selection-start-line="602" selection-start-column="54" selection-end-line="602" selection-end-column="54" />
+              <folding>
+                <marker date="1736129289712" expanded="true" signature="6481:6685" ph="..." />
+                <marker date="1736129289712" expanded="true" signature="37005:37089" ph="..." />
+                <marker date="1736129289712" expanded="true" signature="37924:37940" ph="..." />
+                <marker date="1736129289712" expanded="true" signature="38033:38085" ph="..." />
+                <marker date="1736129289712" expanded="true" signature="50285:50309" ph="..." />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -100,10 +77,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>conso</find>
-      <find>rotate</find>
-      <find>&lt;div class=&quot;daterangepicker dropdown-menu show-calendar opensright&quot; style=&quot;top: 34px; left: 0px; right: auto;&quot;&gt;&lt;div class=&quot;calendar first right&quot;&gt;&lt;div class=&quot;calendar-date&quot;&gt;&lt;table class=&quot;table-condensed&quot;&gt;&lt;thead&gt;&lt;tr&gt;&lt;th&gt;&lt;/th&gt;&lt;th colspan=&quot;5&quot; class=&quot;month&quot;&gt;Jan 2025&lt;/th&gt;&lt;th class=&quot;next available&quot;&gt;&lt;i class=&quot;fa fa-arrow-right icon icon-arrow-right glyphicon glyphicon-arrow-right&quot;&gt;&lt;/i&gt;&lt;/th&gt;&lt;/tr&gt;&lt;tr&gt;&lt;th&gt;Su&lt;/th&gt;&lt;th&gt;Mo&lt;/th&gt;&lt;th&gt;Tu&lt;/th&gt;&lt;th&gt;We&lt;/th&gt;&lt;th&gt;Th&lt;/th&gt;&lt;th&gt;Fr&lt;/th&gt;&lt;th&gt;Sa&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;off disabled&quot; data-title=&quot;r0c0&quot;&gt;29&lt;/td&gt;&lt;td class=&quot;off disabled&quot; data-title=&quot;r0c1&quot;&gt;30&lt;/td&gt;&lt;td class=&quot;off disabled&quot; data-title=&quot;r0c2&quot;&gt;31&lt;/td&gt;&lt;td class=&quot;off disabled&quot; data-title=&quot;r0c3&quot;&gt;1&lt;/td&gt;&lt;td class=&quot;available active start-date end-date&quot; data-title=&quot;r0c4&quot;&gt;2&lt;/td&gt;&lt;td class=&quot;available&quot; data-title=&quot;r0c5&quot;&gt;3&lt;/td&gt;&lt;td class=&quot;available&quot; data-title=&quot;r0c6&quot;&gt;4&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td class=&quot;available&quot; data-title=&quot;r1c0&quot;&gt;5&lt;/td&gt;&lt;td class=&quot;available&quot; data-title=&quot;r1c1&quot;&gt;6&lt;/td&gt;&lt;td class=&quot;available&quot; data-title=&quot;r1c2&quot;&gt;7&lt;/td&gt;&lt;td class=&quot;available&quot; data-title=&quot;r1c3&quot;&gt;8&lt;/td&gt;&lt;td class=&quot;available&quot; data-title=&quot;r1c4&quot;&gt;9&lt;/td&gt;&lt;td class=&quot;available&quot; data-title=&quot;r1c5&quot;&gt;10&lt;/td&gt;&lt;td class=&quot;available&quot; data-title=&quot;r1c6&quot;&gt;11&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td class=&quot;available&quot; data-title=&quot;r2c0&quot;&gt;12&lt;/td&gt;&lt;td class=&quot;available&quot; data-title=&quot;r2c1&quot;&gt;13&lt;/td&gt;&lt;td class=&quot;available&quot; data-title=&quot;r2c2&quot;&gt;14&lt;/td&gt;&lt;td class=&quot;available&quot; data-title=&quot;r2c3&quot;&gt;15&lt;/td&gt;&lt;td class=&quot;available&quot; data-title=&quot;r2c4&quot;&gt;16&lt;/td&gt;&lt;td class=&quot;available&quot; data-title=&quot;r2c5&quot;&gt;17&lt;/td&gt;&lt;td class=&quot;available&quot; data-title=&quot;r2c6&quot;&gt;18&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td class=&quot;available&quot; data-title=&quot;r3c0&quot;&gt;19&lt;/td&gt;&lt;td class=&quot;available&quot; data-title=&quot;r3c1&quot;&gt;20&lt;/td&gt;&lt;td class=&quot;available&quot; data-title=&quot;r3c2&quot;&gt;21&lt;/td&gt;&lt;td class=&quot;available&quot; data-title=&quot;r3c3&quot;&gt;22&lt;/td&gt;&lt;td class=&quot;available&quot; data-title=&quot;r3c4&quot;&gt;23&lt;/td&gt;&lt;td class=&quot;available&quot; data-title=&quot;r3c5&quot;&gt;24&lt;/td&gt;&lt;td class=&quot;available&quot; data-title=&quot;r3c6&quot;&gt;25&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td class=&quot;available&quot; data-title=&quot;r4c0&quot;&gt;26&lt;/td&gt;&lt;td class=&quot;available&quot; data-title=&quot;r4c1&quot;&gt;27&lt;/td&gt;&lt;td class=&quot;available&quot; data-title=&quot;r4c2&quot;&gt;28&lt;/td&gt;&lt;td class=&quot;available&quot; data-title=&quot;r4c3&quot;&gt;29&lt;/td&gt;&lt;td class=&quot;available&quot; data-title=&quot;r4c4&quot;&gt;30&lt;/td&gt;&lt;td class=&quot;available&quot; data-title=&quot;r4c5&quot;&gt;31&lt;/td&gt;&lt;td class=&quot;available off&quot; data-title=&quot;r4c6&quot;&gt;1&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td class=&quot;available off&quot; data-title=&quot;r5c0&quot;&gt;2&lt;/td&gt;&lt;td class=&quot;available off&quot; data-title=&quot;r5c1&quot;&gt;3&lt;/td&gt;&lt;td class=&quot;available off&quot; data-title=&quot;r5c2&quot;&gt;4&lt;/td&gt;&lt;td class=&quot;available off&quot; data-title=&quot;r5c3&quot;&gt;5&lt;/td&gt;&lt;td class=&quot;available off&quot; data-title=&quot;r5c4&quot;&gt;6&lt;/td&gt;&lt;td class=&quot;available off&quot; data-title=&quot;r5c5&quot;&gt;7&lt;/td&gt;&lt;td class=&quot;available off&quot; data-title=&quot;r5c6&quot;&gt;8&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;calendar second left&quot;&gt;&lt;div class=&quot;calendar-date&quot;&gt;&lt;table class=&quot;table-condensed&quot;&gt;&lt;thead&gt;&lt;tr&gt;&lt;th class=&quot;prev available&quot;&gt;&lt;i class=&quot;fa fa-arrow-left icon icon-arrow-left glyphicon glyphicon-arrow-left&quot;&gt;&lt;/i&gt;&lt;/th&gt;&lt;th colspan=&quot;5&quot; class=&quot;month&quot;&gt;Jan 2025&lt;/th&gt;&lt;th class=&quot;next available&quot;&gt;&lt;i class=&quot;fa fa-arrow-right icon icon-arrow-right glyphicon glyphicon-arrow-right&quot;&gt;&lt;/i&gt;&lt;/th&gt;&lt;/tr&gt;&lt;tr&gt;&lt;th&gt;Su&lt;/th&gt;&lt;th&gt;Mo&lt;/th&gt;&lt;th&gt;Tu&lt;/th&gt;&lt;th&gt;We&lt;/th&gt;&lt;th&gt;Th&lt;/th&gt;&lt;th&gt;Fr&lt;/th&gt;&lt;th&gt;Sa&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;available off&quot; data-title=&quot;r0c0&quot;&gt;29&lt;/td&gt;&lt;td class=&quot;available off&quot; data-title=&quot;r0c1&quot;&gt;30&lt;/td&gt;&lt;td class=&quot;available off&quot; data-title=&quot;r0c2&quot;&gt;31&lt;/td&gt;&lt;td class=&quot;available&quot; data-title=&quot;r0c3&quot;&gt;1&lt;/td&gt;&lt;td class=&quot;available active start-date end-date&quot; data-title=&quot;r0c4&quot;&gt;2&lt;/td&gt;&lt;td class=&quot;available&quot; data-title=&quot;r0c5&quot;&gt;3&lt;/td&gt;&lt;td class=&quot;available&quot; data-title=&quot;r0c6&quot;&gt;4&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td class=&quot;available&quot; data-title=&quot;r1c0&quot;&gt;5&lt;/td&gt;&lt;td class=&quot;available&quot; data-title=&quot;r1c1&quot;&gt;6&lt;/td&gt;&lt;td class=&quot;available&quot; data-title=&quot;r1c2&quot;&gt;7&lt;/td&gt;&lt;td class=&quot;available&quot; data-title=&quot;r1c3&quot;&gt;8&lt;/td&gt;&lt;td class=&quot;available&quot; data-title=&quot;r1c4&quot;&gt;9&lt;/td&gt;&lt;td class=&quot;available&quot; data-title=&quot;r1c5&quot;&gt;10&lt;/td&gt;&lt;td class=&quot;available&quot; data-title=&quot;r1c6&quot;&gt;11&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td class=&quot;available&quot; data-title=&quot;r2c0&quot;&gt;12&lt;/td&gt;&lt;td class=&quot;available&quot; data-title=&quot;r2c1&quot;&gt;13&lt;/td&gt;&lt;td class=&quot;available&quot; data-title=&quot;r2c2&quot;&gt;14&lt;/td&gt;&lt;td class=&quot;available&quot; data-title=&quot;r2c3&quot;&gt;15&lt;/td&gt;&lt;td class=&quot;available&quot; data-title=&quot;r2c4&quot;&gt;16&lt;/td&gt;&lt;td class=&quot;available&quot; data-title=&quot;r2c5&quot;&gt;17&lt;/td&gt;&lt;td class=&quot;available&quot; data-title=&quot;r2c6&quot;&gt;18&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td class=&quot;available&quot; data-title=&quot;r3c0&quot;&gt;19&lt;/td&gt;&lt;td class=&quot;available&quot; data-title=&quot;r3c1&quot;&gt;20&lt;/td&gt;&lt;td class=&quot;available&quot; data-title=&quot;r3c2&quot;&gt;21&lt;/td&gt;&lt;td class=&quot;available&quot; data-title=&quot;r3c3&quot;&gt;22&lt;/td&gt;&lt;td class=&quot;available&quot; data-title=&quot;r3c4&quot;&gt;23&lt;/td&gt;&lt;td class=&quot;available&quot; data-title=&quot;r3c5&quot;&gt;24&lt;/td&gt;&lt;td class=&quot;available&quot; data-title=&quot;r3c6&quot;&gt;25&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td class=&quot;available&quot; data-title=&quot;r4c0&quot;&gt;26&lt;/td&gt;&lt;td class=&quot;available&quot; data-title=&quot;r4c1&quot;&gt;27&lt;/td&gt;&lt;td class=&quot;available&quot; data-title=&quot;r4c2&quot;&gt;28&lt;/td&gt;&lt;td class=&quot;available&quot; data-title=&quot;r4c3&quot;&gt;29&lt;/td&gt;&lt;td class=&quot;available&quot; data-title=&quot;r4c4&quot;&gt;30&lt;/td&gt;&lt;td class=&quot;available&quot; data-title=&quot;r4c5&quot;&gt;31&lt;/td&gt;&lt;td class=&quot;available off&quot; data-title=&quot;r4c6&quot;&gt;1&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td class=&quot;available off&quot; data-title=&quot;r5c0&quot;&gt;2&lt;/td&gt;&lt;td class=&quot;available off&quot; data-title=&quot;r5c1&quot;&gt;3&lt;/td&gt;&lt;td class=&quot;available off&quot; data-title=&quot;r5c2&quot;&gt;4&lt;/td&gt;&lt;td class=&quot;available off&quot; data-title=&quot;r5c3&quot;&gt;5&lt;/td&gt;&lt;td class=&quot;available off&quot; data-title=&quot;r5c4&quot;&gt;6&lt;/td&gt;&lt;td class=&quot;available off&quot; data-title=&quot;r5c5&quot;&gt;7&lt;/td&gt;&lt;td class=&quot;available off&quot; data-title=&quot;r5c6&quot;&gt;8&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;ranges&quot;&gt;&lt;div class=&quot;range_inputs&quot;&gt;&lt;div class=&quot;daterangepicker_start_input&quot;&gt;&lt;label for=&quot;daterangepicker_start&quot;&gt;From&lt;/label&gt;&lt;input class=&quot;input-mini&quot; type=&quot;text&quot; name=&quot;daterangepicker_start&quot; value=&quot;&quot;&gt;&lt;/div&gt;&lt;div class=&quot;daterangepicker_end_input&quot;&gt;&lt;label for=&quot;daterangepicker_end&quot;&gt;To&lt;/label&gt;&lt;input class=&quot;input-mini&quot; type=&quot;text&quot; name=&quot;daterangepicker_end&quot; value=&quot;&quot;&gt;&lt;/div&gt;&lt;button class=&quot;applyBtn btn btn-small btn-sm btn-success&quot;&gt;Apply&lt;/button&gt;&amp;nbsp;&lt;button class=&quot;cancelBtn btn btn-small btn-sm btn-default&quot;&gt;Cancel&lt;/button&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;</find>
-      <find>move</find>
       <find>alendar_update</find>
       <find>Holiday Tran</find>
       <find>Are you sure you want to delete this holiday?</find>
@@ -130,11 +103,16 @@
       <find>end_date</find>
       <find>signat</find>
       <find>leave(</find>
+      <find>CHECK ALL</find>
+      <find>edit(</find>
+      <find>logs/timelog/edit</find>
+      <find>CHECK</find>
     </findStrings>
     <replaceStrings>
       <replace />
       <replace>.val</replace>
       <replace>floatval</replace>
+      <replace>$time_loop[$index];</replace>
     </replaceStrings>
   </component>
   <component name="Git.Settings">
@@ -143,7 +121,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/FPDF/leave/f3_rows.php" />
         <option value="$PROJECT_DIR$/FPDF/leave/f4_rows.php" />
         <option value="$PROJECT_DIR$/app/views/form/leave.blade.php" />
         <option value="$PROJECT_DIR$/app/views/form/form_pending.blade.php" />
@@ -179,20 +156,21 @@
         <option value="$PROJECT_DIR$/app/views/cdo/cdo_cert.blade.php" />
         <option value="$PROJECT_DIR$/app/controllers/AdminController.php" />
         <option value="$PROJECT_DIR$/app/controllers/HomeController.php" />
-        <option value="$PROJECT_DIR$/app/routes.php" />
         <option value="$PROJECT_DIR$/app/models/Appstore.php" />
         <option value="$PROJECT_DIR$/app/database/migrations/2024_10_30_104513_appstore.php" />
         <option value="$PROJECT_DIR$/app/database/migrations/2024_10_30_110819_appstore.php" />
         <option value="$PROJECT_DIR$/app/database/migrations/2024_10_30_111002_appstore.php" />
         <option value="$PROJECT_DIR$/app/models/Appstores.php" />
         <option value="$PROJECT_DIR$/app/controllers/MobileControllerV2.php" />
-        <option value="$PROJECT_DIR$/app/views/timelog/timelog.blade.php" />
         <option value="$PROJECT_DIR$/app/controllers/CalendarController.php" />
         <option value="$PROJECT_DIR$/app/views/calendar/calendar.blade.php" />
         <option value="$PROJECT_DIR$/app/controllers/cdoController.php" />
         <option value="$PROJECT_DIR$/app/views/form/form_leave.blade.php" />
         <option value="$PROJECT_DIR$/app/controllers/DocumentController.php" />
         <option value="$PROJECT_DIR$/app/views/form/form_leave_script.blade.php" />
+        <option value="$PROJECT_DIR$/app/routes.php" />
+        <option value="$PROJECT_DIR$/app/views/timelog/timelog.blade.php" />
+        <option value="$PROJECT_DIR$/app/controllers/TimeLogController.php" />
         <option value="$PROJECT_DIR$/app/config/database.php" />
       </list>
     </option>
@@ -229,6 +207,44 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope">
+        <subPane subId="Changed Files">
+          <expand>
+            <path>
+              <item name="Root" type="cbb8eebc:String" user="Root" />
+              <item name="dtrF" type="cbb8eebc:String" user="dtrF" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+        <subPane subId="Project Files">
+          <expand>
+            <path>
+              <item name="Root" type="cbb8eebc:String" user="Root" />
+              <item name="dtr" type="cbb8eebc:String" user="dtr" />
+            </path>
+            <path>
+              <item name="Root" type="cbb8eebc:String" user="Root" />
+              <item name="dtr" type="cbb8eebc:String" user="dtr" />
+              <item name="app" type="cbb8eebc:String" user="app" />
+            </path>
+            <path>
+              <item name="Root" type="cbb8eebc:String" user="Root" />
+              <item name="dtr" type="cbb8eebc:String" user="dtr" />
+              <item name="app" type="cbb8eebc:String" user="app" />
+              <item name="database" type="cbb8eebc:String" user="database" />
+            </path>
+            <path>
+              <item name="Root" type="cbb8eebc:String" user="Root" />
+              <item name="dtr" type="cbb8eebc:String" user="dtr" />
+              <item name="app" type="cbb8eebc:String" user="app" />
+              <item name="database" type="cbb8eebc:String" user="database" />
+              <item name="migrations" type="cbb8eebc:String" user="migrations" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
       <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
@@ -247,6 +263,19 @@
               <item name="dtr" type="2a2b976b:PhpTreeStructureProvider$1" />
               <item name="app" type="2a2b976b:PhpTreeStructureProvider$1" />
               <item name="controllers" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+            <path>
+              <item name="dtr" type="b2602c69:ProjectViewProjectNode" />
+              <item name="dtr" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="app" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="database" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+            <path>
+              <item name="dtr" type="b2602c69:ProjectViewProjectNode" />
+              <item name="dtr" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="app" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="database" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="migrations" type="2a2b976b:PhpTreeStructureProvider$1" />
             </path>
             <path>
               <item name="dtr" type="b2602c69:ProjectViewProjectNode" />
@@ -310,51 +339,13 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope">
-        <subPane subId="Changed Files">
-          <expand>
-            <path>
-              <item name="Root" type="cbb8eebc:String" user="Root" />
-              <item name="dtrF" type="cbb8eebc:String" user="dtrF" />
-            </path>
-          </expand>
-          <select />
-        </subPane>
-        <subPane subId="Project Files">
-          <expand>
-            <path>
-              <item name="Root" type="cbb8eebc:String" user="Root" />
-              <item name="dtr" type="cbb8eebc:String" user="dtr" />
-            </path>
-            <path>
-              <item name="Root" type="cbb8eebc:String" user="Root" />
-              <item name="dtr" type="cbb8eebc:String" user="dtr" />
-              <item name="app" type="cbb8eebc:String" user="app" />
-            </path>
-            <path>
-              <item name="Root" type="cbb8eebc:String" user="Root" />
-              <item name="dtr" type="cbb8eebc:String" user="dtr" />
-              <item name="app" type="cbb8eebc:String" user="app" />
-              <item name="database" type="cbb8eebc:String" user="database" />
-            </path>
-            <path>
-              <item name="Root" type="cbb8eebc:String" user="Root" />
-              <item name="dtr" type="cbb8eebc:String" user="dtr" />
-              <item name="app" type="cbb8eebc:String" user="app" />
-              <item name="database" type="cbb8eebc:String" user="database" />
-              <item name="migrations" type="cbb8eebc:String" user="migrations" />
-            </path>
-          </expand>
-          <select />
-        </subPane>
-      </pane>
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="nodejs_interpreter_path" value="C:/Program Files/nodejs/node" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="SearchEverywhereHistoryKey" value="Documen&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/controllers/DocumentController.php&#10;cdoC&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/controllers/cdoController.php&#10;route&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/routes.php&#10;cdo_a&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/cdo/cdo_approve.blade.php&#10;pending&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/cdo/cdo_pending.blade.php&#10;AdminC&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/controllers/AdminController.php&#10;cdoCon&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/controllers/cdoController.php&#10;Calenda&#9;null&#9;null&#10;databa&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/config/database.php&#10;print&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/FPDF/timelog/print_timelog.php&#10;cdo_&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/cdo/cdo_roles.blade.php&#10;data&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/config/database.php&#10;pdo&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/controllers/pdoController.php&#10;Mobile&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/controllers/MobileControllerV2.php&#10;Docume&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/controllers/DocumentController.php&#10;admin&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/controllers/AdminController.php&#10;Admin&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/controllers/AdminController.php&#10;ter&#9;ACTION&#9;ActivateTerminalToolWindow&#10;cdo&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/cdo/cdo_cert.blade.php&#10;Infor&#9;null&#9;null&#10;cdoCo&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/controllers/cdoController.php&#10;cdo_view&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/cdo/cdo_view.blade.php&#10;cdo_vi&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/cdo/cdo_view.blade.php&#10;cdo_pdf&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/cdo/cdo_pdf.blade.php&#10;cdo_cer&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/cdo/cdo_cert.blade.php&#10;cance&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/form/form_cancelled.blade.php&#10;cdo_pe&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/cdo/cdo_pending.blade.php&#10;termina&#9;ACTION&#9;ActivateTerminalToolWindow&#10;cd&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/cdo/cdo_all.blade.php&#10;moda&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/modal.blade.php&#10;AppAPI&#9;null&#9;null&#10;termin&#9;ACTION&#9;ActivateTerminalToolWindow&#10;time&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/timelog/timelog.blade.php&#10;modal&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/modal.blade.php&#10;cdoCOn&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/controllers/cdoController.php&#10;leave&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/form/leave.blade.php&#10;update&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/form/update_leave.blade.php&#10;index&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/employee/index.blade.php&#10;cdo_all&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/cdo/cdo_all.blade.php&#10;cdo_app&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/cdo/cdo_approve.blade.php&#10;Time&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/controllers/TimeLogController.php&#10;timelo&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/timelog/timelog.blade.php&#10;datab&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/config/database.php&#10;cdo_pen&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/cdo/cdo_pending.blade.php&#10;layou&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/vendor/filp/whoops/src/Whoops/Resources/views/layout.html.php&#10;form_app&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/form/form_approve.blade.php&#10;Document&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/controllers/DocumentController.php&#10;CDO&#9;null&#9;null&#10;Doc&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/controllers/DocumentController.php&#10;cdoContro&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/controllers/cdoController.php" />
+    <property name="SearchEverywhereHistoryKey" value="TImelogC&#9;null&#9;null&#10;time&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/timelog/timelog.blade.php&#10;route&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/routes.php&#10;databa&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/config/database.php&#10;Documen&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/controllers/DocumentController.php&#10;cdoC&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/controllers/cdoController.php&#10;cdo_a&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/cdo/cdo_approve.blade.php&#10;pending&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/cdo/cdo_pending.blade.php&#10;AdminC&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/controllers/AdminController.php&#10;cdoCon&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/controllers/cdoController.php&#10;Calenda&#9;null&#9;null&#10;print&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/FPDF/timelog/print_timelog.php&#10;cdo_&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/cdo/cdo_roles.blade.php&#10;data&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/config/database.php&#10;pdo&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/controllers/pdoController.php&#10;Mobile&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/controllers/MobileControllerV2.php&#10;Docume&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/controllers/DocumentController.php&#10;admin&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/controllers/AdminController.php&#10;Admin&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/controllers/AdminController.php&#10;ter&#9;ACTION&#9;ActivateTerminalToolWindow&#10;cdo&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/cdo/cdo_cert.blade.php&#10;Infor&#9;null&#9;null&#10;cdoCo&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/controllers/cdoController.php&#10;cdo_view&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/cdo/cdo_view.blade.php&#10;cdo_vi&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/cdo/cdo_view.blade.php&#10;cdo_pdf&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/cdo/cdo_pdf.blade.php&#10;cdo_cer&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/cdo/cdo_cert.blade.php&#10;cance&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/form/form_cancelled.blade.php&#10;cdo_pe&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/cdo/cdo_pending.blade.php&#10;termina&#9;ACTION&#9;ActivateTerminalToolWindow&#10;cd&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/cdo/cdo_all.blade.php&#10;moda&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/modal.blade.php&#10;AppAPI&#9;null&#9;null&#10;termin&#9;ACTION&#9;ActivateTerminalToolWindow&#10;modal&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/modal.blade.php&#10;cdoCOn&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/controllers/cdoController.php&#10;leave&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/form/leave.blade.php&#10;update&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/form/update_leave.blade.php&#10;index&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/employee/index.blade.php&#10;cdo_all&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/cdo/cdo_all.blade.php&#10;cdo_app&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/cdo/cdo_approve.blade.php&#10;Time&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/controllers/TimeLogController.php&#10;timelo&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/timelog/timelog.blade.php&#10;datab&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/config/database.php&#10;cdo_pen&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/cdo/cdo_pending.blade.php&#10;layou&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/vendor/filp/whoops/src/Whoops/Resources/views/layout.html.php&#10;form_app&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/form/form_approve.blade.php&#10;Document&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/controllers/DocumentController.php&#10;CDO&#9;null&#9;null&#10;Doc&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/controllers/DocumentController.php" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
     <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
   </component>
@@ -680,12 +671,13 @@
       <workItem from="1732761579482" duration="253000" />
       <workItem from="1732761844304" duration="7166000" />
       <workItem from="1735864284362" duration="9909000" />
-      <workItem from="1735881312087" duration="483000" />
+      <workItem from="1735881312087" duration="12451000" />
+      <workItem from="1736124094132" duration="3516000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="2961868000" />
+    <option name="totallyTimeSpent" value="2977352000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -768,18 +760,11 @@
       <breakpoints-dialog>
         <breakpoints-dialog />
       </breakpoints-dialog>
-      <option name="time" value="13" />
+      <option name="time" value="14" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/database/migrations/2024_07_17_132614_create_leave_applied_dates.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="12" column="24" lean-forward="true" selection-start-line="12" selection-start-column="24" selection-end-line="12" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/models/Comments.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="85">
@@ -1026,13 +1011,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/timelog/timelog.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="6919">
-          <caret line="407" column="71" lean-forward="false" selection-start-line="407" selection-start-column="71" selection-end-line="407" selection-end-column="71" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/controllers/CalendarController.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="3434">
@@ -1090,19 +1068,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/routes.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2108">
-          <caret line="124" column="71" lean-forward="false" selection-start-line="124" selection-start-column="66" selection-end-line="124" selection-end-column="71" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/views/form/form_leave.blade.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="4692">
           <caret line="276" column="64" lean-forward="false" selection-start-line="276" selection-start-column="64" selection-end-line="276" selection-end-column="64" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1138,6 +1107,36 @@
             <marker date="1735873264270" expanded="true" signature="10252:10300" ph="..." />
             <marker date="1735873264270" expanded="true" signature="10547:10595" ph="..." />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/routes.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="5882">
+          <caret line="346" column="35" lean-forward="false" selection-start-line="346" selection-start-column="26" selection-end-line="346" selection-end-column="35" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/timelog/timelog.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="374">
+          <caret line="602" column="54" lean-forward="false" selection-start-line="602" selection-start-column="54" selection-end-line="602" selection-end-column="54" />
+          <folding>
+            <marker date="1736129289712" expanded="true" signature="6481:6685" ph="..." />
+            <marker date="1736129289712" expanded="true" signature="37005:37089" ph="..." />
+            <marker date="1736129289712" expanded="true" signature="37924:37940" ph="..." />
+            <marker date="1736129289712" expanded="true" signature="38033:38085" ph="..." />
+            <marker date="1736129289712" expanded="true" signature="50285:50309" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/controllers/TimeLogController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="394">
+          <caret line="556" column="41" lean-forward="true" selection-start-line="556" selection-start-column="41" selection-end-line="556" selection-end-column="41" />
+          <folding />
         </state>
       </provider>
     </entry>
