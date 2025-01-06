@@ -733,7 +733,7 @@ class TimeLogController extends Controller
                     $jo_break->userid = $userid;
                     $jo_break->datein = $datein;
                     $jo_break->time = $time_loop[$index];
-                    $jo_break->event = explode("_", $log_type)[1];
+                    $jo_break->event = explode("_", $l_type)[1];
                     $jo_break->remark = $edited_display;
                     $jo_break->edited = 7;
                     $jo_break->save();

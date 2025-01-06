@@ -15,7 +15,6 @@
     <list default="true" id="3d23eb58-b5c1-407c-b04e-480d452e50dc" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/controllers/TimeLogController.php" afterPath="$PROJECT_DIR$/app/controllers/TimeLogController.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/routes.php" afterPath="$PROJECT_DIR$/app/routes.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/timelog/timelog.blade.php" afterPath="$PROJECT_DIR$/app/views/timelog/timelog.blade.php" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -50,8 +49,8 @@
       <file leaf-file-name="TimeLogController.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/controllers/TimeLogController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="394">
-              <caret line="556" column="41" lean-forward="true" selection-start-line="556" selection-start-column="41" selection-end-line="556" selection-end-column="41" />
+            <state relative-caret-position="326">
+              <caret line="735" column="59" lean-forward="false" selection-start-line="735" selection-start-column="59" selection-end-line="735" selection-end-column="59" />
               <folding />
             </state>
           </provider>
@@ -60,14 +59,14 @@
       <file leaf-file-name="timelog.blade.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/views/timelog/timelog.blade.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="374">
-              <caret line="602" column="54" lean-forward="false" selection-start-line="602" selection-start-column="54" selection-end-line="602" selection-end-column="54" />
+            <state relative-caret-position="306">
+              <caret line="565" column="50" lean-forward="false" selection-start-line="565" selection-start-column="0" selection-end-line="566" selection-end-column="0" />
               <folding>
-                <marker date="1736129289712" expanded="true" signature="6481:6685" ph="..." />
-                <marker date="1736129289712" expanded="true" signature="37005:37089" ph="..." />
-                <marker date="1736129289712" expanded="true" signature="37924:37940" ph="..." />
-                <marker date="1736129289712" expanded="true" signature="38033:38085" ph="..." />
-                <marker date="1736129289712" expanded="true" signature="50285:50309" ph="..." />
+                <marker date="1736131181438" expanded="true" signature="6481:6685" ph="..." />
+                <marker date="1736131181438" expanded="true" signature="37005:37089" ph="..." />
+                <marker date="1736131181438" expanded="true" signature="37924:37940" ph="..." />
+                <marker date="1736131181438" expanded="true" signature="38033:38085" ph="..." />
+                <marker date="1736131181438" expanded="true" signature="48210:48234" ph="..." />
               </folding>
             </state>
           </provider>
@@ -672,12 +671,12 @@
       <workItem from="1732761844304" duration="7166000" />
       <workItem from="1735864284362" duration="9909000" />
       <workItem from="1735881312087" duration="12451000" />
-      <workItem from="1736124094132" duration="3516000" />
+      <workItem from="1736124094132" duration="4587000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="2977352000" />
+    <option name="totallyTimeSpent" value="2978423000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1118,25 +1117,25 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/timelog/timelog.blade.php">
+    <entry file="file://$PROJECT_DIR$/app/controllers/TimeLogController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="374">
-          <caret line="602" column="54" lean-forward="false" selection-start-line="602" selection-start-column="54" selection-end-line="602" selection-end-column="54" />
-          <folding>
-            <marker date="1736129289712" expanded="true" signature="6481:6685" ph="..." />
-            <marker date="1736129289712" expanded="true" signature="37005:37089" ph="..." />
-            <marker date="1736129289712" expanded="true" signature="37924:37940" ph="..." />
-            <marker date="1736129289712" expanded="true" signature="38033:38085" ph="..." />
-            <marker date="1736129289712" expanded="true" signature="50285:50309" ph="..." />
-          </folding>
+        <state relative-caret-position="326">
+          <caret line="735" column="59" lean-forward="false" selection-start-line="735" selection-start-column="59" selection-end-line="735" selection-end-column="59" />
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/controllers/TimeLogController.php">
+    <entry file="file://$PROJECT_DIR$/app/views/timelog/timelog.blade.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="394">
-          <caret line="556" column="41" lean-forward="true" selection-start-line="556" selection-start-column="41" selection-end-line="556" selection-end-column="41" />
-          <folding />
+        <state relative-caret-position="306">
+          <caret line="565" column="50" lean-forward="false" selection-start-line="565" selection-start-column="0" selection-end-line="566" selection-end-column="0" />
+          <folding>
+            <marker date="1736131181438" expanded="true" signature="6481:6685" ph="..." />
+            <marker date="1736131181438" expanded="true" signature="37005:37089" ph="..." />
+            <marker date="1736131181438" expanded="true" signature="37924:37940" ph="..." />
+            <marker date="1736131181438" expanded="true" signature="38033:38085" ph="..." />
+            <marker date="1736131181438" expanded="true" signature="48210:48234" ph="..." />
+          </folding>
         </state>
       </provider>
     </entry>
