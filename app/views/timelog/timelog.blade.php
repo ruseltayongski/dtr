@@ -601,6 +601,11 @@
                                 Lobibox.notify(result.notification,{
                                     msg:result.message
                                 });
+                            }).fail(function(xhr, status, error) {
+                                // Capture AJAX-specific errors
+                                console.error('AJAX Error:', error);
+                                console.error('Response Text:', xhr.responseText);
+
                             });
                             $("#"+this.id).html(edited_display);
                         }

@@ -41,11 +41,13 @@
                 <td class="align"><img src="{{ asset('public/img/doh.png') }}" width="100"></td>
                 <td width="90%" >
                     <div class="align small-text">
-                        DEPARTMENT OF HEALTH<br>
-                        <strong>CENTRAL VISAYAS CENTER for HEALTH DEVELOPMENT VII<br>
-                            APPLICATION FOR COMPENSATORY TIME OFF</strong><br>
+                        Republic of the Philippines<br>
+                        <strong>DEPARTMENT OF HEALTH<br></strong>
+                        <i>Central Visayas Center for Health Development</i><br><br>
+                            <strong>APPLICATION FOR COMPENSATORY TIME OFF<strong><br>
                     </div>
                 </td>
+                <td class="align"><img src="{{ asset('public/img/bagong_pilipinas2.png') }}" width="100"></td>
             </tr>
         </table>
         <br>
