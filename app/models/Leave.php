@@ -10,6 +10,7 @@ class Leave extends Eloquent
     public function appliedDates(){
         return $this->hasMany(LeaveAppliedDates::class, 'leave_id', 'id');
     }
+
     public function sl_remarks(){
         return $this->hasMany(SLRemarks::class, 'leave_id', 'id');
     }

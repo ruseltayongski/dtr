@@ -281,6 +281,7 @@ class DocumentController extends BaseController
 
             $rem_dates = $_POST['s_dates'];
             $remarks = $_POST['date_remarks'];
+
             foreach ($rem_dates as $index => $date){
                 $sl = new SLRemarks();
                 $sl->date = date('Y-m-d', strtotime($date));

@@ -485,7 +485,6 @@
 //                    vl_deduct = div + flow;
                 sl_deduct = sl;
             }
-            console.log('after',sl_deduct);
 
             $('#vl_rem').val(vl_rem);
             $('#sl_rem').val(sl_rem);

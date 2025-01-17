@@ -192,6 +192,7 @@
 
                     // Check if endDate is not later than the current date
                     if (end_date <= currentDate) {
+
                         var dayAfterEndDate = new Date(end_date);
                         dayAfterEndDate.setDate(dayAfterEndDate.getDate() + 1); // Increment endDate by 1 day
 

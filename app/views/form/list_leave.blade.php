@@ -173,7 +173,6 @@
                     }
                 <?php }?>
             });
-
             $('.pagination-link').on('click', function(e) {
                 e.preventDefault();
                 var nextPageUrl = $(this).attr('href');

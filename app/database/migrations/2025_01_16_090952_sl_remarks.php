@@ -12,7 +12,6 @@ class SlRemarks extends Migration {
 	 */
 	public function up()
 	{
-		//
         if(Schema::hasTable('sl_remarks')){
             return true;
         }

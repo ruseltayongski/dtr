@@ -435,19 +435,15 @@
             var size = element.getAttribute("rotangle");
             image = image.replace(/http:\/\/192\.168\.110\.44/g, "https://pis.cvchd7.com");
             $('#image_file').modal('show');
-            // $('#image_modal').html('<img src="' + image + '" alt="Image" class="" style="width: 120%; object-fit: cover;">');
             if(size){
                 var sizes = 90 + size;
                 $('#image_modal').html(
                     '<img src="' + image + '" alt="Image" class="img-fluid" style="transform: rotate(' + sizes + 'deg); width: 110%; object-fit: cover; border: 5px solid white; box-shadow: 0 0px 5px gray;" rotangle="' + size + '">'
                 );
-
             }else{
                 console.log('dasd');
                 $('#image_modal').html('<img src="' + image + '" alt="Image" class="img-fluid" style="width: 110%; object-fit: cover; border: 5px solid white; box-shadow: 0 0px 5px gray;">');
-
             }
-
         }
 
         $.fn.editable.defaults.mode = 'popup';

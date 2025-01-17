@@ -443,6 +443,7 @@
             $('#applied_num_days').val(data);
 
             if(data == 50){
+
                 alert('Please make sure to attach approved letter from RD!');
                 var total = Math.ceil((vl + sl)/2);
                 $('#applied_num_days').val(total);
