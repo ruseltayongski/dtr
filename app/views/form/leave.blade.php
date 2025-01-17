@@ -236,6 +236,16 @@
                                                 </div>
                                             {{--</strong>--}}
                                         @endforeach
+                                        @foreach($leave->sl_remarks as $row)
+                                            <div class="row" id="date_remarks" style="padding:10px; width:90%; margin-left: 5%">
+                                                <div>
+                                                    <span style="font-weight: bold">SL remarks:<br></span>
+                                                    <span style="display: inline-block; margin-right: 10px;">{{ date('m/d/Y',strtotime($row->date)) }}</span>
+                                                    <input type="text" value="{{ $row->remarks }}" class="form-control" name="date_remarks[]" placeholder="Enter remarks" name="remarks_' + formattedDate.replace(/\//g, '-') + '" style="display: inline-block;width: 80%" />
+                                                    <input type="hidden" name="s_dates[]" value="'+formattedDate+'">
+                                                </div>
+                                            </div>
+                                        @endforeach
                                     </td>
                                     <td style="width: 48%; margin-top: 10px; vertical-align: top" rowspan="2">
                                         <strong style="vertical-align: top">&nbsp;&nbsp;&nbsp;&nbsp;6.D COMMUTATION</strong>
@@ -475,7 +485,6 @@
 //                    vl_deduct = div + flow;
                 sl_deduct = sl;
             }
-            console.log('after',sl_deduct);
 
             $('#vl_rem').val(vl_rem);
             $('#sl_rem').val(sl_rem);
@@ -492,6 +501,7 @@
     $('.chosen-select-static').chosen();
     $('#inc_date').daterangepicker();
     $('input[name="leave_type"]').change(function(){
+        $('#date_remarks').empty();
 
         $('#inclusive11').attr({ required: true, disabled: false });
 

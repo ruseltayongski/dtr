@@ -150,6 +150,16 @@ class DocumentController extends BaseController
                 }
             }
 
+            $rem_dates = $_POST['s_dates'];
+            $remarks = $_POST['date_remarks'];
+            foreach ($rem_dates as $index => $date){
+                $sl = new SLRemarks();
+                $sl->date = date('Y-m-d', strtotime($date));
+                $sl->remarks = $remarks[$index];
+                $sl->leave_id = $leave->id;
+                $sl->save();
+            }
+
             $doc_type = 'APP_LEAVE';
             $prepared_date = date('Y-m-d',strtotime(date('Y-m-d'))).' '.date('H:i:s');
             $dts_user = DB::connection('dts')->select("SELECT id FROM users WHERE username = ? LIMIT 1",array(Auth::user()->userid));
@@ -267,6 +277,20 @@ class DocumentController extends BaseController
                     $leave_applied_dates->save();
                 }
             }
+
+            SLRemarks::where('leave_id', $leave->id)->delete();
+
+            $rem_dates = $_POST['s_dates'];
+            $remarks = $_POST['date_remarks'];
+
+            foreach ($rem_dates as $index => $date){
+                $sl = new SLRemarks();
+                $sl->date = date('Y-m-d', strtotime($date));
+                $sl->remarks = $remarks[$index];
+                $sl->leave_id = $leave->id;
+                $sl->save();
+            }
+
             return Redirect::to('form/leave/all')->with('message','Application for leave updated.');
         }else{
             return Redirect::to('form/leave/all')->with('message','Leave document does not exist.');
