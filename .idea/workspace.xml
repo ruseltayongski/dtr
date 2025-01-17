@@ -7,13 +7,15 @@
     <bookmark url="file://$PROJECT_DIR$/app/views/users/user_edit.blade.php" line="114" />
     <bookmark url="file://$PROJECT_DIR$/app/views/cdo/cdo_view.blade.php" />
     <bookmark url="file://$PROJECT_DIR$/app/views/form/all_leave.blade.php" line="467" />
-    <bookmark url="file://$PROJECT_DIR$/app/views/form/form_leave_script.blade.php" line="266" />
+    <bookmark url="file://$PROJECT_DIR$/app/views/form/form_leave_script.blade.php" line="265" />
     <bookmark url="file://$PROJECT_DIR$/app/controllers/cdoController.php" line="1898" mnemonic="9" />
     <bookmark url="file://$PROJECT_DIR$/app/controllers/cdoController.php" line="1396" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3d23eb58-b5c1-407c-b04e-480d452e50dc" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/cdo/cdo_pdf.blade.php" afterPath="$PROJECT_DIR$/app/views/cdo/cdo_pdf.blade.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/config/database.php" afterPath="$PROJECT_DIR$/app/config/database.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/controllers/DocumentController.php" afterPath="$PROJECT_DIR$/app/controllers/DocumentController.php" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -24,7 +26,7 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="database.php" pinned="false" current-in-tab="false">
+      <file leaf-file-name="database.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/config/database.php">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="68">
@@ -37,19 +39,42 @@
       <file leaf-file-name="routes.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/routes.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="5882">
-              <caret line="346" column="35" lean-forward="false" selection-start-line="346" selection-start-column="26" selection-end-line="346" selection-end-column="35" />
+            <state relative-caret-position="216">
+              <caret line="126" column="57" lean-forward="false" selection-start-line="126" selection-start-column="48" selection-end-line="126" selection-end-column="57" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="TimeLogController.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/controllers/TimeLogController.php">
+      <file leaf-file-name="leave.blade.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/views/form/leave.blade.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="12495">
-              <caret line="735" column="59" lean-forward="false" selection-start-line="735" selection-start-column="59" selection-end-line="735" selection-end-column="59" />
+            <state relative-caret-position="-3315">
+              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="DocumentController.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/controllers/DocumentController.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="323">
+              <caret line="63" column="0" lean-forward="false" selection-start-line="63" selection-start-column="0" selection-end-line="63" selection-end-column="0" />
+              <folding>
+                <marker date="1737093463453" expanded="true" signature="7499:7546" ph="SELECT id FR... users" />
+                <marker date="1737093463453" expanded="true" signature="8003:8139" ph="INSERT INTO TRACKING_MASTER... " />
+                <marker date="1737093463453" expanded="true" signature="8555:8685" ph="INSERT INTO TRACKING_DETAILS... " />
+                <marker date="1737093463453" expanded="true" signature="8987:9094" ph="INSERT INTO SYSTEMLOGS... " />
+                <marker date="1737093463453" expanded="true" signature="52901:53102" ph="..." />
+                <marker date="1737093463453" expanded="true" signature="53772:53790" ph="..." />
+                <marker date="1737093463453" expanded="true" signature="53791:54119" ph="..." />
+                <marker date="1737093463453" expanded="false" signature="53824:53836" ph="..." />
+                <marker date="1737093463453" expanded="false" signature="53880:53892" ph="..." />
+                <marker date="1737093463453" expanded="false" signature="53942:53954" ph="..." />
+                <marker date="1737093463453" expanded="false" signature="54005:54017" ph="..." />
+                <marker date="1737093463453" expanded="false" signature="54067:54079" ph="..." />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -57,129 +82,15 @@
       <file leaf-file-name="timelog.blade.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/views/timelog/timelog.blade.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="442">
+            <state relative-caret-position="668">
               <caret line="612" column="19" lean-forward="false" selection-start-line="612" selection-start-column="19" selection-end-line="612" selection-end-column="19" />
               <folding>
-                <marker date="1736407111929" expanded="true" signature="6481:6685" ph="..." />
-                <marker date="1736407111929" expanded="true" signature="37005:37089" ph="..." />
-                <marker date="1736407111929" expanded="true" signature="37924:37940" ph="..." />
-                <marker date="1736407111929" expanded="true" signature="38033:38085" ph="..." />
-                <marker date="1736407111929" expanded="true" signature="38301:45637" ph="{...}" />
-                <marker date="1736407111929" expanded="true" signature="38345:45626" ph="{...}" />
-                <marker date="1736407111929" expanded="true" signature="38387:45610" ph="{&quot;type&quot;: 'radiolist'...}" />
-                <marker date="1736407111929" expanded="true" signature="38604:45592" ph="{...}" />
-                <marker date="1736407111929" expanded="true" signature="44417:45570" ph="{...}" />
-                <marker date="1736407111929" expanded="true" signature="44563:45193" ph="{...}" />
-                <marker date="1736407111929" expanded="true" signature="45711:45795" ph="{...}" />
-                <marker date="1736407111929" expanded="true" signature="45921:48236" ph="{...}" />
-                <marker date="1736407111929" expanded="true" signature="45963:47775" ph="{...}" />
-                <marker date="1736407111929" expanded="true" signature="46089:46144" ph="{...}" />
-                <marker date="1736407111929" expanded="true" signature="46215:46636" ph="{...}" />
-                <marker date="1736407111929" expanded="true" signature="46374:46560" ph="{&quot;type&quot;: 'radio'...}" />
-                <marker date="1736407111929" expanded="true" signature="47314:47546" ph="{&quot;elementId&quot;: ID...}" />
-                <marker date="1736407111929" expanded="true" signature="47584:47619" ph="..." />
-                <marker date="1736407111929" expanded="true" signature="47676:47755" ph="{...}" />
-                <marker date="1736407111929" expanded="true" signature="47818:47902" ph="{...}" />
-                <marker date="1736407111929" expanded="true" signature="47945:48004" ph="{...}" />
-                <marker date="1736407111929" expanded="true" signature="48162:48221" ph="{...}" />
-                <marker date="1736407111929" expanded="true" signature="48320:48816" ph="{&quot;name&quot;: 'defaultname'...}" />
-                <marker date="1736407111929" expanded="true" signature="48338:48431" ph="/**@property tpl ...*/" />
-                <marker date="1736407111929" expanded="true" signature="48494:48518" ph="..." />
-                <marker date="1736407111929" expanded="true" signature="48546:48731" ph="/**@property inputclass, attached to the &lt;label&gt; wrapper instead of the input element ...*/" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="cdo_pdf.blade.php" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/views/cdo/cdo_pdf.blade.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="2583" lean-forward="false" selection-start-line="0" selection-start-column="2583" selection-end-line="0" selection-end-column="2583" />
-              <folding>
-                <element signature="n#style#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#0;n#td#1;n#tr#0;n#table#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#u#0;n#td#1;n#tr#0;n#table#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#u#0;n#td#3;n#tr#0;n#table#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#td#0;n#tr#0;n#table#2;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#td#0;n#tr#1;n#table#0;n#td#0;n#tr#0;n#table#2;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#td#2;n#tr#1;n#table#0;n#td#0;n#tr#0;n#table#2;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#0;n#td#1;n#tr#0;n#table#2;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#u#0;n#div#0;n#td#1;n#tr#0;n#table#2;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="e#2967#2973#0#HTML" expanded="true" />
-                <element signature="e#2973#2979#0#HTML" expanded="true" />
-                <element signature="e#2979#2985#0#HTML" expanded="true" />
-                <element signature="e#2986#2992#0#HTML" expanded="true" />
-                <element signature="e#2992#2998#0#HTML" expanded="true" />
-                <element signature="e#2998#3004#0#HTML" expanded="true" />
-                <element signature="e#3403#3409#0#HTML" expanded="true" />
-                <element signature="e#3409#3415#0#HTML" expanded="true" />
-                <element signature="e#3415#3421#0#HTML" expanded="true" />
-                <element signature="e#3421#3427#0#HTML" expanded="true" />
-                <element signature="e#3427#3433#0#HTML" expanded="true" />
-                <element signature="e#3433#3439#0#HTML" expanded="true" />
-                <element signature="e#3439#3445#0#HTML" expanded="true" />
-                <element signature="e#3445#3451#0#HTML" expanded="true" />
-                <element signature="e#3451#3457#0#HTML" expanded="true" />
-                <element signature="e#3457#3463#0#HTML" expanded="true" />
-                <element signature="e#3463#3469#0#HTML" expanded="true" />
-                <element signature="e#3469#3475#0#HTML" expanded="true" />
-                <element signature="e#3475#3481#0#HTML" expanded="true" />
-                <element signature="e#3481#3487#0#HTML" expanded="true" />
-                <element signature="e#3487#3493#0#HTML" expanded="true" />
-                <element signature="e#3493#3499#0#HTML" expanded="true" />
-                <element signature="e#3499#3505#0#HTML" expanded="true" />
-                <element signature="e#3505#3511#0#HTML" expanded="true" />
-                <element signature="e#3512#3518#0#HTML" expanded="true" />
-                <element signature="e#3518#3524#0#HTML" expanded="true" />
-                <element signature="e#3524#3530#0#HTML" expanded="true" />
-                <element signature="e#3530#3536#0#HTML" expanded="true" />
-                <element signature="e#3536#3542#0#HTML" expanded="true" />
-                <element signature="e#3542#3548#0#HTML" expanded="true" />
-                <element signature="e#3548#3554#0#HTML" expanded="true" />
-                <element signature="e#3554#3560#0#HTML" expanded="true" />
-                <element signature="e#3560#3566#0#HTML" expanded="true" />
-                <element signature="e#3566#3572#0#HTML" expanded="true" />
-                <element signature="e#3572#3578#0#HTML" expanded="true" />
-                <element signature="e#3578#3584#0#HTML" expanded="true" />
-                <element signature="e#3584#3590#0#HTML" expanded="true" />
-                <element signature="e#3590#3596#0#HTML" expanded="true" />
-                <element signature="e#3597#3603#0#HTML" expanded="true" />
-                <element signature="e#3603#3609#0#HTML" expanded="true" />
-                <element signature="e#3609#3615#0#HTML" expanded="true" />
-                <element signature="e#3615#3621#0#HTML" expanded="true" />
-                <element signature="e#3621#3627#0#HTML" expanded="true" />
-                <element signature="e#3627#3633#0#HTML" expanded="true" />
-                <element signature="e#3633#3639#0#HTML" expanded="true" />
-                <element signature="e#3639#3645#0#HTML" expanded="true" />
-                <element signature="e#3645#3651#0#HTML" expanded="true" />
-                <element signature="e#3651#3657#0#HTML" expanded="true" />
-                <element signature="e#3657#3663#0#HTML" expanded="true" />
-                <element signature="e#3663#3669#0#HTML" expanded="true" />
-                <element signature="n#style#0;n#div#0;n#td#0;n#tr#1;n#table#0;n#td#1;n#tr#0;n#table#3;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="e#6343#6349#0#HTML" expanded="true" />
-                <element signature="e#6349#6355#0#HTML" expanded="true" />
-                <element signature="e#6355#6361#0#HTML" expanded="true" />
-                <element signature="e#6361#6367#0#HTML" expanded="true" />
-                <element signature="e#6367#6373#0#HTML" expanded="true" />
-                <element signature="e#6373#6379#0#HTML" expanded="true" />
-                <element signature="e#6466#6472#0#HTML" expanded="true" />
-                <element signature="e#6472#6478#0#HTML" expanded="true" />
-                <element signature="e#6478#6484#0#HTML" expanded="true" />
-                <element signature="e#6484#6490#0#HTML" expanded="true" />
-                <element signature="e#6490#6496#0#HTML" expanded="true" />
-                <element signature="e#6496#6502#0#HTML" expanded="true" />
-                <element signature="e#6826#6832#0#HTML" expanded="true" />
-                <element signature="e#6832#6838#0#HTML" expanded="true" />
-                <element signature="e#6955#6961#0#HTML" expanded="true" />
-                <element signature="e#6961#6967#0#HTML" expanded="true" />
-                <element signature="e#7062#7068#0#HTML" expanded="true" />
-                <element signature="e#7068#7074#0#HTML" expanded="true" />
-                <element signature="e#7181#7187#0#HTML" expanded="true" />
-                <element signature="e#7187#7193#0#HTML" expanded="true" />
-                <element signature="n#style#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#font#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <marker date="1737091837358" expanded="true" signature="6481:6685" ph="..." />
+                <marker date="1737091837358" expanded="true" signature="37051:37172" ph="..." />
+                <marker date="1737091837358" expanded="true" signature="37340:37424" ph="..." />
+                <marker date="1737091837358" expanded="true" signature="38272:38288" ph="..." />
+                <marker date="1737091837358" expanded="true" signature="38381:38433" ph="..." />
+                <marker date="1737091837358" expanded="true" signature="48842:48866" ph="..." />
               </folding>
             </state>
           </provider>
@@ -189,8 +100,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>Are you sure you want to delete this holiday?</find>
-      <find>calendar_delete</find>
       <find>calendar_update</find>
       <find>Successfully Holiday Resized!</find>
       <find>disapp</find>
@@ -219,6 +128,8 @@
       <find>CHECK</find>
       <find>M d, Y</find>
       <find>Immediate Supervisor</find>
+      <find>leave/get/</find>
+      <find>get_leave</find>
     </findStrings>
     <replaceStrings>
       <replace />
@@ -278,13 +189,13 @@
         <option value="$PROJECT_DIR$/app/views/calendar/calendar.blade.php" />
         <option value="$PROJECT_DIR$/app/controllers/cdoController.php" />
         <option value="$PROJECT_DIR$/app/views/form/form_leave.blade.php" />
-        <option value="$PROJECT_DIR$/app/controllers/DocumentController.php" />
         <option value="$PROJECT_DIR$/app/views/form/form_leave_script.blade.php" />
         <option value="$PROJECT_DIR$/app/routes.php" />
         <option value="$PROJECT_DIR$/app/views/timelog/timelog.blade.php" />
         <option value="$PROJECT_DIR$/app/controllers/TimeLogController.php" />
-        <option value="$PROJECT_DIR$/app/config/database.php" />
         <option value="$PROJECT_DIR$/app/views/cdo/cdo_pdf.blade.php" />
+        <option value="$PROJECT_DIR$/app/controllers/DocumentController.php" />
+        <option value="$PROJECT_DIR$/app/config/database.php" />
       </list>
     </option>
   </component>
@@ -320,6 +231,45 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope">
+        <subPane subId="Changed Files">
+          <expand>
+            <path>
+              <item name="Root" type="cbb8eebc:String" user="Root" />
+              <item name="dtrF" type="cbb8eebc:String" user="dtrF" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+        <subPane subId="Project Files">
+          <expand>
+            <path>
+              <item name="Root" type="cbb8eebc:String" user="Root" />
+              <item name="dtr" type="cbb8eebc:String" user="dtr" />
+            </path>
+            <path>
+              <item name="Root" type="cbb8eebc:String" user="Root" />
+              <item name="dtr" type="cbb8eebc:String" user="dtr" />
+              <item name="app" type="cbb8eebc:String" user="app" />
+            </path>
+            <path>
+              <item name="Root" type="cbb8eebc:String" user="Root" />
+              <item name="dtr" type="cbb8eebc:String" user="dtr" />
+              <item name="app" type="cbb8eebc:String" user="app" />
+              <item name="database" type="cbb8eebc:String" user="database" />
+            </path>
+            <path>
+              <item name="Root" type="cbb8eebc:String" user="Root" />
+              <item name="dtr" type="cbb8eebc:String" user="dtr" />
+              <item name="app" type="cbb8eebc:String" user="app" />
+              <item name="database" type="cbb8eebc:String" user="database" />
+              <item name="migrations" type="cbb8eebc:String" user="migrations" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -413,52 +363,13 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope">
-        <subPane subId="Changed Files">
-          <expand>
-            <path>
-              <item name="Root" type="cbb8eebc:String" user="Root" />
-              <item name="dtrF" type="cbb8eebc:String" user="dtrF" />
-            </path>
-          </expand>
-          <select />
-        </subPane>
-        <subPane subId="Project Files">
-          <expand>
-            <path>
-              <item name="Root" type="cbb8eebc:String" user="Root" />
-              <item name="dtr" type="cbb8eebc:String" user="dtr" />
-            </path>
-            <path>
-              <item name="Root" type="cbb8eebc:String" user="Root" />
-              <item name="dtr" type="cbb8eebc:String" user="dtr" />
-              <item name="app" type="cbb8eebc:String" user="app" />
-            </path>
-            <path>
-              <item name="Root" type="cbb8eebc:String" user="Root" />
-              <item name="dtr" type="cbb8eebc:String" user="dtr" />
-              <item name="app" type="cbb8eebc:String" user="app" />
-              <item name="database" type="cbb8eebc:String" user="database" />
-            </path>
-            <path>
-              <item name="Root" type="cbb8eebc:String" user="Root" />
-              <item name="dtr" type="cbb8eebc:String" user="dtr" />
-              <item name="app" type="cbb8eebc:String" user="app" />
-              <item name="database" type="cbb8eebc:String" user="database" />
-              <item name="migrations" type="cbb8eebc:String" user="migrations" />
-            </path>
-          </expand>
-          <select />
-        </subPane>
-      </pane>
-      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="nodejs_interpreter_path" value="C:/Program Files/nodejs/node" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="SearchEverywhereHistoryKey" value="pdf&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/cdo/cdo_pdf.blade.php&#10;TImelogC&#9;null&#9;null&#10;time&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/timelog/timelog.blade.php&#10;route&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/routes.php&#10;databa&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/config/database.php&#10;Documen&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/controllers/DocumentController.php&#10;cdoC&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/controllers/cdoController.php&#10;cdo_a&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/cdo/cdo_approve.blade.php&#10;pending&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/cdo/cdo_pending.blade.php&#10;AdminC&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/controllers/AdminController.php&#10;cdoCon&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/controllers/cdoController.php&#10;Calenda&#9;null&#9;null&#10;print&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/FPDF/timelog/print_timelog.php&#10;cdo_&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/cdo/cdo_roles.blade.php&#10;data&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/config/database.php&#10;pdo&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/controllers/pdoController.php&#10;Mobile&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/controllers/MobileControllerV2.php&#10;Docume&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/controllers/DocumentController.php&#10;admin&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/controllers/AdminController.php&#10;Admin&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/controllers/AdminController.php&#10;ter&#9;ACTION&#9;ActivateTerminalToolWindow&#10;cdo&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/cdo/cdo_cert.blade.php&#10;Infor&#9;null&#9;null&#10;cdoCo&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/controllers/cdoController.php&#10;cdo_view&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/cdo/cdo_view.blade.php&#10;cdo_vi&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/cdo/cdo_view.blade.php&#10;cdo_pdf&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/cdo/cdo_pdf.blade.php&#10;cdo_cer&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/cdo/cdo_cert.blade.php&#10;cance&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/form/form_cancelled.blade.php&#10;cdo_pe&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/cdo/cdo_pending.blade.php&#10;termina&#9;ACTION&#9;ActivateTerminalToolWindow&#10;cd&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/cdo/cdo_all.blade.php&#10;moda&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/modal.blade.php&#10;AppAPI&#9;null&#9;null&#10;termin&#9;ACTION&#9;ActivateTerminalToolWindow&#10;modal&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/modal.blade.php&#10;cdoCOn&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/controllers/cdoController.php&#10;leave&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/form/leave.blade.php&#10;update&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/form/update_leave.blade.php&#10;index&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/employee/index.blade.php&#10;cdo_all&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/cdo/cdo_all.blade.php&#10;cdo_app&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/cdo/cdo_approve.blade.php&#10;Time&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/controllers/TimeLogController.php&#10;timelo&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/timelog/timelog.blade.php&#10;datab&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/config/database.php&#10;cdo_pen&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/cdo/cdo_pending.blade.php&#10;layou&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/vendor/filp/whoops/src/Whoops/Resources/views/layout.html.php&#10;form_app&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/form/form_approve.blade.php&#10;Document&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/controllers/DocumentController.php&#10;CDO&#9;null&#9;null" />
+    <property name="SearchEverywhereHistoryKey" value="databa&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/config/database.php&#10;time&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/timelog/timelog.blade.php&#10;Documen&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/controllers/DocumentController.php&#10;leave&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/form/leave.blade.php&#10;routes&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/routes.php&#10;ter&#9;ACTION&#9;ActivateTerminalToolWindow&#10;pdf&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/cdo/cdo_pdf.blade.php&#10;TImelogC&#9;null&#9;null&#10;route&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/routes.php&#10;cdoC&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/controllers/cdoController.php&#10;cdo_a&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/cdo/cdo_approve.blade.php&#10;pending&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/cdo/cdo_pending.blade.php&#10;AdminC&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/controllers/AdminController.php&#10;cdoCon&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/controllers/cdoController.php&#10;Calenda&#9;null&#9;null&#10;print&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/FPDF/timelog/print_timelog.php&#10;cdo_&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/cdo/cdo_roles.blade.php&#10;data&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/config/database.php&#10;pdo&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/controllers/pdoController.php&#10;Mobile&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/controllers/MobileControllerV2.php&#10;Docume&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/controllers/DocumentController.php&#10;admin&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/controllers/AdminController.php&#10;Admin&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/controllers/AdminController.php&#10;cdo&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/cdo/cdo_cert.blade.php&#10;Infor&#9;null&#9;null&#10;cdoCo&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/controllers/cdoController.php&#10;cdo_view&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/cdo/cdo_view.blade.php&#10;cdo_vi&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/cdo/cdo_view.blade.php&#10;cdo_pdf&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/cdo/cdo_pdf.blade.php&#10;cdo_cer&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/cdo/cdo_cert.blade.php&#10;cance&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/form/form_cancelled.blade.php&#10;cdo_pe&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/cdo/cdo_pending.blade.php&#10;termina&#9;ACTION&#9;ActivateTerminalToolWindow&#10;cd&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/cdo/cdo_all.blade.php&#10;moda&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/modal.blade.php&#10;AppAPI&#9;null&#9;null&#10;termin&#9;ACTION&#9;ActivateTerminalToolWindow&#10;modal&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/modal.blade.php&#10;cdoCOn&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/controllers/cdoController.php&#10;update&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/form/update_leave.blade.php&#10;index&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/employee/index.blade.php&#10;cdo_all&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/cdo/cdo_all.blade.php&#10;cdo_app&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/cdo/cdo_approve.blade.php&#10;Time&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/controllers/TimeLogController.php&#10;timelo&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/timelog/timelog.blade.php&#10;datab&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/config/database.php&#10;cdo_pen&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/cdo/cdo_pending.blade.php&#10;layou&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/vendor/filp/whoops/src/Whoops/Resources/views/layout.html.php&#10;form_app&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/views/form/form_approve.blade.php&#10;Document&#9;FILE&#9;file://C:/xampp_7/htdocs/dtr/app/controllers/DocumentController.php" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
     <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
   </component>
@@ -786,11 +697,12 @@
       <workItem from="1735864284362" duration="9909000" />
       <workItem from="1735881312087" duration="12451000" />
       <workItem from="1736124094132" duration="4587000" />
+      <workItem from="1737092069198" duration="1545000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="2978959000" />
+    <option name="totallyTimeSpent" value="2980504000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -809,7 +721,6 @@
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.040570177" sideWeight="0.4936034" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.22566845" sideWeight="0.36875" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32894737" sideWeight="0.4978678" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -817,23 +728,14 @@
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.13925439" sideWeight="0.4978678" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.040570177" sideWeight="0.4936034" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32941177" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.22566845" sideWeight="0.36875" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2224599" sideWeight="0.63125" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.14166667" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Inspection Results" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.069078945" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32894737" sideWeight="0.4978678" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.13925439" sideWeight="0.4978678" order="3" side_tool="false" content_ui="tabs" />
     </layout>
     <layout-to-restore>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.040570177" sideWeight="0.4936034" order="6" side_tool="false" content_ui="tabs" />
@@ -888,13 +790,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/models/Comments.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="5" column="8" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="6" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/models/CdoCertification.php" />
     <entry file="file://$PROJECT_DIR$/app/models/CdoAppliedDate.php">
       <provider selected="true" editor-type-id="text-editor">
@@ -1042,9 +937,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <marker date="1724030131483" expanded="true" signature="7854:7940" ph="DELETE FROM " />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1146,19 +1039,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="386">
           <caret line="990" column="5" lean-forward="true" selection-start-line="990" selection-start-column="5" selection-end-line="990" selection-end-column="5" />
-          <folding>
-            <marker date="1728369900266" expanded="true" signature="16451:16743" ph="SELECT CONCA... users" />
-            <marker date="1728369900266" expanded="true" signature="51739:52066" ph="..." />
-            <marker date="1728369900266" expanded="true" signature="52476:52991" ph="..." />
-            <marker date="1728369900266" expanded="false" signature="52509:52522" ph="..." />
-            <marker date="1728369900266" expanded="false" signature="52561:52574" ph="..." />
-            <marker date="1728369900266" expanded="false" signature="52620:52633" ph="..." />
-            <marker date="1728369900266" expanded="false" signature="52682:52695" ph="..." />
-            <marker date="1728369900266" expanded="false" signature="52750:52763" ph="..." />
-            <marker date="1728369900266" expanded="false" signature="52814:52827" ph="..." />
-            <marker date="1728369900266" expanded="false" signature="52876:52889" ph="..." />
-            <marker date="1728369900266" expanded="false" signature="52940:52953" ph="..." />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1191,45 +1072,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/controllers/DocumentController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="986">
-          <caret line="63" column="34" lean-forward="false" selection-start-line="63" selection-start-column="34" selection-end-line="63" selection-end-column="34" />
-          <folding>
-            <marker date="1736407111926" expanded="true" signature="7156:7203" ph="SELECT id FR... users" />
-            <marker date="1736407111926" expanded="true" signature="7660:7796" ph="INSERT INTO TRACKING_MASTER... " />
-            <marker date="1736407111926" expanded="true" signature="8212:8342" ph="INSERT INTO TRACKING_DETAILS... " />
-            <marker date="1736407111926" expanded="true" signature="8644:8751" ph="INSERT INTO SYSTEMLOGS... " />
-            <marker date="1736407111926" expanded="true" signature="52078:52279" ph="..." />
-            <marker date="1736407111926" expanded="true" signature="52949:52967" ph="..." />
-            <marker date="1736407111926" expanded="true" signature="52968:53296" ph="..." />
-            <marker date="1736407111926" expanded="false" signature="53001:53013" ph="..." />
-            <marker date="1736407111926" expanded="false" signature="53057:53069" ph="..." />
-            <marker date="1736407111926" expanded="false" signature="53119:53131" ph="..." />
-            <marker date="1736407111926" expanded="false" signature="53182:53194" ph="..." />
-            <marker date="1736407111926" expanded="false" signature="53244:53256" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/views/form/form_leave_script.blade.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="276">
           <caret line="103" column="37" lean-forward="false" selection-start-line="103" selection-start-column="37" selection-end-line="103" selection-end-column="37" />
-          <folding>
-            <marker date="1735873264270" expanded="true" signature="4259:4301" ph="..." />
-            <marker date="1735873264270" expanded="true" signature="4522:4554" ph="..." />
-            <marker date="1735873264270" expanded="true" signature="9881:9929" ph="..." />
-            <marker date="1735873264270" expanded="true" signature="10252:10300" ph="..." />
-            <marker date="1735873264270" expanded="true" signature="10547:10595" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/routes.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="5882">
-          <caret line="346" column="35" lean-forward="false" selection-start-line="346" selection-start-column="26" selection-end-line="346" selection-end-column="35" />
           <folding />
         </state>
       </provider>
@@ -1242,37 +1088,62 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/cdo/cdo_pdf.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="2583" lean-forward="false" selection-start-line="0" selection-start-column="2583" selection-end-line="0" selection-end-column="2583" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/form/leave.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-3315">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/routes.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="216">
+          <caret line="126" column="57" lean-forward="false" selection-start-line="126" selection-start-column="48" selection-end-line="126" selection-end-column="57" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/controllers/DocumentController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="323">
+          <caret line="63" column="0" lean-forward="false" selection-start-line="63" selection-start-column="0" selection-end-line="63" selection-end-column="0" />
+          <folding>
+            <marker date="1737093463453" expanded="true" signature="7499:7546" ph="SELECT id FR... users" />
+            <marker date="1737093463453" expanded="true" signature="8003:8139" ph="INSERT INTO TRACKING_MASTER... " />
+            <marker date="1737093463453" expanded="true" signature="8555:8685" ph="INSERT INTO TRACKING_DETAILS... " />
+            <marker date="1737093463453" expanded="true" signature="8987:9094" ph="INSERT INTO SYSTEMLOGS... " />
+            <marker date="1737093463453" expanded="true" signature="52901:53102" ph="..." />
+            <marker date="1737093463453" expanded="true" signature="53772:53790" ph="..." />
+            <marker date="1737093463453" expanded="true" signature="53791:54119" ph="..." />
+            <marker date="1737093463453" expanded="false" signature="53824:53836" ph="..." />
+            <marker date="1737093463453" expanded="false" signature="53880:53892" ph="..." />
+            <marker date="1737093463453" expanded="false" signature="53942:53954" ph="..." />
+            <marker date="1737093463453" expanded="false" signature="54005:54017" ph="..." />
+            <marker date="1737093463453" expanded="false" signature="54067:54079" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/views/timelog/timelog.blade.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="442">
+        <state relative-caret-position="668">
           <caret line="612" column="19" lean-forward="false" selection-start-line="612" selection-start-column="19" selection-end-line="612" selection-end-column="19" />
           <folding>
-            <marker date="1736407111929" expanded="true" signature="6481:6685" ph="..." />
-            <marker date="1736407111929" expanded="true" signature="37005:37089" ph="..." />
-            <marker date="1736407111929" expanded="true" signature="37924:37940" ph="..." />
-            <marker date="1736407111929" expanded="true" signature="38033:38085" ph="..." />
-            <marker date="1736407111929" expanded="true" signature="38301:45637" ph="{...}" />
-            <marker date="1736407111929" expanded="true" signature="38345:45626" ph="{...}" />
-            <marker date="1736407111929" expanded="true" signature="38387:45610" ph="{&quot;type&quot;: 'radiolist'...}" />
-            <marker date="1736407111929" expanded="true" signature="38604:45592" ph="{...}" />
-            <marker date="1736407111929" expanded="true" signature="44417:45570" ph="{...}" />
-            <marker date="1736407111929" expanded="true" signature="44563:45193" ph="{...}" />
-            <marker date="1736407111929" expanded="true" signature="45711:45795" ph="{...}" />
-            <marker date="1736407111929" expanded="true" signature="45921:48236" ph="{...}" />
-            <marker date="1736407111929" expanded="true" signature="45963:47775" ph="{...}" />
-            <marker date="1736407111929" expanded="true" signature="46089:46144" ph="{...}" />
-            <marker date="1736407111929" expanded="true" signature="46215:46636" ph="{...}" />
-            <marker date="1736407111929" expanded="true" signature="46374:46560" ph="{&quot;type&quot;: 'radio'...}" />
-            <marker date="1736407111929" expanded="true" signature="47314:47546" ph="{&quot;elementId&quot;: ID...}" />
-            <marker date="1736407111929" expanded="true" signature="47584:47619" ph="..." />
-            <marker date="1736407111929" expanded="true" signature="47676:47755" ph="{...}" />
-            <marker date="1736407111929" expanded="true" signature="47818:47902" ph="{...}" />
-            <marker date="1736407111929" expanded="true" signature="47945:48004" ph="{...}" />
-            <marker date="1736407111929" expanded="true" signature="48162:48221" ph="{...}" />
-            <marker date="1736407111929" expanded="true" signature="48320:48816" ph="{&quot;name&quot;: 'defaultname'...}" />
-            <marker date="1736407111929" expanded="true" signature="48338:48431" ph="/**@property tpl ...*/" />
-            <marker date="1736407111929" expanded="true" signature="48494:48518" ph="..." />
-            <marker date="1736407111929" expanded="true" signature="48546:48731" ph="/**@property inputclass, attached to the &lt;label&gt; wrapper instead of the input element ...*/" />
+            <marker date="1737091837358" expanded="true" signature="6481:6685" ph="..." />
+            <marker date="1737091837358" expanded="true" signature="37051:37172" ph="..." />
+            <marker date="1737091837358" expanded="true" signature="37340:37424" ph="..." />
+            <marker date="1737091837358" expanded="true" signature="38272:38288" ph="..." />
+            <marker date="1737091837358" expanded="true" signature="38381:38433" ph="..." />
+            <marker date="1737091837358" expanded="true" signature="48842:48866" ph="..." />
           </folding>
         </state>
       </provider>
@@ -1282,98 +1153,6 @@
         <state relative-caret-position="68">
           <caret line="4" column="25" lean-forward="false" selection-start-line="4" selection-start-column="25" selection-end-line="4" selection-end-column="25" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/cdo/cdo_pdf.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="2583" lean-forward="false" selection-start-line="0" selection-start-column="2583" selection-end-line="0" selection-end-column="2583" />
-          <folding>
-            <element signature="n#style#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#td#1;n#tr#0;n#table#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#u#0;n#td#1;n#tr#0;n#table#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#u#0;n#td#3;n#tr#0;n#table#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#td#0;n#tr#0;n#table#2;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#td#0;n#tr#1;n#table#0;n#td#0;n#tr#0;n#table#2;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#td#2;n#tr#1;n#table#0;n#td#0;n#tr#0;n#table#2;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#td#1;n#tr#0;n#table#2;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#u#0;n#div#0;n#td#1;n#tr#0;n#table#2;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="e#2967#2973#0#HTML" expanded="true" />
-            <element signature="e#2973#2979#0#HTML" expanded="true" />
-            <element signature="e#2979#2985#0#HTML" expanded="true" />
-            <element signature="e#2986#2992#0#HTML" expanded="true" />
-            <element signature="e#2992#2998#0#HTML" expanded="true" />
-            <element signature="e#2998#3004#0#HTML" expanded="true" />
-            <element signature="e#3403#3409#0#HTML" expanded="true" />
-            <element signature="e#3409#3415#0#HTML" expanded="true" />
-            <element signature="e#3415#3421#0#HTML" expanded="true" />
-            <element signature="e#3421#3427#0#HTML" expanded="true" />
-            <element signature="e#3427#3433#0#HTML" expanded="true" />
-            <element signature="e#3433#3439#0#HTML" expanded="true" />
-            <element signature="e#3439#3445#0#HTML" expanded="true" />
-            <element signature="e#3445#3451#0#HTML" expanded="true" />
-            <element signature="e#3451#3457#0#HTML" expanded="true" />
-            <element signature="e#3457#3463#0#HTML" expanded="true" />
-            <element signature="e#3463#3469#0#HTML" expanded="true" />
-            <element signature="e#3469#3475#0#HTML" expanded="true" />
-            <element signature="e#3475#3481#0#HTML" expanded="true" />
-            <element signature="e#3481#3487#0#HTML" expanded="true" />
-            <element signature="e#3487#3493#0#HTML" expanded="true" />
-            <element signature="e#3493#3499#0#HTML" expanded="true" />
-            <element signature="e#3499#3505#0#HTML" expanded="true" />
-            <element signature="e#3505#3511#0#HTML" expanded="true" />
-            <element signature="e#3512#3518#0#HTML" expanded="true" />
-            <element signature="e#3518#3524#0#HTML" expanded="true" />
-            <element signature="e#3524#3530#0#HTML" expanded="true" />
-            <element signature="e#3530#3536#0#HTML" expanded="true" />
-            <element signature="e#3536#3542#0#HTML" expanded="true" />
-            <element signature="e#3542#3548#0#HTML" expanded="true" />
-            <element signature="e#3548#3554#0#HTML" expanded="true" />
-            <element signature="e#3554#3560#0#HTML" expanded="true" />
-            <element signature="e#3560#3566#0#HTML" expanded="true" />
-            <element signature="e#3566#3572#0#HTML" expanded="true" />
-            <element signature="e#3572#3578#0#HTML" expanded="true" />
-            <element signature="e#3578#3584#0#HTML" expanded="true" />
-            <element signature="e#3584#3590#0#HTML" expanded="true" />
-            <element signature="e#3590#3596#0#HTML" expanded="true" />
-            <element signature="e#3597#3603#0#HTML" expanded="true" />
-            <element signature="e#3603#3609#0#HTML" expanded="true" />
-            <element signature="e#3609#3615#0#HTML" expanded="true" />
-            <element signature="e#3615#3621#0#HTML" expanded="true" />
-            <element signature="e#3621#3627#0#HTML" expanded="true" />
-            <element signature="e#3627#3633#0#HTML" expanded="true" />
-            <element signature="e#3633#3639#0#HTML" expanded="true" />
-            <element signature="e#3639#3645#0#HTML" expanded="true" />
-            <element signature="e#3645#3651#0#HTML" expanded="true" />
-            <element signature="e#3651#3657#0#HTML" expanded="true" />
-            <element signature="e#3657#3663#0#HTML" expanded="true" />
-            <element signature="e#3663#3669#0#HTML" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#td#0;n#tr#1;n#table#0;n#td#1;n#tr#0;n#table#3;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="e#6343#6349#0#HTML" expanded="true" />
-            <element signature="e#6349#6355#0#HTML" expanded="true" />
-            <element signature="e#6355#6361#0#HTML" expanded="true" />
-            <element signature="e#6361#6367#0#HTML" expanded="true" />
-            <element signature="e#6367#6373#0#HTML" expanded="true" />
-            <element signature="e#6373#6379#0#HTML" expanded="true" />
-            <element signature="e#6466#6472#0#HTML" expanded="true" />
-            <element signature="e#6472#6478#0#HTML" expanded="true" />
-            <element signature="e#6478#6484#0#HTML" expanded="true" />
-            <element signature="e#6484#6490#0#HTML" expanded="true" />
-            <element signature="e#6490#6496#0#HTML" expanded="true" />
-            <element signature="e#6496#6502#0#HTML" expanded="true" />
-            <element signature="e#6826#6832#0#HTML" expanded="true" />
-            <element signature="e#6832#6838#0#HTML" expanded="true" />
-            <element signature="e#6955#6961#0#HTML" expanded="true" />
-            <element signature="e#6961#6967#0#HTML" expanded="true" />
-            <element signature="e#7062#7068#0#HTML" expanded="true" />
-            <element signature="e#7068#7074#0#HTML" expanded="true" />
-            <element signature="e#7181#7187#0#HTML" expanded="true" />
-            <element signature="e#7187#7193#0#HTML" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#font#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>

@@ -61,7 +61,6 @@ class DocumentController extends BaseController
             ]);
         }
         if(Request::method() == 'POST') {
-            return $_POST['s_dates'];
             if(Auth::check() AND Auth::user()->usertype == 0){
                 if(Auth::user()->pass_change == NULL){
                     return Redirect::to('resetpass')->with('pass_change','You must change your password for security after your first log in or resseting password');
@@ -349,8 +348,8 @@ class DocumentController extends BaseController
                     select('leave.*','personal_information.vacation_balance','personal_information.sick_balance')
                     ->where('leave.id','=',$id)
                     ->leftJoin('pis.personal_information','personal_information.userid','=','leave.userid')
+                    ->with('sl_remarks')
                     ->first();
-//        return $leave;
         $leaveTypes = LeaveTypes::get();
         $leave_dates = LeaveAppliedDates::where('leave_id', $id)->where('status', '!=', 1)->get();
         $user = InformationPersonal::where('userid', $leave->userid)->first();
