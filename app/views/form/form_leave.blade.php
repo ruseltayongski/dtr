@@ -441,9 +441,9 @@
             $('#monetize_val').val(data);
             $('#with_pay').val(data + " day(s)");
             $('#applied_num_days').val(data);
+            console.log('data');
 
             if(data == 50){
-                alert('Please make sure to attach approved letter from RD!');
                 var total = Math.ceil((vl + sl)/2);
                 $('#applied_num_days').val(total);
                 var div = total/2;
@@ -485,7 +485,6 @@
         $('.monetize_select').chosen();
         $('#inc_date').daterangepicker();
         $('input[name="leave_type"]').change(function(){
-            $('#date_remarks').empty();
 
             $('#inclusive11').attr({ required: true, disabled: false });
 
@@ -614,7 +613,6 @@
         });
         $('input[class="others_dis"]').change(function(){
             var val = this.value;
-            console.log('value', val);
             if(val == 8){
                 com();
                 $('#inclusive11').attr({ required: false, disabled: true });
@@ -622,6 +620,7 @@
                 if( vl >= 15){
                     $('#monetize_display').css('display', 'block');
                     $('.monetize_select').attr('required', true);
+                    alert('Please make sure to attach approved letter from RD!');
                 }else{
                     Lobibox.alert('error', {
                         msg:'Make sure your vacation balance is equal to or more than 15!',
