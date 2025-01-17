@@ -8,8 +8,11 @@
  */
 class cdo extends Eloquent
 {
+    use SoftDeletingTrait; 
+    
     protected $table = 'cdo';
     protected $primaryKey = 'id';
+    protected $dates = ['deleted_at'];
 
     public function appliedDates(){
         return $this->hasMany(CdoAppliedDate::class, 'cdo_id');

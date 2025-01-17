@@ -432,6 +432,7 @@
 
         function displayImage(image){
             image = image.replace(/http:\/\/192\.168\.110\.44/g, "https://pis.cvchd7.com");
+            console.log('image', image);
             $('#image_file').modal('show');
             // $('#image_modal').html('<img src="' + image + '" alt="Image" class="" style="width: 120%; object-fit: cover;">');
             $('#image_modal').html('<img src="' + image + '" alt="Image" class="img-fluid" style="width: 110%; object-fit: cover; border: 5px solid white; box-shadow: 0 0px 5px gray;">');
