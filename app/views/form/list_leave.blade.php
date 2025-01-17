@@ -138,6 +138,7 @@
 
         $(document).ready(function () {
             $('.leave_ledger').on("click", function () {
+                $('#ledger_body').empty();
                 var count=0;
                 <?php if(count($leave_card)>0){?>
                     <?php foreach ($leave_card as $card){ ?>

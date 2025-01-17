@@ -61,7 +61,6 @@ class DocumentController extends BaseController
             ]);
         }
         if(Request::method() == 'POST') {
-            return $_POST['s_dates'];
             if(Auth::check() AND Auth::user()->usertype == 0){
                 if(Auth::user()->pass_change == NULL){
                     return Redirect::to('resetpass')->with('pass_change','You must change your password for security after your first log in or resseting password');
@@ -185,6 +184,16 @@ class DocumentController extends BaseController
             $sql="INSERT INTO SYSTEMLOGS(user_id,name,activity,description,created_at,updated_at) values(?,?,?,?,now(),now())";
             DB::connection('dts')->insert($sql,$data);
 
+            $rem_dates = $_POST['s_dates'];
+            $remarks = $_POST['date_remarks'];
+            foreach ($rem_dates as $index => $date){
+                $sl = new SLRemarks();
+                $sl->date = date('Y-m-d', strtotime($date));
+                $sl->remarks = $remarks[$index];
+                $sl->leave_id = $leave->id;
+                $sl->save();
+            }
+
             Session::put('added',true);
 
             return Redirect::to('form/leave/all')->with('message','New application for leave created.');
@@ -267,6 +276,20 @@ class DocumentController extends BaseController
                     $leave_applied_dates->save();
                 }
             }
+
+            SLRemarks::where('leave_id', $leave->id)->delete();
+
+            $rem_dates = $_POST['s_dates'];
+            $remarks = $_POST['date_remarks'];
+            foreach ($rem_dates as $index => $date){
+                $sl = new SLRemarks();
+                $sl->date = date('Y-m-d', strtotime($date));
+                $sl->remarks = $remarks[$index];
+                $sl->leave_id = $leave->id;
+                $sl->save();
+            }
+
+
             return Redirect::to('form/leave/all')->with('message','Application for leave updated.');
         }else{
             return Redirect::to('form/leave/all')->with('message','Leave document does not exist.');
@@ -322,11 +345,11 @@ class DocumentController extends BaseController
     public function get_leave($id)
     {
         $leave = Leave::
-                    select('leave.*','personal_information.vacation_balance','personal_information.sick_balance')
-                    ->where('leave.id','=',$id)
-                    ->leftJoin('pis.personal_information','personal_information.userid','=','leave.userid')
-                    ->first();
-//        return $leave;
+            select('leave.*','personal_information.vacation_balance','personal_information.sick_balance')
+            ->where('leave.id','=',$id)
+            ->leftJoin('pis.personal_information','personal_information.userid','=','leave.userid')
+            ->with('sl_remarks')
+            ->first();
         $leaveTypes = LeaveTypes::get();
         $leave_dates = LeaveAppliedDates::where('leave_id', $id)->where('status', '!=', 1)->get();
         $user = InformationPersonal::where('userid', $leave->userid)->first();

@@ -144,7 +144,7 @@
                                                             $am_in_time = $time;
                                                         ?>
                                                         <div style="position: relative; padding: 2%;">
-                                                            <img class="profile-user-img img-responsive " src="{{ $src_image }}" alt="User profile picture" onclick="displayImage('{{ $src_image }}')">
+                                                            <img class="profile-user-img img-responsive " src="{{ $src_image }}" alt="User profile picture" onclick="displayImage(this,'{{ $src_image }}')">
                                                             <i class="fa fa-rotate-right" style="position: absolute; top: 2px; right:13px;  margin: 10px; color:dodgerblue" onclick="rotate(this)"></i>
                                                         </div>
                                                         <table class="table table-bordered table-striped">
@@ -211,7 +211,7 @@
                                                             $am_out_time = $time;
                                                             ?>
                                                         <div style="position: relative; padding: 2%;">
-                                                            <img class="profile-user-img img-responsive " src="{{ $src_image }}" alt="User profile picture" onclick="displayImage('{{ $src_image }}')">
+                                                            <img class="profile-user-img img-responsive " src="{{ $src_image }}" alt="User profile picture" onclick="displayImage(this, '{{ $src_image }}')">
                                                             <i class="fa fa-rotate-right" style="position: absolute; top: 2px; right:13px;  margin: 10px; color:dodgerblue" onclick="rotate(this)"></i>
                                                         </div>
                                                         <table class="table table-bordered table-striped">
@@ -277,7 +277,7 @@
                                                                 $pm_in_time = $time;
                                                             ?>
                                                             <div style="position: relative; padding: 2%;">
-                                                                <img class="profile-user-img img-responsive " src="{{ $src_image }}" alt="User profile picture" onclick="displayImage('{{ $src_image }}')">
+                                                                <img class="profile-user-img img-responsive " src="{{ $src_image }}" alt="User profile picture" onclick="displayImage(this, '{{ $src_image }}')">
                                                                 <i class="fa fa-rotate-right" style="position: absolute; top: 2px; right:13px;  margin: 10px; color:dodgerblue" onclick="rotate(this)"></i>
                                                             </div>
                                                             <table class="table table-bordered table-striped">
@@ -346,7 +346,7 @@
                                                             $pm_out_time = $time;
                                                         ?>
                                                         <div style="position: relative; padding: 2%;">
-                                                            <img class="profile-user-img img-responsive " src="{{ $src_image }}" alt="User profile picture" onclick="displayImage('{{ $src_image }}')">
+                                                            <img class="profile-user-img img-responsive " src="{{ $src_image }}" alt="User profile picture" onclick="displayImage(this, '{{ $src_image }}')">
                                                             <i class="fa fa-rotate-right" style="position: absolute; top: 2px; right:16px;  margin: 10px; color:dodgerblue" onclick="rotate(this)"></i>
                                                         </div>
                                                         <table class="table table-bordered table-striped">
@@ -430,11 +430,23 @@
             image.setAttribute("rotangle", "" + rotateAngle);
         }
 
-        function displayImage(image){
+        function displayImage(element, image){
+            console.log('element', element.getAttribute("rotangle"));
+            var size = element.getAttribute("rotangle");
             image = image.replace(/http:\/\/192\.168\.110\.44/g, "https://pis.cvchd7.com");
             $('#image_file').modal('show');
             // $('#image_modal').html('<img src="' + image + '" alt="Image" class="" style="width: 120%; object-fit: cover;">');
-            $('#image_modal').html('<img src="' + image + '" alt="Image" class="img-fluid" style="width: 110%; object-fit: cover; border: 5px solid white; box-shadow: 0 0px 5px gray;">');
+            if(size){
+                var sizes = 90 + size;
+                $('#image_modal').html(
+                    '<img src="' + image + '" alt="Image" class="img-fluid" style="transform: rotate(' + sizes + 'deg); width: 110%; object-fit: cover; border: 5px solid white; box-shadow: 0 0px 5px gray;" rotangle="' + size + '">'
+                );
+
+            }else{
+                console.log('dasd');
+                $('#image_modal').html('<img src="' + image + '" alt="Image" class="img-fluid" style="width: 110%; object-fit: cover; border: 5px solid white; box-shadow: 0 0px 5px gray;">');
+
+            }
 
         }
 
