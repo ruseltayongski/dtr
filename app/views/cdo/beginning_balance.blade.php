@@ -383,7 +383,7 @@
 
                 var name= $(this).closest("tr").find(".name-cell").text();
                 $("#user_name").text("Name: "+ name);
-                $(".modal-title").html("CTO HISTORY off: <strong>" + name);
+                $(".modal-title").html("CTO HISTORY of: <strong>" + name);
                 var count=0, check_for_pending =0;
 
                 <?php if (isset($card_view) && count($card_view) > 0) { ?>

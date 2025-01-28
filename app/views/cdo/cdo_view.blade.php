@@ -999,7 +999,7 @@
                             {{--}--}}
                     var data = "<?php
                             $id=Auth::user()->userid ;
-                            $all_cdo = cdo::where('prepared_name', $id)->where('approved_status', '0')->get();
+                            $all_cdo = cdo::where('prepared_name', $id)->where('approved_status', '0')->whereNull('deleted_at')->get();
                             $balance = 0;
                             if($all_cdo){
                                 foreach ($all_cdo as $cdo){

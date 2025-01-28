@@ -428,19 +428,48 @@
             image.setAttribute("rotangle", "" + rotateAngle);
         }
 
-        function displayImage(element, image){
+        function displayImage(element, image) {
             var size = element.getAttribute("rotangle");
             image = image.replace(/http:\/\/192\.168\.110\.44/g, "https://pis.cvchd7.com");
             $('#image_file').modal('show');
-            if(size){
-                var sizes = 90 + size;
+            
+            var modalSize = '900px'; 
+            var modalWidth = '900px';
+
+            if (size) {
                 $('#image_modal').html(
-                    '<img src="' + image + '" alt="Image" class="img-fluid" style="transform: rotate(' + sizes + 'deg); width: 110%; object-fit: cover; border: 5px solid white; box-shadow: 0 0px 5px gray;" rotangle="' + size + '">'
+                    '<div class="image-wrapper" style="width: ' + modalWidth + '; height: ' + modalSize + '; display: flex; justify-content: center; align-items: center; overflow: hidden;">' +
+                    '<img src="' + image + '" alt="Image" class="img-fluid" style="transform: rotate(' + size + 'deg); object-fit: cover; width: 100%; height: 100%; border: 5px solid white; box-shadow: 0 0px 5px gray;" rotangle="' + size + '">' +
+                    '</div>'
                 );
-            }else{
-                $('#image_modal').html('<img src="' + image + '" alt="Image" class="img-fluid" style="width: 110%; object-fit: cover; border: 5px solid white; box-shadow: 0 0px 5px gray;">');
+            } else {
+                $('#image_modal').html(
+                    '<div class="image-wrapper" style="width: ' + modalWidth + '; height: ' + modalSize + '; display: flex; justify-content: center; align-items: center; overflow: hidden;">' +
+                    '<img src="' + image + '" alt="Image" class="img-fluid" style="object-fit: cover; width: 100%; height: 100%; border: 5px solid white; box-shadow: 0 0px 5px gray;">' +
+                    '</div>'
+                );
             }
         }
+
+        // function displayImage(element, image) {
+        //     var size = element.getAttribute("rotangle");
+        //     image = image.replace(/http:\/\/192\.168\.110\.44/g, "https://pis.cvchd7.com");
+        //     $('#image_file').modal('show');
+            
+        //     // if (size) {
+        //     //     $('#image_modal').html(
+        //     //         '<div class="image-wrapper" style="width: 100%; height: 100%; display: flex; justify-content: center; align-items: center;">' +
+        //     //         '<img src="' + image + '" alt="Image" class="img-fluid" style="transform: rotate(' + size + 'deg); width: 110%; object-fit: cover; border: 5px solid white; box-shadow: 0 0px 5px gray;" rotangle="' + size + '">' +
+        //     //         '</div>'
+        //     //     );
+        //     // } else {
+        //         $('#image_modal').html(
+        //             '<div class="image-wrapper" style="width: 100%; height: 100%; display: flex; justify-content: center; align-items: center;">' +
+        //             '<img src="' + image + '" alt="Image" class="img-fluid" style="width: 110%; object-fit: cover; border: 5px solid white; box-shadow: 0 0px 5px gray;">' +
+        //             '</div>'
+        //         );
+        //     // }
+        // }
 
         $.fn.editable.defaults.mode = 'popup';
 

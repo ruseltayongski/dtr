@@ -272,7 +272,7 @@ class AdminController extends BaseController
 
         if(Request::method() == "POST") {
             $user = Users::where('userid', '=', Session::get('sched_id'))->first();
-            if(isset($user) and count($user) > 0) {
+            if(isset($user) and $user != null) {
                 $user->sched = Input::get('schedule_id');
                 $user->save();
                 return Redirect::back()->with('updatedSchedule',"Successfully Updated Schedule");
