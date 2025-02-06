@@ -250,7 +250,7 @@
                                 <input type="text" value="<?php
                                 if(isset($data)) {
                                     if(isset($data['cdo']['remaining_balance']))
-                                        echo $data['cdo']['remaining_balance'];
+                                        echo $data['bbalance_cto'] - $data['cdo']['less_applied_for'];
                                     else
                                         echo 0;
                                 }
