@@ -395,7 +395,8 @@
                             endDate.setDate(endDate.getDate() - 1);
                             console.log('enddate', endDate);
                             var diff = Math.round((endDate - startDate) / (1000 * 60 * 60 * 24));
-                            if(diff == 1){
+                            console.log('diff', diff);
+                            if(diff == 0){
                                 dateList.push(startDate.toLocaleDateString());
                                 dateTime.push(date.cdo_hours);
                             }else{
@@ -408,6 +409,8 @@
                         });
                         var length = dateList.length;
                         var i=0;
+                        console.log('length', length);
+
                         while (length > i) {
                             var html = '<div class="checkbox">' +
                                 '<label style="margin-left: 15%">' +

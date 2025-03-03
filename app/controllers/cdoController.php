@@ -236,7 +236,7 @@ class cdoController extends BaseController
             ->with('appliedDates')
             ->orderBy('id','desc')
             ->paginate(10);
-        $card_view = CardView::where('userid', Auth:: user()->userid)->get();
+        $card_view = CardView::where('userid', Auth:: user()->userid)->orderBy('created_at', 'asc')->get();
 
         return View::make('cdo.cdo_user')->with(["cdo" => $cdo, "card_view"=>$card_view]);
     }
@@ -263,7 +263,7 @@ class cdoController extends BaseController
             $division_head = pdoController::user_search1($cdo['division_chief']);
         } else{
             $id_list = [];
-            $manually_added = [985329, 273, 11, 93053, 986445, 984538, 985950, 80, 976017, 466, 534, 986944, 988121];
+            $manually_added = [985329, 273, 11, 93053, 986445, 984538, 985950, 80, 976017, 466, 534, 986944, 988121, 357];
 
             foreach(pdoController::section() as $row) {
                 if ($row['acronym'] !== null || in_array($row['head'], [37, 72, 243, 614, 110, 163, 648384, 160, 985950, 830744])) {
@@ -1130,7 +1130,7 @@ class cdoController extends BaseController
         }else{
 
         }
-        $card_view= CardView::get();
+        $card_view= CardView::orderBy('updated_at', 'asc')->get();
         $today = intval(date('m'));
         $year = intval(date('Y'));
         $date = $today-1;
