@@ -98,7 +98,8 @@ class TimeLogController extends Controller
             "am_in" => Input::get("am_in"),
             "am_out" => Input::get("am_out"),
             "pm_in" => Input::get("pm_in"),
-            "pm_out" => Input::get("pm_out")
+            "pm_out" => Input::get("pm_out"),
+            "leave_type" => LeaveTypes::get()
         ]);
     }
 
