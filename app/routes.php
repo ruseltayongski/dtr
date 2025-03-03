@@ -345,7 +345,7 @@ Route::match(['POST','GET'],'logs/timelogs','TimeLogController@timelog');
 Route::match(['POST','GET'],'logs/timelogs/{supervisor}','TimeLogController@timelog');
 Route::post('logs/timelog/edit','TimeLogController@edit');
 Route::post('logs/timelog/check_all/edit','TimeLogController@allEdit');
-Route::post('logs/timelog/append','TimeLogController@append');
+Route::match(['POST', 'GET'],'logs/timelog/append','TimeLogController@append');
 
 //COMMENT
 Route::post('faq/comment_append','FaqController@comment_append');

@@ -80,13 +80,16 @@
                 <td >
                     <select name="" style="width: 170px" id="{{ $elementId.'leave' }}" class="form-control" {{ $disabled }} onchange="displayAll($(this))">
                         <option value="">Select Leave Type</option>
-                        <option value="VACATION LEAVE">VACATION LEAVE</option>
-                        <option value="SICK LEAVE">SICK LEAVE</option>
-                        <option value="PATERNITY LEAVE">PATERNITY LEAVE</option>
-                        <option value="MATERNITY LEAVE">MATERNITY LEAVE</option>
-                        <option value="SPECIAL LEAVE">SPECIAL LEAVE</option>
-                        <option value="FORCED LEAVE">FORCED LEAVE</option>
-                        <option value="STUDY LEAVE">STUDY LEAVE</option>
+                        @foreach($leave_type as $row)
+                            <option value="{{ $row->desc }}">{{ $row->desc }}</option>
+                        @endforeach
+                        {{--<option value="VACATION LEAVE">VACATION LEAVE</option>--}}
+                        {{--<option value="SICK LEAVE">SICK LEAVE</option>--}}
+                        {{--<option value="PATERNITY LEAVE">PATERNITY LEAVE</option>--}}
+                        {{--<option value="MATERNITY LEAVE">MATERNITY LEAVE</option>--}}
+                        {{--<option value="SPECIAL LEAVE">SPECIAL LEAVE</option>--}}
+                        {{--<option value="FORCED LEAVE">FORCED LEAVE</option>--}}
+                        {{--<option value="STUDY LEAVE">STUDY LEAVE</option>--}}
                     </select>
                 </td>
             </tr>
