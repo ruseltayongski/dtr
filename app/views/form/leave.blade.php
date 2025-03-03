@@ -220,7 +220,7 @@
                                         <strong>&nbsp;&nbsp;&nbsp;&nbsp;6.C NUMBER OF WORKING DAYS APPLIED FOR :</strong><br>
                                         <input type="text" class="form-control" name="applied_num_days" id="applied_num_days" value="{{(int)$leave->applied_num_days}}" style="text-align:center; margin-left: 5%; width: 50%;margin-top: 2%" readonly/>
                                         <input type="hidden" class="form-control" name="credit_used" id="credit_used"/>
-                                        <strong class="sm-m-3" style="display: inline-block; margin-left: 5%; margin-top: 2%; margin-bottom: 10px">INCLUSIVE DATES :</strong>
+                                        <strong class="sm-m-3" style="display: inline-block; margin-left: 5%; margin-top: 2%; ">INCLUSIVE DATES :</strong>
                                         <button  style="width: 10.1%; display: inline-block; margin-left: 39.6%" class="btn btn-sm btn-info addButton1" type="button"><strong>+</strong></button>
 
                                         @foreach($leave_dates as $dates)

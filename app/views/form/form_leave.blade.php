@@ -251,15 +251,15 @@
                                     <button  style="width: 10.1%; display: inline-block; margin-left: 39.6%" class="btn btn-sm btn-info addButton1" type="button"><strong>+</strong></button>
 
                                     <div class="table-data" id="clone_data">
-                                        <div class="input-group" style="margin-left:5%; margin-bottom: 10px" >
+                                        <div class="input-group" style="margin-left:5%; margin-bottom: 2px" >
                                             <div class="input-group-addon" style="margin-bottom: 10px; ">
                                                 <i class="fa fa-calendar"></i>
                                             </div>
                                             <input style="width: 50%;" type="text" class="form-control datepickerInput1" id="inclusive11" name="inclusive_dates1[]" placeholder="Input date here..." required>
                                             <button style="width: 11.3%; margin-left: 12.5%" type="button" class="btn btn-sm btn-danger deleteButton1"><strong>-</strong></button>
                                         </div>
+                                        <div class="row text-center" id="date_remarks" style="padding:10px; width:90%; margin-left: 5%"></div>
                                     </div>
-                                    <div class="row text-center" id="date_remarks" style="padding:10px; width:90%; margin-left: 5%"></div>
                                 </td>
                                 <td style="width: 48%; margin-top: 10px; vertical-align: top" rowspan="2">
                                     <strong style="vertical-align: top">&nbsp;&nbsp;&nbsp;&nbsp;6.D COMMUTATION</strong>

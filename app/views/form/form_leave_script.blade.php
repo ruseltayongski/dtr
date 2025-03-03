@@ -78,6 +78,13 @@
                 startDate: startDate,
                 endDate: endDate,
             }).on('apply.daterangepicker', function (ev, picker) {
+                if (picker.startDate.day() === 6 || picker.startDate.day() === 0 ||
+                    picker.endDate.day() === 6 || picker.endDate.day() === 0) {
+                    alert("Weekends are not allowed!");
+                    $(this).val(''); // Clear selection
+                }
+                var closestClone = $(this).closest('.table-data');
+                var remarksContainer = closestClone.find('#date_remarks');
 
                 $('#vl_less').val(0);
                 $('#sl_less').val(0);
@@ -187,26 +194,27 @@
                     var endDateForLoop = new Date(currentDate);
                     endDateForLoop.setDate(endDateForLoop.getDate() - 1);
 
-                    // Clear previous content
-                    $('#date_remarks').empty();
-
-                    // Check if endDate is not later than the current date
+                    remarksContainer.empty();
                     if (end_date <= currentDate) {
                         var dayAfterEndDate = new Date(end_date);
                         dayAfterEndDate.setDate(dayAfterEndDate.getDate() + 1); // Increment endDate by 1 day
 
-                        // Loop through dates from the day after endDate to currentDate
                         for (var date = dayAfterEndDate; date <= endDateForLoop; date.setDate(date.getDate() + 1)) {
-                            // Format the date to MM/DD/YYYY
+                            console.log('date', date);
                             var formattedDate = new Date(date).toLocaleDateString('en-US');
-                            // Append the date to the `date_remarks` div
-                            $('#date_remarks').append(
-                                '<div>' +
-                                '<span style="display: inline-block; margin-right: 10px;">' + formattedDate + '</span>' +
-                                '<input type="text" class="form-control" name="date_remarks[]" placeholder="Enter remarks" name="remarks_' + formattedDate.replace(/\//g, '-') + '" style="display: inline-block;width: 85%" />' +
-                                '<input type="hidden" name="s_dates[]" value="'+formattedDate+'">' +
-                                '</div>'
-                            );
+                            console.log('days_display', days_display);
+                            if (!days_display.includes(formattedDate)) {
+                                // If not, append and push to array
+                                remarksContainer.append(
+                                    '<div style="display: flex; align-items: center; margin-bottom: 5px;">' +
+                                    '<span style="flex: 1; text-align: left;">' + formattedDate + '</span>' +
+                                    '<input type="text" class="form-control" name="date_remarks[]" placeholder="Enter remarks" name="remarks_' + formattedDate.replace(/\//g, '-') + '" style="flex: 3; width: auto;" />' +
+                                    '<input type="hidden" name="s_dates[]" value="'+formattedDate+'">' +
+                                    '</div>'
+                                );
+                                // Push the formatted date to the array
+                                days_display.push(formattedDate);
+                            }
                         }
                     }
                 }
@@ -236,10 +244,14 @@
         });
     });
 
+    var days_display = [];
+
     $(".addButton1").click(function () {
         var clonedData = $('#clone_data').clone();
 
         clonedData.find('input[type="text"]').val('');
+        clonedData.find('div[type="text"]').empty();
+        clonedData.find('#date_remarks').empty();
 
         $('#data_here').append(clonedData);
     });
@@ -283,10 +295,20 @@
             if(startdate !== '' && endDate !==''){
                 var start = moment(startdate, 'MM/DD/YYYY');
                 var end = moment(endDate, 'MM/DD/YYYY');
-                var diff = end.diff(start, 'days') + 1;
-                if(!isNaN(diff)){
-                    totalDays += diff;
+//                var diff = end.diff(start, 'days') + 1;
+//                if(!isNaN(diff)){
+//                    totalDays += diff;
+//                }
+                var weekdaysCount = 0;
+
+                while (start <= end) {
+                    if (start.day() !== 6 && start.day() !== 0) { // Exclude Saturdays (6) & Sundays (0)
+                        weekdaysCount++;
+                    }
+                    start.add(1, 'day'); // Move to the next day
                 }
+
+                totalDays += weekdaysCount;
             }
         });
         return totalDays;
