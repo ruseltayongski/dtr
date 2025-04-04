@@ -13,6 +13,7 @@
                             <option <?php if($user->region=='region_8') echo 'selected'; ?> value="region_8">Region 8</option>
                             <option <?php if($user->region=='region_10') echo 'selected'; ?> value="region_10">Region 10</option>
                             <option <?php if($user->region=='region_12') echo 'selected'; ?> value="region_12">Region 12</option>
+                            <option <?php if($user->region=='region_18') echo 'selected'; ?> value="region_18">Region 18 - NIR</option>
                         </select>
                     </td>
                 </tr>

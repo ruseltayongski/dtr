@@ -551,7 +551,7 @@ session_start();
                 show: true
             });
         });*/
-
+        
         $('.change_sched').click(function(){
             $('#change_schedule').modal({
                 backdrop: 'static',
