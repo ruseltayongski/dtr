@@ -221,8 +221,10 @@
                                         <input type="text" class="form-control" name="applied_num_days" id="applied_num_days" value="{{(int)$leave->applied_num_days}}" style="text-align:center; margin-left: 5%; width: 50%;margin-top: 2%" readonly/>
                                         <input type="hidden" class="form-control" name="credit_used" id="credit_used"/>
                                         <strong class="sm-m-3" style="display: inline-block; margin-left: 5%; margin-top: 2%; ">INCLUSIVE DATES :</strong>
-                                        <button  style="width: 10.1%; display: inline-block; margin-left: 39.6%" class="btn btn-sm btn-info addButton1" type="button"><strong>+</strong></button>
-
+                                        <button  style="width: 50px; display: inline-block; margin-left: 200px; border-radius:0px; font-size:10px" class="btn btn-xs btn-info addButton1" type="button">
+                                            <i class="fa fa-plus"></i>
+                                        </button>
+                                        <br>
                                         @foreach($leave_dates as $dates)
                                             {{--<strong style="margin-left: 1%">--}}
                                                 <div class="table-data" id="clone_data">
@@ -231,21 +233,27 @@
                                                             <i class="fa fa-calendar"></i>
                                                         </div>
                                                         <input value="{{ date('m/d/Y',strtotime($dates->startdate)).' - '.date('m/d/Y',strtotime($dates->enddate)) }}" style="width: 50%" type="text" class="form-control datepickerInput1" id="inclusive11" name="inclusive_dates1[]" placeholder="Input date here..." required>
-                                                        <button style="width: 11.5%; margin-left: 14.5%" type="button" class="btn btn-sm btn-danger deleteButton1"><strong>-</strong></button>
+                                                        <button style="width: 50px; margin-left: 66.8px; border-radius:0px" type="button" class="btn btn-xs btn-danger deleteButton1">
+                                                            <i class="fa fa-minus"></i>
+                                                        </button>
                                                     </div>
                                                 </div>
                                             {{--</strong>--}}
                                         @endforeach
-                                        @foreach($leave->sl_remarks as $row)
-                                            <div class="row" id="date_remarks" style="padding:10px; width:90%; margin-left: 5%">
-                                                <div>
-                                                    <span style="font-weight: bold">SL remarks:<br></span>
-                                                    <span style="display: inline-block; margin-right: 10px;">{{ date('m/d/Y',strtotime($row->date)) }}</span>
-                                                    <input type="text" value="{{ $row->remarks }}" class="form-control" name="date_remarks[]" placeholder="Enter remarks" name="remarks_' + formattedDate.replace(/\//g, '-') + '" style="display: inline-block;width: 80%" />
-                                                    <input type="hidden" name="s_dates[]" value="'+formattedDate+'">
+                                        @if($leave->sl_remarks)
+                                            @foreach($leave->sl_remarks as $index => $row)
+                                                <div class="row" id="date_remarks" style="padding:5px; width:90%; margin-left: 5%">
+                                                    <div>
+                                                        @if($index == 0)
+                                                            <span style="font-weight: bold">SL remarks:<br></span>
+                                                        @endif
+                                                        <span style="display: inline-block; margin-right: 10px;">{{ date('m/d/Y',strtotime($row->date)) }}</span>
+                                                        <input type="text" value="{{ $row->remarks }}" class="form-control" name="date_remarks[]" placeholder="Enter remarks" name="remarks_' + formattedDate.replace(/\//g, '-') + '" style="display: inline-block;width: 80%" />
+                                                        <input type="hidden" name="s_dates[]" value="'+formattedDate+'">
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        @endforeach
+                                            @endforeach
+                                        @endif
                                     </td>
                                     <td style="width: 48%; margin-top: 10px; vertical-align: top" rowspan="2">
                                         <strong style="vertical-align: top">&nbsp;&nbsp;&nbsp;&nbsp;6.D COMMUTATION</strong>
