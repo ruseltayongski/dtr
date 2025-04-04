@@ -956,6 +956,7 @@ class AdminController extends BaseController
                 $st->execute();
             }
         }
+//        return 1;
 //        return $type;
 //        if($type){
             Session::put('approved_leave',true);

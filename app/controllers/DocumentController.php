@@ -70,7 +70,6 @@ class DocumentController extends BaseController
             $pis = InformationPersonal::where ('userid', Auth::user()->userid)->first();
             $route_no = date('Y-') . Auth::user()->userid . date('mdHis');
             $l_type = Input::get('leave_type');
-//            $details = Input::get('leave_details');
 
             $leave = new Leave();
 
@@ -100,14 +99,10 @@ class DocumentController extends BaseController
             $spl_leave = AditionalLeave::where('userid', Auth::user()->userid)->first();
 
             if($l_type == "SPL"){
-//                $spl_leave->SPL = $spl_leave->SPL - Input::get('applied_num_days');
                 $leave->SPL_total = $spl_leave->SPL - Input::get('applied_num_days');
             }else if($l_type == "FL"){
-//                $spl_leave->FL = $spl_leave->FL - Input::get('applied_num_days');
                 $leave->FL_total = $spl_leave->FL - Input::get('applied_num_days');
             }
-
-//            $spl_leave->save();
 
             if(Input::get('com_requested') == 2){
                 $inclusive_dates = $_POST['inclusive_dates1'];
@@ -128,9 +123,6 @@ class DocumentController extends BaseController
             $leave->sl_deduct = Input::get('sl_less');
             $leave->save();
 
-//            $pis->vacation_balance = Input::get('vl_rem');
-//            $pis->sick_balance = Input::get('sl_rem');
-//            $pis->save();
 
             if(Input::get('com_requested') == 2){
 
@@ -149,15 +141,18 @@ class DocumentController extends BaseController
                 }
             }
 
-            $rem_dates = $_POST['s_dates'];
-            $remarks = $_POST['date_remarks'];
-            foreach ($rem_dates as $index => $date){
-                $sl = new SLRemarks();
-                $sl->date = date('Y-m-d', strtotime($date));
-                $sl->remarks = $remarks[$index];
-                $sl->leave_id = $leave->id;
-                $sl->save();
+            if($leave->leave_type == "SL"){
+                $rem_dates = $_POST['s_dates'];
+                $remarks = $_POST['date_remarks'];
+                foreach ($rem_dates as $index => $date){
+                    $sl = new SLRemarks();
+                    $sl->date = date('Y-m-d', strtotime($date));
+                    $sl->remarks = $remarks[$index];
+                    $sl->leave_id = $leave->id;
+                    $sl->save();
+                }
             }
+
 
             $doc_type = 'APP_LEAVE';
             $prepared_date = date('Y-m-d',strtotime(date('Y-m-d'))).' '.date('H:i:s');
@@ -277,17 +272,20 @@ class DocumentController extends BaseController
                 }
             }
 
-            SLRemarks::where('leave_id', $leave->id)->delete();
 
-            $rem_dates = $_POST['s_dates'];
-            $remarks = $_POST['date_remarks'];
+            if($leave->leave_type == "SL" && isset($_POST['s_dates'])){
+                SLRemarks::where('leave_id', $leave->id)->delete();
 
-            foreach ($rem_dates as $index => $date){
-                $sl = new SLRemarks();
-                $sl->date = date('Y-m-d', strtotime($date));
-                $sl->remarks = $remarks[$index];
-                $sl->leave_id = $leave->id;
-                $sl->save();
+                $rem_dates = $_POST['s_dates'];
+                $remarks = $_POST['date_remarks'];
+
+                foreach ($rem_dates as $index => $date){
+                    $sl = new SLRemarks();
+                    $sl->date = date('Y-m-d', strtotime($date));
+                    $sl->remarks = $remarks[$index];
+                    $sl->leave_id = $leave->id;
+                    $sl->save();
+                }
             }
 
             return Redirect::to('form/leave/all')->with('message','Application for leave updated.');
