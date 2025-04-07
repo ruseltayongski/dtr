@@ -51,19 +51,19 @@ $vl_bal = $vl_earned - $vl;
 $sl_bal = $sl_earned - $sl;
 $pdf->setX('22');
 $pdf->Cell(27, 5, 'Total Earned', 1);
-$pdf->Cell(28, 5, $vl_earned, 1,'', 'C');
-$pdf->Cell(28, 5, $sl_earned, 1,'', 'C');
+$pdf->Cell(28, 5, $vl_earned <= 0 ? 0 : $vl_earned, 1,'', 'C');
+$pdf->Cell(28, 5, $sl_earned <= 0 ? 0 : $sl_earned, 1,'', 'C');
 $pdf->Ln(); // Move to the next line
 $pdf->setX('22');
 $pdf->Cell(27, 5, 'Less this application', 1);
 //
-$pdf->Cell(28, 5, $vl, 1,'', 'C');
-$pdf->Cell(28, 5, $sl, 1,'', 'C');
+$pdf->Cell(28, 5, $vl <= 0 ? 0 : $vl, 1,'', 'C');
+$pdf->Cell(28, 5, $sl <= 0 ? 0 : $sl, 1,'', 'C');
 $pdf->Ln(); // Move to the next line
 $pdf->setX('22');
 $pdf->Cell(27, 5, 'Balance', 1);
-$pdf->Cell(28, 5, $vl_bal, 1,'', 'C');
-$pdf->Cell(28, 5, $sl_bal, 1,'', 'C');
+$pdf->Cell(28, 5, $vl_bal <= 0 ? 0 : $vl_bal, 1,'', 'C');
+$pdf->Cell(28, 5, $sl_bal <= 0 ? 0 : $sl_bal, 1,'', 'C');
 $pdf->Text(40,264.5,$officer_1['fname'] .' '.$officer_1['lname']);
 $pdf->Image(__DIR__.'../../image/line.png',22,265,83,0.6);
 $pdf->Text(51,269,'(Authorized Officer)');

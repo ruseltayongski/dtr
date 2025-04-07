@@ -110,6 +110,7 @@ function api_get_logs($userid,$date_from,$date_to) {
 }
 
 if(isset($_POST['filter_range'])){
+
     $_SESSION['date_range'] = $_POST['filter_range'];
     $userid = $_POST['userid'];
     $filter_date = explode(' - ',$_POST['filter_range']);
@@ -117,7 +118,7 @@ if(isset($_POST['filter_range'])){
     $date_to = date("Y-m-d",strtotime($filter_date[1]));
     $september_2_2024 = "2024-09-01";
     $region = getRegion($userid)['region'];
-
+    
     if($region == "region_18"){
         $query_req = "CALL GETLOGS2('$userid','$date_from','$date_to')";
     }else{

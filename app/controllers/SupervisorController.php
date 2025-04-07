@@ -30,6 +30,7 @@ class SupervisorController extends Controller
     }
     public function superviseIndividual(){
         Session::put('supervise_id',Input::get('supervise_id'));
+        // return 1;
         return Redirect::to('logs/timelogs/supervisor');
     }
     public function location(){

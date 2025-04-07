@@ -762,50 +762,48 @@
 
 <div class="modal fade" tabindex="-1" role="dialog" id="leave_ledger">
     <div class="modal-dialog modal-xl" role="document" id="size" style=" width: 70%;">
-        <div class="modal-content">
-            <form action="{{asset('leave_credits')}}" method="POST">
-
-            <div class="header-container">
-                <div class="modal-header sticky-top" style="background-color: #9C8AA5;">
-                    <button type="button" style='color:white;' class="close" data-dismiss="modal" aria-label="Close" id="close">
-                        <span aria-hidden="true" >&times;</span>
-                    </button>
-                    <b><label style="font-size: 15px; color: white; margin-bottom: 2px" class="name"></label></b>
-                    <strong><h4 class="modal-title"></h4></strong>
-                </div>
-            </div>
-                <div  style="max-height: calc(100vh - 50px); overflow-y: auto;">
-                    <table class="table table-list table-hover table-striped" id="card_table table-bordered"  style="border-collapse: collapse;">
-                        <thead style="position:sticky; top: 0; z-index: 5; background-color: darkgray;">
-                            <tr>
-                                <th rowspan="2" STYLE="vertical-align: middle; color: white ">PERIOD</th>
-                                <th rowspan="2" STYLE="vertical-align: middle; color: white">PARTICULARS</th>
-                                <th colspan="4" style="text-align: center; border-bottom: 1px solid darkgray; position:static; color: white">VACATION LEAVE</th>
-                                <th colspan="4" style="text-align: center; border-bottom: 1px solid darkgray; position:static; color: white">SICK LEAVE</th>
-                                <th rowspan="2" STYLE="vertical-align: middle;color: white ">DATE AND ACTION TAKEN ON APPL. FOR LEAVE</th>
-                                {{--<th type="hidden"></th>--}}
-                            </tr>
-                            <tr>
-                                <th style="color: white">EARNED</th>
-                                <th style="color: white">ABS.UND.W/P</th>
-                                <th style="color: white">BAL.</th>
-                                <th style="color: white">ABS.UND.WOP</th>
-                                <th style="color: white">EARNED</th>
-                                <th style="color: white">ABS.UND.W/P</th>
-                                <th style="color: white">BAL.</th>
-                                <th style="color: white">ABS.UND.WOP</th>
-                            </tr>
-                        </thead>
-                        <tbody id="ledger_body" name="ledger_body" style="overflow-y: auto;"></tbody>
-                    </table>
-                </div>
-            <div class="modal-footer">
-                <input type ="hidden"value="" id="user_iid" name="user_iid">
-            </div>
-            </form>
+        <div class="modal-header" style="background-color: #9C8AA5">
+            <span>Leave CardView Details</span>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        </div>
+        <div class="modal-content l_view_body">
         </div><!-- .modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
+
+<div class="modal fade" tabindex="-1" role="dialog" id="leave_ledger2">
+    <div class="modal-dialog modal-xl" role="document" id="size" style=" width: 70%;">
+        <div class="modal-header" style="background-color: #9C8AA5">
+            <span>Leave CardView Details</span>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        </div>
+        <div class="modal-content l_view_body" style="padding:5px">
+            <table class="table" id="leave_card_table" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                <thead style="background-color: darkgray; color:white;">
+                    <tr style="background-color: darkgray;">
+                        <th rowspan="2" style="vertical-align: middle; color: white; border:1px solid black; padding:5px;">PERIOD</th>
+                        <th rowspan="2" style="vertical-align: middle; color: white; border:1px solid black; padding:5px;">PARTICULARS</th>
+                        <th colspan="4" style="text-align: center; color: white; border:1px solid black; padding:5px;">VACATION LEAVE</th>
+                        <th colspan="4" style="text-align: center; color: white; border:1px solid black; padding:5px;">SICK LEAVE</th>
+                        <th rowspan="2" style="vertical-align: middle; color: white; border:1px solid black; padding:5px;">DATE AND ACTION TAKEN ON APPL. FOR LEAVE</th>
+                    </tr>
+                    <tr>
+                        <th style="color: white; border:1px solid black; padding:5px;">EARNED</th>
+                        <th style="color: white; border:1px solid black; padding:5px;">ABS.UND.W/P</th>
+                        <th style="color: white; border:1px solid black; padding:5px;">BAL.</th>
+                        <th style="color: white; border:1px solid black; padding:5px;">ABS.UND.WOP</th>
+                        <th style="color: white; border:1px solid black; padding:5px;">EARNED</th>
+                        <th style="color: white; border:1px solid black; padding:5px;">ABS.UND.W/P</th>
+                        <th style="color: white; border:1px solid black; padding:5px;">BAL.</th>
+                        <th style="color: white; border:1px solid black; padding:5px;">ABS.UND.WOP</th>
+                    </tr>
+                </thead>
+                <tbody id="ledger_body2" name="ledger_body2"></tbody>
+            </table>
+        </div><!-- .modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
 <div class="modal fade" tabindex="8" role="dialog" id="update_period">
     <div class="modal-dialog modal-m" role="document" id="size">
         <div class="modal-content">

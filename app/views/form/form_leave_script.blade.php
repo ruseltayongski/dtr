@@ -200,23 +200,28 @@
                         dayAfterEndDate.setDate(dayAfterEndDate.getDate() + 1); // Increment endDate by 1 day
 
                         for (var date = dayAfterEndDate; date <= endDateForLoop; date.setDate(date.getDate() + 1)) {
-                            console.log('date', date);
-                            var formattedDate = new Date(date).toLocaleDateString('en-US');
-                            console.log('days_display', days_display);
-                            if (!days_display.includes(formattedDate)) {
-                                // If not, append and push to array
-                                remarksContainer.append(
-                                    '<div style="display: flex; align-items: center; margin-bottom: 5px;">' +
-                                    '<span style="flex: 1; text-align: left;">' + formattedDate + '</span>' +
-                                    '<input type="text" class="form-control" name="date_remarks[]" placeholder="Enter remarks" name="remarks_' + formattedDate.replace(/\//g, '-') + '" style="flex: 3; width: auto;" />' +
-                                    '<input type="hidden" name="s_dates[]" value="'+formattedDate+'">' +
-                                    '</div>'
-                                );
-                                // Push the formatted date to the array
-                                days_display.push(formattedDate);
+                            // Check if the current date is Saturday (6) or Sunday (0)
+                            var dayOfWeek = date.getDay(); // 0 = Sunday, 6 = Saturday
+
+                            if (dayOfWeek !== 0 && dayOfWeek !== 6) { // Exclude Saturdays and Sundays
+                                var formattedDate = new Date(date).toLocaleDateString('en-US');
+                                console.log('days_display', days_display);
+                                if (!days_display.includes(formattedDate)) {
+                                    // If not, append and push to array
+                                    remarksContainer.append(
+                                        '<div style="display: flex; align-items: center; margin-bottom: 5px;">' +
+                                        '<span style="flex: 1; text-align: left;">' + formattedDate + '</span>' +
+                                        '<input type="text" class="form-control" name="date_remarks[]" placeholder="Enter remarks" name="remarks_' + formattedDate.replace(/\//g, '-') + '" style="flex: 3; width: auto;" />' +
+                                        '<input type="hidden" name="s_dates[]" value="'+formattedDate+'">' +
+                                        '</div>'
+                                    );
+                                    // Push the formatted date to the array
+                                    days_display.push(formattedDate);
+                                }
                             }
                         }
                     }
+
                 }
             });
 

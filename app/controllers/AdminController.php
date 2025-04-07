@@ -1369,4 +1369,15 @@ class AdminController extends BaseController
 
     }
 
+    public function get_leave_view($id){
+        $div = InformationPersonal::where('userid', '=', $id)->first();
+        $division = Division::where('id', '=', $div->division_id)->select('description')->first();
+        $card_details = LeaveCardView::where('userid', $id)->paginate(10);
+        return View::make('form.leave_card',[
+            'division' => $division->description,
+            'card_details' => $card_details,
+            'user' => $div->lname .', '. $div->fname.' '. $div->mname
+        ]);
+    }
+
 }

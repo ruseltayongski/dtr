@@ -48,8 +48,8 @@
                                     <a style="margin-right: 10px" href="{{ asset('form/leave') }}" class="btn btn-success center-block col-md-2">
                                         <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Create new
                                     </a>
-                                    <button class="btn btn-info center-block col-md-2 leave_ledger" href="#leave_ledger" id="viewCard" name="viewCard" data-toggle="modal"
-                                            data-target="#leave_ledger"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>View Card</button>
+                                    <button class="btn btn-info center-block col-md-2 leave_ledger2" href="#leave_ledger2" id="viewCard" name="viewCard" data-toggle="modal"
+                                            data-target="#leave_ledger2"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>&nbsp;&nbsp;View Card</button>
                                     <?php
                                     if(!empty(Session::get("vacation_balance")) || Session::get('vacation_balance') != 0){
                                         $vacation_balance = Session::get("vacation_balance");
@@ -79,22 +79,22 @@
                                         <div class="table-responsive">
                                             <table class="table table-list table-hover table-striped">
                                                 <thead>
-                                                <tr style="background-color:grey;">
-                                                    <th ></th>
-                                                    <th >Route #</th>
-                                                    <th ><b>Date Created</b></th>
-                                                    <th ><b>Leave Type</b></th>
-                                                    <th>Status</th>
-                                                </tr>
+                                                    <tr style="background-color:grey;">
+                                                        <th ></th>
+                                                        <th >Route #</th>
+                                                        <th ><b>Date Created</b></th>
+                                                        <th ><b>Leave Type</b></th>
+                                                        <th>Status</th>
+                                                    </tr>
                                                 </thead>
                                                 <tbody>
                                                 @foreach($leaves as $leave)
                                                     <tr>
-                                                        <td >
-                                                            <a href="#track" data-link="{{ asset('form/track/'.$leave->route_no) }}" data-route="{{ $leave->route_no }}" data-toggle="modal" class="btn btn-sm btn-success col-sm-12" ><i class="fa fa-line-chart"></i> Track</a>
+                                                        <td>
+                                                            <a href="#track" data-link="/dtr/form/track/'.$leave->route_no" data-route="{{ $leave->route_no }}" data-toggle="modal" class="btn btn-sm btn-success col-sm-12" ><i class="fa fa-line-chart"></i> Track</a>
                                                         </td>
                                                         <td >
-                                                            <a class="title-info" data-route="{{ $leave->route_no }}" data-id="{{ $leave->id }}" data-backdrop="static" data-link="{{ asset('leave/get') }}" href="#leave_info" data-toggle="modal">{{ $leave->route_no }}</a>
+                                                            <a class="title-info" data-route="{{ $leave->route_no }}" data-id="{{ $leave->id }}" data-backdrop="static" data-link="/dtr/leave/get" href="#leave_info" data-toggle="modal">{{ $leave->route_no }}</a>
                                                         </td>
                                                         <td >
                                                             {{ date("F d,Y",strtotime($leave->date_filling)) }}
@@ -137,43 +137,36 @@
         $('#inclusive3').daterangepicker();
 
         $(document).ready(function () {
-            $('.leave_ledger').on("click", function () {
-                $('#ledger_body').empty();
-                var count=0;
-                <?php if(count($leave_card)>0){?>
-                    <?php foreach ($leave_card as $card){ ?>
+            $('.leave_ledger2').on("click", function () {
+                $('#ledger_body2').empty();
+                <?php if(count($leave_card) > 0): ?>
+                    <?php foreach ($leave_card as $card): ?>
                         <?php if ($card->status !== 1): ?>
-                            var tabledata1 = "<tr>" +
+                                var tabledata1 = "<tr>";
                                 <?php if ($card->period !== null): ?>
-                                    "<td style= 'border: 1px solid black'><?php echo $card->period; ?></td>"+
+                                    tabledata1 += "<td style='border: 1px solid black'><?php echo htmlspecialchars($card->period); ?></td>";
                                 <?php else: ?>
-                                    "<td style= 'border: 1px solid black'></td>"+
+                                    tabledata1 += "<td style='border: 1px solid black'></td>";
                                 <?php endif; ?>
-                                    "<td style= 'border: 1px solid black'><?php echo $card->particulars; ?></td>" +
-                                    "<td style= 'border: 1px solid black'><?php echo $card->vl_earned; ?></td>" +
-                                    "<td style= 'border: 1px solid black'><?php echo $card->vl_abswp; ?></td>" +
-                                    "<td style= 'border: 1px solid black'><?php echo $card->vl_bal; ?></td>" +
-                                    "<td style= 'border: 1px solid black'><?php echo $card->vl_abswop; ?></td>" +
-                                    "<td style= 'border: 1px solid black'><?php echo $card->sl_earned; ?></td>" +
-                                    "<td style= 'border: 1px solid black'><?php echo $card->sl_abswp; ?></td>" +
-                                    "<td style= 'border: 1px solid black'><?php echo $card->sl_bal; ?></td>" +
-                                    "<td style= 'border: 1px solid black'><?php echo $card->sl_abswop; ?></td>" +
-                                    "<td style= 'border: 1px solid black'><?php echo $card->date_used; ?></td>";
+                                tabledata1 += "<td style='border: 1px solid black'><?php echo htmlspecialchars($card->particulars); ?></td>" +
+                                    "<td style='border: 1px solid black'><?php echo htmlspecialchars($card->vl_earned); ?></td>" +
+                                    "<td style='border: 1px solid black'><?php echo htmlspecialchars($card->vl_abswp); ?></td>" +
+                                    "<td style='border: 1px solid black'><?php echo htmlspecialchars($card->vl_bal); ?></td>" +
+                                    "<td style='border: 1px solid black'><?php echo htmlspecialchars($card->vl_abswop); ?></td>" +
+                                    "<td style='border: 1px solid black'><?php echo htmlspecialchars($card->sl_earned); ?></td>" +
+                                    "<td style='border: 1px solid black'><?php echo htmlspecialchars($card->sl_abswp); ?></td>" +
+                                    "<td style='border: 1px solid black'><?php echo htmlspecialchars($card->sl_bal); ?></td>" +
+                                    "<td style='border: 1px solid black'><?php echo htmlspecialchars($card->sl_abswop); ?></td>" +
+                                    "<td style='border: 1px solid black'><?php echo htmlspecialchars($card->date_used); ?></td>";
                                 tabledata1 += "</tr>";
-                                $('#ledger_body').append(tabledata1);
-                                count++;
+                                document.getElementById('ledger_body2').innerHTML += tabledata1;
                         <?php endif; ?>
-                    <?php }?>
-                    if (count==0) {
-                        console.log("else");
-                        var tableData2 = "<tr>" +
-                            "<td>No Data Available</td>" +
-                            "</tr>";
-                        $("#ledger_body").append(tableData2);
-                    }
-                <?php }?>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                        var tableData2 = "<tr><td style='border: 1px solid black' colspan='11' class='text-danger'>No Data Available</td></tr>";
+                        document.getElementById('ledger_body2').innerHTML += tableData2;
+                <?php endif; ?>
             });
-
             $('.pagination-link').on('click', function(e) {
                 e.preventDefault();
                 var nextPageUrl = $(this).attr('href');

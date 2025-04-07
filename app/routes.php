@@ -51,6 +51,9 @@ Route::get('add_leave_table','AdminController@add_leave_table');
 Route::match(array('GET','POST'), 'print-monthly', 'PrintController@print_monthly');
 Route::get('print-monthly/attendance', 'PrintController@print_pdf');
 Route::match(array('GET','POST'), 'print/employee-attendance', 'PrintController@print_employee');
+
+Route::get('leave/card-view/{id}','AdminController@get_leave_view');
+
 //manual process
 Route::match(array('GET','POST'),'leave_card','cdoController@leave_card');
 Route::get('leave_print/{route_no}', 'DocumentController@leave_print');

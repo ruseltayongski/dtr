@@ -233,7 +233,7 @@
                                                             <i class="fa fa-calendar"></i>
                                                         </div>
                                                         <input value="{{ date('m/d/Y',strtotime($dates->startdate)).' - '.date('m/d/Y',strtotime($dates->enddate)) }}" style="width: 50%" type="text" class="form-control datepickerInput1" id="inclusive11" name="inclusive_dates1[]" placeholder="Input date here..." required>
-                                                        <button style="width: 50px; margin-left: 66.8px; border-radius:0px" type="button" class="btn btn-xs btn-danger deleteButton1">
+                                                        <button style="width: 50px; margin-left: 66.7px; border-radius:0px" type="button" class="btn btn-xs btn-danger deleteButton1">
                                                             <i class="fa fa-minus"></i>
                                                         </button>
                                                     </div>

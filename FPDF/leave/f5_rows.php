@@ -13,11 +13,11 @@ $pdf->Image(__DIR__.'../../image/line.png',22,282.5,12,0.6);
 $pdf->Image(__DIR__.'../../image/line.png',22,286.5,12,0.6);
 $pdf->Image(__DIR__.'../../image/line.png',22,290.5,12,0.6);
 $pdf->Text(35,282.5,'days with pay');
-$pdf->Text(35,286.5,'others without pay');
+$pdf->Text(35,286.5,'days without pay');
 $pdf->Text(35,290.5,'others (Specify)');
 
 $pdf->Text(22,282.5,($leave['with_pay'] != 0) ? $leave['with_pay'] : '');
-$pdf->Text(35,286.5,($leave['without_pay'] != 0) ? $leave['without_pay'] : '');
+$pdf->Text(22,286.5,($leave['without_pay'] != 0) ? $leave['without_pay'] : '');
 $pdf->Text(114,278,'7.D DISAPPROVED DUE TO:');
 //
 $pdf->Image(__DIR__.'../../image/line.png',122,282.5,66,0.6);

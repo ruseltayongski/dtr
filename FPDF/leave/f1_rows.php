@@ -1,6 +1,6 @@
 <?php
 try{
-    $pdo = new PDO("mysql:host=localhost; dbname=dohdtr",'root','D0h7_1T');
+    $pdo = new PDO("mysql:host=192.168.110.31; dbname=dohdtr",'rtayong_31','rtayong_31');
     $pdo->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
     $query = "SELECT lea.*, pi.vacation_balance, pi.sick_balance FROM dohdtr.`leave` lea JOIN pis.personal_information pi ON pi.userid = lea.userid WHERE lea.id = :id";
     $st = $pdo->prepare($query);
@@ -13,6 +13,8 @@ try{
     $dates_st->bindParam(":id", $id, PDO::PARAM_INT);
     $dates_st->execute();
     $leave_dates= $dates_st->fetchAll(PDO::FETCH_ASSOC);
+
+
 
     $officer_1 = "SELECT dts.fname, dts.lname, dts.mname FROM dohdtr.`leave` lea JOIN dts.users dts ON dts.id = lea.officer_1 WHERE lea.id = :id";
     $st = $pdo->prepare($officer_1);
@@ -73,12 +75,15 @@ try{
 
 //    var_dump($leave['route_no']);
 }catch (Exception $e){
+    // var_dump(1);
+}   
 
-}
+// var_dump($dates);
 
-//$imagePath = __DIR__ . '/FPDF/image/doh.png';
-$imagePath = 'C:/xampp_7/htdocs/dtr/FPDF/image/doh.png';
-
+// $imagePath = __DIR__ . '\FPDF\image\doh.png';
+// $imagePath =realpath(__DIR__ . '/../../..').'\public\img\doh.png';
+$imagePath = 'C:/Apache24/htdocs/dtr/FPDF/image/doh.png';
+// var_dump($imagePath);
 //echo "okiii".$imagePath;
 
 $pdf->setX('15');
