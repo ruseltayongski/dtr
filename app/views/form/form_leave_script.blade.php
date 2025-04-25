@@ -85,6 +85,7 @@
                 }
                 var closestClone = $(this).closest('.table-data');
                 var remarksContainer = closestClone.find('#date_remarks');
+                console.log('remarks', remarksContainer);
 
                 $('#vl_less').val(0);
                 $('#sl_less').val(0);
@@ -190,31 +191,49 @@
                         }
                     }
                     var end_date   = moment(picker.endDate.format('YYYY-MM-DD'));
+                    console.log('end_date', end_date);
+
                     var currentDate = new Date(); // Get the current date
                     var endDateForLoop = new Date(currentDate);
                     endDateForLoop.setDate(endDateForLoop.getDate() - 1);
 
                     remarksContainer.empty();
                     if (end_date <= currentDate) {
+
                         var dayAfterEndDate = new Date(end_date);
                         dayAfterEndDate.setDate(dayAfterEndDate.getDate() + 1); // Increment endDate by 1 day
+                        console.log('dsad34', dayAfterEndDate);
 
                         for (var date = dayAfterEndDate; date <= endDateForLoop; date.setDate(date.getDate() + 1)) {
                             // Check if the current date is Saturday (6) or Sunday (0)
                             var dayOfWeek = date.getDay(); // 0 = Sunday, 6 = Saturday
+                            console.log('days_display', days_display);
 
                             if (dayOfWeek !== 0 && dayOfWeek !== 6) { // Exclude Saturdays and Sundays
                                 var formattedDate = new Date(date).toLocaleDateString('en-US');
-                                console.log('days_display', days_display);
                                 if (!days_display.includes(formattedDate)) {
                                     // If not, append and push to array
                                     remarksContainer.append(
                                         '<div style="display: flex; align-items: center; margin-bottom: 5px;">' +
                                         '<span style="flex: 1; text-align: left;">' + formattedDate + '</span>' +
-                                        '<input type="text" class="form-control" name="date_remarks[]" placeholder="Enter remarks" name="remarks_' + formattedDate.replace(/\//g, '-') + '" style="flex: 3; width: auto;" />' +
+                                        '<select class="hosen-select-static form-control" name="date_remarks[]" style="flex: 3; width: auto;" required>' +
+                                        '<option value="">Select Reason</option>' +
+                                        '<option value="cdo">CDO</option>' +
+                                        '<option value="leave">LEAVE</option>' +
+                                        '<option value="rpo">RPO</option>' +
+                                        '<option value="holiday">HOLIDAY</option>' +
+                                        '</select>' +  // Closing </select> is now in the right place
                                         '<input type="hidden" name="s_dates[]" value="'+formattedDate+'">' +
                                         '</div>'
                                     );
+
+                                {{--<select class="chosen-select-static form-control" name="certification_officer" required style="width: 70%;margin-right: 50%; text-align: center; ">--}}
+                                            {{--@if(count($officer) > 0)--}}
+                                            {{--@foreach($officer as $section_head)--}}
+                                        {{--<option value="{{ $section_head['id'] }}">{{ $section_head['fname'].' '.$section_head['mname'].' '.$section_head['lname'] }}</option>--}}
+                                            {{--@endforeach--}}
+                                            {{--@endif--}}
+                                        {{--</select>--}}
                                     // Push the formatted date to the array
                                     days_display.push(formattedDate);
                                 }
@@ -248,6 +267,8 @@
             }
         });
     });
+
+    $('.chosen-select-static').chosen();
 
     var days_display = [];
 

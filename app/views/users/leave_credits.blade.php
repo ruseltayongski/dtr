@@ -59,9 +59,10 @@
                             <label class="text-danger">Special Privilege: @if($user->SPL) {{ $user->SPL }} @else 0 @endif</label>
                         </td>
                         <td>
-                            <button class="button btn-sm leave_balance" style="background-color: #9C8AA5;color: white" data-toggle="modal" data-id="{{ $user->userid }}" data-fl="{{$user->FL? $user->FL : 0}}" data-spl="{{$user->SPL? $user->SPL : 0}}" data-vacation="{{ $user->vacation_balance }}" data-sick="{{ $user->sick_balance }}" data-target="#leave_balance">Update Leave Balance</button>
-                            <button onclick="view_leave({{ $user->userid }})" class="button btn-sm leave_ledger" style="background-color: #31b0d5;color: white" data-toggle="modal" data-id="{{ $user->userid }}" id="viewCard" name="viewCard" data-toggle="modal"
-                                    data-target="#leave_ledger"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>View Leave Balance</button>
+                            <button class="btn btn-sm leave_balance" style="background-color: #9C8AA5;color: white; width: 150px;" data-toggle="modal" data-id="{{ $user->userid }}" data-fl="{{$user->FL? $user->FL : 0}}" data-spl="{{$user->SPL? $user->SPL : 0}}"
+                                    data-vacation="{{ $user->vacation_balance }}" data-sick="{{ $user->sick_balance }}" data-target="#leave_balance"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>&nbsp;&nbsp;Update Leave Balance</button>
+                            <button onclick="view_leave('{{ $user->userid }}')" class="btn btn-sm leave_ledger" style="background-color: #31b0d5;color: white; width: 150px;" data-toggle="modal" data-id="{{ $user->userid }}" id="viewCard" name="viewCard" data-toggle="modal"
+                                    data-target="#leave_ledger"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>&nbsp;&nbsp;View Leave Balance</button>
                         </td>
                     </tr>
                 @endforeach
@@ -92,6 +93,7 @@
                 $(".l_view_body").html(result);
             });
             u_id = userid;
+            $('.user_iid').val(userid);
         }
 
         $(document).on('click', '.pagination  a', function(e) {
@@ -108,77 +110,7 @@
                 }
             });
         });
-
-
-        // $(document).ready(function () {
-        //     $("#viewCard").on("click", function(){
-        //         $("#ledger_body").empty();
-        //     });
-
-        //     $(".leave_ledger").on('click', function(){
-
-        //         $(".l_view_body").empty();
-        //         var userid= $(this).data('id');
-
-        //         $.get("{{ url('leave/card-view').'/' }}" + userid, function(result){
-        //             $(".l_view_body").html(result);
-        //         });
-
-                
-        //         // $('.user_iid').val(userid);
-        //         // console.log('suerid', userid);
-        //         // var name = $(this).closest("tr").find(".name-cell").text();
-        //         // <?php if(isset($leave_card) && count($leave_card)>0){ ?>
-        //         // <?php foreach($leave_card as $card){?>
-        //         // var id = "<?php echo $card->userid;?>";
-        //         // if(id==userid){
-
-        //         //     <?php
-        //         //         $div = InformationPersonal::where('userid', '=', $card->userid)->first();
-        //         //         $divi = !empty($div) ? $div->division_id : '';
-        //         //         $division = Division::where('id', '=', $divi)->first();
-        //         //         if($division){
-        //         //             $div_p = $division->description;
-        //         //         }
-        //         //         echo "var division=".json_encode(($div_p)? $div_p : '' ).";";
-        //         //         ?>
-        //         //     $('.name').html("NAME: " + name + "<span style='margin-left: 100px; color:white;'> DIVISION/OFFICE:</span> " + division);
-
-        //         //     var tabledata1 = "<tr>" +
-        //         //         <?php if ($card->period !== null): ?>
-        //         //             "<td style= 'border: 1px solid black'><?php echo $card->period; ?></td>"+
-        //         //         <?php else: ?>
-        //         //             "<td style= 'border: 1px solid black'></td>"+
-        //         //         <?php endif; ?>
-        //         //         <?php if (strpos($card->particulars, 'deduct') !== false): ?>
-        //         //             "<td style= 'border: 1px solid black'><a href= '#' data-toggle='modal' onclick='checkAbsence(this)' data-target='#modify_deduction'><?php echo $card->particulars; ?></a></td>" +
-        //         //         <?php elseif ($card->remarks === 0): ?>
-        //         //             "<td style= 'border: 1px solid black'><a href= '#' data-toggle='modal' onclick='updateUT(this)' data-target='#modify_deduction'><?php echo $card->particulars; ?></a></td>" +
-        //         //         <?php else: ?>
-        //         //             "<td style= 'border: 1px solid black'><?php echo $card->particulars; ?></td>" +
-        //         //         <?php endif; ?>
-
-        //         //         "<td style= 'border: 1px solid black'><?php echo $card->vl_earned; ?></td>" +
-        //         //         "<td style= 'border: 1px solid black'><?php echo $card->vl_abswp; ?></td>" +
-        //         //         "<td style= 'border: 1px solid black'><?php echo $card->vl_bal; ?></td>" +
-        //         //         "<td style= 'border: 1px solid black'><?php echo $card->vl_abswop; ?></td>" +
-        //         //         "<td style= 'border: 1px solid black'><?php echo $card->sl_earned; ?></td>" +
-        //         //         "<td style= 'border: 1px solid black'><?php echo $card->sl_abswp; ?></td>" +
-        //         //         "<td style= 'border: 1px solid black'><?php echo $card->sl_bal; ?></td>" +
-        //         //         "<td style= 'border: 1px solid black'><?php echo $card->sl_abswop; ?></td>" +
-        //         //         "<td style= 'border: 1px solid black'><?php echo !empty($card->date_used)?$card->date_used: ''; ?></td>" +
-        //         //         "<td style='display:none'><?php echo $card->userid; ?></td>" +
-        //         //     "<td style='display:none'><?php echo $card->id; ?></td>";
-
-        //         //     tabledata1 += "</tr>";
-        //         //     $('#ledger_body').append(tabledata1);
-        //         // }
-        //         // <?php }?>
-        //         // <?php }?>
-
-        //     });
-        // });
-
+        
         $(".leave_balance").on('click',function(e){
             $('.leave_modal').html(loadingState);
             var fl = $(this).data('fl');
@@ -225,16 +157,20 @@
         });
 
         function checkAbsence(button) {
+            $('.mod_update_btn').val('update');
+            $('.type_label').text('No of Absences');
             $('#month_date').val('');
             $('#absence').val('');
             $(".card_id").val('');
+            $(".delete_btn").hide();
             var row = $(button).closest('tr');
             var rowData = {};
             row.find('td').each(function(cellIndex, cell) {
                 var columnName = 'data' + (cellIndex + 1);
                 rowData[columnName] = $(cell).text().trim();
             });
-            var dates = (rowData.data11).split("-");
+            console.log('dates', rowData);
+            var dates = (rowData.data1).split("-");
             var get_year = moment(dates[1],'MMMM D, YYYY');
             var start = dates[0] +', '+get_year.year();
             var startDate = moment(start,'MMMM D, YYYY');
@@ -248,18 +184,23 @@
                 }
             });
             $('#month_date').val(startDate.format('MM/DD/YYYY') + ' - ' + endDate.format('MM/DD/YYYY'));
-            var total = rowData.data10 / 0.0417;
+//            var total = rowData.data10 / 0.0417;
+            var number = (rowData.data2).match(/\((\d+)\)/);
+            number = number ? parseInt(number[1], 10) : 0;
+            console.log('number', number);
             $(".modify_userid").val(rowData.data12);
             $(".card_id").val(rowData.data13);
-            $("#absence").val(total.toFixed(0));
+            $("#absence").val(number.toFixed(0));
         }
 
         function updateUT(button){
+            $('.mod_update_btn').val('update_1');
             console.log('update ut');
+            $('.type_label').text('No of Minutes');
             $('#month_date').val('');
             $('#absence').val('');
             $(".card_id").val('');
-
+            $('.mod_update_btn').val('update_1');
             $(".delete_btn").hide();
             var row = $(button).closest('tr');
             var rowData = {};
@@ -267,7 +208,7 @@
                 var columnName = 'data' + (cellIndex + 1);
                 rowData[columnName] = $(cell).text().trim();
             });
-
+            console.log('row', rowData);
             if(rowData.data11 == null ||rowData.data11 == '' ){
                 $('#month_date').daterangepicker();
             }else{
@@ -289,7 +230,10 @@
 
             $(".modify_userid").val(rowData.data12);
             $(".card_id").val(rowData.data13);
-            $("#absence").val((rowData.data10 == '')? 0 : rowData.data10);
+            var number = (rowData.data2).match(/\((\d+)\s*min/);
+            number = number ? parseInt(number[1], 10) : 0;
+            console.log('number', number);
+            $("#absence").val(number.toFixed(0));
         }
     </script>
 @endsection

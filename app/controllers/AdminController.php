@@ -803,9 +803,27 @@ class AdminController extends BaseController
                     $leave_card->sl_abswp = ($leave->sl_deduct == 0)?'':$leave->sl_deduct;
                     $leave_card->vl_abswp = ($leave->vl_deduct == 0)?'':$leave->vl_deduct;
                     $leave_card->sl_abswop = ($leave->without_pay == 0)?'':intval($leave->without_pay);
+                    if($leave->applied_num_days <= $pis->sick_balance){
+                        $leave_card->sl_abswp = $leave->applied_num_days;
+                        $leave->with_pay = $leave->applied_num_days;
+                        $leave_card->sl_abswop = null;
+                        $leave_card->vl_abswop = null;
+                    }
                 }else if($leave->leave_type == 'VL'){
-                    $leave_card->vl_abswp = ($leave->vl_deduct > $pis->vacation_balance)?$pis->vacation_balance : $leave->vl_deduct ;
-                    $leave_card->vl_abswop = intval($leave->without_pay);
+//                    $leave_card->vl_abswp = ($leave->vl_deduct > $pis->vacation_balance)?$pis->vacation_balance : $leave->vl_deduct ;
+//                    $leave_card->vl_abswop = intval($leave->without_pay);
+
+                    if($leave->applied_num_days <= $pis->vacation_balance){
+                        $leave_card->vl_abswp = $leave->applied_num_days;
+                        $leave->with_pay =  $leave->applied_num_days;
+                        $leave->without_pay = 0;
+                    }else if($leave->applied_num_days > $pis->vacation_balance){
+                        $rem = $leave->applied_num_days - $pis->vacation_balance;
+                        $leave_card->vl_abswp = intval($pis->vacation_balance);
+                        $leave_card->vl_abswop = intval($rem);
+                        $leave->with_pay =  intval($pis->vacation_balance);
+                        $leave->without_pay = intval($rem);
+                    }
                 }
 
                 $dates = LeaveAppliedDates::where('leave_id', $leave->id)->get();
@@ -881,8 +899,11 @@ class AdminController extends BaseController
 //        ///END TRACKING
 
         $all_dates = LeaveAppliedDates::where('leave_id', $leave->id)->get();
+        $with_pay_leave = intval($leave->with_pay);
         if($all_dates){
-            foreach ($all_dates as $date){
+            foreach ($all_dates as $index => $date){
+                $index = $index + 1;
+                $stat = $index > $with_pay_leave ? 1 : 0;
                 $from = date('Y-m-d',strtotime($date->startdate));
                 $end_date = date('Y-m-d',strtotime($date->enddate));
                 $f = new DateTime($from.' '. '24:00:00');
@@ -895,7 +916,7 @@ class AdminController extends BaseController
                 $j = 0;
 
                 $pdo = DB::connection()->getPdo();
-                $query1 = "INSERT IGNORE INTO leave_logs(userid,datein,time,event,remark,edited,holiday,route_no,created_at,updated_at) VALUES";
+                $query1 = "INSERT IGNORE INTO leave_logs(userid,datein,time,event,remark,edited,holiday,route_no,leave_status,created_at,updated_at) VALUES";
                 while($j <= $interval->days) {
                     $datein = $f_from[0].'-'.$f_from[1] .'-'. $startday;
                     $day_name = date('l', strtotime($datein));
@@ -908,42 +929,42 @@ class AdminController extends BaseController
                         if($leave->half_day_first == 'AM' || $leave->half_day_last == 'AM'){
                             $timein = '08:00:00';
                             $event = 'IN';
-                            $query1 .= "('" . $userid . "','" . $datein . "','" . $timein . "','" . $event . "','" . $remark . "','" . $edited . "','" . $holiday . "','" . $route_no . "',NOW(),NOW()),";
+                            $query1 .= "('" . $userid . "','" . $datein . "','" . $timein . "','" . $event . "','" . $remark . "','" . $edited . "','" . $holiday . "','" . $route_no . "','" . $stat . "',NOW(),NOW()),";
 
 
                             $timein = '12:00:00';
                             $event = 'OUT';
-                            $query1 .= "('" . $userid . "','" . $datein . "','" . $timein . "','" . $event . "','" . $remark . "','" . $edited . "','" . $holiday . "','" . $route_no . "',NOW(),NOW()),";
+                            $query1 .= "('" . $userid . "','" . $datein . "','" . $timein . "','" . $event . "','" . $remark . "','" . $edited . "','" . $holiday . "','" . $route_no . "','" . $stat . "',NOW(),NOW()),";
                         }
                         elseif($leave->half_day_first == 'PM' || $leave->half_day_last == 'PM') {
                             $timein = '13:00:00';
                             $event = 'IN';
-                            $query1 .= "('" . $userid . "','" . $datein . "','" . $timein . "','" . $event . "','" . $remark . "','" . $edited . "','" . $holiday . "','" . $route_no . "',NOW(),NOW()),";
+                            $query1 .= "('" . $userid . "','" . $datein . "','" . $timein . "','" . $event . "','" . $remark . "','" . $edited . "','" . $holiday . "','" . $route_no . "','" . $stat . "',NOW(),NOW()),";
 
 
                             $timein = '18:00:00';
                             $event = 'OUT';
-                            $query1 .= "('" . $userid . "','" . $datein . "','" . $timein . "','" . $event . "','" . $remark . "','" . $edited . "','" . $holiday . "','" . $route_no . "',NOW(),NOW()),";
+                            $query1 .= "('" . $userid . "','" . $datein . "','" . $timein . "','" . $event . "','" . $remark . "','" . $edited . "','" . $holiday . "','" . $route_no . "','" . $stat . "',NOW(),NOW()),";
                         }
                         else {
                             $timein = '08:00:00';
                             $event = 'IN';
-                            $query1 .= "('" . $userid . "','" . $datein . "','" . $timein . "','" . $event . "','" . $remark . "','" . $edited . "','" . $holiday . "','" . $route_no . "',NOW(),NOW()),";
+                            $query1 .= "('" . $userid . "','" . $datein . "','" . $timein . "','" . $event . "','" . $remark . "','" . $edited . "','" . $holiday . "','" . $route_no . "','" . $stat . "',NOW(),NOW()),";
 
 
                             $timein = '12:00:00';
                             $event = 'OUT';
-                            $query1 .= "('" . $userid . "','" . $datein . "','" . $timein . "','" . $event . "','" . $remark . "','" . $edited . "','" . $holiday . "','" . $route_no . "',NOW(),NOW()),";
+                            $query1 .= "('" . $userid . "','" . $datein . "','" . $timein . "','" . $event . "','" . $remark . "','" . $edited . "','" . $holiday . "','" . $route_no . "','" . $stat . "',NOW(),NOW()),";
 
 
                             $timein = '13:00:00';
                             $event = 'IN';
-                            $query1 .= "('" . $userid . "','" . $datein . "','" . $timein . "','" . $event . "','" . $remark . "','" . $edited . "','" . $holiday . "','" . $route_no . "',NOW(),NOW()),";
+                            $query1 .= "('" . $userid . "','" . $datein . "','" . $timein . "','" . $event . "','" . $remark . "','" . $edited . "','" . $holiday . "','" . $route_no . "','" . $stat . "',NOW(),NOW()),";
 
 
                             $timein = '18:00:00';
                             $event = 'OUT';
-                            $query1 .= "('" . $userid . "','" . $datein . "','" . $timein . "','" . $event . "','" . $remark . "','" . $edited . "','" . $holiday . "','" . $route_no . "',NOW(),NOW()),";
+                            $query1 .= "('" . $userid . "','" . $datein . "','" . $timein . "','" . $event . "','" . $remark . "','" . $edited . "','" . $holiday . "','" . $route_no . "','" . $stat . "',NOW(),NOW()),";
                         }
                     }
 
@@ -951,7 +972,7 @@ class AdminController extends BaseController
                     $j++;
                 }
 
-                $query1 .= "('','','','','','','','',NOW(),NOW())";
+                $query1 .= "('','','','','','','','','',NOW(),NOW())";
                 $st = $pdo->prepare($query1);
                 $st->execute();
             }
@@ -1027,13 +1048,6 @@ class AdminController extends BaseController
 
     }
 
-    public function leave_card(){
-        $data = array(
-          "pis"=> "chanak"
-        );
-        return View:: make('form.leave_card', ['data' => $data]);
-    }
-
     public function leave_credits()
     {
         // pis list isn't updated for reqular employees, people who can avail leave as of august 2, 2024
@@ -1077,6 +1091,12 @@ class AdminController extends BaseController
             ->select('personal_information.*', 'addtnl_leave.FL','addtnl_leave.SPL')
             ->orderBy('personal_information.fname', 'asc')
             ->paginate(10);
+//
+//        return $data = [
+//            "pis" => $pis,
+//            "leave_card" => $leave_card,
+//            "keyword" => $keyword
+//        ];
 
         return View::make('users.leave_credits',[
             "pis" => $pis,
@@ -1304,64 +1324,69 @@ class AdminController extends BaseController
     }
 
     public function update_absence(){
+
         $action = Input::get('action');
         $id = Input::get('card_id');
         $date = Input::get('month_date');
         $leave_card = LeaveCardView::where('id', $id)->first();
         $before_card = LeaveCardView::where('id', '<', $id)->where('userid', $leave_card->userid)->first();
-        $all_card = LeaveCardView::where('id', '>', $id)->where('userid', $leave_card->userid)->where('status', '!=', 1)->get();
+
+        $all_card = LeaveCardView::where('id', '>', $id)->where('userid','=', $leave_card->userid)->get();
+
         $new_days = Input::get('absence');
         $pis = InformationPersonal::where('userid', $leave_card->userid)->first();
-        if($leave_card->remarks == 0){
-            $deduction = floatval($leave_card->particulars);
-            // existing 2, 5,7,9 deduction 1 6,8,10 =  2-1 = val + res
-            // existing 2, 5,7,9 deduction 3 4,6,8  2-3 = val+ res
-            $deduction = $deduction - $new_days;
+        if($action == 'update_1'){
+            preg_match('/[=-]\s*([\d.]+)/', $leave_card->particulars, $matches);
+            $deduction = isset($matches[1]) ? floatval($matches[1]) : 0;
+
+            if($new_days > 60){
+                $cal = $new_days/60;
+                $base = floor($cal);
+                $rem = $new_days - ($base * 60);
+                $new_deduction = round($base * 0.125, 3) + round($rem * 0.00208, 3);
+            }else{
+                $new_deduction = round(($new_days * 0.00208),3);
+            }
+//            return $all_card;
             foreach ($all_card as $data){
-                $data->vl_bal = $data->vl_bal + $deduction;
-                $data->sl_bal = $data->sl_bal + $deduction;
+                $data->vl_bal = ($data->vl_bal != null)? $data->vl_bal + $deduction - $new_deduction : null;
+                $data->sl_bal = ($data->sl_bal != null)? $data->sl_bal + $deduction - $new_deduction : null;
                 $data->save();
             }
 
-            $pis->vacation_balance = $pis->vacation_balance + $deduction;
-            $pis->sick_balance = $pis->sick_balance + $deduction;
+            $pis->vacation_balance = $pis->vacation_balance + $deduction - $new_deduction;
+            $pis->sick_balance = $pis->sick_balance + $deduction - $new_deduction;
             $pis->save();
             $date = explode('-', $date);
             $date_from = date('Y-m-d', strtotime($date[0]));
             $date_to = date('Y-m-d', strtotime($date[1]));
             $display_date = date('F', strtotime($date_from)) . " 1-" .  date('d', strtotime($date_to)) . ", ". date('Y', strtotime($date_to));
             $leave_card->date_used = $display_date;
-            $leave_card->vl_bal = $deduction + $before_card->vl_bal;
-            $leave_card->sl_bal = $deduction + $before_card->sl_bal;
-            $leave_card->particulars = 'UT ('.$deduction < 0 ? -($deduction) : $deduction .')';
-            $leave_card->status = 0;
+            $leave_card->vl_bal = $leave_card->vl_bal + $deduction - $new_deduction;
+            $leave_card->sl_bal = $leave_card->sl_bal + $deduction - $new_deduction;
+            $leave_card->particulars = "UT (".$new_days." min(s). - ". $new_deduction.")";
+            $leave_card->status = 1;
             $leave_card->save();
         }else{
+            $old_days = $leave_card->vl_earned;
             if($action == 'update'){
-                $old_days = $leave_card->vl_abswop;
-                $pis->vacation_balance = $pis->vacation_balance + $leave_card->vl_abswop;
-                $pis->sick_balance = $pis->sick_balance + $leave_card->vl_abswop;
-                $pis->save();
-                $leave_card->particulars = 'deduct '.$new_days. ' day(s)';
-                $leave_card->vl_abswop = round($new_days * 0.04167, 3);
-                $leave_card->sl_abswop = round($new_days * 0.04167, 3);
+                $leave_card->particulars = $new_days == 0? 'No Absences' : 'No. of Absences ('.$new_days.')';
+                $credit_earned = $new_days == 0? 1.25 : 1.25 - round($new_days * 0.04167, 3);
+                $leave_card->vl_earned = $credit_earned;
+                $leave_card->sl_earned = $credit_earned;
+                $leave_card->vl_bal = $leave_card->vl_bal - $old_days + $credit_earned;
+                $leave_card->sl_bal = $leave_card->sl_bal - $old_days + $credit_earned;
                 $leave_card->save();
                 foreach ($all_card as $row){
-                    $row->vl_bal = ($row->vl_bal != null)?$row->vl_bal + $old_days - round($new_days * 0.04167, 3) :'';
-                    $row->sl_bal = ($row->vl_bal != null)?$row->sl_bal + $old_days - round($new_days * 0.04167, 3):'';
-                    $row->save();
-                }
-            }else{
-                foreach ($all_card as $row){
-                    $row->vl_bal = ($row->vl_bal != null)?$row->vl_bal - round($new_days * 0.04167, 3):'';
-                    $row->sl_bal = ($row->sl_bal != null)?$row->sl_bal - round($new_days * 0.04167, 3):'';
+                    $row->vl_bal = ($row->vl_bal != null)?$row->vl_bal - $old_days + $credit_earned :'';
+                    $row->sl_bal = ($row->vl_bal != null)?$row->sl_bal - $old_days + $credit_earned:'';
                     $row->save();
                 }
 
-                $pis->vacation_balance = $pis->vacation_balance - round($new_days * 0.04167, 3);
-                $pis->sick_balance = $pis->sick_balance - round($new_days * 0.04167, 3);
+                $pis->vacation_balance = $pis->vacation_balance - $old_days + $credit_earned;;
+                $pis->sick_balance = $pis->sick_balance - $old_days + $credit_earned;;
                 $pis->save();
-                $leave_card->delete();
+
             }
         }
 
@@ -1370,13 +1395,14 @@ class AdminController extends BaseController
     }
 
     public function get_leave_view($id){
-        $div = InformationPersonal::where('userid', '=', $id)->first();
-        $division = Division::where('id', '=', $div->division_id)->select('description')->first();
-        $card_details = LeaveCardView::where('userid', $id)->paginate(10);
+        $info = InformationPersonal::where('userid', $id)->first();
+        $division = Division::where('id', '=', $info->division_id)->select('description')->first();
+        $section = Section::where('id', '=', $info->section_id)->select('description')->first();
+        $card_details = LeaveCardView::where('userid', $id)->paginate(20);
         return View::make('form.leave_card',[
-            'division' => $division->description,
+            'division' => $division->description.'/'.$division->description,
             'card_details' => $card_details,
-            'user' => $div->lname .', '. $div->fname.' '. $div->mname
+            'user' => $info->lname .', '. $info->fname.' '. $info->mname
         ]);
     }
 

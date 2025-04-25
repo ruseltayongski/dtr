@@ -1708,12 +1708,11 @@ class cdoController extends BaseController
             }
             $dateList = implode(',', $dateList);
             $get_card = LeaveCardView::where('leave_id', $leave->id)->where('userid', $leave->userid)->first();
-            $all_card = LeaveCardView::where('id','>', $get_card->id)->where('userid', $leave->userid)->where('status', '!=', 1)->get();
+            $all_card = LeaveCardView::where('id','>', $get_card->id)->where('userid', $leave->userid)->get();
             if(in_array("cancel_all", $selected)){
-                $pis2->vacation_balance = $pis2->vacation_balance - $leave->vl_deduct;
-                $pis2->sick_balance = $pis2->sick_balance - $leave->sl_deduct;
+                $pis2->vacation_balance = $pis2->vacation_balance + $leave->vl_deduct;
+                $pis2->sick_balance = $pis2->sick_balance + $leave->sl_deduct;
                 $pis2->save();
-
                 $leave->status = 3;
                 $leave->save();
 
@@ -1831,9 +1830,9 @@ class cdoController extends BaseController
                 }else if ($leave->leave_type == "SPL"){
                     $spl->SPL = $spl->SPL - $count;
                 }
-//                return $sl;
-                $get_card->vl_bal = $leave->vl_bal + $vl;
-                $get_card->sl_bal = $leave->sl_bal + $sl;
+//                return $vl;
+                $get_card->vl_bal = $get_card->vl_bal + $vl;
+                $get_card->sl_bal = $get_card->sl_bal + $sl;
                 $get_card->date_used = implode(',', $used_date);
                 $get_card->save();
                 $leave->vacation_total = $leave->vacation_total + $vl;
@@ -1845,7 +1844,7 @@ class cdoController extends BaseController
                 $pis2->save();
                 $spl?$spl->save():'';
 
-                $all_card = LeaveCardView::where('id', '>', $get_card->id)->where('userid', $leave->userid)->where('status', '!=', 1)->get();
+                $all_card = LeaveCardView::where('id', '>', $get_card->id)->where('userid', $leave->userid)->get();
                 foreach ($all_card as $data){
                     $data->vl_bal = $data->vl_bal + $vl;
                     $data->sl_bal = $data->sl_bal + $sl;

@@ -223,7 +223,6 @@
         $(".all").text(<?php echo count($leave["count_all"]); ?>);
 
         $("a[href='#approve']").on("click",function(){
-            console.log('here');
             $("input[name='keyword']").val("");
             $('.ajax_approve').html(loadingState);
             type = 'approve';
@@ -313,12 +312,9 @@
                 url : '?type='+type+'&page='+page+"&keyword="+keyword,
                 type: 'GET',
             }).done(function (result) {
-                console.log('keyword', keyword);
                 $('.ajax_'+type).html(loadingState);
                 setTimeout(function(){
                     $('.ajax_'+type).html(result)
-                    console.log('result', result);
-
                 },700);
 
             }).fail(function (data) {
@@ -336,7 +332,6 @@
             <?php foreach ($routes as $route){ ?>
                 var route = "<?php echo $route->route_no;?>";
                 if(name == route){
-
                     $(".modal-title").html("Route No:<strong>"+route);
                         <?php $dates = LeaveAppliedDates::where('leave_id', '=', $route->id)->get(); ?>
                     var dateList= [];
@@ -344,7 +339,6 @@
                         var diff = "<?php $diff=(strtotime($date->startdate)-strtotime($date->enddate))/ (60*60*24); echo $diff*-1; ?>";
                         var startDate = new Date("<?php echo date('F j, Y', strtotime($date->startdate)); ?>");
                         var endDate = new Date("<?php echo date('F j, Y', strtotime($date->enddate)); ?>");
-                        console.log("date", startDate);
                         if(diff == 0){
                             dateList.push(startDate.toLocaleDateString());
                         }else{
@@ -395,10 +389,8 @@
 
             var route = $(data).data('route');
             $("#leave_route_approved").val(route);
-            console.log('result', details);
             var url ="<?php echo asset('leave/approved')?>"+"/"+route;
             $.get(url,function(result) {
-                console.log('chaka');
                 Lobibox.notify('success', {
                     size: 'mini',
                     title: '',
@@ -437,13 +429,14 @@
         }
         var move_route = '';
         var dateList = [];
+
         function move_dates(event) {
+            console.log('sample');
             $('#move_body').empty();
             var name = event.target.getAttribute('value');
             move_route = name;
             $('#route').val(name);
             $('#move_route').val(name);
-            console.log('name', name);
 
                 <?php $routes = Leave::get(); ?>
                 <?php foreach ($routes as $route){ ?>
@@ -456,7 +449,6 @@
                 var diff = "<?php $diff=(strtotime($date->startdate)-strtotime($date->enddate))/ (60*60*24); echo $diff*-1; ?>";
                 var startDate = new Date("<?php echo date('F j, Y', strtotime($date->startdate)); ?>");
                 var endDate = new Date("<?php echo date('F j, Y', strtotime($date->enddate)); ?>");
-                console.log("date", startDate);
                 if(diff == 0){
                     dateList.push(startDate.toLocaleDateString());
                 }else{
@@ -539,7 +531,6 @@
                     dates: dateList
                 },
                 success: function(response) {
-                    console.log('res', response);
                     if(response == "success"){
                         setTimeout(function(){
                             Lobibox.notify('success', {

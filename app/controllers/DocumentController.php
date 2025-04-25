@@ -66,7 +66,6 @@ class DocumentController extends BaseController
                     return Redirect::to('resetpass')->with('pass_change','You must change your password for security after your first log in or resseting password');
                 }
             }
-
             $pis = InformationPersonal::where ('userid', Auth::user()->userid)->first();
             $route_no = date('Y-') . Auth::user()->userid . date('mdHis');
             $l_type = Input::get('leave_type');
@@ -89,8 +88,8 @@ class DocumentController extends BaseController
             $leave->status = 0;
             $leave->remarks = 0;
             $leave->commutation = Input::get('com_requested');
-            $leave->with_pay = (Input::get('with_pay') != null)?Input::get('with_pay'):0;
-            $leave->without_pay = (Input::get('without_pay') != null)?Input::get('without_pay'):0;
+            $leave->with_pay = (Input::get('with_pay') != null)?(int) filter_var(Input::get('with_pay'), FILTER_SANITIZE_NUMBER_INT):0;
+            $leave->without_pay = (Input::get('without_pay') != null)?(int) filter_var(Input::get('without_pay'), FILTER_SANITIZE_NUMBER_INT):0;
             $leave->applied_num_days = Input::get('applied_num_days');
             $leave->as_of = date('Y-m-d',strtotime(Input::get('as_of')));
             $leave->vacation_total = $pis->vacation_balance ? $pis->vacation_balance:0;
@@ -201,6 +200,7 @@ class DocumentController extends BaseController
 //        return (Input::get('leave_type') != null)?Input::get('leave_type'):'None' ;
         $leave = Leave::where('id', Input::get('id'))->first();
 //        return Input::get('id');
+//        return (int) filter_var(Input::get('with_pay');
         if($leave){
             $pis = InformationPersonal::where('userid', $leave->userid)->first();
             $l_type = Input::get('leave_type');
@@ -219,8 +219,8 @@ class DocumentController extends BaseController
             $leave->status = 0;
             $leave->remarks = 0;
             $leave->commutation = Input::get('com_requested');
-            $leave->with_pay = (Input::get('with_pay') != null)?Input::get('with_pay'):0;
-            $leave->without_pay = (Input::get('without_pay') != null)?Input::get('without_pay'):0;
+            $leave->with_pay = (Input::get('with_pay') != null)?(int) filter_var(Input::get('with_pay'), FILTER_SANITIZE_NUMBER_INT):0;
+            $leave->without_pay = (Input::get('without_pay') != null)?(int) filter_var(Input::get('without_pay'), FILTER_SANITIZE_NUMBER_INT):0;
             $leave->applied_num_days = Input::get('applied_num_days');
             $leave->as_of = date('Y-m-d', strtotime(Input::get('as_of')));
             $leave->vacation_total = $pis->vacation_balance;
