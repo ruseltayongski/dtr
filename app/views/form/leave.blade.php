@@ -224,35 +224,47 @@
                                         <button  style="width: 50px; display: inline-block; margin-left: 200px; border-radius:0px; font-size:10px" class="btn btn-xs btn-info addButton1" type="button">
                                             <i class="fa fa-plus"></i>
                                         </button>
-                                        <br>
+                                        <br><br>
                                         @foreach($leave_dates as $dates)
                                             {{--<strong style="margin-left: 1%">--}}
-                                                <div class="table-data" id="clone_data">
-                                                    <div class="input-group" style="margin-left:5%; margin-bottom: 2px; margin-top: 0px" >
-                                                        <div class="input-group-addon" style="">
-                                                            <i class="fa fa-calendar"></i>
-                                                        </div>
-                                                        <input value="{{ date('m/d/Y',strtotime($dates->startdate)).' - '.date('m/d/Y',strtotime($dates->enddate)) }}" style="width: 50%" type="text" class="form-control datepickerInput1" id="inclusive11" name="inclusive_dates1[]" placeholder="Input date here..." required>
-                                                        <button style="width: 50px; margin-left: 66.7px; border-radius:0px" type="button" class="btn btn-xs btn-danger deleteButton1">
-                                                            <i class="fa fa-minus"></i>
-                                                        </button>
+                                            <div class="table-data" id="clone_data">
+                                                <div class="input-group" style="margin-left:5%; margin-bottom: 2px; margin-top: 0px" >
+                                                    <div class="input-group-addon" style="">
+                                                        <i class="fa fa-calendar"></i>
                                                     </div>
+                                                    <input value="{{ date('m/d/Y',strtotime($dates->startdate)).' - '.date('m/d/Y',strtotime($dates->enddate)) }}" style="width: 50%" type="text" class="form-control datepickerInput1" id="inclusive11" name="inclusive_dates1[]" placeholder="Input date here..." required>
+                                                    <button style="width: 50px; margin-left: 66.7px; border-radius:0px" type="button" class="btn btn-xs btn-danger deleteButton1">
+                                                        <i class="fa fa-minus"></i>
+                                                    </button>
                                                 </div>
+                                            </div>
+                                            <div class="row" id="date_remarks"></div>
+
                                             {{--</strong>--}}
                                         @endforeach
+                                        {{--<div class="row" id="date_remarks"></div>--}}
                                         @if($leave->sl_remarks)
-                                            @foreach($leave->sl_remarks as $index => $row)
-                                                <div class="row" id="date_remarks" style="padding:5px; width:90%; margin-left: 5%">
-                                                    <div>
-                                                        @if($index == 0)
-                                                            <span style="font-weight: bold">SL remarks:<br></span>
-                                                        @endif
-                                                        <span style="display: inline-block; margin-right: 10px;">{{ date('m/d/Y',strtotime($row->date)) }}</span>
-                                                        <input type="text" value="{{ $row->remarks }}" class="form-control" name="date_remarks[]" placeholder="Enter remarks" name="remarks_' + formattedDate.replace(/\//g, '-') + '" style="display: inline-block;width: 80%" />
-                                                        <input type="hidden" name="s_dates[]" value="'+formattedDate+'">
+                                            <div class="row" id="date_remarks2">
+                                                @foreach($leave->sl_remarks as $index => $row)
+                                                    <div class="row" id="" style="padding:5px; width:90%; margin-left: 5%">
+                                                        <div>
+                                                            @if($index == 0)
+                                                                <span style="font-weight: bold">SL remarks:<br></span>
+                                                            @endif
+                                                            <span style="display: inline-block; margin-right: 10px;">{{ date('m/d/Y',strtotime($row->date)) }}</span>
+                                                                <select class="hosen-select-static form-control" name="date_remarks[]" style="flex: 3; width: 80%; display: inline-block;" required>' +
+                                                                    <option value="">Select Reason</option>
+                                                                    <option value="cdo" {{ $row->remarks == 'cdo' ? 'selected' :'' }}>CDO</option>
+                                                                    <option value="leave" {{ $row->remarks == 'leave' ? 'selected' :'' }}>LEAVE</option>
+                                                                    <option value="rpo" {{ $row->remarks == 'rpo' ? 'selected' :'' }}>RPO</option>
+                                                                    <option value="holiday" {{ $row->remarks == 'holiday' ? 'selected' :'' }}>HOLIDAY</option>
+                                                                </select>
+                                                            {{--<input type="text" value="{{ $row->remarks }}" class="form-control" name="date_remarks[]" placeholder="Enter remarks" name="remarks_' + formattedDate.replace(/\//g, '-') + '" style="display: inline-block;width: 80%" />--}}
+                                                            <input type="hidden" name="s_dates[]" value="'+formattedDate+'">
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            @endforeach
+                                                @endforeach
+                                            </div>
                                         @endif
                                     </td>
                                     <td style="width: 48%; margin-top: 10px; vertical-align: top" rowspan="2">
@@ -510,6 +522,9 @@
     $('#inc_date').daterangepicker();
     $('input[name="leave_type"]').change(function(){
         $('#date_remarks').empty();
+        $('#date_remarks2').empty();
+        $('#clone_data').not(':first').remove();
+        console.log('sample');
 
         $('#inclusive11').attr({ required: true, disabled: false });
 

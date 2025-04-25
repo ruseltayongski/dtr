@@ -141,7 +141,7 @@
                 $('#ledger_body2').empty();
                 <?php if(count($leave_card) > 0): ?>
                     <?php foreach ($leave_card as $card): ?>
-                        <?php if ($card->status !== 1): ?>
+                        <?php if ($card): ?>
                                 var tabledata1 = "<tr>";
                                 <?php if ($card->period !== null): ?>
                                     tabledata1 += "<td style='border: 1px solid black'><?php echo htmlspecialchars($card->period); ?></td>";
@@ -149,15 +149,15 @@
                                     tabledata1 += "<td style='border: 1px solid black'></td>";
                                 <?php endif; ?>
                                 tabledata1 += "<td style='border: 1px solid black'><?php echo htmlspecialchars($card->particulars); ?></td>" +
-                                    "<td style='border: 1px solid black'><?php echo htmlspecialchars($card->vl_earned); ?></td>" +
-                                    "<td style='border: 1px solid black'><?php echo htmlspecialchars($card->vl_abswp); ?></td>" +
-                                    "<td style='border: 1px solid black'><?php echo htmlspecialchars($card->vl_bal); ?></td>" +
-                                    "<td style='border: 1px solid black'><?php echo htmlspecialchars($card->vl_abswop); ?></td>" +
-                                    "<td style='border: 1px solid black'><?php echo htmlspecialchars($card->sl_earned); ?></td>" +
-                                    "<td style='border: 1px solid black'><?php echo htmlspecialchars($card->sl_abswp); ?></td>" +
-                                    "<td style='border: 1px solid black'><?php echo htmlspecialchars($card->sl_bal); ?></td>" +
-                                    "<td style='border: 1px solid black'><?php echo htmlspecialchars($card->sl_abswop); ?></td>" +
-                                    "<td style='border: 1px solid black'><?php echo htmlspecialchars($card->date_used); ?></td>";
+                                    "<td style='border: 1px solid black'><?php echo $card->vl_earned == 0 ? '':rtrim(rtrim(number_format($card->vl_earned, 3, '.', ''), '0'), '.'); ?></td>" +
+                                    "<td style='border: 1px solid black'><?php echo $card->vl_abswp == 0 ? '':rtrim(rtrim(number_format($card->vl_abswp, 3, '.', ''), '0'), '.'); ?></td>" +
+                                    "<td style='border: 1px solid black'><?php echo $card->vl_bal == 0 ? '':rtrim(rtrim(number_format($card->vl_bal, 3, '.', ''), '0'), '.'); ?></td>" +
+                                    "<td style='border: 1px solid black'><?php echo $card->vl_abswop == 0 ? '':htmlspecialchars($card->vl_abswop); ?></td>" +
+                                    "<td style='border: 1px solid black'><?php echo $card->sl_earned == 0 ? '':rtrim(rtrim(number_format($card->sl_earned, 3, '.', ''), '0'), '.'); ?></td>" +
+                                    "<td style='border: 1px solid black'><?php echo $card->sl_abswp == 0 ? '' : rtrim(rtrim(number_format($card->sl_abswp, 3, '.', ''), '0'), '.');?></td>" +
+                                    "<td style='border: 1px solid black'><?php echo $card->sl_bal == 0 ? '':rtrim(rtrim(number_format($card->sl_bal, 3, '.', ''), '0'), '.'); ?></td>" +
+                                    "<td style='border: 1px solid black'><?php echo $card->sl_abswop == 0 ?'':rtrim(rtrim(number_format($card->sl_abswop, 3, '.', ''), '0'), '.'); ?></td>" +
+                                    "<td style='border: 1px solid black'><?php echo $card->date_used; ?></td>";
                                 tabledata1 += "</tr>";
                                 document.getElementById('ledger_body2').innerHTML += tabledata1;
                         <?php endif; ?>
