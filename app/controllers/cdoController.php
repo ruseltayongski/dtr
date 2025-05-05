@@ -161,7 +161,7 @@ class cdoController extends BaseController
             $division_head = pdoController::user_search1($cdo['division_chief']);
         } else{
             $id_list = [];
-            $manually_added = [985329, 273, 11, 93053, 986445, 984538, 985950, 80, 976017, 466, 534, 986944, 988121, 357];
+            $manually_added = [985329, 273, 11, 93053, 986445, 984538, 985950, 80, 976017, 466, 534, 986944, 988121, 357, 988148];
 
             foreach(pdoController::section() as $row) {
                 if ($row['acronym'] !== null || in_array($row['head'], [37, 72, 243, 614, 110, 163, 648384, 160, 985950, 830744])) {
@@ -1768,6 +1768,8 @@ class cdoController extends BaseController
                             $used_date[] = '('."<s>".date('F j, Y', strtotime($date))."</s>". ')';
                             $get_date->status = 1;
                             $count++;
+                        }elseif($get_date->status == 1){
+                            $used_date[] = '('."<s>".date('F j, Y', strtotime($date))."</s>". ')';
                         }else{
                             $used_date[] = date('F j, Y', strtotime($date));
                         }

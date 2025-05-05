@@ -761,7 +761,7 @@
 </div><!-- /.modal -->
 
 <div class="modal fade" tabindex="-1" role="dialog" id="leave_ledger">
-    <div class="modal-dialog modal-xl" role="document" id="size" style=" width: 70%;">
+    <div class="modal-dialog modal-xl" role="document" id="size" style=" width: 90%;">
         <div class="modal-header" style="background-color: #9C8AA5">
             <span>Leave CardView Details</span>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -772,7 +772,7 @@
 </div><!-- /.modal -->
 
 <div class="modal fade" tabindex="-1" role="dialog" id="leave_ledger2">
-    <div class="modal-dialog modal-xl" role="document" id="size" style=" width: 70%;">
+    <div class="modal-dialog modal-xl" role="document" id="size" style=" width: 90%;">
         <div class="modal-header" style="background-color: #9C8AA5">
             <span>Leave CardView Details</span>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -781,7 +781,7 @@
             <table class="table" id="leave_card_table" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                 <thead style="background-color: darkgray; color:white;">
                     <tr style="background-color: darkgray;">
-                        <th rowspan="2" style="vertical-align: middle; color: white; border:1px solid black; padding:5px;">PERIOD</th>
+                        <th rowspan="2" style="vertical-align: middle; color: white; border:1px solid black; padding:5px; width:250px">PERIOD</th>
                         <th rowspan="2" style="vertical-align: middle; color: white; border:1px solid black; padding:5px;">PARTICULARS</th>
                         <th colspan="4" style="text-align: center; color: white; border:1px solid black; padding:5px;">VACATION LEAVE</th>
                         <th colspan="4" style="text-align: center; color: white; border:1px solid black; padding:5px;">SICK LEAVE</th>
@@ -1093,7 +1093,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <td class="col-sm-3"><strong>Deduction/ Absence </strong></td>
+                            <td class="col-sm-3"><strong><span class="type_label">Deduction/ Absence</span></strong></td>
                             <td class="col-sm-1">: </td>
                             <td class="col-sm-9">
                                 <input type="text" class="col-md-2 form-control" id="absence" name="absence" value="" required autocomplete="off">
@@ -1103,7 +1103,7 @@
                 </div>
                 <div class="modal-footer">
                     <input type="hidden" class="card_id" name="card_id">
-                    <button type="submit" value="update" name="action" class="btn btn-success" style="color:white;" ><i class="fa fa-pencil"> Update</i></button>
+                    <button type="submit" value="update" name="action" class="btn btn-success mod_update_btn" style="color:white;" ><i class="fa fa-pencil"> Update</i></button>
                     <button type="submit" value="delete" name="action" class="btn btn-danger delete_btn" style="color:white;"><i class="fa fa-trash"> Delete</i></button>
                 </div>
             </form>
