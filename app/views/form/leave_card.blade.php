@@ -49,7 +49,7 @@
                     <td style="border:1px solid black; padding:5px;">{{ $card->sl_abswp == 0 ? '':rtrim(rtrim(number_format($card->sl_abswp, 3, '.', ''), '0'), '.') }}</td>
                     <td style="border:1px solid black; padding:5px;">{{ $card->sl_bal == 0 ? '':rtrim(rtrim(number_format($card->sl_bal, 3, '.', ''), '0'), '.') }}</td>
                     <td style="border:1px solid black; padding:5px;">{{ $card->sl_abswop == 0 ? '':rtrim(rtrim(number_format($card->sl_abswop, 3, '.', ''), '0'), '.') }}</td>
-                    <td style="border:1px solid black; padding:5px;">{{ !empty($card->date_used) ? $card->date_used : '' }}</td>
+                    <td style="border:1px solid black; padding:5px;">{{ !empty($card->date_used) ? html_entity_decode(stripslashes($card->date_used)) : '' }}</td>
                     <td style="display: none">{{ $card->userid }}</td>
                     <td style="display: none">{{ $card->id }}</td>
                 </tr>

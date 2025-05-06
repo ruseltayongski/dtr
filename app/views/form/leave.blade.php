@@ -391,8 +391,8 @@
                                 <tr style="width: 52%" id="row_data">
                                     <td style="vertical-align: top;  border-right: 0px; border-bottom: 0px;">
                                         <strong style="">&nbsp;&nbsp;&nbsp;7.C APPROVED FOR:</strong><br>
-                                        <span style="margin-left: 10%"><input value="{{($leave->with_pay != 0)?$leave->with_pay :''}}" style="width: 22%; border: none; border-bottom: 2px solid black; height: 2%; margin-bottom: 0px" id="with_pay" name="with_pay" readonly> days with pay</span><br>
-                                        <span style="margin-left: 10%"><input value="{{($leave->without_pay != 0)?$leave->without_pay :''}}" style="width: 22%; border: none; border-bottom: 2px solid black; height: 2%" id="without_pay" name="without_pay" readonly> days without pay</span><br>
+                                        <span style="margin-left: 10%"><input value="{{($leave->with_pay != 0)? intval($leave->with_pay) :''}}" style="width: 22%; border: none; border-bottom: 2px solid black; height: 2%; margin-bottom: 0px" id="with_pay" name="with_pay" readonly> days with pay</span><br>
+                                        <span style="margin-left: 10%"><input value="{{($leave->without_pay != 0)? intval($leave->without_pay) :''}}" style="width: 22%; border: none; border-bottom: 2px solid black; height: 2%" id="without_pay" name="without_pay" readonly> days without pay</span><br>
                                         <span style="margin-left: 10%"><input style="width: 22%; border: none; border-bottom: 2px solid black; height: 2%; margin-bottom: 0px" id="others_pay" name="others_pay" readonly> others (Specify)</span>
                                     <td style="width: 48%; margin-top: 10px;border-left: 0px;border-bottom: 0px; vertical-align: top" rowspan="2">
                                         <strong>&nbsp;&nbsp;&nbsp;7.D DISAPPROVED DUE TO:</strong>
