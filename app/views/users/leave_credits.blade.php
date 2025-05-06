@@ -89,7 +89,7 @@
 
         function view_leave(userid){
             $(".l_view_body").empty();
-            $.get("{{ url('leave/card-view').'/' }}" + userid, function(result){
+            $.get("{{ url('leave/card-view').'/' }}" + userid +"/" + 1, function(result){
                 $(".l_view_body").html(result);
             });
             u_id = userid;

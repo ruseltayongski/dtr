@@ -305,6 +305,8 @@ class DocumentController extends BaseController
         $userid = Auth::user()->userid;
         $pis = InformationPersonal::where("userid","=",$userid)->first();
         $division = Division::where('id', $pis->division_id)->first();
+        $section = Section::where('id', '=', $pis->section_id)->select('description')->first();
+
         $designation = Designation:: where('id', $pis->designation_id)->first();
         $leave_card = LeaveCardView::where('userid', $userid)->get();
         $leave = AditionalLeave::where('userid', $userid)->first();
@@ -331,12 +333,15 @@ class DocumentController extends BaseController
 
         return View::make('form.list_leave',[
             "pis" => $pis,
+            "etd" => $pis->entrance_of_duty ? date('F j, Y', strtotime($pis->entrance_of_duty)) : "No Data Available (please update PIS)",
             "leaves" => $leaves,
             "leave" => $leave,
             "division" => $division,
             "designation" => $designation,
             "leave_card" => $leave_card,
-            "filter_range" => Input::get("filter_range")
+            "filter_range" => Input::get("filter_range"),
+            'section_division' => $section->description.'/'.$division->description,
+
         ]);
     }
 

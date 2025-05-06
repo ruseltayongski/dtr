@@ -780,6 +780,11 @@
         <div class="modal-content l_view_body" style="padding:5px">
             <table class="table" id="leave_card_table" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                 <thead style="background-color: darkgray; color:white;">
+                    <tr style="background-color: darkgray; border:1px solid darkgray">
+                        <td colspan="2" style="border:1px solid black; padding:5px;"><span class="user_ledger_leave"></span></td>
+                        <td colspan="8" style="border:1px solid black; padding:5px;"><span class="user_ledger_section_division"></span></td>
+                        <td colspan="1" style="border:1px solid black; padding:5px;"><span class="user_ledger_etd"></td>
+                    </tr>
                     <tr style="background-color: darkgray;">
                         <th rowspan="2" style="vertical-align: middle; color: white; border:1px solid black; padding:5px; width:250px">PERIOD</th>
                         <th rowspan="2" style="vertical-align: middle; color: white; border:1px solid black; padding:5px;">PARTICULARS</th>

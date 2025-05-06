@@ -2,9 +2,9 @@
     <table class="table" id="leave_card_table" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
         <thead style="background-color: darkgray; color:white;">
             <tr style="background-color: darkgray; border:1px solid darkgray">
-                <td colspan="4" style="border:1px solid black; padding:5px;">NAME: {{ $user }}</td>
-                <td colspan="4" style="border:1px solid black; padding:5px;">SECTION/DIVISION - {{ $division }}</td>
-                <td colspan="3" style="border:1px solid black; padding:5px;">ETD : (pis data unavailable)</td>
+                <td colspan="3" style="border:1px solid black; padding:5px;">NAME: {{ $user }}</td>
+                <td colspan="6" style="border:1px solid black; padding:5px;">SECTION/DIVISION - {{ $division }}</td>
+                <td colspan="2" style="border:1px solid black; padding:5px;">ETD : {{ $etd }}</td>
             </tr>
             <tr style="background-color: darkgray;">
                 <th rowspan="2" style="vertical-align: middle; color: white; border:1px solid black; padding:5px; width:250px">PERIOD</th>
@@ -57,7 +57,7 @@
         </tbody>
     </table>
     <div style="float:right">        
-        {{ $card_details->links() }}
+        {{ $card_details->links('pagination.leave_pagination') }}
     </div>
     <div class="modal-footer">
         <input type="hidden" value="" id="user_iid" name="user_iid">

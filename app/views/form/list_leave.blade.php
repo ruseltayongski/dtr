@@ -135,10 +135,17 @@
     @parent
     <script>
         $('#inclusive3').daterangepicker();
-
         $(document).ready(function () {
             $('.leave_ledger2').on("click", function () {
                 $('#ledger_body2').empty();
+                var user_name = <?php echo json_encode($pis->lname . ", " . $pis->fname . " " . $pis->mname); ?>;
+                var section_division = <?php echo json_encode($section_division); ?>;
+                var user_etd = <?php echo json_encode($etd); ?>;
+
+                $('.user_ledger_leave').text('NAME: ' + user_name);
+                $('.user_ledger_section_division').text('SECTION/DIVISION - ' + section_division);
+                $('.user_ledger_etd').text('ETD: ' + user_etd);
+
                 <?php if(count($leave_card) > 0): ?>
                     <?php foreach ($leave_card as $card): ?>
                         <?php if ($card): ?>

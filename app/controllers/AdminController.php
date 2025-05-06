@@ -1398,11 +1398,24 @@ class AdminController extends BaseController
         $info = InformationPersonal::where('userid', $id)->first();
         $division = Division::where('id', '=', $info->division_id)->select('description')->first();
         $section = Section::where('id', '=', $info->section_id)->select('description')->first();
-        $card_details = LeaveCardView::where('userid', $id)->paginate(20);
+
+        $perPage = 15;
+        $totalRecords = LeaveCardView::where('userid', $id)->count();
+        $lastPage = ceil($totalRecords / $perPage);
+
+        if (!Input::has('page')) {
+            return Redirect::to(Request::url() . '?page=' . $lastPage);
+        }
+
+        $card_details = LeaveCardView::where('userid', $id)
+            ->paginate($perPage);
+
         return View::make('form.leave_card',[
-            'division' => $division->description.'/'.$division->description,
+            'division' => $section->description.'/'.$division->description,
             'card_details' => $card_details,
-            'user' => $info->lname .', '. $info->fname.' '. $info->mname
+            'user' => $info->lname .', '. $info->fname.' '. $info->mname,
+            'etd' => $info->entrance_of_duty ? date('F j, Y', strtotime($info->entrance_of_duty)) : "Data not available (please update PIS)",
+            'id' => $id
         ]);
     }
 
