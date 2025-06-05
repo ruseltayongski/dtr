@@ -216,6 +216,38 @@ session_start();
                 </div>
             </div>
         </div>
+            <!-- <?php /*newly added*/ ?>
+        <?php /*<div class="row">*/ ?>
+            <?php /*<div class="col-md-12">*/ ?>
+                <?php /*<div class="panel panel-default">*/ ?>
+                    <?php /*<div class="panel-heading"><strong style="color: #f0ad4e;font-size:medium;">Generate for CCTV Logs</strong></div>*/ ?>
+                    <?php /*<div class="panel-body">*/ ?>
+                        <?php /*<form action="<?php echo asset('generate/cctv/logs'); ?>" method="POST" target="_blank">*/ ?>
+                            {{--<input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">--}}
+                            <?php /*<div class="table-responsive">*/ ?>
+                                <?php /*<table class="table">*/ ?>
+                                    <?php /*<tr>*/ ?>
+                                        <?php /*<td class="col-sm-3"><strong>Dates</strong></td>*/ ?>
+                                        <?php /*<td class="col-sm-1"> :</td>*/ ?>
+                                        <?php /*<td class="col-sm-9">*/ ?>
+                                            <?php /*<div class="input-group">*/ ?>
+                                                <?php /*<div class="input-group-addon">*/ ?>
+                                                    <?php /*<i class="fa fa-calendar"></i>*/ ?>
+                                                <?php /*</div>*/ ?>
+                                                <?php /*<input type="text" class="form-control" id="cctv_logs" name="cctv_logs_date" placeholder="Input date range here..." required>*/ ?>
+                                            <?php /*</div>*/ ?>
+                                        <?php /*</td>*/ ?>
+                                    <?php /*</tr>*/ ?>
+                                <?php /*</table>*/ ?>
+                            <?php /*</div>*/ ?>
+                            <?php /*<button type="submit" class="btn-lg btn-success center-block col-sm-12" id="print_tardiness_btn" data-loading-text="<i class='fa fa-refresh fa-spin'></i> Printing Tardiness">*/ ?>
+                                <?php /*<span class="glyphicon glyphicon-print" aria-hidden="true"></span> Generate*/ ?>
+                            <?php /*</button>*/ ?>
+                        <?php /*</form>*/ ?>
+                    <?php /*</div>*/ ?>
+                <?php /*</div>*/ ?>
+            <?php /*</div>*/ ?> -->
+        <!-- </div> -->
         <div class="row">
             <div class="col-md-12">
                 <div class="panel panel-default">
@@ -525,6 +557,7 @@ session_start();
         $('#inclusive4').daterangepicker();
         $('#inclusive5').daterangepicker();
         $('#inclusive6').daterangepicker();
+        $('#cctv_logs').daterangepicker();
         $('#inclusiveTardiness').daterangepicker();
         $('#print_all').submit(function(){
             $('#print').button('loading');

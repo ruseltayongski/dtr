@@ -215,7 +215,7 @@ session_start();
                 </div>
             </div>
         </div>
-            {{--newly added--}}
+            <!-- {{--newly added--}}
         {{--<div class="row">--}}
             {{--<div class="col-md-12">--}}
                 {{--<div class="panel panel-default">--}}
@@ -245,8 +245,8 @@ session_start();
                         {{--</form>--}}
                     {{--</div>--}}
                 {{--</div>--}}
-            {{--</div>--}}
-        </div>
+            {{--</div>--}} -->
+        <!-- </div> -->
         <div class="row">
             <div class="col-md-12">
                 <div class="panel panel-default">
