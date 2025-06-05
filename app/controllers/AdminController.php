@@ -100,6 +100,7 @@ class AdminController extends BaseController
             ]);
         }
         if(Request::method() == 'POST') {
+
             $userid = Session::get('edit_user');
             $prev_roles = UserRoles::where('userid','=',$userid);
             if(count((array)$prev_roles) >= 1){
@@ -145,6 +146,7 @@ class AdminController extends BaseController
             $user->imei = Input::get('imei');
             $user->authority = Input::get('authority');
             $user->region = Input::get('region');
+            $user->area_assignment_reset = Input::has('reset_user_area') ? 1 : 0;
             if(Auth::user()->usertype == "1")
                 $user->usertype = Input::get("usertype");
             elseif(Auth::user()->usertype == "3")

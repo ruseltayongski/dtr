@@ -104,6 +104,13 @@
                         </select>
                     </td>
                 </tr>
+                <tr>
+                    <td class="col-sm-3"><label>Reset Area of Assignment</label></td>
+                    <td class="col-sm-1">:</td>
+                    <td class="col-sm-8">
+                        <input type="checkbox" value="1" style="width: 20px; height: 20px;" name="reset_user_area" {{ $user->area_assignment_reset == 1 ? 'checked' : '' }}>
+                    </td>
+                </tr>
             </table>
         </div>
         <div class="modal-footer">
