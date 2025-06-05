@@ -215,6 +215,38 @@ session_start();
                 </div>
             </div>
         </div>
+            {{--newly added--}}
+        {{--<div class="row">--}}
+            {{--<div class="col-md-12">--}}
+                {{--<div class="panel panel-default">--}}
+                    {{--<div class="panel-heading"><strong style="color: #f0ad4e;font-size:medium;">Generate for CCTV Logs</strong></div>--}}
+                    {{--<div class="panel-body">--}}
+                        {{--<form action="{{ asset('generate/cctv/logs') }}" method="POST" target="_blank">--}}
+                            {{--<input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">--}}
+                            {{--<div class="table-responsive">--}}
+                                {{--<table class="table">--}}
+                                    {{--<tr>--}}
+                                        {{--<td class="col-sm-3"><strong>Dates</strong></td>--}}
+                                        {{--<td class="col-sm-1"> :</td>--}}
+                                        {{--<td class="col-sm-9">--}}
+                                            {{--<div class="input-group">--}}
+                                                {{--<div class="input-group-addon">--}}
+                                                    {{--<i class="fa fa-calendar"></i>--}}
+                                                {{--</div>--}}
+                                                {{--<input type="text" class="form-control" id="cctv_logs" name="cctv_logs_date" placeholder="Input date range here..." required>--}}
+                                            {{--</div>--}}
+                                        {{--</td>--}}
+                                    {{--</tr>--}}
+                                {{--</table>--}}
+                            {{--</div>--}}
+                            {{--<button type="submit" class="btn-lg btn-success center-block col-sm-12" id="print_tardiness_btn" data-loading-text="<i class='fa fa-refresh fa-spin'></i> Printing Tardiness">--}}
+                                {{--<span class="glyphicon glyphicon-print" aria-hidden="true"></span> Generate--}}
+                            {{--</button>--}}
+                        {{--</form>--}}
+                    {{--</div>--}}
+                {{--</div>--}}
+            {{--</div>--}}
+        </div>
         <div class="row">
             <div class="col-md-12">
                 <div class="panel panel-default">
@@ -523,6 +555,7 @@ session_start();
         $('#inclusive4').daterangepicker();
         $('#inclusive5').daterangepicker();
         $('#inclusive6').daterangepicker();
+        $('#cctv_logs').daterangepicker();
         $('#inclusiveTardiness').daterangepicker();
         $('#print_all').submit(function(){
             $('#print').button('loading');

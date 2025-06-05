@@ -1297,6 +1297,110 @@ class AdminController extends BaseController
             return $display;
     }
 
+    public function generateCCTVLogs()
+    {
+        ini_set('memory_limit', '-1');
+
+        $daterange = Input::get('cctv_logs_date');
+        $date = explode('-', $daterange);
+        $start_date = date('Y-m-d', strtotime($date[0]));
+        $end_date = date('Y-m-d', strtotime($date[1]));
+
+        if (date('Y', strtotime($date[0])) == date('Y', strtotime($date[1]))) {
+            if (date('m', strtotime($date[0])) == date('m', strtotime($date[1]))) {
+                $display_date = date('F j', strtotime($date[0])) . " - " . date('j, Y', strtotime($date[1]));
+            } else {
+                $display_date = date('F j', strtotime($date[0])) . " - " . date('F j, Y', strtotime($date[1]));
+            }
+        } else {
+            $display_date = $daterange;
+        }
+
+        $final = [];
+
+        EditedLogs::select(
+            DB::raw("concat(coalesce(personal_information.fname,''),' ',coalesce(personal_information.mname,''),' ',coalesce(personal_information.lname,'')) as name"),
+            "personal_information.userid",
+            "personal_information.position",
+            "personal_information.section_id",
+            "personal_information.job_status",
+            "edited_logs.datein",
+            "edited_logs.time",
+            "edited_logs.remark",
+            "users.region"
+        )
+            ->join("pis.personal_information", "personal_information.userid", "=", "edited_logs.userid")
+            ->join("dohdtr.users as users", "users.userid", "=", "edited_logs.userid")
+            ->where('users.region', "region_7")
+            ->where('personal_information.userid',"!=", "3883")
+            ->where(function ($query) {
+                $query->whereNull('personal_information.position')
+                    ->orWhere('personal_information.position', 'not like', '%Development Management Officer%')
+                    ->orWhere('personal_information.userid', '=', '20110004');
+            })
+            ->where('field_status', "Office Personnel")
+            ->where('datein', "!=", "2025-04-16")
+            ->whereNotIn('section_id', [31, 48, 49, 50])
+            ->where('personal_information.userid', '!=', "199400078")
+            ->where("edited", 1)
+            ->whereBetween("edited_logs.datein", [$start_date, $end_date])
+            ->whereRaw("DAYOFWEEK(edited_logs.datein) NOT IN (1,7)")
+            ->where(function ($query) {
+                $query->where(function ($q) {
+                    $q->where("edited_logs.event", "IN")
+                        ->where("edited_logs.time", "<=", "10:00:00");
+                })->orWhere(function ($q) {
+                    $q->where("edited_logs.event", "OUT")
+                        ->where("edited_logs.time", ">=", "15:00:00");
+                });
+            })
+            ->chunk(500, function ($chunkedLogs) use (&$final) {
+                foreach ($chunkedLogs as $log) {
+                    $name = $log->name ?? 'Unknown Name';
+                    $datein = $log->datein ?? 'Unknown Date';
+
+                    if (!isset($final[$name])) {
+                        $final[$name] = [];
+                    }
+
+                    if (!isset($final[$name][$datein])) {
+                        $final[$name][$datein] = [];
+                    }
+
+                    $log->total_count = count($final[$name][$datein]) + 1;
+                    $final[$name][$datein][] = $log;
+                }
+            });
+
+
+        $userid_total_count = [];
+
+        foreach ($final as $name => $dateGroup) {
+            $userid_total_count[$name] = array_sum(array_map('count', $dateGroup));
+        }
+
+        uksort($final, function ($a, $b) use ($userid_total_count) {
+            return $userid_total_count[$b] - $userid_total_count[$a];
+        });
+
+        foreach ($final as $name => $dateGroup) {
+            ksort($dateGroup); // Sort by datein keys
+            $final[$name] = $dateGroup;
+        }
+
+//        return $final;
+
+        $display = View::make("pdf.cctv_logs", [
+            'groupedLogs' => $final,
+            'date' => $display_date
+        ])->render();
+
+        $pdf = App::make('dompdf');
+        $pdf->loadHTML($display);
+        return $pdf->stream();
+    }
+
+
     public function get_balance($userid){
         $balance = InformationPersonal::where('userid', $userid)->first();
         return $balance;
