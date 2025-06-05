@@ -385,6 +385,9 @@ Route::get('download_apk',function(){
 //GENERATE FLAG ATTENDANCE
 Route::post('generate/flag/attendance', 'AdminController@generateFlagAttendance');
 
+//GENERATE FOR A NEED OF CCTV
+Route::post('generate/cctv/logs', 'AdminController@generateCCTVLogs');
+
 //API for JWT
 Route::get('info/{userid}','MobileControllerV2@info');
 
