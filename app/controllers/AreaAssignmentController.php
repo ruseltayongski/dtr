@@ -87,6 +87,10 @@ class AreaAssignmentController extends BaseController{
             ->join('area_of_assignment','area_of_assignment.id','=','area_assigned.area_of_assignment_id')
             ->select("area_of_assignment.name","area_of_assignment.latitude","area_of_assignment.longitude","area_of_assignment.radius")->get();
 
+        if($areas && $areas[0]->area_assignment_reset == 1){
+            Users::where('userid', $userid)->update(['area_assignment_reset' => 0]);
+        }
+
         return View::make('area_assignment/user_area_of_assignment', [
             "areas" => $areas,
             "latitude" => Input::get("latitude"),

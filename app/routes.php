@@ -326,6 +326,7 @@ Route::post('mobile/office/announcement/post','MobileControllerV2@announcementPo
 Route::post('mobile/office/version/post','MobileControllerV2@appVersionPost');
 Route::get('mobile/office/force-update/ios','MobileControllerV2@forceUpdate');
 Route::get('mobile/office/time','MobileControllerV2@server_time');
+Route::get('mobile/office/area-assignment/reset/{userid}','MobileControllerV2@areaAssignmentReset');
 
 Route::post('mobile/appstore/update','MobileControllerV2@appstoreUpdate');
 Route::get('mobile/privacy-policy','MobileControllerV2@privacyPolicy');

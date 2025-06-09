@@ -200,6 +200,15 @@ class MobileControllerV2 extends BaseController
         }
     }
 
+    public function areaAssignmentReset($userid){
+        $user = Users::where('userid', $userid)->first();
+        if($user){
+            return $user->area_assignment_reset == null ? 0 : $user->area_assignment_reset;
+        }else{
+            return 'No Data Available!';
+        }
+    }
+
     public function forceUpdate(){
         $app_version = AppAPI::where('device_type', 'ios')->orderBy('latest_version', 'desc')->first();
 
