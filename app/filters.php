@@ -131,3 +131,21 @@ Route::filter('csrf', function()
 	}
 });
 
+//intranet
+
+Route::filter('auth.token', function($route, $request)
+{
+    $headers = apache_request_headers(); // or use Request::header() if available
+
+    if (!isset($headers['Authorization'])) {
+        return Response::json(['error' => 'Authorization header not found'], 401);
+    }
+
+    $authHeader = $headers['Authorization'];
+    $token = str_replace('Bearer ', '', $authHeader);
+
+    if ($token !== "Jp+r'6zI!8V=\"tHh:GmY|:=k;KLO}egquMl2sv}LpBFzeSl6'5A-HR;-v[pSmX]!") {
+        return Response::json(['error' => 'Unauthorized'], 401);
+    }
+});
+

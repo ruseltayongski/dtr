@@ -6,7 +6,12 @@ class MobileControllerV3 extends BaseController{
         $areas = Users::where('users.userid','=',Input::get("userid"))
             ->join('area_assigned','area_assigned.userid','=','users.userid')
             ->join('area_of_assignment','area_of_assignment.id','=','area_assigned.area_of_assignment_id')
-            ->select("area_of_assignment.name","area_of_assignment.latitude","area_of_assignment.longitude","area_of_assignment.radius")->get();
+            ->select("area_of_assignment.name","area_of_assignment.latitude","area_of_assignment.longitude","area_of_assignment.radius","users.area_assignment_reset")->get();
+
+        if($areas && $areas[0]->area_assignment_reset == 1){
+            Users::where('userid', Input::get("userid"))->update(['area_assignment_reset' => 0]);
+        }
+
         return $areas;
     }
 

@@ -712,14 +712,16 @@ class TimeLogController extends Controller
                 break;
             case "dayoff_change":
                 foreach($log_type as $index => $l_type) {
-                    $jo_break = new EditedLogs();
-                    $jo_break->userid = $userid;
-                    $jo_break->datein = $datein;
-                    $jo_break->time = $time_loop[$index];
-                    $jo_break->event = explode("_",$l_type)[1];
-                    $jo_break->remark = $edited_display;
-                    $jo_break->edited = 6;
-                    $jo_break->save();
+                    if($l_type != "PM_OUT"){
+                        $jo_break = new EditedLogs();
+                        $jo_break->userid = $userid;
+                        $jo_break->datein = $datein;
+                        $jo_break->time = $time_loop[$index];
+                        $jo_break->event = explode("_",$l_type)[1];
+                        $jo_break->remark = $edited_display;
+                        $jo_break->edited = 6;
+                        $jo_break->save();
+                    }
                 }
                 return [
                     "notification" => "info",

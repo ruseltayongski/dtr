@@ -25,7 +25,7 @@ class MobileController extends BaseController {
             return "{}";
     }
 
-     public function getLogin(){
+    public function getLogin(){
         $username = Input::get("username");
         $password = Input::get("password");
         
@@ -40,6 +40,20 @@ class MobileController extends BaseController {
         return 0;
     }
 
+    public function getLogin1(){
+        $username = Input::get("username");
+        $password = Input::get("password");
+        
+        if(Auth::attempt(array('username' => $username, 'password' => $password))){
+            $result = DB::table('users')
+                ->where('userid','=',$username)
+                ->first(["userid","fname","mname","lname"]);
+        }
+        if(isset($result)){
+            return json_encode($result);
+        }
+        return 0;
+    }
 
     public function add_logs(){
         $pdo = DB::connection()->getPdo();

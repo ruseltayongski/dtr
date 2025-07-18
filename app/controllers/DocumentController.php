@@ -889,7 +889,10 @@ class DocumentController extends BaseController
                 }
             }
 
-            $division_head[] = pdoController::user_search1(27);
+            $div = [27, 236];
+            foreach ($div as $data){
+                $division_head[] = pdoController::user_search1($data);
+            }
 
             $data = array(
                 "cdo" => $cdo,

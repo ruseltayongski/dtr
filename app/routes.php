@@ -299,6 +299,7 @@ Route::post('mobile/add-cto','MobileController@add_cto');
 Route::post('mobile/add-so','MobileController@add_so');
 Route::post('mobile/add-leave','MobileController@add_leave');
 Route::match(['GET','POST'],'mobile/get-login','MobileController@getLogin');
+Route::get('intranet/protected-data', array('before' => 'auth.token', 'uses' => 'MobileController@getLogin1'));
 Route::get('mobile/getCurrentVersion','MobileController@getCurrentVersion');
 Route::post('mobile/imei','MobileController@imei');
 Route::post('mobile/reset_password','MobileControllerV3@resetPassword');
@@ -318,7 +319,7 @@ Route::post('mobileV2/add-leave','MobileControllerV2@add_leave');
 Route::post('mobileV2/imei','MobileControllerV2@imei');
 
 Route::get('mobile/office/announcement','MobileControllerV2@announcementAPI');
-Route::get('mobile/office/version','MobileControllerV2@appVersionAPIOld');
+Route::get('mobile/get/version','MobileControllerV2@appVersionAPIOld'); // changed from office to get
 Route::get('mobile/get/version/{device_type}','MobileControllerV2@appVersionAPINew');
 Route::get('mobile/office/announcement/view','MobileControllerV2@announcementView');
 Route::get('mobile/office/version/view/{type}','MobileControllerV2@appVersionView');
@@ -380,7 +381,10 @@ Route::post('area-assignment/search/{province}', 'AreaAssignmentController@searc
 Route::get('area-assignment_map/view_map', 'AreaAssignmentController@viewMap');
 Route::get('get/user/area_of_assignment/{userid}', 'AreaAssignmentController@viewUserMap');
 Route::get('download_apk',function(){
-    return View::make('download_apk');
+
+    return View::make('download_apk',[
+    		"version" => AppAPI::where('device_type', "android")->first()
+    ]);
 });
 
 //GENERATE FLAG ATTENDANCE

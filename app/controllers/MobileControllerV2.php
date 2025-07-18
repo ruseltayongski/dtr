@@ -260,7 +260,8 @@ class MobileControllerV2 extends BaseController
         $app_version_api = AppAPI::first();
         return [
             "code" => $app_version_api->code,
-            "latest_version" => $app_version_api->latest_version
+            "latest_version" => $app_version_api->latest_version,
+            "message" => $app_version_api->message
         ];
     }
 
@@ -276,6 +277,7 @@ class MobileControllerV2 extends BaseController
     public function add_logs()
     {
         try {
+
             $json_object = json_decode(Input::get('data'), true);
             $check_userid = $json_object['logs'][0]['userid'];
             $check_remark = $json_object['logs'][0]['remark'];
@@ -314,7 +316,7 @@ class MobileControllerV2 extends BaseController
                     mkdir(public_path().'/logs_imageV2'.'/'.$userid.'/timelog', 0777, true);
                 }
                 file_put_contents(public_path().'/logs_imageV2'.'/'.$userid.'/'.$picture_type.'/'.$posted_filename, $binary);
-
+              
                 $pdo = DB::connection()->getPdo();
 
                 if(isset($value['mocked_created_at'])) {
