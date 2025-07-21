@@ -95,7 +95,7 @@
         </table>
         <table class="table table-hover table-striped">
             <tr>
-                <td style="width: 58%">
+                <td style="width: 57%">
                     <table class="table table-list table-hover table-striped table-info">
                         <tr>
                             <th>Name</th>
@@ -113,7 +113,7 @@
                         </tr>
                     </table>
                 </td>
-                <td style="width: 42%">
+                <td style="width: 43%">
                     <table class="table table-list table-hover table-striped" id="myTable">
                         <tr>
                             <td colspan="4">NUMBER OF WORKING DAY/S APPLIED FOR:</td>

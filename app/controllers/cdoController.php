@@ -164,8 +164,8 @@ class cdoController extends BaseController
             $manually_added = [985329, 273, 11, 93053, 986445, 984538, 985950, 80, 976017, 466, 534, 986944, 988121, 357, 988148, 988309, 142];
 
             foreach(pdoController::section() as $row) {
-                if ($row['acronym'] !== null || in_array($row['head'], [37, 72, 243, 614, 110, 163, 648384, 160, 985950, 830744])) {
-                    if(!in_array($row['head'], [172, 173, 96, 53, 114, 442, 155, 91, 6, 16, 986774])){
+                if ($row['acronym'] !== null || in_array($row['head'], [37, 72, 243, 614, 110, 163, 648384, 160, 985950, 830744, 51])) {
+                    if(!in_array($row['head'], [172, 173, 96, 53, 114, 442, 155, 91, 6, 16, 986774, 51])){
                         if(!in_array($row['head'], $id_list)){
                             $id_list[]=$row['head'];
                         }
@@ -178,7 +178,7 @@ class cdoController extends BaseController
             }
 
             foreach(pdoController::division() as $row) {
-                if($row['ppmp_used'] == null){
+                if($row['ppmp_used'] == null && $row['head'] != 51){
                     $division_head[] = pdoController::user_search1($row['head']);
                 }
             }

@@ -347,7 +347,9 @@
                                                 <select class="chosen-select-static form-control" name="certification_officer" required style="width: 70%;margin-right: 50%; text-align: center; ">
                                                     @if(count($officer) > 0)
                                                         @foreach($officer as $section_head)
-                                                            <option value="{{ $section_head['id'] }}" {{($leave->officer_1 == $section_head['id'])?'selected':''}}>{{ $section_head['fname'].' '.$section_head['mname'].' '.$section_head['lname'] }}</option>
+                                                            @if( $section_head['id'] == 17)
+                                                                <option value="{{ $section_head['id'] }}" {{($leave->officer_1 == $section_head['id'])?'selected':''}}>{{ $section_head['fname'].' '.$section_head['mname'].' '.$section_head['lname'] }}</option>
+                                                            @endif
                                                         @endforeach
                                                     @endif
                                                 </select>
