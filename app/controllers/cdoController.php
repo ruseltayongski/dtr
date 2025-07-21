@@ -1899,9 +1899,6 @@ class cdoController extends BaseController
         $division_head = pdoController::user_search1($div->head);
         $card = CardView::whereIn('id', $list)->get();
         $sum = CardView::whereIn('id', $list)->sum('ot_credits');
-
-//        return InformationPersonal::where('field_status', 'Office Personnel')->whereIn('division_id', [19,12,14,21,18])->get();
-//        return $division_head;
         $data = [
           'pis' => $pis,
             'division_head' => $division_head,
@@ -1909,11 +1906,8 @@ class cdoController extends BaseController
             'sum' => $sum,
             'total' => 13 - count($card)
         ];
-
-//        return $data;
-
         $display = View::make('cdo.cdo_cert', $data)->render();
-        // return $display;
+        
         $pdf = App::make('dompdf');
         $pdf->loadHTML($display)->setPaper('a4', 'portrait');
         return $pdf->stream();

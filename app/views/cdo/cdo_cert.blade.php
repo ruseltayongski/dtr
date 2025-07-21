@@ -2,7 +2,7 @@
 <html lang="en"><head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Flexbox Debugging</title>
+    <title>COC CERTIFICATE</title>
     <style>
         .container {
             width: 100%;
@@ -47,12 +47,14 @@
             <div style="margin-top: 100px; text-align: center">
                 <span style="border-bottom: 1.5px solid black; font-weight: bold">
                     {{ $division_head['6'] == 6 ? 'RAMIL R. ABREA, CPA, MBA' : ($division_head['6'] == 5 ? 'ANNESSA P. PATINDOL, RMT, MD, MMHoA' :
-                        ($division_head['6'] == 4 ? 'JONATHAN NEIL V. ERASMO, MD, MPH, FPSMS' : ($division_head['6'] == 3 ? 'SOPHIA M. MANCAO, MD, DPSP, RN-MAN' : '')))
+                        ($division_head['6'] == 4 ? '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        DR. NELNER D. OMUS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' 
+                        : ($division_head['6'] == 3 ? 'JONATHAN NEIL V. ERASMO, MD, MPH, FPSMS' : '')))
                     }}
                 </span><br>
                 <span>
                     {{ $division_head['6'] == 6 ? 'Chief, Management Support Division' : ($division_head['6'] == 5 ? 'Chief, Regulation, Licensing and Enforcement Divsion' :
-                        ($division_head['6'] == 4 ? 'Chief, Local Health Support Division' : ($division_head['6'] == 3 ? 'Director lll' : '')))
+                        ($division_head['6'] == 4 ? 'OIC - Chief, Local Health Support Division' : ($division_head['6'] == 3 ? 'OIC - Director lll' : '')))
                     }}
                 </span>
             </div>
