@@ -65,6 +65,7 @@
                                             <button type="submit" class="btn btn-primary" name="search" id="search" data-loading-text="<i class='fa fa-refresh fa-spin'></i> Printing DTR">
                                                 <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Search
                                             </button>
+                                            <button type="button" id="gen_logs_btn" style="display: none;" class="btn btn-success" onclick="generateLogs()">GENERATE</button>
                                         </form>
                                     </div>
                                     <div class="panel-body">
@@ -142,7 +143,6 @@
                                 </div>
                             </div>
                         </div>
-
                     </div>
                 </div>
             </div>
@@ -551,5 +551,24 @@
         $('#click_approve').on('ifUnchecked', function(event){
             $(".button").html("");
         });
+
+        function generateLogs() {
+            $('.approved_logs').show();
+            var checkedRoutes = [];
+            $('#approved_logs').modal({
+                backdrop: 'static',
+                keyboard: false,
+                show: true
+            });
+            $('input[type="checkbox"]:checked').each(function () {
+                var routeNo = $(this).data('route');
+                checkedRoutes.push(routeNo);
+            });
+            $.get("{{ url('cdo_approved/logs').'/' }}" + checkedRoutes, function(result){
+                console.log('result', result);
+                $('.approved_body').html(result);
+            });
+
+        }
     </script>
 @endsection

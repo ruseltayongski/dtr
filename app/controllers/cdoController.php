@@ -1954,4 +1954,36 @@ class cdoController extends BaseController
         Session::put("transfer_balance",true);
         return Redirect::back();
     }
+
+    public function cdo_approved_logs($routes){
+        $routes = explode(',', $routes);
+
+        $cdo = cdo::whereIn('route_no', $routes)
+            ->with('appliedDates', 'name')
+            ->orderByRaw('FIELD(route_no, "' . implode('","', $routes) . '")')
+            ->get();
+
+        return View::make('cdo.cdo_approved_logs',[
+            'cdo' => $cdo
+        ]);
+    }
+
+    public function approved_logs_pdf(){
+        $routes = Input::get('route_no');
+        $dates = Input::get('accepted_date');
+        $cdo = cdo::whereIn('route_no', $routes)
+            ->with('appliedDates', 'name')
+            ->orderByRaw('FIELD(route_no, "' . implode('","', $routes) . '")')
+            ->get();
+
+        $data = [
+            'dates' => $dates,
+            'cdo' => $cdo
+        ];
+        $display = View::make('cdo.cdo_app_pdf', $data)->render();
+
+        $pdf = App::make('dompdf');
+        $pdf->loadHTML($display)->setPaper('a4', 'portrait');
+        return $pdf->stream();
+    }
 }

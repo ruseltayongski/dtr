@@ -14,6 +14,7 @@
                 <th class="text-center" width="13%">Prepared Name</th>
                 <th class="text-center"width="15%">Beginning Balance</th>
                 <th class="text-center" width="17%">Option</th>
+                <th>Action</th>
             </tr>
             </thead>
             <tbody style="font-size: 10pt;">
@@ -91,7 +92,9 @@
                         <button type="submit" class="btn-xs btn-danger" value="{{ $row->id }}" onclick="approved_status($(this))" style="color:white;"><i class="fa fa-ban"></i> Unprocessed</button>
                         <button class="btn-xs btn-warning cancel_dates" id="cancel" onclick="cancel_dates(event)"  value="{{ $row->route_no }}" style="color: white;" data-toggle="modal"  data-target="#cancel_dates"><i class="fa fa-ban"></i>Cancel</button>
                     </td>
-
+                    <td>
+                        <input type="checkbox" class="gen_logs" data-route="{{ $row->route_no }}">
+                    </td>
                 </tr>
                 @endif
             @endforeach
@@ -104,6 +107,7 @@
 @endif
 
 <script>
+
     //document information
     $("a[href='#document_info']").on('click',function(){
         var route_no = $(this).data('route');
@@ -190,4 +194,26 @@
     $('#click_pending').on('ifUnchecked', function(){
         $(".button").html("");
     });
+
+    function getIds() {
+        var checkedRoutes = [];
+        $('input[type="checkbox"]:checked').each(function () {
+            var routeNo = $(this).data('route');
+            checkedRoutes.push(routeNo);
+        });
+        return checkedRoutes;
+    }
+
+    $(document).on('ifChecked', '.gen_logs', function () {
+        $('#gen_logs_btn').css('display', 'inline-block');
+    });
+
+    $(document).on('ifUnchecked', '.gen_logs', function () {
+        if (getIds().length == 0) {
+            $('#gen_logs_btn').css('display', 'none');
+        } else {
+            $('#gen_logs_btn').css('display', 'inline-block');
+        }
+    });
+
 </script>

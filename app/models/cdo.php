@@ -17,4 +17,8 @@ class cdo extends Eloquent
     public function appliedDates(){
         return $this->hasMany(CdoAppliedDate::class, 'cdo_id');
     }
+
+    public function name(){
+        return $this->belongsTo(InformationPersonal::class, 'prepared_name', 'userid');
+    }
 }

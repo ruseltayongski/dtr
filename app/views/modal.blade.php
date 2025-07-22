@@ -1143,6 +1143,22 @@
         </div>
     </div>
 </div>
+<div class="modal fade" tabindex="5" role="dialog" id="approved_logs">
+    <div class="modal-dialog modal-md" role="document" id="size">
+        <div class="modal-content">
+            <form method="POST" action="{{ asset('cdo_approved_pdf') }}" target="_blank">
+                <div class="modal-header" style="background-color: cornflowerblue">
+                    <strong><h4 class="modal-title" style="display: inline-block">Approved CDO</h4></strong>
+                    <button style="display: inline-block" type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <div style="text-align: center; width: 100%" class="approved_body"></div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success" style="color:white; margin-right:5px; border-radius: 0px"><i class="fa fa-barcode"></i>GENERATE PDF</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 
 
 
