@@ -552,23 +552,43 @@
             $(".button").html("");
         });
 
+        var all_id = [];
+
+        $(document).on('ifChecked', '.gen_logs', function () {
+            var routeNo = $(this).data('route');
+            all_id.push(routeNo);
+
+            if (all_id.length == 0) {
+                $('#gen_logs_btn').css('display', 'none');
+            } else {
+                $('#gen_logs_btn').css('display', 'inline-block');
+            }
+        });
+
+        $(document).on('ifUnchecked', '.gen_logs', function () {
+            var routeNo = $(this).data('route');
+            all_id = all_id.filter(function(id) {
+                return id !== routeNo;
+            });
+
+            if (all_id.length == 0) {
+                $('#gen_logs_btn').css('display', 'none');
+            } else {
+                $('#gen_logs_btn').css('display', 'inline-block');
+            }
+        });
+
         function generateLogs() {
             $('.approved_logs').show();
-            var checkedRoutes = [];
             $('#approved_logs').modal({
                 backdrop: 'static',
                 keyboard: false,
                 show: true
             });
-            $('input[type="checkbox"]:checked').each(function () {
-                var routeNo = $(this).data('route');
-                checkedRoutes.push(routeNo);
-            });
-            $.get("{{ url('cdo_approved/logs').'/' }}" + checkedRoutes, function(result){
-                console.log('result', result);
+
+            $.get("{{ url('cdo_approved/logs').'/' }}" + all_id, function(result){
                 $('.approved_body').html(result);
             });
-
         }
     </script>
 @endsection

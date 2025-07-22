@@ -194,26 +194,4 @@
     $('#click_pending').on('ifUnchecked', function(){
         $(".button").html("");
     });
-
-    function getIds() {
-        var checkedRoutes = [];
-        $('input[type="checkbox"]:checked').each(function () {
-            var routeNo = $(this).data('route');
-            checkedRoutes.push(routeNo);
-        });
-        return checkedRoutes;
-    }
-
-    $(document).on('ifChecked', '.gen_logs', function () {
-        $('#gen_logs_btn').css('display', 'inline-block');
-    });
-
-    $(document).on('ifUnchecked', '.gen_logs', function () {
-        if (getIds().length == 0) {
-            $('#gen_logs_btn').css('display', 'none');
-        } else {
-            $('#gen_logs_btn').css('display', 'inline-block');
-        }
-    });
-
 </script>

@@ -65,6 +65,7 @@
                                             <button type="submit" class="btn btn-primary" name="search" id="search" data-loading-text="<i class='fa fa-refresh fa-spin'></i> Printing DTR">
                                                 <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Search
                                             </button>
+                                            <button type="button" id="gen_logs_btn" style="display: none;" class="btn btn-success" onclick="generateLogs()">GENERATE</button>
                                         </form>
                                     </div>
                                     <div class="panel-body">
@@ -142,7 +143,6 @@
                                 </div>
                             </div>
                         </div>
-
                     </div>
                 </div>
             </div>
@@ -551,6 +551,45 @@
         $('#click_approve').on('ifUnchecked', function(event){
             $(".button").html("");
         });
+
+        var all_id = [];
+
+        $(document).on('ifChecked', '.gen_logs', function () {
+            var routeNo = $(this).data('route');
+            all_id.push(routeNo);
+
+            if (all_id.length == 0) {
+                $('#gen_logs_btn').css('display', 'none');
+            } else {
+                $('#gen_logs_btn').css('display', 'inline-block');
+            }
+        });
+
+        $(document).on('ifUnchecked', '.gen_logs', function () {
+            var routeNo = $(this).data('route');
+            all_id = all_id.filter(function(id) {
+                return id !== routeNo;
+            });
+
+            if (all_id.length == 0) {
+                $('#gen_logs_btn').css('display', 'none');
+            } else {
+                $('#gen_logs_btn').css('display', 'inline-block');
+            }
+        });
+
+        function generateLogs() {
+            $('.approved_logs').show();
+            $('#approved_logs').modal({
+                backdrop: 'static',
+                keyboard: false,
+                show: true
+            });
+
+            $.get("<?php echo url('cdo_approved/logs').'/'; ?>" + all_id, function(result){
+                $('.approved_body').html(result);
+            });
+        }
     </script>
 <?php $__env->stopSection(); ?>
 <?php echo $__env->make('layouts.app', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
