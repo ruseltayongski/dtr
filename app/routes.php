@@ -197,6 +197,8 @@ Route::post('cdo_updatev1','cdoController@cdo_updatev1');
 Route::post('cdo_updatev1/{id}/{type}','cdoController@cdo_updatev1');
 Route::match(array('GET','POST'),'click_all/{type}','cdoController@click_all');
 Route::post('cdo_delete','cdoController@cdo_delete');
+Route::get('cdo_approved/logs/{routes}','cdoController@cdo_approved_logs');
+Route::post('cdo_approved_pdf','cdoController@approved_logs_pdf');
 ///////CDO-PRIVILEGE
 Route::post('privilege/add','cdoController@superviseEmployee');
 Route::post('privilege/list','cdoController@superviseList');
