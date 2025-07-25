@@ -161,11 +161,11 @@ class cdoController extends BaseController
             $division_head = pdoController::user_search1($cdo['division_chief']);
         } else{
             $id_list = [];
-            $manually_added = [985329, 273, 11, 93053, 986445, 984538, 985950, 80, 976017, 466, 534, 986944, 988121, 357, 988148, 988309, 142];
+            $manually_added = [985329, 273, 11, 93053, 986445, 984538, 985950, 80, 976017, 466, 534, 986944, 988121, 357, 988148, 988309, 142, 602];
 
             foreach(pdoController::section() as $row) {
                 if ($row['acronym'] !== null || in_array($row['head'], [37, 72, 243, 614, 110, 163, 648384, 160, 985950, 830744, 51])) {
-                    if(!in_array($row['head'], [172, 173, 96, 53, 114, 442, 155, 91, 6, 16, 986774, 51])){
+                    if(!in_array($row['head'], [172, 173, 96, 53, 114, 442, 155, 91, 6, 16, 986774, 51, 231, 160, 119])){
                         if(!in_array($row['head'], $id_list)){
                             $id_list[]=$row['head'];
                         }
@@ -183,10 +183,16 @@ class cdoController extends BaseController
                 }
             }
 
-            $div = [27, 236];
+            $div = [27];
             foreach ($div as $data){
                 $division_head[] = pdoController::user_search1($data);
             }
+
+            $divisionValues = array_column($division_head, 'id');
+            $priority = array_map(function($id) {
+                return $id == 37 ? 0 : 1;  // 0 = highest priority (comes first), 1 = others
+            }, $divisionValues);
+            array_multisort($priority, SORT_ASC, $division_head);
         }
 
         $data = array(
@@ -202,6 +208,7 @@ class cdoController extends BaseController
             "division" => $division,
             "section_head" => $section_head,
             "division_head" => $division_head,
+            "rd" => pdoController::user_search1(988320),
             "bbalance_cto" => $personal_information->bbalance_cto,
             "server_date" => date('Y-m-d')
         );

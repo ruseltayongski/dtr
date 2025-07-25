@@ -290,16 +290,16 @@
                     <table width="100%">
                         <tr>
                             <td class="align">
-                                <select class="chosen-select-static form-control" name="immediate_supervisor" required>
+                                <select class="chosen-select-static form-control immediate_supervisor" name="immediate_supervisor" required>
                                     @if($data['type'] == 'update')
-                                        <option value="{{ $data['section_head'][0]['id'] }}">{{ $data['section_head'][0]['fname'].' '.$data['section_head'][0]['mname'].' '.$data['section_head'][0]['lname'] }}</option>
+                                        <option value="{{ $data['section_head'][0]['id'] }}">{{ strtoupper($data['section_head'][0]['fname'].' '.$data['section_head'][0]['mname'].' '.$data['section_head'][0]['lname']) }}</option>
                                     @endif
                                     @if(count($data['section_head']) > 0)
                                         @foreach($data['section_head'] as $section_head)
                                             @if($data['section_head'][0]['id'] != $section_head['id'] and $data['type'] == 'update')
-                                                <option value="{{ $section_head['id'] }}">{{ $section_head['fname'].' '.$section_head['mname'].' '.$section_head['lname'] }}</option>
+                                                <option value="{{ $section_head['id'] }}" data-div_id="{{ $section_head['division'] }}">{{ strtoupper($section_head['fname'].' '.$section_head['mname'].' '.$section_head['lname']) }}</option>
                                             @elseif($data['type'] == 'add')
-                                                <option value="{{ $section_head['id'] }}">{{ $section_head['fname'].' '.$section_head['mname'].' '.$section_head['lname'] }}</option>
+                                                <option value="{{ $section_head['id'] }}" data-div_id="{{ $section_head['division'] }}">{{ strtoupper($section_head['fname'].' '.$section_head['mname'].' '.$section_head['lname']) }}</option>
                                             @endif
                                         @endforeach
                                     @endif
@@ -310,15 +310,16 @@
                         <tr>
                             <td class="align">
                                 <br><br>
-                                <select class="form-control" name="division_chief" required>
+                                <select class="form-control division_chief" name="division_chief" required>
+
                                     @if($data['type'] == 'update')
-                                        <option value="{{ $data['division_head'][0]['id'] }}">{{ $data['division_head'][0]['fname'].' '.$data['division_head'][0]['mname'].' '.$data['division_head'][0]['lname'] }}</option>
+                                        <option value="{{ $data['division_head'][0]['id'] }}">{{ strtoupper($data['division_head'][0]['fname'].' '.$data['division_head'][0]['mname'].' '.$data['division_head'][0]['lname']) }}</option>
                                     @endif
                                     @foreach($data['division_head'] as $division_head)
                                         @if($data['division_head'][0]['id'] != $division_head['id'] and $data['type'] == 'update')
-                                            <option value="{{ $division_head['id'] }}">{{ $division_head['fname'].' '.$division_head['mname'].' '.$division_head['lname'] }}</option>
+                                            <option value="{{ $division_head['id'] }}">{{ strtoupper($division_head['fname'].' '.$division_head['mname'].' '.$division_head['lname']) }}</option>
                                         @elseif($data['type'] == 'add')
-                                            <option value="{{ $division_head['id'] }}">{{ $division_head['fname'].' '.$division_head['mname'].' '.$division_head['lname'] }}</option>
+                                            <option value="{{ $division_head['id'] }}">{{ strtoupper($division_head['fname'].' '.$division_head['mname'].' '.$division_head['lname']) }}</option>
                                         @endif
                                     @endforeach
                                 </select>
@@ -361,6 +362,7 @@
             </div>
         @endif
     </div>
+    <div id="divisionChiefData" data-json='<?php echo json_encode($data['division_head']); ?>' style="display:none;"></div>
 </form>
 </body>
 
@@ -386,6 +388,55 @@
         }
     });
     $('.chosen-select-static').chosen();
+
+    $('.immediate_supervisor').on('change', function () {
+        var selectedOption = $(this).find(':selected'); 
+        var div_id = selectedOption.data('div_id');
+        var selectedVal = $(this).val();
+        var exc = ['236', '37', '72', '621', '985950'];
+
+        if (exc.includes(selectedVal)) {
+            var div_chief = {
+                id: '{{ $data['rd']['id'] }}',
+                name: '{{ strtoupper($data['rd']['fname'] . " " . $data['rd']['mname'] . " " . $data['rd']['lname']) }}'
+            };
+
+            var div_sup = $('.division_chief');
+
+            div_sup.html(
+                $('<option>', {
+                    value: div_chief.id,
+                    text: div_chief.name
+                })
+            );
+        }else{
+                    
+            var jsonString = $('#divisionChiefData').attr('data-json');
+            var divisionChiefs = JSON.parse(jsonString);
+
+            var div_chief = divisionChiefs
+            .filter(function(item) {
+                return item.division == div_id; 
+            })
+            .map(function(item) {
+                return {
+                    id: item.id,
+                    name: [item.fname, item.mname, item.lname].filter(Boolean).join(' ').toUpperCase()
+                };
+            });
+
+            var select = $('.division_chief');
+            select.empty();
+            div_chief.forEach(function(item) {
+                select.append(
+                    $('<option>', {
+                        value: item.id,
+                        text: item.name
+                    })
+                );
+            });
+        }
+    });
 
     $(document).ready(function () {
 
