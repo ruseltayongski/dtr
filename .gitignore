@@ -11,3 +11,4 @@ Thumbs.db
 /app/config/database.php
 /app/storage/views
 /public/logs_imageV2
+/public/logs_image

@@ -19,7 +19,7 @@ class CreateWellnessTable extends Migration {
 			$table->date('scheduled_date');
 			$table->text('remarks')->nullable();
 			$table->string('type_of_request');
-			$table->enum('status', ['approved', 'pending'])->default('pending');
+			$table->enum('status', ['approved', 'pending', 'declined'])->default('pending');
 			$table->unsignedBigInteger('approved_by')->nullable();
 			$table->timestamps();
         });

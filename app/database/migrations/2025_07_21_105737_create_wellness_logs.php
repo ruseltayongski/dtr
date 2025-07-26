@@ -16,8 +16,8 @@ class CreateWellnessLogs extends Migration {
 			$table->increments('id');
             $table->integer('wellness_id');
 			// $table->enum('status', ['start', 'end']); 
-			$table->timestamp('time_start'); 
-			$table->timestamp('time_end'); 
+			$table->dateTime('time_start'); 
+			$table->dateTime('time_end'); 
 			$table->integer('time_consumed'); 
 			$table->timestamps();
         });

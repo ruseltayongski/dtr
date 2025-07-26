@@ -79,7 +79,7 @@
                                             </td>
                                             <td>{{ \Carbon\Carbon::parse($record->created_at)->format('Y-m-d') }}</td>
                                             <td>
-                                                 @if ($record->status !== 'approved' && $record->status !== 'cancelled')
+                                                 @if ($record->status !== 'approved' && $record->status !== 'declined')
                                                     {{ Form::open(array(
                                                         'url' => '/wellness/get-wellness/' . $record->id,
                                                         'method' => 'POST',
@@ -95,7 +95,7 @@
                                                                 <i class="glyphicon glyphicon-ok"></i> Approve
                                                             </button>
 
-                                                            <button type="submit" name="action" value="cancel" 
+                                                            <button type="submit" name="action" value="decline" 
                                                                     class="btn btn-danger btn-xs" 
                                                                     onclick="return confirm('Are you sure you want to cancel this request?')"
                                                                     title="Cancel">
@@ -106,15 +106,16 @@
                                                 @elseif ($record->status === 'approved')
                                                     <span class="label label-success">Approved</span>
 
-                                                     {{-- PDF Icon for Approved Requests --}}
-                                                    <a href="{{ url('/wellness/pdf/' . $record->id) }}" 
+                                                    <?php $updatedAt = \Carbon\Carbon::parse($record->updated_at); ?>
+
+                                                    <a href="{{ url('/admin/wellness/individual-report/' . $record->unique_code . '/' . $updatedAt->format('Y') . '/' . $updatedAt->format('m')) }}"
                                                     class="btn btn-default btn-xs" 
                                                     title="Download PDF" target="_blank" style="margin-left: 5px;">
                                                         <i class="glyphicon glyphicon-file"></i> PDF
                                                     </a>
                                                     
-                                                @elseif ($record->status === 'cancelled')
-                                                    <span class="label label-danger">Cancelled</span>
+                                                @elseif ($record->status === 'declined')
+                                                    <span class="label label-danger">Declined</span>
                                                 @endif
                                             </td>
                                         </tr>

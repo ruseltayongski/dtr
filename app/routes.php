@@ -404,4 +404,7 @@ Route::get('wellness/get-wellness','WellnessController@index');
 Route::get('wellness/status','WellnessController@getStatus');
 Route::post('wellness/get-wellness/{wellness_id}','WellnessController@update');
 Route::post('wellness/save-logs','WellnessController@save_logs'); 
+
+Route::get('/admin/wellness/individual-report/{unique_code}/{year}/{month}', 'WellnessController@individualReport');
+
 ?>
