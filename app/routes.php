@@ -398,4 +398,10 @@ Route::post('generate/cctv/logs', 'AdminController@generateCCTVLogs');
 //API for JWT
 Route::get('info/{userid}','MobileControllerV2@info');
 
+//API for Wellness
+Route::post('wellness/save-wellness','WellnessController@store'); 
+Route::get('wellness/get-wellness','WellnessController@index'); 
+Route::get('wellness/status','WellnessController@getStatus');
+Route::post('wellness/get-wellness/{wellness_id}','WellnessController@update');
+Route::post('wellness/save-logs','WellnessController@save_logs'); 
 ?>
