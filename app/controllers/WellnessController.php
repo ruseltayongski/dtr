@@ -112,7 +112,6 @@ class WellnessController extends BaseController {
 			$wellness->scheduled_date = Input::get('scheduled_date');
 			$wellness->unique_code = Input::get('unique_code');
 			$wellness->status = 'pending';
-			$wellness->remarks = Input::get('remarks'); // optional field
 			$wellness->save();
 
 			return [
@@ -253,7 +252,7 @@ class WellnessController extends BaseController {
 	public function save_logs(){
 		try {
 			$unique_code = Input::get('unique_code');
-			$remarks = Input::get('remarks');
+			// $remarks = Input::get('remarks');
 			$logs = Input::get('logs');
 
 			$wellness = Wellness::where('unique_code','=',$unique_code)->first();
@@ -265,10 +264,10 @@ class WellnessController extends BaseController {
 				], 404);
 			}
 
-			$wellness->remarks = $remarks;
-			$wellness->save();
+			// $wellness->remarks = $remarks;
+			// $wellness->save();
 
-			if (!$unique_code || !is_array($logs) || !$remarks) {
+			if (!$unique_code || !is_array($logs)) {
 				return Response::json([
 					'code' => 0,
 					'response' => 'Invalid input. `unique_code` and `logs` array are required.'
@@ -276,7 +275,7 @@ class WellnessController extends BaseController {
 			}
 
 			foreach ($logs as $logData) {
-				if (!isset($logData['time_start'], $logData['time_end'], $logData['time_consumed'])) {
+				if (!isset($logData['time_start'], $logData['time_end'], $logData['time_consumed'], $logData['remarks'])) {
 					continue; // skip invalid item
 				}
 
@@ -285,6 +284,7 @@ class WellnessController extends BaseController {
 				$log->time_start = Carbon::parse($logData['time_start']);
 				$log->time_end = Carbon::parse($logData['time_end']);
 				$log->time_consumed = $logData['time_consumed'];
+				$log->remarks = $logData['remarks'];
 				$log->save();
 			}
 
@@ -405,7 +405,7 @@ class WellnessController extends BaseController {
 		$pdf->SetFont('Arial', 'B', 12);
 		$pdf->Cell(10, 10, '#', 1);
 		$pdf->Cell(50, 10, 'Employee Name', 1);
-		$pdf->Cell(40, 10, 'Unique Code', 1);
+		// $pdf->Cell(40, 10, 'Unique Code', 1);
 		$pdf->Cell(30, 10, 'Sessions', 1);
 		$pdf->Cell(60, 10, 'Total Time Consumed', 1);
 		$pdf->Ln();
@@ -415,13 +415,15 @@ class WellnessController extends BaseController {
 			$formattedTime = $this->formatDuration($item->total_seconds);
 			$pdf->Cell(10, 10, $index + 1, 1);
 			$pdf->Cell(50, 10, $item->userid, 1);
-			$pdf->Cell(40, 10, $item->unique_code, 1);
+			// $pdf->Cell(40, 10, $item->unique_code, 1);
 			$pdf->Cell(30, 10, $item->sessions, 1);
 			$pdf->Cell(60, 10, $formattedTime, 1);
 			$pdf->Ln();
 		}
 
-		// Output PDF
-		$pdf->Output('D', "wellness_monthly_report_{$year}_{$month}.pdf");
+		return Response::make($pdf->Output('S'), 200, [
+			'Content-Type' => 'application/pdf',
+			'Content-Disposition' => 'inline; filename="wellness_monthly_report_'.$year.'_'.$month.'.pdf"'
+		]);
 	}
 }

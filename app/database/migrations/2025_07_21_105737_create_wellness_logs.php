@@ -15,10 +15,10 @@ class CreateWellnessLogs extends Migration {
 		Schema::create('wellness_logs', function (Blueprint $table) {
 			$table->increments('id');
             $table->integer('wellness_id');
-			// $table->enum('status', ['start', 'end']); 
 			$table->dateTime('time_start'); 
 			$table->dateTime('time_end'); 
 			$table->integer('time_consumed'); 
+			$table->text('remarks');
 			$table->timestamps();
         });
 	}
