@@ -10,7 +10,6 @@ class Wellness extends Eloquent {
         'unique_code',
         'scheduled_date',
         'type_of_request',
-        'remarks',
         'status',
         'approved_by'
     ];

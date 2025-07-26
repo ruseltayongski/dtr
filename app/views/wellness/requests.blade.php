@@ -39,7 +39,7 @@
                                         <th>Type of Request</th>
                                         <th>Scheduled Date</th>
                                         <th>Unique Code</th>
-                                        <th>Remarks</th>
+                                        <!-- <th>Remarks</th> -->
                                         <th>Created At</th>
                                         <th>Actions</th>
                                     </tr>
@@ -68,13 +68,6 @@
                                                     <code>{{ $record->unique_code }}</code>
                                                 @else
                                                     <em class="text-muted">No code</em>
-                                                @endif
-                                            </td>
-                                            <td>
-                                                @if($record->remarks)
-                                                    {{ Str::limit($record->remarks, 50) }}
-                                                @else
-                                                    <em class="text-muted">No remarks</em>
                                                 @endif
                                             </td>
                                             <td>{{ \Carbon\Carbon::parse($record->created_at)->format('Y-m-d') }}</td>
