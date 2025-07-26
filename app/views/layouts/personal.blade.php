@@ -48,6 +48,8 @@
                 <li><a href="{{ asset('form/so_list') }}">Office Order</a></li>
                 <li class="divider"></li>
                 <li><a href="{{ asset("form/cdo_user") }}">CDO</a></li>
+                <li class="divider"></li>
+                <li><a href="{{ asset('wellness/get-wellness') }}">Wellness</a></li>
             @else
                 <li><a href="{{ asset('form/so_list') }}">Office Order</a></li>
             @endif
