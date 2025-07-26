@@ -378,4 +378,50 @@ class WellnessController extends BaseController {
 		$m = floor(($seconds % 3600) / 60);
 		return "{$h} hr {$m} min";
 	}
+
+	public function monthlyReport($year, $month)
+	{
+		$start = Carbon::create($year, $month)->startOfMonth();
+		$end = Carbon::create($year, $month)->endOfMonth();
+
+		$report = DB::table('wellness_logs')
+			->join('wellness', 'wellness_logs.wellness_id', '=', 'wellness.id')
+			->select(
+				'wellness.userid',
+				'wellness.unique_code',
+				DB::raw('COUNT(wellness_logs.id) as sessions'),
+				DB::raw('SUM(TIME_TO_SEC(wellness_logs.time_consumed)) as total_seconds')
+			)
+			->whereBetween('wellness_logs.created_at', [$start, $end])
+			->groupBy('wellness.id')
+			->get();
+
+		// Start FPDF
+		$pdf = new \FPDF();
+		$pdf->AddPage();
+		$pdf->SetFont('Arial', 'B', 16);
+		$pdf->Cell(0, 10, "Wellness Monthly Report - " . $start->format('F Y'), 0, 1, 'C');
+
+		$pdf->SetFont('Arial', 'B', 12);
+		$pdf->Cell(10, 10, '#', 1);
+		$pdf->Cell(50, 10, 'Employee Name', 1);
+		$pdf->Cell(40, 10, 'Unique Code', 1);
+		$pdf->Cell(30, 10, 'Sessions', 1);
+		$pdf->Cell(60, 10, 'Total Time Consumed', 1);
+		$pdf->Ln();
+
+		$pdf->SetFont('Arial', '', 12);
+		foreach ($report as $index => $item) {
+			$formattedTime = $this->formatDuration($item->total_seconds);
+			$pdf->Cell(10, 10, $index + 1, 1);
+			$pdf->Cell(50, 10, $item->userid, 1);
+			$pdf->Cell(40, 10, $item->unique_code, 1);
+			$pdf->Cell(30, 10, $item->sessions, 1);
+			$pdf->Cell(60, 10, $formattedTime, 1);
+			$pdf->Ln();
+		}
+
+		// Output PDF
+		$pdf->Output('D', "wellness_monthly_report_{$year}_{$month}.pdf");
+	}
 }
