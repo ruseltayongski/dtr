@@ -1,6 +1,7 @@
 <?php
 
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Response;
 
 class WellnessController extends BaseController {
 
@@ -161,8 +162,9 @@ class WellnessController extends BaseController {
 	{
 		try {
 			$action = Input::get('action'); // Get which button was clicked
+			$user = Auth::user();
 			
-			if (!in_array($action, array('approve', 'cancel'))) {
+			if (!in_array($action, array('approve', 'decline'))) {
 				return Redirect::back()->with('error', 'Invalid action.');
 			}
 			
@@ -170,10 +172,10 @@ class WellnessController extends BaseController {
 			
 			if ($action === 'approve') {
 				$wellness->status = 'approved';
-				$wellness->approved_by = '0881';
+				$wellness->approved_by = $user->userid;
 				$successMsg = 'Wellness request approved successfully!';
-			} elseif ($action === 'cancel') {
-				$wellness->status = 'cancelled';
+			} elseif ($action === 'decline') {
+				$wellness->status = 'declined';
 				$successMsg = 'Wellness request cancelled successfully!';
 			} else {
 				return Redirect::back()->with('error', 'Invalid or missing action. Status unchanged.');
@@ -298,5 +300,82 @@ class WellnessController extends BaseController {
 				'error' => $e->getMessage()
 			], 500);
 		}
+	}
+	public function individualReport($unique_code, $year, $month)
+	{
+		$start = Carbon::create($year, $month)->startOfMonth();
+		$end = Carbon::create($year, $month)->endOfMonth();
+
+		$wellness = Wellness::where('unique_code', $unique_code)->firstOrFail();
+
+		$logs = \DB::table('wellness_logs')
+			->where('wellness_id', $wellness->id)
+			->whereBetween('created_at', [$start, $end])
+			->get();
+
+		$pdf = new \FPDF();
+		$pdf->AddPage();
+		$pdf->SetFont('Arial', 'B', 14);
+		$pdf->Cell(0, 10, "Wellness Report - " . $start->format('F Y'), 0, 1, 'C');
+
+		// Basic Info
+		$pdf->SetFont('Arial', '', 12);
+		$pdf->Cell(0, 10, "Employee: " . $wellness->userid, 0, 1);
+		$pdf->Cell(0, 10, "Unique Code: " . $wellness->unique_code, 0, 1);
+		$pdf->Ln(5);
+
+		// Table header
+		$pdf->SetFont('Arial', 'B', 12);
+		$pdf->Cell(10, 10, '#', 1);
+		$pdf->Cell(40, 10, 'Time Start', 1);
+		$pdf->Cell(40, 10, 'Time End', 1);
+		$pdf->Cell(60, 10, 'Time Consumed', 1);
+		$pdf->Ln();
+
+		// Table rows
+		$pdf->SetFont('Arial', '', 12);
+		$totalSeconds = 0;
+		foreach ($logs as $i => $log) {
+			$pdf->Cell(10, 10, $i + 1, 1);
+			$pdf->Cell(40, 10, $log->time_start, 1);
+			$pdf->Cell(40, 10, $log->time_end, 1);
+			$pdf->Cell(60, 10, $log->time_consumed, 1);
+			$pdf->Ln();
+
+			// Optional: convert string time_consumed into total seconds
+			$totalSeconds += $this->convertToSeconds($log->time_consumed);
+		}
+
+		// Total
+		$pdf->SetFont('Arial', 'B', 12);
+		$pdf->Cell(90, 10, 'Total Time', 1);
+		$pdf->Cell(60, 10, $this->formatDuration($totalSeconds), 1);
+		$pdf->Ln();
+
+		// $pdf->Output('D', "wellness_report_{$unique_code}_{$year}_{$month}.pdf");
+		return Response::make($pdf->Output('S'), 200, [
+			'Content-Type' => 'application/pdf',
+			'Content-Disposition' => 'inline; filename="wellness_report_'.$unique_code.'_'.$year.'_'.$month.'.pdf"'
+		]);
+	}
+
+	private function convertToSeconds($string)
+	{
+		// Handles formats like "1 hr 15 min", "45 minutes", "2 hours"
+		// $total = 0;
+		// if (preg_match('/(\d+)\s*hr/', $string, $h)) {
+		// 	$total += ((int)$h[1]) * 3600;
+		// }
+		// if (preg_match('/(\d+)\s*min/', $string, $m)) {
+		// 	$total += ((int)$m[1]) * 60;
+		// }
+		return ((int) $string) * 60; // 1 minute = 60 seconds
+	}
+
+	private function formatDuration($seconds)
+	{
+		$h = floor($seconds / 3600);
+		$m = floor(($seconds % 3600) / 60);
+		return "{$h} hr {$m} min";
 	}
 }
