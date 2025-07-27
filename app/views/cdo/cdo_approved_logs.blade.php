@@ -14,11 +14,11 @@
             <td style="padding: 8px; width: 10%;">{{ $index + 1 }}</td>
             <td style="padding: 8px; width: 20%;">
                 <input
-                        class="form-control accepted_date"
-                        id="accepted_date_{{ $index }}"
-                        name="accepted_date[]"
-                        required
-                        style="width: 100%; padding: 6px;"
+                    class="form-control accepted_date"
+                    id="accepted_date_{{ $index }}"
+                    name="accepted_date[]"
+                    required
+                    style="width: 100%; padding: 6px;"
                 >
             </td>
             <td style="padding: 8px; width: 40%;">{{ ucwords(strtolower($row->name->fname . ' ' . $row->name->mname .' '.$row->name->lname)) }}</td>
