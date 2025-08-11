@@ -169,7 +169,6 @@
         $('#filter_dates').daterangepicker();
 
         var count = parseInt("<?php echo count($comments) ?>")+1;
-        console.log(count);
         function submitComment(){
             console.log('comment');
             if($("#text_comment").val() != ''){

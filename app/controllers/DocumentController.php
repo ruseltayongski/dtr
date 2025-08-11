@@ -15,8 +15,6 @@ class DocumentController extends BaseController
     }
 
     public  function leave(){
-//        return 'leave';
-//       return "not yet ready";
         if(Request::method() == 'GET'){
             $user = InformationPersonal::select("personal_information.lname","personal_information.fname","personal_information.mname","designation.description as designation","work_experience.monthly_salary",
                 "personal_information.vacation_balance", "personal_information.sick_balance")
@@ -57,7 +55,8 @@ class DocumentController extends BaseController
                 "user" => $user,
                 "leave_type" => $leave_type,
                 "spl" => $spl,
-                "officer" =>  $section_head
+                "officer" =>  $section_head,
+                "holidays" => Calendars::where('status', 1)->lists('start')
             ]);
         }
         if(Request::method() == 'POST') {
@@ -140,18 +139,21 @@ class DocumentController extends BaseController
                 }
             }
 
-            if($leave->leave_type == "SL"){
-                $rem_dates = $_POST['s_dates'];
-                $remarks = $_POST['date_remarks'];
-                foreach ($rem_dates as $index => $date){
-                    $sl = new SLRemarks();
-                    $sl->date = date('Y-m-d', strtotime($date));
-                    $sl->remarks = $remarks[$index];
-                    $sl->leave_id = $leave->id;
-                    $sl->save();
+            if($leave->leave_type == "SL" || $leave->leave_type == "SPL"){
+                if (isset($_POST['s_dates'])) {
+                    $rem_dates = $_POST['s_dates'];
+                    $rpo_rem = $_POST['rpo_rem'];
+                    $remarks = $_POST['date_remarks'];
+                    foreach ($rem_dates as $index => $date){
+                        $sl = new SLRemarks();
+                        $sl->date = date('Y-m-d', strtotime($date));
+                        $sl->remarks = $remarks[$index];
+                        $sl->repo_rem = $rpo_rem[$index];
+                        $sl->leave_id = $leave->id;
+                        $sl->save();
+                    }
                 }
             }
-
 
             $doc_type = 'APP_LEAVE';
             $prepared_date = date('Y-m-d',strtotime(date('Y-m-d'))).' '.date('H:i:s');
@@ -273,7 +275,7 @@ class DocumentController extends BaseController
             }
 
 
-            if($leave->leave_type == "SL" && isset($_POST['s_dates'])){
+            if (in_array($leave->leave_type, ['SL', 'SPL']) && isset($_POST['s_dates'])) {
                 SLRemarks::where('leave_id', $leave->id)->delete();
 
                 $rem_dates = $_POST['s_dates'];
@@ -296,11 +298,9 @@ class DocumentController extends BaseController
 
     public function all_leave()
     {
-//        return 'all leave';
         if(Auth::user()->userid != "0190046" and Auth::user()->userid != "198600029" ){
             return "still under development";
         }
-        // return "still under development";
 
         $userid = Auth::user()->userid;
         $pis = InformationPersonal::where("userid","=",$userid)->first();
@@ -319,11 +319,13 @@ class DocumentController extends BaseController
 
             $leaves = Leave::where('userid', $userid)
                 ->whereBetween("date_filling",[$date_start,$date_end])
+                ->with('appliedDates')
                 ->orderBy("created_at","desc")
                 ->paginate(20);
         } else {
 
             $leaves = Leave::where('userid','=', $userid)
+                ->with('appliedDates')
                 ->orderBy("created_at","desc")
                 ->paginate(20);
         }
@@ -340,8 +342,7 @@ class DocumentController extends BaseController
             "designation" => $designation,
             "leave_card" => $leave_card,
             "filter_range" => Input::get("filter_range"),
-            'section_division' => $section->description.'/'.$division->description,
-
+            "section_division" => $section->description.'/'.$division->description
         ]);
     }
 
@@ -414,6 +415,7 @@ class DocumentController extends BaseController
                 }
             }
         }
+        return $leave;
         return View::make('form.leave')->with([
             'leave' => $leave,
             'leave_type' => $leaveTypes,
@@ -421,8 +423,9 @@ class DocumentController extends BaseController
             'date_list' => $dates,
             'officer' => $section_head,
             'user' => $user,
-            'spl' => $spl
-            ]);
+            'spl' => $spl,
+            "holidays" => Calendars::where('status', 1)->lists('start')
+        ]);
 
 //        $leave = Leave::select('leave.*', 'personal_information.vacation_balance', 'personal_information.sick_balance')
 //            ->where('leave.id', '=', $id)
@@ -1344,6 +1347,14 @@ class DocumentController extends BaseController
             '<table cellspacing="1" cellpadding="5" border="1">'.$table_body.'</table>';
 
         return $display;
+    }
+
+    public function get_leave_data($route_no){
+        return Response::json(
+            Leave::with('appliedDates')
+                ->where('route_no', $route_no)
+                ->first()
+        );
     }
 
 }

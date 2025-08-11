@@ -131,6 +131,7 @@ Route::get('leave/get/{id}','DocumentController@get_leave');
 Route::get('leave/print/{id}', 'DocumentController@print_leave');
 Route::get('leave/print/a/{id}', 'DocumentController@print_a');
 Route::post('leave/update/save', 'DocumentController@save_edit_leave');
+Route::get('leave/get-route/{route_no}','DocumentController@get_leave_data');
 
 //ADMIN TRACKED DOCUMENTS
 Route::get('tracked/so', 'DocumentController@so_tracking');
