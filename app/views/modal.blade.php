@@ -851,7 +851,7 @@
     </div>
 </div>
 <div class="modal fade" tabindex="5" role="dialog" id="cancel_dates">
-    <div class="modal-dialog modal-xs" role="document" id="size">
+    <div class="modal-dialog modal-sm" role="document" id="size">
         <div class="modal-content" id="cancel_date">
             <form action="{{asset('cancel_dates')}}" method="get">
                 <div class="modal-header" style="background-color: orange">

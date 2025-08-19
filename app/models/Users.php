@@ -10,4 +10,9 @@ class Users extends Eloquent
 {
     protected $table = 'users';
     protected $primaryKey = 'id';
+
+    public function wellness()
+    {
+        return $this->hasMany('Wellness', 'userid');
+    }
 }

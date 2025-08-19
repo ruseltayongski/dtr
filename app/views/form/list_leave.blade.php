@@ -1,5 +1,20 @@
-@extends('layouts.app')
+<style>
+    .leave-status {
+        list-style-type: none;
+        padding-left: 0;
+    }
 
+    .leave-status li {
+        margin-bottom: 6px;
+    }
+
+    .leave-status del {
+        color: #888;
+    }
+
+</style>
+
+@extends('layouts.app')
 @section('content')
     <h3 class="page-header">Leave Documents
     </h3>
@@ -77,13 +92,13 @@
                                 <div class="col-md-12">
                                     @if(isset($leaves) and count($leaves) >0)
                                         <div class="table-responsive">
-                                            <table class="table table-list table-hover table-striped">
+                                            <table class="table table-list table-hover table-striped" style="font-size: 13.5px">
                                                 <thead>
                                                     <tr style="background-color:grey;">
-                                                        <th ></th>
-                                                        <th >Route #</th>
-                                                        <th ><b>Date Created</b></th>
-                                                        <th ><b>Leave Type</b></th>
+                                                        <th></th>
+                                                        <th>Route #</th>
+                                                        <th style="width:200px"><b>Date Applied</b></th>
+                                                        <th style="width:100px"><b>Leave Type</b></th>
                                                         <th>Status</th>
                                                     </tr>
                                                 </thead>
@@ -93,11 +108,41 @@
                                                         <td>
                                                             <a href="#track" data-link="/dtr/form/track/'.$leave->route_no" data-route="{{ $leave->route_no }}" data-toggle="modal" class="btn btn-sm btn-success col-sm-12" ><i class="fa fa-line-chart"></i> Track</a>
                                                         </td>
-                                                        <td >
+                                                        <td>
                                                             <a class="title-info" data-route="{{ $leave->route_no }}" data-id="{{ $leave->id }}" data-backdrop="static" data-link="/dtr/leave/get" href="#leave_info" data-toggle="modal">{{ $leave->route_no }}</a>
                                                         </td>
-                                                        <td >
-                                                            {{ date("F d,Y",strtotime($leave->date_filling)) }}
+                                                        <td>
+                                                            <ul class="leave-status">
+                                                                @foreach($leave->appliedDates as $date)
+                                                                    <li>
+                                                                        @if($date->status == 1)
+                                                                            <del>
+                                                                                {{ $date->startdate == $date->enddate
+                                                                                    ? date("F j, Y", strtotime($date->startdate))
+                                                                                    : date("F j, Y", strtotime($date->startdate)) . ' - ' . date("F j, Y", strtotime($date->enddate))
+                                                                                }}
+                                                                            </del>
+                                                                            <small class="text-danger" style="margin-left: 6px">cancelled</small>
+                                                                        @elseif($date->status == 2)
+                                                                            (<del>
+                                                                                {{ $date->startdate == $date->enddate
+                                                                                    ? date("F j, Y", strtotime($date->startdate))
+                                                                                    : date("F j, Y", strtotime($date->startdate)) . ' - ' . date("F j, Y", strtotime($date->enddate))
+                                                                                }}
+                                                                            </del>)
+                                                                                {{ $date->from_date == $date->to_date
+                                                                                    ? date("F j, Y", strtotime($date->from_date))
+                                                                                    : date("F j, Y", strtotime($date->from_date)) . ' - ' . date("F j, Y", strtotime($date->to_date))
+                                                                                }}
+                                                                        @else
+                                                                            {{ $date->startdate == $date->enddate
+                                                                                ? date("F j, Y", strtotime($date->startdate))
+                                                                                : date("F j, Y", strtotime($date->startdate)) . ' - ' . date("F j, Y", strtotime($date->enddate))
+                                                                            }}
+                                                                        @endif
+                                                                    </li>
+                                                                @endforeach
+                                                            </ul>
                                                         </td>
                                                         <td >{{ ($leave->leave_details == '8')?"Monetization" : $leave->leave_type  }}</td>
                                                         <td>
@@ -106,8 +151,8 @@
                                                             @elseif($leave->status == 3)
                                                                  <small class="label label-warning">CANCELLED&nbsp;&nbsp;&nbsp;&nbsp;</small>
                                                             @elseif($leave->status == 4)
-                                                                <small class="label label-danger">DISAPPROVED</small><br>
-                                                                <p>Reason: {{ $leave->disapproval_remarks }}</p>
+                                                                <small class="label label-danger">DISAPPROVED :</small><br>
+                                                                <p>{{ $leave->disapproval_remarks }}</p>
                                                             @else
                                                                  <small class="label label-success">PROCESSED&nbsp;&nbsp;&nbsp;&nbsp;</small>
                                                             @endif

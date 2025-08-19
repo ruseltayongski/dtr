@@ -131,6 +131,7 @@ Route::get('leave/get/{id}','DocumentController@get_leave');
 Route::get('leave/print/{id}', 'DocumentController@print_leave');
 Route::get('leave/print/a/{id}', 'DocumentController@print_a');
 Route::post('leave/update/save', 'DocumentController@save_edit_leave');
+Route::get('leave/get-route/{route_no}','DocumentController@get_leave_data');
 
 //ADMIN TRACKED DOCUMENTS
 Route::get('tracked/so', 'DocumentController@so_tracking');
@@ -398,4 +399,19 @@ Route::post('generate/cctv/logs', 'AdminController@generateCCTVLogs');
 //API for JWT
 Route::get('info/{userid}','MobileControllerV2@info');
 
+//API for Wellness
+Route::post('wellness/save-wellness','WellnessController@store'); 
+Route::get('wellness/get-wellness','WellnessController@index'); 
+Route::get('wellness/status','WellnessController@getStatus');
+Route::post('wellness/get-wellness/{wellness_id}','WellnessController@update');
+Route::post('wellness/save-logs','WellnessController@save_logs'); 
+
+Route::get('/admin/wellness/individual-report/{unique_code}/{year}/{month}', 'WellnessController@individualReport');
+Route::get('/admin/wellness/monthly-report/{year}/{month}', 'WellnessController@monthlyReport');
+
+Route::get('wellness/checkSupervisor','WellnessController@checkSupervisor');
+Route::get('wellness/search-api','WellnessController@searchApi');
+Route::get('wellness/get-supervisor','WellnessController@updateSupervisees');
+Route::get('wellness/delete-supervisor','WellnessController@deleteSupervisor');
+Route::get('wellness/employees','WellnessController@getEmployees');
 ?>
