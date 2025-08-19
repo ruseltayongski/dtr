@@ -74,7 +74,7 @@
                     <a href="https://drive.google.com/drive/folders/100ARffzYqtT4BdWK-9rem8_8Zm6UCOUi" target="_blank">DTR MANUAL</a>
                     -->
                   </div>
-                  <div class="row">
+                  <!-- <div class="row">
                       <div class="col-md-12">
                           <h5>Search your ID No. here</h5>
                           <form action="{{ asset('search/id') }}" method="GET">
@@ -95,7 +95,7 @@
                               @endif
                           </table>
                       </div>
-                  </div>
+                  </div> -->
             </div><!-- /.login-box-body -->
 
 

@@ -311,7 +311,6 @@
                             <td class="align">
                                 <br><br>
                                 <select class="form-control division_chief" name="division_chief" required>
-
                                     @if($data['type'] == 'update')
                                         <option value="{{ $data['division_head'][0]['id'] }}">{{ strtoupper($data['division_head'][0]['fname'].' '.$data['division_head'][0]['mname'].' '.$data['division_head'][0]['lname']) }}</option>
                                     @endif
@@ -388,32 +387,52 @@
         }
     });
     $('.chosen-select-static').chosen();
+    $('.division_chief').chosen();
 
     $('.immediate_supervisor').on('change', function () {
         var selectedOption = $(this).find(':selected'); 
         var div_id = selectedOption.data('div_id');
         var selectedVal = $(this).val();
-        var exc = ['236', '37', '72', '621', '985950'];
+        var exc = ['236', '37', '72', '621', '985950', '988320'];
+        var jsonString = $('#divisionChiefData').attr('data-json');
+        var divisionChiefs = JSON.parse(jsonString);
 
-        if (exc.includes(selectedVal)) {
+        if(exc.includes(selectedVal)) {
+            console.log('sd');
             var div_chief = {
                 id: '{{ $data['rd']['id'] }}',
                 name: '{{ strtoupper($data['rd']['fname'] . " " . $data['rd']['mname'] . " " . $data['rd']['lname']) }}'
             };
+            console.log('div_chief', div_chief);
+            var div_chief2 = divisionChiefs
+            .filter(function(item) {
+                return item.id == selectedVal; 
+            })
+            .map(function(item) {
+                return {
+                    id: item.id,
+                    name: [item.fname, item.mname, item.lname].filter(Boolean).join(' ').toUpperCase()
+                };
+            });
 
             var div_sup = $('.division_chief');
 
-            div_sup.html(
+            div_sup.append(
                 $('<option>', {
                     value: div_chief.id,
                     text: div_chief.name
                 })
             );
-        }else{
-                    
-            var jsonString = $('#divisionChiefData').attr('data-json');
-            var divisionChiefs = JSON.parse(jsonString);
 
+            div_chief2.forEach(function(item) {
+                div_sup.append(
+                    $('<option>', {
+                        value: item.id,
+                        text: item.name
+                    })
+                );
+            });
+        }else{
             var div_chief = divisionChiefs
             .filter(function(item) {
                 return item.division == div_id; 
@@ -424,17 +443,15 @@
                     name: [item.fname, item.mname, item.lname].filter(Boolean).join(' ').toUpperCase()
                 };
             });
-
             var select = $('.division_chief');
-            select.empty();
             div_chief.forEach(function(item) {
-                select.append(
-                    $('<option>', {
-                        value: item.id,
-                        text: item.name
-                    })
-                );
+                if (select.find('option[value="' + item.id + '"]').length) {
+                    select.val(item.id); 
+                    select.trigger('chosen:updated');
+                    select.trigger('change');
+                }
             });
+
         }
     });
 

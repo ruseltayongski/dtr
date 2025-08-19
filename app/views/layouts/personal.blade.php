@@ -45,11 +45,11 @@
                     <li><a href="{{ asset('form/leave/all') }}">Leave</a></li>
                     <li class="divider"></li>
                 @endif
-                <li><a href="{{ asset('form/so_list') }}">Office Order</a></li>
-                <li class="divider"></li>
+                <!-- <li><a href="{{ asset('form/so_list') }}">Office Order</a></li> -->
+                <!-- <li class="divider"></li> -->
                 <li><a href="{{ asset("form/cdo_user") }}">CDO</a></li>
             @else
-                <li><a href="{{ asset('form/so_list') }}">Office Order</a></li>
+                <!-- <li><a href="{{ asset('form/so_list') }}">Office Order</a></li> -->
             @endif
         </ul>
     </li>

@@ -161,7 +161,7 @@ class cdoController extends BaseController
             $division_head = pdoController::user_search1($cdo['division_chief']);
         } else{
             $id_list = [];
-            $manually_added = [985329, 273, 11, 93053, 986445, 984538, 985950, 80, 976017, 466, 534, 986944, 988121, 357, 988148, 988309, 142, 602];
+            $manually_added = [985329, 273, 11, 93053, 986445, 984538, 985950, 80, 976017, 466, 534, 986944, 988121, 357, 988148, 988309, 142, 602, 151, 988320];
 
             foreach(pdoController::section() as $row) {
                 if ($row['acronym'] !== null || in_array($row['head'], [37, 72, 243, 614, 110, 163, 648384, 160, 985950, 830744, 51])) {
@@ -227,8 +227,6 @@ class cdoController extends BaseController
 
     public function cdo_addv1()
     {
-//        $results = Tracking_Master::paginate(10); // Retrieve 10 records per page
-//        return $results;
         $server_date = date('Y-m-d');
         $client_date = Input::get('client');
 
@@ -275,9 +273,10 @@ class cdoController extends BaseController
         $subject = Input::get('subject');
         $inclusive_dates_string = implode(',', $inclusive_dates);
 
-        $working_days=0;
-        foreach ($inclusive_dates as $date_range) {
-            // return $inclusive_dates;
+        $working_days = 0;
+        $work_num = 0;
+
+        foreach ($inclusive_dates as $index => $date_range) {
             $temp = explode('-', $date_range);
             $start_date = date('Y-m-d', strtotime($temp[0]));
             $enddate = date_create(date('Y-m-d', strtotime($temp[1])));
@@ -285,6 +284,13 @@ class cdoController extends BaseController
             $end_date =$enddate->format('Y-m-d');
 
             $working_days += floor(strtotime($end_date) / (60 * 60 * 24)) - floor(strtotime($start_date) / (60 * 60 * 24));
+
+            if($cdo_hours[$index] == 'cdo_wholeday'){
+                $n = (floor(strtotime($end_date) / (60 * 60 * 24)) - floor(strtotime($start_date) / (60 * 60 * 24))) * 8;
+            }else{
+                $n = (floor(strtotime($end_date) / (60 * 60 * 24)) - floor(strtotime($start_date) / (60 * 60 * 24))) * 4;
+            }
+            $work_num += $n;
         }
 
         //ADD CDO
@@ -298,7 +304,7 @@ class cdoController extends BaseController
         $cdo->start = $start_date;
         $cdo->end = $end_date;
         $cdo->beginning_balance = Input::get('beginning_balance');
-        $cdo->less_applied_for = Input::get('less_applied');
+        $cdo->less_applied_for = $work_num;
         $cdo->remaining_balance = Input::get('remaining_balance');
         $cdo->cdo_hours = $last_cdo_hour;
         $cdo->immediate_supervisor = Input::get('immediate_supervisor');
@@ -783,7 +789,9 @@ class cdoController extends BaseController
                 $inclusive_dates_string = implode(',', $inclusive_dates);
 
                 $working_days = 0;
-                foreach ($inclusive_dates as $date_range) {
+                $work_num = 0; 
+
+                foreach ($inclusive_dates as $index => $date_range) {
                     $temp1 = explode('-', $date_range);
                     $temp2 = array_slice($temp1, 0, 1);
                     $tmp = implode(',', $temp2);
@@ -794,7 +802,15 @@ class cdoController extends BaseController
                     $enddate = date_create(date('Y-m-d', strtotime($tmp)));
                     date_add($enddate, date_interval_create_from_date_string('1days'));
                     $end_date = date_format($enddate, 'Y-m-d');
+
                     $working_days += floor(strtotime($end_date) / (60 * 60 * 24)) - floor(strtotime($start_date) / (60 * 60 * 24));
+
+                    if($cdo_hours[$index] == 'cdo_wholeday'){
+                        $n = (floor(strtotime($end_date) / (60 * 60 * 24)) - floor(strtotime($start_date) / (60 * 60 * 24))) * 8;
+                    }else{
+                        $n = (floor(strtotime($end_date) / (60 * 60 * 24)) - floor(strtotime($start_date) / (60 * 60 * 24))) * 4;
+                    }
+                    $work_num += $n;
                 }
 
                 $beginning_balance = Input::get('beginning_balance');
@@ -821,7 +837,7 @@ class cdoController extends BaseController
                 "start" => $start_date,
                 "end" => $end_date,
                 "beginning_balance" => $beginning_balance,
-                "less_applied_for" => $less_applied,
+                "less_applied_for" => $work_num,
                 "remaining_balance" => $remaining_balance,
                 "cdo_hours" => $cdo_hours,
                 "immediate_supervisor" => Input::get('immediate_supervisor'),
