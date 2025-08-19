@@ -200,11 +200,10 @@ Route::match(array('GET','POST'),'click_all/{type}','cdoController@click_all');
 Route::post('cdo_delete','cdoController@cdo_delete');
 Route::get('cdo_approved/logs/{routes}','cdoController@cdo_approved_logs');
 Route::post('cdo_approved_pdf','cdoController@approved_logs_pdf');
-///////CDO-PRIVILEGE
+Route::get('cdo/card_view/{userid}','cdoController@card_view');
 Route::post('privilege/add','cdoController@superviseEmployee');
 Route::post('privilege/list','cdoController@superviseList');
 Route::get('privilege/list','cdoController@superviseList');
-
 /////////CALENDAR
 Route::get('calendar','CalendarController@calendar');
 Route::get('calendar_holiday','CalendarController@calendar_holiday');
