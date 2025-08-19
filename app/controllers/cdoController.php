@@ -136,12 +136,16 @@ class cdoController extends BaseController
             ->paginate(10);
         $card_view = CardView::where('userid', Auth:: user()->userid)->orderBy('created_at', 'asc')->get();
 
-        return View::make('cdo.cdo_user')->with(["cdo" => $cdo, "card_view"=>$card_view]);
+        return View::make('cdo.cdo_user')->with([
+            "cdo" => $cdo,
+            "card_view"=>$card_view,
+            "userid"=>Auth:: user()->userid,
+            "name"=>Auth:: user()->lname .', '. Auth:: user()->fname
+        ]);
     }
 
     //GENERATE PDF FILE...
     public function cdov1($pdf=null){
-//        return 1;
         if($pdf == 'pdf') {
             $cdo = cdo::where('route_no',Session::get('route_no'))->first();
             $personal_information = InformationPersonal::where('userid','=',$cdo->prepared_name)->first();
@@ -149,7 +153,6 @@ class cdoController extends BaseController
         else {
 
             $cdo = cdo::where('route_no','dummy')->first();
-            // $inclusiveDates = [];
             $personal_information = InformationPersonal::where('userid','=',Auth::user()->userid)->first();
         }
         $position = pdoController::designation_search($personal_information->designation_id)['description'];
@@ -2020,5 +2023,34 @@ class cdoController extends BaseController
         $pdf = App::make('dompdf');
         $pdf->loadHTML($display)->setPaper('a4', 'portrait');
         return $pdf->stream();
+    }
+
+    public function card_view($userid)
+    {
+        $perPage = 15;
+        $total = CardView::where('userid', $userid)->count();
+        $lastPage = (int) ceil($total / $perPage);
+
+        $currentPage = Input::get('page', null);
+        if ($currentPage == null) {
+            return Redirect::to(Request::url() . '?page=' . $lastPage);
+        }
+
+        $reversePage = $lastPage - $currentPage + 1;
+        $offset = ($reversePage - 1) * $perPage;
+
+        $data = CardView::where('userid', $userid)
+            ->orderBy('id', 'desc')   // take from the end first
+            ->skip($offset)
+            ->take($perPage)
+            ->get()
+            ->sortBy('id')            // re-sort ASC within the group
+            ->values();               // reset array keys
+
+        $paginator = Paginator::make($data->all(), $total, $perPage);
+        return View::make('cdo.card_view', [
+            'card_view' => $paginator,
+            'lastPage'  => $lastPage
+        ]);
     }
 }
