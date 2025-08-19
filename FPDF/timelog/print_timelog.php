@@ -539,11 +539,17 @@ if(isset($_POST['filter_range'])){
         }
         else {
             //$pm_out = 'RPO # 555-A';
-            $late = $late == 0 ? '' : $late;
-            if($late == 0) {
-                if(empty($pm_out))
+            // $late = $late == 0 ? '' : $late;
+            // if($late == 0) {
+            //     if(empty($pm_out))
+            //         (int)$late += 240;
+            // }
+            $late = (int) $late; // force it to be numeric
+                if ($late == 0 && empty($pm_out)) {
                     $late += 240;
             }
+            $late = $late == 0 ? '' : $late;
+
             $undertime = $undertime == 0 ? '' : $undertime;
             $pdf->SetWidths(array(5,7.5,15,15,15,15,7.5,7,$set_size_center,5,7.5,15,15,15,15,7.5,7));
             $pdf->Row(array(

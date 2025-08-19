@@ -406,5 +406,9 @@ Route::post('wellness/save-logs','WellnessController@save_logs');
 Route::get('/admin/wellness/individual-report/{unique_code}/{year}/{month}', 'WellnessController@individualReport');
 Route::get('/admin/wellness/monthly-report/{year}/{month}', 'WellnessController@monthlyReport');
 
-
+Route::get('wellness/checkSupervisor','WellnessController@checkSupervisor');
+Route::get('wellness/search-api','WellnessController@searchApi');
+Route::get('wellness/get-supervisor','WellnessController@updateSupervisees');
+Route::get('wellness/delete-supervisor','WellnessController@deleteSupervisor');
+Route::get('wellness/employees','WellnessController@getEmployees');
 ?>
