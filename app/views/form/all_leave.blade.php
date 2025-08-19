@@ -326,60 +326,133 @@
         }
 
         function cancel_dates(event) {
+
             $('#cancel_body').empty();
             var name = event.target.getAttribute('value');
-            <?php $routes = Leave::get(); ?>
-            <?php foreach ($routes as $route){ ?>
-                var route = "<?php echo $route->route_no;?>";
-                if(name == route){
-                    $(".modal-title").html("Route No:<strong>"+route);
-                        <?php $dates = LeaveAppliedDates::where('leave_id', '=', $route->id)->get(); ?>
-                    var dateList= [];
-                    <?php foreach ($dates as $date) {?>
-                        var diff = "<?php $diff=(strtotime($date->startdate)-strtotime($date->enddate))/ (60*60*24); echo $diff*-1; ?>";
-                        var startDate = new Date("<?php echo date('F j, Y', strtotime($date->startdate)); ?>");
-                        var endDate = new Date("<?php echo date('F j, Y', strtotime($date->enddate)); ?>");
-                        if(diff == 0){
-                            dateList.push(startDate.toLocaleDateString());
-                        }else{
-                            while (startDate <= endDate) {
-                                dateList.push(startDate.toLocaleDateString());
-                                startDate.setDate(startDate.getDate() + 1);
-                            }
-                        }
-                    <?php }?>
-                    var container = document.querySelector("#cancel_date table");
-                    var length = dateList.length;
-                    var i=0;
-                    var cancelAllCheckbox ='<label>Check to Cancel All:</label>'+
-                        '<input style="transform: scale(1.5)" type="checkbox" class="minimal" id="applied_dates" value="cancel_all" name="applied_dates" />';
-                    container.innerHTML += cancelAllCheckbox;
-                    while (length > i) {
-                        var html = '<div class="checkbox">' +
-                            '<label style="margin-left: 15%">' +
-                            '<input type="checkbox" style="transform: scale(1.5)" class="minimal" id="applied_dates" name="applied_dates" value="' + dateList[i] + '"  />' +
-                                dateList[i] +
-                            '</div>';
-                        container.innerHTML += html;
-                        i = i + 1;
+
+            $.get("{{ url('leave/get-route') }}/" + name, function(result) {
+                console.log('result', result);
+
+                $(".modal-title").html("Route No: <strong>" + result.route_no + "</strong>");
+
+                var container = document.querySelector("#cancel_date table");
+                container.innerHTML = '';
+
+                var cancelAllCheckbox =
+                    '<label>Check to Cancel All:</label>' +
+                    '<input style="transform: scale(1.5); margin-left: 10px;" type="checkbox" name="check_all" class="minimal" id="check_all_dates" />';
+                container.innerHTML += cancelAllCheckbox;
+
+                // Create select element
+                var html = '<div class="checkbox">' +
+                    '<label style="margin-left: 15%">' +
+                    '<select multiple class="form-control chosen-select" id="applied_dates" name="applied_dates[]">' +
+                    '</select>' +
+                    '</label>' +
+                    '</div>';
+                container.innerHTML += html;
+
+                var dateList = [];
+
+                result.applied_dates.forEach(function(dateRange) {
+                    var startDate, endDate;
+
+                    if (dateRange.status == 2) {
+                        startDate = new Date(dateRange.from_date);
+                        endDate = new Date(dateRange.to_date);
+                    } else if (dateRange.status != 1) {
+                        startDate = new Date(dateRange.startdate);
+                        endDate = new Date(dateRange.enddate);
                     }
 
-                    $('#dates').val(dateList);
-                }
-            <?php }?>
+                    while (startDate <= endDate) {
+                        var formatted = startDate.toLocaleDateString();
+                        dateList.push(formatted);
 
-            $('input[type="checkbox"]').on('change', function () {
-                if ($(this).val() === "cancel_all") {
-                    var isChecked = $(this).prop('checked');
-                    $('input[name="applied_dates"]').prop('checked', isChecked);
-                }
+                        $('#applied_dates').append($('<option>', {
+                            value: formatted,
+                            text: formatted
+                        }));
 
-                var selectedCheckboxes = [];
-                $('input[name="applied_dates"]:checked').each(function () {
-                    selectedCheckboxes.push($(this).val());
+                        startDate.setDate(startDate.getDate() + 1);
+                    }
                 });
-                $('#selected_date').val(selectedCheckboxes.join(', '));
+
+                $('#dates').val(dateList.join(','));
+
+                // Activate Chosen plugin
+                $('#applied_dates').chosen({ width: '200px' });
+
+                // Optional: Check All Dates Handler
+                $('#check_all_dates').on('change', function () {
+                    if ($(this).is(':checked')) {
+                        $('#applied_dates option').prop('selected', true).trigger('chosen:updated');
+                    } else {
+                        $('#applied_dates option').prop('selected', false).trigger('chosen:updated');
+                    }
+                });
             });
+
+        {{--$('#cancel_body').empty();--}}
+            {{--var name = event.target.getAttribute('value');--}}
+
+            {{--$.get("{{ url('leave/get-route') }}/" + name, function(result) {--}}
+                {{--console.log('result', result);--}}
+
+                {{--$(".modal-title").html("Route No: <strong>" + result.route_no + "</strong>");--}}
+
+                {{--var container = document.querySelector("#cancel_date table");--}}
+                {{--container.innerHTML = '';--}}
+
+                {{--var cancelAllCheckbox =--}}
+                    {{--'<label>Check to Cancel All:</label>' +--}}
+                    {{--'<input style="transform: scale(1.5)" type="checkbox" class="minimal" id="applied_dates" value="cancel_all" name="applied_dates" />';--}}
+                {{--container.innerHTML += cancelAllCheckbox;--}}
+                {{--var html = '<div class="checkbox">' +--}}
+                    {{--'<label style="margin-left: 15%">' +--}}
+                    {{--'<select type="checkbox" style="transform: scale(1.5)" class="minimal" id="applied_dates" name="applied_dates"/>' +--}}
+                    {{--'</select>'+--}}
+                    {{--'</label>' +--}}
+                    {{--'</div>';--}}
+                {{--container.innerHTML += html;--}}
+
+                {{--var dateList = [];--}}
+
+                {{--result.applied_dates.forEach(function(dateRange) {--}}
+                    {{--if(dateRange.status == 2){--}}
+                        {{--var startDate = new Date(dateRange.from_date);--}}
+                        {{--var endDate = new Date(dateRange.to_date);--}}
+                    {{--}else if(dateRange.status != 1){--}}
+                        {{--var startDate = new Date(dateRange.startdate);--}}
+                        {{--var endDate = new Date(dateRange.enddate);--}}
+                    {{--}--}}
+                    {{--while (startDate <= endDate) {--}}
+                        {{--dateList.push(new Date(startDate).toLocaleDateString());--}}
+                        {{--startDate.setDate(startDate.getDate() + 1);--}}
+
+                        {{--$('#applied_dates').append($('<option>', {--}}
+                            {{--value: startDate,--}}
+                            {{--text:startDate--}}
+                        {{--}));--}}
+                    {{--}--}}
+                {{--});--}}
+
+                {{--$('#dates').val(dateList.join(','));--}}
+            {{--});--}}
+
+//            $('input[type="checkbox"]').on('change', function () {
+//                if ($(this).val() === "cancel_all") {
+//                    var isChecked = $(this).prop('checked');
+//                    $('input[name="applied_dates"]').prop('checked', isChecked);
+//                }
+//
+//                var selectedCheckboxes = [];
+//                $('input[name="applied_dates"]:checked').each(function () {
+//                    selectedCheckboxes.push($(this).val());
+//                });
+//                $('#selected_date').val(selectedCheckboxes.join(', '));
+//            });
+
             $('#cancel_type').val("leave");
             $('#route').val(name);
             console.log(name);
@@ -476,8 +549,6 @@
             }
             <?php }?>
             $('#move_select').chosen();
-
-
         }
 
         var result = [];

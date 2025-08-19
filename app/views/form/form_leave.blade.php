@@ -27,7 +27,7 @@
                         <div class="align small-text" style="text-align: center">
                             Republic of the Philippines<br>
                             <strong>DEPARTMENT OF HEALTH<br>
-                                CENTRAL VISAYAS CENTER for HEALTH DEVELOPMENTfor_leave<br></strong>
+                                CENTRAL VISAYAS CENTER for HEALTH DEVELOPMENT<br></strong>
                             Osmeña Boulevard, Cebu City, 6000 Philippines<br>
                         </div>
                     </td>
@@ -179,45 +179,45 @@
                                         <div class="col-md-12">
                                             <div class="form-group">
                                                 <div class="has-success1">
-                                                    <div class="checkbox" style="">
+                                                    <div class="checkbox" style="margin-left:10px">
 
                                                         <label><i>In case of Vacation/Special Privilege leave</i></label><br>
                                                         <label style="display: inline-block; width: 100%;">
-                                                            <input type="radio" id="checkboxSuccess" class="vac_dis" value="1" name="leave_details"> Within the Philippines
+                                                            <input type="checkbox" id="checkboxSuccess" class="vac_dis" value="1" name="leave_details"> Within the Philippines
                                                             <input type="text" name="for_text_input" class="vac_dis" id="within_txt" style="margin-left: 2%; width: 63%; border: none; border-bottom: 2px solid black;">
                                                         </label>
                                                         <br>
                                                         <label style="display: inline-block; width: 100%;">
-                                                            <input type="radio" id="checkboxSuccess" class="vac_dis" value="2" name="leave_details"> Abroad (Specify)
+                                                            <input type="checkbox" id="checkboxSuccess" class="vac_dis" value="2" name="leave_details"> Abroad (Specify)
                                                             <input type="text" name="for_text_input" class="vac_dis" id="abroad_txt" style="margin-left: 2%; width: 70.5%; border: none; border-bottom: 2px solid black;" />
                                                         </label> <br>
                                                         <label><i>In case of Sick Leave</i></label><br>
                                                         <label style="display: inline-block; width: 100%;">
-                                                            <input type="radio" id="checkboxSuccess" class="sick_dis" value="3" name="leave_details"> In Hospital (Specify Illness)
+                                                            <input type="checkbox" id="checkboxSuccess" class="sick_dis" value="3" name="leave_details"> In Hospital (Specify Illness)
                                                             <input type="text"  name="for_text_input" class="sick_dis" id="in_hos_txt" style="margin-left: 2%; width: 56.6%; border: none; border-bottom: 2px solid black;" >
                                                         </label>
                                                         <label style="display: inline-block; width: 100%;">
-                                                            <input type="radio" id="checkboxSuccess" class="sick_dis" value="4" name="leave_details"> Out-patient (Specify Illness)
+                                                            <input type="checkbox" id="checkboxSuccess" class="sick_dis" value="4" name="leave_details"> Out-patient (Specify Illness)
                                                             <input type="text" name="for_text_input" class="sick_dis" id="out_hos_txt" style="margin-left: 1%; width: 56.6%; border: none; border-bottom: 2px solid black;" >
                                                         </label><br>
 
                                                         <label><i>In case of Special Leave Benefits for Women</i></label><br>
                                                         <label style="display: inline-block; width: 100%;">
-                                                            <input type="radio" id="checkboxSuccess" class="spec_dis" value="5" name="leave_details"> (Specify Illness)
+                                                            <input type="checkbox" id="checkboxSuccess" class="spec_dis" value="5" name="leave_details"> (Specify Illness)
                                                             <input type="text"  name="for_text_input" class="spec_dis" id="spec_txt" style="margin-left: 2%; width: 71.8%; border: none; border-bottom: 2px solid black;" >
                                                         </label><br>
-                                                        <input type="text"  name="for_text_input" class="spec_dis" id="spec_txt2" style="margin-left: 4.5%; width: 91.2%; border: none; border-bottom: 2px solid black;" >
+                                                        <input type="text"  name="for_text_input" class="spec_dis" id="spec_txt2" style="margin-left: 4.5%; width: 88.7%; border: none; border-bottom: 2px solid black;" >
 
                                                         <label><i>In case of Study Leave</i></label><br>
                                                         <label>
-                                                            <input type="radio" id="checkboxSuccess" class="stud_dis" value="6" name="leave_details"> Completion of Master's Degree
+                                                            <input type="checkbox" id="checkboxSuccess" class="stud_dis" value="6" name="leave_details"> Completion of Master's Degree
                                                         </label><br>
                                                         <label>
-                                                            <input type="radio" id="checkboxSuccess" class="stud_dis" value="7" name="leave_details"> BAR/Board Examination Review
+                                                            <input type="checkbox" id="checkboxSuccess" class="stud_dis" value="7" name="leave_details"> BAR/Board Examination Review
                                                         </label><br>
                                                         <label><i>Other Purpose</i></label><br>
                                                         <label>
-                                                            <input type="radio" id="checkboxSuccess" class="others_dis" value="8" name="leave_details"> Monetization of Leave Credits
+                                                            <input type="checkbox" id="checkboxSuccess" class="others_dis" value="8" name="leave_details"> Monetization of Leave Credits
                                                         </label><br>
                                                         <div style="text-align: center; width: 100%; display: none" id="monetize_display">
                                                             <select class="monetize_select form-control" id="monetizeSelect" name="monetize_select" onchange="monetize($(this).val())">
@@ -231,7 +231,7 @@
                                                             </select>
                                                         </div>
                                                         <label>
-                                                            <input type="radio" id="checkboxSuccess" class="others_dis" value="9" name="leave_details"> Terminal Leave
+                                                            <input type="checkbox" id="checkboxSuccess" class="others_dis" value="9" name="leave_details"> Terminal Leave
                                                         </label><br><br>
                                                     </div>
                                                 </div>
@@ -258,7 +258,7 @@
                                             <input style="width: 50%;" type="text" class="form-control datepickerInput1" id="inclusive11" name="inclusive_dates1[]" placeholder="Input date here..." required>
                                             <button style="width: 11.3%; margin-left: 12.5%" type="button" class="btn btn-sm btn-danger deleteButton1"><strong>-</strong></button>
                                         </div>
-                                        <div class="row text-center" id="date_remarks" style="padding:10px; width:90%; margin-left: 5%"></div>
+                                        <div class="row text-center date_remarks" id="date_remarks" style="padding:10px; width:90%; margin-left: 5%"></div>
                                     </div>
                                 </td>
                                 <td style="width: 48%; margin-top: 10px; vertical-align: top" rowspan="2">
@@ -300,7 +300,7 @@
                             <tr style="width: 52%" id="row_data">
                                 <td style="vertical-align: top">
                                     <strong style="margin-left: 2%">7.A CERTIFICATION OF LEAVE CREDITS</strong><br>
-                                    <p style="margin-left: 20%">As of <input name="as_of" style="border:none;border-bottom: 2px solid black; width:35%; text-align: center" value="<?php echo date('F j, Y', strtotime('last day of this month')); ?>" readonly></p>
+                                    <p style="margin-left: 20%">As of <input name="as_of" style="border:none;border-bottom: 2px solid black; width:35%; text-align: center" value="<?php echo date('F j, Y', strtotime('last day of previous month')); ?>" readonly></p>
                                     <div class="row">
                                         <div>
                                             <table border="2" style="width: 80%; text-align: center; align-items: center; margin-left: 10%">
@@ -449,7 +449,6 @@
                 var total = Math.ceil((vl + sl)/2);
                 $('#applied_num_days').val(total);
                 var div = total/2;
-                console.log('div', vl + sl);
 
                 var vl_rem = vl - div;
                 var sl_rem = sl - div;
@@ -460,17 +459,14 @@
                     sl_deduct = div + vl_rem;
 //                    sl_deduct = div + flow;
                     vl_deduct = vl;
-                    console.log('res', div + vl_rem);
 
                 }else if (sl_rem < 0){
-                    console.log('else', div + vl_rem);
                     vl_rem = vl - (div + sl_rem);
                     sl_rem = 0;
                     vl_deduct = div + sl_rem;
 //                    vl_deduct = div + flow;
                     sl_deduct = sl;
                 }
-                console.log('after',sl_deduct);
 
                 $('#vl_rem').val(vl_rem);
                 $('#sl_rem').val(sl_rem);
@@ -487,11 +483,11 @@
         $('.monetize_select').chosen();
         $('#inc_date').daterangepicker();
         $('input[name="leave_type"]').change(function(){
-            $('#date_remarks').empty();
+            $('.date_remarks').empty();
 
             $('#inclusive11').attr({ required: true, disabled: false });
 
-            $('.has-success1 input[type="radio"]').prop('checked', false);
+            $('.has-success1 input[type="checkbox"]').prop('checked', false);
 
             $('.datepickerInput1').val("");
             $('#applied_num_days').val("");
@@ -501,7 +497,6 @@
             $('#sl_rem').val(sl);
 
             var val = this.value;
-            console.log('value', val);
 
             com2();
 
@@ -536,15 +531,12 @@
                             }
                         },
                         callback: function (lobibox, type) {
-                            console.log('type', type);
                             if (type === 'emergency') {
                                 // Handle emergency button click
                                 $('#spl_type').val('emergency');
-                                console.log('sfsd', $('#spl_type').val())
                             } else if (type === 'notEmergency') {
                                 // Handle not emergency button click
                                 $('#spl_type').val('unemergency');
-                                console.log('sfsd', $('#spl_type').val())
                             }
                         }
                     });
@@ -564,7 +556,6 @@
             var val = this.value;
             if(val == "1")
             {
-                console.log('here1');
                 $('#within_txt').prop('disabled', false).val('');
                 $('#abroad_txt').prop('disabled', true);
                 $('#in_hos_txt, #in_hos_txt, #master_txt, #bar_txt, #spec_txt, #spec_txt2').prop('disabled', true);
@@ -579,10 +570,8 @@
         $('input[class="sick_dis"]').change(function(){
             var val = this.value;
             com2();
-            console.log('sick', val);
             if(val == "3")
             {
-                console.log('here3');
                 $('#in_hos_txt').prop('disabled', false).val('');
                 $('#out_hos_txt').prop('disabled', true);
                 $('#within_txt, #abroad_txt, #master_txt, #bar_txt, #spec_txt, #spec_txt2').prop('disabled', true);
@@ -609,18 +598,15 @@
 
         $('input[class="spec_dis"]').change(function(){
             com2();
-            console.log('sdf');
             $('#spec_txt, #spec_txt2').prop('disabled', false).val('');
             $('#within_txt, #abroad_txt, #in_hos_txt, #out_hos_txt, #master_txt, #bar_txt').prop('disabled', true);
 
         });
         $('input[class="others_dis"]').change(function(){
             var val = this.value;
-            console.log('value', val);
             if(val == 8){
                 com();
                 $('#inclusive11').attr({ required: false, disabled: true });
-                console.log('vl', vl);
                 if( vl >= 15){
                     $('#monetize_display').css('display', 'block');
                     $('.monetize_select').attr('required', true);
@@ -655,7 +641,6 @@
             $('.monetize_select').attr('required', false);
             $('#with_pay').val('');
             $('#without_pay').val('');
-            console.log('chaki');
         }
 
         function validate(evt) {

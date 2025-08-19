@@ -1,6 +1,7 @@
 <?php
 try{
     $pdo = new PDO("mysql:host=192.168.110.31; dbname=dohdtr",'rtayong_31','rtayong_31');
+//    $pdo = new PDO("mysql:host=localhost; dbname=dohdtr",'root','D0h7_1T');
     $pdo->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
     $query = "SELECT lea.*, pi.vacation_balance, pi.sick_balance FROM dohdtr.`leave` lea JOIN pis.personal_information pi ON pi.userid = lea.userid WHERE lea.id = :id";
     $st = $pdo->prepare($query);
@@ -82,9 +83,8 @@ try{
 
 // $imagePath = __DIR__ . '\FPDF\image\doh.png';
 // $imagePath =realpath(__DIR__ . '/../../..').'\public\img\doh.png';
-$imagePath = 'C:/Apache24/htdocs/dtr/FPDF/image/doh.png';
-// var_dump($imagePath);
-//echo "okiii".$imagePath;
+//$imagePath = 'C:/Apache24/htdocs/dtr/FPDF/image/doh.png';
+$imagePath = 'C:/xampp_7/htdocs/dtr/FPDF/image/doh.png';
 
 $pdf->setX('15');
 $pdf->Text(15,15,'CSC Form No.6');

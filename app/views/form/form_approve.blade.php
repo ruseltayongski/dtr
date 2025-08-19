@@ -75,16 +75,17 @@
             $('.modal-body_leave').html(data);
         });
     });
-    function approved_status(data){
-            $('#modal_leave_pending').modal({
-                backdrop: 'static',
-                keyboard: false,
-                show: true
-            });
 
-            var route = $(data).data('route');
-            $("#leave_route_pending").val(route);
-            console.log("route", route);
+    function approved_status(data){
+        $('#modal_leave_pending').modal({
+            backdrop: 'static',
+            keyboard: false,
+            show: true
+        });
+
+        var route = $(data).data('route');
+        $("#leave_route_pending").val(route);
+        console.log("route", route);
     }
 
     function add_remarks(data){

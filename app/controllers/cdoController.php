@@ -1698,12 +1698,14 @@ class cdoController extends BaseController
         }else{
             //cancel leave_dates
 //            return $type;
+
             $leave = Leave::where('route_no', $route)->first();
             $leave->status = 1;
             $leave->save();
             $leave_dates = LeaveAppliedDates::where('leave_id', $leave->id)->get();
             $pis2 = InformationPersonal::where('userid', $leave->userid)->first();
             $spl = AditionalLeave::where('userid', $leave->userid)->first();
+            $check_all = Input::get('check_all');
 
             $dateList = [];
             if($leave_dates){
@@ -1718,7 +1720,7 @@ class cdoController extends BaseController
             $dateList = implode(',', $dateList);
             $get_card = LeaveCardView::where('leave_id', $leave->id)->where('userid', $leave->userid)->first();
             $all_card = LeaveCardView::where('id','>', $get_card->id)->where('userid', $leave->userid)->get();
-            if(in_array("cancel_all", $selected)){
+            if($check_all){
                 $pis2->vacation_balance = $pis2->vacation_balance + $leave->vl_deduct;
                 $pis2->sick_balance = $pis2->sick_balance + $leave->sl_deduct;
                 $pis2->save();
@@ -1753,6 +1755,7 @@ class cdoController extends BaseController
                         return !empty($date->status);
                     })->count() > 0;
 
+
                 if (!$hasStatus) {
                     LeaveAppliedDates::where('leave_id', $leave->id)->delete();
                     foreach ($dates as $date){
@@ -1764,29 +1767,38 @@ class cdoController extends BaseController
                     }
                 }
 
-                $date_list = array_map('trim', $dates);
-                $selected = array_map('trim', $selected);
+                $date_list = LeaveAppliedDates::where('leave_id', $leave->id)->lists('startdate');
+                $selected = array_map('trim', Input::get('applied_dates'));
                 $used_date = [];
                 $count = 0;
                 $vl = 0; $sl = 0;
                 foreach ($date_list as $index=> $date){
 
-                    $get_date = LeaveAppliedDates::where('leave_id', $leave->id)->where('startdate', date('Y-m-d', strtotime($date)))->first();
+                    $get_date = LeaveAppliedDates::where('leave_id', $leave->id)
+                        ->where(function($query) use ($date) {
+                            $query->where('startdate', date('Y-m-d', strtotime($date)))
+                                ->orWhere('from_date', date('Y-m-d', strtotime($date)));
+                        })
+                        ->first();
                     if($get_date){
-                        if(in_array($date, $selected)){
-                            $used_date[] = '('."<s>".date('F j, Y', strtotime($date))."</s>". ')';
+                        $formatted = date('n/j/Y', strtotime($date));
+                        if(in_array($formatted, $selected)){
+                            $used_date[] = "<s>".date('F j, Y', strtotime($date))."</s>";
                             $get_date->status = 1;
                             $count++;
                         }elseif($get_date->status == 1){
-                            $used_date[] = '('."<s>".date('F j, Y', strtotime($date))."</s>". ')';
+                            $used_date[] = "<s>".date('F j, Y', strtotime($date))."</s>";
+                        }elseif($get_date->status == 2){
+                            $start_date =  date('F j, Y', strtotime($get_date->startdate));
+                            $date_to =  date('F j, Y', strtotime($get_date->from_date));
+                            $used_date[] = '('."<s>".$start_date."</s>". ') - '. date('F j, Y', strtotime($date_to));
                         }else{
                             $used_date[] = date('F j, Y', strtotime($date));
                         }
                         $get_date->save();
                     }
                 }
-                //get_card ->leave card
-                //leave -> leave
+
                 if($leave->leave_type == "FL" || $leave->leave_type == "VL"){
                     if($leave->without_pay != null && floatval($leave->without_pay) != 0){
 //                        return 1;

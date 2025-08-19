@@ -151,46 +151,46 @@
                                             <div class="col-md-12">
                                                 <div class="form-group">
                                                     <div class="has-success1">
-                                                        <div class="checkbox" style="">
+                                                        <div class="checkbox" style="margin-left: 10px">
 
                                                             <label><i>In case of Vacation/Special Privilege leave</i></label><br>
                                                             <label style="display: inline-block; width: 100%;">
-                                                                <input type="radio" id="checkboxSuccess" class="vac_dis" value="1" name="leave_details" {{($leave->leave_details == 1)?'checked' :''}}> Within the Philippines
+                                                                <input type="checkbox" id="checkboxSuccess" class="vac_dis" value="1" name="leave_details" {{($leave->leave_details == 1)?'checked' :''}}> Within the Philippines
                                                                 <input type="text" name="for_text_input" class="vac_dis" id="within_txt" style="margin-left: 2%; width: 60%; border: none; border-bottom: 2px solid black;"
                                                                        value="{{($leave->leave_details == 1)?$leave->leave_specify : ''}}">
                                                             </label>
                                                             <br>
                                                             <label style="display: inline-block; width: 100%;">
-                                                                <input type="radio" id="checkboxSuccess" class="vac_dis" value="2" name="leave_details" {{($leave->leave_details == 2)?'checked' :''}}> Abroad (Specify)
+                                                                <input type="checkbox" id="checkboxSuccess" class="vac_dis" value="2" name="leave_details" {{($leave->leave_details == 2)?'checked' :''}}> Abroad (Specify)
                                                                 <input type="text" name="for_text_input" class="vac_dis" id="abroad_txt" style="margin-left: 2%; width: 67.5%; border: none; border-bottom: 2px solid black;"  value="{{($leave->leave_details == 2)?$leave->leave_specify :''}}"/>
                                                             </label> <br>
                                                             <label><i>In case of Sick Leave</i></label><br>
                                                             <label style="display: inline-block; width: 100%;">
-                                                                <input type="radio" id="checkboxSuccess" class="sick_dis" value="3" name="leave_details" {{($leave->leave_details == 3)?'checked' :''}}> In Hospital (Specify Illness)
+                                                                <input type="checkbox" id="checkboxSuccess" class="sick_dis" value="3" name="leave_details" {{($leave->leave_details == 3)?'checked' :''}}> In Hospital (Specify Illness)
                                                                 <input type="text"  name="for_text_input" class="sick_dis" id="in_hos_txt" style="margin-left: 2%; width: 53%; border: none; border-bottom: 2px solid black;" value="{{($leave->leave_details == 3)?$leave->leave_specify :''}}" >
                                                             </label>
                                                             <label style="display: inline-block; width: 100%;">
-                                                                <input type="radio" id="checkboxSuccess" class="sick_dis" value="4" name="leave_details" {{($leave->leave_details == 4)?'checked' :''}}> Out-patient (Specify Illness)
+                                                                <input type="checkbox" id="checkboxSuccess" class="sick_dis" value="4" name="leave_details" {{($leave->leave_details == 4)?'checked' :''}}> Out-patient (Specify Illness)
                                                                 <input type="text" name="for_text_input" class="sick_dis" id="out_hos_txt" style="margin-left: 1%; width: 53%; border: none; border-bottom: 2px solid black;" value="{{($leave->leave_details == 4)?$leave->leave_specify :''}}">
                                                             </label><br>
 
                                                             <label><i>In case of Special Leave Benefits for Women</i></label><br>
                                                             <label style="display: inline-block; width: 100%;">
-                                                                <input type="radio" id="checkboxSuccess" class="spec_dis" value="5" name="leave_details" {{($leave->leave_details == 5)?'checked' :''}}> (Specify Illness)
+                                                                <input type="checkbox" id="checkboxSuccess" class="spec_dis" value="5" name="leave_details" {{($leave->leave_details == 5)?'checked' :''}}> (Specify Illness)
                                                                 <input type="text"  name="for_text_input" class="spec_dis" id="spec_txt" style="margin-left: 2%; width: 68%; border: none; border-bottom: 2px solid black;" value="{{($leave->leave_details == 5)?$leave->leave_specify :''}}">
                                                             </label><br>
                                                             <input type="text"  name="for_text_input" class="spec_dis" id="spec_txt2" style="margin-left: 4.5%; width: 90%; border: none; border-bottom: 2px solid black;" >
 
                                                             <label><i>In case of Study Leave</i></label><br>
                                                             <label>
-                                                                <input type="radio" id="checkboxSuccess" class="stud_dis" value="6" name="leave_details" {{($leave->leave_details == 6)?'checked' :''}}> Completion of Master's Degree
+                                                                <input type="checkbox" id="checkboxSuccess" class="stud_dis" value="6" name="leave_details" {{($leave->leave_details == 6)?'checked' :''}}> Completion of Master's Degree
                                                             </label><br>
                                                             <label>
-                                                                <input type="radio" id="checkboxSuccess" class="stud_dis" value="7" name="leave_details" {{($leave->leave_details == 7)?'checked' :''}}> BAR/Board Examination Review
+                                                                <input type="checkbox" id="checkboxSuccess" class="stud_dis" value="7" name="leave_details" {{($leave->leave_details == 7)?'checked' :''}}> BAR/Board Examination Review
                                                             </label><br>
                                                             <label><i>Other Purpose</i></label><br>
                                                             <label>
-                                                                <input type="radio" id="checkboxSuccess" class="others_dis" value="8" name="leave_details" {{($leave->leave_details == 8 )?'checked' :''}}> Monetization of Leave Credits
+                                                                <input type="checkbox" id="checkboxSuccess" class="others_dis" value="8" name="leave_details" {{($leave->leave_details == 8 )?'checked' :''}}> Monetization of Leave Credits
                                                             </label><br>
                                                             <div style="margin-left: 10%; width: 80%; text-align: center; display: none" id="monetize_display">
                                                                 <select class="monetize_select form-control" id="monetizeSelect" name="monetize_select" onchange="monetize($(this).val())">
@@ -204,7 +204,7 @@
                                                                 </select>
                                                             </div>
                                                             <label>
-                                                                <input type="radio" id="checkboxSuccess" class="others_dis" value="9" name="leave_details" {{($leave->leave_details == 9)?'checked' :''}}> Terminal Leave
+                                                                <input type="checkbox" id="checkboxSuccess" class="others_dis" value="9" name="leave_details" {{($leave->leave_details == 9)?'checked' :''}}> Terminal Leave
                                                             </label><br><br>
                                                         </div>
                                                     </div>
@@ -221,55 +221,59 @@
                                         <input type="text" class="form-control" name="applied_num_days" id="applied_num_days" value="{{(int)$leave->applied_num_days}}" style="text-align:center; margin-left: 5%; width: 50%;margin-top: 2%" readonly/>
                                         <input type="hidden" class="form-control" name="credit_used" id="credit_used"/>
                                         <strong class="sm-m-3" style="display: inline-block; margin-left: 5%; margin-top: 2%; ">INCLUSIVE DATES :</strong>
-                                        <button  style="width: 50px; display: inline-block; margin-left: 200px; border-radius:0px; font-size:10px" class="btn btn-xs btn-info addButton1" type="button">
+                                        <button  style="width: 50px; display: inline-block; margin-left: 20px; border-radius:0px; font-size:10px; height:20px" class="btn btn-xs btn-info addButton1" type="button">
                                             <i class="fa fa-plus"></i>
                                         </button>
                                         <br><br>
+                                        <div class="table-data" id="clone_data">
                                         @foreach($leave_dates as $dates)
-                                            {{--<strong style="margin-left: 1%">--}}
-                                            <div class="table-data" id="clone_data">
-                                                <div class="input-group" style="margin-left:5%; margin-bottom: 2px; margin-top: 0px" >
-                                                    <div class="input-group-addon" style="">
-                                                        <i class="fa fa-calendar"></i>
-                                                    </div>
-                                                    <input value="{{ date('m/d/Y',strtotime($dates->startdate)).' - '.date('m/d/Y',strtotime($dates->enddate)) }}" style="width: 50%" type="text" class="form-control datepickerInput1" id="inclusive11" name="inclusive_dates1[]" placeholder="Input date here..." required>
-                                                    <button style="width: 50px; margin-left: 66.7px; border-radius:0px" type="button" class="btn btn-xs btn-danger deleteButton1">
-                                                        <i class="fa fa-minus"></i>
-                                                    </button>
+                                            <div class="input-group" style="margin-left:5%; margin-bottom: 2px; margin-top: 0px" >
+                                                <div class="input-group-addon" style="">
+                                                    <i class="fa fa-calendar"></i>
                                                 </div>
+                                                <input value="{{ $dates->status == 2 ? date('m/d/Y',strtotime($dates->from_date)).' - '.date('m/d/Y',strtotime($dates->to_date)) : date('m/d/Y',strtotime($dates->startdate)).' - '.date('m/d/Y',strtotime($dates->enddate)) }}" style="width: 50%" type="text" class="form-control datepickerInput1" id="inclusive11" name="inclusive_dates1[]" placeholder="Input date here..." required>
+                                                <button style="height:20px; width: 50px; margin-left: 10px; border-radius:0px" type="button" class="btn btn-xs btn-danger deleteButton1">
+                                                    <i class="fa fa-minus"></i>
+                                                </button>
                                             </div>
-                                            <div class="row" id="date_remarks"></div>
-
-                                            {{--</strong>--}}
+                                            <div class="row text-center date_remarks" id="date_remarks" style="padding:10px; width:90%; margin-left: 5%"></div>
                                         @endforeach
-                                        {{--<div class="row" id="date_remarks"></div>--}}
+                                        </div>
                                         @if($leave->sl_remarks)
                                             <div class="row" id="date_remarks2">
                                                 @foreach($leave->sl_remarks as $index => $row)
-                                                    <div class="row" id="" style="padding:5px; width:90%; margin-left: 5%">
+                                                    <div class="row" style="padding: 5px; width: 90%; margin-left: 5%;">
                                                         <div>
                                                             @if($index == 0)
-                                                                <span style="font-weight: bold">SL remarks:<br></span>
+                                                                <div style="font-weight: bold; margin-bottom: 5px;">SL remarks:</div>
                                                             @endif
-                                                            <span style="display: inline-block; margin-right: 10px;">{{ date('m/d/Y',strtotime($row->date)) }}</span>
-                                                                <select class="hosen-select-static form-control" name="date_remarks[]" style="flex: 3; width: 80%; display: inline-block;" required>' +
+                                                            <div style="display: flex; align-items: center; gap: 10px;">
+                                                                <span style="white-space: nowrap;">{{ date('m/d/Y', strtotime($row->date)) }}</span>
+                                                                <select class="chosen-select-static form-control sl_option" name="date_remarks[]" style="flex: 1; min-width: 120px;" required>
                                                                     <option value="">Select Reason</option>
                                                                     <option value="cdo" {{ $row->remarks == 'cdo' ? 'selected' :'' }}>CDO</option>
                                                                     <option value="leave" {{ $row->remarks == 'leave' ? 'selected' :'' }}>LEAVE</option>
                                                                     <option value="rpo" {{ $row->remarks == 'rpo' ? 'selected' :'' }}>RPO</option>
                                                                     <option value="holiday" {{ $row->remarks == 'holiday' ? 'selected' :'' }}>HOLIDAY</option>
                                                                 </select>
-                                                            {{--<input type="text" value="{{ $row->remarks }}" class="form-control" name="date_remarks[]" placeholder="Enter remarks" name="remarks_' + formattedDate.replace(/\//g, '-') + '" style="display: inline-block;width: 80%" />--}}
-                                                            <input type="hidden" name="s_dates[]" value="'+formattedDate+'">
+                                                                <input type="{{ $row->remarks == 'rpo' ? 'text' : 'hidden' }}"
+                                                                       value="{{ $row->repo_rem }}"
+                                                                       class="form-control rpo_details"
+                                                                       style="flex: 1; min-width: 160px;"
+                                                                       name="rpo_rem[]"
+                                                                       placeholder="rpo#/title">
+
+                                                                <input type="hidden" name="s_dates[]" value="{{ date('m/d/Y', strtotime($row->date)) }}">
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 @endforeach
                                             </div>
                                         @endif
                                     </td>
-                                    <td style="width: 48%; margin-top: 10px; vertical-align: top" rowspan="2">
+                                    <td style="width: 48%; margin-top: 10px; vertical-align: top; position: relative; flex-direction: column;" rowspan="2">
                                         <strong style="vertical-align: top">&nbsp;&nbsp;&nbsp;&nbsp;6.D COMMUTATION</strong>
-                                        <div class="has-success">
+                                        <div class="has-success" style="display: flex;">
                                             <div class="checkbox">
                                                 <label>
                                                     <input type="radio" id="commutation2" value="2" name="com_requested" {{($leave->commutation == 2)?'checked':''}}> Not Requested
@@ -279,9 +283,11 @@
                                                 </label>
                                             </div>
                                         </div>
-                                        <img src="{{ asset('FPDF/image/line.png') }}" width="30%" style="position: absolute; left: 60%; top: 59%; height: .1px; margin-top: 6%;" >
-                                        <br><br>
-                                        <span style="margin-left: 37%">(Signature of Applicant)</span>
+                                        <div style="position: absolute; bottom: 0; width: 100%; text-align:center">
+                                            <img src="{{ asset('FPDF/image/line.png') }}" width="50%" style="" >
+                                            <br>
+                                            <span style=>(Signature of Applicant)</span>
+                                        </div>
                                     </td>
                                 </tr>
                             </table>
@@ -302,7 +308,7 @@
                                 <tr style="width: 52%" id="row_data">
                                     <td style="vertical-align: top">
                                         <strong style="margin-left: 2%">7.A CERTIFICATION OF LEAVE CREDITS</strong><br>
-                                        <p style="margin-left: 20%">As of <input name="as_of" style="border:none;border-bottom: 2px solid black; width:35%; text-align: center" value="<?php echo date('F j, Y', strtotime('last day of this month')); ?>" readonly></p>
+                                        <p style="margin-left: 20%">As of <input name="as_of" style="border:none;border-bottom: 2px solid black; width:35%; text-align: center" value="<?php echo date('F j, Y', strtotime('last day of previous month')); ?>" readonly></p>
                                         <div class="row">
                                             <div>
                                                 <table border="2" style="width: 80%; text-align: center; align-items: center; margin-left: 10%">
@@ -333,8 +339,8 @@
                                                         </td>
                                                         <td class="col-md-2">
                                                             <input id="sl_rem" name="sl_rem" style="width: 40%; text-align: center; border: none"
-                                                                   value="{{ ($user->sick_balance != null) ? ($user->sick_balance - (!empty($leave->sl_deduct) ? $leave->sl_deduct : 0)) : 0 }}"
-                                                                   readonly>
+                                                               value="{{ ($user->sick_balance != null) ? ($user->sick_balance - (!empty($leave->sl_deduct) ? $leave->sl_deduct : 0)) : 0 }}"
+                                                               readonly>
                                                         </td>
                                                     </tr>
                                                     </tbody>
@@ -399,9 +405,9 @@
                                     <td style="width: 48%; margin-top: 10px;border-left: 0px;border-bottom: 0px; vertical-align: top" rowspan="2">
                                         <strong>&nbsp;&nbsp;&nbsp;7.D DISAPPROVED DUE TO:</strong>
                                         <div class="row" >
-                                            <img src="{{ asset('FPDF/image/line.png') }}" width="80%" style="margin-left: 10%; height: .1px; margin-top: 1.5%;" ><br>
-                                            <img src="{{ asset('FPDF/image/line.png') }}" width="80%" style="margin-left: 10%; height: .1px; margin-top: 1.5%;" ><br>
-                                            <img src="{{ asset('FPDF/image/line.png') }}" width="80%" style="margin-left: 10%; height: .1px; margin-top: 1.5%;" ><br>
+                                            <img src="{{ asset('FPDF/image/line.png') }}" width="80%" style="margin-left: 10%; height: .1px; margin-top: 20px;" ><br>
+                                            <img src="{{ asset('FPDF/image/line.png') }}" width="80%" style="margin-left: 10%; height: .1px; margin-top: 20px;" ><br>
+                                            <img src="{{ asset('FPDF/image/line.png') }}" width="80%" style="margin-left: 10%; height: .1px; margin-top: 20px;" ><br>
                                             <br>
                                         </div>
                                     </td>
@@ -427,27 +433,17 @@
                         </div>
                     </div>
                 </div>
-                {{--<div class="panel-body">--}}
-                    {{--<div class="row">--}}
-                        {{--<div class="row" style="padding: 1%">--}}
-                            {{--<div class="col-md-12 float-right" style="text-align: right">--}}
-                                {{--<button type="submit" name="submit" class="btn btn-primary btn-lg">Update</button>--}}
-                                <type type="hidden" id="spl_type"></type>
-                                <type type="hidden" id="monetize_val" name="monetize_val"></type>
-                            {{--</div>--}}
-                        {{--</div>--}}
-                    {{--</div>--}}
-                {{--</div> <!-- PANEL BODY -->--}}
+                <type type="hidden" id="spl_type"></type>
+                <type type="hidden" id="monetize_val" name="monetize_val"></type>
                 <div class="modal-footer">
                     <div class="row">
                         <div class="modal-footer">
-
                             <div class="alert-info" style=" display: inline-block; width: 50%; float: left">
                                 <p style="padding: 2px; margin: 0; text-align: center">
-                        <span >
-                            <i class="fa fa-hand-o-right"></i>
-                            Please print the leave application details on the back of your form. HR will not accept your leave form unless these details are printed.
-                        </span>
+                                    <span >
+                                        <i class="fa fa-hand-o-right"></i>
+                                        Please print the leave application details on the back of your form. HR will not accept your leave form unless these details are printed.
+                                    </span>
                                 </p>
                             </div>
                             <div style="display: inline-block; width: 50%;">
@@ -465,11 +461,7 @@
             </form>
         </div>
     </div>
-
 </div>
-<style>
-
-</style>
 @include('form.form_leave_script')
 <script>
     var vl = {{($user->vacation_balance != null)?$user->vacation_balance:0}};
@@ -523,14 +515,14 @@
     $('.chosen-select-static').chosen();
     $('#inc_date').daterangepicker();
     $('input[name="leave_type"]').change(function(){
-        $('#date_remarks').empty();
+        $('.date_remarks').empty();
         $('#date_remarks2').empty();
         $('#clone_data').not(':first').remove();
         console.log('sample');
 
         $('#inclusive11').attr({ required: true, disabled: false });
 
-        $('.has-success1 input[type="radio"]').prop('checked', false);
+        $('.has-success1 input[type="checkbox"]').prop('checked', false);
 
         $('.datepickerInput1').val("");
         $('#applied_num_days').val("");
