@@ -137,7 +137,7 @@
         <div class="modal-dialog modal-xl" role="document" id="size" style="max-width:1250px; width:100%;">
             <div class="modal-content">
                 <div class="modal-header" style="background-color: #9C8AA5">
-                    <strong><h4 class="modal-title" style="display: inline-block; font-weight: bold"> CTO HISTORY: {{ strtoupper($name) }}</h4></strong>
+                    <strong><h4 class="modal-title" style="display: inline-block; font-weight: bold; color: white"> CTO HISTORY: {{ strtoupper($name) }}</h4></strong>
                     <button style="display: inline-block" type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 </div>
                 <div style="text-align: center; width: 100%" class="card_view_body"></div>
@@ -148,10 +148,22 @@
 @section('js')
     <script>
         var account_id;
-
+        var type = 0;
         function displayCard(userid, page){
+            var overlay = $('<div></div>').css({
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                width: '100%',
+                height: '100%',
+                display: 'flex',
+                'align-items': 'center',
+                'justify-content': 'center',
+                'z-index': 999
+            }).append(loadingState);
+
             account_id = userid;
-            $('.card_view_body').html(loadingState);
+            type == 0 ? $('.card_view_body').append(loadingState) : $('.card_view_body').append(overlay);
             $.get("{{ url('cdo/card_view').'/' }}" + userid, { page: page }, function(result) {
                 $('.card_view_body').html(result);
             });
@@ -160,8 +172,8 @@
         $(document).on('click', '.ajax-page-link', function(e) {
             e.preventDefault();
             var pageUrl = $(this).attr('href');
-            var page = pageUrl.split('page=')[1]; // extract ?page=#
-            console.log('go to page', page);
+            var page = pageUrl.split('page=')[1];
+            type = 1;
             displayCard(account_id, page);
         });
 

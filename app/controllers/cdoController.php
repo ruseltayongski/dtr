@@ -140,7 +140,7 @@ class cdoController extends BaseController
             "cdo" => $cdo,
             "card_view"=>$card_view,
             "userid"=>Auth:: user()->userid,
-            "name"=>Auth:: user()->lname .', '. Auth:: user()->fname
+            "name"=>Auth:: user()->fname .' '. Auth:: user()->lname
         ]);
     }
 
