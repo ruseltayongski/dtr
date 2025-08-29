@@ -62,10 +62,10 @@
                     <li><a href="{{ asset('leave/credits') }}">Leave Credits</a></li>
                 </ul>
             </li>
-            <!-- <li class="divider"></li> -->
-            <!-- <li>
+            <li class="divider"></li>
+            <li>
                  <a href="{{ asset('wellness/get-wellness') }}"><i class="fa fa-file"></i> Wellness </a>
-            </li> -->
+            </li>
             @if(Auth::user()->userid == 3856)
                 <li class="divider"></li>
                 <li class="dropdown-submenu">
