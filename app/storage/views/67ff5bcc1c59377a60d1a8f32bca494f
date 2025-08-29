@@ -48,6 +48,8 @@
                 <!-- <li><a href="<?php echo asset('form/so_list'); ?>">Office Order</a></li> -->
                 <!-- <li class="divider"></li> -->
                 <li><a href="<?php echo asset("form/cdo_user"); ?>">CDO</a></li>
+                <!-- <li class="divider"></li> -->
+                <!-- <li><a href="<?php echo asset('wellness/get-wellness'); ?>">Wellness</a></li> -->
             <?php else: ?>
                 <!-- <li><a href="<?php echo asset('form/so_list'); ?>">Office Order</a></li> -->
             <?php endif; ?>
