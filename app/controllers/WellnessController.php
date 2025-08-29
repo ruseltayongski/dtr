@@ -153,21 +153,7 @@ class WellnessController extends BaseController {
 			Session::forget('keyword');
 		}
 
-		// $wellness = [];
 		$wellness = $query->orderBy('scheduled_date', 'desc')->get();
-
-
-		// if (!empty($superviseeUsernames)) {
-		// 	$wellnessRequests = Users::whereIn('username', $superviseeUsernames)
-		// 		->join('wellness', 'users.username', '=', 'wellness.userid')
-		// 		->select(
-		// 			'wellness.*',
-		// 			DB::raw("CONCAT(users.fname, ' ', users.lname) as user_name")
-		// 		)
-		// 		->get();
-
-		// 	$wellness = is_array($wellnessRequests) ? $wellnessRequests : $wellnessRequests->all();
-		// }
 
 		foreach ($wellness as &$record) {
 			$record->logs = DB::table('wellness_logs')
@@ -176,6 +162,18 @@ class WellnessController extends BaseController {
 				->get();
 		}
 
+		$logs = DB::table('wellness_logs')
+			->join('wellness', 'wellness_logs.wellness_id', '=', 'wellness.id')
+			->join('users', 'users.username', '=', 'wellness.userid')
+			->join('supervise_employee', 'supervise_employee.userid', '=', 'users.username')
+			->select(
+				'wellness_logs.*',
+				'wellness.*',
+				DB::raw("CONCAT(users.fname, ' ', users.lname) as user_name")
+			)
+			->where('supervise_employee.supervisor_id', $authUser->username) 
+			->get();
+
 		$page = Input::get('page', 1);
 		$perPage = 15;
 		$offset = ($page - 1) * $perPage;
@@ -183,7 +181,8 @@ class WellnessController extends BaseController {
 		$paginator = Paginator::make($pagedData, count($wellness), $perPage);
 
 		return View::make('wellness.requests', [
-			'wellness' => $paginator
+			'wellness' => $paginator,
+			'logs' => $logs
 		]);
 	}
 	/**
@@ -278,7 +277,7 @@ class WellnessController extends BaseController {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function update($id)
+	public function update($wellness_id)
 	{
 		try {
 			$action = Input::get('action'); // Get which button was clicked
@@ -288,7 +287,7 @@ class WellnessController extends BaseController {
 				return Redirect::back()->with('error', 'Invalid action.');
 			}
 			
-			$wellness = Wellness::findOrFail($id);
+			$wellness = Wellness::findOrFail($wellness_id);
 			
 			if ($action === 'approve') {
 				$wellness->status = 'approved';
