@@ -164,7 +164,7 @@ class cdoController extends BaseController
             $division_head = pdoController::user_search1($cdo['division_chief']);
         } else{
             $id_list = [];
-            $manually_added = [985329, 273, 11, 93053, 986445, 984538, 985950, 80, 976017, 466, 534, 986944, 988121, 357, 988148, 988309, 142, 602, 151, 988320];
+            $manually_added = [988320, 985329, 273, 11, 93053, 986445, 984538, 985950, 80, 976017, 466, 534, 986944, 988121, 357, 988148, 988309, 142, 602, 151];
 
             foreach(pdoController::section() as $row) {
                 if ($row['acronym'] !== null || in_array($row['head'], [37, 72, 243, 614, 110, 163, 648384, 160, 985950, 830744, 51])) {
@@ -213,7 +213,9 @@ class cdoController extends BaseController
             "division_head" => $division_head,
             "rd" => pdoController::user_search1(988320),
             "bbalance_cto" => $personal_information->bbalance_cto,
-            "server_date" => date('Y-m-d')
+            "server_date" => date('Y-m-d'),
+            "user_section" => $personal_information->section_id,
+            "user_division" => $personal_information->division_id
         );
 
 
@@ -1552,7 +1554,6 @@ class cdoController extends BaseController
         $type = Input::get('cancel_type');
         $cdo_hours = explode(',', Input::get('all_hours'));
         $selected_hours = explode(',', Input::get('cdo_hours'));
-//        return $selected_hours;
         $dates= explode(',', Input::get('dates'));
         $route = Input::get('route');
         $selected = explode(',', Input::get('selected_date'));

@@ -851,7 +851,7 @@
     </div>
 </div>
 <div class="modal fade" tabindex="5" role="dialog" id="cancel_dates">
-    <div class="modal-dialog modal-sm" role="document" id="size">
+    <div class="modal-dialog modal-xs" role="document" id="size" style="width:400px">
         <div class="modal-content" id="cancel_date">
             <form action="<?php echo asset('cancel_dates'); ?>" method="get">
                 <div class="modal-header" style="background-color: orange">
@@ -870,7 +870,7 @@
                     <input type="hidden" id="cdo_hours" name="cdo_hours">
                     <input type="hidden" id="all_hours" name="all_hours">
                     <input type="hidden" id="cancel_type" name="cancel_type">
-                    <button type="submit" value="specific_date" class="btn btn-success">Submit</button>
+                    <button type="submit" value="specific_date" class="btn btn-success cancel_btn_update">Submit</button>
                 </div>
             </form>
         </div>

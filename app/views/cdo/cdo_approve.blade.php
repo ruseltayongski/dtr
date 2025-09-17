@@ -58,7 +58,10 @@
                                     if($dates->status == 1 || $dates->status == 11){
                                         // $stat = ' (CANCELLED)';
                                     }
-                                    $dateStrings[] = ($start_date == $end_date) ? "$start_date $hours $stat" : "$start_date - $end_date $hours $stat";
+                                    if($dates->status != 11){
+                                        $dateStrings[] = ($start_date == $end_date) 
+                                            ? "$start_date $hours $stat" : "$start_date - $end_date $hours $stat";
+                                    }
                                 }
                                 echo implode(',<br>',$dateStrings);
                             }else{

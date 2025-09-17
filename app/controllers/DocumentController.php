@@ -910,7 +910,9 @@ class DocumentController extends BaseController
                 "rd" => pdoController::user_search1(988320),
                 "bbalance_cto" => $personal_information->bbalance_cto,
                 "inclusiveDates"=> $inclusiveDates,
-                "server_date" => date('Y-m-d')
+                "server_date" => date('Y-m-d'),
+                 "user_section" => $personal_information->section_id,
+                "user_division" => $personal_information->division_id
             );
 //            return $inclusiveDates->cdo_hours;
             return View::make('cdo.cdo_view',['data' => $data]);
