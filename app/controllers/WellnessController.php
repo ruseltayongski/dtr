@@ -3,7 +3,7 @@
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Log;
-
+use Illuminate\Support\Collection;
 
 class WellnessController extends BaseController {
 
@@ -89,72 +89,158 @@ class WellnessController extends BaseController {
 	// 	]);
 	// }
 
+	// public function index()
+	// {
+	// 	$authUser = Auth::user();
+	// 	$user_type = $authUser->usertype;
+
+	// 	// Get full user record based on username
+	// 	$userRecord = DB::table('users')
+	// 		->where('username', $authUser->username)
+	// 		->first();
+
+	// 	if (!$userRecord) {
+	// 		return View::make('wellness.requests', [
+	// 			'wellness' => Paginator::make([], 0, 15)
+	// 		]);
+	// 	}
+
+	// 	$supervisors = array_values(
+	// 		DB::table('supervise_employee')->distinct()->lists('supervisor_id')
+	// 	);
+
+	// 	$superviseeUsernames = DB::table('supervise_employee')
+	// 		->where('supervisor_id', $authUser->userid)
+	// 		->lists('userid');
+
+	// 	$filterRange = Input::get('filter_range');
+	// 	$filter      = Input::get('filter');   // 'past' or 'upcoming'
+	// 	$statuses    = array_filter((array) Input::get('status')); // remove empty values
+	// 	$keyword     = Input::get('keyword');
+
+	// 	$query = DB::table('wellness')
+	// 		->join('users', 'users.username', '=', 'wellness.userid')
+	// 		->select('wellness.*', DB::raw("CONCAT(users.fname, ' ', users.lname) as user_name"));
+
+	// 	// Role-based filtering
+	// 	if ($user_type === 1) {
+	// 		// HR admin → show only supervisors
+	// 		$query->whereIn('users.username', $supervisors);
+	// 	} else {
+	// 		// Supervisor → show only supervisees
+	// 		$query->whereIn('users.username', $superviseeUsernames);
+	// 	}
+
+	// 	if (!empty($filterRange)) {
+	// 		$filter = null;
+	// 	}
+
+	// 	// Date filtering
+	// 	if (!empty($filterRange)) {
+	// 		// Custom range filter overrides past/upcoming
+	// 			$dates = explode(' - ', $filterRange);
+	// 			if (count($dates) === 2) {
+	// 				$startDate = Carbon::createFromFormat('m/d/Y', trim($dates[0]))->startOfDay();
+	// 				$endDate   = Carbon::createFromFormat('m/d/Y', trim($dates[1]))->endOfDay();
+	// 				$query->whereBetween('wellness.scheduled_date', [$startDate, $endDate]);
+
+	// 				if (!empty($statuses)) {
+	// 				$query->whereIn('wellness.status', $statuses);
+	// 			}
+	// 		}
+	// 	} elseif ($filter === 'past') {
+	// 		// Past 7 days
+	// 		$query->whereBetween('wellness.scheduled_date', [
+	// 			Carbon::now()->subWeek()->startOfDay(),
+	// 			Carbon::now()->endOfDay(),
+	// 		]);
+
+	// 		if (!empty($statuses)) {
+	// 			$query->whereIn('wellness.status', $statuses);
+	// 		}
+	// 	} elseif ($filter === 'upcoming') {
+	// 		// Next 7 days
+	// 		$query->whereBetween('wellness.scheduled_date', [
+	// 			Carbon::now()->startOfDay(),
+	// 			Carbon::now()->addWeek()->endOfDay(),
+	// 		]);
+
+	// 		if (!empty($statuses)) {
+	// 			$query->whereIn('wellness.status', $statuses);
+	// 		}
+	// 	}
+
+	// 	// Keyword search
+	// 	if (!empty($keyword)) {
+	// 		$query->where(function ($q) use ($keyword) {
+	// 			$q->where('users.fname', 'like', "%{$keyword}%")
+	// 			->orWhere('users.lname', 'like', "%{$keyword}%")
+	// 			->orWhere('wellness.type_of_request', 'like', "%{$keyword}%");
+	// 		});
+
+	// 		Session::put('keyword', $keyword);
+	// 	} else {
+	// 		Session::forget('keyword');
+	// 	}
+
+	// 	// Fetch results
+	// 	$wellness = $query->orderBy('scheduled_date', 'desc')->get();
+
+	// 	foreach ($wellness as &$record) {
+	// 		$record->logs = DB::table('wellness_logs')
+	// 			->where('wellness_id', $record->id)
+	// 			->orderBy('created_at', 'desc')
+	// 			->get();
+	// 	}
+
+	// 	$logs = DB::table('wellness_logs')
+	// 		->join('wellness', 'wellness_logs.wellness_id', '=', 'wellness.id')
+	// 		->join('users', 'users.username', '=', 'wellness.userid')
+	// 		->join('supervise_employee', 'supervise_employee.userid', '=', 'users.username')
+	// 		->select(
+	// 			'wellness_logs.*',
+	// 			'wellness.*',
+	// 			DB::raw("CONCAT(users.fname, ' ', users.lname) as user_name")
+	// 		)
+	// 		->where('supervise_employee.supervisor_id', $authUser->username)
+	// 		->get();
+
+	// 	// Pagination
+	// 	$page     = Input::get('page', 1);
+	// 	$perPage  = 15;
+	// 	$offset   = ($page - 1) * $perPage;
+	// 	$pagedData = array_slice($wellness, $offset, $perPage);
+	// 	$paginator = Paginator::make($pagedData, count($wellness), $perPage);
+
+	// 	if (Request::ajax()) {
+	// 		return View::make('wellness.partials.results', [
+	// 			'wellness' => $paginator,
+	// 			'logs'     => $logs
+	// 		])->render();
+	// 	}
+
+	// 	return View::make('wellness.requests', [
+	// 		'wellness' => $paginator->appends(Input::except('page')),
+	// 		'logs'     => $logs,
+	// 		'filter' => $filter, //past or upcoming
+	// 	]);
+	// }
 	public function index()
 	{
 		$authUser = Auth::user();
-		$user_type = Auth::user()->usertype;
-		// return $user_type;
-
-		// Get full user record based on username
-		$userRecord = DB::table('users')
-			->where('username', $authUser->username)
-			->first();
-
-		if (!$userRecord) {
-			return View::make('wellness.requests', [
-				'wellness' => Paginator::make([], 0, 15)
-			]);
-		}
-
-		$supervisors = array_values(
-			DB::table('supervise_employee')->distinct()->lists('supervisor_id')
-		);
-
-		$superviseeUsernames = DB::table('supervise_employee')
-			->where('supervisor_id', $authUser->userid) // match on username
-			->lists('userid'); // returns array of supervisees' usernames
+		$user_type = $authUser->usertype;
 
 		$filterRange = Input::get('filter_range');
-		$keyword = Input::get('keyword');
+		$filter      = Input::get('filter'); // past or upcoming
+		$allStatuses = ['pending', 'approved', 'declined'];
+		$statuses    = (array) Input::get('status', $allStatuses);
+		$keyword     = Input::get('keyword');
 
-		$query = DB::table('wellness')
-			->join('users', 'users.username', '=', 'wellness.userid')
-			->select('wellness.*', DB::raw("CONCAT(users.fname, ' ', users.lname) as user_name"));
-
-		// Role-based filtering
-		if ($user_type === 1) {
-			// HR admin → show only supervisors
-			$query->whereIn('users.username', $supervisors);
-		} else {
-			// Supervisor head → show only their own supervisees
-			$query->whereIn('users.username', $superviseeUsernames);
-		}
-
-		 // Date filter
-		if (!empty($filterRange)) {
-			$dates = explode(' - ', $filterRange);
-			if (count($dates) === 2) {
-				$startDate = Carbon::createFromFormat('m/d/Y', trim($dates[0]))->startOfDay();
-				$endDate = Carbon::createFromFormat('m/d/Y', trim($dates[1]))->endOfDay();
-				$query->whereBetween('wellness.scheduled_date', [$startDate, $endDate]);
-			}
-		}
-
-		// Keyword filter
-		if (!empty($keyword)) {
-			$query->where(function ($q) use ($keyword) {
-				$q->where('users.fname', 'like', "%{$keyword}%")
-				->orWhere('users.lname', 'like', "%{$keyword}%")
-				->orWhere('wellness.type_of_request', 'like', "%{$keyword}%");
-			});
-
-			Session::put('keyword', $keyword);
-		} else {
-			Session::forget('keyword');
-		}
+		$query = $this->wellnessQuery($authUser, $user_type, $filterRange, $filter, $statuses, $keyword);
 
 		$wellness = $query->orderBy('scheduled_date', 'desc')->get();
 
+		// Attach logs
 		foreach ($wellness as &$record) {
 			$record->logs = DB::table('wellness_logs')
 				->where('wellness_id', $record->id)
@@ -171,20 +257,108 @@ class WellnessController extends BaseController {
 				'wellness.*',
 				DB::raw("CONCAT(users.fname, ' ', users.lname) as user_name")
 			)
-			->where('supervise_employee.supervisor_id', $authUser->username) 
+			->where('supervise_employee.supervisor_id', $authUser->username)
 			->get();
 
+		// Manual pagination
 		$page = Input::get('page', 1);
-		$perPage = 15;
+		$perPage = 1;
 		$offset = ($page - 1) * $perPage;
 		$pagedData = array_slice($wellness, $offset, $perPage);
 		$paginator = Paginator::make($pagedData, count($wellness), $perPage);
 
+		$paginator->appends([
+			'filter' => $filter,
+			'search' => $keyword,
+			'status' => $statuses,  // 👈 force array into query string
+		]);
+
+		if (Request::ajax()) {
+			return View::make('wellness.partials.results', [
+				'wellness' => $paginator->appends(Input::except('page')),
+				'logs'     => $logs,
+				'statuses' => $statuses,
+				'allStatuses' => $allStatuses,
+				'filter'   => $filter, 
+			])->render();
+		}
+
 		return View::make('wellness.requests', [
-			'wellness' => $paginator,
-			'logs' => $logs
+			'wellness' => $paginator->appends(Input::except('page')),
+			'logs'     => $logs,
+			'statuses' => $statuses,
+			'allStatuses' => $allStatuses,
+			'filter'   => $filter, 
 		]);
 	}
+
+	public function report()
+	{
+		$authUser = Auth::user();
+		$user_type = $authUser->usertype;
+
+		$filterRange = Input::get('filter_range');
+		$filter      = Input::get('filter');
+		$statuses    = (array) Input::get('status');
+		$keyword     = Input::get('keyword');
+
+		$query = $this->wellnessQuery($authUser, $user_type, $filterRange, $filter, $statuses, $keyword);
+
+		$wellness = $query->orderBy('scheduled_date', 'desc')->get();
+
+		return View::make('wellness.report', [
+			'wellness' => $wellness,
+			'filterRange' => $filterRange,
+		]);
+	}
+
+	public function exportReport($format)
+	{
+		$authUser = Auth::user();
+		$user_type = $authUser->usertype;
+
+		$filterRange = Input::get('filter_range');
+		$filter      = Input::get('filter');
+		$statuses    = (array) Input::get('status');
+		$keyword     = Input::get('keyword');
+
+		$query = $this->wellnessQuery($authUser, $user_type, $filterRange, $filter, $statuses, $keyword);
+		$wellness = $query->orderBy('scheduled_date', 'desc')->get();
+
+		if ($format === 'excel') {
+			return Excel::create('wellness_report', function($excel) use ($wellness) {
+				$excel->sheet('Report', function($sheet) use ($wellness) {
+					$sheet->fromArray($wellness);
+				});
+			})->download('xlsx');
+		}
+
+		// if ($format === 'pdf') {
+
+			// $html = view('wellness.partials.report-pdf', compact('wellness'))->render();
+       		// $pdf = PDF::loadHTML($html);
+			// $pdf = PDF::loadView('wellness.report_pdf', ['wellness' => $wellness]);
+		// 	return $pdf->download('wellness_report.pdf');
+		// }
+		if ($format === 'pdf') {
+		// Render Blade into HTML
+		$html = View::make('wellness.partials.report', compact('wellness'))->render();
+
+		// Use dompdf directly
+		$pdf = \App::make('dompdf.wrapper'); // this is the IoC alias for dompdf
+		$pdf->loadHTML($html)->setPaper('a4', 'portrait');
+
+		// Return download instead of stream
+		return $pdf->download('wellness_report.pdf');
+	}
+
+
+		abort(404);
+	}
+
+
+
+
 	/**
 	 * Show the form for creating a new resource.
 	 *
@@ -549,64 +723,6 @@ class WellnessController extends BaseController {
 		]);
 	}
 
-	// public function checkSupervisor(){
-	// 	$userid = Input::get('userid');
-	
-	// 	// $supervisors = DB::table('supervise_employee')
-	// 	// 	->join('users', 'supervise_employee.supervisor_id', '=', 'users.username')
-	// 	// 	->where('supervise_employee.userid', $userid)
-	// 	// 	->select('users.username as supervisor_id', DB::raw("CONCAT(users.fname, ' ', users.lname) as supervisor_name"))
-	// 	// 	->get();
-
-	// 	// $isSectionHead = DB::table('dts.section')
-	// 	// 	->where('head', $userId)
-	// 	// 	->exists();
-
-	// 	// $isDivisionHead = DB::table('dts.division')
-	// 	// 	->where('head', $userId)
-	// 	// 	->exists();
-	// 	// $userData = DB::table('dts.users')
-	// 	// 	->join('supervise_employee', 'supervise_employee.supervisor_id', '=', 'users.username')
-	// 	// 	->leftJoin('dts.section', 'dts.section.head', '=', 'users.id') 
-	// 	// 	->leftJoin('dts.division', 'dts.division.head', '=', 'users.id') 
-	// 	// 	->where('supervise_employee.userid', $userid)
-	// 	// 	->select(
-	// 	// 		'users.username as supervisor_id',
-	// 	// 		// DB::raw("CONCAT(users.fname, ' ', users.lname) as supervisor_name"),
-	// 	// 		// DB::raw("CASE WHEN dts.section.head IS NOT NULL THEN 1 ELSE 0 END as is_section_head"),
-	// 	// 		// DB::raw("CASE WHEN dts.division.head IS NOT NULL THEN 1 ELSE 0 END as is_division_head")
-	// 	// 		DB::raw("CONCAT(users.fname, ' ', users.lname) as supervisor_name"),
-	// 	// 		DB::raw("dts.section.head IS NOT NULL as is_section_head"),
-	// 	// 		DB::raw("dts.division.head IS NOT NULL as is_division_head")
-	// 	// 	)
-	// 	// 	->get();
-	// 	$userData = DB::table('users') // main.users
-	// 		->join('supervise_employee', 'supervise_employee.supervisor_id', '=', 'users.username')
-	// 		->leftJoin('dts.users as dts_users', 'dts_users.username', '=', 'users.username')
-	// 		->leftJoin('dts.section', 'dts.section.head', '=', 'dts_users.id')
-	// 		->leftJoin('dts.division', 'dts.division.head', '=', 'dts_users.id')
-	// 		->where('supervise_employee.userid', $userid)
-	// 		->selectRaw("
-	// 			DISTINCT users.username as supervisor_id,
-	// 			CONCAT(users.fname, ' ', users.lname) as supervisor_name,
-	// 			dts.section.head IS NOT NULL as is_section_head,
-	// 			dts.division.head IS NOT NULL as is_division_head
-	// 		")
-	// 		->get();
-		
-	// 	if ($userData) {
-	// 		return Response::json([
-	// 			'code' => 200,
-	// 			'message' => 'Supervisor already assigned.',
-	// 			'response' => $userData
-	// 		]);
-	// 	} else {
-	// 		return Response::json([
-	// 			'code' => 404,
-	// 			'message' => 'No supervisor assigned.',
-	// 		]);
-	// 	}
-	// }
 	public function checkSupervisor(){
 		$userid = Input::get('userid');
 
@@ -785,5 +901,63 @@ class WellnessController extends BaseController {
 				'message' => 'No employees found for this supervisor.'
 			]);
 		}
+	}
+
+	private function wellnessQuery($authUser, $user_type, $filterRange, $filter, $statuses, $keyword)
+	{
+		$supervisors = array_values(
+			DB::table('supervise_employee')->distinct()->lists('supervisor_id')
+		);
+
+		$superviseeUsernames = DB::table('supervise_employee')
+			->where('supervisor_id', $authUser->userid)
+			->lists('userid');
+
+		$query = DB::table('wellness')
+			->join('users', 'users.username', '=', 'wellness.userid')
+			->select('wellness.*', DB::raw("CONCAT(users.fname, ' ', users.lname) as user_name"));
+
+		// Role-based filtering
+		if ($user_type === 1) {
+			$query->whereIn('users.username', $supervisors);
+		} else {
+			$query->whereIn('users.username', $superviseeUsernames);
+		}
+
+		if (!empty($filterRange)) {
+			// Always prioritize date range if set
+			$dates = explode(' - ', $filterRange);
+			if (count($dates) === 2) {
+				$startDate = Carbon::createFromFormat('m/d/Y', trim($dates[0]))->startOfDay();
+				$endDate   = Carbon::createFromFormat('m/d/Y', trim($dates[1]))->endOfDay();
+				$query->whereBetween('wellness.scheduled_date', [$startDate, $endDate]);
+			}
+		} elseif ($filter === 'past') {
+			// Past 7 days
+			$startDate = Carbon::now()->subDays(6)->startOfDay();
+			$endDate   = Carbon::now()->endOfDay();
+			$query->whereBetween('wellness.scheduled_date', [$startDate, $endDate]);
+		} elseif ($filter === 'upcoming') {
+			// Upcoming 7 days
+			$startDate = Carbon::now()->startOfDay();
+			$endDate   = Carbon::now()->addDays(6)->endOfDay();
+			$query->whereBetween('wellness.scheduled_date', [$startDate, $endDate]);
+		}
+
+		// Apply status filter (after date filtering)
+		if (!empty($statuses)) {
+			$query->whereIn('wellness.status', $statuses);
+		}
+
+		// Apply keyword filter
+		if (!empty($keyword)) {
+			$query->where(function ($q) use ($keyword) {
+				$q->where('users.fname', 'like', "%{$keyword}%")
+				->orWhere('users.lname', 'like', "%{$keyword}%")
+				->orWhere('wellness.type_of_request', 'like', "%{$keyword}%");
+			});
+		}
+
+		return $query;
 	}
 }

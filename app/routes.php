@@ -400,7 +400,11 @@ Route::get('info/{userid}','MobileControllerV2@info');
 
 //API for Wellness
 Route::post('wellness/save-wellness','WellnessController@store'); 
-Route::get('wellness/get-wellness','WellnessController@index'); 
+// Route::get('wellness/get-wellness','WellnessController@index')->name('wellness.requests'); 
+Route::get('wellness/get-wellness', [
+    'as'   => 'wellness.requests',   // route name
+    'uses' => 'WellnessController@index'
+]);
 Route::get('wellness/status','WellnessController@getStatus');
 Route::post('wellness/get-wellness/{wellness_id}','WellnessController@update');
 Route::post('wellness/save-logs','WellnessController@save_logs'); 
@@ -413,4 +417,15 @@ Route::get('wellness/search-api','WellnessController@searchApi');
 Route::get('wellness/get-supervisor','WellnessController@updateSupervisees');
 Route::get('wellness/delete-supervisor','WellnessController@deleteSupervisor');
 Route::get('wellness/employees','WellnessController@getEmployees');
-?>
+
+// Wellness Report (tab view with filter + table)
+Route::get('/wellness/report', [
+    'uses' => 'WellnessController@report',
+    'as'   => 'wellness.report'
+]);
+
+// Export routes
+Route::get('/wellness/report/export/{format}', [
+    'uses' => 'WellnessController@exportReport',
+    'as'   => 'wellness.report.export'
+])->where('format', 'excel|pdf');
