@@ -542,11 +542,11 @@
                     📅 Calendar View
                 </a>
             </li>
-            <li>
+            <!-- <li>
                 <a href="#reportView" data-toggle="tab" role="tab">
                    Wellness Report
                 </a>
-            </li>
+            </li> -->
         </ul>
 </div>
 <div class="tab-content" id="viewTabsContent">
