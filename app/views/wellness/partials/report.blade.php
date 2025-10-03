@@ -49,9 +49,9 @@
                         <td>
                             @if(!empty($record->logs))
                                 <ul class="list-unstyled mb-0">
-                                    @foreach($record->logs as $log)
+                                    <!-- @foreach($record->logs as $log)
                                         <li>{{ $log->created_at }} - {{ $log->action }}</li>
-                                    @endforeach
+                                    @endforeach -->
                                 </ul>
                             @else
                                 <em>No logs</em>

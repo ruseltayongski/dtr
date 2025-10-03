@@ -262,7 +262,7 @@ class WellnessController extends BaseController {
 
 		// Manual pagination
 		$page = Input::get('page', 1);
-		$perPage = 1;
+		$perPage = 15;
 		$offset = ($page - 1) * $perPage;
 		$pagedData = array_slice($wellness, $offset, $perPage);
 		$paginator = Paginator::make($pagedData, count($wellness), $perPage);
