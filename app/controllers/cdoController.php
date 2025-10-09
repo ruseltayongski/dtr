@@ -1552,10 +1552,10 @@ class cdoController extends BaseController
         $type = Input::get('cancel_type');
         $cdo_hours = explode(',', Input::get('all_hours'));
         $selected_hours = explode(',', Input::get('cdo_hours'));
-//        return $selected_hours;
         $dates= explode(',', Input::get('dates'));
         $route = Input::get('route');
         $selected = explode(',', Input::get('selected_date'));
+//        return $selected;
         if ($type == "cto"){
             $cancelled = cdo::where('route_no', '=', $route)->first();
             $pis = InformationPersonal::where('userid', $cancelled->prepared_name)->first();
@@ -1716,7 +1716,6 @@ class cdoController extends BaseController
             }
         }else{
             //cancel leave_dates
-//            return $type;
 
             $leave = Leave::where('route_no', $route)->first();
             $leave->status = 1;
@@ -1873,9 +1872,12 @@ class cdoController extends BaseController
                     $spl->SPL = $spl->SPL - $count;
                 }
 //                return $vl;
+
+                $new_total = LeaveAppliedDates::where('leave_id', $leave->id)->whereNotIn('status', [1])->get();
                 $get_card->vl_bal = $get_card->vl_bal + $vl;
                 $get_card->sl_bal = $get_card->sl_bal + $sl;
                 $get_card->date_used = implode(',', $used_date);
+                $get_card->particulars = "(<s>" . count($leave_dates) . "</s>)(<s>" . count($new_total) . "</s>) " . $leave->leave_type.'12';
                 $get_card->save();
                 $leave->vacation_total = $leave->vacation_total + $vl;
                 $leave->sick_total = $leave->sick_total + $sl;

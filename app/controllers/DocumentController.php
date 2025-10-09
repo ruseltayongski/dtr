@@ -51,12 +51,22 @@ class DocumentController extends BaseController
                 }
             }
 
+            $spl_pending = Leave::where('userid', Auth::user()->userid)
+                ->whereRaw('YEAR(updated_at) = ?', [date('Y')])
+                ->where('leave_type', 'SPL')
+                ->sum('applied_num_days');
+            $fl_pending = Leave::where('userid', Auth::user()->userid)
+                ->whereRaw('YEAR(updated_at) = ?', [date('Y')])
+                ->where('leave_type', 'FL')
+                ->sum('applied_num_days');
             return View::make('form.form_leave',[
                 "user" => $user,
                 "leave_type" => $leave_type,
                 "spl" => $spl,
                 "officer" =>  $section_head,
-                "holidays" => Calendars::where('status', 1)->lists('start')
+                "holidays" => Calendars::where('status', 1)->lists('start'),
+                'spl_pending' => $spl_pending,
+                'fl_pending' => $fl_pending
             ]);
         }
         if(Request::method() == 'POST') {
@@ -319,15 +329,21 @@ class DocumentController extends BaseController
 
             $leaves = Leave::where('userid', $userid)
                 ->whereBetween("date_filling",[$date_start,$date_end])
-                ->with('appliedDates')
+                ->with(['appliedDates',
+                    'type' => function ($query) {
+                    $query->select('code', 'desc');
+                }])
                 ->orderBy("created_at","desc")
-                ->paginate(20);
+                ->paginate(10);
         } else {
 
             $leaves = Leave::where('userid','=', $userid)
-                ->with('appliedDates')
+                ->with(['appliedDates',
+                    'type' => function ($query) {
+                    $query->select('code', 'desc');
+                }])
                 ->orderBy("created_at","desc")
-                ->paginate(20);
+                ->paginate(10);
         }
 
         Session::put("vacation_balance",$pis->vacation_balance);
@@ -415,7 +431,6 @@ class DocumentController extends BaseController
                 }
             }
         }
-        return $leave;
         return View::make('form.leave')->with([
             'leave' => $leave,
             'leave_type' => $leaveTypes,

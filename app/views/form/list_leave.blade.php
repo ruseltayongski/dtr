@@ -98,7 +98,7 @@
                                                         <th></th>
                                                         <th>Route #</th>
                                                         <th style="width:200px"><b>Date Applied</b></th>
-                                                        <th style="width:100px"><b>Leave Type</b></th>
+                                                        <th style="width:150px"><b>Leave Type</b></th>
                                                         <th>Status</th>
                                                     </tr>
                                                 </thead>
@@ -144,7 +144,7 @@
                                                                 @endforeach
                                                             </ul>
                                                         </td>
-                                                        <td >{{ ($leave->leave_details == '8')?"Monetization" : $leave->leave_type  }}</td>
+                                                        <td >{{ ($leave->leave_details == '8')?"Monetization" : $leave->type->desc  }}</td>
                                                         <td>
                                                             @if($leave->status == 0)
                                                                 <small class="label label-primary">PENDING&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</small>

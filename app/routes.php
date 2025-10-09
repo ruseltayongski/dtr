@@ -51,7 +51,6 @@ Route::get('add_leave_table','AdminController@add_leave_table');
 Route::match(array('GET','POST'), 'print-monthly', 'PrintController@print_monthly');
 Route::get('print-monthly/attendance', 'PrintController@print_pdf');
 Route::match(array('GET','POST'), 'print/employee-attendance', 'PrintController@print_employee');
-
 Route::get('leave/card-view/{id}/{page}','AdminController@get_leave_view');
 
 //manual process
@@ -87,6 +86,7 @@ Route::match(array('GET','POST'), 'form/leave_list', 'cdoController@leave_list')
 Route::get('leave/balance/{userid}','AdminController@get_balance');
 Route::post('leave/update_balance','AdminController@update_balance');
 Route::post('update_absence','AdminController@update_absence');
+Route::get('leave/move/{route_no}','AdminController@moveLeave');
 
 //DTR
 Route::get('dtr/list/jo', 'GenerateDTRController@list_jo_dtr');

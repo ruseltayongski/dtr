@@ -17,9 +17,9 @@
                 @if($row->status != 3)
                     <tr>
                         <td ><a href="#track" data-link="/dtr/form/track/'.$row->route_no" data-route="{{ $row->route_no }}" data-toggle="modal" class="btn btn-sm btn-success col-sm-12" style="background-color:#9C8AA5;color:white;"><i class="fa fa-line-chart"></i> Track</a></td>
-                        <td class="text-center route-cell"> <a class="title-info" data-route="{{ $row->route_no }}" data-id="{{ $row->id }}" data-backdrop="static" data-link="/dtr/leave/get" href="#leave_info" data-toggle="modal">{{ $row->route_no }}</a></td>
-                        <td class="text-center">{{ ($row->leave_details == '8')?"Monetization" : $row->leave_type  }}</td>
-                        <td class="text-center">
+                        <td class="text-left route-cell"> <a class="title-info" data-route="{{ $row->route_no }}" data-id="{{ $row->id }}" data-backdrop="static" data-link="/dtr/leave/get" href="#leave_info" data-toggle="modal">{{ $row->route_no }}</a></td>
+                        <td class="text-left">{{ ($row->leave_details == '8')?"Monetization" : $row->type->desc  }}</td>
+                        <td class="text-left">
                             @foreach($row->appliedDates as $applied)
                                 @if($applied->status == 1)
                                     {{ date('F j, Y', strtotime($applied->startdate)). '(cancelled)'}}
@@ -35,7 +35,7 @@
                                 <br>
                             @endforeach
                         </td>
-                        <td class="text-center">
+                        <td class="text-left">
                             {{$row->firstname.' '.$row->middlename.' '.$row->lastname}}
                         </td>
                         <td class="text-center">
@@ -43,7 +43,7 @@
                                 <button type="submit" class="btn-xs btn-danger leave_pending" data-route="{{ $row->route_no }}" value="{{ $row->id }}" onclick="approved_status($(this))" style="color:white;"><i class="fa fa-ban"></i> Unprocess</button>
                                 <button class="btn-xs btn-warning cancel_dates" id="cancel" onclick="cancel_dates(event)"  value="{{ $row->route_no }}" style="color: white;" data-toggle="modal"  data-target="#cancel_dates"><i class="fa fa-close"></i>Cancel</button>
                                 {{--<button type="submit" class="btn-xs btn-info remarks" data-target="#remarks" data-route="{{ $row->route_no }}" value="{{ $row->id }}" onclick="add_remarks($(this))" style="color:white;"><i class="fa fa-comment"></i> Remarks</button>--}}
-                                <button class="btn-xs btn-success move_leave" id="move" onclick="move_dates(event)"  value="{{ $row->route_no }}" style="color: white;" data-toggle="modal"  data-target="#move_leave"><i class="fa fa-eraser"></i>Move</button>
+                                <button class="btn-xs btn-success move_leave" id="move" onclick="move_dates(event, '{{ $row->route_no }}')"  value="{{ $row->route_no }}" style="color: white;" data-toggle="modal"  data-target="#move_leave"><i class="fa fa-eraser"></i>Move</button>
                             @else
                                 <button type="submit" class="btn-xs btn-danger leave_pending" data-route="{{ $row->route_no }}" value="{{ $row->id }}" onclick="approved_status($(this))" style="color:white;"><i class="fa fa-ban"></i> Unprocess</button>
                             @endif
