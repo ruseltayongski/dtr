@@ -62,6 +62,10 @@
                     <li><a href="<?php echo asset('leave/credits'); ?>">Leave Credits</a></li>
                 </ul>
             </li>
+            <li class="divider"></li>
+            <li>
+                 <a href="<?php echo asset('wellness/get-wellness'); ?>"><i class="fa fa-file"></i> Wellness </a>
+            </li>
             <?php if(Auth::user()->userid == 3856): ?>
                 <li class="divider"></li>
                 <li class="dropdown-submenu">

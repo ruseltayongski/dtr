@@ -66,7 +66,10 @@
 
 
 
-    @if(Request::segments()[0] == "calendar")
+    @if(
+        in_array(Request::segments()[0], ["calendar", "get-wellness"]) || 
+        (Request::segments()[0] == "wellness" && Request::segments()[1] == "get-wellness")
+    )
         <link href="{{ asset('public/plugin/fullcalendar/fullcalendar.min.css') }}" rel="stylesheet">
         <link href="{{ asset('public/plugin/fullcalendar/fullcalendar.print.css') }}" media="print">
         <style>

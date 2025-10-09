@@ -122,8 +122,8 @@
     </tbody>
 </table>
 <div class="modal-footer">
-    <div class="alert-info" style=" display: inline-block; width: 70%;">
-        <p style="padding: 2px; margin: 0; text-align: center">
+    <div class="alert-info" style="text-align: center; width: 100%;">
+        <p style="padding: 12px; margin: 0; text-align: center;">
             <span >
                 <i class="fa fa-hand-o-right"></i>
                 Note: CTO credits earned within the current month can only be availed of the following month.
@@ -131,7 +131,7 @@
             </span>
         </p>
     </div>
-    <div style="display: inline-block; width: 20%; padding: 10px;">
+    <div style="width: 100%; padding: 10px;">
         @if ($lastPage > 1)
         <ul class="pagination justify-content-center" id="pagination" style="margin: 0; padding: 0">
                 @if ($card_view->getCurrentPage() < $lastPage)

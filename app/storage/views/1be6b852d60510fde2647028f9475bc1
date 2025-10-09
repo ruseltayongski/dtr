@@ -29,7 +29,7 @@
                                     <?php if(Auth::user()->usertype != 1): ?>
                                         <a href="#document_form" data-link="/dtr/form/cdov1/form" class="btn btn-success" data-dismiss="modal" data-backdrop="static" data-toggle="modal" data-target="#document_form" style="background-color:#9C8AA5;color: white;"><i class="fa fa-plus"></i> Create new</a>
                                     <?php endif; ?>
-                                    <a class="btn btn-info" data-dismiss="modal" data-toggle="modal" data-target="#ledger"><i class="fa fa-eye"></i> View Card</a>
+                                    <a class="btn btn-info" onclick="displayCard('<?php echo $userid; ?>')" data-dismiss="modal" data-toggle="modal" data-target="#ledger"><i class="fa fa-eye"></i> View Card</a>
 
                                 </form>
                             </div>
@@ -42,10 +42,10 @@
                                                     <thead>
                                                     <tr>
                                                         <th class="text-center">Route #</th>
-                                                        <th >Prepared Date</th>
-                                                        <th >Exclusive Date</th>
-                                                        <th >Reason</th>
-                                                        <th class="text-center">Proccessed Status</th>
+                                                        <th>Prepared Date</th>
+                                                        <th>Exclusive Date</th>
+                                                        <th>Reason</th>
+                                                        <th>Status</th>
                                                     </tr>
                                                     </thead>
                                                     <tbody style="font-size: 10pt;">
@@ -107,11 +107,11 @@
                                                             </td>
                                                             <td><?php echo $row->subject; ?></td>
                                                             <?php if($row->status ==3): ?>
-                                                                <td class="text-center"><span class="label label-warning"><i class="fa fa-frown-o"></i> Cancelled </span></td>
+                                                                <td><span class="label label-warning"><i class="fa fa-frown-o"></i> Cancelled </span></td>
                                                             <?php elseif($row->approved_status): ?>
-                                                                <td class="text-center"><span class="label label-info"><i class="fa fa-smile-o"></i> Processed </span></td>
+                                                                <td><span class="label label-info"><i class="fa fa-smile-o"></i> Processed </span></td>
                                                             <?php else: ?>
-                                                                <td class="text-center"><span class="label label-danger"><i class="fa fa-frown-o"></i> Pending </span></td>
+                                                                <td><span class="label label-danger"><i class="fa fa-frown-o"></i> Pending </span></td>
                                                             <?php endif; ?>
                                                         </tr>
 
@@ -133,171 +133,51 @@
             </div>
         </div>
     </div>
-
-    <div class="modal fade" tabindex="-1" role="dialog" id="ledger">
+    <div class="modal fade" tabindex="5" role="dialog" id="ledger">
         <div class="modal-dialog modal-xl" role="document" id="size" style="max-width:1250px; width:100%;">
-            <div class="modal-header" style="background-color: #9C8AA5;">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" style=" color: white;"><strong> CTO HISTORY: <?php
-                        $fullName = strtoupper(Auth::user()->lname . ', ' . Auth::user()->fname . ' ' . Auth::user()->mname);
-                        echo $fullName;
-                        ?></strong></h4>
+            <div class="modal-content">
+                <div class="modal-header" style="background-color: #9C8AA5">
+                    <strong><h4 class="modal-title" style="display: inline-block; font-weight: bold; color: white"> CTO HISTORY: <?php echo strtoupper($name); ?></h4></strong>
+                    <button style="display: inline-block" type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <div style="text-align: center; width: 100%" class="card_view_body"></div>
             </div>
-            <div class="modal-content" id="modalContent">
-                <div class="header-container" style="max-height: calc(100vh - 50px); overflow-y: auto;">
-                    <table class="table table-list table-hover table-striped" id="card_table" >
-                        <thead  style="position: sticky; top: 0; z-index: 5; background-color: green">
-                        <tr>
-                            <th style="align-items: center; color: white; background-color: darkgray;" colspan="5">No. Of Hours Earned/Beginning Balance</th>
-                            <th style=" color: white;background-color: darkgray;">Date of Overtime</th>
-                            <th style=" color: white;background-color: darkgray;">No. of Hours Used</th>
-                            <th style="width: 19%; color: white;background-color: darkgray;">Date Used</th>
-                            <th style=" color: white;background-color: darkgray;">Balance Credits</th>
-                            <th style=" color: white;background-color: darkgray;">As Of</th>
-                            <th style=" color: white;background-color: darkgray;">Remarks</th>
-                        </tr>
-                        </thead>
-                        <tbody id="t_body" name="t_body">
-                        <?php if(isset($card_view) and count($card_view) >0): ?>
-                            <?php foreach($card_view as $card_viewL): ?>
-
-                                <?php if(Auth::user()->userid == $card_viewL->userid && $card_viewL->status != 5): ?>
-                                    <tr>
-
-                                        <?php if($card_viewL->ot_hours !== null): ?>
-                                            <td><?php if($card_viewL->ot_hours != null): ?> <?php echo $card_viewL->ot_hours; ?> <?php endif; ?></td>
-                                            <td><?php if($card_viewL->ot_hours != null): ?> x <?php endif; ?></td>
-                                            <td><?php if($card_viewL->ot_rate != null): ?> <?php echo $card_viewL->ot_rate; ?> <?php endif; ?></td>
-                                            <td><?php if($card_viewL->ot_hours != null): ?> = <?php endif; ?></td>
-                                            <td><?php if($card_viewL->ot_credits != null): ?> <?php echo $card_viewL->ot_credits; ?> <?php endif; ?></td>
-                                            <?php else: ?>
-                                            <td></td><td></td><td></td><td></td><td></td>
-                                        <?php endif; ?>
-
-                                        <td>
-                                            <?php if($card_viewL->ot_date == null || $card_viewL->ot_date == '0000-00-00'): ?>
-                                                <?php else: ?>
-                                                <?php echo date('F j, Y', strtotime($card_viewL->ot_date)); ?>
-
-                                            <?php endif; ?>
-                                        </td>
-                                        <td><?php if($card_viewL->hours_used != 0 ): ?> <?php echo $card_viewL->hours_used; ?> <?php endif; ?></td>
-                                        <td> <?php
-
-                                            if(!Empty($card_viewL->date_used) ){
-                                                $created = strtotime($card_viewL->created_at);
-                                                $condition = strtotime('2023-10-25');
-                                                if($created<=$condition){
-                                                    $dateRanges = explode(",", $card_viewL->date_used);
-                                                    $datelist = [];
-                                                    foreach ($dateRanges as $date){
-                                                        $pattern = '/(\d{1,2}\/\d{1,2}\/\d{4}) - (\d{1,2}\/\d{1,2}\/\d{4}(?: \([^)]*\))?)/';
-
-                                                        if(preg_match($pattern, $date, $matches)){
-                                                            $startDate = $matches[1];
-                                                            $endDate = $matches[2];
-                                                            $add_ons = isset($matches[3])? $matches[3]: '';
-                                                            $endDate2 = preg_replace('/ \([^)]*\)/', '', $matches[2]);
-                                                            $diff= (strtotime($startDate)- strtotime($endDate2))/ (60*60*24);
-                                                            $diff= $diff * -1;
-
-                                                            $additionalData = '';
-                                                            $additionalPattern = '/\(([^)]*)\)/';
-                                                            if (preg_match($additionalPattern, $endDate, $additionalMatches)) {
-                                                                $additionalData = $additionalMatches[1];
-                                                            }
-
-                                                            if($diff == 0){
-                                                                $datelist[]= date('F j, Y', strtotime($endDate2)).' '. $additionalData;
-                                                            }else{
-                                                                $datelist[]= date('F j, Y', strtotime($startDate)).'-'. date('F j, Y', strtotime($endDate)).' '. $additionalData;
-                                                            }
-                                                        }
-                                                    }
-                                                    $dateRanges = implode('$', $datelist);
-                                                    echo str_replace('$', '<br>', $dateRanges);
-
-                                                }else{
-                                                    $dateRanges =str_replace('$', '<br>', $card_viewL->date_used);
-                                                    echo $dateRanges;
-                                                }
-
-                                            }else{
-                                                echo "";
-                                            }
-                                            ?></td>
-                                        <td><?php echo $card_viewL->bal_credits; ?></td>
-                                        <td><?php
-                                            if($card_viewL->status == "7" ){
-                                                $created = strtotime($card_viewL->created_at);
-                                                $condition = strtotime('2023-10-25');
-                                                if($created <= $condition){
-                                                    echo "September 30, 2023";
-                                                }else{
-                                                    echo date("F j, Y", strtotime($card_viewL->created_at));
-                                                }
-                                            }else{
-                                                echo date("F j, Y", strtotime($card_viewL->created_at));
-                                            }
-                                            ?></td>
-
-                                        <?php if($card_viewL->status == 5): ?>
-                                            <td id='remarks'style='color: red'>REMOVED: <?php echo $card_viewL->remarks; ?></td>
-                                        <?php elseif($card_viewL->status == 2): ?>
-                                            <td id='remarks'style='color: red'>MODIFIED(X): <?php echo $card_viewL->remarks; ?></td>
-                                        <?php elseif($card_viewL->status == 3): ?>
-                                            <td id='remarks'style='color: red'>CANCELLED</td>
-                                        <?php elseif($card_viewL->status == 4): ?>
-                                            <td id='remarks'style='color: blue'>PROCESSED</td>
-                                        <?php elseif($card_viewL->status == 1): ?>
-                                            <td id='remarks'style='color: blue'>PROCESSED</td>
-                                        <?php elseif($card_viewL->status == 6): ?>
-                                            <td id='remarks'style='color: red'>MODIFIED(X)</td>
-                                        <?php elseif($card_viewL->status == 7): ?>
-                                            <td id='remarks'style='color: blue'>BALANCE</td>
-                                        <?php elseif($card_viewL->status == 9): ?>
-                                            <td id='remarks'style='color: green'>EXCEED</td>
-                                        <?php else: ?>
-                                            <td id='remarks'style='color: red'>EXCEED</td>
-                                        <?php endif; ?>
-                                    </tr>
-                                <?php else: ?>
-                                    <?php if(Auth::user()->userid == $card_viewL->userid && $card_viewL->remarks == '0'): ?>
-                                        <td style='color: red; text-align: center' colspan="12"><?php echo $card_viewL->date_used .' on '. date('F j, Y', strtotime($card_viewL->ot_date)); ?></td>
-                                    <?php endif; ?>
-                                <?php endif; ?>
-                            <?php endforeach; ?>
-                        <?php else: ?>
-                            <tr>
-                                <td colspan='8'>No Data Available</td>
-                            </tr>
-                        <?php endif; ?>
-                        </tbody>
-                    </table>
-                </div>
-                <div class="modal-footer">
-                    <div class="alert-info" style=" display: inline-block; width: 70%;">
-                        <p style="padding: 2px; margin: 0; text-align: center">
-                            <span >
-                                <i class="fa fa-hand-o-right"></i>
-                                Note: CTO credits earned within the current month can only be availed of the following month.
-                                An employee can earn a maximum of 40 hours CTO credit per month and a total of 120 hours CTO balance overall.
-                            </span>
-                        </p>
-                    </div>
-                    <div style="display: inline-block; width: 20%;">
-                        <ul class="pagination justify-content-center" id="pagination" style="margin: 0; padding: 0"></ul>
-                    </div>
-                </div>
-
-
-            </div><!-- .modal-content -->
-
-        </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
+        </div>
+    </div>
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('js'); ?>
     <script>
+        var account_id;
+        var type = 0;
+        function displayCard(userid, page){
+            var overlay = $('<div></div>').css({
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                width: '100%',
+                height: '100%',
+                display: 'flex',
+                'align-items': 'center',
+                'justify-content': 'center',
+                'z-index': 999
+            }).append(loadingState);
+
+            account_id = userid;
+            type == 0 ? $('.card_view_body').append(loadingState) : $('.card_view_body').append(overlay);
+            $.get("<?php echo url('cdo/card_view').'/'; ?>" + userid, { page: page }, function(result) {
+                $('.card_view_body').html(result);
+            });
+        }
+
+        $(document).on('click', '.ajax-page-link', function(e) {
+            e.preventDefault();
+            var pageUrl = $(this).attr('href');
+            var page = pageUrl.split('page=')[1];
+            type = 1;
+            displayCard(account_id, page);
+        });
+
+
         $(document).ready(function () {
             <?php if(Session::get("cdo_falsification")): ?>
                 <?php Session::put("cdo_falsification", false); ?>
@@ -354,14 +234,6 @@
                     currentPage = parseInt(targetPage);
                 }
                 updateTableRows(currentPage);
-            });
-
-
-            $("#viewCard").on("click", function () {
-                event.preventDefault();
-                $("#ledger").modal({
-
-                });
             });
         });
         $("#inclusive3").daterangepicker();

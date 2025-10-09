@@ -299,7 +299,18 @@
                                             @if($data['section_head'][0]['id'] != $section_head['id'] and $data['type'] == 'update')
                                                 <option value="{{ $section_head['id'] }}" data-div_id="{{ $section_head['division'] }}">{{ strtoupper($section_head['fname'].' '.$section_head['mname'].' '.$section_head['lname']) }}</option>
                                             @elseif($data['type'] == 'add')
-                                                <option value="{{ $section_head['id'] }}" data-div_id="{{ $section_head['division'] }}">{{ strtoupper($section_head['fname'].' '.$section_head['mname'].' '.$section_head['lname']) }}</option>
+                                               <option value="{{ $section_head['id'] }}" data-div_id="{{ $section_head['division'] }}"
+                                                    <?php
+                                                        if ($data['user_section'] == 36) {
+                                                            echo $section_head['id'] == 72 ? 'selected' : '';
+                                                        } else{
+                                                            echo $data['user_section'] == $section_head['section'] && $data['user_division'] == $section_head['division'] ? 'selected' : '';
+                                                        }
+                                                    ?>
+                                                >
+                                                    {{ strtoupper(trim($section_head['fname'] . ' ' . ($section_head['mname'] ?? '') . ' ' . $section_head['lname'])) }}
+                                                </option>
+
                                             @endif
                                         @endforeach
                                     @endif
@@ -318,7 +329,13 @@
                                         @if($data['division_head'][0]['id'] != $division_head['id'] and $data['type'] == 'update')
                                             <option value="{{ $division_head['id'] }}">{{ strtoupper($division_head['fname'].' '.$division_head['mname'].' '.$division_head['lname']) }}</option>
                                         @elseif($data['type'] == 'add')
-                                            <option value="{{ $division_head['id'] }}">{{ strtoupper($division_head['fname'].' '.$division_head['mname'].' '.$division_head['lname']) }}</option>
+                                            <option value="{{ $division_head['id'] }}"
+                                                {{ 
+                                                    $data['user_division'] == $division_head['division'] 
+                                                        ? 'selected' 
+                                                        : '' 
+                                                }}
+                                            >{{ strtoupper($division_head['fname'].' '.$division_head['mname'].' '.$division_head['lname']) }}</option>
                                         @endif
                                     @endforeach
                                 </select>

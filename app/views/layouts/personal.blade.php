@@ -48,11 +48,19 @@
                 <!-- <li><a href="{{ asset('form/so_list') }}">Office Order</a></li> -->
                 <!-- <li class="divider"></li> -->
                 <li><a href="{{ asset("form/cdo_user") }}">CDO</a></li>
-                <!-- <li class="divider"></li> -->
-                <!-- <li><a href="{{ asset('wellness/get-wellness') }}">Wellness</a></li> -->
+                <li class="divider"></li>
+                <li><a href="{{ asset('wellness/get-wellness') }}">Wellness</a></li>
             @else
                 <!-- <li><a href="{{ asset('form/so_list') }}">Office Order</a></li> -->
             @endif
+        </ul>
+    </li>
+    <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-file"></i> Wellness <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+          <li><a href="{{ route('wellness.requests', ['filter' => 'past']) }}" onclick="window.location=this.href; return false;">Past Activity</a></li>
+          <li class="divider"></li>
+          <li><a href="{{ route('wellness.requests', ['filter' => 'upcoming']) }}" onclick="window.location=this.href; return false;">Upcoming Activity</a></li>
         </ul>
     </li>
 

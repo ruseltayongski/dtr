@@ -328,6 +328,7 @@
 
         function cancel_dates(event) {
             $('#cancel_body').empty();
+            console.log('sample');
             var name = event.target.getAttribute('value');
             $('#route').val(name);
 
@@ -348,47 +349,87 @@
                         '<input style="transform: scale(1.5)" type="checkbox" class="minimal" id="applied_dates" value="cancel_all" name="applied_dates" />'+
                         '<br><small style="margin-left: 10%" class="text-info"><i>please make sure to select dates and hours to cancel</i></small>';
                     container.innerHTML += cancelAllCheckbox;
-
+                    console.log('type', type);
                     if(type == 1){
 
-                        dates.forEach(function(date, index) { // Add index as a second parameter
+                        // dates.forEach(function(date, index) { // Add index as a second parameter
+                        //     var startDate = new Date(date.start_date);
+                        //     console.log('start', startDate);
+                        //     dateList.push(startDate.toLocaleDateString());
+                        //     dateTime.push(date.cdo_hours);
+
+                        //     var html = '<div class="checkbox">' +
+                        //         '<label style="margin-left: 15%">' +
+                        //         '<input type="checkbox" style="transform: scale(1.5)" class="minimal" id="applied_dates" name="applied_dates" value="' + startDate.toLocaleDateString() + '" />' +
+                        //         startDate.toLocaleDateString() +
+                        //         '</label><br>';
+
+                        //     if (date.status == 11) {
+                        //         html += '<label style="margin-left: 30%; transform: scale(1.2)"><input type="radio" name="time' + index + '" value="cdo_am" disabled/> AM</label>' +
+                        //             '<label style="margin-left: 10%; transform: scale(1.2)"><input type="radio" name="time' + index + '" value="cdo_pm" disabled/> PM</label>' +
+                        //             '<label style="margin-left: 10%; transform: scale(1.2)"><input type="radio" name="time' + index + '" value="cdo_wholeday" disabled/> Whole Day</label>';
+                        //     } else {
+                        //         if (date.cdo_hours == 'cdo_wholeday') {
+                        //             html += '<label style="margin-left: 30%; transform: scale(1.2)"><input type="radio" name="time' + index + '" value="cdo_am"/> AM</label>' +
+                        //                 '<label style="margin-left: 10%; transform: scale(1.2)"><input type="radio" name="time' + index + '" value="cdo_pm"/> PM</label>' +
+                        //                 '<label style="margin-left: 10%; transform: scale(1.2)"><input type="radio" name="time' + index + '" value="cdo_wholeday"/> Whole Day</label>';
+                        //         } else if (date.cdo_hours == 'cdo_am') {
+                        //             html += '<label style="margin-left: 30%; transform: scale(1.2)"><input type="radio" name="time' + index + '" value="cdo_am"/> AM</label>' +
+                        //                 '<label style="margin-left: 10%; transform: scale(1.2)"><input type="radio" name="time' + index + '" value="cdo_pm" disabled/> PM</label>' +
+                        //                 '<label style="margin-left: 10%; transform: scale(1.2)"><input type="radio" name="time' + index + '" value="cdo_wholeday" disabled/> Whole Day</label>';
+                        //         } else {
+                        //             html += '<label style="margin-left: 30%; transform: scale(1.2)"><input type="radio" name="time' + index + '" value="cdo_am" disabled/> AM</label>' +
+                        //                 '<label style="margin-left: 10%; transform: scale(1.2)"><input type="radio" name="time' + index + '" value="cdo_pm"/> PM</label>' +
+                        //                 '<label style="margin-left: 10%; transform: scale(1.2)"><input type="radio" name="time' + index + '" value="cdo_wholeday" disabled/> Whole Day</label>';
+                        //         }
+                        //     }
+
+                        //     html += '</div>'; // Closing the div
+                        //     container.innerHTML += html; // Append to the container
+                        // });
+
+                        dates.forEach(function(date, index) {
                             var startDate = new Date(date.start_date);
                             console.log('start', startDate);
                             dateList.push(startDate.toLocaleDateString());
                             dateTime.push(date.cdo_hours);
 
-                            var html = '<div class="checkbox">' +
-                                '<label style="margin-left: 15%">' +
-                                '<input type="checkbox" style="transform: scale(1.5)" class="minimal" id="applied_dates" name="applied_dates" value="' + startDate.toLocaleDateString() + '" />' +
+                            var html = '<div class="date-row" style="display: flex; align-items: center; margin-bottom: 1px; padding:10px">';
+
+                            html += '<label style="margin-right: 20px;">' +
+                                '<input type="checkbox" style="transform: scale(1.5); margin-right: 10px;" class="minimal" id="applied_dates" name="applied_dates" value="' + startDate.toLocaleDateString() + '" />' +
                                 startDate.toLocaleDateString() +
-                                '</label><br>';
+                                '</label>';
 
                             if (date.status == 11) {
-                                html += '<label style="margin-left: 30%; transform: scale(1.2)"><input type="radio" name="time' + index + '" value="cdo_am" disabled/> AM</label>' +
-                                    '<label style="margin-left: 10%; transform: scale(1.2)"><input type="radio" name="time' + index + '" value="cdo_pm" disabled/> PM</label>' +
-                                    '<label style="margin-left: 10%; transform: scale(1.2)"><input type="radio" name="time' + index + '" value="cdo_wholeday" disabled/> Whole Day</label>';
+                                html += '<select name="time' + index + '" class="form-control cdo_time" style="width: 200px;" disabled>' +
+                                    '<option value="cdo_am" ' + (date.cdo_hours == 'cdo_am' ? 'selected' : '') + '>AM</option>' +
+                                    '<option value="cdo_pm" ' + (date.cdo_hours == 'cdo_pm' ? 'selected' : '') + '>PM</option>' +
+                                    '<option value="cdo_wholeday" ' + (date.cdo_hours == 'cdo_wholeday' ? 'selected' : '') + '>Whole Day</option>' +
+                                    '</select>';
                             } else {
-                                if (date.cdo_hours == 'cdo_wholeday') {
-                                    html += '<label style="margin-left: 30%; transform: scale(1.2)"><input type="radio" name="time' + index + '" value="cdo_am"/> AM</label>' +
-                                        '<label style="margin-left: 10%; transform: scale(1.2)"><input type="radio" name="time' + index + '" value="cdo_pm"/> PM</label>' +
-                                        '<label style="margin-left: 10%; transform: scale(1.2)"><input type="radio" name="time' + index + '" value="cdo_wholeday"/> Whole Day</label>';
-                                } else if (date.cdo_hours == 'cdo_am') {
-                                    html += '<label style="margin-left: 30%; transform: scale(1.2)"><input type="radio" name="time' + index + '" value="cdo_am"/> AM</label>' +
-                                        '<label style="margin-left: 10%; transform: scale(1.2)"><input type="radio" name="time' + index + '" value="cdo_pm" disabled/> PM</label>' +
-                                        '<label style="margin-left: 10%; transform: scale(1.2)"><input type="radio" name="time' + index + '" value="cdo_wholeday" disabled/> Whole Day</label>';
-                                } else {
-                                    html += '<label style="margin-left: 30%; transform: scale(1.2)"><input type="radio" name="time' + index + '" value="cdo_am" disabled/> AM</label>' +
-                                        '<label style="margin-left: 10%; transform: scale(1.2)"><input type="radio" name="time' + index + '" value="cdo_pm"/> PM</label>' +
-                                        '<label style="margin-left: 10%; transform: scale(1.2)"><input type="radio" name="time' + index + '" value="cdo_wholeday" disabled/> Whole Day</label>';
+                                if(date.cdo_hours == 'cdo_wholeday'){
+                                    html += '<select name="time' + index + '" class="form-control cdo_time" style="width: 200px;">' +
+                                    '<option value="cdo_am" ' + (date.cdo_hours == 'cdo_am' ? 'selected' : '') + '>AM</option>' +
+                                    '<option value="cdo_pm" ' + (date.cdo_hours == 'cdo_pm' ? 'selected' : '') + '>PM</option>' +
+                                    '<option value="cdo_wholeday" ' + (date.cdo_hours == 'cdo_wholeday' ? 'selected' : '') + '>Whole Day</option>' +
+                                    '</select>';
+                                }else if(date.cdo_hours == 'cdo_am'){
+                                    html += '<select name="time' + index + '" class="form-control cdo_time" style="width: 200px;">' +
+                                    '<option value="cdo_am" ' + (date.cdo_hours == 'cdo_am' ? 'selected' : '') + '>AM</option>' +
+                                    '</select>';
+                                }else{
+                                    html += '<select name="time' + index + '" class="form-control cdo_time" style="width: 200px;">' +
+                                    '<option value="cdo_pm" ' + (date.cdo_hours == 'cdo_pm' ? 'selected' : '') + '>PM</option>' +
+                                    '</select>';
                                 }
                             }
 
-                            html += '</div>'; // Closing the div
-                            container.innerHTML += html; // Append to the container
+                            html += '</div>';
+                            container.innerHTML += html;
                         });
 
                     }else{
-                        console.log('dsad', dates);
                         dates.forEach(function(date) {
                             var startDate = new Date(date.start_date);
                             var endDate = new Date(date.end_date);
@@ -417,69 +458,47 @@
                                 '<input type="checkbox" style="transform: scale(1.5)" class="minimal" id="applied_dates" name="applied_dates" value="' + dateList[i] + '"  />' +
                                 dateList[i] +
                                 '</label><br>' +
-                                '<label style="margin-left: 30%; transform: scale(1.2)"><input type="radio" name="time' + i + '" value="cdo_am"  /> AM</label>' +
-                                '<label style="margin-left: 10%; transform: scale(1.2)"><input type="radio" name="time' + i + '" value="cdo_pm"  /> PM</label>' +
-                                '<label style="margin-left: 10%; transform: scale(1.2)"><input type="radio" name="time' + i + '" value="cdo_wholeday"  /> Whole Day</label>' +
+                                '<select name="time' + i + '" class="form-control cdo_time" style="margin-left: 30%; width: 200px; margin-top: 10px;">' +
+                                '<option value="cdo_wholeday">Whole Day</option>' +
+                                '<option value="cdo_am">AM</option>' +
+                                '<option value="cdo_pm">PM</option>' +
+                                '</select>' +
                                 '</div>';
                             container.innerHTML += html;
                             i = i + 1;
                         }
                     }
-
                     $('#dates').val(dateList);
-                    console.log("datess", dateList);
                     $('#all_hours').val(dateTime);
-                    $('input[type="checkbox"]').on('change', function () {
-                        if ($(this).val() === "cancel_all") {
-                            var isChecked = $(this).prop('checked');
-                            $('input[name="applied_dates"]').prop('checked', isChecked);
-                        }
-
-                        var selectedCheckboxes = [];
-                        $('input[name="applied_dates"]:checked').each(function () {
-                            selectedCheckboxes.push($(this).val());
-                        });
-                        $('#selected_date').val(selectedCheckboxes.join(', '));
-                    });
-
-                    $('input[type="checkbox"]').on('change', function () {
-                        if ($(this).val() === "cancel_all") {
-                            var isChecked = $(this).prop('checked');
-                            $('input[name="applied_dates"]').prop('checked', isChecked);
-                        }
-
-                        var selectedCheckboxes = [];
-                        $('input[name="applied_dates"]:checked').each(function () {
-                            selectedCheckboxes.push($(this).val());
-                        });
-                        $('#selected_date').val(selectedCheckboxes.join(', '));
-                    });
-
-
-                    $(document).on('change', 'input[type="radio"]', function () {
-                        var selectedValues = $('input[type="radio"]:checked').map(function () {
-                            return $(this).val();
-                        }).get();
-                        selectedValues = selectedValues.filter(function (value) {
-                            return value !== "JO";
-                        });
-                        $('#cdo_hours').val(selectedValues.join(', '));
-                    });
-
-                    $('input[type="radio"]').on('change', function () {
-                        var selectedBtn = [];
-                        $('input[name="time"]:checked').each(function () {
-                            selectedBtn.push($(this).val());
-                        });
-                        $('#cdo_hours').val(selectedBtn.join(', '));
-                    });
                     $('#cancel_type').val("cto");
                 }else{
                     location.reload();
                 }
-
             });
         }
+
+        $('.cancel_btn_update').on('click', function(e) {
+            var selectedCheckboxes = [];
+            var selectedBtn = [];
+
+            $('input[name="applied_dates"]:checked').each(function () {
+                selectedCheckboxes.push($(this).val());
+                var $select = $(this).closest('label').nextAll('select.cdo_time').first();
+                selectedBtn.push($select.val());
+            });
+            console.log('selectedCheckboxes', selectedCheckboxes.length);
+            if (selectedCheckboxes.length == 0) {
+                Lobibox.notify('warning', {
+                    size: 'mini',
+                    delayIndicator: false,
+                    msg: "Please select at least one date to cancel before submitting."
+                });
+                return false; 
+            }
+
+            $('#selected_date').val(selectedCheckboxes.join(', '));
+            $('#cdo_hours').val(selectedBtn.join(', '));
+        });
 
         function pending_status(data){
             var page = "<?php echo Session::get('page_pending') ?>";
