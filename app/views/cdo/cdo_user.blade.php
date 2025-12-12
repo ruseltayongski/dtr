@@ -109,7 +109,9 @@
                                                             <td>{{ $row->subject }}</td>
                                                             @if($row->status ==3)
                                                                 <td><span class="label label-warning"><i class="fa fa-frown-o"></i> Cancelled </span></td>
-                                                            @elseif($row->approved_status)
+                                                            @elseif($row->approved_status == 4)
+                                                                <td><span class="label label-default"><i class="fa fa-thumbs-down"></i> DISAPPROVED </span>&nbsp;&nbsp;&nbsp;<span class="text-danger">{{ $row->remarks }}</span></td>
+                                                            @elseif($row->approved_status == 1)
                                                                 <td><span class="label label-info"><i class="fa fa-smile-o"></i> Processed </span></td>
                                                             @else
                                                                 <td><span class="label label-danger"><i class="fa fa-frown-o"></i> Pending </span></td>

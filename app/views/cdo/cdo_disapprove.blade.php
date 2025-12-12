@@ -1,24 +1,21 @@
 
 <span id="cdo_updatev1" data-link="{{ '/dtr/cdo_updatev1' }}"></span>
-@if(isset($paginate_pending) and count($paginate_pending) >0)
+@if(isset($paginate_disapprove) and count($paginate_disapprove) >0)
     <div class="table-responsive" style="margin-top: -20px;">
-        <label style="padding-bottom: 10px;">Check to select all to approve </label>
-        <input type="checkbox" id="click_approve">
-        <label class="button" style="font-weight: normal !important;"></label>
         <table class="table table-list table-hover table-striped">
             <thead>
             <tr>
                 <th></th>
-                <th class="text-center">Route #</th>
-                <th class="text-center">Reason</th>
-                <th class="text-center">Inclusive Dates</th>
-                <th class="text-center">Prepared Name</th>
-                <th class="text-center">Beginning Balance</th>
-                <th class="text-center">Option</th>
+                <th class="text-left">Route #</th>
+                <th class="text-left">Reason</th>
+                <th class="text-left">Inclusive Dates</th>
+                <th class="text-left">Prepared Name</th>
+                <th class="text-left">Beginning Balance</th>
+                <th class="text-left">Remarks</th>
             </tr>
             </thead>
             <tbody style="font-size: 10pt;">
-            @foreach($paginate_pending as $row)
+            @foreach($paginate_disapprove as $row)
                 <tr>
                     <td><a href="#track" data-link="/dtr'form/track/'.$row->route_no" data-route="{{ $row->route_no }}" data-toggle="modal" class="btn btn-sm btn-success col-sm-12" style="background-color:#9C8AA5;color:white;"><i class="fa fa-line-chart"></i> Track</a></td>
                     <td class="route-cell"><a class="title-info" data-backdrop="static" data-route="{{ $row->route_no }}" style="color: #f0ad4e;" data-link="/dtr/form/info/{{ $row->route_no }}/cdo" href="#document_info" data-toggle="modal">{{ $row->route_no }}</a></td>
@@ -72,56 +69,31 @@
                             ?>
                         @endif
                     </td>
-                    <td style="width:150px">
+                    <td>
                         <?php
                         $personal_information = InformationPersonal::where('userid','=',$row['prepared_name'])->first();
                         echo $personal_information->fname.' '.$personal_information->mname.' '.$personal_information->lname;
                         ?>
                     </td>
-                    <td class="text-center">
+                    <td>
                         <b style="color:green;">
                             {{ $personal_information->bbalance_cto }}
                         </b>
                     </td>
-                    <td style="width:180px">
-                        <button type="submit" class="btn-xs btn-info" value="{{ $row->id }}" onclick="pending_status($(this))"><i class="fa fa-smile-o"></i> Process</button>
-
-                        <button class="btn-xs btn-danger cdo_disapprove" data-toggle="modal" onclick="disapprove_form('{{ $row->route_no }}')" href="#disapproved_cdo"><i class="glyphicon glyphicon-remove"></i> Disapprove</button>
-
+                    <td class="text-danger" style="width:200px">
+                        {{ $row->remarks }}
                     </td>
                 </tr>
             @endforeach
             </tbody>
         </table>
     </div>
-    {{ $paginate_pending->links() }}
+    {{ $paginate_disapprove->links() }}
 @else
     <div class="alert alert-danger" role="alert"><span style="color:white;">Documents records are empty.</span></div>
 @endif
-<div class="modal fade" tabindex="5" role="dialog" id="disapproved_cdo">
-    <div class="modal-dialog modal-xs" role="document" id="size">
-        <div class="modal-content">
-            <form method="POST" id="disapproved_cto_form">
-                <div class="modal-header" style="background-color: orange; font-weight: bold">
-                    <strong><h3 class="modal-title" style="display: inline-block">DISAPPROVED CTO APPLICATION</h3></strong>
-                    <button style="display: inline-block" type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                </div>
-                <div class="modal_body" style="text-align: center; padding:2%;">
-                    <textarea class="form-control" name="remarks" style="margin-left: 1%; height: 100px; width: 98%;" placeholder="Reason ..." required></textarea>
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-success">Submit</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
 
 <script>
-    function disapprove_form(data){
-        console.log(data);
-        $('#disapproved_cto_form').attr('action', '/dtr/cdo/disapproved/' + data);
-    }
 
     try{
 
@@ -160,21 +132,6 @@
                     }
                 });
             },700);
-        });
-
-        $(function () {
-            $('input').iCheck({
-                checkboxClass: 'icheckbox_square-blue',
-                radioClass: 'iradio_square-blue',
-                increaseArea: '20%' // optional
-            });
-        });
-
-        $('#click_approve').on('ifChecked', function(){
-            $(".button").html("<button type='button' value='approve' onclick='click_all($(this))' class='btn-group-sm btn-info'><i class='fa fa-smile-o'></i> Approve all cdo/cto</button>");
-        });
-        $('#click_approve').on('ifUnchecked', function(){
-            $(".button").html("");
         });
     }catch(e){
     }

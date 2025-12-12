@@ -373,6 +373,16 @@
     </script>
     <?php Session::forget('disapproved_leave'); ?>
 @endif
+@if(Session::get('disapproved_cdo'))
+    <script>
+        Lobibox.notify('error',{
+            size:'mini',
+            title:'',
+            msg:'CTO application disapproved!'
+        });
+    </script>
+    <?php Session::forget('disapproved_cdo'); ?>
+@endif
 @if(Session::get('pending_leave'))
     <script>
         Lobibox.notify('info',{
