@@ -960,4 +960,115 @@ class WellnessController extends BaseController {
 
 		return $query;
 	}
+
+	public function requests()
+    {
+        $userid = Input::get('userid');
+        $filterRange = Input::get('filterRange');
+        $filter = Input::get('filter');
+        $statuses = Input::get('statuses');
+        $keyword = Input::get('keyword');
+
+        // Make sure statuses is always an array
+        if (!empty($statuses) && !is_array($statuses)) {
+            $statuses = explode(',', $statuses);
+        }
+
+        // Get supervisees
+        $superviseeUsernames = DB::table('supervise_employee')
+            ->where('supervisor_id', $userid)
+            ->lists('userid');
+
+        // Base query
+        $query = DB::table('wellness')
+            ->join('users', 'users.username', '=', 'wellness.userid')
+            ->select('wellness.*', DB::raw("CONCAT(users.fname, ' ', users.lname) as user_name"))
+            ->whereIn('users.username', $superviseeUsernames);
+
+        // Date Range Filter
+        if (!empty($filterRange)) {
+            $dates = explode(' - ', $filterRange);
+            if (count($dates) === 2) {
+                $startDate = Carbon::createFromFormat('m/d/Y', trim($dates[0]))->startOfDay();
+                $endDate   = Carbon::createFromFormat('m/d/Y', trim($dates[1]))->endOfDay();
+                $query->whereBetween('wellness.scheduled_date', [$startDate, $endDate]);
+            }
+        } elseif ($filter === 'past') {
+            $startDate = Carbon::now()->subDays(6)->startOfDay();
+            $endDate   = Carbon::now()->endOfDay();
+            $query->whereBetween('wellness.scheduled_date', [$startDate, $endDate]);
+        } elseif ($filter === 'upcoming') {
+            $startDate = Carbon::now()->startOfDay();
+            $endDate   = Carbon::now()->addDays(6)->endOfDay();
+            $query->whereBetween('wellness.scheduled_date', [$startDate, $endDate]);
+        }
+
+        // Status Filter
+        if (!empty($statuses)) {
+            $query->whereIn('wellness.status', $statuses);
+        }
+
+        // Keyword Search
+        if (!empty($keyword)) {
+            $query->where(function ($q) use ($keyword) {
+                $q->where('users.fname', 'like', "%{$keyword}%")
+                ->orWhere('users.lname', 'like', "%{$keyword}%")
+                ->orWhere('wellness.type_of_request', 'like', "%{$keyword}%");
+            });
+        }
+
+        // Execute query
+        $requests = $query->get();
+
+        if (empty($requests) || count($requests) === 0) {
+            return Response::json([
+                'code' => 404,
+                'message' => 'No records found',
+                'response' => []
+            ]);
+        }
+
+        return Response::json([
+            'code' => 200,
+            'message' => 'Records retrieved successfully',
+            'response' => $requests
+        ]);
+    }
+
+    public function action () 
+    {
+        $unique_code = Input::get('unique_code');
+        $action = Input::get('action'); // approve or decline
+        $userid = Input::get('userid');
+
+        if (!$unique_code || !$action || !$userid) {
+            return Response::json([
+                'code' => 400,
+                'message' => 'unique_code, action, and userid are required.'
+            ]);
+        }
+
+        $wellness = Wellness::where('unique_code', $unique_code)->first();
+        if (!$wellness) {
+            return Response::json([
+                'code' => 404,
+                'message' => 'No wellness entry found for the given unique code.'
+            ]);
+        }
+        if (!in_array($action, ['approve', 'decline'])) {
+            return Response::json([
+                'code' => 400,
+                'message' => 'Invalid action. Must be either approve or decline.'
+            ]);
+        }
+        $wellness->status = ($action === 'approve') ? 'approved' : 'declined';
+        $wellness->approved_by = $userid;
+        $wellness->save();
+
+        return Response::json([
+            'code' => 200,
+            'message' => 'Wellness request ' . ($action === 'approve' ? 'approved' : 'declined') . ' successfully.',
+            'response' => $wellness
+        ]);
+    }
 }

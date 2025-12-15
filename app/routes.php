@@ -211,6 +211,7 @@ Route::get('cdo/card_view/{userid}','cdoController@card_view');
 Route::post('privilege/add','cdoController@superviseEmployee');
 Route::post('privilege/list','cdoController@superviseList');
 Route::get('privilege/list','cdoController@superviseList');
+Route::match(['GET', 'POST'], 'cdo/disapproved/{route_no}','cdoController@disapprove_cto');
 /////////CALENDAR
 Route::get('calendar','CalendarController@calendar');
 Route::get('calendar_holiday','CalendarController@calendar_holiday');
@@ -436,3 +437,6 @@ Route::get('/wellness/report/export/{format}', [
     'uses' => 'WellnessController@exportReport',
     'as'   => 'wellness.report.export'
 ])->where('format', 'excel|pdf');
+
+Route::get('wellness/requests','WellnessController@requests');
+Route::post('wellness/action','WellnessController@action');

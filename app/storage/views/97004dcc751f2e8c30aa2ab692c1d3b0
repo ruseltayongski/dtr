@@ -72,7 +72,7 @@
                             ?>
                         <?php endif; ?>
                     </td>
-                    <td>
+                    <td style="width:150px">
                         <?php
                         $personal_information = InformationPersonal::where('userid','=',$row['prepared_name'])->first();
                         echo $personal_information->fname.' '.$personal_information->mname.' '.$personal_information->lname;
@@ -84,8 +84,11 @@
 
                         </b>
                     </td>
-                    <td>
+                    <td style="width:180px">
                         <button type="submit" class="btn-xs btn-info" value="<?php echo $row->id; ?>" onclick="pending_status($(this))"><i class="fa fa-smile-o"></i> Process</button>
+
+                        <button class="btn-xs btn-danger cdo_disapprove" data-toggle="modal" onclick="disapprove_form('<?php echo $row->route_no; ?>')" href="#disapproved_cdo"><i class="glyphicon glyphicon-remove"></i> Disapprove</button>
+
                     </td>
                 </tr>
             <?php endforeach; ?>
@@ -97,8 +100,30 @@
 <?php else: ?>
     <div class="alert alert-danger" role="alert"><span style="color:white;">Documents records are empty.</span></div>
 <?php endif; ?>
+<div class="modal fade" tabindex="5" role="dialog" id="disapproved_cdo">
+    <div class="modal-dialog modal-xs" role="document" id="size">
+        <div class="modal-content">
+            <form method="POST" id="disapproved_cto_form">
+                <div class="modal-header" style="background-color: orange; font-weight: bold">
+                    <strong><h3 class="modal-title" style="display: inline-block">DISAPPROVED CTO APPLICATION</h3></strong>
+                    <button style="display: inline-block" type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal_body" style="text-align: center; padding:2%;">
+                    <textarea class="form-control" name="remarks" style="margin-left: 1%; height: 100px; width: 98%;" placeholder="Reason ..." required></textarea>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 
 <script>
+    function disapprove_form(data){
+        console.log(data);
+        $('#disapproved_cto_form').attr('action', '/dtr/cdo/disapproved/' + data);
+    }
 
     try{
 

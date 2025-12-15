@@ -8,9 +8,9 @@
                             <?php
                             $statusCount = 0;
                             $counter = 0;
-                            $color = ['red','aqua','orange','green'];
-                            $fa = ['fa-exclamation-circle','fa-smile-o','fa-frown-o','fa-users'];
-                            $status = ['pending','approve','cancelled','all'];
+                            $color = ['red','aqua','maroon','orange','green'];
+                            $fa = ['fa-exclamation-circle','fa-smile-o','fa-thumbs-down','fa-frown-o','fa-users'];
+                            $status = ['pending','approve','disapprove','cancelled','all'];
                             ?>
                             <?php foreach($status as $row): ?>
                                 <?php $statusCount++; ?>
@@ -80,11 +80,39 @@
                                     </div>
                                 </div>
                             </div>
+
+                            <!--DISAPPROVED-->
+                            <div class="tab-pane" id="disapprove">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <form class="form-inline" method="POST" action="<?php echo asset('form/cdo_list'); ?>" id="searchForm2">
+                                            <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
+                                            <div class="col-md-8">
+                                                <input type="text" class="form-control" value="<?php echo Session::get('keyword'); ?>" id="inputEmail4" name="keyword" style="width: 100%" placeholder="Route no, Reason, Lname">
+                                            </div>
+                                            <button type="submit" class="btn btn-primary" name="search" id="search" data-loading-text="<i class='fa fa-refresh fa-spin'></i> Printing DTR">
+                                                <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Search
+                                            </button>
+                                            <button type="button" id="gen_logs_btn" style="display: none;" class="btn btn-success" onclick="generateLogs()">GENERATE</button>
+                                        </form>
+                                    </div>
+                                    <div class="panel-body">
+                                        <br />
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="ajax_disapprove">
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                             <!--CANCELLED-->
                             <div class="tab-pane" id="cancelled">
                                 <div class="panel panel-default">
                                     <div class="panel-heading">
-                                        <form class="form-inline" method="POST" action="<?php echo asset('form/cdo_list'); ?>" id="searchForm2">
+                                        <form class="form-inline" method="POST" action="<?php echo asset('form/cdo_list'); ?>" id="searchForm3">
                                             <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
                                             <div class="col-md-8">
                                                 <input type="text" class="form-control" value="<?php echo Session::get('keyword'); ?>" id="inputEmail1" name="keyword" style="width: 100%" placeholder="Route no, Reason, Lname">
@@ -110,7 +138,7 @@
                             <div class="tab-pane" id="all">
                                 <div class="panel panel-default">
                                     <div class="panel-heading">
-                                        <form class="form-inline" method="POST" action="<?php echo asset('form/cdo_list'); ?>" id="searchForm3">
+                                        <form class="form-inline" method="POST" action="<?php echo asset('form/cdo_list'); ?>" id="searchForm4">
                                             <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
                                             <div class="col-md-8">
                                                 <input type="text" class="form-control" value="<?php echo Session::get('keyword'); ?>" id="inputEmail" name="keyword" style="width: 100%" placeholder="Route no, Reason, Lname">
@@ -235,6 +263,7 @@
         var keyword = '';
         $(".pending").text(<?php echo count($cdo["count_pending"]); ?>);
         $(".approve").text(<?php echo count($cdo["count_approve"]); ?>);
+        $(".disapprove").text(<?php echo count($cdo["count_disapprove"]); ?>);
         $(".cancelled").text(<?php echo count($cdo["count_cancelled"]); ?>);
         $(".all").text(<?php echo count($cdo["count_all"]); ?>);
         $("a[href='#approve']").on("click",function(){
@@ -252,9 +281,17 @@
             getPosts(1,keyword = '');
             <?php Session::put('keyword',null); ?>
         });
+        $("a[href='#disapprove']").on("click",function(){
+            $("input[name='keyword']").val("");
+            $('.ajax_disapprove').html(loadingState);
+            $('.input')
+            type = 'disapprove';
+            getPosts(1,keyword = '');
+            <?php Session::put('keyword',null); ?>
+        });
         $("a[href='#cancelled']").on("click",function(){
             $("input[name='keyword']").val("");
-            $('.ajax_pending').html(loadingState);
+            $('.ajax_cancelled').html(loadingState);
             type = 'cancelled';
             getPosts(1,keyword = '');
             <?php Session::put('keyword',null); ?>
@@ -304,6 +341,11 @@
             getPosts(1,keyword);
             return false;
         });
+         $("#searchForm4").submit(function(e) {
+            keyword = $(this).find("input[name='keyword']").val();
+            getPosts(1,keyword);
+            return false;
+        });
 
 
 
@@ -319,6 +361,8 @@
                 },700);
 
             }).fail(function (data) {
+                console.log('dsjdsad');
+
                 console.log(data.responseText);
                 /*alert('Page could not be loaded... refresh your page.');
                 var redirect_url = "<?php echo asset('/'); ?>";
@@ -503,6 +547,7 @@
         function pending_status(data){
             var page = "<?php echo Session::get('page_pending') ?>";
             var url = $("#cdo_updatev1").data('link')+'/'+data.val()+'/pending?page='+page;
+            console.log('url', url);
             $.post(url,function(result){
                 //$('.ajax_pending').html(loadingState);
                 setTimeout(function(){

@@ -327,6 +327,7 @@
             var total_second= parseFloat($("#cto_total").val());
             var total= total_first-total_second;
             $("#total_total").val(rowData.data5);
+            console.log(rowData);
         }
 
 

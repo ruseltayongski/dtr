@@ -17,6 +17,13 @@ class cdoController extends BaseController
         else {
             $type = 'pending';
         }
+        $cdo["count_disapprove"] = InformationPersonal::join('dohdtr.cdo', 'personal_information.userid', '=', 'cdo.prepared_name')
+            ->where('approved_status',4)
+            ->where(function($q) use ($keyword){
+                $q->where("route_no","like","%$keyword%")
+                    ->orWhere("subject","like","%$keyword%")
+                    ->orWhere("lname", "like", "%$keyword%");
+            })->whereDate('prepared_date', '>', '2023-08-02')->whereNull('deleted_at')->get();
         $cdo["count_cancelled"] = InformationPersonal::join('dohdtr.cdo', 'personal_information.userid', '=', 'cdo.prepared_name')
             ->where('status',3)
             ->where(function($q) use ($keyword){
@@ -44,6 +51,18 @@ class cdoController extends BaseController
                     ->orWhere("subject","like","%$keyword%")
                     ->orWhere("lname", "like", "%$keyword%");
             })->whereDate('prepared_date', '>', '2023-08-02')->whereNull('deleted_at')->get();
+
+        $cdo['paginate_disapprove'] = InformationPersonal::join('dohdtr.cdo', 'personal_information.userid', '=', 'cdo.prepared_name')
+            ->where('approved_status',4)
+            ->where(function($q) use ($keyword){
+                $q->where("route_no","like","%$keyword%")
+                    ->orWhere("subject","like","%$keyword%")
+                    ->orWhere("lname", "like", "%$keyword%");
+            })
+            ->whereDate('prepared_date', '>', '2023-08-02')
+            ->whereNull('deleted_at')
+            ->orderBy('cdo.id','desc')
+            ->paginate(10);
 
         $cdo['paginate_cancelled'] = InformationPersonal::join('dohdtr.cdo', 'personal_information.userid', '=', 'cdo.prepared_name')
             ->where('status',3)
@@ -101,10 +120,12 @@ class cdoController extends BaseController
                 "cdo" => $cdo,
 
                 "type" => $type,
+                "count_disapprove" => count($cdo["count_disapprove"]),
                 "count_cancelled" => count($cdo["count_cancelled"]),
                 "count_pending" => count($cdo["count_pending"]),
                 "count_approve" => count($cdo["count_approve"]),
                 "count_all" => count($cdo["count_all"]),
+                "paginate_disapprove" => $cdo["paginate_disapprove"],
                 "paginate_cancelled" => $cdo["paginate_cancelled"],
                 "paginate_pending" => $cdo["paginate_pending"],
                 "paginate_approve" => $cdo["paginate_approve"],
@@ -115,6 +136,7 @@ class cdoController extends BaseController
         return View::make('cdo.cdo_roles',[
             "cdo" => $cdo,
             "type" => $type,
+            "paginate_disapprove" => $cdo["paginate_disapprove"],
             "paginate_cancelled" => $cdo["paginate_cancelled"],
             "paginate_pending" => $cdo["paginate_pending"],
             "paginate_approve" => $cdo["paginate_approve"],
@@ -395,7 +417,7 @@ class cdoController extends BaseController
             $division_head = pdoController::user_search1($cdo['division_chief']);
         } else{
             $id_list = [];
-            $manually_added = [988320, 985329, 273, 11, 93053, 986445, 984538, 985950, 80, 976017, 466, 534, 986944, 988121, 357, 988148, 988309, 142, 602, 151];
+            $manually_added = [988320, 985329, 273, 11, 93053, 986445, 984538, 985950, 80, 976017, 466, 534, 986944, 988121, 357, 988148, 988309, 142, 602, 151, 988466];
 
             foreach(pdoController::section() as $row) {
                 if ($row['acronym'] !== null || in_array($row['head'], [37, 72, 243, 614, 110, 163, 648384, 160, 985950, 830744, 51])) {
@@ -1047,10 +1069,20 @@ class cdoController extends BaseController
             $card_view->save();
 
             $keyword = '';
+            $cdo["count_disapprove"] = cdo::where('approved_status',4)->get();
             $cdo["count_cancelled"] = cdo::where('status',3)->get();
             $cdo["count_pending"] = cdo::where('approved_status',0)->get();
             $cdo["count_approve"] = cdo::where('approved_status',1)->where('status', '!=', 3)->get();
             $cdo["count_all"] = cdo::all();
+
+            $cdo["paginate_disapprove"] = cdo::where('approved_status',4)
+                ->where(function($q) use ($keyword){
+                    $q->where("route_no","like","%$keyword%")
+                        ->orWhere("subject","like","%$keyword%");
+                })
+                ->orderBy('id','desc')
+                ->paginate(10);
+
 
             $cdo["paginate_cancelled"] = cdo::where('status',3)
                 ->where(function($q) use ($keyword){
@@ -1091,6 +1123,7 @@ class cdoController extends BaseController
                     "type" => $type,
                     "paginate_pending" => $cdo["paginate_pending"],
                     "paginate_approve" => $cdo["paginate_approve"],
+                    "paginate_disapprove" => $cdo["paginate_disapprove"],
                     "paginate_cancelled" => $cdo["paginate_cancelled"],
                     "paginate_all" => $cdo["paginate_all"]
                 ]);
@@ -2413,5 +2446,17 @@ class cdoController extends BaseController
             'card_view' => $paginator,
             'lastPage'  => $lastPage
         ]);
+    }
+
+    public function disapprove_cto($route_no){
+
+        $cdo = cdo::where('route_no', $route_no)->first();
+        $cdo->approved_status = 4;
+        $cdo->remarks = Input::get('remarks');
+        $cdo->save();
+
+        Session::put('disapproved_cdo',true);
+
+        return Redirect::back();
     }
 }
