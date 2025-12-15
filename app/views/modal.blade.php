@@ -587,7 +587,6 @@
                     <input type="hidden" id="move_route" name="move_route">
                     <input type="hidden" id="dates_leave" name="dates_leave">
                     <input type="hidden" id="new_dates" name="new_dates">
-
                 </div>
             </form>
         </div>

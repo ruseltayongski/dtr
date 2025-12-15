@@ -252,6 +252,7 @@
                             }
                         }
                     }else if(radio_val == "SPL"){
+                        console.log(spl_pending + days);
                         if(days>SPL){
                             Lobibox.alert('error',{msg:"Exceed SPL Balance/Maximum of 3!"});
                             $('.datepickerInput1').val("");
@@ -260,6 +261,7 @@
                             Lobibox.alert('error',{msg:"Exceed your SPL remaining balance!"});
                             $('.datepickerInput1').val("");
                             $('#applied_num_days').val("");
+                            return;
                         }else{
                             $('#with_pay').val(days + " day(s)");
                         }

@@ -506,14 +506,13 @@
         }
 
         function move_dates(event, route_no) {
+            dateList = [];
             $('#move_body').empty();
             move_route = route_no;
 
             $.get('/dtr/leave/move/' + route_no)
                 .done(function(response) {
-                    console.log('response', response);
                     $(".modal-title").html("Route No:<strong>"+route_no);
-                    var dateList = [];
                     response.forEach(function(item){
                         var startDate = new Date(item.startdate + "T00:00:00");
                         var endDate = new Date(item.enddate + "T00:00:00");
@@ -627,7 +626,6 @@
                                 msg: 'Leave application successfully moved!'
                             });
                         },700);
-                        location.reload();
                     }else{
                         setTimeout(function(){
                             Lobibox.notify('error', {
@@ -636,8 +634,8 @@
                                 msg: 'Leave application is not found!'
                             });
                         },700);
-                        location.reload();
                     }
+                    location.reload();
                 },
                 error: function(xhr, status, error) {
                     // Log the status and error

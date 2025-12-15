@@ -1129,7 +1129,6 @@ class AdminController extends BaseController
         $route = Input::get('route_no');
         $result = Input::get('result');
         $dates = Input::get('dates');
-
         $leave = Leave::where('route_no', $route)->first();
         if($leave){
             $applied_dates = LeaveAppliedDates::where('leave_id', $leave->id)->get();

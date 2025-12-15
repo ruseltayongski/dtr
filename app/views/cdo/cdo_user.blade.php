@@ -1,3 +1,4 @@
+
 @extends('layouts.app')
 @section('content')
     <div class="box box-info">
@@ -145,6 +146,9 @@
         </div>
     </div>
 @endsection
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+<script src="https://cdn.jsdelivr.net/npm/moment@2.29.4/moment.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 @section('js')
     <script>
         var account_id;
