@@ -1,6 +1,9 @@
 
 @extends('layouts.app')
 @section('content')
+    <head>
+        <link href="{{ asset('public/assets/css/daterangepicker.css') }}" rel="stylesheet">
+    </head>
     <div class="box box-info">
         <div class="box-body">
             <span style="color:black;font-size: 15pt;padding: 1%;display:inline-flex;"> Beginning Balance: </span>
@@ -148,11 +151,9 @@
         </div>
     </div>
 @endsection
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
-<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/moment@2.29.4/moment.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 @section('js')
+    <script src="{{ asset('public/assets/js/daterangepicker.min.js') }}"></script>
+    <script src="{{ asset('public/assets/js/moment.min.js') }}"></script>
     <script>
         var account_id;
         var type = 0;

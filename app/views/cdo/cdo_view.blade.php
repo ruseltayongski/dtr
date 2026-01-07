@@ -382,9 +382,6 @@
     <div id="divisionChiefData" data-json='<?php echo json_encode($data['division_head']); ?>' style="display:none;"></div>
 </form>
 </body>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
-<script src="https://cdn.jsdelivr.net/npm/moment@2.29.4/moment.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 
 <script>
     var previousDate;
