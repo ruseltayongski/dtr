@@ -15,6 +15,8 @@
     var sl_bal = {{($user->sick_balance != null)?$user->sick_balance:0}};
     var FL = {{($spl)?$spl->FL:0}};
     var SPL = {{($spl)?$spl->SPL:0}};
+    var spl_pending = {{ $spl_pending }};
+    var fl_pending = {{ $fl_pending }};
 
     var radio_val = $('input[name="leave_type"]:checked').val();
 
@@ -196,6 +198,13 @@
                             });
                             $('.datepickerInput1').val("");
                             $('#applied_num_days').val("");
+                        }else if (days + fl_pending > FL) {
+                            Lobibox.alert('error', {
+                                msg: 'Insufficient FL remaining balance!',
+                                size: 'mini'
+                            });
+                            $('.datepickerInput1').val("");
+                            $('#applied_num_days').val("");
                         }
                     }
                         if(vl_bal > 0){
@@ -243,10 +252,16 @@
                             }
                         }
                     }else if(radio_val == "SPL"){
+                        console.log(spl_pending + days);
                         if(days>SPL){
                             Lobibox.alert('error',{msg:"Exceed SPL Balance/Maximum of 3!"});
                             $('.datepickerInput1').val("");
                             $('#applied_num_days').val("");
+                        }else if( spl_pending + days> SPL){
+                            Lobibox.alert('error',{msg:"Exceed your SPL remaining balance!"});
+                            $('.datepickerInput1').val("");
+                            $('#applied_num_days').val("");
+                            return;
                         }else{
                             $('#with_pay').val(days + " day(s)");
                         }

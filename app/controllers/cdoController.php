@@ -166,6 +166,237 @@ class cdoController extends BaseController
         ]);
     }
 
+    private function cutoff(){
+
+        $currentYear = date('Y');
+        $nextYear = $currentYear + 1;
+
+// Get all holidays
+        $holidays = Calendars::where('status', 1)
+            ->where(function($q) use ($currentYear, $nextYear) {
+                $q->where(DB::raw('YEAR(start)'), '=', $currentYear)
+                    ->orWhere(DB::raw('YEAR(start)'), '=', $nextYear);
+            })
+            ->lists('start');
+
+// Convert holidays to array of Y-m-d format
+        $holidayDates = array_map(function($date) {
+            return date('Y-m-d', strtotime($date));
+        }, $holidays);
+
+// Get recent CDO applications
+        $all_cdo = cdo::where('prepared_name', Auth::user()->userid)
+            ->orderBy('id', 'desc')
+            ->take(5)
+            ->get();
+
+// Get applied dates (approved or pending)
+        $applied_dates = CdoAppliedDate::whereIn('cdo_id', $all_cdo->lists('id'))
+            ->where(function($query) {
+                $query->whereNotIn('status', array(1, 11))
+                    ->orWhereNull('status');
+            })
+            ->get();
+
+// Expand date ranges to individual dates (excluding weekends)
+        $appliedDates = [];
+
+        foreach ($applied_dates as $entry) {
+            $start = new DateTime($entry['start_date']);
+            $end   = new DateTime($entry['end_date']);
+
+            while ($start <= $end) {
+                $dateStr = $start->format('Y-m-d');
+                $dayOfWeek = $start->format('N'); // 1=Mon, 7=Sun
+
+                // Include all non-weekend days (including holidays)
+                if ($dayOfWeek < 6) {
+                    $appliedDates[] = $dateStr;
+                }
+                $start->modify('+1 day');
+            }
+        }
+
+        $appliedDates = array_values(array_unique($appliedDates));
+        sort($appliedDates);
+
+// Find disabled dates based on 5 consecutive NORMAL (non-holiday) days rule
+        // Find disabled dates based on 5 consecutive NORMAL (non-holiday) days rule
+        $disabledDates = [];
+
+        if (count($appliedDates) > 0) {
+            $consecutiveGroups = [];
+            $currentGroup = [$appliedDates[0]];
+
+            // Group consecutive dates together
+            for ($i = 1; $i < count($appliedDates); $i++) {
+                $prevDate = new DateTime($appliedDates[$i - 1]);
+                $currDate = new DateTime($appliedDates[$i]);
+
+                $tempDate = clone $prevDate;
+                $tempDate->modify('+1 day');
+
+                // Skip weekends
+                while ($tempDate->format('N') >= 6) {
+                    $tempDate->modify('+1 day');
+                }
+
+                // Check if consecutive
+                if ($tempDate->format('Y-m-d') === $currDate->format('Y-m-d')) {
+                    $currentGroup[] = $appliedDates[$i];
+                } else {
+                    // Start new group
+                    $consecutiveGroups[] = $currentGroup;
+                    $currentGroup = [$appliedDates[$i]];
+                }
+            }
+            // Add last group
+            $consecutiveGroups[] = $currentGroup;
+
+            // For each consecutive group, count normal days and disable next normal day if >= 5
+            foreach ($consecutiveGroups as $group) {
+                $normalDaysCount = 0;
+
+                foreach ($group as $dateStr) {
+                    if (!in_array($dateStr, $holidayDates)) {
+                        $normalDaysCount++;
+                    }
+                }
+
+                // If 5 or more normal days, disable the next normal day after the group
+                if ($normalDaysCount >= 5) {
+                    $lastDate = new DateTime(end($group));
+                    $nextDate = clone $lastDate;
+                    $nextDate->modify('+1 day');
+
+                    // Skip weekends
+                    while ($nextDate->format('N') >= 6) {
+                        $nextDate->modify('+1 day');
+                    }
+
+                    // Skip holidays to find next normal day
+                    while (in_array($nextDate->format('Y-m-d'), $holidayDates)) {
+                        $nextDate->modify('+1 day');
+                        // Skip weekends
+                        while ($nextDate->format('N') >= 6) {
+                            $nextDate->modify('+1 day');
+                        }
+                    }
+
+                    $disabledDates[] = $nextDate->format('Y-m-d');
+                }
+            }
+        }
+
+// Merge disabled dates with holidays and applied dates
+        return array_values(array_unique(array_merge($disabledDates, $holidayDates, $appliedDates)));
+
+// Merge disabled dates with holidays and applied dates
+        return array_values(array_unique(array_merge($disabledDates, $holidayDates, $appliedDates)));
+
+        // Return array with applied dates, disabled dates, and holidays
+        return [
+            'applied_dates' => $appliedWorkingDates,
+            'disabled_dates' => array_values(array_unique(array_merge($disabledDates, $holidays))),
+            'holidays' => $holidayDates
+        ];
+    }
+
+    public function checkDates()
+    {
+        $userId = Auth::user()->userid;
+        $startDate = Input::get('start_date');
+        $endDate   = Input::get('end_date');
+
+        // Get all previously applied dates
+        $all_cdo = cdo::where('prepared_name', $userId)
+            ->orderBy('id', 'desc')
+            ->take(5)
+            ->get();
+
+        $applied_dates = CdoAppliedDate::whereIn('cdo_id', $all_cdo->lists('id'))
+            ->where(function($query) {
+                $query->whereNotIn('status', [1, 11])
+                    ->orWhereNull('status');
+            })
+            ->get();
+
+        // ✅ Build all working days from previously applied dates
+        $appliedDays = [];
+        foreach ($applied_dates as $entry) {
+            $start = new DateTime($entry['start_date']);
+            $end   = new DateTime($entry['end_date']);
+            while ($start <= $end) {
+                if ($start->format('N') < 6) { // weekdays only
+                    $appliedDays[] = $start->format('Y-m-d');
+                }
+                $start->modify('+1 day');
+            }
+        }
+
+        // ✅ Build all working days from newly selected dates
+        $selectedDays = [];
+        $newStart = new DateTime($startDate);
+        $newEnd   = new DateTime($endDate);
+        while ($newStart <= $newEnd) {
+            if ($newStart->format('N') < 6) {
+                $selectedDays[] = $newStart->format('Y-m-d');
+            }
+            $newStart->modify('+1 day');
+        }
+
+        // ✅ Combine both applied and selected days
+        $combined = array_unique(array_merge($appliedDays, $selectedDays));
+        sort($combined);
+
+        // ✅ Compute disabled days (next working day after every 5 consecutive days)
+        $disabledDates = [];
+        $consecutive = 1;
+
+        for ($i = 1; $i < count($combined); $i++) {
+            $prev = new DateTime($combined[$i - 1]);
+            $curr = new DateTime($combined[$i]);
+            $diff = $prev->diff($curr)->days;
+
+            // Treat Fri→Mon as consecutive
+            if ($diff <= 3) {
+                $consecutive++;
+            } else {
+                $consecutive = 1;
+            }
+
+            // If 5 consecutive working days found → disable the next working day
+            if ($consecutive == 5) {
+                $fifthDay = new DateTime($combined[$i]);
+                $next = clone $fifthDay;
+                do {
+                    $next->modify('+1 day');
+                } while ($next->format('N') >= 6); // skip weekends
+                $disabledDates[] = $next->format('Y-m-d');
+                $consecutive = 1;
+            }
+        }
+
+        // ✅ Check if any selected date overlaps with disabled ones
+        $conflicts = array_intersect($selectedDays, $disabledDates);
+
+        if (!empty($conflicts)) {
+            return Response::json([
+                'conflict' => true,
+                'message' => 'Your selected date range includes restricted dates!',
+                'disabled_dates' => array_values($conflicts),
+            ]);
+        }
+
+        // ✅ Otherwise, respond normally
+        return Response::json([
+            'conflict' => false,
+            'disabled_dates' => $disabledDates,
+            'combined_dates' => $combined
+        ]);
+    }
+
+
     //GENERATE PDF FILE...
     public function cdov1($pdf=null){
         if($pdf == 'pdf') {
@@ -237,7 +468,8 @@ class cdoController extends BaseController
             "bbalance_cto" => $personal_information->bbalance_cto,
             "server_date" => date('Y-m-d'),
             "user_section" => $personal_information->section_id,
-            "user_division" => $personal_information->division_id
+            "user_division" => $personal_information->division_id,
+            "cut_off" => $this->cutoff()
         );
 
 
@@ -250,6 +482,110 @@ class cdoController extends BaseController
         }
         else
             return View::make("cdo.cdo_view",["data" => $data]);
+    }
+
+    public function cutoffs(){
+
+        $currentYear = date('Y');
+        $nextYear = $currentYear + 1;
+
+        // Get all holidays
+        $holidays = Calendars::where('status', 1)
+            ->where(function($q) use ($currentYear, $nextYear) {
+                $q->where(DB::raw('YEAR(start)'), '=', $currentYear)
+                    ->orWhere(DB::raw('YEAR(start)'), '=', $nextYear);
+            })
+            ->lists('start');
+
+        // Convert holidays to array of Y-m-d format
+        $holidayDates = array_map(function($date) {
+            return date('Y-m-d', strtotime($date));
+        }, $holidays);
+
+        // Get recent CDO applications
+        $all_cdo = cdo::where('prepared_name', Auth::user()->userid)
+            ->orderBy('id', 'desc')
+            ->take(5)
+            ->get();
+
+        // Get applied dates (approved or pending)
+        $applied_dates = CdoAppliedDate::whereIn('cdo_id', $all_cdo->lists('id'))
+            ->where(function($query) {
+                $query->whereNotIn('status', array(1, 11))
+                    ->orWhereNull('status');
+            })
+            ->get();
+
+        // Expand date ranges to individual dates (excluding weekends and holidays)
+        $appliedWorkingDates = [];
+
+        foreach ($applied_dates as $entry) {
+            $start = new DateTime($entry['start_date']);
+            $end   = new DateTime($entry['end_date']);
+
+            while ($start <= $end) {
+                $dateStr = $start->format('Y-m-d');
+                $dayOfWeek = $start->format('N'); // 1=Mon, 7=Sun
+
+                // Only include working days (Mon-Fri, not holidays)
+                if ($dayOfWeek < 6 && !in_array($dateStr, $holidayDates)) {
+                    $appliedWorkingDates[] = $dateStr;
+                }
+                $start->modify('+1 day');
+            }
+        }
+
+        $appliedWorkingDates = array_values(array_unique($appliedWorkingDates));
+        sort($appliedWorkingDates);
+
+        // Find disabled dates based on 5 consecutive working days rule
+        $disabledDates = [];
+
+        if (count($appliedWorkingDates) > 0) {
+            $consecutiveCount = 1;
+
+            for ($i = 1; $i < count($appliedWorkingDates); $i++) {
+                $prevDate = new DateTime($appliedWorkingDates[$i - 1]);
+                $currDate = new DateTime($appliedWorkingDates[$i]);
+
+                // Check if dates are consecutive working days
+                $tempDate = clone $prevDate;
+                $tempDate->modify('+1 day');
+
+                // Skip weekends and holidays to find next working day
+                while ($tempDate->format('N') >= 6 || in_array($tempDate->format('Y-m-d'), $holidayDates)) {
+                    $tempDate->modify('+1 day');
+                }
+
+                // If current date is the next working day after previous
+                if ($tempDate->format('Y-m-d') === $currDate->format('Y-m-d')) {
+                    $consecutiveCount++;
+                } else {
+                    $consecutiveCount = 1;
+                }
+
+                // If we hit 5 consecutive working days, disable the next working day
+                if ($consecutiveCount === 5) {
+                    $nextWorkingDay = clone $currDate;
+                    $nextWorkingDay->modify('+1 day');
+
+                    // Skip to next working day (skip weekends and holidays)
+                    while ($nextWorkingDay->format('N') >= 6 || in_array($nextWorkingDay->format('Y-m-d'), $holidayDates)) {
+                        $nextWorkingDay->modify('+1 day');
+                    }
+
+                    $disabledDates[] = $nextWorkingDay->format('Y-m-d');
+                    $consecutiveCount = 1; // Reset counter
+                }
+            }
+        }
+
+        // Return array with applied dates, disabled dates, and holidays
+        return [
+            'applied_dates' => $appliedWorkingDates,
+            'disabled_dates' => array_values(array_unique(array_merge($disabledDates, $holidays))),
+            'holidays' => $holidayDates
+        ];
     }
 
     public function cdo_addv1()
@@ -1049,24 +1385,6 @@ class cdoController extends BaseController
 
     public function beginning_balance(){
 
-        //        $pis_FR = InformationPersonal::get();
-//        foreach ($pis_FR as $pis_first) {
-//            $userid_F = $pis_first->userid;
-//            $userExistsInCardView = CardView::where('userid', $userid_F)->exists();
-//
-//            if (!$userExistsInCardView) {
-//                //set the bbalance from pis to user's first view in card
-//                $bal = $pis_first->bbalance_cto;
-//                $card_view = new CardView();
-//                $card_view->userid = $userid_F;
-//                $card_view->bal_credits = $bal;
-//                $card_view->status = 7;
-//                $card_view->save();
-//
-//            }else{
-//            }
-//        }
-//return 1;
         Session::put('keyword',Input::get('keyword'));
         $keyword = Session::get('keyword');
         $pis = InformationPersonal::
@@ -1084,20 +1402,41 @@ class cdoController extends BaseController
             ->where(function($query) {
                 $query->whereNull('field_status')
                       ->orWhere('field_status', 'Office Personnel');
-            })
-            ->paginate(10);
-        if(Input::get('keyword')){
-//            return Input::get('keyword') ;
-        }else{
+            })->paginate(10);
 
+        $lastYear = date('Y') - 1;
+
+        $card_all = CardView::whereNotIn('userid', function ($query) use ($lastYear) {
+                $query->select('userid')
+                    ->from('card_view')
+                    ->whereRaw('YEAR(ot_date) = ?', [$lastYear])
+                    ->orWhereRaw('YEAR(ot_date) = ?', [date('Y')]);
+
+        })
+            ->where('ot_date', '!=', '0000-00-00')
+            ->groupBy('userid')
+            ->get();
+
+        if(count($card_all) > 0){
+            foreach ($card_all as $item){
+                $new_card = new CardView();
+                $new_card->userid = $item->userid;
+                $new_card->ot_date = date('Y-m-d');
+                $new_card->date_used = "Expired CTO Credits";
+                $new_card->bal_credits = 0;
+                $new_card->remarks = '0';
+                $new_card->status = 5;
+                $new_card->save();
+            }
         }
+
         $card_view= CardView::orderBy('updated_at', 'asc')->get();
         $today = intval(date('m'));
         $year = intval(date('Y'));
         $date = $today-1;
         $card1= CardView::whereMonth('ot_date',"=",$date)->whereYear('ot_date', "=", $year)->where('status', '=',0)->get();
         $array = [];
-        if($card1){
+        if(count($card1) > 0){
             foreach ($card1 as $cardP){
                 $id= $cardP->id;
                 $card2= CardView::where('userid', $cardP->userid)->where('id', '>=', $id)->whereNotIn('status', [6,5,2])->get();
@@ -1173,7 +1512,16 @@ class cdoController extends BaseController
         }else{
             $idd = null;
         }
+
         return View::make('cdo.beginning_balance')->with(['pis'=>$pis, 'card_view'=>$card_view]);
+    }
+
+    public function viewHistory($userid){
+        $card_view = CardView::where('userid', $userid)
+            ->orderBy('created_at', 'asc')
+            ->get();
+
+        return Response::json($card_view);
     }
 
     public function process_pending(){
@@ -1305,7 +1653,7 @@ class cdoController extends BaseController
                 $cardcheckstat = CardView::where('id', '=', $row)->where('userid', $userid)->first();
 
                 $cardView = CardView::where('userid', $userid)->get();
-
+                $initial_bal_credits = 0;
                 if ($cardView->isEmpty()) {
                     $card_view2 = new CardView();
                     $card_view2->userid = $userid;
@@ -1318,14 +1666,16 @@ class cdoController extends BaseController
                         $card_view->status = ($otDateY == $todayYear && $otDateM == $todayMonth) ? 1 : 0;
                     } else {
                         $update = CardView::where('id', $row)->where('userid', $userid)->first();
-
-                        CardView::where('id', $row)->where('userid', $userid)->update(["status" => 2, "bal_credits" => $update->bal_credits - $update->ot_credits, "ot_credits" => $cardcheckstat->ot_hours * $cardcheckstat->ot_rate]);
+//                        CardView::where('id', $row)->where('userid', $userid)->update(["status" => 2, "bal_credits" => $update->bal_credits - $update->ot_credits, "ot_credits" => $cardcheckstat->ot_hours * $cardcheckstat->ot_rate]);
                         $stat = $cardcheckstat->status;
+
                         if ($stat != null && $stat == 0) {
                         } else {
+                            $prior_row = CardView::where('id', '<', $row)->where('userid', $userid)->orderBy('id','desc')->whereNotIn('status', [7,5,2])->first();
                             $ch = CardView::where('id', '=', $row)->where('userid', $userid)->first();
-                            CardView::where('id', '=', $row)->where('userid', $userid)->update(["status" => 2, "remarks" => $remark, "bal_credits" => $update->bal_credits - $update->ot_credits, "ot_credits" => $ch->ot_rate * $ch->ot_hours]);
-                            $card2 = CardView::where('id', '>', $row)->where('userid', $userid)->get();
+                            CardView::where('id', '=', $row)->where('userid', $userid)->update(["remarks" => $remark, "ot_rate" => $ot_rate, "ot_hours" => $ot_hours, "bal_credits" => $prior_row->bal_credits + $beginning_balance, "ot_credits" => $beginning_balance]);
+//                            CardView::where('id', '=', $row)->where('userid', $userid)->update(["status" => 2, "remarks" => $remark, "bal_credits" => $update->bal_credits - $update->ot_credits, "ot_credits" => $ch->ot_rate * $ch->ot_hours]);
+                            $card2 = CardView::where('id', '>=', $row)->where('userid', $userid)->get();
                             $array = [];
                             foreach ($card2 as $card) {
 
@@ -1337,6 +1687,7 @@ class cdoController extends BaseController
                                     ->whereYear('ot_date', '=', $thiscardYear)->whereNotIn('status', [0, 5, 6, 2])->whereIn('status', [1, 11])->get();
                                 $totalRef = $cardView2->sum('ot_credits');
                                 $prevbal = CardView::where('userid', $userid)->where('id', '<', $card->id)->whereNotNull('bal_credits')->orderBy('id', 'desc')->first();
+//                                return $prevbal;
                                 $cprevbal = $prevbal ? ($prevbal->bal_credits !== null ? $prevbal->bal_credits : 0) : 0;
 
                                 if ($card->status == 4) {
@@ -1491,7 +1842,9 @@ class cdoController extends BaseController
                     $card_view->ot_rate = $ot_rate;
                     $card_view->ot_date = $ot_date;
                     $card_view->remarks = $remark;
-                    $card_view->save();
+                    if(!$row){
+                        $card_view->save();
+                    }
 
                 } else { //for deletion
                     $check_card_status = CardView::where('id', $row)->first();
@@ -1664,8 +2017,8 @@ class cdoController extends BaseController
                                     $card_total = 4 + $card_total;
                                 }
                                 $new_applied->cdo_hours = $selected_hours[$index] == 'cdo_wholeday' ? 'cdo_wholeday' :
-                                    ($selected_hours[$index] == 'cdo_am' ? 'cdo_am':
-                                        ($selected_hours[$index] == 'cdo_pm' ? 'cdo_pm' : ''));
+                                    ($selected_hours[$index] == 'cdo_am' ? 'cdo_pm':
+                                        ($selected_hours[$index] == 'cdo_pm' ? 'cdo_am' : ''));
                                 $date_here[] = $card_date;
                                 $new_applied->save();
                             }
@@ -1750,7 +2103,6 @@ class cdoController extends BaseController
             }
         }else{
             //cancel leave_dates
-//            return $type;
 
             $leave = Leave::where('route_no', $route)->first();
             $leave->status = 1;
@@ -1803,12 +2155,10 @@ class cdoController extends BaseController
                 }
                 $spl?$spl->save():'';
             }else{
-//                return $get_card;
+
                 $hasStatus = $leave_dates->filter(function ($date) {
                         return !empty($date->status);
                     })->count() > 0;
-
-
                 if (!$hasStatus) {
                     LeaveAppliedDates::where('leave_id', $leave->id)->delete();
                     foreach ($dates as $date){
@@ -1820,7 +2170,14 @@ class cdoController extends BaseController
                     }
                 }
 
-                $date_list = LeaveAppliedDates::where('leave_id', $leave->id)->lists('startdate');
+                $date_list = array_values(array_unique(array_filter(
+                    array_merge(
+                        LeaveAppliedDates::where('leave_id', $leave->id)->lists('startdate'),
+                        LeaveAppliedDates::where('leave_id', $leave->id)->lists('from_date')
+                    ),
+                    function ($date) { return $date !== '0000-00-00' && !empty($date); }
+                )));
+                sort($date_list);
                 $selected = array_map('trim', Input::get('applied_dates'));
                 $used_date = [];
                 $count = 0;
@@ -1842,9 +2199,9 @@ class cdoController extends BaseController
                         }elseif($get_date->status == 1){
                             $used_date[] = "<s>".date('F j, Y', strtotime($date))."</s>";
                         }elseif($get_date->status == 2){
-                            $start_date =  date('F j, Y', strtotime($get_date->startdate));
-                            $date_to =  date('F j, Y', strtotime($get_date->from_date));
-                            $used_date[] = '('."<s>".$start_date."</s>". ') - '. date('F j, Y', strtotime($date_to));
+//                            $start_date =  date('F j, Y', strtotime($get_date->startdate));
+//                            $date_to =  date('F j, Y', strtotime($get_date->from_date));
+                            $used_date[] = '('."<s>".$get_date->from_date."</s>". ')';
                         }else{
                             $used_date[] = date('F j, Y', strtotime($date));
                         }
@@ -1907,9 +2264,12 @@ class cdoController extends BaseController
                     $spl->SPL = $spl->SPL - $count;
                 }
 //                return $vl;
+                $prev_total = LeaveAppliedDates::where('leave_id', $leave->id)->get();
+                $new_total = LeaveAppliedDates::where('leave_id', $leave->id)->whereNotIn('status', [1])->get();
                 $get_card->vl_bal = $get_card->vl_bal + $vl;
                 $get_card->sl_bal = $get_card->sl_bal + $sl;
                 $get_card->date_used = implode(',', $used_date);
+                $get_card->particulars = "(<s>" . count($prev_total) . "</s>)(" . count($new_total) .")". $leave->leave_type;
                 $get_card->save();
                 $leave->vacation_total = $leave->vacation_total + $vl;
                 $leave->sick_total = $leave->sick_total + $sl;

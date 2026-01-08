@@ -523,8 +523,6 @@ class AdminController extends BaseController
 
     public function track_leave() // leave applications
     {
-//       return "not yet ready";
-
         Session::put('keyword',Input::get('keyword'));
         $keyword = Session::get('keyword');
 
@@ -575,7 +573,11 @@ class AdminController extends BaseController
                     ->orWhere("leave_type", "like", "%$keyword%")
                     ->orWhere("lastname", "like", "%$keyword%");
             })
-            ->with('appliedDates')
+            ->with(['appliedDates',
+                'type' => function ($query) {
+                    $query->select('code', 'desc');
+                }
+            ])
             ->orderBy('id','desc')
             ->paginate(10);
 
@@ -585,7 +587,11 @@ class AdminController extends BaseController
                     ->orWhere("leave_type", "like", "%$keyword%")
                     ->orWhere("lastname", "like", "%$keyword%");
             })
-            ->with('appliedDates')
+            ->with(['appliedDates',
+                'type' => function ($query) {
+                    $query->select('code', 'desc');
+                }
+            ])
             ->orderBy('id','desc')
             ->paginate(10);
 
@@ -595,7 +601,11 @@ class AdminController extends BaseController
                     ->orWhere("leave_type", "like", "%$keyword%")
                     ->orWhere("lastname", "like", "%$keyword%");
             })
-            ->with('appliedDates')
+            ->with(['appliedDates',
+                'type' => function ($query) {
+                    $query->select('code', 'desc');
+                }
+            ])
             ->orderBy('id','desc')
             ->paginate(10);
 
@@ -605,7 +615,11 @@ class AdminController extends BaseController
                     ->orWhere("leave_type", "like", "%$keyword%")
                     ->orWhere("lastname", "like", "%$keyword%");
             })
-            ->with('appliedDates')
+            ->with(['appliedDates',
+                'type' => function ($query) {
+                    $query->select('code', 'desc');
+                }
+            ])
             ->orderBy('id','desc')
             ->paginate(10);
 
@@ -614,7 +628,11 @@ class AdminController extends BaseController
                 ->orWhere("leave_type", "like", "%$keyword%")
                 ->orWhere("lastname", "like", "%$keyword%");
         })
-            ->with('appliedDates')
+            ->with(['appliedDates',
+                'type' => function ($query) {
+                    $query->select('code', 'desc');
+                }
+            ])
             ->orderBy('leave.id','desc')
             ->paginate(10);
 
@@ -1111,7 +1129,6 @@ class AdminController extends BaseController
         $route = Input::get('route_no');
         $result = Input::get('result');
         $dates = Input::get('dates');
-
         $leave = Leave::where('route_no', $route)->first();
         if($leave){
             $applied_dates = LeaveAppliedDates::where('leave_id', $leave->id)->get();
@@ -1523,6 +1540,14 @@ class AdminController extends BaseController
             'etd' => $info->entrance_of_duty ? date('F j, Y', strtotime($info->entrance_of_duty)) : "Data not available (please update PIS)",
             'id' => $id
         ]);
+    }
+
+    public function moveLeave($route_no){
+        $leave = Leave::where('route_no', $route_no)->first();
+        if($leave){
+            $applied_dates = LeaveAppliedDates::where('leave_id', $leave->id)->whereNotIn('status', [1])->get();
+            return Response::json($applied_dates);
+        }
     }
 
 }

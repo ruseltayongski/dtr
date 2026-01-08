@@ -51,12 +51,22 @@ class DocumentController extends BaseController
                 }
             }
 
+            $spl_pending = Leave::where('userid', Auth::user()->userid)
+                ->whereRaw('YEAR(updated_at) = ?', [date('Y')])
+                ->where('leave_type', 'SPL')
+                ->sum('applied_num_days');
+            $fl_pending = Leave::where('userid', Auth::user()->userid)
+                ->whereRaw('YEAR(updated_at) = ?', [date('Y')])
+                ->where('leave_type', 'FL')
+                ->sum('applied_num_days');
             return View::make('form.form_leave',[
                 "user" => $user,
                 "leave_type" => $leave_type,
                 "spl" => $spl,
                 "officer" =>  $section_head,
-                "holidays" => Calendars::where('status', 1)->lists('start')
+                "holidays" => Calendars::where('status', 1)->lists('start'),
+                'spl_pending' => $spl_pending,
+                'fl_pending' => $fl_pending
             ]);
         }
         if(Request::method() == 'POST') {
@@ -319,15 +329,21 @@ class DocumentController extends BaseController
 
             $leaves = Leave::where('userid', $userid)
                 ->whereBetween("date_filling",[$date_start,$date_end])
-                ->with('appliedDates')
+                ->with(['appliedDates',
+                    'type' => function ($query) {
+                    $query->select('code', 'desc');
+                }])
                 ->orderBy("created_at","desc")
-                ->paginate(20);
+                ->paginate(10);
         } else {
 
             $leaves = Leave::where('userid','=', $userid)
-                ->with('appliedDates')
+                ->with(['appliedDates',
+                    'type' => function ($query) {
+                    $query->select('code', 'desc');
+                }])
                 ->orderBy("created_at","desc")
-                ->paginate(20);
+                ->paginate(10);
         }
 
         Session::put("vacation_balance",$pis->vacation_balance);
@@ -415,7 +431,16 @@ class DocumentController extends BaseController
                 }
             }
         }
-        return $leave;
+
+        $spl_pending = Leave::where('userid', Auth::user()->userid)
+            ->whereRaw('YEAR(updated_at) = ?', [date('Y')])
+            ->where('leave_type', 'SPL')
+            ->sum('applied_num_days');
+        $fl_pending = Leave::where('userid', Auth::user()->userid)
+            ->whereRaw('YEAR(updated_at) = ?', [date('Y')])
+            ->where('leave_type', 'FL')
+            ->sum('applied_num_days');
+
         return View::make('form.leave')->with([
             'leave' => $leave,
             'leave_type' => $leaveTypes,
@@ -424,7 +449,9 @@ class DocumentController extends BaseController
             'officer' => $section_head,
             'user' => $user,
             'spl' => $spl,
-            "holidays" => Calendars::where('status', 1)->lists('start')
+            "holidays" => Calendars::where('status', 1)->lists('start'),
+            'spl_pending' => $spl_pending,
+            'fl_pending' => $fl_pending
         ]);
 
 //        $leave = Leave::select('leave.*', 'personal_information.vacation_balance', 'personal_information.sick_balance')
@@ -912,12 +939,87 @@ class DocumentController extends BaseController
                 "inclusiveDates"=> $inclusiveDates,
                 "server_date" => date('Y-m-d'),
                  "user_section" => $personal_information->section_id,
-                "user_division" => $personal_information->division_id
+                "user_division" => $personal_information->division_id,
+                "cut_off" => $this->cutoff()
+
             );
 //            return $inclusiveDates->cdo_hours;
             return View::make('cdo.cdo_view',['data' => $data]);
         }
     }
+
+    private function cutoff(){
+
+        $currentYear = date('Y');
+        $nextYear = $currentYear + 1;
+
+        $holiday = Calendars::where('status', 1)
+            ->where(function($q) use ($currentYear, $nextYear) {
+                $q->where(DB::raw('YEAR(start)'), '=', $currentYear)
+                    ->orWhere(DB::raw('YEAR(start)'), '=', $nextYear);
+            })
+            ->lists('start');
+
+        $all_cdo = cdo::where('prepared_name', Auth::user()->userid)
+            ->orderBy('id', 'desc')
+            ->take(5)
+            ->get();
+
+        $applied_dates = CdoAppliedDate::whereIn('cdo_id', $all_cdo->lists('id'))
+            ->where(function($query) {
+                $query->whereNotIn('status', array(1, 11))
+                    ->orWhereNull('status');
+            })
+            ->get();
+
+        $dates = [];
+
+        foreach ($applied_dates as $entry) {
+            $start = new DateTime($entry['start_date']);
+            $end   = new DateTime($entry['end_date']);
+
+            while ($start <= $end) {
+                $dayOfWeek = $start->format('N'); // 1=Mon, 7=Sun
+                if ($dayOfWeek < 6) { // exclude weekends
+                    $dates[] = $start->format('Y-m-d');
+                }
+                $start->modify('+1 day');
+            }
+        }
+
+        $dates = array_values(array_unique($dates));
+        sort($dates);
+
+        $consecutive = 1;
+        $disabledDates = [];
+
+        for ($i = 1; $i < count($dates); $i++) {
+            $prev = new DateTime($dates[$i - 1]);
+            $curr = new DateTime($dates[$i]);
+            $diff = $prev->diff($curr)->days;
+
+            // Treat Fri→Mon as consecutive (diff <= 3)
+            if ($diff <= 3) {
+                $consecutive++;
+            } else {
+                $consecutive = 1;
+            }
+
+            if ($consecutive == 5) {
+                $fifthDay = new DateTime($dates[$i]);
+
+                $next = clone $fifthDay;
+                do {
+                    $next->modify('+1 day');
+                } while ($next->format('N') >= 6); // skip weekends
+
+                $disabledDates[] = $next->format('Y-m-d');
+                $consecutive = 1;
+            }
+        }
+        return array_values(array_unique(array_merge($dates, $disabledDates)));
+    }
+
 
     public function track($route_no){
 //        return pdoController::search_tracking_details($route_no);
@@ -1353,6 +1455,7 @@ class DocumentController extends BaseController
     }
 
     public function get_leave_data($route_no){
+
         return Response::json(
             Leave::with('appliedDates')
                 ->where('route_no', $route_no)

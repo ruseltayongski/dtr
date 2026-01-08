@@ -12,6 +12,23 @@
         color: #888;
     }
 
+    .diagonal {
+        position: relative;
+        display: inline-block;
+    }
+
+    .diagonal::after {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 50%;
+        width: 100%;
+        height: 1px;
+        background: black;
+        transform: rotate(-20deg); /* Adjust angle here */
+        transform-origin: center;
+    }
+
 </style>
 
 @extends('layouts.app')
@@ -98,7 +115,7 @@
                                                         <th></th>
                                                         <th>Route #</th>
                                                         <th style="width:200px"><b>Date Applied</b></th>
-                                                        <th style="width:100px"><b>Leave Type</b></th>
+                                                        <th style="width:150px"><b>Leave Type</b></th>
                                                         <th>Status</th>
                                                     </tr>
                                                 </thead>
@@ -144,7 +161,7 @@
                                                                 @endforeach
                                                             </ul>
                                                         </td>
-                                                        <td >{{ ($leave->leave_details == '8')?"Monetization" : $leave->leave_type  }}</td>
+                                                        <td >{{ ($leave->leave_details == '8')?"Monetization" : $leave->type->desc  }}</td>
                                                         <td>
                                                             @if($leave->status == 0)
                                                                 <small class="label label-primary">PENDING&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</small>
@@ -200,7 +217,7 @@
                                 <?php else: ?>
                                     tabledata1 += "<td style='border: 1px solid black'></td>";
                                 <?php endif; ?>
-                                tabledata1 += "<td style='border: 1px solid black'><?php echo htmlspecialchars($card->particulars); ?></td>" +
+                                tabledata1 += "<td style='border: 1px solid black'><?php echo $card->particulars; ?></td>" +
                                     "<td style='border: 1px solid black'><?php echo $card->vl_earned == 0 ? '':rtrim(rtrim(number_format($card->vl_earned, 3, '.', ''), '0'), '.'); ?></td>" +
                                     "<td style='border: 1px solid black'><?php echo $card->vl_abswp == 0 ? '':rtrim(rtrim(number_format($card->vl_abswp, 3, '.', ''), '0'), '.'); ?></td>" +
                                     "<td style='border: 1px solid black'><?php echo $card->vl_bal == 0 ? '':rtrim(rtrim(number_format($card->vl_bal, 3, '.', ''), '0'), '.'); ?></td>" +

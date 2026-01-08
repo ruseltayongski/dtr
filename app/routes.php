@@ -23,6 +23,7 @@ Route::post('admin/uploadv3', 'DtrController@UploadV3_accessmanager');
 Route::match(array('GET','POST'), 'add/attendance', 'DtrController@create_attendance');
 Route::get('employees','AdminController@list_all');
 Route::match(array('GET','POST'),'beginning_balance','cdoController@beginning_balance');
+Route::get('card/view/{userid}', 'cdoController@viewHistory');
 Route::match(array('GET','POST'),'update_bbalance','cdoController@update_bbalance');
 //manual process
 Route::match(array('GET','POST'),'process_pending','cdoController@process_pending');
@@ -51,7 +52,6 @@ Route::get('add_leave_table','AdminController@add_leave_table');
 Route::match(array('GET','POST'), 'print-monthly', 'PrintController@print_monthly');
 Route::get('print-monthly/attendance', 'PrintController@print_pdf');
 Route::match(array('GET','POST'), 'print/employee-attendance', 'PrintController@print_employee');
-
 Route::get('leave/card-view/{id}/{page}','AdminController@get_leave_view');
 
 //manual process
@@ -87,6 +87,7 @@ Route::match(array('GET','POST'), 'form/leave_list', 'cdoController@leave_list')
 Route::get('leave/balance/{userid}','AdminController@get_balance');
 Route::post('leave/update_balance','AdminController@update_balance');
 Route::post('update_absence','AdminController@update_absence');
+Route::get('leave/move/{route_no}','AdminController@moveLeave');
 
 //DTR
 Route::get('dtr/list/jo', 'GenerateDTRController@list_jo_dtr');
@@ -180,6 +181,9 @@ Route::post('so_updatev1','DocumentController@so_updatev1');
 Route::post('so_update','DocumentController@so_update');
 Route::get('so_pdf','DocumentController@so_pdf');
 
+Route::get('check','cdoController@cutoffs');
+
+
 Route::match(['get','post'], 'form/track/{route_no}', 'DocumentController@track');
 Route::get('form/so_pdf','DocumentController@so_pdf');
 Route::get('inclusive_name', 'DocumentController@inclusive_name');
@@ -199,6 +203,9 @@ Route::post('cdo_updatev1/{id}/{type}','cdoController@cdo_updatev1');
 Route::match(array('GET','POST'),'click_all/{type}','cdoController@click_all');
 Route::post('cdo_delete','cdoController@cdo_delete');
 Route::get('cdo_approved/logs/{routes}','cdoController@cdo_approved_logs');
+
+Route::get('cdo/check_dates', 'cdoController@checkDates');
+
 Route::post('cdo_approved_pdf','cdoController@approved_logs_pdf');
 Route::get('cdo/card_view/{userid}','cdoController@card_view');
 Route::post('privilege/add','cdoController@superviseEmployee');

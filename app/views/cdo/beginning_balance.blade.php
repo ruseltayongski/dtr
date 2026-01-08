@@ -96,7 +96,7 @@
                                 <th style=" color: white;background-color: darkgray;">Option</th>
                             </tr>
                         </thead>
-                        <tbody id="t_body" name="t_body" style="overflow-y: auto;">
+                        <tbody id="t_body" class="t_body" name="t_body" style="overflow-y: auto;">
                         </tbody>
                     </table>
                 </div>
@@ -294,7 +294,6 @@
                 e.preventDefault();
             }
         });
-        // to be removed once HR is done //
 
         function setAction(action){
             $('#action').val(action);
@@ -323,7 +322,7 @@
             $("#user_id").val($("#user_iid").val());
             $("#userid").val($("#user_iid").val());
             $("#row_id").val(rowData.data11);
-
+            console.log('das', rowData);
             var total_first = parseFloat(rowData.data4);
             var total_second= parseFloat($("#cto_total").val());
             var total= total_first-total_second;
@@ -372,12 +371,12 @@
         $(".process_pending").hide();
             $("#viewCard").on("click", function(){
                 $(".process_pending").hide();
-                $("#t_body").empty();
+                $(".t_body").empty();
             });
 
             $(".ledger").on('click', function(e) {
                 $(".process_pending").hide();
-                $("#t_body").empty();
+                $(".t_body").empty();
                 var userid = $(this).data('id');
                 $("#user_Id").text(userid);
                 $("#userId").text(userid);
@@ -386,207 +385,160 @@
                 $("#user_name").text("Name: "+ name);
                 $(".modal-title").html("CTO HISTORY of: <strong>" + name);
                 var count=0, check_for_pending =0;
+                var userid = $(this).data('id');
+                $("#user_iid").val(userid);
 
-                <?php if (isset($card_view) && count($card_view) > 0) { ?>
-
-                    var userid = $(this).data('id');
-
-                    <?php foreach ($card_view as $card_viewL) { ?>
-                        var id = "<?php echo $card_viewL->userid; ?>";
-                        var date = "<?php echo $card_viewL->ot_date; ?>";
-                        var status = "<?php echo $card_viewL->status; ?>";
-                        var remarks = "<?php echo $card_viewL->remarks; ?>";
-                        var card_id = "<?php echo $card_viewL->id; ?>";
-                        $("#user_iid").val(userid);
-
-                        if (id == userid && status != 5) {
-                            if(status == 0){
-                                check_for_pending =1;
-                            }
-                            var tableData2 = "<tr>" +
-                                <?php if ($card_viewL->ot_hours !== null): ?>
-                                    "<td><?php echo ($card_viewL->ot_hours !=0)? $card_viewL->ot_hours : ''; ?></td>" +
-                                    "<td><?php echo ($card_viewL->ot_hours !=0)? 'x' : ''; ?></td>" +
-                                    "<td><?php echo ($card_viewL->ot_rate !=0)? $card_viewL->ot_rate : ''; ?></td>" +
-                                    "<td><?php echo ($card_viewL->ot_rate !=0)? '=' : ''; ?></td>"+
-                                    "<td><?php echo ($card_viewL->ot_credits !=0)? $card_viewL->ot_credits : '';?></td>"+
-                                    <?php else: ?>
-                                    "<td></td>"+"<td></td>"+"<td></td>"+"<td></td>"+"<td></td>"+
-                                <?php endif; ?>
-                                <?php if ($card_viewL->ot_date !== null): ?>
-                                    <?php if ($card_viewL->status !=5 && $card_viewL->status !=2 && $card_viewL->status !=6  && $card_viewL->status !=7): ?>
-                                    "<td><a href= '#' data-toggle='modal' onclick='modifiedUpdatedCTO(this)' data-target='#beginning_balance'><?php echo ($card_viewL->ot_date !== '0000-00-00')? date('F j, Y', strtotime($card_viewL->ot_date )): ''; ?></a></td>"+
-                                    <?php else: ?>
-                                        "<td><?php echo ($card_viewL->ot_date !== '0000-00-00')? date('F j, Y', strtotime($card_viewL->ot_date )): ''; ?></td>"+
-                                    <?php endif; ?>
-                                <?php else: ?>
-                                "<td></td>"+
-                                <?php endif; ?>
-                                "<td><?php echo ($card_viewL->hours_used !=0)? $card_viewL->hours_used : ''; ?></td>" +
-                                "<td><?php
-
-                                    if(!Empty($card_viewL->date_used) ){
-                                        $created = strtotime($card_viewL->created_at);
-                                        $condition = strtotime('2023-10-25');
-                                        if($created<=$condition){
-                                            $dateRanges = explode(",", $card_viewL->date_used);
-                                            $datelist = [];
-                                            foreach ($dateRanges as $date){
-                                                $pattern = '/(\d{1,2}\/\d{1,2}\/\d{4}) - (\d{1,2}\/\d{1,2}\/\d{4}(?: \([^)]*\))?)/';
-
-                                                if(preg_match($pattern, $date, $matches)){
-                                                    $startDate = $matches[1];
-                                                    $endDate = $matches[2];
-                                                    $add_ons = isset($matches[3])? $matches[3]: '';
-                                                    $endDate2 = preg_replace('/ \([^)]*\)/', '', $matches[2]);
-                                                    $diff= (strtotime($startDate)- strtotime($endDate2))/ (60*60*24);
-                                                    $diff= $diff * -1;
-
-                                                    $additionalData = '';
-                                                    $additionalPattern = '/\(([^)]*)\)/';
-                                                    if (preg_match($additionalPattern, $endDate, $additionalMatches)) {
-                                                        $additionalData = $additionalMatches[1];
-                                                    }
-
-                                                    if($diff == 0){
-                                                        $datelist[]= date('F j, Y', strtotime($endDate2)).' '. $additionalData;
-                                                    }else{
-                                                        $datelist[]= date('F j, Y', strtotime($startDate)).'-'. date('F j, Y', strtotime($endDate)).' '. $additionalData;
-                                                    }
-                                                }
-                                            }
-                                            $dateRanges = implode('$', $datelist);
-                                              echo str_replace('$', '<br>', $dateRanges);
-                                        }else{
-                                            $dateRanges =str_replace('$', '<br>', $card_viewL->date_used);
-                                            echo $dateRanges;
-                                        }
-
-                                    }else{
-                                        echo "";
-                                    }
-                                    ?></td>"+
-                                "<td><?php echo $card_viewL->bal_credits; ?></td>" +
-                                "<td><?php
-                                    if($card_viewL->status == "7" ){
-                                        $created = strtotime($card_viewL->created_at);
-                                        $condition = strtotime('2023-10-25');
-                                        if($created <= $condition){
-                                            echo "September 30, 2023";
-                                        }else{
-                                            echo date("F j, Y", strtotime($card_viewL->created_at));
-                                        }
-                                    }else{
-                                        echo date("F j, Y", strtotime($card_viewL->created_at));
-                                    }
-                                    ?></td>"+
-                                "<td style='display:none'><?php echo $card_viewL->id; ?></td>";
-
-                                if(status==5){
-                                    tableData2 += "<td id='remarks'style='color: RED'>  REMOVED: <?php echo $card_viewL->remarks; ?></td>";
-                                }else if(status==2){
-                                    tableData2 += "<td id='remarks'style='color: RED'>  MODIFIED(ELIMINATED): <?php echo $card_viewL->remarks; ?></td>";
-                                }else if(status==3){
-                                    tableData2 += "<td id='remarks'style='color: RED'>  CANCELLED</td>";
-                                }else if(status==4){
-                                    tableData2 += "<td id='remarks'style='color: BLUE'>  PROCESSED</td>";
-                                }else if (status==1){
-                                    tableData2 += "<td id='remarks'style='color: BLUE'>  PROCESSED: <?php echo $card_viewL->remarks; ?></td>";
-                                }else if (status==0){
-                                    tableData2 += "<td id='remarks'style='color: mediumvioletred'>  PENDING</td>";
-                                }else if(status==6){
-                                    tableData2 += "<td id='remarks'style='color: RED'>  MODIFIED(ELIMINATED)</td>";
-                                }else if(status==7) {
-                                    tableData2 += "<td id='remarks'style='color: BLUE'> BALANCE</td>";
-                                }else if(status==9) {
-                                    tableData2 += "<td id='remarks'style='color: red'> EXCEED</td>";
-                                }else if(status==11) {
-                                    tableData2 += "<td id='remarks'style='color: green'> MAXIMUM</td>";
-                                }else{
-                                    tableData2 += "<td > </td>";
-                                }
-
-                            if(status== 1 || status== 11 || status== 9){
-                                tableData2 += "<td style='text-align: center'>" +
-                                    "<input type='checkbox' onclick='generateCert(" + card_id + ")'>" +
-                                    "</td>";
-                            }else{
-                                tableData2 += "<td > </td>";
-                            }
-
-                            tableData2 += "</tr>";
-                            $("#t_body").append(tableData2);
-                            count++;
-                        }else if(id == userid && remarks == '0'){
-                            var transferred = "<tr>" +
-                                "<td colspan='12' style='text-align:center; font-weight:bold'><?php echo $card_viewL->date_used; ?> on <?php echo date('F j, Y', strtotime($card_viewL->ot_date)); ?></td>" +
-                                "</tr>";
-                            $("#t_body").append(transferred);
-                            count++;
+                $.ajax({
+                    url: "/dtr/card/view/" + userid,
+                    type: "GET",
+                    dataType: "json",
+                    beforeSend: function() {
+                        $(".t_body").html("<tr><td colspan='12'>Loading...</td></tr>");
+                    },
+                    success: function(data) {
+                        $(".t_body").empty();
+                        if (data.length === 0) {
+                            $(".t_body").html("<tr><td colspan='12'>No Data Available</td></tr>");
+                            return;
                         }
-                    <?php } ?>
-                    if (count==0) {
-                        var tableData3 = "<tr>" +
-                            "<td colspan='12'>No Data Available</td>" +
-                            "</tr>";
-                        $("#t_body").append(tableData3);
-    //                    count=1;
+
+                        var tableRows = "";
+                        $.each(data, function (index, card) {
+                            card.status == 0 ? $('.process_pending').show() : '';
+                            console.log('dsad');
+                            if(card.status != 5){
+                                tableRows += "<tr>" +
+                                    "<td>" + (card.ot_hours == 0 ? '' : card.ot_hours) + "</td>" +
+                                    "<td>" + ((card.ot_hours && card.ot_hours != 0) ? "x" : "") + "</td>" +
+                                    "<td>" + (card.ot_rate || "") + "</td>" +
+                                    "<td>" + ((card.ot_rate && card.ot_rate != 0) ? "=" : "") + "</td>" +
+                                    "<td>" + (card.ot_credits || "") + "</td>" +
+                                    "<td>" +
+                                    (
+                                        card.ot_date && card.ot_date !== '0000-00-00'
+                                            ?
+                                            (
+                                                (card.status != 5 && card.status != 2 && card.status != 6 && card.status != 7)
+                                                    ? "<a href='#' data-toggle='modal' onclick='modifiedUpdatedCTO(this)' data-target='#beginning_balance'>" +
+                                                    card.ot_date +
+                                                    "</a>"
+                                                    : card.ot_date
+                                            )
+                                            : ""
+                                    ) +
+                                    "</td>" +
+                                    "<td>" + (card.hours_used != 0 ? card.hours_used : '') + "</td>" +
+                                    "<td>" + (card.date_used || "") + "</td>" +
+                                    "<td>" + (card.bal_credits || "") + "</td>" +
+                                    "<td>" + (card.created_at || "") + "</td>" +
+                                    "<td style='display:none'>" + (card.id || "") + "</td>" +
+                                    "<td style='color:" + getStatusColor(card.status) + "'>" + getStatusLabel(card) + "</td>" +
+                                    "<td>" + getCertCheckbox(card.status, card.id) + "</td>" +
+                                    "</tr>";
+                            }else if(card.remarks === 0){
+                                tableRows += "<tr>" +
+                                    "<td colspan='12' style='text-align:center; font-weight:bold; color:red'> " + (card.date_used || "") + " on " + (card.ot_date && card.ot_date !== '0000-00-00' ? card.ot_date : "") + "</td>" +
+                                    "</tr>";
+                            }
+                        });
+
+                        $(".t_body").append(tableRows);
+
+                        var pageSize = 15;
+                        var pagination = $("#pagination");
+                        var totalItems = $(".t_body tr").length;
+                        var totalPages = Math.ceil(totalItems / pageSize);
+                        console.log(totalItems);
+                        var currentPage = totalPages;
+
+                        function updateTableRows(page) {
+                            var startIndex = (page - 1) * pageSize;
+                            if(totalItems%15 == 0){
+                                if(page == 1){
+                                    startIndex = 1;
+                                }else{
+                                    startIndex = totalItems - ((totalPages - page + 1) * pageSize);
+                                }
+                            }else{
+                                startIndex = totalItems - ((totalPages - page + 1) * pageSize);
+                            }
+                            if (startIndex < 0) startIndex = 0;
+
+                            if(totalItems%15 == 0 && page == 1) {
+                                $(".t_body tr").hide().slice(startIndex, 15).show();
+                            }else{
+                                $(".t_body tr").hide().slice(startIndex, page == 1 ? totalItems%pageSize : startIndex + pageSize).show();
+                            }
+                        }
+
+                        function createPaginationButtons() {
+                            var buttons = [];
+                            buttons.push('<li class="page-item"><a class="page-link" href="#" data-page="prev">&laquo;</a></li>');
+
+                            // Reverse the pagination order
+                            for (var i = totalPages; i >= 1; i--) {
+                                buttons.push('<li class="page-item"><a class="page-link" href="#" data-page="' + i + '">' + i + '</a></li>');
+                            }
+
+                            buttons.push('<li class="page-item"><a class="page-link" href="#" data-page="next">&raquo;</a></li>');
+                            pagination.html(buttons.join(''));
+                        }
+
+                        createPaginationButtons();
+                        updateTableRows(currentPage);
+
+                        pagination.on("click", ".page-link", function () {
+                            var targetPage = $(this).data("page");
+                            if (targetPage === "prev") {
+                                currentPage = Math.max(currentPage - 1, 1);
+                            } else if (targetPage === "next") {
+                                currentPage = Math.min(currentPage + 1, totalPages);
+                            } else {
+                                currentPage = parseInt(targetPage);
+                            }
+                            updateTableRows(currentPage);
+                        });
                     }
-                    if(check_for_pending == 1){
-                        console.log('check', check_for_pending);
-                        $(".process_pending").show();
-                    }
-                <?php } ?>
-                var pageSize = 15;
-                var currentPage = 1;
-                var pagination = $("#pagination");
-                var totalItems = $("#t_body tr").length;
-                var totalPages = Math.ceil(totalItems / pageSize);
-
-                var currentPage = totalPages;
-
-                function updateTableRows(page) {
-                    var startIndex = (page - 1) * pageSize;
-                    $("#t_body tr").hide().slice(startIndex, startIndex + pageSize).show();
-                }
-
-//                function createPaginationButtons() {
-//                    var buttons = [];
-//                    buttons.push('<li class="page-item"><a class="page-link" href="#" data-page="prev">&laquo;</a></li>');
-//                    for (var i = 1; i <= totalPages; i++) {
-//                        buttons.push('<li class="page-item"><a class="page-link" href="#" data-page="' + i + '">' + i + '</a></li>');
-//                    }
-//                    buttons.push('<li class="page-item"><a class="page-link" href="#" data-page="next">&raquo;</a></li>');
-//                    pagination.html(buttons.join(''));
-//                }
-                function createPaginationButtons() {
-                    var buttons = [];
-                    buttons.push('<li class="page-item"><a class="page-link" href="#" data-page="prev">&laquo;</a></li>');
-
-                    // Reverse the pagination order
-                    for (var i = totalPages; i >= 1; i--) {
-                        buttons.push('<li class="page-item"><a class="page-link" href="#" data-page="' + i + '">' + i + '</a></li>');
-                    }
-
-                    buttons.push('<li class="page-item"><a class="page-link" href="#" data-page="next">&raquo;</a></li>');
-                    pagination.html(buttons.join(''));
-                }
-
-                createPaginationButtons();
-                updateTableRows(currentPage);
-
-                pagination.on("click", ".page-link", function () {
-                    var targetPage = $(this).data("page");
-                    if (targetPage === "prev") {
-                        currentPage = Math.max(currentPage - 1, 1);
-                    } else if (targetPage === "next") {
-                        currentPage = Math.min(currentPage + 1, totalPages);
-                    } else {
-                        currentPage = parseInt(targetPage);
-                    }
-                    updateTableRows(currentPage);
                 });
             });
+
+        function getStatusColor(status) {
+            switch (parseInt(status)) {
+                case 0: return "mediumvioletred";
+                case 1: return "blue";
+                case 2: return "red";
+                case 3: return "red";
+                case 4: return "blue";
+                case 5: return "red";
+                case 6: return "red";
+                case 7: return "blue";
+                case 9: return "red";
+                case 11: return "green";
+                default: return "black";
+            }
+        }
+
+        function getStatusLabel(card) {
+            switch (parseInt(card.status)) {
+                case 0: return "PENDING";
+                case 1: return "PROCESSED: " + (card.remarks || "");
+                case 2: return "MODIFIED(ELIMINATED): " + (card.remarks || "");
+                case 3: return "CANCELLED";
+                case 4: return "PROCESSED";
+                case 5: return "REMOVED: " + (card.remarks || "");
+                case 6: return "MODIFIED(ELIMINATED)";
+                case 7: return "BALANCE";
+                case 9: return "EXCEED";
+                case 11: return "MAXIMUM";
+                default: return "";
+            }
+        }
+
+        function getCertCheckbox(status, id) {
+            return [1, 9, 11].includes(parseInt(status))
+                ? "<input type='checkbox' onclick='generateCert(" + id + ")'>"
+                : "";
+        }
         });
 
         var card_ids = [];
@@ -610,7 +562,6 @@
 
                 document.getElementById('genCertLink').setAttribute('href', genCertLink);
             }
-
         }
 
         $('');
