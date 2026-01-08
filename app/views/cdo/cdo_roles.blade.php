@@ -372,14 +372,12 @@
 
         function cancel_dates(event) {
             $('#cancel_body').empty();
-            console.log('sample');
             var name = event.target.getAttribute('value');
             $('#route').val(name);
 
             $(".modal-title").html("Route No:<strong>"+name);
 
             $.get("{{ url('cdo/applied-dates') . '/' }}" + name, function(result) {
-                console.log('result', result.date_applied);
 
                 if(result.exists == 1){
 
@@ -388,12 +386,11 @@
                     var type = result.type;
                     var dates = result.date_applied;
                     var container = document.querySelector("#cancel_date table");
-                    console.log('type', type);
                     var cancelAllCheckbox ='<label>Check to Cancel All:</label>'+
                         '<input style="transform: scale(1.5)" type="checkbox" class="minimal" id="applied_dates" value="cancel_all" name="applied_dates" />'+
                         '<br><small style="margin-left: 10%" class="text-info"><i>please make sure to select dates and hours to cancel</i></small>';
                     container.innerHTML += cancelAllCheckbox;
-                    console.log('type', type);
+
                     if(type == 1){
 
                         // dates.forEach(function(date, index) { // Add index as a second parameter
@@ -434,14 +431,15 @@
 
                         dates.forEach(function(date, index) {
                             var startDate = new Date(date.start_date);
-                            console.log('start', startDate);
                             dateList.push(startDate.toLocaleDateString());
                             dateTime.push(date.cdo_hours);
 
                             var html = '<div class="date-row" style="display: flex; align-items: center; margin-bottom: 1px; padding:10px">';
 
                             html += '<label style="margin-right: 20px;">' +
-                                '<input type="checkbox" style="transform: scale(1.5); margin-right: 10px;" class="minimal" id="applied_dates" name="applied_dates" value="' + startDate.toLocaleDateString() + '" />' +
+                                '<input type="checkbox" style="transform: scale(1.5); margin-right: 10px;" class="minimal" id="applied_dates" name="applied_dates" value="' + startDate.toLocaleDateString() + '"' +
+                                (date.status == 11 ? ' disabled' : '') +
+                                ' />' +
                                 startDate.toLocaleDateString() +
                                 '</label>';
 
@@ -494,7 +492,6 @@
                         });
                         var length = dateList.length;
                         var i=0;
-                        console.log('length', length);
 
                         while (length > i) {
                             var html = '<div class="checkbox">' +

@@ -953,12 +953,16 @@ class DocumentController extends BaseController
         $currentYear = date('Y');
         $nextYear = $currentYear + 1;
 
-        $holiday = Calendars::where('status', 1)
+        $holidays = Calendars::where('status', 1)
             ->where(function($q) use ($currentYear, $nextYear) {
                 $q->where(DB::raw('YEAR(start)'), '=', $currentYear)
                     ->orWhere(DB::raw('YEAR(start)'), '=', $nextYear);
             })
             ->lists('start');
+
+        $holidayDates = array_map(function($date) {
+            return date('Y-m-d', strtotime($date));
+        }, $holidays);
 
         $all_cdo = cdo::where('prepared_name', Auth::user()->userid)
             ->orderBy('id', 'desc')
@@ -972,52 +976,99 @@ class DocumentController extends BaseController
             })
             ->get();
 
-        $dates = [];
+        $appliedDates = [];
 
         foreach ($applied_dates as $entry) {
             $start = new DateTime($entry['start_date']);
-            $end   = new DateTime($entry['end_date']);
+            // $end   = new DateTime($entry['end_date']);
+            $end = (new DateTime($entry['end_date']))->modify('-1 day');
 
             while ($start <= $end) {
+                $dateStr = $start->format('Y-m-d');
                 $dayOfWeek = $start->format('N'); // 1=Mon, 7=Sun
-                if ($dayOfWeek < 6) { // exclude weekends
-                    $dates[] = $start->format('Y-m-d');
+
+                // Include all non-weekend days (including holidays)
+                if ($dayOfWeek < 6) {
+                    $appliedDates[] = $dateStr;
                 }
                 $start->modify('+1 day');
             }
         }
 
-        $dates = array_values(array_unique($dates));
-        sort($dates);
+        $appliedDates = array_values(array_unique($appliedDates));
+        sort($appliedDates);
 
-        $consecutive = 1;
         $disabledDates = [];
 
-        for ($i = 1; $i < count($dates); $i++) {
-            $prev = new DateTime($dates[$i - 1]);
-            $curr = new DateTime($dates[$i]);
-            $diff = $prev->diff($curr)->days;
+        if (count($appliedDates) > 0) {
+            $consecutiveGroups = [];
+            $currentGroup = [$appliedDates[0]];
 
-            // Treat Fri→Mon as consecutive (diff <= 3)
-            if ($diff <= 3) {
-                $consecutive++;
-            } else {
-                $consecutive = 1;
+            for ($i = 1; $i < count($appliedDates); $i++) {
+                $prevDate = new DateTime($appliedDates[$i - 1]);
+                $currDate = new DateTime($appliedDates[$i]);
+
+                $tempDate = clone $prevDate;
+                $tempDate->modify('+1 day');
+
+                // Skip weekends
+                while ($tempDate->format('N') >= 6) {
+                    $tempDate->modify('+1 day');
+                }
+
+                if ($tempDate->format('Y-m-d') === $currDate->format('Y-m-d')) {
+                    $currentGroup[] = $appliedDates[$i];
+                } else {
+                    $consecutiveGroups[] = $currentGroup;
+                    $currentGroup = [$appliedDates[$i]];
+                }
             }
+            $consecutiveGroups[] = $currentGroup;
 
-            if ($consecutive == 5) {
-                $fifthDay = new DateTime($dates[$i]);
+            // For each consecutive group, count normal days and disable next normal day if >= 5
+            foreach ($consecutiveGroups as $group) {
+                $normalDaysCount = 0;
 
-                $next = clone $fifthDay;
-                do {
-                    $next->modify('+1 day');
-                } while ($next->format('N') >= 6); // skip weekends
+                foreach ($group as $dateStr) {
+                    if (!in_array($dateStr, $holidayDates)) {
+                        $normalDaysCount++;
+                    }
+                }
 
-                $disabledDates[] = $next->format('Y-m-d');
-                $consecutive = 1;
+                // If 5 or more normal days, disable the next normal day after the group
+                if ($normalDaysCount >= 5) {
+                    $lastDate = new DateTime(end($group));
+                    $nextDate = clone $lastDate;
+                    $nextDate->modify('+1 day');
+
+                    // Skip weekends
+                    while ($nextDate->format('N') >= 6) {
+                        $nextDate->modify('+1 day');
+                    }
+
+                    // Skip holidays to find next normal day
+                    while (in_array($nextDate->format('Y-m-d'), $holidayDates)) {
+                        $nextDate->modify('+1 day');
+                        // Skip weekends
+                        while ($nextDate->format('N') >= 6) {
+                            $nextDate->modify('+1 day');
+                        }
+                    }
+
+                    $disabledDates[] = $nextDate->format('Y-m-d');
+                }
             }
         }
-        return array_values(array_unique(array_merge($dates, $disabledDates)));
+
+        return array_values(array_unique(array_merge($disabledDates, $holidayDates, $appliedDates)));
+
+        return array_values(array_unique(array_merge($disabledDates, $holidayDates, $appliedDates)));
+
+        return [
+            'applied_dates' => $appliedWorkingDates,
+            'disabled_dates' => array_values(array_unique(array_merge($disabledDates, $holidays))),
+            'holidays' => $holidayDates
+        ];
     }
 
 

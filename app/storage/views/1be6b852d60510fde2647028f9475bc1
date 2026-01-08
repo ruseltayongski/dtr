@@ -1,4 +1,7 @@
 <?php $__env->startSection('content'); ?>
+    <head>
+        <link href="<?php echo asset('public/assets/css/daterangepicker.css'); ?>" rel="stylesheet">
+    </head>
     <div class="box box-info">
         <div class="box-body">
             <span style="color:black;font-size: 15pt;padding: 1%;display:inline-flex;"> Beginning Balance: </span>
@@ -148,6 +151,8 @@
     </div>
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('js'); ?>
+    <script src="<?php echo asset('public/assets/js/daterangepicker.min.js'); ?>"></script>
+    <script src="<?php echo asset('public/assets/js/moment.min.js'); ?>"></script>
     <script>
         var account_id;
         var type = 0;

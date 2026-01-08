@@ -171,7 +171,6 @@ class cdoController extends BaseController
         $currentYear = date('Y');
         $nextYear = $currentYear + 1;
 
-// Get all holidays
         $holidays = Calendars::where('status', 1)
             ->where(function($q) use ($currentYear, $nextYear) {
                 $q->where(DB::raw('YEAR(start)'), '=', $currentYear)
@@ -179,18 +178,15 @@ class cdoController extends BaseController
             })
             ->lists('start');
 
-// Convert holidays to array of Y-m-d format
         $holidayDates = array_map(function($date) {
             return date('Y-m-d', strtotime($date));
         }, $holidays);
 
-// Get recent CDO applications
         $all_cdo = cdo::where('prepared_name', Auth::user()->userid)
             ->orderBy('id', 'desc')
             ->take(5)
             ->get();
 
-// Get applied dates (approved or pending)
         $applied_dates = CdoAppliedDate::whereIn('cdo_id', $all_cdo->lists('id'))
             ->where(function($query) {
                 $query->whereNotIn('status', array(1, 11))
@@ -198,12 +194,12 @@ class cdoController extends BaseController
             })
             ->get();
 
-// Expand date ranges to individual dates (excluding weekends)
         $appliedDates = [];
 
         foreach ($applied_dates as $entry) {
             $start = new DateTime($entry['start_date']);
-            $end   = new DateTime($entry['end_date']);
+            // $end   = new DateTime($entry['end_date']);
+            $end = (new DateTime($entry['end_date']))->modify('-1 day');
 
             while ($start <= $end) {
                 $dateStr = $start->format('Y-m-d');
@@ -220,8 +216,6 @@ class cdoController extends BaseController
         $appliedDates = array_values(array_unique($appliedDates));
         sort($appliedDates);
 
-// Find disabled dates based on 5 consecutive NORMAL (non-holiday) days rule
-        // Find disabled dates based on 5 consecutive NORMAL (non-holiday) days rule
         $disabledDates = [];
 
         if (count($appliedDates) > 0) {
@@ -250,7 +244,6 @@ class cdoController extends BaseController
                     $currentGroup = [$appliedDates[$i]];
                 }
             }
-            // Add last group
             $consecutiveGroups[] = $currentGroup;
 
             // For each consecutive group, count normal days and disable next normal day if >= 5
@@ -288,13 +281,10 @@ class cdoController extends BaseController
             }
         }
 
-// Merge disabled dates with holidays and applied dates
         return array_values(array_unique(array_merge($disabledDates, $holidayDates, $appliedDates)));
 
-// Merge disabled dates with holidays and applied dates
         return array_values(array_unique(array_merge($disabledDates, $holidayDates, $appliedDates)));
 
-        // Return array with applied dates, disabled dates, and holidays
         return [
             'applied_dates' => $appliedWorkingDates,
             'disabled_dates' => array_values(array_unique(array_merge($disabledDates, $holidays))),
@@ -521,7 +511,8 @@ class cdoController extends BaseController
 
         foreach ($applied_dates as $entry) {
             $start = new DateTime($entry['start_date']);
-            $end   = new DateTime($entry['end_date']);
+            // $end   = new DateTime($entry['end_date']);
+            $end = (new DateTime($entry['end_date']))->modify('-1 day');
 
             while ($start <= $end) {
                 $dateStr = $start->format('Y-m-d');
@@ -1354,6 +1345,9 @@ class cdoController extends BaseController
         //delete cdo and dtr file
         $cdo = cdo::where('route_no',$route_no)->first();
         if($cdo){
+            $cdo->deleted_by = Auth::user()->userid;
+            $cdo->save();
+
             $cdo_Id= $cdo->id;
             $cdo->delete();
             $cdo_applied_dates = CdoAppliedDate::where('cdo_id', $cdo_Id);

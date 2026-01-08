@@ -83,8 +83,8 @@ try{
 
 // $imagePath = __DIR__ . '\FPDF\image\doh.png';
 // $imagePath =realpath(__DIR__ . '/../../..').'\public\img\doh.png';
-//$imagePath = 'C:/Apache24/htdocs/dtr/FPDF/image/doh.png';
-$imagePath = 'C:/xampp_7/htdocs/dtr/FPDF/image/doh.png';
+$imagePath = 'C:/Apache24/htdocs/dtr/FPDF/image/doh.png';
+// $imagePath = 'C:/xampp_7/htdocs/dtr/FPDF/image/doh.png';
 
 $pdf->setX('15');
 $pdf->Text(15,15,'CSC Form No.6');
