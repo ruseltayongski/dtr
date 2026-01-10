@@ -389,6 +389,18 @@ class cdoController extends BaseController
 
     //GENERATE PDF FILE...
     public function cdov1($pdf=null){
+
+        if (Auth::check()) {
+            $user = Auth::user();
+            if (empty($user->username)) {
+                Auth::logout();
+                return Redirect::to('/login')->with('message', 'Session expired, please login again.');
+            }
+        } else {
+            Auth::logout();
+            return Redirect::to('/login')->with('message', 'Session expired, please login again.');
+        }
+
         if($pdf == 'pdf') {
             $cdo = cdo::where('route_no',Session::get('route_no'))->first();
             $personal_information = InformationPersonal::where('userid','=',$cdo->prepared_name)->first();
@@ -581,6 +593,17 @@ class cdoController extends BaseController
 
     public function cdo_addv1()
     {
+        if (Auth::check()) {
+            $user = Auth::user();
+            if (empty($user->username)) {
+                Auth::logout();
+                return Redirect::to('/login')->with('message', 'Session expired, please login again.');
+            }
+        } else {
+            Auth::logout();
+            return Redirect::to('/login')->with('message', 'Session expired, please login again.');
+        }
+
         $server_date = date('Y-m-d');
         $client_date = Input::get('client');
 
@@ -968,6 +991,18 @@ class cdoController extends BaseController
     }
 
     public function cdo_updatev1($id = null, $type = null){
+
+        if (Auth::check()) {
+            $user = Auth::user();
+            if (empty($user->username)) {
+                Auth::logout();
+                return Redirect::to('/login')->with('message', 'Session expired, please login again.');
+            }
+        } else {
+            Auth::logout();
+            return Redirect::to('/login')->with('message', 'Session expired, please login again.');
+        }
+        
         if($id){ //AJAX PROCESS
             $cdo = cdo::where('id',$id)->first();
             $cdoAppliedDate= CdoAppliedDate::where('cdo_id',$cdo->id)->get();
@@ -1507,7 +1542,7 @@ class cdoController extends BaseController
             $idd = null;
         }
 
-        return View::make('cdo.beginning_balance')->with(['pis'=>$pis, 'card_view'=>$card_view]);
+        return View::make('cdo.beginning_balance')->with(['pis'=>$pis, 'card_view'=>$card_view, 'user' => Auth::user()->userid]);
     }
 
     public function viewHistory($userid){

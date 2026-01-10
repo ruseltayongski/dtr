@@ -89,7 +89,7 @@
                                 <th style="align-items: center; color: white; background-color: darkgray;" colspan="5">No. Of Hours Earned/Beginning Balance</th>
                                 <th style=" color: white;background-color: darkgray;">Date of Overtime</th>
                                 <th style=" color: white;background-color: darkgray;">No. of Hours Used</th>
-                                <th style="width: 19%; color: white;background-color: darkgray;">Date Used</th>
+                                <th style="width: 22%; color: white;background-color: darkgray;">Date Used</th>
                                 <th style=" color: white;background-color: darkgray;">Balance Credits</th>
                                 <th style=" color: white;background-color: darkgray;">As Of</th>
                                 <th style=" color: white;background-color: darkgray;">Remarks</th>
@@ -405,7 +405,9 @@
                         var tableRows = "";
                         $.each(data, function (index, card) {
                             card.status == 0 ? $('.process_pending').show() : '';
-                            console.log('dsad');
+                            var date_dis = ((card.date_used || "").replace(/\$/g, ',')).replace(/,(?=December|January|February|March|April|May|June|July|August|September|October|November)/g, "<br>");
+
+                            console.log('dsad', date_dis);
                             if(card.status != 5){
                                 tableRows += "<tr>" +
                                     "<td>" + (card.ot_hours == 0 ? '' : card.ot_hours) + "</td>" +
@@ -428,7 +430,7 @@
                                     ) +
                                     "</td>" +
                                     "<td>" + (card.hours_used != 0 ? card.hours_used : '') + "</td>" +
-                                    "<td>" + (card.date_used || "") + "</td>" +
+                                    "<td>" + (date_dis || "") + "</td>" +
                                     "<td>" + (card.bal_credits || "") + "</td>" +
                                     "<td>" + (card.created_at || "") + "</td>" +
                                     "<td style='display:none'>" + (card.id || "") + "</td>" +

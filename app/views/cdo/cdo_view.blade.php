@@ -394,7 +394,6 @@
     var deletedIndex=[];
     var deletedValue=[];
     var cutoffDates= <?php echo json_encode($data['cut_off']); ?>;
-    console.log('cutoffDates:', cutoffDates);
     $('.datepickerInput').on('click', function() {
         previousDate = $(this).val();
     });
@@ -417,12 +416,10 @@
         var divisionChiefs = JSON.parse(jsonString);
 
         if(exc.includes(selectedVal)) {
-            console.log('sd');
             var div_chief = {
                 id: '{{ $data['rd']['id'] }}',
                 name: '{{ strtoupper($data['rd']['fname'] . " " . $data['rd']['mname'] . " " . $data['rd']['lname']) }}'
             };
-            console.log('div_chief', div_chief);
             var div_chief2 = divisionChiefs
             .filter(function(item) {
                 return item.id == selectedVal; 
@@ -481,7 +478,6 @@
         $('.client_date').val(client_date);
 
         var server_date = "<?php echo $data['server_date'] ?>";
-        console.log('client', currentDate);
         if(client_date != server_date){
             Lobibox.alert('error', //AVAILABLE TYPES: "error", "info", "success", "warning"
                 {
@@ -489,8 +485,6 @@
                     " Please ensure your date is set correctly. After verifying, kindly refresh the page and clear the cache to avoid any inaccuracies."
                 });
         }
-        console.log('server_date', server_date);
-        console.log('client_date', client_date);
 
             <?php
             $privilege_employee = PrivilegeEmployee::get();
@@ -544,8 +538,6 @@
                     startDate: startDate,
                     endDate: endDate,
                     beforeShowDay: function(date) {
-                        console.log('start', startDate);
-                        console.log('end', endDate);
                         var day = date.getDay();
                         var validDate = (day !== 0 && day !== 6); // Exclude weekends
 
@@ -569,8 +561,6 @@
                     startDate: startDate,
                     endDate: endDate,
                     beforeShowDay: function(date) {
-                        console.log('start', startDate);
-                        console.log('end', endDate);
                         var day = date.getDay();
                         var validDate = (day !== 0 && day !== 6); // Exclude weekends
 
@@ -587,7 +577,6 @@
 
             startDate = today.getMonth() + 1 + '/' + dd + '/' + today.getFullYear();
             endDate = today.getMonth() + 1 + '/' + dd + '/' + today.getFullYear();
-            console.log('startdate', startDate);
             $('.datepickercalendar').datepicker({
                 autoclose: true,
                 daysOfWeekDisabled: [0,6],
@@ -922,16 +911,17 @@
 
                 if(isPrivilegeEmployee && open_dates){
 
-                    var firstDay = mm-1+'/01/'+yyyy;
+                    var firstDay = (mm - 1 == 0 ? 12 + '/01/' + (yyyy - 1) : (mm - 1) + '/01/' + yyyy);
                     startDate = firstDay;
-                    endDate = today.getDate();
+                    // endDate = today.getDate();
+                    endDate = firstDay;
 
                 }if(isPrivilegeEmployee){
 
-                    var firstDay = mm-1+'/01/'+yyyy;
+                    var firstDay = (mm - 1 == 0 ? 12 + '/01/' + (yyyy - 1) : (mm - 1) + '/01/' + yyyy);
                     startDate = firstDay;
-                    endDate = today.getDate();
-
+                    // endDate = today.getDate();
+                    endDate = firstDay;
                 }
                 else{
                     startDate = mm + '/' + dd + '/' + yyyy;
@@ -944,7 +934,10 @@
                 locale: {
                     format: 'MM/DD/YYYY'
                 },
-                minDate: isPrivilegeEmployee ? mm - 1 + '/01/' + yyyy : mm + '/' + dd + '/' + yyyy,
+                // minDate: isPrivilegeEmployee ? mm - 1 + '/01/' + yyyy : mm + '/' + dd + '/' + yyyy,
+                minDate: isPrivilegeEmployee ?
+                    (mm - 1 == 0 ? 12 + '/01/' + (yyyy - 1) : (mm - 1) + '/01/' + yyyy) :
+                    mm + '/' + dd + '/' + yyyy,
                 startDate: startDate,
                 endDate: endDate,
                 isInvalidDate: function(date) {
