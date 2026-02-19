@@ -42,7 +42,7 @@
                                 @endif
                             </td>
                             <td class="text-center name-cell">
-                                @if($user->fname || $user->lname || $user->mname || $user->name_extension) {{ $user->fname.' '.$user->mname.' '.$user->lname.' '.$user->name_extension }} @else <i>NO NAME</i> @endif
+                                @if($user->fname || $user->lname || $user->mname || $user->name_extension) {{ $user->fname.' '.$user->mname.' '.$user->lname }} @else <i>NO NAME</i> @endif
                             </td>
                             <td class="text-center">
                                 <label style='color:green'>@if($user->bbalance_cto) {{ $user->bbalance_cto }} @else 0 @endif</label>
@@ -210,7 +210,6 @@
 
         function cloneField(button) {
             var cloneableFields = document.querySelector('.trans_clone');
-            console.log('asd0', cloneableFields);
             var newFields = cloneableFields.cloneNode(true);
             var inputs = newFields.querySelectorAll('input');
             inputs.forEach(function(input) {
@@ -234,16 +233,13 @@
 
         function removeClone(button){
             $(button).closest(".trans_clone").remove();
-            console.log('remove');
         }
 
         $('.remove_bal').on('click', function () {
-            console.log('remove');
         });
 
         $('.trans_amount').on('click', function (){
             var clone = $(this).closest('.for_clone');
-            console.log('clone', clone);
         });
 
         $(".process_pending").on('click',function(e){
@@ -322,12 +318,12 @@
             $("#user_id").val($("#user_iid").val());
             $("#userid").val($("#user_iid").val());
             $("#row_id").val(rowData.data11);
-            console.log('das', rowData);
+
             var total_first = parseFloat(rowData.data4);
             var total_second= parseFloat($("#cto_total").val());
             var total= total_first-total_second;
             $("#total_total").val(rowData.data5);
-            console.log(rowData);
+
         }
 
 
@@ -337,7 +333,6 @@
             var ot_weight = cloned.find('.ot_weight')
             var cto_total = cloned.find('.cto_total');
 
-            console.log('update_click', ot_weight.val());
             if(ot_hours.val() == 0) {
                 ot_hours.val("");
             }
@@ -368,6 +363,16 @@
         }
 
     $(document).ready(function () {
+        function formatDateLong(dateStr) {
+            if (!dateStr || dateStr === '0000-00-00') return '';
+            var date = new Date(dateStr);
+            return date.toLocaleDateString('en-US', {
+                month: 'long',
+                day: 'numeric',
+                year: 'numeric'
+            });
+        }
+
         $(".process_pending").hide();
             $("#viewCard").on("click", function(){
                 $(".process_pending").hide();
@@ -407,7 +412,6 @@
                             card.status == 0 ? $('.process_pending').show() : '';
                             var date_dis = ((card.date_used || "").replace(/\$/g, ',')).replace(/,(?=December|January|February|March|April|May|June|July|August|September|October|November)/g, "<br>");
 
-                            console.log('dsad', date_dis);
                             if(card.status != 5){
                                 tableRows += "<tr>" +
                                     "<td>" + (card.ot_hours == 0 ? '' : card.ot_hours) + "</td>" +
@@ -422,9 +426,9 @@
                                             (
                                                 (card.status != 5 && card.status != 2 && card.status != 6 && card.status != 7)
                                                     ? "<a href='#' data-toggle='modal' onclick='modifiedUpdatedCTO(this)' data-target='#beginning_balance'>" +
-                                                    card.ot_date +
+                                                    formatDateLong(card.ot_date) +
                                                     "</a>"
-                                                    : card.ot_date
+                                                    : formatDateLong(card.ot_date)
                                             )
                                             : ""
                                     ) +
@@ -432,14 +436,15 @@
                                     "<td>" + (card.hours_used != 0 ? card.hours_used : '') + "</td>" +
                                     "<td>" + (date_dis || "") + "</td>" +
                                     "<td>" + (card.bal_credits || "") + "</td>" +
-                                    "<td>" + (card.created_at || "") + "</td>" +
+                                    "<td>" + (formatDateLong(card.created_at) || "") + "</td>" +
                                     "<td style='display:none'>" + (card.id || "") + "</td>" +
                                     "<td style='color:" + getStatusColor(card.status) + "'>" + getStatusLabel(card) + "</td>" +
                                     "<td>" + getCertCheckbox(card.status, card.id) + "</td>" +
                                     "</tr>";
-                            }else if(card.remarks === 0){
+                            }else if(card.remarks == '0'){
+
                                 tableRows += "<tr>" +
-                                    "<td colspan='12' style='text-align:center; font-weight:bold; color:red'> " + (card.date_used || "") + " on " + (card.ot_date && card.ot_date !== '0000-00-00' ? card.ot_date : "") + "</td>" +
+                                    "<td colspan='12' style='text-align:center; font-weight:bold; color:red'> " + (card.date_used || "") + " on " + (card.ot_date && card.ot_date !== '0000-00-00' ? formatDateLong(card.ot_date) : "") + "</td>" +
                                     "</tr>";
                             }
                         });
@@ -450,7 +455,6 @@
                         var pagination = $("#pagination");
                         var totalItems = $(".t_body tr").length;
                         var totalPages = Math.ceil(totalItems / pageSize);
-                        console.log(totalItems);
                         var currentPage = totalPages;
 
                         function updateTableRows(page) {

@@ -382,8 +382,8 @@
     <div id="divisionChiefData" data-json='<?php echo json_encode($data['division_head']); ?>' style="display:none;"></div>
 </form>
 </body>
-
 <script>
+
     var previousDate;
     var dates=[];
     var datesList=[];
@@ -903,10 +903,12 @@
             yyyy = nextValidDay.getFullYear();
 
             previousDate = $(this).val();
+            var minDateValue = '';
 
             if(previousDate !== ""){
                 startDate = previousDate.split(" - ")[0];
                 endDate = previousDate.split(" - ")[1];
+                minDateValue = startDate;
             }else{
 
                 if(isPrivilegeEmployee && open_dates){
@@ -927,23 +929,30 @@
                     startDate = mm + '/' + dd + '/' + yyyy;
                     endDate = mm + '/' + dd + '/' + yyyy;
                 }
+
+                minDateValue = isPrivilegeEmployee ?
+                    (mm - 1 == 0 ? 12 + '/01/' + (yyyy - 1) : (mm - 1) + '/01/' + yyyy) :
+                    mm + '/' + dd + '/' + yyyy;
             }
 
             $(this).daterangepicker({
+                parentEl: $(this).closest('.modal'), 
                 autoclose: true,
+                linkedCalendars: false,
                 locale: {
                     format: 'MM/DD/YYYY'
                 },
+                // linkedCalendars: false,
                 // minDate: isPrivilegeEmployee ? mm - 1 + '/01/' + yyyy : mm + '/' + dd + '/' + yyyy,
-                minDate: isPrivilegeEmployee ?
-                    (mm - 1 == 0 ? 12 + '/01/' + (yyyy - 1) : (mm - 1) + '/01/' + yyyy) :
-                    mm + '/' + dd + '/' + yyyy,
+                minDate: minDateValue,
                 startDate: startDate,
                 endDate: endDate,
-                isInvalidDate: function(date) {
-                    var formatted = date.format('YYYY-MM-DD');
-                    return cutoffDates.includes(formatted);
-                }
+                opens: 'center', // This helps with positioning
+                drops: 'down', // or 'up' depending on your needs
+                // isInvalidDate: function(date) {
+                //     var formatted = date.format('YYYY-MM-DD');
+                //     return cutoffDates.includes(formatted);
+                // }
             })
                 .on('apply.daterangepicker', function (ev, picker) {
 
@@ -966,7 +975,7 @@
 
                     var start = moment(picker.startDate.format('YYYY-MM-DD'));
                     var end   = moment(picker.endDate.format('YYYY-MM-DD'));
-
+                    var row = $(picker.element).closest('.newRow');
 
                     $.ajax({
                         url: '/dtr/cdo/check_dates',
@@ -977,9 +986,12 @@
                         },
                         success: function(response) {
                             if (response.conflict) {
+                                row.find('#inclusive1').val('');
+                                row.find('.date_label').text('');
+
                                 Lobibox.alert('error', //AVAILABLE TYPES: "error", "info", "success", "warning"
                                     {
-                                        msg: "Can file maximum of 5 consecutive days only."
+                                        msg: response.message
                                     });
                                 return;
                             }
@@ -1049,7 +1061,7 @@
 
             $(".range_inputs").append("" +
                 "<div class='alert-info'>" +
-                "<h6 style='color: #206ff0;padding-right: 5%;padding-left:5%'>Note: 2 working days before apply</h6>" +
+                "<h6 style='color: #206ff0;padding-right: 5%;padding-left:5%'>Note: Apply 2 working days before.</h6>" +
                 "</div>" +
                 "");
         });

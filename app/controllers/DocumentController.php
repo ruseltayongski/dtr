@@ -12,6 +12,19 @@ class DocumentController extends BaseController
     {
 
         //$this->beforeFilter('personal');
+        $this->beforeFilter(function()
+        {
+            if (Auth::check()) {
+                $user = Auth::user();
+                if (empty($user->username)) {
+                    Auth::logout();
+                    return Redirect::to('/login')->with('message', 'Session expired, please login again.');
+                }
+            } else {
+                Auth::logout();
+                return Redirect::to('/login')->with('message', 'Session expired, please login again.');
+            }
+        });
     }
 
     public  function leave(){
@@ -896,7 +909,7 @@ class DocumentController extends BaseController
             $section_head[] = pdoController::user_search1($cdo['immediate_supervisor']);
             $division_head[] = pdoController::user_search1($cdo['division_chief']);
             $id_list = [];
-            $manually_added = [988320, 985329, 985329, 273, 11, 93053, 986445, 984538, 985950, 80, 976017, 466, 534, 986944, 988121, 357, 988148, 988309, 142, 602, 151, 988466];
+            $manually_added = [988320, 985329, 985329, 273, 11, 93053, 986445, 984538, 985950, 80, 976017, 466, 534, 986944, 988121, 357, 988148, 988309, 142, 602, 151, 988466, 75];
 
             foreach(pdoController::section() as $row) {
                 if ($row['acronym'] !== null || in_array($row['head'], [37, 72, 243, 614, 110, 163, 648384, 160, 985950, 830744, 51])) {
@@ -914,7 +927,7 @@ class DocumentController extends BaseController
             }
 
             foreach(pdoController::division() as $row) {
-                if($row['ppmp_used'] == null && $row['head'] != 51){
+                if($row['ppmp_used'] == null && $row['head'] != 51 && $row['head'] != 238){
                     $division_head[] = pdoController::user_search1($row['head']);
                 }
             }

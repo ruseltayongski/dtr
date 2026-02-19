@@ -1493,7 +1493,7 @@ class AdminController extends BaseController
         }else{
             $old_days = $leave_card->vl_earned;
             if($action == 'update'){
-                $leave_card->particulars = $new_days == 0? 'No Absences' : 'No. of Absences ('.$new_days.')';
+                $leave_card->particulars = $new_days == 0? 'No Leave w/o Pay' : 'No. of Leave w/o Pay ('.$new_days.')';
                 $credit_earned = $new_days == 0? 1.25 : 1.25 - round($new_days * 0.04167, 3);
                 $leave_card->vl_earned = $credit_earned;
                 $leave_card->sl_earned = $credit_earned;

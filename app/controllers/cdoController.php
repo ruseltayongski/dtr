@@ -5,9 +5,27 @@ class cdoController extends BaseController
     public function __construct()
     {
         //$this->beforeFilter('personal');
+        $this->beforeFilter(function()
+        {
+            if (Auth::check()) {
+                $user = Auth::user();
+                if (empty($user->username)) {
+                    Auth::logout();
+                    return Redirect::to('/login')->with('message', 'Session expired, please login again.');
+                }
+            } else {
+                Auth::logout();
+                return Redirect::to('/login')->with('message', 'Session expired, please login again.');
+            }
+        });
     }
 
     public function cdo_list(){
+
+        if (Auth::user()->userid == '4415') {
+            return $this->cdo_list_hrh();
+        }
+
         Session::put('keyword',Input::get('keyword'));
         $keyword = Session::get('keyword');
 
@@ -144,7 +162,156 @@ class cdoController extends BaseController
         ]);
     }
 
+    public function cdo_list_hrh(){
+        Session::put('keyword',Input::get('keyword'));
+        $keyword = Session::get('keyword');
+
+        if( Input::get('type') ){
+            $type = Input::get('type');
+        }
+        else {
+            $type = 'pending';
+        }
+        $cdo["count_disapprove"] = InformationPersonal::join('dohdtr.cdo', 'personal_information.userid', '=', 'cdo.prepared_name')
+            ->where('personal_information.field_status', 'HRH')
+            ->where('approved_status',4)
+            ->where(function($q) use ($keyword){
+                $q->where("route_no","like","%$keyword%")
+                    ->orWhere("subject","like","%$keyword%")
+                    ->orWhere("lname", "like", "%$keyword%");
+            })->whereDate('prepared_date', '>', '2023-08-02')->whereNull('deleted_at')->get();
+        $cdo["count_cancelled"] = InformationPersonal::join('dohdtr.cdo', 'personal_information.userid', '=', 'cdo.prepared_name')
+            ->where('personal_information.field_status', 'HRH')
+            ->where('status',3)
+            ->where(function($q) use ($keyword){
+                $q->where("route_no","like","%$keyword%")
+                    ->orWhere("subject","like","%$keyword%")
+                    ->orWhere("lname", "like", "%$keyword%");
+            })->whereDate('prepared_date', '>', '2023-08-02')->whereNull('deleted_at')->get();
+        $cdo["count_pending"] = InformationPersonal::join('dohdtr.cdo', 'personal_information.userid', '=', 'cdo.prepared_name')
+            ->where('personal_information.field_status', 'HRH')
+            ->where('approved_status',0)
+            ->where(function($q) use ($keyword){
+                $q->where("route_no","like","%$keyword%")
+                    ->orWhere("subject","like","%$keyword%")
+                    ->orWhere("lname", "like", "%$keyword%");
+            })->whereDate('prepared_date', '>', '2023-08-02')->whereNull('deleted_at')->get();
+        $cdo["count_approve"] = InformationPersonal::join('dohdtr.cdo', 'personal_information.userid', '=', 'cdo.prepared_name')
+            ->where('personal_information.field_status', 'HRH')
+            ->where('approved_status',1)
+            ->where(function($q) use ($keyword){
+                $q->where("route_no","like","%$keyword%")
+                    ->orWhere("subject","like","%$keyword%")
+                    ->orWhere("lname", "like", "%$keyword%");
+            })->whereDate('prepared_date', '>', '2023-08-02')->whereNull('deleted_at')->get();
+        $cdo["count_all"] = InformationPersonal::join('dohdtr.cdo', 'personal_information.userid', '=', 'cdo.prepared_name')
+            ->where('personal_information.field_status', 'HRH')
+            ->where(function($q) use ($keyword){
+                $q->where("route_no","like","%$keyword%")
+                    ->orWhere("subject","like","%$keyword%")
+                    ->orWhere("lname", "like", "%$keyword%");
+            })->whereDate('prepared_date', '>', '2023-08-02')->whereNull('deleted_at')->get();
+
+        $cdo['paginate_disapprove'] = InformationPersonal::join('dohdtr.cdo', 'personal_information.userid', '=', 'cdo.prepared_name')
+            ->where('personal_information.field_status', 'HRH')
+            ->where('approved_status',4)
+            ->where(function($q) use ($keyword){
+                $q->where("route_no","like","%$keyword%")
+                    ->orWhere("subject","like","%$keyword%")
+                    ->orWhere("lname", "like", "%$keyword%");
+            })
+            ->whereDate('prepared_date', '>', '2023-08-02')
+            ->whereNull('deleted_at')
+            ->orderBy('cdo.id','desc')
+            ->paginate(10);
+
+        $cdo['paginate_cancelled'] = InformationPersonal::join('dohdtr.cdo', 'personal_information.userid', '=', 'cdo.prepared_name')
+            ->where('personal_information.field_status', 'HRH')
+            ->where('status',3)
+            ->where(function($q) use ($keyword){
+                $q->where("route_no","like","%$keyword%")
+                    ->orWhere("subject","like","%$keyword%")
+                    ->orWhere("lname", "like", "%$keyword%");
+            })
+            ->whereDate('prepared_date', '>', '2023-08-02')
+            ->whereNull('deleted_at')
+            ->orderBy('cdo.id','desc')
+            ->paginate(10);
+
+        $cdo['paginate_pending'] = InformationPersonal::join('dohdtr.cdo', 'personal_information.userid', '=', 'cdo.prepared_name')
+            ->where('personal_information.field_status', 'HRH')
+            ->where('approved_status',0)
+            ->where(function($q) use ($keyword){
+                $q->where("route_no","like","%$keyword%")
+                    ->orWhere("subject","like","%$keyword%")
+                    ->orWhere("lname", "like", "%$keyword%");
+            })
+            ->whereDate('prepared_date', '>', '2023-08-02')
+            ->whereNull('deleted_at')
+            ->orderBy('cdo.id','desc')
+            ->paginate(10);
+
+        $cdo['paginate_approve'] = InformationPersonal::join('dohdtr.cdo', 'personal_information.userid', '=', 'cdo.prepared_name')
+            ->where('personal_information.field_status', 'HRH')
+            ->where('approved_status',1)
+            ->where(function($q) use ($keyword){
+                $q->where("route_no","like","%$keyword%")
+                    ->orWhere("subject","like","%$keyword%")
+                    ->orWhere("lname", "like", "%$keyword%");
+            })
+            ->whereDate('prepared_date', '>', '2023-08-02')
+            ->whereNull('deleted_at')
+            ->orderBy('cdo.id','desc')
+            ->paginate(10);
+
+        $cdo['paginate_all'] = InformationPersonal::join('dohdtr.cdo', 'personal_information.userid', '=', 'cdo.prepared_name')
+            ->where('personal_information.field_status', 'HRH')
+            ->where(function($q) use ($keyword){
+                $q->where("route_no","like","%$keyword%")
+                    ->orWhere("subject","like","%$keyword%")
+                    ->orWhere("lname", "like", "%$keyword%");
+            })
+            ->whereDate('prepared_date', '>', '2023-08-02')
+            ->whereNull('deleted_at')
+            ->orderBy('cdo.id','desc')
+            ->paginate(10);
+
+        if (Request::ajax() ) {
+
+            $view = 'cdo.cdo_'.$type;
+            Session::put('page_'.$type,Input::get('page'));
+
+            return View::make($view,[
+                "cdo" => $cdo,
+
+                "type" => $type,
+                "count_disapprove" => count($cdo["count_disapprove"]),
+                "count_cancelled" => count($cdo["count_cancelled"]),
+                "count_pending" => count($cdo["count_pending"]),
+                "count_approve" => count($cdo["count_approve"]),
+                "count_all" => count($cdo["count_all"]),
+                "paginate_disapprove" => $cdo["paginate_disapprove"],
+                "paginate_cancelled" => $cdo["paginate_cancelled"],
+                "paginate_pending" => $cdo["paginate_pending"],
+                "paginate_approve" => $cdo["paginate_approve"],
+                "paginate_all" => $cdo["paginate_all"]
+            ]);
+        }
+//        return $cdo["count_pending"];
+        return View::make('cdo.cdo_roles',[
+            "cdo" => $cdo,
+            "type" => $type,
+            "paginate_disapprove" => $cdo["paginate_disapprove"],
+            "paginate_cancelled" => $cdo["paginate_cancelled"],
+            "paginate_pending" => $cdo["paginate_pending"],
+            "paginate_approve" => $cdo["paginate_approve"],
+            "paginate_all" => $cdo["paginate_all"]
+        ]);
+    }
+
+
     public function cdo_user(){
+
         Session::put('keyword',Input::get('keyword'));
         $keyword = Session::get('keyword');
 
@@ -298,11 +465,30 @@ class cdoController extends BaseController
         $startDate = Input::get('start_date');
         $endDate   = Input::get('end_date');
 
-        // Get all previously applied dates
-        $all_cdo = cdo::where('prepared_name', $userId)
-            ->orderBy('id', 'desc')
-            ->take(5)
-            ->get();
+        $currentYear = date('Y');
+        $nextYear = $currentYear + 1;
+
+        $holidays = Calendars::where('status', 1)
+            ->where(function($q) use ($currentYear, $nextYear) {
+                $q->where(DB::raw('YEAR(start)'), '=', $currentYear)
+                    ->orWhere(DB::raw('YEAR(start)'), '=', $nextYear);
+            })
+            ->lists('start');
+
+        $holidayDates = array_map(function($date) {
+            return date('Y-m-d', strtotime($date));
+        }, $holidays);
+
+        $currentCdoId = Input::get('cdo_id'); 
+
+        $all_cdo_query = cdo::where('prepared_name', $userId)
+            ->orderBy('id', 'desc');
+
+        if ($currentCdoId) {
+            $all_cdo_query->where('id', '!=', $currentCdoId);
+        }
+
+        $all_cdo = $all_cdo_query->take(5)->get();
 
         $applied_dates = CdoAppliedDate::whereIn('cdo_id', $all_cdo->lists('id'))
             ->where(function($query) {
@@ -311,95 +497,137 @@ class cdoController extends BaseController
             })
             ->get();
 
-        // ✅ Build all working days from previously applied dates
         $appliedDays = [];
         foreach ($applied_dates as $entry) {
             $start = new DateTime($entry['start_date']);
             $end   = new DateTime($entry['end_date']);
+            $end->modify('-1 day'); 
+
             while ($start <= $end) {
-                if ($start->format('N') < 6) { // weekdays only
-                    $appliedDays[] = $start->format('Y-m-d');
+                $dateStr = $start->format('Y-m-d');
+                $dayOfWeek = $start->format('N'); // 1=Mon, 7=Sun
+
+                if ($dayOfWeek < 6) {
+                    $appliedDays[] = $dateStr;
                 }
                 $start->modify('+1 day');
             }
         }
 
-        // ✅ Build all working days from newly selected dates
+        $appliedDays = array_unique($appliedDays);
+        sort($appliedDays);
+
         $selectedDays = [];
         $newStart = new DateTime($startDate);
         $newEnd   = new DateTime($endDate);
         while ($newStart <= $newEnd) {
+            $dateStr = $newStart->format('Y-m-d');
             if ($newStart->format('N') < 6) {
-                $selectedDays[] = $newStart->format('Y-m-d');
+                $selectedDays[] = $dateStr;
             }
             $newStart->modify('+1 day');
         }
 
-        // ✅ Combine both applied and selected days
+        $selectedDays = array_unique($selectedDays);
+        sort($selectedDays);
+
+        $calculateDisabledDates = function($workingDays) use ($holidayDates) {
+            $disabledDates = [];
+
+            if (count($workingDays) == 0) {
+                return $disabledDates;
+            }
+
+            $consecutiveGroups = [];
+            $currentGroup = [$workingDays[0]];
+
+            for ($i = 1; $i < count($workingDays); $i++) {
+                $prevDate = new DateTime($workingDays[$i - 1]);
+                $currDate = new DateTime($workingDays[$i]);
+
+                $tempDate = clone $prevDate;
+                $tempDate->modify('+1 day');
+
+                while ($tempDate->format('N') >= 6 || in_array($tempDate->format('Y-m-d'), $holidayDates)) {
+                    $tempDate->modify('+1 day');
+                }
+
+                if ($tempDate->format('Y-m-d') === $currDate->format('Y-m-d')) {
+                    $currentGroup[] = $workingDays[$i];
+                } else {
+                    $consecutiveGroups[] = $currentGroup;
+                    $currentGroup = [$workingDays[$i]];
+                }
+            }
+
+            $consecutiveGroups[] = $currentGroup;
+
+            foreach ($consecutiveGroups as $group) {
+                $normalDaysCount = 0;
+
+                foreach ($group as $dateStr) {
+                    if (!in_array($dateStr, $holidayDates)) {
+                        $normalDaysCount++;
+                    }
+                }
+
+                if ($normalDaysCount >= 5) {
+                    $lastDate = new DateTime(end($group));
+                    $nextDate = clone $lastDate;
+                    $nextDate->modify('+1 day');
+
+                    while ($nextDate->format('N') >= 6) {
+                        $nextDate->modify('+1 day');
+                    }
+
+                    while (in_array($nextDate->format('Y-m-d'), $holidayDates)) {
+                        $nextDate->modify('+1 day');
+                        while ($nextDate->format('N') >= 6) {
+                            $nextDate->modify('+1 day');
+                        }
+                    }
+
+                    $disabledDate = $nextDate->format('Y-m-d');
+                    $disabledDates[] = $disabledDate;
+                }
+            }
+
+            return $disabledDates;
+        };
+
+        $disabledDatesFromApplied = $calculateDisabledDates($appliedDays);
+
         $combined = array_unique(array_merge($appliedDays, $selectedDays));
         sort($combined);
+        $allDisabledDates = $calculateDisabledDates($combined);
 
-        // ✅ Compute disabled days (next working day after every 5 consecutive days)
-        $disabledDates = [];
-        $consecutive = 1;
+        $conflictsFromApplied = array_intersect($selectedDays, $disabledDatesFromApplied);
 
-        for ($i = 1; $i < count($combined); $i++) {
-            $prev = new DateTime($combined[$i - 1]);
-            $curr = new DateTime($combined[$i]);
-            $diff = $prev->diff($curr)->days;
+        $newDisabledDates = array_diff($allDisabledDates, $disabledDatesFromApplied);
+        $conflictsFromSelected = array_intersect($selectedDays, $newDisabledDates);
 
-            // Treat Fri→Mon as consecutive
-            if ($diff <= 3) {
-                $consecutive++;
-            } else {
-                $consecutive = 1;
-            }
+        $allConflicts = array_unique(array_merge($conflictsFromApplied, $conflictsFromSelected));
 
-            // If 5 consecutive working days found → disable the next working day
-            if ($consecutive == 5) {
-                $fifthDay = new DateTime($combined[$i]);
-                $next = clone $fifthDay;
-                do {
-                    $next->modify('+1 day');
-                } while ($next->format('N') >= 6); // skip weekends
-                $disabledDates[] = $next->format('Y-m-d');
-                $consecutive = 1;
-            }
-        }
-
-        // ✅ Check if any selected date overlaps with disabled ones
-        $conflicts = array_intersect($selectedDays, $disabledDates);
-
-        if (!empty($conflicts)) {
+        if (!empty($allConflicts)) {
             return Response::json([
                 'conflict' => true,
-                'message' => 'Your selected date range includes restricted dates!',
-                'disabled_dates' => array_values($conflicts),
+                'message' => 'Your selected date range includes restricted dates! You cannot file leave immediately after 5 consecutive normal working days.',
+                'conflicting_dates' => array_values($allConflicts),
+                'all_disabled_dates' => array_values(array_unique($allDisabledDates))
             ]);
         }
 
-        // ✅ Otherwise, respond normally
         return Response::json([
             'conflict' => false,
-            'disabled_dates' => $disabledDates,
+            'message' => 'Dates are valid',
+            'disabled_dates' => array_values(array_unique($allDisabledDates)),
+            'selected_dates' => $selectedDays,
             'combined_dates' => $combined
         ]);
     }
 
-
     //GENERATE PDF FILE...
     public function cdov1($pdf=null){
-
-        if (Auth::check()) {
-            $user = Auth::user();
-            if (empty($user->username)) {
-                Auth::logout();
-                return Redirect::to('/login')->with('message', 'Session expired, please login again.');
-            }
-        } else {
-            Auth::logout();
-            return Redirect::to('/login')->with('message', 'Session expired, please login again.');
-        }
 
         if($pdf == 'pdf') {
             $cdo = cdo::where('route_no',Session::get('route_no'))->first();
@@ -419,7 +647,7 @@ class cdoController extends BaseController
             $division_head = pdoController::user_search1($cdo['division_chief']);
         } else{
             $id_list = [];
-            $manually_added = [988320, 985329, 273, 11, 93053, 986445, 984538, 985950, 80, 976017, 466, 534, 986944, 988121, 357, 988148, 988309, 142, 602, 151, 988466];
+            $manually_added = [988320, 985329, 273, 11, 93053, 986445, 984538, 985950, 80, 976017, 466, 534, 986944, 988121, 357, 988148, 988309, 142, 602, 151, 988466, 75];
 
             foreach(pdoController::section() as $row) {
                 if ($row['acronym'] !== null || in_array($row['head'], [37, 72, 243, 614, 110, 163, 648384, 160, 985950, 830744, 51])) {
@@ -436,7 +664,7 @@ class cdoController extends BaseController
             }
 
             foreach(pdoController::division() as $row) {
-                if($row['ppmp_used'] == null && $row['head'] != 51){
+                if($row['ppmp_used'] == null && $row['head'] != 51 && $row['head'] != 238){
                     $division_head[] = pdoController::user_search1($row['head']);
                 }
             }
@@ -593,16 +821,6 @@ class cdoController extends BaseController
 
     public function cdo_addv1()
     {
-        if (Auth::check()) {
-            $user = Auth::user();
-            if (empty($user->username)) {
-                Auth::logout();
-                return Redirect::to('/login')->with('message', 'Session expired, please login again.');
-            }
-        } else {
-            Auth::logout();
-            return Redirect::to('/login')->with('message', 'Session expired, please login again.');
-        }
 
         $server_date = date('Y-m-d');
         $client_date = Input::get('client');
@@ -795,6 +1013,7 @@ class cdoController extends BaseController
 
 
     public function click_all($type=null){
+
         if($type == 'approve') {
             $view = 'cdo.cdo_approve';
             $status = 0;
@@ -991,17 +1210,6 @@ class cdoController extends BaseController
     }
 
     public function cdo_updatev1($id = null, $type = null){
-
-        if (Auth::check()) {
-            $user = Auth::user();
-            if (empty($user->username)) {
-                Auth::logout();
-                return Redirect::to('/login')->with('message', 'Session expired, please login again.');
-            }
-        } else {
-            Auth::logout();
-            return Redirect::to('/login')->with('message', 'Session expired, please login again.');
-        }
         
         if($id){ //AJAX PROCESS
             $cdo = cdo::where('id',$id)->first();
@@ -1416,32 +1624,51 @@ class cdoController extends BaseController
 
         Session::put('keyword',Input::get('keyword'));
         $keyword = Session::get('keyword');
+
         $pis = InformationPersonal::
-        with('transferred')->
-        where('user_status','=','1')
-            ->where(function($q) use ($keyword){
-                $q->where('fname','like',"%$keyword%")
-                    ->orWhere('mname','like',"%$keyword%")
-                    ->orWhere('lname','like',"%$keyword%")
-                    ->orWhere('userid','like',"%$keyword%");
-            })
+            with('transferred')->
+            where('user_status','=','1')
+                ->where(function($q) use ($keyword){
+                    $q->where('fname','like',"%$keyword%")
+                        ->orWhere('mname','like',"%$keyword%")
+                        ->orWhere('lname','like',"%$keyword%")
+                        ->orWhere('userid','like',"%$keyword%");
+                })
             ->orderBy('fname','asc')
             ->where('fname', '!=', '')
             ->where('region', 'region_7')
-            ->where(function($query) {
-                $query->whereNull('field_status')
-                      ->orWhere('field_status', 'Office Personnel');
-            })->paginate(10);
+            // ->where(function($query) {
+            //     $query->whereNull('field_status')
+            //           ->orWhere('field_status', 'Office Personnel');
+            // })
+            ->paginate(10);
+
+        if(Auth::user()->userid == "4415"){
+            $pis = InformationPersonal::
+            with('transferred')->
+            where('user_status','=','1')
+                ->where(function($q) use ($keyword){
+                    $q->where('fname','like',"%$keyword%")
+                        ->orWhere('mname','like',"%$keyword%")
+                        ->orWhere('lname','like',"%$keyword%")
+                        ->orWhere('userid','like',"%$keyword%");
+                })
+            ->orderBy('fname','asc')
+            ->where('fname', '!=', '')
+            ->where('region', 'region_7')
+            ->where('field_status', 'HRH')
+            ->paginate(10);
+        }
 
         $lastYear = date('Y') - 1;
 
         $card_all = CardView::whereNotIn('userid', function ($query) use ($lastYear) {
-                $query->select('userid')
-                    ->from('card_view')
-                    ->whereRaw('YEAR(ot_date) = ?', [$lastYear])
-                    ->orWhereRaw('YEAR(ot_date) = ?', [date('Y')]);
+            $query->select('userid')
+                ->from('card_view')
+                ->whereRaw('YEAR(ot_date) = ?', [$lastYear])
+                ->orWhereRaw('YEAR(ot_date) = ?', [date('Y')]);
 
-        })
+            })
             ->where('ot_date', '!=', '0000-00-00')
             ->groupBy('userid')
             ->get();
@@ -1456,6 +1683,8 @@ class cdoController extends BaseController
                 $new_card->remarks = '0';
                 $new_card->status = 5;
                 $new_card->save();
+
+                InformationPersonal::where('userid', $item->userid)->update(['bbalance_cto' => 0]);
             }
         }
 
@@ -1663,7 +1892,7 @@ class cdoController extends BaseController
             $action = Input:: get('action');
             $row = Input:: get('row_id');
             $total_total = floatval(Input::get('total_total'));
-
+ 
             foreach ($ot_hours as $index => $item) {
                 $i_date = $overtime_date[$index];
                 $beginning_balance = $cto_total[$index];
@@ -1694,14 +1923,17 @@ class cdoController extends BaseController
                     if ($total_total == 0) {
                         $card_view->status = ($otDateY == $todayYear && $otDateM == $todayMonth) ? 1 : 0;
                     } else {
+
                         $update = CardView::where('id', $row)->where('userid', $userid)->first();
 //                        CardView::where('id', $row)->where('userid', $userid)->update(["status" => 2, "bal_credits" => $update->bal_credits - $update->ot_credits, "ot_credits" => $cardcheckstat->ot_hours * $cardcheckstat->ot_rate]);
                         $stat = $cardcheckstat->status;
 
                         if ($stat != null && $stat == 0) {
                         } else {
+
                             $prior_row = CardView::where('id', '<', $row)->where('userid', $userid)->orderBy('id','desc')->whereNotIn('status', [7,5,2])->first();
                             $ch = CardView::where('id', '=', $row)->where('userid', $userid)->first();
+
                             CardView::where('id', '=', $row)->where('userid', $userid)->update(["remarks" => $remark, "ot_rate" => $ot_rate, "ot_hours" => $ot_hours, "bal_credits" => $prior_row->bal_credits + $beginning_balance, "ot_credits" => $beginning_balance]);
 //                            CardView::where('id', '=', $row)->where('userid', $userid)->update(["status" => 2, "remarks" => $remark, "bal_credits" => $update->bal_credits - $update->ot_credits, "ot_credits" => $ch->ot_rate * $ch->ot_hours]);
                             $card2 = CardView::where('id', '>=', $row)->where('userid', $userid)->get();
@@ -1873,6 +2105,8 @@ class cdoController extends BaseController
                     $card_view->remarks = $remark;
                     if(!$row){
                         $card_view->save();
+                    }else{
+                        CardView::where('id', $row)->update(['ot_date' => $ot_date]);
                     }
 
                 } else { //for deletion
@@ -1886,7 +2120,7 @@ class cdoController extends BaseController
                     $stat = $cardcheckstat->status;
                     if ($stat != null && $stat == 0) {
                     } else {
-                        $card2 = CardView::where('id', '>', $row)->where('userid', $userid)->get();
+                        $card2 = CardView::where('id', '>=', $row)->where('userid', $userid)->get();
                         foreach ($card2 as $card) {
                             if ($card) {
                                 $thiscardMonth = date('m', strtotime($card->ot_date));

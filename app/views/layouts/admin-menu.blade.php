@@ -54,19 +54,21 @@
             <li>
                 <a href="{{ asset('form/so_list') }}"><i class="fa fa-file"></i> Office Order</a>
             </li>
-            <li class="divider"></li>
-            <li class="dropdown-submenu">
-                <a href="#" data-toggle="dropdown"><i class="fa fa-file"></i> Leave</a>
-                <ul class="dropdown-menu">
-                    <li><a href="{{ asset('leave/roles') }}">Leave Applications</a></li>
-                    <li><a href="{{ asset('leave/credits') }}">Leave Credits</a></li>
-                </ul>
-            </li>
+            @if(Auth::user()->userid == "leave_admin")
+                <li class="divider"></li>
+                <li class="dropdown-submenu">
+                    <a href="#" data-toggle="dropdown"><i class="fa fa-file"></i> Leave</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="{{ asset('leave/roles') }}">Leave Applications</a></li>
+                        <li><a href="{{ asset('leave/credits') }}">Leave Credits</a></li>
+                    </ul>
+                </li>
+            @endif
             <li class="divider"></li>
             <li>
                  <a href="{{ asset('wellness/get-wellness') }}"><i class="fa fa-file"></i> Wellness </a>
             </li>
-            @if(Auth::user()->userid == 3856 || Auth::user()->userid == 2764)
+            @if(in_array(Auth::user()->userid, [3856, 2764, 4415]))
                 <li class="divider"></li>
                 <li class="dropdown-submenu">
                     <a href="#" data-toggle="dropdown"><i class="fa fa-file"></i> CTO</a>

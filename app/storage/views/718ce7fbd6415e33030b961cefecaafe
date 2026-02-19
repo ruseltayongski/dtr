@@ -231,8 +231,6 @@
         });
 
         $("a[href='#disapprove']").on("click",function(){
-            console.log('ajax_disapproved content:', loadingState);
-
             $("input[name='keyword']").val("");
             $('.ajax_disapproved').html(loadingState);
             type = 'disapproved';
@@ -503,52 +501,70 @@
         var move_route = '';
         var dateList = [];
 
-        function move_dates(event) {
-            console.log('sample');
+        function formatDate(date){
+
+        }
+
+        function move_dates(event, route_no) {
+            dateList = [];
             $('#move_body').empty();
-            var name = event.target.getAttribute('value');
-            move_route = name;
-            $('#route').val(name);
-            $('#move_route').val(name);
+            move_route = route_no;
 
-                <?php $routes = Leave::get(); ?>
-                <?php foreach ($routes as $route){ ?>
-            var route = "<?php echo $route->route_no;?>";
-            if(name == route){
+            $.get('/dtr/leave/move/' + route_no)
+                .done(function(response) {
+                    $(".modal-title").html("Route No:<strong>"+route_no);
+                    response.forEach(function(item){
+                        var startDate = new Date(item.startdate + "T00:00:00");
+                        var endDate = new Date(item.enddate + "T00:00:00");
+                        var start_date = new Date(item.startdate);
+                        var end_date = new Date(item.enddate);
+                        if(item.status == 2){
+                            startDate = new Date(item.from_date + "T00:00:00");
+                            endDate = new Date(item.to_date + "T00:00:00");
+                            start_date = new Date(item.from_date);
+                            end_date = new Date(item.to_date);
+                        }
+                        var diff = Math.abs(start_date - end_date) / (1000 * 60 * 60 * 24);
 
-                $(".modal-title").html("Route No:<strong>"+route);
-                    <?php $dates = LeaveAppliedDates::where('leave_id', '=', $route->id)->where('status', '!=', 1)->get(); ?>
-                    <?php foreach ($dates as $date) {?>
-                var diff = "<?php $diff=(strtotime($date->startdate)-strtotime($date->enddate))/ (60*60*24); echo $diff*-1; ?>";
-                var startDate = new Date("<?php echo date('F j, Y', strtotime($date->startdate)); ?>");
-                var endDate = new Date("<?php echo date('F j, Y', strtotime($date->enddate)); ?>");
-                if(diff == 0){
-                    dateList.push(startDate.toLocaleDateString());
-                }else{
-                    while (startDate <= endDate) {
-                        dateList.push(startDate.toLocaleDateString());
-                        startDate.setDate(startDate.getDate() + 1);
+                        if(diff == 0){
+                            dateList.push(startDate.toLocaleDateString());
+                        }else{
+                            while (startDate <= endDate) {
+                                dateList.push(startDate.toLocaleDateString());
+                                startDate.setDate(startDate.getDate() + 1);
+                            }
+                        }
+                    });
+
+                    var length = dateList.length;
+                    var i=0;
+                    while(length > i){
+                        $('#move_select').append($('<option>', {
+                            value: dateList[i],
+                            text: dateList[i]
+                        }))
+                        i++;
                     }
-                }
-                    <?php }?>
-                var length = dateList.length;
-                var i=0;
 
-                while(length > i){
-                    $('#move_select').append($('<option>', {
-                        value: dateList[i],
-                        text: dateList[i]
-                    }))
-                    i++;
-                }
+                    $('.move_datepickerInput').datepicker({
+                        autoclose: true
+                    });
 
-                $('.move_datepickerInput').datepicker({
-                    autoclose: true
+                    $('#move_select').chosen();
+                })
+                .fail(function(xhr, status, error) {
+                    // Log the status and error
+                    console.log('Status:', status);
+                    console.log('Error:', error);
+                    console.log('Response Text:', xhr.responseText);
+                    try {
+                        var jsonResponse = JSON.parse(xhr.responseText);
+                        console.log('Response JSON:', jsonResponse);
+                    } catch (e) {
+                        console.log('Response is not JSON:', xhr.responseText);
+                    }
+                    console.log('Status Code:', xhr.status);
                 });
-
-            }
-            <?php }?>
-            $('#move_select').chosen();
         }
 
         var result = [];
@@ -610,7 +626,6 @@
                                 msg: 'Leave application successfully moved!'
                             });
                         },700);
-                        location.reload();
                     }else{
                         setTimeout(function(){
                             Lobibox.notify('error', {
@@ -619,8 +634,8 @@
                                 msg: 'Leave application is not found!'
                             });
                         },700);
-                        location.reload();
                     }
+                    location.reload();
                 },
                 error: function(xhr, status, error) {
                     // Log the status and error

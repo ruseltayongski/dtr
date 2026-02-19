@@ -158,7 +158,7 @@
 
         function checkAbsence(button) {
             $('.mod_update_btn').val('update');
-            $('.type_label').text('No of Absences');
+            $('.type_label').text('No of Leave w/o Pay');
             $('#month_date').val('');
             $('#absence').val('');
             $(".card_id").val('');

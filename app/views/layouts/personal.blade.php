@@ -40,19 +40,15 @@
     <li class="dropdown">
         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-file"></i> Forms<span class="caret"></span></a>
         <ul class="dropdown-menu">
-            @if($field != "HRH")
-                @if(Session::get("job_status") == 'Permanent')
-                    <li><a href="{{ asset('form/leave/all') }}">Leave</a></li>
-                    <li class="divider"></li>
-                @endif
-                <!-- <li><a href="{{ asset('form/so_list') }}">Office Order</a></li> -->
-                <!-- <li class="divider"></li> -->
-                <li><a href="{{ asset("form/cdo_user") }}">CDO</a></li>
+            @if(Session::get("job_status") == 'Permanent')
+                <li><a href="{{ asset('form/leave/all') }}">Leave</a></li>
                 <li class="divider"></li>
-                <li><a href="{{ asset('wellness/get-wellness') }}">Wellness</a></li>
-            @else
-                <!-- <li><a href="{{ asset('form/so_list') }}">Office Order</a></li> -->
             @endif
+            <!-- <li><a href="{{ asset('form/so_list') }}">Office Order</a></li> -->
+            <!-- <li class="divider"></li> -->
+            <li><a href="{{ asset("form/cdo_user") }}">CDO</a></li>
+            <li class="divider"></li>
+            <li><a href="{{ asset('wellness/get-wellness') }}">Wellness</a></li>
         </ul>
     </li>
     <li class="dropdown">
