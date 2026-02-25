@@ -36,72 +36,55 @@
     <h3 class="page-header">Leave Documents
     </h3>
     <div class="row">
-        <div class="col-md-4">
+
+        <div class="col-md-12">
             <div class="row">
                 <div class="col-md-12">
                     <div class="panel panel-default">
-                        <div class="panel-heading"><strong style="color: #f0ad4e;font-size:medium;">Option</strong></div>
-                        <div class="panel-body">
+                        {{--<div class="panel-heading"><strong style="color: #f0ad4e;font-size:medium;">Document list</strong></div>--}}
+                        <div class="panel-heading">
                             <form class="form-inline" method="POST" action="{{ asset('form/leave/all') }}" id="searchForm">
                                 <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
-                                <div class="table-responsive">
-                                    <table class="table">
-                                        <tr>
-                                            <td class="col-sm-2" style="font-size: 12px;"><strong>Dates</strong></td>
-                                            <td class="col-sm-1"> :</td>
-                                            <td class="col-sm-9">
-                                                <div class="input-group">
-                                                    <div class="input-group-addon">
-                                                        <i class="fa fa-calendar"></i>
-                                                    </div>
-                                                    <input type="text" class="form-control" id="inclusive3" value="{{ $filter_range }}" name="filter_range" placeholder="Input date range here..." required>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    </table>
+                                <div class="col-md-8">
+                                    <input type="text" class="form-control" value="{{ Session::get('keyword') }}" id="inputEmail3" name="keyword" style="width: 100%" placeholder="Route no, Reason">
                                 </div>
-                                <button type="submit"  class="btn-lg btn-success center-block col-sm-12" id="print" data-loading-text="<i class='fa fa-refresh fa-spin'></i> Printing DTR">
+                                <button type="submit" class="btn btn-primary" name="search" id="search" data-loading-text="<i class='fa fa-refresh fa-spin'></i> Printing DTR">
                                     <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Search
                                 </button>
+                                <a style="margin-right: 10px; margin-left: 10px" href="{{ asset('form/leave') }}" class="btn btn-success">
+                                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Create new
+                                </a>
+                                <button type="button" class="btn btn-info leave_ledger2" id="viewCard" data-toggle="modal" data-target="#leave_ledger2">
+                                    <span class="glyphicon glyphicon-eye-open"></span> View Card
+                                </button>
                             </form>
+
                         </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-8">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="panel panel-default">
-                        <div class="panel-heading"><strong style="color: #f0ad4e;font-size:medium;">Document list</strong></div>
                         <div class="panel-body">
                             <div class="row">
                                 <div class="col-md-12">
-                                    <a style="margin-right: 10px" href="{{ asset('form/leave') }}" class="btn btn-success center-block col-md-2">
-                                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Create new
-                                    </a>
-                                    <button class="btn btn-info center-block col-md-2 leave_ledger2" href="#leave_ledger2" id="viewCard" name="viewCard" data-toggle="modal"
-                                            data-target="#leave_ledger2"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>&nbsp;&nbsp;View Card</button>
                                     <?php
-                                    if(!empty(Session::get("vacation_balance")) || Session::get('vacation_balance') != 0){
-                                        $vacation_balance = Session::get("vacation_balance");
-                                    } else {
-                                        $vacation_balance = 0;
-                                    }
-                                    if(!empty(Session::get("sick_balance")) || Session::get('sick_balance') != 0){
-                                        $sick_balance = Session::get("sick_balance");
-                                    } else {
-                                        $sick_balance = 0;
-                                    }
+                                        if(!empty(Session::get("vacation_balance")) || Session::get('vacation_balance') != 0){
+                                            $vacation_balance = Session::get("vacation_balance");
+                                        } else {
+                                            $vacation_balance = 0;
+                                        }
+                                        if(!empty(Session::get("sick_balance")) || Session::get('sick_balance') != 0){
+                                            $sick_balance = Session::get("sick_balance");
+                                        } else {
+                                            $sick_balance = 0;
+                                        }
 
-                                    $fl_total = !Empty($leave->FL)? $leave->FL : 0;
-                                    $spl_total = !Empty($leave->SPL)? $leave->SPL : 0;
+                                        $fl_total = !Empty($leave->FL)? $leave->FL : 0;
+                                        $spl_total = !Empty($leave->SPL)? $leave->SPL : 0;
+                                        $wl_total = !Empty($leave->wellness)? $leave->wellness : 0;
                                     ?>
                                     <div style="text-align: right">
-                                        <label class="text-success">VL Bal: <span class="badge bg-blue">{{ $vacation_balance }}</span></label>
-                                        <label class="text-danger">SL Bal: <span class="badge bg-red">{{ $sick_balance }}</span></label>
-                                        <label class="text-success">FL Bal: <span class="badge bg-blue">{{$fl_total}}</span></label>
-                                        <label class="text-danger">SPL Bal: <span class="badge bg-red">{{ $spl_total }}</span></label>
+                                        <label class="text-info">VL Bal: <span class="badge bg-red">{{ $vacation_balance }}</span></label>
+                                        <label class="text-info">SL Bal: <span class="badge bg-red">{{ $sick_balance }}</span></label>
+                                        <label class="text-info">FL Bal: <span class="badge bg-red">{{$fl_total}}</span></label>
+                                        <label class="text-info">SPL Bal: <span class="badge bg-red">{{ $spl_total }}</span></label>
+                                        <label class="text-info">WL Bal: <span class="badge bg-red">{{ $wl_total }}</span></label>
                                     </div>
                                 </div>
                             </div>

@@ -46,6 +46,8 @@
                 <label id="spl" style="color:red;">{{($spl)?$spl->SPL:0}}</label>
                 <label>FL Balance: </label>
                 <label id="fl" style=color:red;">{{($spl)?$spl->FL:0}}</label>
+                <label>WL Balance: </label>
+                <label id="fl" style=color:red;">{{($spl)?$spl->wellness:0}}</label>
                 <label>VL Balance: </label>
                 <label id="vl" style="color:red;">{{($user->vacation_balance != null)?$user->vacation_balance:0}}</label>
                 <label>SL Balance: </label>
@@ -513,12 +515,12 @@
             } else if(val == "SL") {
                 $('input[name="for_text_input"]').prop('disabled', true).val("");
 
-            } else if(val == "SPL") {
+            } else if(val == "SPL" || val == "WL") {
                 $('input[name="for_text_input"]').prop('disabled', true).val("");
 
                 Lobibox.alert('success', // AVAILABLE TYPES: "error", "info", "success", "warning"
                     {
-                        msg: "Is this an emergency type of Special Privilege Leave?",
+                        msg: val == "SPL" ? "Emergency Special Privilege Leave?" : "Emergency Welness Leave?",
                         size: 'mini',
                         buttons: {
                             emergency: {

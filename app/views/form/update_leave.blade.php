@@ -155,12 +155,14 @@
                                                             "(R.A. No. 9710 / CSC MC No. 25, s. 2010)",
                                                             "(CSC MC No. 2, s. 2012, as amended)",
                                                             "(R.A. No. 8552)",
+                                                            "",
+                                                            ""
                                                         ]
                                                         ?>
                                                         <div class="checkbox">
                                                             <label style="margin-right: 5%; color:black">
                                                                 <input type="radio" class="minimal" style="margin-top: auto" id="leave_type" name="leave_type" onclick="" value="{{ $row->code }}" {{($leave->leave_type == $row->code)?'checked' :''}}>
-                                                                {{ $row->desc }} <small>{{($index == 13)?'':$details[$index]}}</small>
+                                                                {{ $row->desc }} <small>{{  $details[$index] }}</small>
                                                                 @if($row->code == 'OTHERS')
                                                                     <input type="text"  value ="{{$leave->for_others}}" name="others_type" class="others_type_dis others_type_dis_txt" id="others_txt" style="width: 370px; margin-left: 20px; border: none; border-bottom: 2px solid black;" />
                                                                 @endif
