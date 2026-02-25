@@ -39,7 +39,6 @@ class DocumentController extends BaseController
                 ->first();
             $leave_type = LeaveTypes::get();
             $spl = AditionalLeave::where('userid', Auth::user()->userid)->first();
-
             $id_list = [];
             $manually_added = [985329, 273, 11, 93053, 986445, 984538, 985950, 80, 976017, 466];
 
@@ -68,10 +67,17 @@ class DocumentController extends BaseController
                 ->whereRaw('YEAR(updated_at) = ?', [date('Y')])
                 ->where('leave_type', 'SPL')
                 ->sum('applied_num_days');
+
             $fl_pending = Leave::where('userid', Auth::user()->userid)
                 ->whereRaw('YEAR(updated_at) = ?', [date('Y')])
                 ->where('leave_type', 'FL')
                 ->sum('applied_num_days');
+
+            $welness_pending = Leave::where('userid', Auth::user()->userid)
+                ->whereRaw('YEAR(updated_at) = ?', [date('Y')])
+                ->where('leave_type', 'WL')
+                ->sum('applied_num_days');
+
             return View::make('form.form_leave',[
                 "user" => $user,
                 "leave_type" => $leave_type,
@@ -79,7 +85,8 @@ class DocumentController extends BaseController
                 "officer" =>  $section_head,
                 "holidays" => Calendars::where('status', 1)->lists('start'),
                 'spl_pending' => $spl_pending,
-                'fl_pending' => $fl_pending
+                'fl_pending' => $fl_pending,
+                'wellness_pending' => $welness_pending
             ]);
         }
         if(Request::method() == 'POST') {
@@ -162,7 +169,7 @@ class DocumentController extends BaseController
                 }
             }
 
-            if($leave->leave_type == "SL" || $leave->leave_type == "SPL"){
+            if (in_array($leave->leave_type, ['SL', 'SPL', 'WL'])) {
                 if (isset($_POST['s_dates'])) {
                     $rem_dates = $_POST['s_dates'];
                     $rpo_rem = $_POST['rpo_rem'];
@@ -453,6 +460,10 @@ class DocumentController extends BaseController
             ->whereRaw('YEAR(updated_at) = ?', [date('Y')])
             ->where('leave_type', 'FL')
             ->sum('applied_num_days');
+        $wellness_pending = Leave::where('userid', Auth::user()->userid)
+            ->whereRaw('YEAR(updated_at) = ?', [date('Y')])
+            ->where('leave_type', 'WL')
+            ->sum('applied_num_days');
 
         return View::make('form.leave')->with([
             'leave' => $leave,
@@ -464,7 +475,8 @@ class DocumentController extends BaseController
             'spl' => $spl,
             "holidays" => Calendars::where('status', 1)->lists('start'),
             'spl_pending' => $spl_pending,
-            'fl_pending' => $fl_pending
+            'fl_pending' => $fl_pending,
+            'wellness_pending' => $wellness_pending
         ]);
 
 //        $leave = Leave::select('leave.*', 'personal_information.vacation_balance', 'personal_information.sick_balance')

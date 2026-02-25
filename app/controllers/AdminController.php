@@ -819,6 +819,8 @@ class AdminController extends BaseController
                     $leave_card->vl_abswp = ($leave->vl_deduct == 0)?'': (int) $leave->vl_deduct;
                 }else if($leave->leave_type == 'SPL'){
                     $add_leave->SPL = $add_leave->SPL - (int) $leave->applied_num_days;
+                }else if($leave->leave_type == 'WL'){
+                    $add_leave->wellness = $add_leave->wellness - (int) $leave->applied_num_days;
                 }else if($leave->leave_type == 'SL'){
                     $leave_card->sl_abswp = ($leave->sl_deduct == 0)?'':$leave->sl_deduct;
                     $leave_card->vl_abswp = ($leave->vl_deduct == 0)?'':$leave->vl_deduct;
@@ -1108,7 +1110,7 @@ class AdminController extends BaseController
                     ->orWhere('personal_information.userid', 'like', "%$keyword%");
             })
             ->leftjoin('dohdtr.addtnl_leave', 'addtnl_leave.userid', '=', 'personal_information.userid')
-            ->select('personal_information.*', 'addtnl_leave.FL','addtnl_leave.SPL')
+            ->select('personal_information.*', 'addtnl_leave.FL','addtnl_leave.SPL', 'addtnl_leave.wellness')
             ->orderBy('personal_information.fname', 'asc')
             ->paginate(10);
 //
@@ -1430,6 +1432,7 @@ class AdminController extends BaseController
         $vl = Input::get('vacation');
         $sl = Input::get('sick');
         $fl = Input::get('fl');
+        $wellness = Input::get('wellness');
         $spl = Input::get('spl');
         $pis = InformationPersonal::where('userid', $userid)->first();
         $pis->vacation_balance = $vl;
@@ -1439,6 +1442,7 @@ class AdminController extends BaseController
         if($add_leave){
             $add_leave->FL = $fl;
             $add_leave->SPL = $spl;
+            $add_leave->wellness = $wellness;
             $add_leave->save();
             return Redirect::back()->with('update_leave_balance', "Leave data is not found!");
         }

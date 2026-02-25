@@ -15,8 +15,10 @@
     var sl_bal = {{($user->sick_balance != null)?$user->sick_balance:0}};
     var FL = {{($spl)?$spl->FL:0}};
     var SPL = {{($spl)?$spl->SPL:0}};
+    var WL = {{($spl)?$spl->wellness:0}};
     var spl_pending = {{ $spl_pending }};
     var fl_pending = {{ $fl_pending }};
+    var wl_pending = {{ $wellness_pending }};
 
     var radio_val = $('input[name="leave_type"]:checked').val();
 
@@ -57,6 +59,14 @@
                      beforeDaysToApply = 5;
                 }
             }else if(radio_val == "SPL") {
+                if (spl_type == 'unemergency') {
+                    if (name_of_days == "Friday") {
+                        beforeDaysToApply = 9;
+                    } else {
+                        beforeDaysToApply = 7;
+                    }
+                }
+            }else if(radio_val == "WL") {
                 if (spl_type == 'unemergency') {
                     if (name_of_days == "Friday") {
                         beforeDaysToApply = 9;
@@ -118,7 +128,7 @@
                 startDate: startDate,
                 endDate: endDate,
                 isInvalidDate: function(date) {
-                    if (['VL','SL','SPL','FL','SOLO_PL','STUD_L', 'RL', 'RL', 'SEL', 'OTHERS'].includes(leave_value()) || leave_value() == null) {
+                    if (['VL','SL','SPL','WL','FL','SOLO_PL','STUD_L', 'RL', 'RL', 'SEL', 'OTHERS'].includes(leave_value()) || leave_value() == null) {
                         var formatted = moment(date).format('MM/DD/YYYY');
                         var day = date.day();
                         return (day === 0 || day === 6 || con_holidays.includes(formatted));
@@ -221,7 +231,7 @@
                         }else{
                             $('#without_pay').val(days + ' day(s)');
                         }
-                }else if(radio_val == 'SL' || radio_val == 'SPL'){
+                }else if(radio_val == 'SL' || radio_val == 'SPL' || radio_val == 'WL'){
                     if(radio_val == 'SL'){
                         if(sl_bal >= days){
                             $('#with_pay').val(days + ' day(s)');
@@ -252,13 +262,25 @@
                             }
                         }
                     }else if(radio_val == "SPL"){
-                        console.log(spl_pending + days);
                         if(days>SPL){
                             Lobibox.alert('error',{msg:"Exceed SPL Balance/Maximum of 3!"});
                             $('.datepickerInput1').val("");
                             $('#applied_num_days').val("");
                         }else if( spl_pending + days> SPL){
                             Lobibox.alert('error',{msg:"Exceed your SPL remaining balance!"});
+                            $('.datepickerInput1').val("");
+                            $('#applied_num_days').val("");
+                            return;
+                        }else{
+                            $('#with_pay').val(days + " day(s)");
+                        }
+                    }else if(radio_val == "WL"){
+                        if(days>WL){
+                            Lobibox.alert('error',{msg:"Exceed Wellness Leave Balance/Maximum of 5!"});
+                            $('.datepickerInput1').val("");
+                            $('#applied_num_days').val("");
+                        }else if( wl_pending + days> WL){
+                            Lobibox.alert('error',{msg:"Exceed your Wellness Leave remaining balance!"});
                             $('.datepickerInput1').val("");
                             $('#applied_num_days').val("");
                             return;
@@ -275,7 +297,7 @@
 
                     remarksContainer.empty();
                     $('#date_remarks2').empty();
-
+                    console.log('here');
                     if (end_date <= currentDate) {
 
                         var dayAfterEndDate = new Date(end_date);

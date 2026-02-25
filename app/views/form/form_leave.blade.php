@@ -46,6 +46,8 @@
                 <label id="spl" style="color:red;">{{($spl)?$spl->SPL:0}}</label>
                 <label>FL Balance: </label>
                 <label id="fl" style=color:red;">{{($spl)?$spl->FL:0}}</label>
+                <label>WL Balance: </label>
+                <label id="fl" style=color:red;">{{($spl)?$spl->wellness:0}}</label>
                 <label>VL Balance: </label>
                 <label id="vl" style="color:red;">{{($user->vacation_balance != null)?$user->vacation_balance:0}}</label>
                 <label>SL Balance: </label>
@@ -154,6 +156,8 @@
                                                                 "(R.A. No. 9710 / CSC MC No. 25, s. 2010)",
                                                                 "(CSC MC No. 2, s. 2012, as amended)",
                                                                 "(R.A. No. 8552)",
+                                                                "",
+                                                                ""
                                                             ]
                                                         ?>
                                                         <div class="checkbox">
@@ -161,7 +165,7 @@
                                                                 <input type="radio" class="minimal" style="margin-top: auto" id="leave_type" name="leave_type" onclick="" value="{{ $row->code }}"
                                                                     {{ ($row->code == 'SPL' && (!$spl || ($spl && $spl->SPL == 0))) ? 'disabled' : '' }}
                                                                 >
-                                                                {{ $row->desc }} <small>{{($index == 13)?'':$details[$index]}}</small>
+                                                                {{ $row->desc }} <small>{{ $details[$index] }}</small>
                                                                 @if($row->code == 'OTHERS')
                                                                     <input type="text"  name="others_type" class="others_type_dis others_type_dis_txt" id="others_txt" style="width: 370px; margin-left: 20px; border: none; border-bottom: 2px solid black;" />
                                                                 @endif
@@ -511,12 +515,12 @@
             } else if(val == "SL") {
                 $('input[name="for_text_input"]').prop('disabled', true).val("");
 
-            } else if(val == "SPL") {
+            } else if(val == "SPL" || val == "WL") {
                 $('input[name="for_text_input"]').prop('disabled', true).val("");
 
                 Lobibox.alert('success', // AVAILABLE TYPES: "error", "info", "success", "warning"
                     {
-                        msg: "Is this an emergency type of Special Privilege Leave?",
+                        msg: val == "SPL" ? "Emergency Special Privilege Leave?" : "Emergency Welness Leave?",
                         size: 'mini',
                         buttons: {
                             emergency: {

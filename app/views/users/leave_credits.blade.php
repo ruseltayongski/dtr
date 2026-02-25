@@ -24,9 +24,8 @@
                 <tr>
                     <th style="width: 17%;"><div style="margin-left: 15px;">Userid</div></th>
                     <th style="width: 25%;"><div style="margin-left: 15px;">Name</div></th>
-                    {{--<th style="width: 100px;"><div style="margin-left: 15px;">Section / Division</div></th>--}}
-                    <th style="width: 40%;" colspan="2"><div style="margin-left: 15px;">Balance</div></th>
-                    <th style="width: 15%;"><div style="margin-left: 15px;">Option</div></th>
+                    <th style="width: 40%; text-align: center" colspan="5"><div style="margin-left: 15px;">Balance</div></th>
+                    <th style="width: 15%; text-align: center">Option</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -46,23 +45,16 @@
                                 @if($user->fname || $user->lname || $user->mname || $user->name_extension) {{ $user->fname.' '.$user->mname.' '.$user->lname.' '.$user->name_extension }} @else <i>NO NAME</i> @endif
                             </label>
                         </td>
-                        <!--<td>
-                            <label class="text-info">@if(isset(pdoController::search_section($user->section_id)['description'])) {{ pdoController::search_section($user->section_id)['description'] }} @else NO SECTION @endif</label><br>
-                            <small class="text-success" style="margin-left: 15px;"><em>(@if(isset(pdoController::search_division($user->division_id)['description'])) {{ pdoController::search_division($user->division_id)['description'] }} @else NO DIVISION @endif {{ ')' }}</em></small>
-                        </td>-->
-                        <td>
-                            <label class="text-primary">Vacation: @if($user->vacation_balance) {{ $user->vacation_balance }} @else 0 @endif</label><br>
-                            <label class="text-danger">Sick: @if($user->sick_balance) {{ $user->sick_balance }} @else 0 @endif</label>
-                        </td>
-                        <td>
-                            <label class="text-primary">Force: @if($user->FL) {{ $user->FL }} @else 0 @endif</label><br>
-                            <label class="text-danger">Special Privilege: @if($user->SPL) {{ $user->SPL }} @else 0 @endif</label>
-                        </td>
-                        <td>
-                            <button class="btn btn-sm leave_balance" style="background-color: #9C8AA5;color: white; width: 150px;" data-toggle="modal" data-id="{{ $user->userid }}" data-fl="{{$user->FL? $user->FL : 0}}" data-spl="{{$user->SPL? $user->SPL : 0}}"
-                                    data-vacation="{{ $user->vacation_balance }}" data-sick="{{ $user->sick_balance }}" data-target="#leave_balance"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>&nbsp;&nbsp;Update Leave Balance</button>
-                            <button onclick="view_leave('{{ $user->userid }}')" class="btn btn-sm leave_ledger" style="background-color: #31b0d5;color: white; width: 150px;" data-toggle="modal" data-id="{{ $user->userid }}" id="viewCard" name="viewCard" data-toggle="modal"
-                                    data-target="#leave_ledger"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>&nbsp;&nbsp;View Leave Balance</button>
+                        <td><span style="font-weight: bold">VL: </span> @if($user->vacation_balance) {{ $user->vacation_balance }} @else 0 @endif</td>
+                        <td><span style="font-weight: bold">SL: </span> @if($user->sick_balance) {{ $user->sick_balance }} @else 0 @endif</td>
+                        <td><span style="font-weight: bold">FL: </span> @if($user->FL) {{ $user->FL }} @else 0 @endif</td>
+                        <td><span style="font-weight: bold">SPL: </span> @if($user->SPL) {{ $user->SPL }} @else 0 @endif</td>
+                        <td><span style="font-weight: bold">WL: </span> @if($user->wellness) {{ $user->wellness }} @else 0 @endif</td>
+                        <td style="text-align: center">
+                            <button class="btn btn-sm leave_balance" style="background-color: #9C8AA5;color: white; width: 120px;" data-toggle="modal" data-id="{{ $user->userid }}" data-fl="{{$user->FL? $user->FL : 0}}" data-spl="{{$user->SPL? $user->SPL : 0}}"
+                                    data-wellness="{{ $user->wellness }}"   data-vacation="{{ $user->vacation_balance }}" data-sick="{{ $user->sick_balance }}" data-target="#leave_balance"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>&nbsp;&nbsp;Update Balance</button>
+                            <button onclick="view_leave('{{ $user->userid }}')" class="btn btn-sm leave_ledger" style="background-color: #31b0d5;color: white; width: 120px;" data-toggle="modal" data-id="{{ $user->userid }}" id="viewCard" name="viewCard" data-toggle="modal"
+                                    data-target="#leave_ledger"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>&nbsp;&nbsp;View Card</button>
                         </td>
                     </tr>
                 @endforeach
@@ -117,6 +109,7 @@
             var spl = $(this).data('spl');
             var vacation = $(this).data('vacation');
             var sick = $(this).data('sick');
+            var wellness = $(this).data('wellness');
             var userid = $(this).data('id');
             $("#userid_bal").val(userid);
             $(".leave_title").text(userid);
@@ -128,28 +121,35 @@
                         "<td class='col-sm-3'><strong>Vacation Balance</strong></td>" +
                         "<td class='col-sm-1'>: </td>" +
                         "<td class='col-sm-9'>" +
-                            "<input type='text' class='form-control ' id='vacation' value='"+vacation+"' name='vacation' required>" +
+                            "<input type='number' class='form-control ' id='vacation' value='"+vacation+"' name='vacation' required>" +
                         "</td>" +
                     "</tr>" +
                     "<tr>" +
                         "<td class='col-sm-3'><strong>Sick Balance</strong></td>" +
                         "<td class='col-sm-1'>: </td>" +
                         "<td class='col-sm-9'>" +
-                            "<input type='text' class='form-control' id='sick' value='"+sick+"' name='sick' required>" +
+                            "<input type='number' class='form-control' id='sick' value='"+sick+"' name='sick' required>" +
                         "</td>" +
                     "</tr>" +
                         "<tr>" +
                         "<td class='col-sm-3'><strong>SPL Balance</strong></td>" +
                         "<td class='col-sm-1'>: </td>" +
                         "<td class='col-sm-9'>" +
-                        "<input type='text' class='form-control' id='spl' value='"+spl+"' name='spl' required>" +
+                        "<input type='number' class='form-control' id='spl' value='"+spl+"' name='spl' required>" +
                         "</td>" +
                     "</tr>" +
                     "<tr>" +
                         "<td class='col-sm-3'><strong>FL Balance</strong></td>" +
                         "<td class='col-sm-1'>: </td>" +
                         "<td class='col-sm-9'>" +
-                        "<input type='text' class='form-control' id='fl' value='"+fl+"' name='fl' required>" +
+                        "<input type='number' class='form-control' id='fl' value='"+fl+"' name='fl' required>" +
+                        "</td>" +
+                    "</tr>" +
+                    "<tr>" +
+                    "<td class='col-sm-3'><strong>WL Balance</strong></td>" +
+                        "<td class='col-sm-1'>: </td>" +
+                        "<td class='col-sm-9'>" +
+                        "<input type='number' class='form-control' id='wellness' value='"+wellness+"' name='wellness' required>" +
                         "</td>" +
                     "</tr>" +
                 "</table>");

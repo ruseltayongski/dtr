@@ -128,12 +128,14 @@
                                                                 "(R.A. No. 9710 / CSC MC No. 25, s. 2010)",
                                                                 "(CSC MC No. 2, s. 2012, as amended)",
                                                                 "(R.A. No. 8552)",
+                                                                "",
+                                                                ""
                                                             ]
                                                             ?>
                                                             <div class="checkbox">
                                                                 <label style="margin-right: 2%; color:black">
                                                                     <input type="radio" class="minimal" style="margin-top: auto" id="leave_type" name="leave_type" onclick="" value="{{ $row->code }}" {{($leave->leave_type == $row->code)?'checked' :''}}>
-                                                                    {{ $row->desc }} <span style="font-size: 10.6px; margin-left: auto">{{($index == 13)?'':$details[$index]}}</span>
+                                                                    {{ $row->desc }} <span style="font-size: 10.6px; margin-left: auto">{{ $details[$index] }}</span>
                                                                     @if($row->code == 'OTHERS')
                                                                         <input type="text"  value ="{{$leave->for_others}}" name="others_type" class="others_type_dis others_type_dis_txt" id="others_txt" style="width: 370px; margin-left: 20px; border: none; border-bottom: 2px solid black;" />
                                                                     @endif
@@ -242,10 +244,10 @@
                                         @if($leave->sl_remarks)
                                             <div class="row" id="date_remarks2">
                                                 @foreach($leave->sl_remarks as $index => $row)
-                                                    <div class="row" style="padding: 5px; width: 90%; margin-left: 5%;">
+                                                    <div class="row" style="padding: 7px; width: 90%; margin-left: 5%;">
                                                         <div>
                                                             @if($index == 0)
-                                                                <div style="font-weight: bold; margin-bottom: 5px;">SL remarks:</div>
+                                                                <div style="font-weight: bold; margin-bottom: 5px;">Remarks:</div>
                                                             @endif
                                                             <div style="display: flex; align-items: center; gap: 10px;">
                                                                 <span style="white-space: nowrap;">{{ date('m/d/Y', strtotime($row->date)) }}</span>
