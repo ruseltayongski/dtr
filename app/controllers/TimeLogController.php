@@ -1,5 +1,8 @@
 <?php
 
+use Illuminate\Support\Facades\Request;
+use Illuminate\Support\Facades\Config;
+
 class TimeLogController extends Controller
 {
     public function __construct()
@@ -9,7 +12,7 @@ class TimeLogController extends Controller
             {
                 return Redirect::to('/');
             }
-        });
+        }, ['except' => ['csharpApiEndpoint']]);
     }
     
     public function timeLog($supervisor = null){
@@ -90,6 +93,7 @@ class TimeLogController extends Controller
                 $dtr_file->save();
             }
         }
+        // return $logs;
     }
 
     public function append(){
@@ -776,4 +780,78 @@ class TimeLogController extends Controller
         ]);
     }
 
+    public function fetchCsharpLogs($userid, $date_from, $date_to)
+    {
+        $secrets = require __DIR__ . '/../config/secrets.php';
+        $configKey = $secrets['old_api_key'];
+
+        $url = "http://192.168.81.7/dtr_api/logs/GetLogs/".$userid; 
+        // $url = "https://192.168.111.18:7079/api/logs/getLogs/"; //TESTING PURPOSES ONLY
+        $data = [
+            "userid" => $userid,
+            "df" => $date_from,
+            "dt" => $date_to
+        ];
+
+        $curl = curl_init($url);
+        curl_setopt($curl, CURLOPT_POST, true);
+        curl_setopt($curl, CURLOPT_POSTFIELDS, http_build_query($data));
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+
+        // curl_setopt_array($curl, [
+        //     CURLOPT_POST => true,
+        //     CURLOPT_POSTFIELDS => json_encode($data),
+
+        //     CURLOPT_RETURNTRANSFER => true,
+
+        //     CURLOPT_HTTPHEADER => [
+        //         'Content-Type: application/json',
+        //         'Accept: */*',
+        //         'Connection: keep-alive',
+        //         'Authorization: Bearer ' . trim($configKey),
+        //     ],
+
+        //     CURLOPT_SSL_VERIFYPEER => false,
+        //     CURLOPT_SSL_VERIFYHOST => false,
+        // ]);
+
+        $response = curl_exec($curl);
+
+        if ($response === false) {
+            \Log::error('C# API error: ' . curl_error($curl));
+            curl_close($curl);
+            return null;
+        }
+        $httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+        $curlError = curl_error($curl);
+        \Log::error('HTTP Code: ' . $httpCode . ' | cURL Error: ' . $curlError);
+
+        curl_close($curl);
+
+        return json_decode($response);
+    }
+
+    public function csharpApiEndpoint()
+    {
+        $secrets = require __DIR__ . '/../config/secrets.php';
+        $configKey = $secrets['old_api_key'];
+        $apiKey = Request::header('X-API-KEY');
+        // $configKey = Config::get('app.old_api_key');
+        \Log::info('X-API-KEY received: '.$apiKey);
+        \Log::info('CONFIG-KEY received: '.$configKey);
+
+        if ($apiKey !== $configKey) {
+            return \Response::json(['error' => 'Unauthorized'], 401);
+        }
+
+        $logs= $this->fetchCsharpLogs(
+            Request::input('userid'),
+            Request::input('df'),
+            Request::input('dt')
+        );
+
+        return \Response::json([
+            'logs' => $logs
+        ]);
+    }
 }
