@@ -440,3 +440,11 @@ Route::get('/wellness/report/export/{format}', [
 
 Route::get('wellness/requests','WellnessController@requests');
 Route::post('wellness/action','WellnessController@action');
+
+Route::group(['prefix' => 'api'], function () {
+    Route::post('/csharp-sync', 'TimeLogController@csharpApiEndpoint');
+});
+
+Route::get('api/test', function () {
+    return Response::json(['ok' => true]);
+});
