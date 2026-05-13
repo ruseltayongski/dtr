@@ -67,7 +67,7 @@
                         <div class="row">
                             <div class="col-md-1">
                                 <div class="item">
-                                    <img src="{{ isset($defaultPicture->picture) ? 'https://pis.cvchd7.com/pis/'.'public/upload_picture/picture/'.InformationPersonal::where('userid','=',Auth::user()->userid)->first()->picture : 'https://pis.cvchd7.com/pis/'.'public/upload_picture/picture/uknown.png' }}"  alt="user image" class="online">
+                                    <img src="{{ isset($defaultPicture->picture) ? 'https://pis7.cvchd7.com/'.'upload_picture/picture/'.InformationPersonal::where('userid','=',Auth::user()->userid)->first()->picture : 'https://pis.cvchd7.com/pis/'.'public/upload_picture/picture/uknown.png' }}"  alt="user image" class="online">
                                 </div>
                             </div>
                             <div class="col-md-11 form-group">
@@ -85,7 +85,7 @@
                                     <div class="row">
                                         <div class="col-md-1">
                                             <div class="item">
-                                                <img src="{{ isset($com->picture) ? 'https://pis.cvchd7.com/pis/'.'public/upload_picture/picture/'.$com->picture : 'https://pis.cvchd7.com/pis/'.'public/upload_picture/picture/uknown.png' }}" alt="user image" class="online">
+                                                <img src="{{ isset($com->picture) ? 'https://pis7.cvchd7.com/'.'upload_picture/picture/'.$com->picture : 'https://pis7.cvchd7.com/'.'upload_picture/picture/uknown.png' }}" alt="user image" class="online">
                                             </div>
                                         </div>
                                         <div class="col-md-9">
@@ -118,7 +118,7 @@
                                                 <div class="row">
                                                     <div class="col-md-1">
                                                         <div class="item">
-                                                            <img src="{{ isset($rep->picture) ? 'https://pis.cvchd7.com/pis/'.'public/upload_picture/picture/'.$rep->picture : 'https://pis.cvchd7.com/pis/'.'public/upload_picture/picture/uknown.png' }}" alt="user image" class="offline">
+                                                            <img src="{{ isset($rep->picture) ? 'https://pis7.cvchd7.com/'.'upload_picture/picture/'.$rep->picture : 'https://pis7.cvchd7.com/'.'upload_picture/picture/uknown.png' }}" alt="user image" class="offline">
                                                         </div>
                                                     </div>
                                                     <div class="col-md-9">
@@ -139,7 +139,7 @@
                                     <div class="collapse" id="collapse{{ $com->id }}">
                                         <div class="box-footer" style="margin-left:8%;">
                                             <form action="#" method="post" id="{{ 'submit_reply'.$com->id }}" class="{{ $com->id }} form_reply" autocomplete="off">
-                                                <img class="img-responsive img-circle img-sm" src="{{ isset($defaultPicture->picture) ? 'https://pis.cvchd7.com/pis/public/upload_picture/picture/'.$defaultPicture->picture : 'https://pis.cvchd7.com/pis/public/upload_picture/picture/uknown.png' }}" alt="Alt Text">
+                                                <img class="img-responsive img-circle img-sm" src="{{ isset($defaultPicture->picture) ? 'https://pis7.cvchd7.com/upload_picture/picture/'.$defaultPicture->picture : 'https://pis7.cvchd7.com/upload_picture/picture/uknown.png' }}" alt="Alt Text">
                                                 <div class="img-push">
                                                     <input type="text" class="form-control input-sm" value="" id="text_reply{{ $com->id }}" placeholder="Press enter to reply">
                                                 </div>

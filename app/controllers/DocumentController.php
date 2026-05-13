@@ -328,10 +328,6 @@ class DocumentController extends BaseController
 
     public function all_leave()
     {
-        if(Auth::user()->userid != "0190046" and Auth::user()->userid != "198600029" ){
-            return "still under development";
-        }
-
         $userid = Auth::user()->userid;
         $pis = InformationPersonal::where("userid","=",$userid)->first();
         $division = Division::where('id', $pis->division_id)->first();
@@ -767,6 +763,8 @@ class DocumentController extends BaseController
         $tracking_details->received_by = $received_by;
         $tracking_details->delivered_by = $delivered_by;
         $tracking_details->action = $action;
+        $tracking_details->alert = 0;
+        $tracking_details->status = 0;
         $tracking_details->save();
 
         //ADD SYSTEM LOGS
@@ -921,7 +919,7 @@ class DocumentController extends BaseController
             $section_head[] = pdoController::user_search1($cdo['immediate_supervisor']);
             $division_head[] = pdoController::user_search1($cdo['division_chief']);
             $id_list = [];
-            $manually_added = [988320, 985329, 985329, 273, 11, 93053, 986445, 984538, 985950, 80, 976017, 466, 534, 986944, 988121, 357, 988148, 988309, 142, 602, 151, 988466, 75];
+            $manually_added = [988320, 985329, 985329, 273, 11, 93053, 986445, 984538, 985950, 80, 976017, 466, 534, 986944, 988121, 357, 988148, 988309, 142, 602, 151, 988466, 75, 988135];
 
             foreach(pdoController::section() as $row) {
                 if ($row['acronym'] !== null || in_array($row['head'], [37, 72, 243, 614, 110, 163, 648384, 160, 985950, 830744, 51])) {

@@ -147,6 +147,9 @@
                                                 <option value="cdo_wholeday" {{$data['cdo']['cdo_hours'] === 'cdo_wholeday' ? 'selected' : '' }}>WHOLEDAY</option>
                                                 <option value="cdo_am" {{ $data['cdo']['cdo_hours'] === 'cdo_am' ? 'selected' : '' }}>AM</option>
                                                 <option value="cdo_pm" {{ $data['cdo']['cdo_hours'] === 'cdo_pm' ? 'selected' : '' }}>PM</option>
+                                                <option value="compressed_cdo_wholeday" {{ $inclusiveDates['cdo_hours'] === 'compressed_cdo_wholeday' ? 'selected' : '' }}>COMPRESSED WHOLEDAY</option>
+                                                <option value="compressed_cdo_am" {{ $inclusiveDates['cdo_hours'] === 'compressed_cdo_am' ? 'selected' : '' }}>COMPRESSED AM</option>
+                                                <option value="compressed_cdo_pm" {{ $inclusiveDates['cdo_hours'] === 'compressed_cdo_pm' ? 'selected' : '' }}>COMPRESSED PM</option>
                                             </select>
                                             <button style="width: 45px; height: 33px" type="button" class="btn btn-sm btn-default deleteButton"><strong>-</strong></button>
                                         </div>
@@ -186,6 +189,9 @@
                                                     <option value="cdo_wholeday" {{ $inclusiveDates['cdo_hours'] === 'cdo_wholeday' ? 'selected' : '' }}>WHOLEDAY</option>
                                                     <option value="cdo_am" {{ $inclusiveDates['cdo_hours'] === 'cdo_am' ? 'selected' : '' }}>AM</option>
                                                     <option value="cdo_pm" {{ $inclusiveDates['cdo_hours'] === 'cdo_pm' ? 'selected' : '' }}>PM</option>
+                                                    <option value="compressed_cdo_wholeday" {{ $inclusiveDates['cdo_hours'] === 'compressed_cdo_wholeday' ? 'selected' : '' }}>COMPRESSED WHOLEDAY</option>
+                                                    <option value="compressed_cdo_am" {{ $inclusiveDates['cdo_hours'] === 'compressed_cdo_am' ? 'selected' : '' }}>COMPRESSED AM</option>
+                                                    <option value="compressed_cdo_pm" {{ $inclusiveDates['cdo_hours'] === 'compressed_cdo_pm' ? 'selected' : '' }}>COMPRESSED PM</option>
                                                 </select>
                                                 <button style="width: 45px; height: 33px" type="button" class="btn btn-sm btn-default deleteButton"><strong>-</strong></button>
                                             </div>
@@ -206,6 +212,9 @@
                                             <option value='cdo_wholeday'>WHOLEDAY</option>
                                             <option value='cdo_am'>AM</option>
                                             <option value='cdo_pm'>PM</option>
+                                            <option value='compressed_cdo_wholeday'>COMPRESSED WHOLEDAY</option>
+                                            <option value='compressed_cdo_am'>COMPRESSED AM</option>
+                                            <option value='compressed_cdo_pm'>COMPRESSED PM</option>
                                         </select>
                                         <button style="width: 50px; height: 33px; margin-left: 4%" type="button" class="btn btn-sm btn-default deleteButton"><strong>-</strong></button>
                                     </div>
@@ -406,7 +415,6 @@
     });
     $('.chosen-select-static').chosen();
     $('.division_chief').chosen();
-
     $('.immediate_supervisor').on('change', function () {
         var selectedOption = $(this).find(':selected'); 
         var div_id = selectedOption.data('div_id');
@@ -414,6 +422,7 @@
         var exc = ['236', '37', '72', '621', '985950', '988320'];
         var jsonString = $('#divisionChiefData').attr('data-json');
         var divisionChiefs = JSON.parse(jsonString);
+        var div_sup = $('.division_chief');
 
         if(exc.includes(selectedVal)) {
             var div_chief = {
@@ -431,23 +440,35 @@
                 };
             });
 
-            var div_sup = $('.division_chief');
+            if (selectedVal == '72') {
+                div_sup.empty(); 
 
-            div_sup.append(
-                $('<option>', {
-                    value: div_chief.id,
-                    text: div_chief.name
-                })
-            );
-
-            div_chief2.forEach(function(item) {
                 div_sup.append(
                     $('<option>', {
-                        value: item.id,
-                        text: item.name
+                        value: div_chief.id,
+                        text: div_chief.name
                     })
                 );
-            });
+
+                div_sup.trigger('chosen:updated'); 
+            }else{
+                div_sup.append(
+                    $('<option>', {
+                        value: div_chief.id,
+                        text: div_chief.name
+                    })
+                );
+
+                div_chief2.forEach(function(item) {
+                    div_sup.append(
+                        $('<option>', {
+                            value: item.id,
+                            text: item.name
+                        })
+                    );
+                });
+            }
+            
         }else{
             var div_chief = divisionChiefs
             .filter(function(item) {
@@ -459,15 +480,23 @@
                     name: [item.fname, item.mname, item.lname].filter(Boolean).join(' ').toUpperCase()
                 };
             });
-            var select = $('.division_chief');
+
             div_chief.forEach(function(item) {
-                if (select.find('option[value="' + item.id + '"]').length) {
-                    select.val(item.id); 
-                    select.trigger('chosen:updated');
-                    select.trigger('change');
+                div_sup.append(
+                    $('<option>', {
+                        value: item.id,
+                        text: item.name
+                    })
+                );
+            });
+            div_chief.forEach(function(item) {
+                if (div_sup.find('option[value="' + item.id + '"]').length) {
+                    div_sup.val(item.id); 
+                    div_sup.trigger('chosen:updated');
+                    div_sup.trigger('change');
                 }
             });
-
+            div_sup.trigger('chosen:updated'); 
         }
     });
 
@@ -754,8 +783,12 @@
         if (cdo_hours=='cdo_am' || cdo_hours == 'cdo_pm'){
             return 4;
         }
-        else{
+        else if(cdo_hours=='cdo_wholeday'){
             return 8;
+        }else if(cdo_hours=='compressed_cdo_wholeday'){
+            return 10;
+        }else{
+            return 5;
         }
     }
     function calculateTotalDays(){

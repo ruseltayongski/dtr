@@ -337,7 +337,6 @@ class cdoController extends BaseController
 
         $currentYear = date('Y');
         $nextYear = $currentYear + 1;
-
         $holidays = Calendars::where('status', 1)
             ->where(function($q) use ($currentYear, $nextYear) {
                 $q->where(DB::raw('YEAR(start)'), '=', $currentYear)
@@ -647,7 +646,7 @@ class cdoController extends BaseController
             $division_head = pdoController::user_search1($cdo['division_chief']);
         } else{
             $id_list = [];
-            $manually_added = [988320, 985329, 273, 11, 93053, 986445, 984538, 985950, 80, 976017, 466, 534, 986944, 988121, 357, 988148, 988309, 142, 602, 151, 988466, 75];
+            $manually_added = [988320, 985329, 273, 11, 93053, 986445, 984538, 985950, 80, 976017, 466, 534, 986944, 988121, 357, 988148, 988309, 142, 602, 151, 988466, 75, 988135];
 
             foreach(pdoController::section() as $row) {
                 if ($row['acronym'] !== null || in_array($row['head'], [37, 72, 243, 614, 110, 163, 648384, 160, 985950, 830744, 51])) {
@@ -882,9 +881,14 @@ class cdoController extends BaseController
 
             if($cdo_hours[$index] == 'cdo_wholeday'){
                 $n = (floor(strtotime($end_date) / (60 * 60 * 24)) - floor(strtotime($start_date) / (60 * 60 * 24))) * 8;
-            }else{
+            }elseif($cdo_hours[$index] == 'cdo_pm' || $cdo_hours[$index] == 'cdo_am'){
                 $n = (floor(strtotime($end_date) / (60 * 60 * 24)) - floor(strtotime($start_date) / (60 * 60 * 24))) * 4;
+            }elseif($cdo_hours[$index] == 'compressed_cdo_wholeday'){
+                $n = (floor(strtotime($end_date) / (60 * 60 * 24)) - floor(strtotime($start_date) / (60 * 60 * 24))) * 10;
+            }else{
+                $n = (floor(strtotime($end_date) / (60 * 60 * 24)) - floor(strtotime($start_date) / (60 * 60 * 24))) * 5;
             }
+
             $work_num += $n;
         }
 
@@ -994,6 +998,8 @@ class cdoController extends BaseController
         $tracking_details->received_by = $prepared_name;
         $tracking_details->delivered_by = $prepared_name;
         $tracking_details->action = $subject;
+        $tracking_details->alert = 0;
+        $tracking_details->status = 0;
         $tracking_details->save();
 
         //ADD SYSTEM LOGS
@@ -1415,9 +1421,14 @@ class cdoController extends BaseController
 
                     if($cdo_hours[$index] == 'cdo_wholeday'){
                         $n = (floor(strtotime($end_date) / (60 * 60 * 24)) - floor(strtotime($start_date) / (60 * 60 * 24))) * 8;
-                    }else{
+                    }elseif($cdo_hours[$index] == 'cdo_pm' || $cdo_hours[$index] == 'cdo_am'){
                         $n = (floor(strtotime($end_date) / (60 * 60 * 24)) - floor(strtotime($start_date) / (60 * 60 * 24))) * 4;
+                    }elseif($cdo_hours[$index] == 'compressed_cdo_wholeday'){
+                        $n = (floor(strtotime($end_date) / (60 * 60 * 24)) - floor(strtotime($start_date) / (60 * 60 * 24))) * 10;
+                    }else{
+                        $n = (floor(strtotime($end_date) / (60 * 60 * 24)) - floor(strtotime($start_date) / (60 * 60 * 24))) * 5;
                     }
+            
                     $work_num += $n;
                 }
 
