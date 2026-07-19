@@ -51,40 +51,31 @@
                                 <button type="submit" class="btn btn-primary" name="search" id="search" data-loading-text="<i class='fa fa-refresh fa-spin'></i> Printing DTR">
                                     <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Search
                                 </button>
-                                <a style="margin-right: 10px; margin-left: 10px" href="{{ asset('form/leave') }}" class="btn btn-success">
-                                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Create new
-                                </a>
-                                <button type="button" class="btn btn-info leave_ledger2" id="viewCard" data-toggle="modal" data-target="#leave_ledger2">
-                                    <span class="glyphicon glyphicon-eye-open"></span> View Card
-                                </button>
+                                @if(Auth::user()->userid == "0190046")
+                                    <a class="btn btn-success" style="margin-right: 10px; margin-left: 10px" href="#leave_info" data-link="/dtr/form/leave/form" data-toggle="modal" data-backdrop="static" data-id="0">
+                                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Create new
+                                    </a>
+                                @endif
+                                <button type="button" onclick="view_leave('{{ Auth::user()->userid }}')" class="btn leave_ledger" style="background-color: #31b0d5;color: white; width: 120px;" data-toggle="modal" data-id="{{ Auth::user()->userid }}" id="viewCard" name="viewCard" data-toggle="modal"
+                                    data-target="#leave_ledger"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>&nbsp;&nbsp;View Card</button>
                             </form>
-
                         </div>
                         <div class="panel-body">
                             <div class="row">
                                 <div class="col-md-12">
                                     <?php
-                                        if(!empty(Session::get("vacation_balance")) || Session::get('vacation_balance') != 0){
-                                            $vacation_balance = Session::get("vacation_balance");
-                                        } else {
-                                            $vacation_balance = 0;
-                                        }
-                                        if(!empty(Session::get("sick_balance")) || Session::get('sick_balance') != 0){
-                                            $sick_balance = Session::get("sick_balance");
-                                        } else {
-                                            $sick_balance = 0;
-                                        }
-
+                                        $vacation_balance = !Empty($pis->vacation_balance)? $pis->vacation_balance : 0;
+                                        $sick_balance = !Empty($pis->sick_balance)? $pis->sick_balance : 0;
                                         $fl_total = !Empty($leave->FL)? $leave->FL : 0;
                                         $spl_total = !Empty($leave->SPL)? $leave->SPL : 0;
                                         $wl_total = !Empty($leave->wellness)? $leave->wellness : 0;
                                     ?>
                                     <div style="text-align: right">
-                                        <label class="text-info">VL Bal: <span class="badge bg-red">{{ $vacation_balance }}</span></label>
-                                        <label class="text-info">SL Bal: <span class="badge bg-red">{{ $sick_balance }}</span></label>
-                                        <label class="text-info">FL Bal: <span class="badge bg-red">{{$fl_total}}</span></label>
-                                        <label class="text-info">SPL Bal: <span class="badge bg-red">{{ $spl_total }}</span></label>
-                                        <label class="text-info">WL Bal: <span class="badge bg-red">{{ $wl_total }}</span></label>
+                                        <label class="text-info">VL Bal: <span class="badge bg-blue">{{ $vacation_balance }}</span></label>
+                                        <label class="text-info">SL Bal: <span class="badge bg-blue">{{ $sick_balance }}</span></label>
+                                        <label class="text-info">FL Bal: <span class="badge bg-blue">{{$fl_total}}</span></label>
+                                        <label class="text-info">SPL Bal: <span class="badge bg-blue">{{ $spl_total }}</span></label>
+                                        <label class="text-info">WL Bal: <span class="badge bg-blue">{{ $wl_total }}</span></label>
                                     </div>
                                 </div>
                             </div>
@@ -109,42 +100,38 @@
                                                             <a href="#track" data-link="/dtr/form/track/'.$leave->route_no" data-route="{{ $leave->route_no }}" data-toggle="modal" class="btn btn-sm btn-success col-sm-12" ><i class="fa fa-line-chart"></i> Track</a>
                                                         </td>
                                                         <td>
-                                                            <a class="title-info" data-route="{{ $leave->route_no }}" data-id="{{ $leave->id }}" data-backdrop="static" data-link="/dtr/leave/get" href="#leave_info" data-toggle="modal">{{ $leave->route_no }}</a>
+                                                            <a class="title-info" data-route="{{ $leave->route_no }}" data-id="{{ $leave->id }}" data-backdrop="static" data-link="/dtr/form/leave/form" href="#leave_info" data-toggle="modal">{{ $leave->route_no }}</a>
                                                         </td>
                                                         <td>
                                                             <ul class="leave-status">
-                                                                @foreach($leave->appliedDates as $date)
+                                                                @foreach($leave->extension as $date)
                                                                     <li>
-                                                                        @if($date->status == 1)
-                                                                            <del>
-                                                                                {{ $date->startdate == $date->enddate
-                                                                                    ? date("F j, Y", strtotime($date->startdate))
-                                                                                    : date("F j, Y", strtotime($date->startdate)) . ' - ' . date("F j, Y", strtotime($date->enddate))
-                                                                                }}
-                                                                            </del>
-                                                                            <small class="text-danger" style="margin-left: 6px">cancelled</small>
-                                                                        @elseif($date->status == 2)
-                                                                            (<del>
-                                                                                {{ $date->startdate == $date->enddate
-                                                                                    ? date("F j, Y", strtotime($date->startdate))
-                                                                                    : date("F j, Y", strtotime($date->startdate)) . ' - ' . date("F j, Y", strtotime($date->enddate))
-                                                                                }}
-                                                                            </del>)
-                                                                                {{ $date->from_date == $date->to_date
-                                                                                    ? date("F j, Y", strtotime($date->from_date))
-                                                                                    : date("F j, Y", strtotime($date->from_date)) . ' - ' . date("F j, Y", strtotime($date->to_date))
-                                                                                }}
-                                                                        @else
-                                                                            {{ $date->startdate == $date->enddate
-                                                                                ? date("F j, Y", strtotime($date->startdate))
-                                                                                : date("F j, Y", strtotime($date->startdate)) . ' - ' . date("F j, Y", strtotime($date->enddate))
-                                                                            }}
-                                                                        @endif
+                                                                        {{ $date->start == $date->end
+                                                                            ? date("F j, Y", strtotime($date->start))
+                                                                            : date("F j, Y", strtotime($date->start)) . ' - ' . date("F j, Y", strtotime($date->end))
+                                                                        }}
                                                                     </li>
                                                                 @endforeach
                                                             </ul>
                                                         </td>
-                                                        <td >{{ ($leave->leave_details == '8')?"Monetization" : $leave->type->desc  }}</td>
+                                                        <td >
+                                                            <?php
+                                                                $shown = [];
+                                                            ?>
+                                                            
+                                                            @if($leave->leave_details == 8)
+                                                                Monetization
+                                                            @elseif($leave->leave_details == 9)
+                                                                Terminal Leave
+                                                            @else
+                                                                @foreach($leave->extension as $item)
+                                                                    @if(!in_array($item->leave_type, $shown))
+                                                                        {{ $item->type_leave->desc }}
+                                                                        <?php $shown[] = $item->leave_type; ?>
+                                                                    @endif
+                                                                @endforeach
+                                                            @endif
+                                                        </td>
                                                         <td>
                                                             @if($leave->status == 0)
                                                                 <small class="label label-primary">PENDING&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</small>
@@ -179,6 +166,16 @@
 @section('js')
     @parent
     <script>
+        function view_leave(userid){
+            $(".l_view_body").empty();
+            $(".l_view_body").html(loadingState);
+            $.get("{{ url('leave/card-view').'/' }}" + userid +"/" + 1, function(result){
+                $(".l_view_body").html(result);
+            });
+            u_id = userid;
+            $('.user_iid').val(userid);
+        }
+
         $('#inclusive3').daterangepicker();
         $(document).ready(function () {
             $('.leave_ledger2').on("click", function () {
@@ -239,6 +236,5 @@
                 $('.modal-body_leave').html(data);
             });
         });
-
     </script>
 @endsection

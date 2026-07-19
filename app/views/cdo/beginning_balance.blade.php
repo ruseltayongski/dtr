@@ -52,11 +52,12 @@
                                 <small style="line-height: 1"><em>(@if(isset(pdoController::search_division($user->division_id)['description'])) {{ pdoController::search_division($user->division_id)['description'] }} @else NO DIVISION @endif {{ ')' }}</em></small>
                             </td>
                             <td class="center" style="text-align: center">
-                            
                                 <button class="btn btn-sm beginning_balance" id="update_balance"style="background-color: #9C8AA5;color: white; width:120px" data-toggle="modal" data-id="{{ $user->userid }}" data-target="#beginning_balance">Add CTO Balance</button>
                                 <button class="btn btn-sm btn-info ledger" id="viewCard" name="viewCard" style="color: white; width:80px" data-toggle="modal" data-id="{{ $user->userid }}" data-target="#ledger">View Card</button><br>
                                 <button class="btn btn-sm btn-primary balances" style="color: white; width:120px; margin-top: 2px" data-toggle="modal" data-id="{{ $user->userid }}" data-target="#balances">Update Balance</button>
-                                <button class="btn btn-sm btn-warning transfer" style="color: white; width:80px" data-toggle="modal" data-id="{{ $user->userid }}" data-target="#transfer">Reset</button>
+                                <button class="btn btn-sm btn-warning transfer" style="color: white; width:80px; margin-top: 2px" data-toggle="modal" data-id="{{ $user->userid }}" data-target="#transfer">Reset</button>
+                                <br>
+                                <button class="btn btn-sm btn-success passlip_btn" style="margin-top: 2px" data-toggle="modal" data-id="{{ $user->userid }}" data-target="#passlip">Add Passlip Excess</button>
                             </td>
                         </tr>
                     @endforeach
@@ -194,11 +195,92 @@
     </div><!-- /.modal -->
     {{-------------------------}}
 
+    <div class="modal fade" tabindex="8" role="dialog" id="passlip">
+        <div class="modal-dialog modal-sm" role="document" id="size">
+            <div class="modal-content">
+                <form action="{{ asset('passlip') }}" method="POST">
+                    <div class="modal-header" style="background-color: #9C8AA5; color:white">
+                        <button type="button" class="close" data-dismiss="modal" style="color:white" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="title"><i class="fa fa-pencil"></i> Add Passlip Excess</h4>
+                    </div>
+                    <div class="passlip_body">
+                        <div class="form-group" style="padding: 10px">
+                            <div class="row">
+                                <div class="col-sm-3"><strong>User Id</strong></div>
+                                <div class="col-sm-1">:</div>
+                                <div class="col-sm-7">
+                                    <input type="text" class="form-control" id="passlip_userid" name="passlip_userid" readonly>
+                                </div>
+                            </div>
+                            <div class="passlip_clone">
+                                <button type="button" onclick="clonePasslip(this)" style="display:flex; text-align: left" class="btn btn-xs btn-info add_bal">Add More</button>
+                                <div class="row" style="margin-top: 5px">
+                                    <div class="col-sm-3"><strong>Date</strong></div>
+                                    <div class="col-sm-1">:</div>
+                                    <div class="col-sm-7">
+                                        <div class="input-group">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-calendar"></i>
+                                            </div>
+                                            <input class="form-control datepickercalendar" value="" id="passlip_date" name="passlip_date[]" placeholder="select date..." required autocomplete="off">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row" style="margin-top: 5px">
+                                    <div class="col-sm-3"><strong>Hours #</strong></div>
+                                    <div class="col-sm-1">:</div>
+                                    <div class="col-sm-7">
+                                        <input type="number" step="any" class="form-control passlip_hours" id="passlip_hours" name="passlip_hours[]" value="" required autocomplete="off">
+                                    </div>
+                                </div>
+                                <div class="row" style="margin-top: 5px">
+                                    <div class="col-sm-3"><strong>Remarks</strong></div>
+                                    <div class="col-sm-1">:</div>
+                                    <div class="col-sm-7">
+                                        <input type="text" class="form-control" id="passlip_remarks" name="passlip_remarks[]" value="" autocomplete="off">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal" aria-label="Close"><i class="fa fa-trash"> Cancel</i></button>
+                        <button type="submit" id="option" name="option" class="btn btn-success" style="color:white;"><i class="fa fa-pencil"> Submit</i></button>
+                    </div>
+                </form>
+            </div><!-- .modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
 @endsection
 
 @section('js')
     @parent
     <script>
+
+        $(document).on('input', '.passlip_hours', function () {
+            var val = $(this).val();
+
+            if (val.includes('.')) {
+                var parts = val.split('.');
+                var decimal = parts[1];
+
+                if (decimal.length > 2) {
+                    decimal = decimal.substring(0, 2);
+                }
+
+                if (parseInt(decimal || 0) > 59) {
+                    decimal = '59';
+                }
+
+                $(this).val(parts[0] + '.' + decimal);
+                // $(this).val(parts[0] + '.00');
+            }
+        });
+
+        $('.passlip_btn').on('click', function(){
+            $('#passlip_userid').val($(this).data('id'));
+        });
 
         function resetBal(element){
             if(element.value == 1){
@@ -221,7 +303,7 @@
             });
 
             $(newFields).find(".add_bal")
-                .text('Remove Clone')
+                .text('Remove')
                 .removeClass("btn btn-xs btn-info add_bal")
                 .addClass("btn btn-xs btn-danger remove_bal")
                 .removeAttr('onclick')
@@ -229,6 +311,33 @@
                     removeClone(this);
                 });
             button.parentElement.parentElement.appendChild(newFields);
+        }
+
+        function clonePasslip(button) {
+            var cloneableFields = document.querySelector('.passlip_clone');
+            var newFields = cloneableFields.cloneNode(true);
+            var inputs = newFields.querySelectorAll('input');
+            inputs.forEach(function(input) {
+                input.value = '';
+                input.removeAttribute('id');
+            });
+            $(newFields).find(".datepickercalendar").datepicker({
+                autoclose:true
+            });
+
+            $(newFields).find(".add_bal")
+                .text('Remove')
+                .removeClass("btn btn-xs btn-info add_bal")
+                .addClass("btn btn-xs btn-danger remove_bal")
+                .removeAttr('onclick')
+                .on('click', function() {
+                    removeClonePasslip(this);
+                });
+            button.parentElement.parentElement.appendChild(newFields);
+        }
+
+        function removeClonePasslip(button){
+            $(button).closest(".passlip_clone").remove();
         }
 
         function removeClone(button){

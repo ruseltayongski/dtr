@@ -62,16 +62,16 @@
                                                             <td>
                                                                 @if($row->applied_dates == null)
                                                                     <?php
-                                                                    $hours = " ";
-                                                                    if($row->cdo_hours == "cdo_am"){
-                                                                        $hours=" (AM)";
-                                                                    }else if($row->cdo_hours == "cdo_pm"){
-                                                                        $hours=" (PM)";
-                                                                    }
-                                                                    $start_date = date('M j, Y', strtotime($row->start));
-                                                                    $end_date = date('M j, Y', strtotime('-1 day', strtotime($row->end)));
-                                                                    $dateStrings = ($start_date == $end_date) ? "$start_date $hours" : "$start_date - $end_date $hours";
-                                                                    echo $dateStrings;
+                                                                        $hours = " ";
+                                                                        if($row->cdo_hours == "cdo_am"){
+                                                                            $hours=" (AM)";
+                                                                        }else if($row->cdo_hours == "cdo_pm"){
+                                                                            $hours=" (PM)";
+                                                                        }
+                                                                        $start_date = date('M j, Y', strtotime($row->start));
+                                                                        $end_date = date('M j, Y', strtotime('-1 day', strtotime($row->end)));
+                                                                        $dateStrings = ($start_date == $end_date) ? "$start_date $hours" : "$start_date - $end_date $hours";
+                                                                        echo $dateStrings;
                                                                     ?>
                                                                 @else
                                                                     <?php

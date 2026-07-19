@@ -68,7 +68,7 @@
             <li>
                  <a href="{{ asset('wellness/get-wellness') }}"><i class="fa fa-file"></i> Wellness </a>
             </li>
-            @if(in_array(Auth::user()->userid, [3856, 2764, 4415]))
+            @if(in_array(Auth::user()->userid, [3856, 4415, 2764]))
                 <li class="divider"></li>
                 <li class="dropdown-submenu">
                     <a href="#" data-toggle="dropdown"><i class="fa fa-file"></i> CTO</a>

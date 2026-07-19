@@ -1,12 +1,12 @@
-<form action="{{asset('leave_credits')}}" method="POST" style="padding:10px">
+<form action="{{asset('leave_credits')}}" method="POST" style="padding:1px">
     <table class="table" id="leave_card_table" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
-        <thead style="background-color: darkgray; color:white;">
-            <tr style="background-color: darkgray; border:1px solid darkgray">
+        <thead style="background-color: gray; color:white;">
+            <tr style="background-color: gray; border:1px solid gray">
                 <td colspan="3" style="border:1px solid black; padding:5px;">NAME: {{ $user }}</td>
                 <td colspan="6" style="border:1px solid black; padding:5px;">SECTION/DIVISION - {{ $division }}</td>
                 <td colspan="2" style="border:1px solid black; padding:5px;">ETD : {{ $etd }}</td>
             </tr>
-            <tr style="background-color: darkgray;">
+            <tr style="background-color: gray;">
                 <th rowspan="2" style="vertical-align: middle; color: white; border:1px solid black; padding:5px; width:250px">PERIOD</th>
                 <th rowspan="2" style="vertical-align: middle; color: white; border:1px solid black; padding:5px;">PARTICULARS</th>
                 <th colspan="4" style="text-align: center; color: white; border:1px solid black; padding:5px;">VACATION LEAVE</th>
@@ -33,9 +33,9 @@
                         @endif
                     </td>
                     <td style="border:1px solid black; padding:5px;">
-                        @if($card->status == 2)
+                        @if($card->status == 2 && Auth::user()->userid == "leave_admin")
                             <a href="#" data-toggle="modal" onclick="checkAbsence(this)" data-target="#modify_deduction">{{ $card->particulars }}</a>
-                        @elseif($card->status == 1)
+                        @elseif($card->status == 1 && Auth::user()->userid == "leave_admin")
                             <a href="#" data-toggle="modal" onclick="updateUT(this)" data-target="#modify_deduction">{{ $card->particulars }}</a>
                         @else
                             {{ $card->particulars }}
@@ -43,13 +43,16 @@
                     </td>
                     <td style="border:1px solid black; padding:5px;">{{ $card->vl_earned == 0 ? '':rtrim(rtrim(number_format($card->vl_earned, 3, '.', ''), '0'), '.') }}</td>
                     <td style="border:1px solid black; padding:5px;">{{ $card->vl_abswp == 0 ? '':rtrim(rtrim(number_format($card->vl_abswp, 3, '.', ''), '0'), '.') }}</td>
-                    <td style="border:1px solid black; padding:5px;">{{ $card->vl_bal == 0 ? '':rtrim(rtrim(number_format($card->vl_bal, 3, '.', ''), '0'), '.') }}</td>
+                    <td style="border:1px solid black; padding:5px;">{{ $card->vl_bal == 0 ? '0':rtrim(rtrim(number_format($card->vl_bal, 3, '.', ''), '0'), '.') }}</td>
                     <td style="border:1px solid black; padding:5px;">{{ $card->vl_abswop == 0 ? '':rtrim(rtrim(number_format($card->vl_abswop, 3, '.', ''), '0'), '.') }}</td>
                     <td style="border:1px solid black; padding:5px;">{{ $card->sl_earned == 0 ? '':rtrim(rtrim(number_format($card->sl_earned, 3, '.', ''), '0'), '.') }}</td>
                     <td style="border:1px solid black; padding:5px;">{{ $card->sl_abswp == 0 ? '':rtrim(rtrim(number_format($card->sl_abswp, 3, '.', ''), '0'), '.') }}</td>
-                    <td style="border:1px solid black; padding:5px;">{{ $card->sl_bal == 0 ? '':rtrim(rtrim(number_format($card->sl_bal, 3, '.', ''), '0'), '.') }}</td>
+                    <td style="border:1px solid black; padding:5px;">{{ $card->sl_bal == 0 ? '0':rtrim(rtrim(number_format($card->sl_bal, 3, '.', ''), '0'), '.') }}</td>
                     <td style="border:1px solid black; padding:5px;">{{ $card->sl_abswop == 0 ? '':rtrim(rtrim(number_format($card->sl_abswop, 3, '.', ''), '0'), '.') }}</td>
-                    <td style="border:1px solid black; padding:5px;">{{ !empty($card->date_used) ? html_entity_decode(stripslashes($card->date_used)) : '' }}</td>
+                    <td style="border:1px solid black; padding:5px;"> 
+                        {{ $card->formatted_dates }}
+                        <!-- {{ ($card->extended && $card->extended->status == 1) ? $card->formatted_dates : (!empty($card->date_used) ? html_entity_decode(stripslashes($card->date_used)) : '') }} -->
+                    </td>
                     <td style="display: none">{{ $card->userid }}</td>
                     <td style="display: none">{{ $card->id }}</td>
                 </tr>

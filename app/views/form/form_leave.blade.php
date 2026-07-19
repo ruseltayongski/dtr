@@ -54,7 +54,7 @@
                 <label id="sl" style="color:red;">{{($user->sick_balance != null)?$user->sick_balance:0}}</label>
             </i>
         </div>
-        <form action="{{ asset('form/leave') }}" method="POST" style="margin-top: 1px;margin-left: 50px; margin-right: 40px">
+        <form action="{{ asset('form/leave') }}" method="POST" enctype="multipart/form-data" style="margin-top: 1px;margin-left: 50px; margin-right: 40px">
             <div class="panel-body">
                 <div class="row">
                     <div class="col-md-12">
@@ -161,13 +161,62 @@
                                                             ]
                                                         ?>
                                                         <div class="checkbox">
-                                                            <label style="margin-right: 5%; color:black">
-                                                                <input type="radio" class="minimal" style="margin-top: auto" id="leave_type" name="leave_type" onclick="" value="{{ $row->code }}"
+                                                            <label style="color:black;">
+                                                                <input type="checkbox" style="margin-left:5px;" 
+                                                                    class="minimal leave-toggle"
+                                                                    name="leave_type"
+                                                                    value="{{ $row->code }}"
                                                                     {{ ($row->code == 'SPL' && (!$spl || ($spl && $spl->SPL == 0))) ? 'disabled' : '' }}
-                                                                >
+                                                                >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                                                 {{ $row->desc }} <small>{{ $details[$index] }}</small>
                                                                 @if($row->code == 'OTHERS')
                                                                     <input type="text"  name="others_type" class="others_type_dis others_type_dis_txt" id="others_txt" style="width: 370px; margin-left: 20px; border: none; border-bottom: 2px solid black;" />
+                                                                @elseif($row->code == 'SPL')
+                                                                    <div class="spl_div" style="border:1px solid green; padding:10px; display:none">
+
+                                                                        <input type="radio"
+                                                                               class="minimal"
+                                                                               style="margin-left:50px"
+                                                                               id="spl_emergency"
+                                                                               name="spl_emergency_status"
+                                                                               value="spl_emergency">
+                                                                        <label for="spl_emergency">Emergency</label>
+
+                                                                        <input type="radio"
+                                                                               class="minimal"
+                                                                               style="margin-left:50px"
+                                                                               id="spl_none_emergency"
+                                                                               name="spl_emergency_status"
+                                                                               value="spl_not_emergency">
+                                                                        <label for="spl_none_emergency">Not an Emergency</label>
+
+                                                                    </div>
+                                                                @elseif($row->code == 'WL')
+                                                                    <div class="wl_div" style="border:1px solid green; padding:10px; display:none">
+                                                                        <input type="radio"
+                                                                           class="minimal"
+                                                                           style="margin-left:50px"
+                                                                           id="wl_emergency"
+                                                                           name="wl_emergency_status"
+                                                                           value="wl_emergency">
+                                                                        <label for="wl_emergency">Emergency</label>
+                                                                        <input type="radio"
+                                                                           class="minimal"
+                                                                           style="margin-left:50px"
+                                                                           id="wl_none_emergency"
+                                                                           name="wl_emergency_status"
+                                                                           value="wl_not_emergency">
+                                                                        <label for="wl_none_emergency">Not an Emergency</label>
+                                                                        <div class="wl_attachment" style="width:100%; border:1px solid green; padding:10px; display:none;">
+                                                                            <div style="display:flex; align-items:center; gap:10px;">
+                                                                                <label for="medical_certificate">Medical Certificate</label>
+                                                                                <input type="file"
+                                                                                    id="medical_certificate"
+                                                                                    name="medical_certificate"
+                                                                                    accept=".pdf,image/*">
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
                                                                 @endif
                                                             </label>
                                                         </div>
@@ -256,6 +305,7 @@
 
                                     <div class="table-data" id="clone_data">
                                         <div class="input-group" style="margin-left:5%; margin-bottom: 2px" >
+                                           
                                             <div class="input-group-addon" style="margin-bottom: 10px; ">
                                                 <i class="fa fa-calendar"></i>
                                             </div>
@@ -426,9 +476,8 @@
                     <div class="row" style="padding: 1%">
                         <div class="col-md-12 float-right" style="text-align: right">
                             <button type="submit" name="submit" class="btn btn-primary btn-lg">Submit</button>
-                            <type type="hidden" id="spl_type" class="spl_type"></type>
-                            <type type="hidden" id="monetize_val" name="monetize_val"></type>
-
+                            <input type="hidden" id="spl_type" name="spl_type" class="spl_type">
+                            <input type="hidden" id="monetize_val" name="monetize_val">
                         </div>
                     </div>
                 </div>
@@ -503,7 +552,9 @@
             var val = this.value;
 
             com2();
-
+            $('.spl_div').css('display', 'none');
+            $('.wl_div').css('display', 'none');
+            console.log(val);
             if(val == "OTHERS") {
                 $('#others_txt').prop('disabled', false);
                 $('input[name="for_text_input"]').prop('disabled', true).val("");
@@ -511,49 +562,21 @@
                 $('#commutation2').prop('checked', false);
             }else if(val == "VL") {
                 $('input[name="for_text_input"]').prop('disabled', true).val("");
-
             } else if(val == "SL") {
                 $('input[name="for_text_input"]').prop('disabled', true).val("");
-
-            } else if(val == "SPL" || val == "WL") {
+            } else if(val == "SPL") {
                 $('input[name="for_text_input"]').prop('disabled', true).val("");
-
-                Lobibox.alert('success', // AVAILABLE TYPES: "error", "info", "success", "warning"
-                    {
-                        msg: val == "SPL" ? "Emergency Special Privilege Leave?" : "Emergency Welness Leave?",
-                        size: 'mini',
-                        buttons: {
-                            emergency: {
-                                text: 'Emergency',
-                                class: 'btn-success custom-font-size',
-                                closeOnClick: true
-                            },
-                            notEmergency: {
-                                text: 'Not an Emergency',
-                                class: 'btn-danger custom-font-size',
-                                closeOnClick: true
-                            }
-                        },
-                        callback: function (lobibox, type) {
-                            if (type === 'emergency') {
-                                // Handle emergency button click
-                                $('#spl_type').val('emergency');
-                            } else if (type === 'notEmergency') {
-                                // Handle not emergency button click
-                                $('#spl_type').val('unemergency');
-                            }
-                        }
-                    });
-
+                $('.spl_div').css('display', 'block');
             }else if(val == "STUD_L") {
                 $('input[name="for_text_input"]').prop('disabled', true).val("");
 
             }else if(val == "SLBW") {
                 $('input[name="for_text_input"]').prop('disabled', true).val("");
+            }else if(val == "WL") {
+                $('.wl_div').css('display', 'block');
             }else{
             }
         });
-
 
         $('input[class="vac_dis"]').change(function(){
             com2();

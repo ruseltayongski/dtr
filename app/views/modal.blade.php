@@ -876,6 +876,78 @@
     </div>
 </div>
 
+<div class="modal fade" tabindex="5" role="dialog" id="cancel_leave">
+    <div class="modal-dialog modal-xs" role="document" id="size" style="width:400px">
+        <div class="modal-content" id="cancel_date">
+            <form action="{{ url('leave/cancellation-save')  }}" method="POST">
+                <div class="modal-header" style="background-color: orange">
+                    <strong><h4 class="modal-title" style="display: inline-block">CANCEL LEAVE APPLICATION</h4></strong>
+                    <button style="display: inline-block" type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal-body table" id="cancel_leave_body">
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success cancel_btn_update">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" tabindex="5" role="dialog" id="leave_move">
+    <div class="modal-dialog modal-xs" role="document" id="size" style="width:400px">
+        <div class="modal-content" id="moved_date" style="position: relative;">
+            <form action="{{ url('leave/move-save') }}" method="POST">
+                <div class="modal-header" style="background-color: orange">
+                    <strong><h4 class="modal-title" style="display: inline-block">MOVE LEAVE APPLICATION</h4></strong>
+                    <button style="display: inline-block" type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal-body table" id="leave_move_body">
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success btn_move">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" tabindex="5" role="dialog" id="leave_employee">
+    <div class="modal-dialog modal-xs" role="document" id="size" style="width:400px">
+        <div class="modal-content" id="leave_employee_id" style="position: relative;">
+            <form action="{{ url('leave/employee/save') }}" method="POST">
+                <div class="modal-header" style="background-color: #9C8AA5">
+                    <strong><h4 class="modal-title" style="display: inline-block">ADD EMPLOYEE IN LEAVE</h4></strong>
+                    <button style="display: inline-block" type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal-body table" id="employee_leave_body">
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success btn_employ">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" tabindex="5" role="dialog" id="leave_priviledge">
+    <div class="modal-dialog modal-xs" role="document" id="size" style="width:400px">
+        <div class="modal-content" id="leave_priviledge_id" style="position: relative;">
+            <form action="{{ url('leave/priviledge/save') }}" method="POST">
+                <div class="modal-header" style="background-color: #9C8AA5">
+                    <strong><h4 class="modal-title" style="display: inline-block">ADD PRIVILEDGE IN SICK LEAVE UNEMERGENCY</h4></strong>
+                    <button style="display: inline-block" type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal-body table" id="priviledge_leave_body">
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success btn_priv">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 <div class="modal fade" tabindex="5" role="dialog" id="falsification" style="align-content: center">
     <div class="modal-dialog modal-lg" role="document" id="size" style="width: 1100px;">
         <div class="modal-container" id="falsification" >

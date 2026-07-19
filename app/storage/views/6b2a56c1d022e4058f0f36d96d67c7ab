@@ -443,71 +443,166 @@
                                 startDate.toLocaleDateString() +
                                 '</label>';
 
-                            if (date.status == 11) {
-                                html += '<select name="time' + index + '" class="form-control cdo_time" style="width: 200px;" disabled>' +
-                                    '<option value="cdo_am" ' + (date.cdo_hours == 'cdo_am' ? 'selected' : '') + '>AM</option>' +
-                                    '<option value="cdo_pm" ' + (date.cdo_hours == 'cdo_pm' ? 'selected' : '') + '>PM</option>' +
-                                    '<option value="cdo_wholeday" ' + (date.cdo_hours == 'cdo_wholeday' ? 'selected' : '') + '>Whole Day</option>' +
-                                    '</select>';
+                            var isCompressed = date.cdo_hours.includes('compressed_');
+                            var prefix = isCompressed ? 'compressed_' : '';
+                            console.log("sadjksjsd");
+
+                            console.log(date.cdo_hours);
+                            var labels = {
+                                am: isCompressed ? 'Compressed AM' : 'AM',
+                                pm: isCompressed ? 'Compressed PM' : 'PM',
+                                wholeday: isCompressed ? 'Compressed Whole Day' : 'Whole Day'
+                            };
+
+                            var isDisabled = date.status == 11;
+                            var hours = date.cdo_hours;
+
+                            var selectOpen = '<select name="time' + index + '" class="form-control cdo_time" style="width: 200px;"' + (isDisabled ? ' disabled' : '') + '>';
+
+                            var allOptions =
+                                '<option value="' + prefix + 'cdo_am"'       + (hours == prefix + 'cdo_am'       ? ' selected' : '') + '>' + labels.am       + '</option>' +
+                                '<option value="' + prefix + 'cdo_pm"'       + (hours == prefix + 'cdo_pm'       ? ' selected' : '') + '>' + labels.pm       + '</option>' +
+                                '<option value="' + prefix + 'cdo_wholeday"' + (hours == prefix + 'cdo_wholeday' ? ' selected' : '') + '>' + labels.wholeday + '</option>';
+
+                            if (isDisabled || hours == prefix + 'cdo_wholeday') {
+                                html += selectOpen + allOptions + '</select>';
+                            } else if (hours == prefix + 'cdo_am') {
+                                html += selectOpen + '<option value="' + prefix + 'cdo_am" selected>' + labels.am + '</option></select>';
                             } else {
-                                if(date.cdo_hours == 'cdo_wholeday'){
-                                    html += '<select name="time' + index + '" class="form-control cdo_time" style="width: 200px;">' +
-                                    '<option value="cdo_am" ' + (date.cdo_hours == 'cdo_am' ? 'selected' : '') + '>AM</option>' +
-                                    '<option value="cdo_pm" ' + (date.cdo_hours == 'cdo_pm' ? 'selected' : '') + '>PM</option>' +
-                                    '<option value="cdo_wholeday" ' + (date.cdo_hours == 'cdo_wholeday' ? 'selected' : '') + '>Whole Day</option>' +
-                                    '</select>';
-                                }else if(date.cdo_hours == 'cdo_am'){
-                                    html += '<select name="time' + index + '" class="form-control cdo_time" style="width: 200px;">' +
-                                    '<option value="cdo_am" ' + (date.cdo_hours == 'cdo_am' ? 'selected' : '') + '>AM</option>' +
-                                    '</select>';
-                                }else{
-                                    html += '<select name="time' + index + '" class="form-control cdo_time" style="width: 200px;">' +
-                                    '<option value="cdo_pm" ' + (date.cdo_hours == 'cdo_pm' ? 'selected' : '') + '>PM</option>' +
-                                    '</select>';
-                                }
+                                html += selectOpen + '<option value="' + prefix + 'cdo_pm" selected>' + labels.pm + '</option></select>';
                             }
+
+                            // if (date.status == 11) {
+                            //     html += '<select name="time' + index + '" class="form-control cdo_time" style="width: 200px;" disabled>' +
+                            //         '<option value="cdo_am" ' + (date.cdo_hours == 'cdo_am' ? 'selected' : '') + '>AM</option>' +
+                            //         '<option value="cdo_pm" ' + (date.cdo_hours == 'cdo_pm' ? 'selected' : '') + '>PM</option>' +
+                            //         '<option value="cdo_wholeday" ' + (date.cdo_hours == 'cdo_wholeday' ? 'selected' : '') + '>Whole Day</option>' +
+                            //         '</select>';
+                            // } else {
+                            //     if(date.cdo_hours == 'cdo_wholeday'){
+                            //         html += '<select name="time' + index + '" class="form-control cdo_time" style="width: 200px;">' +
+                            //         '<option value="cdo_am" ' + (date.cdo_hours == 'cdo_am' ? 'selected' : '') + '>AM</option>' +
+                            //         '<option value="cdo_pm" ' + (date.cdo_hours == 'cdo_pm' ? 'selected' : '') + '>PM</option>' +
+                            //         '<option value="cdo_wholeday" ' + (date.cdo_hours == 'cdo_wholeday' ? 'selected' : '') + '>Whole Day</option>' +
+                            //         '</select>';
+                            //     }else if(date.cdo_hours == 'cdo_am'){
+                            //         html += '<select name="time' + index + '" class="form-control cdo_time" style="width: 200px;">' +
+                            //         '<option value="cdo_am" ' + (date.cdo_hours == 'cdo_am' ? 'selected' : '') + '>AM</option>' +
+                            //         '</select>';
+                            //     }else{
+                            //         html += '<select name="time' + index + '" class="form-control cdo_time" style="width: 200px;">' +
+                            //         '<option value="cdo_pm" ' + (date.cdo_hours == 'cdo_pm' ? 'selected' : '') + '>PM</option>' +
+                            //         '</select>';
+                            //     }
+                            // }
 
                             html += '</div>';
                             container.innerHTML += html;
                         });
 
                     }else{
+                        var isCompressed = '';
+                        var prefix = '';
                         dates.forEach(function(date) {
+                            isCompressed = date.cdo_hours.includes('compressed_');
+                            prefix = isCompressed ? 'compressed_' : '';
                             var startDate = new Date(date.start_date);
                             var endDate = new Date(date.end_date);
                             endDate.setDate(endDate.getDate() - 1);
-                            console.log('enddate', endDate);
+
                             var diff = Math.round((endDate - startDate) / (1000 * 60 * 60 * 24));
-                            console.log('diff', diff);
-                            if(diff == 0){
-                                dateList.push(startDate.toLocaleDateString());
-                                dateTime.push(date.cdo_hours);
-                            }else{
+                            var dateRange = [];
+
+                            if (diff == 0) {
+                                dateRange.push({ date: startDate.toLocaleDateString(), isCompressed });
+                            } else {
                                 while (startDate <= endDate) {
-                                    dateList.push(startDate.toLocaleDateString());
+                                    dateRange.push({ date: startDate.toLocaleDateString(), isCompressed });
                                     startDate.setDate(startDate.getDate() + 1);
-                                    dateTime.push(date.cdo_hours);
                                 }
                             }
-                        });
-                        var length = dateList.length;
-                        var i=0;
 
-                        while (length > i) {
-                            var html = '<div class="checkbox">' +
+                            dateRange.forEach(function(entry) {
+                                dateList.push(entry.date);
+                                dateTime.push(date.cdo_hours);
+                            });
+                        });
+
+                        var labels = {
+                            wholeday: isCompressed ? 'Compressed Whole Day' : 'Whole Day',
+                            am: isCompressed ? 'Compressed AM' : 'AM',
+                            pm: isCompressed ? 'Compressed PM' : 'PM'
+                        };
+
+                        var options = [
+                            { value: prefix + 'cdo_wholeday', label: labels.wholeday },
+                            { value: prefix + 'cdo_am',       label: labels.am },
+                            { value: prefix + 'cdo_pm',       label: labels.pm }
+                        ];
+
+                        var optionsHtml = options.map(function(opt) {
+                            return '<option value="' + opt.value + '">' + opt.label + '</option>';
+                        }).join('');
+
+                        var fragment = document.createDocumentFragment();
+                        console.log(prefix);
+                        dateList.forEach(function(dateEntry, i) {
+                            var div = document.createElement('div');
+                            div.className = 'checkbox';
+                            div.innerHTML =
                                 '<label style="margin-left: 15%">' +
-                                '<input type="checkbox" style="transform: scale(1.5)" class="minimal" id="applied_dates" name="applied_dates" value="' + dateList[i] + '"  />' +
-                                dateList[i] +
+                                    '<input type="checkbox" style="transform: scale(1.5)" class="minimal" id="applied_dates" name="applied_dates" value="' + dateEntry + '" />' +
+                                    dateEntry +
                                 '</label><br>' +
                                 '<select name="time' + i + '" class="form-control cdo_time" style="margin-left: 30%; width: 200px; margin-top: 10px;">' +
-                                '<option value="cdo_wholeday">Whole Day</option>' +
-                                '<option value="cdo_am">AM</option>' +
-                                '<option value="cdo_pm">PM</option>' +
-                                '</select>' +
-                                '</div>';
-                            container.innerHTML += html;
-                            i = i + 1;
-                        }
+                                    optionsHtml +
+                                '</select>';
+                            fragment.appendChild(div);
+                        });
+
+                        container.appendChild(fragment);
+                        // var isCompressed = '';
+                        // var prefix = '';
+
+                        // dates.forEach(function(date) {
+                        //     isCompressed = date.cdo_hours.includes('compressed_');
+                        //     prefix = isCompressed ? 'compressed_' : '';
+
+                        //     var startDate = new Date(date.start_date);
+                        //     var endDate = new Date(date.end_date);
+                        //     endDate.setDate(endDate.getDate() - 1);
+                        //     var diff = Math.round((endDate - startDate) / (1000 * 60 * 60 * 24));
+
+                        //     if(diff == 0){
+                        //         dateList.push(startDate.toLocaleDateString());
+                        //         dateTime.push(date.cdo_hours);
+                        //     }else{
+                        //         while (startDate <= endDate) {
+                        //             dateList.push(startDate.toLocaleDateString());
+                        //             startDate.setDate(startDate.getDate() + 1);
+                        //             dateTime.push(date.cdo_hours);
+                        //         }
+                        //     }
+                        // });
+                        // console.log(prefix);
+
+                        // var length = dateList.length;
+                        // var i=0;
+                        // while (length > i) {
+                        //     var html = '<div class="checkbox">' +
+                        //         '<label style="margin-left: 15%">' +
+                        //         '<input type="checkbox" style="transform: scale(1.5)" class="minimal" id="applied_dates" name="applied_dates" value="' + dateList[i] + '"  />' +
+                        //         dateList[i] +
+                        //         '</label><br>' +
+                        //         '<select name="time' + i + '" class="form-control cdo_time" style="margin-left: 30%; width: 200px; margin-top: 10px;">' +
+                        //         '<option value="cdo_wholeday">WholeDay</option>' +
+                        //         '<option value="cdo_am">AM</option>' +
+                        //         '<option value="cdo_pm">PM</option>' +
+                        //         '</select>' +
+                        //         '</div>';
+                        //     container.innerHTML += html;
+                        //     i = i + 1;
+                        // }
                     }
                     $('#dates').val(dateList);
                     $('#all_hours').val(dateTime);

@@ -277,7 +277,7 @@
                                 <div class="alert-info" style="padding: 2%;">
                                     <span style="color:black;">
                                         <i class="fa fa-hand-o-right"></i>
-                                        Note: The CTO beginning balance and remaining balance will change once CTO is processed by the HRMO.
+                                        Note: The CTO beginning balance and remaining balance will change once CTO is processed by the HRMO/HHRDU.
                                     </span>
                                 </div>
                             </td>
@@ -290,8 +290,8 @@
             <tr>
                 <td class="col-sm-7">
                     <table width="100%">
-                        <tr><td class="align"><strong>THERESA Q. TRAGICO</strong></td></tr>
-                        <tr><td class="align">Administrative Officer V</td></tr>
+                        <tr><td class="align"><strong>{{ $data['field_type'] == "HRH" ? 'JASPER JOY D. LUCEÑO, RN' : 'THERESA Q. TRAGICO' }}</strong></td></tr>
+                        <tr><td class="align">{{ $data['field_type'] == "HRH" ? 'Nurse V' : 'Administrative Officer V' }}</td></tr>
                         <tr><td class="align">Personel Section</td></tr>
                     </table>
 
@@ -431,7 +431,7 @@
             };
             var div_chief2 = divisionChiefs
             .filter(function(item) {
-                return item.id == selectedVal; 
+                return item.id == selectedVal || item.id == 72; 
             })
             .map(function(item) {
                 return {
@@ -440,25 +440,35 @@
                 };
             });
 
-            if (selectedVal == '72') {
-                div_sup.empty(); 
+            var merged = [div_chief].concat(div_chief2);
 
+            if (selectedVal == '72') {
+
+                div_sup.empty(); 
                 div_sup.append(
                     $('<option>', {
                         value: div_chief.id,
                         text: div_chief.name
+                    })
+                );
+
+                div_sup.append(
+                    $('<option>', {
+                        value: selectedOption.val(),
+                        text: selectedOption.text()
                     })
                 );
 
                 div_sup.trigger('chosen:updated'); 
             }else{
+                div_sup.empty(); 
                 div_sup.append(
                     $('<option>', {
                         value: div_chief.id,
                         text: div_chief.name
                     })
                 );
-
+                
                 div_chief2.forEach(function(item) {
                     div_sup.append(
                         $('<option>', {
@@ -467,9 +477,11 @@
                         })
                     );
                 });
+                div_sup.trigger('chosen:updated');
             }
             
         }else{
+            // div_sup.empty();
             var div_chief = divisionChiefs
             .filter(function(item) {
                 return item.division == div_id; 
@@ -480,15 +492,14 @@
                     name: [item.fname, item.mname, item.lname].filter(Boolean).join(' ').toUpperCase()
                 };
             });
-
-            div_chief.forEach(function(item) {
-                div_sup.append(
-                    $('<option>', {
-                        value: item.id,
-                        text: item.name
-                    })
-                );
-            });
+            // div_chief.forEach(function(item) {
+            //     div_sup.append(
+            //         $('<option>', {
+            //             value: item.id,
+            //             text: item.name
+            //         })
+            //     );
+            // });
             div_chief.forEach(function(item) {
                 if (div_sup.find('option[value="' + item.id + '"]').length) {
                     div_sup.val(item.id); 

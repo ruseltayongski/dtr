@@ -1,9 +1,9 @@
 @extends('layouts.app')
 @section('content')
     <style>
-        .chosen-container-single{
+        /* .chosen-container-single{
             width: 180px !important;
-        }
+        } */
     </style>
     <div class="box box-info">
         <div class="box-body">
@@ -195,6 +195,7 @@
         $('.input-daterange input').each(function() {
             $(this).datepicker("clearDates");
         });
+
         $('a[href="#leave_info').click(function(){
             var id = $(this).data('id');
             var url = $(this).data('link');
@@ -205,13 +206,6 @@
                 $('.modal-body_leave').html(data);
             });
         });
-        {{--$("a[href='#form_type']").on("click",function(){--}}
-        {{--<?php--}}
-        {{--$asset = asset('form/cdov1');--}}
-        {{--$delete = asset('cdo_delete');--}}
-        {{--$doc_type = 'CDO';--}}
-        {{--?>--}}
-        {{--});--}}
 
         //default type
         var type = 'pending';
@@ -323,137 +317,30 @@
             });
         }
 
-        function cancel_dates(event) {
-
-            $('#cancel_body').empty();
+        function cancel_leave_dates(event) {
+            $('#cancel_leave_body').html(loadingState);
             var name = event.target.getAttribute('value');
-
-            $.get("{{ url('leave/get-route') }}/" + name, function(result) {
-                console.log('result', result);
-
-                $(".modal-title").html("Route No: <strong>" + result.route_no + "</strong>");
-
-                var container = document.querySelector("#cancel_date table");
-                container.innerHTML = '';
-
-                var cancelAllCheckbox =
-                    '<label>Check to Cancel All:</label>' +
-                    '<input style="transform: scale(1.5); margin-left: 10px;" type="checkbox" name="check_all" class="minimal" id="check_all_dates" />';
-                container.innerHTML += cancelAllCheckbox;
-
-                // Create select element
-                var html = '<div class="checkbox">' +
-                    '<label style="margin-left: 15%">' +
-                    '<select multiple class="form-control chosen-select" id="applied_dates" name="applied_dates[]">' +
-                    '</select>' +
-                    '</label>' +
-                    '</div>';
-                container.innerHTML += html;
-
-                var dateList = [];
-
-                result.applied_dates.forEach(function(dateRange) {
-                    var startDate, endDate;
-
-                    if (dateRange.status == 2) {
-                        startDate = new Date(dateRange.from_date);
-                        endDate = new Date(dateRange.to_date);
-                    } else if (dateRange.status != 1) {
-                        startDate = new Date(dateRange.startdate);
-                        endDate = new Date(dateRange.enddate);
-                    }
-
-                    while (startDate <= endDate) {
-                        var formatted = startDate.toLocaleDateString();
-                        dateList.push(formatted);
-
-                        $('#applied_dates').append($('<option>', {
-                            value: formatted,
-                            text: formatted
-                        }));
-
-                        startDate.setDate(startDate.getDate() + 1);
-                    }
-                });
-
-                $('#dates').val(dateList.join(','));
-
-                // Activate Chosen plugin
-                $('#applied_dates').chosen({ width: '200px' });
-
-                // Optional: Check All Dates Handler
-                $('#check_all_dates').on('change', function () {
-                    if ($(this).is(':checked')) {
-                        $('#applied_dates option').prop('selected', true).trigger('chosen:updated');
-                    } else {
-                        $('#applied_dates option').prop('selected', false).trigger('chosen:updated');
-                    }
+            var url ="<?php echo asset('leave/cancellation')?>"+"/"+name;
+            $.get(url,function(result) {
+                $('#cancel_leave_body').html(result);
+                $('#cancel_leave').on('shown.bs.modal', function () {
+                    $(document).off('focusin.modal');
                 });
             });
+        }
 
-        {{--$('#cancel_body').empty();--}}
-            {{--var name = event.target.getAttribute('value');--}}
-
-            {{--$.get("{{ url('leave/get-route') }}/" + name, function(result) {--}}
-                {{--console.log('result', result);--}}
-
-                {{--$(".modal-title").html("Route No: <strong>" + result.route_no + "</strong>");--}}
-
-                {{--var container = document.querySelector("#cancel_date table");--}}
-                {{--container.innerHTML = '';--}}
-
-                {{--var cancelAllCheckbox =--}}
-                    {{--'<label>Check to Cancel All:</label>' +--}}
-                    {{--'<input style="transform: scale(1.5)" type="checkbox" class="minimal" id="applied_dates" value="cancel_all" name="applied_dates" />';--}}
-                {{--container.innerHTML += cancelAllCheckbox;--}}
-                {{--var html = '<div class="checkbox">' +--}}
-                    {{--'<label style="margin-left: 15%">' +--}}
-                    {{--'<select type="checkbox" style="transform: scale(1.5)" class="minimal" id="applied_dates" name="applied_dates"/>' +--}}
-                    {{--'</select>'+--}}
-                    {{--'</label>' +--}}
-                    {{--'</div>';--}}
-                {{--container.innerHTML += html;--}}
-
-                {{--var dateList = [];--}}
-
-                {{--result.applied_dates.forEach(function(dateRange) {--}}
-                    {{--if(dateRange.status == 2){--}}
-                        {{--var startDate = new Date(dateRange.from_date);--}}
-                        {{--var endDate = new Date(dateRange.to_date);--}}
-                    {{--}else if(dateRange.status != 1){--}}
-                        {{--var startDate = new Date(dateRange.startdate);--}}
-                        {{--var endDate = new Date(dateRange.enddate);--}}
-                    {{--}--}}
-                    {{--while (startDate <= endDate) {--}}
-                        {{--dateList.push(new Date(startDate).toLocaleDateString());--}}
-                        {{--startDate.setDate(startDate.getDate() + 1);--}}
-
-                        {{--$('#applied_dates').append($('<option>', {--}}
-                            {{--value: startDate,--}}
-                            {{--text:startDate--}}
-                        {{--}));--}}
-                    {{--}--}}
-                {{--});--}}
-
-                {{--$('#dates').val(dateList.join(','));--}}
-            {{--});--}}
-
-//            $('input[type="checkbox"]').on('change', function () {
-//                if ($(this).val() === "cancel_all") {
-//                    var isChecked = $(this).prop('checked');
-//                    $('input[name="applied_dates"]').prop('checked', isChecked);
-//                }
-//
-//                var selectedCheckboxes = [];
-//                $('input[name="applied_dates"]:checked').each(function () {
-//                    selectedCheckboxes.push($(this).val());
-//                });
-//                $('#selected_date').val(selectedCheckboxes.join(', '));
-//            });
-
-            $('#cancel_type').val("leave");
-            $('#route').val(name);
-            console.log(name);
+        function move_leave_dates(event, route_no) {
+            console.log(route_no);
+            $('#leave_move_body').html(loadingState);
+            var name = event.target.getAttribute('value');
+            var url ="<?php echo asset('leave/moved')?>"+"/"+route_no;
+            console.log(url);
+            $.get(url,function(result) {
+                $('#leave_move_body').html(result);
+                $('#leave_move').on('shown.bs.modal', function () {
+                    $(document).off('focusin.modal');
+                });
+            });
         }
 
         function pending_leave(data, details, userid){
@@ -503,68 +390,6 @@
 
         function formatDate(date){
 
-        }
-
-        function move_dates(event, route_no) {
-            dateList = [];
-            $('#move_body').empty();
-            move_route = route_no;
-
-            $.get('/dtr/leave/move/' + route_no)
-                .done(function(response) {
-                    $(".modal-title").html("Route No:<strong>"+route_no);
-                    response.forEach(function(item){
-                        var startDate = new Date(item.startdate + "T00:00:00");
-                        var endDate = new Date(item.enddate + "T00:00:00");
-                        var start_date = new Date(item.startdate);
-                        var end_date = new Date(item.enddate);
-                        if(item.status == 2){
-                            startDate = new Date(item.from_date + "T00:00:00");
-                            endDate = new Date(item.to_date + "T00:00:00");
-                            start_date = new Date(item.from_date);
-                            end_date = new Date(item.to_date);
-                        }
-                        var diff = Math.abs(start_date - end_date) / (1000 * 60 * 60 * 24);
-
-                        if(diff == 0){
-                            dateList.push(startDate.toLocaleDateString());
-                        }else{
-                            while (startDate <= endDate) {
-                                dateList.push(startDate.toLocaleDateString());
-                                startDate.setDate(startDate.getDate() + 1);
-                            }
-                        }
-                    });
-
-                    var length = dateList.length;
-                    var i=0;
-                    while(length > i){
-                        $('#move_select').append($('<option>', {
-                            value: dateList[i],
-                            text: dateList[i]
-                        }))
-                        i++;
-                    }
-
-                    $('.move_datepickerInput').datepicker({
-                        autoclose: true
-                    });
-
-                    $('#move_select').chosen();
-                })
-                .fail(function(xhr, status, error) {
-                    // Log the status and error
-                    console.log('Status:', status);
-                    console.log('Error:', error);
-                    console.log('Response Text:', xhr.responseText);
-                    try {
-                        var jsonResponse = JSON.parse(xhr.responseText);
-                        console.log('Response JSON:', jsonResponse);
-                    } catch (e) {
-                        console.log('Response is not JSON:', xhr.responseText);
-                    }
-                    console.log('Status Code:', xhr.status);
-                });
         }
 
         var result = [];

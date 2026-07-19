@@ -456,5 +456,15 @@
     </script>
     <?php Session::forget('transfer_balance'); ?>
 @endif
+@if(Session::get('passlip'))
+    <script>
+        Lobibox.notify('success',{
+            size:'mini',
+            title:'',
+            msg:'Passlip excess was successfully deducted!'
+        });
+    </script>
+    <?php Session::forget('passlip'); ?>
+@endif
 </body>
 </html>

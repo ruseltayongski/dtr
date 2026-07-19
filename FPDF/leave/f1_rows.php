@@ -1,7 +1,6 @@
 <?php
 try{
     $pdo = new PDO("mysql:host=192.168.110.31; dbname=dohdtr",'rtayong_31','rtayong_31');
-//    $pdo = new PDO("mysql:host=localhost; dbname=dohdtr",'root','D0h7_1T');
     $pdo->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
     $query = "SELECT lea.*, pi.vacation_balance, pi.sick_balance FROM dohdtr.`leave` lea JOIN pis.personal_information pi ON pi.userid = lea.userid WHERE lea.id = :id";
     $st = $pdo->prepare($query);
@@ -15,7 +14,24 @@ try{
     $dates_st->execute();
     $leave_dates= $dates_st->fetchAll(PDO::FETCH_ASSOC);
 
+    $extended_q = "SELECT * FROM dohdtr.`leave_extension` WHERE route_no = :route_no ";
+    $extended_st = $pdo->prepare($extended_q);
+    $extended_st->bindValue(":route_no", $leave['route_no'], PDO::PARAM_STR);
+    $extended_st->execute();
+    $extended_dates= $extended_st->fetchAll(PDO::FETCH_ASSOC);
 
+    $spl_q = "SELECT * FROM dohdtr.`leave_extension` WHERE route_no = :route_no AND leave_type = 'SPL' AND type = 'emergency'";
+    $spl_st = $pdo->prepare($spl_q);
+    $spl_st->bindValue(":route_no", $leave['route_no'], PDO::PARAM_STR);
+    $spl_st->execute();
+    $spl= $spl_st->fetchAll(PDO::FETCH_ASSOC);
+    $spl = count($spl);
+
+    $details_q = "SELECT * FROM dohdtr.`leave_extended_details` WHERE route_no = :route_no ";
+    $details_st = $pdo->prepare($details_q);
+    $details_st->bindValue(":route_no", $leave['route_no'], PDO::PARAM_STR);
+    $details_st->execute();
+    $details= $details_st->fetchAll(PDO::FETCH_ASSOC);
 
     $officer_1 = "SELECT dts.fname, dts.lname, dts.mname FROM dohdtr.`leave` lea JOIN dts.users dts ON dts.id = lea.officer_1 WHERE lea.id = :id";
     $st = $pdo->prepare($officer_1);
@@ -36,53 +52,27 @@ try{
     $officer_3 = $st->fetch(PDO::FETCH_ASSOC);
 
     $dates = [];
-    $length = count($leave_dates);
     $check=[];
 
-    if ($length > 0) {
-        $start = ($leave_dates[0]['status'] != 2)?$leave_dates[0]['startdate']: $leave_dates[0]['from_date'];
-        $initial_date = ($leave_dates[0]['status'] != 2)?$leave_dates[0]['startdate']: $leave_dates[0]['from_date'];
+    $all_leave_type = [];
 
-        foreach ($leave_dates as $index => $date) {
-            $start_date = ($date['status'] != 2)?$date['startdate']:$date['from_date'];
-            $end_date = ($date['status'] != 2)?$date['enddate']:$date['to_date'];
+    if (count($extended_dates) > 0) {
+
+        foreach ($extended_dates as $index => $date) {
+            $start_date = $date['start'];
+            $end_date = $date['end'];
+            $all_leave_type[]= $date['leave_type'];
 
             if ($start_date == $end_date) {
-                if ($index + 1 != $length) {
-                    $current_date = new DateTime($initial_date);
-                    $next_date = ($leave_dates[$index + 1]['status'] != 2)? new DateTime($leave_dates[$index + 1]['startdate']) : new DateTime($leave_dates[$index + 1]['from_date']);
-                    $diff = $next_date->diff($current_date)->days;
-
-                    if ($diff == 1) {
-                        $start_date = $current_date->format('Y-m-d');
-                        $end_date = $next_date->format('Y-m-d');
-                        $initial_date = ($date['status'] != 2)?$leave_dates[$index + 1]['startdate'] :$leave_dates[$index + 1]['from_date'];
-                        $check[] = 'check1 '.$diff. $start_date .$end_date;
-                    } else {
-                        $dates[] = $start . ' - ' . $end_date;
-                        $start = ($leave_dates[$index + 1]['status'] != 2)?$leave_dates[$index + 1]['startdate'] :$leave_dates[$index + 1]['from_date'];
-                        $initial_date = ($leave_dates[$index + 1]['status'] != 2)?$leave_dates[$index + 1]['startdate'] :$leave_dates[$index + 1]['from_date'];
-                        $check[] = 'check2 '.$diff . $start. $initial_date.'---'.$date['status'];
-
-                    }
-                } else {
-                    $dates[] = $start . ' - ' . $end_date;
-                }
+                $dates[] = $start_date . ' - ' . $end_date;
             } else {
                 $dates[] = $start_date . ' - ' . $end_date;
             }
         }
     }
-
-//    var_dump($leave['route_no']);
 }catch (Exception $e){
-    // var_dump(1);
 }   
 
-// var_dump($dates);
-
-// $imagePath = __DIR__ . '\FPDF\image\doh.png';
-// $imagePath =realpath(__DIR__ . '/../../..').'\public\img\doh.png';
 $imagePath = 'C:/Apache24/htdocs/dtr/FPDF/image/doh.png';
 // $imagePath = 'C:/xampp_7/htdocs/dtr/FPDF/image/doh.png';
 
@@ -100,8 +90,8 @@ $pdf->Text(77,37,utf8_decode('Osmeña Boulevard, Cebu City, 6000 Philippines'));
 $pdf->SetFont('Arial','',8);
 $pdf->Text(165,29,'__________________');
 $pdf->Text(169,33,'Date of Receipt');
-//// ROW 1
-//$pdf->setX(100);
+
+// ROW 1
 $pdf->setY($pdf->getY()+27);
 $pdf->SetFont('Arial','B',14);
 $pdf->Cell(200,16,'APPLICATION FOR LEAVE',0,'','C');

@@ -12,11 +12,12 @@
         <div class="form-group">
             <input type="text" name="search" value="{{ $keyword }}" class="form-control" placeholder="Quick Search" autofocus>
             <button type="submit" class="btn btn-default"><i class="fa fa-search"></i> Search</button>
+            <button type="button" class="btn btn-success" onclick="add_employee(event)" style="color: white;" data-toggle="modal" data-target="#leave_employee"><i class="fa fa-plus"></i> Add Employee</button>
+            <button type="button" class="btn btn-info" onclick="add_priviledge(event)" style="color: white;" data-toggle="modal" data-target="#leave_priviledge"><i class="fa fa-plus"></i> Add Priviledge</button>
         </div>
     </form>
     <div class="clearfix"></div>
     <div class="page-divider"></div>
-
     @if(isset($pis) and count($pis) > 0)
         <div class="table-responsive">
             <table class="table table-list table-hover table-striped">
@@ -71,106 +72,164 @@
 @endsection
 
 @section('js')
-    @parent
-    <script>
-        $('.range').daterangepicker({
-            autoclose:true
+@parent
+<script>
+    function add_employee(event) {
+        $('#employee_leave_body').html(loadingState);
+        var name = event.target.getAttribute('value');
+        var url ="<?php echo asset('leave/employee/0')?>";
+        $.get(url,function(result) {
+            $('#employee_leave_body').html(result);
         });
+    }
 
-        var u_id;
-
-        function view_leave(userid){
-            $(".l_view_body").empty();
-            $.get("{{ url('leave/card-view').'/' }}" + userid +"/" + 1, function(result){
-                $(".l_view_body").html(result);
-            });
-            u_id = userid;
-            $('.user_iid').val(userid);
-        }
-
-        $(document).on('click', '.pagination  a', function(e) {
-            e.preventDefault(); 
-            var url = $(this).attr('href');
-            $.ajax({
-                url: url,
-                type: 'GET',
-                success: function(response) {
-                    $('.l_view_body').html(response);
-                },
-                error: function(xhr) {
-                    console.error('Error:', xhr.responseText);
-                }
-            });
+    function add_priviledge(event) {
+        $('#priviledge_leave_body').html(loadingState);
+        var name = event.target.getAttribute('value');
+        var url ="<?php echo asset('leave/employee/1')?>";
+        $.get(url,function(result) {
+            $('#priviledge_leave_body').html(result);
         });
-        
-        $(".leave_balance").on('click',function(e){
-            $('.leave_modal').html(loadingState);
-            var fl = $(this).data('fl');
-            var spl = $(this).data('spl');
-            var vacation = $(this).data('vacation');
-            var sick = $(this).data('sick');
-            var wellness = $(this).data('wellness');
-            var userid = $(this).data('id');
-            $("#userid_bal").val(userid);
-            $(".leave_title").text(userid);
-            setTimeout(function(){
-                $('.leave_modal').html(
+    }
 
-                "<table class='table'>"+
-                    "<tr>" +
-                        "<td class='col-sm-3'><strong>Vacation Balance</strong></td>" +
-                        "<td class='col-sm-1'>: </td>" +
-                        "<td class='col-sm-9'>" +
-                            "<input type='number' class='form-control ' id='vacation' value='"+vacation+"' name='vacation' required>" +
-                        "</td>" +
-                    "</tr>" +
-                    "<tr>" +
-                        "<td class='col-sm-3'><strong>Sick Balance</strong></td>" +
-                        "<td class='col-sm-1'>: </td>" +
-                        "<td class='col-sm-9'>" +
-                            "<input type='number' class='form-control' id='sick' value='"+sick+"' name='sick' required>" +
-                        "</td>" +
-                    "</tr>" +
-                        "<tr>" +
-                        "<td class='col-sm-3'><strong>SPL Balance</strong></td>" +
-                        "<td class='col-sm-1'>: </td>" +
-                        "<td class='col-sm-9'>" +
-                        "<input type='number' class='form-control' id='spl' value='"+spl+"' name='spl' required>" +
-                        "</td>" +
-                    "</tr>" +
-                    "<tr>" +
-                        "<td class='col-sm-3'><strong>FL Balance</strong></td>" +
-                        "<td class='col-sm-1'>: </td>" +
-                        "<td class='col-sm-9'>" +
-                        "<input type='number' class='form-control' id='fl' value='"+fl+"' name='fl' required>" +
-                        "</td>" +
-                    "</tr>" +
-                    "<tr>" +
-                    "<td class='col-sm-3'><strong>WL Balance</strong></td>" +
-                        "<td class='col-sm-1'>: </td>" +
-                        "<td class='col-sm-9'>" +
-                        "<input type='number' class='form-control' id='wellness' value='"+wellness+"' name='wellness' required>" +
-                        "</td>" +
-                    "</tr>" +
-                "</table>");
-            },500);
+    $('.range').daterangepicker({
+        autoclose:true
+    });
+
+    var u_id;
+
+    function view_leave(userid){
+        $(".l_view_body").empty();
+        $.get("{{ url('leave/card-view').'/' }}" + userid +"/" + 1, function(result){
+            $(".l_view_body").html(result);
         });
+        u_id = userid;
+        $('.user_iid').val(userid);
+    }
 
-        function checkAbsence(button) {
-            $('.mod_update_btn').val('update');
-            $('.type_label').text('No of Leave w/o Pay');
-            $('#month_date').val('');
-            $('#absence').val('');
-            $(".card_id").val('');
-            $(".delete_btn").hide();
-            var row = $(button).closest('tr');
-            var rowData = {};
-            row.find('td').each(function(cellIndex, cell) {
-                var columnName = 'data' + (cellIndex + 1);
-                rowData[columnName] = $(cell).text().trim();
-            });
-            console.log('dates', rowData);
-            var dates = (rowData.data1).split("-");
+    $(document).on('click', '.l_view_body .pagination a', function(e) {
+        e.preventDefault(); 
+        var url = $(this).attr('href');
+        $.ajax({
+            url: url,
+            type: 'GET',
+            success: function(response) {
+                $('.l_view_body').html(response);
+            },
+            error: function(xhr) {
+                console.error('Error:', xhr.responseText);
+            }
+        });
+    });
+    
+    $(".leave_balance").on('click',function(e){
+        $('.leave_modal').html(loadingState);
+        var fl = $(this).data('fl');
+        var spl = $(this).data('spl');
+        var vacation = $(this).data('vacation');
+        var sick = $(this).data('sick');
+        var wellness = $(this).data('wellness');
+        var userid = $(this).data('id');
+        $("#userid_bal").val(userid);
+        $(".leave_title").text(userid);
+        setTimeout(function(){
+            $('.leave_modal').html(
+
+            "<table class='table'>"+
+                "<tr>" +
+                    "<td class='col-sm-3'><strong>Vacation Balance</strong></td>" +
+                    "<td class='col-sm-1'>: </td>" +
+                    "<td class='col-sm-9'>" +
+                        "<input type='number' step='any' class='form-control ' id='vacation' value='"+vacation+"' name='vacation' required>" +
+                    "</td>" +
+                "</tr>" +
+                "<tr>" +
+                    "<td class='col-sm-3'><strong>Sick Balance</strong></td>" +
+                    "<td class='col-sm-1'>: </td>" +
+                    "<td class='col-sm-9'>" +
+                        "<input type='number' step='any' class='form-control' id='sick' value='"+sick+"' name='sick' required>" +
+                    "</td>" +
+                "</tr>" +
+                    "<tr>" +
+                    "<td class='col-sm-3'><strong>SPL Balance</strong></td>" +
+                    "<td class='col-sm-1'>: </td>" +
+                    "<td class='col-sm-9'>" +
+                    "<input type='number' min='0' max='3' step='any' class='form-control' id='spl' value='"+spl+"' name='spl' required>" +
+                    "</td>" +
+                "</tr>" +
+                "<tr>" +
+                    "<td class='col-sm-3'><strong>FL Balance</strong></td>" +
+                    "<td class='col-sm-1'>: </td>" +
+                    "<td class='col-sm-9'>" +
+                    "<input type='number' min='0' max='5' step='any' class='form-control' id='fl' value='"+fl+"' name='fl' required>" +
+                    "</td>" +
+                "</tr>" +
+                "<tr>" +
+                "<td class='col-sm-3'><strong>WL Balance</strong></td>" +
+                    "<td class='col-sm-1'>: </td>" +
+                    "<td class='col-sm-9'>" +
+                    "<input type='number' step='any' min='0' max='5' class='form-control' id='wellness' value='"+wellness+"' name='wellness' required>" +
+                    "</td>" +
+                "</tr>" +
+            "</table>");
+        },500);
+    });
+
+    function checkAbsence(button) {
+        $('.mod_update_btn').val('update');
+        $('.type_label').text('No of Leave w/o Pay');
+        $('#month_date').val('');
+        $('#absence').val('');
+        $(".card_id").val('');
+        $(".delete_btn").hide();
+        var row = $(button).closest('tr');
+        var rowData = {};
+        row.find('td').each(function(cellIndex, cell) {
+            var columnName = 'data' + (cellIndex + 1);
+            rowData[columnName] = $(cell).text().trim();
+        });
+        var dates = (rowData.data1).split("-");
+        var get_year = moment(dates[1],'MMMM D, YYYY');
+        var start = dates[0] +', '+get_year.year();
+        var startDate = moment(start,'MMMM D, YYYY');
+        var end = startDate.format('MMMM')+ " "+dates[1];
+        var endDate = moment(end, 'MMMM D, YYYY');
+        $('#month_date').daterangepicker({
+            startDate: startDate,
+            endDate: endDate,
+            locale: {
+                format: 'MM/DD/YYYY'
+            }
+        });
+        $('#month_date').val(startDate.format('MM/DD/YYYY') + ' - ' + endDate.format('MM/DD/YYYY'));
+//            var total = rowData.data10 / 0.0417;
+        var number = (rowData.data2).match(/\((\d+)\)/);
+        number = number ? parseInt(number[1], 10) : 0;
+        $(".modify_userid").val(rowData.data12);
+        $(".card_id").val(rowData.data13);
+        $("#absence").val(number.toFixed(0));
+    }
+
+    function updateUT(button){
+        $('.mod_update_btn').val('update_1');
+        console.log('update ut');
+        $('.type_label').text('No of Minutes');
+        $('#month_date').val('');
+        $('#absence').val('');
+        $(".card_id").val('');
+        $('.mod_update_btn').val('update_1');
+        $(".delete_btn").hide();
+        var row = $(button).closest('tr');
+        var rowData = {};
+        row.find('td').each(function(cellIndex, cell) {
+            var columnName = 'data' + (cellIndex + 1);
+            rowData[columnName] = $(cell).text().trim();
+        });
+        console.log('row', rowData);
+        if(rowData.data11 == null ||rowData.data11 == '' ){
+            $('#month_date').daterangepicker();
+        }else{
+            var dates = (rowData.data11).split("-");
             var get_year = moment(dates[1],'MMMM D, YYYY');
             var start = dates[0] +', '+get_year.year();
             var startDate = moment(start,'MMMM D, YYYY');
@@ -184,58 +243,16 @@
                 }
             });
             $('#month_date').val(startDate.format('MM/DD/YYYY') + ' - ' + endDate.format('MM/DD/YYYY'));
-//            var total = rowData.data10 / 0.0417;
-            var number = (rowData.data2).match(/\((\d+)\)/);
-            number = number ? parseInt(number[1], 10) : 0;
-            console.log('number', number);
-            $(".modify_userid").val(rowData.data12);
-            $(".card_id").val(rowData.data13);
-            $("#absence").val(number.toFixed(0));
         }
 
-        function updateUT(button){
-            $('.mod_update_btn').val('update_1');
-            console.log('update ut');
-            $('.type_label').text('No of Minutes');
-            $('#month_date').val('');
-            $('#absence').val('');
-            $(".card_id").val('');
-            $('.mod_update_btn').val('update_1');
-            $(".delete_btn").hide();
-            var row = $(button).closest('tr');
-            var rowData = {};
-            row.find('td').each(function(cellIndex, cell) {
-                var columnName = 'data' + (cellIndex + 1);
-                rowData[columnName] = $(cell).text().trim();
-            });
-            console.log('row', rowData);
-            if(rowData.data11 == null ||rowData.data11 == '' ){
-                $('#month_date').daterangepicker();
-            }else{
-                var dates = (rowData.data11).split("-");
-                var get_year = moment(dates[1],'MMMM D, YYYY');
-                var start = dates[0] +', '+get_year.year();
-                var startDate = moment(start,'MMMM D, YYYY');
-                var end = startDate.format('MMMM')+ " "+dates[1];
-                var endDate = moment(end, 'MMMM D, YYYY');
-                $('#month_date').daterangepicker({
-                    startDate: startDate,
-                    endDate: endDate,
-                    locale: {
-                        format: 'MM/DD/YYYY'
-                    }
-                });
-                $('#month_date').val(startDate.format('MM/DD/YYYY') + ' - ' + endDate.format('MM/DD/YYYY'));
-            }
-
-            $(".modify_userid").val(rowData.data12);
-            $(".card_id").val(rowData.data13);
-            var number = (rowData.data2).match(/\((\d+)\s*min/);
-            number = number ? parseInt(number[1], 10) : 0;
-            console.log('number', number);
-            $("#absence").val(number.toFixed(0));
-        }
-    </script>
+        $(".modify_userid").val(rowData.data12);
+        $(".card_id").val(rowData.data13);
+        var number = (rowData.data2).match(/\((\d+)\s*min/);
+        number = number ? parseInt(number[1], 10) : 0;
+        console.log('number', number);
+        $("#absence").val(number.toFixed(0));
+    }
+</script>
 @endsection
 
 

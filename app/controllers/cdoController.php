@@ -646,18 +646,24 @@ class cdoController extends BaseController
             $division_head = pdoController::user_search1($cdo['division_chief']);
         } else{
             $id_list = [];
-            $manually_added = [988320, 985329, 273, 11, 93053, 986445, 984538, 985950, 80, 976017, 466, 534, 986944, 988121, 357, 988148, 988309, 142, 602, 151, 988466, 75, 988135];
+            $manually_added = [988320, 985329, 273, 11, 93053, 986445, 984538, 985950, 80, 976017, 466, 534, 986944, 988121, 357, 988148, 988309, 142, 602, 151, 988466, 75, 988135, 984531];
 
             foreach(pdoController::section() as $row) {
                 if ($row['acronym'] !== null || in_array($row['head'], [37, 72, 243, 614, 110, 163, 648384, 160, 985950, 830744, 51])) {
-                    if(!in_array($row['head'], [172, 173, 96, 53, 114, 442, 155, 91, 6, 16, 986774, 51, 231, 160, 119])){
+                    if(!in_array($row['head'], [172, 173, 96, 53, 114, 442, 155, 91, 6, 16, 986774, 51, 231, 160, 119, 27])){
                         if(!in_array($row['head'], $id_list)){
                             $id_list[]=$row['head'];
                         }
                     }
                 }
             }
-            $list = array_merge($id_list,$manually_added);
+
+            if($personal_information->field_status == "HRH"){
+                $list = [144, 73, 975861, 986228, 187, 121, 141, 987010, 97, 104, 99, 986958, 986426, 467014, 976019, 103, 173, 96, 212, 198, 602, 986817, 200, 976020, 174, 179, 985220, 830744, 416];
+            }else{
+                $list = array_merge($id_list,$manually_added);
+            }
+            
             foreach ($list as $data_list){
                 $section_head[] = pdoController::user_search1($data_list);
             }
@@ -668,16 +674,25 @@ class cdoController extends BaseController
                 }
             }
 
-            $div = [27];
-            foreach ($div as $data){
-                $division_head[] = pdoController::user_search1($data);
-            }
+            // $div = [27];
+            // foreach ($div as $data){
+            //     $division_head[] = pdoController::user_search1($data);
+            // }
 
             $divisionValues = array_column($division_head, 'id');
             $priority = array_map(function($id) {
                 return $id == 37 ? 0 : 1;  // 0 = highest priority (comes first), 1 = others
             }, $divisionValues);
             array_multisort($priority, SORT_ASC, $division_head);
+            
+            if($personal_information->field_status == "HRH"){
+                $hrh_data = [614, 110, 80, 72];
+                $division_head = [];
+                foreach($hrh_data as $data){
+                    $division_head[] = pdoController::user_search1($data);
+                }
+            }
+
         }
 
         $data = array(
@@ -698,7 +713,8 @@ class cdoController extends BaseController
             "server_date" => date('Y-m-d'),
             "user_section" => $personal_information->section_id,
             "user_division" => $personal_information->division_id,
-            "cut_off" => $this->cutoff()
+            "cut_off" => $this->cutoff(),
+            'field_type' => $personal_information->field_status
         );
 
 
@@ -1631,6 +1647,58 @@ class cdoController extends BaseController
         return Redirect::to('form/cdo_user');
     }
 
+    public function passlip(){
+        $userid = Input::get('passlip_userid');
+        $dates = Input::get('passlip_date');
+        $time_hours = Input::get('passlip_hours');
+        $remarks = Input::get('passlip_remarks');
+        $hoursArray = Input::get('passlip_hours', []);
+
+        foreach($dates as $index => $row){
+            $card = new CardView();
+            $card->userid = $userid;
+            $card->remarks = $remarks[$index];
+            $card->status = 4;
+
+            // Parse deduction time
+            $time = number_format($time_hours[$index],2,'.',',');
+            if (strpos($time, '.') === false) {
+                $time .= '.0';
+            }
+            [$h, $m] = explode('.', $time);
+            $h = (int) ($h ?: 0);
+            $m = (int) ($m ?: 0);
+            $minutes = number_format($m/60, 2,'.', ',');
+        
+            $pis = InformationPersonal::where('userid', $userid)->first();
+
+            $balance = $pis->bbalance_cto - ($h + $minutes);
+
+            $parts = [];
+
+            if ($h != 0) {
+                $parts[] = $h . ' ' . ($h == 1 ? 'hour' : 'hours');
+            }
+
+            if ($m != 0) {
+                $parts[] = ($h != 0 ? ' and ' : '') . $m . ' ' . ($m == 1 ? 'minute' : 'minutes');
+            }
+
+            $excessTime = implode(' ', $parts);
+
+            $card->date_used = date('F j, Y', strtotime($dates[$index])) .
+                ($excessTime ? ' (Passlip Excess Time: ' . $excessTime . ')' : '');
+            $card->hours_used = $h + $minutes;
+            $card->bal_credits = $balance;
+            $card->save();
+
+            $pis->bbalance_cto = $balance;
+            $pis->save();
+        }
+
+        return Redirect::back()->with('passlip', true);
+    }
+
     public function beginning_balance(){
 
         Session::put('keyword',Input::get('keyword'));
@@ -2287,8 +2355,12 @@ class cdoController extends BaseController
                                 $new_applied->status = $selected_hours[$index] == $new_applied->cdo_hours ? 11 : 1;
                                 if( $new_applied->cdo_hours == 'cdo_wholeday'){
                                     $card_total = $selected_hours[$index] == 'cdo_wholeday' ? 8 + $card_total : 4 + $card_total;
-                                }else{
+                                }elseif($new_applied->cdo_hours == 'cdo_am' || $new_applied->cdo_hours == 'cdo_pm'){
                                     $card_total = 4 + $card_total;
+                                }elseif($new_applied->cdo_hours == 'compressed_cdo_wholeday'){
+                                    $card_total = 10 + $card_total;
+                                }else{
+                                    $card_total = 5 + $card_total;
                                 }
                                 $new_applied->cdo_hours = $selected_hours[$index] == 'cdo_wholeday' ? 'cdo_wholeday' :
                                     ($selected_hours[$index] == 'cdo_am' ? 'cdo_pm':
@@ -2329,33 +2401,94 @@ class cdoController extends BaseController
                                         $pis->bbalance_cto = $pis->bbalance_cto + 8;
                                         $card->hours_used = 8;
                                         $card->date_used = date('F j, Y', strtotime($date));
+                                    }elseif($selected_hours[$f] == "compressed_cdo_wholeday"){
+                                        $cancelled->less_applied_for = $cancelled->less_applied_for - 10;
+                                        $pis->bbalance_cto = $pis->bbalance_cto + 10;
+                                        $card->hours_used = 10;
+                                        $card->date_used = date('F j, Y', strtotime($date));
                                     }else{
-                                        $card->hours_used = 4;
-                                        $card->bal_credits = ($pis->bbalance_cto + 4 <= 120) ? $pis->bbalance_cto + 4 : 120 ;
-                                        if($selected_hours[$f] == "cdo_am"){
-                                            $card->date_used = date('F j, Y', strtotime($date)).' (AM)';
+
+                                        if($selected_hours[$f] == "cdo_am" || $selected_hours[$f] == "cdo_pm" ){
+                                            $card->hours_used = 4;
+                                            $card->bal_credits = ($pis->bbalance_cto + 4 <= 120) ? $pis->bbalance_cto + 4 : 120 ;
+                                            if($selected_hours[$f] == "cdo_am"){
+                                                $card->date_used = date('F j, Y', strtotime($date)).' (AM)';
+                                            }else{
+                                                $card->date_used = date('F j, Y', strtotime($date)).' (PM)';
+                                            }
+                                            $cancelled->less_applied_for = $cancelled->less_applied_for - 4;
+                                            $pis->bbalance_cto = ($pis->bbalance_cto + 4 <= 120) ? $pis->bbalance_cto + 4 : 120 ;
                                         }else{
-                                            $card->date_used = date('F j, Y', strtotime($date)).' (PM)';
+                                            $card->hours_used = 5;
+                                            $card->bal_credits = ($pis->bbalance_cto + 5 <= 120) ? $pis->bbalance_cto + 5 : 120 ;
+                                            if($selected_hours[$f] == "cdo_am"){
+                                                $card->date_used = date('F j, Y', strtotime($date)).' (Compressed AM)';
+                                            }else{
+                                                $card->date_used = date('F j, Y', strtotime($date)).' (Compressed PM)';
+                                            }
+                                            $cancelled->less_applied_for = $cancelled->less_applied_for - 5;
+                                            $pis->bbalance_cto = ($pis->bbalance_cto + 5 <= 120) ? $pis->bbalance_cto + 5 : 120 ;
                                         }
-                                        $cancelled->less_applied_for = $cancelled->less_applied_for - 4;
-                                        $pis->bbalance_cto = ($pis->bbalance_cto + 4 <= 120) ? $pis->bbalance_cto + 4 : 120 ;
+                                        
                                     }
                                 }else{
-                                    $cancelled->less_applied_for = $cancelled->less_applied_for - 4;
-                                    $pis->bbalance_cto = ($pis->bbalance_cto + 4 <= 120) ? $pis->bbalance_cto + 4 : 120 ;
+                                    // $cancelled->less_applied_for = $cancelled->less_applied_for - 4;
+                                    // $pis->bbalance_cto = ($pis->bbalance_cto + 4 <= 120) ? $pis->bbalance_cto + 4 : 120 ;
+                                    // $new_applied->status = 1;
+                                    // $date_here[]=$date_list[$index];
+                                    // if($selected_hours[$f] == "cdo_wholeday"){
+                                    //     $card->date_used = date('F j, Y', strtotime($date)).' (Wholeday)';
+                                    //     $card->hours_used = 8;
+                                    // }else{
+                                    //     $card->hours_used = 4;
+                                    //     if ($selected_hours[$f] == "cdo_am" && $date_time[$index] == "cdo_wholeday"){
+                                    //         $card->date_used = date('F j, Y', strtotime($date)).' (AM)';
+                                    //         $new_applied->cdo_hours = "cdo_pm";
+                                    //     }else if($selected_hours[$f] == "cdo_pm" && $date_time[$index] == "cdo_wholeday"){
+                                    //         $card->date_used = date('F j, Y', strtotime($date)).' (PM)';
+                                    //         $new_applied->cdo_hours = "cdo_am";
+                                    //     }
+                                    // }
+                                    $hoursMap = [
+                                        'compressed_cdo_wholeday' => 10,
+                                        'compressed_cdo_am'       => 5,
+                                        'compressed_cdo_pm'       => 5,
+                                        'cdo_wholeday'            => 8,
+                                        'cdo_am'                  => 4,
+                                        'cdo_pm'                  => 4,
+                                    ];
+
+                                    $selectedHour = $selected_hours[$f];
+                                    $hours = $hoursMap[$selectedHour] ?? 4;
+                                    $maxBalance = 120;
+
+                                    $cancelled->less_applied_for = $cancelled->less_applied_for - $hours;
+                                    $pis->bbalance_cto = min($pis->bbalance_cto + $hours, $maxBalance);
+
                                     $new_applied->status = 1;
-                                    $date_here[]=$date_list[$index];
-                                    if($selected_hours[$f] == "cdo_wholeday"){
-                                        $card->date_used = date('F j, Y', strtotime($date)).' (Wholeday)';
-                                        $card->hours_used = 8;
-                                    }else{
-                                        $card->hours_used = 4;
-                                        if ($selected_hours[$f] == "cdo_am" && $date_time[$index] == "cdo_wholeday"){
-                                            $card->date_used = date('F j, Y', strtotime($date)).' (AM)';
-                                            $new_applied->cdo_hours = "cdo_pm";
-                                        }else if($selected_hours[$f] == "cdo_pm" && $date_time[$index] == "cdo_wholeday"){
-                                            $card->date_used = date('F j, Y', strtotime($date)).' (PM)';
-                                            $new_applied->cdo_hours = "cdo_am";
+                                    $date_here[] = $date_list[$index];
+
+                                    $card->hours_used = $hours;
+                                    $formattedDate = date('F j, Y', strtotime($date));
+
+                                    if (in_array($selectedHour, ['cdo_wholeday', 'compressed_cdo_wholeday'])) {
+                                        $label = $selectedHour === 'compressed_cdo_wholeday' ? 'Compressed Wholeday' : 'Wholeday';
+                                        $card->date_used = $formattedDate . ' (' . $label . ')';
+                                    } else {
+                                        $isAM = in_array($selectedHour, ['cdo_am', 'compressed_cdo_am']);
+                                        $isPM = in_array($selectedHour, ['cdo_pm', 'compressed_cdo_pm']);
+                                        $isCompressed = str_contains($selectedHour, 'compressed_');
+
+                                        $isWholedaySlot = in_array($date_time[$index], ['cdo_wholeday', 'compressed_cdo_wholeday']);
+
+                                        if ($isWholedaySlot) {
+                                            if ($isAM) {
+                                                $card->date_used = $formattedDate . ' (' . ($isCompressed ? 'Compressed AM' : 'AM') . ')';
+                                                $new_applied->cdo_hours = $isCompressed ? 'compressed_cdo_pm' : 'cdo_pm';
+                                            } elseif ($isPM) {
+                                                $card->date_used = $formattedDate . ' (' . ($isCompressed ? 'Compressed PM' : 'PM') . ')';
+                                                $new_applied->cdo_hours = $isCompressed ? 'compressed_cdo_am' : 'cdo_am';
+                                            }
                                         }
                                     }
                                 }
@@ -2396,6 +2529,7 @@ class cdoController extends BaseController
                     }
                 }
             }
+            
             $dateList = implode(',', $dateList);
             $get_card = LeaveCardView::where('leave_id', $leave->id)->where('userid', $leave->userid)->first();
             $all_card = LeaveCardView::where('id','>', $get_card->id)->where('userid', $leave->userid)->get();

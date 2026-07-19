@@ -573,7 +573,7 @@ class AdminController extends BaseController
                     ->orWhere("leave_type", "like", "%$keyword%")
                     ->orWhere("lastname", "like", "%$keyword%");
             })
-            ->with(['appliedDates',
+            ->with(['appliedDates','extension.type_leave',
                 'type' => function ($query) {
                     $query->select('code', 'desc');
                 }
@@ -587,7 +587,7 @@ class AdminController extends BaseController
                     ->orWhere("leave_type", "like", "%$keyword%")
                     ->orWhere("lastname", "like", "%$keyword%");
             })
-            ->with(['appliedDates',
+            ->with(['appliedDates','extension.type_leave',
                 'type' => function ($query) {
                     $query->select('code', 'desc');
                 }
@@ -601,7 +601,7 @@ class AdminController extends BaseController
                     ->orWhere("leave_type", "like", "%$keyword%")
                     ->orWhere("lastname", "like", "%$keyword%");
             })
-            ->with(['appliedDates',
+            ->with(['appliedDates','extension.type_leave',
                 'type' => function ($query) {
                     $query->select('code', 'desc');
                 }
@@ -615,7 +615,7 @@ class AdminController extends BaseController
                     ->orWhere("leave_type", "like", "%$keyword%")
                     ->orWhere("lastname", "like", "%$keyword%");
             })
-            ->with(['appliedDates',
+            ->with(['appliedDates','extension.type_leave',
                 'type' => function ($query) {
                     $query->select('code', 'desc');
                 }
@@ -628,7 +628,7 @@ class AdminController extends BaseController
                 ->orWhere("leave_type", "like", "%$keyword%")
                 ->orWhere("lastname", "like", "%$keyword%");
         })
-            ->with(['appliedDates',
+            ->with(['appliedDates','extension.type_leave',
                 'type' => function ($query) {
                     $query->select('code', 'desc');
                 }
@@ -698,8 +698,6 @@ class AdminController extends BaseController
             }
         }
 
-//        return $leave_dates;
-//        if(isset($leave) and count($leave) > 0)  {
         if(isset($leave))  {
             return View::make('form.update_leave')->with([
                 'leave'=>$leave,
@@ -715,6 +713,8 @@ class AdminController extends BaseController
 
     public function delete_leave($id) {
         $leave= Leave::where('id', $id)->first();
+        ExtendedLeave::where('route_no', $leave->route_no)->delete();
+        LeaveDetails::where('route_no', $leave->route_no)->delete();
         $leave->delete();
 
         Session::put('deleted',true);
@@ -792,88 +792,614 @@ class AdminController extends BaseController
         }
     }
 
-    public function approved_leave($route_no)
-    {
-        $leave = Leave::where('route_no', $route_no)->first();
-        if($leave){
+    public function move_leave($route_no){
+        $leave_extension = ExtendedLeave::where('route_no', $route_no)->get();
+        $excluded = ModifiedLeave::where('status', 1)->where('extended_id', $leave_extension[0]->id)->lists('to_start');
+
+        return View::make('form.move_leave', [
+            'data' => $leave_extension,
+            'excluded' => $excluded,
+            "holidays" => Calendars::where('status', 1)->lists('start'),
+            "user" => InformationPersonal::where('userid', $leave_extension[0]->userid)->first()
+        ]);
+    }
+
+    public function leave_cancellation($route_no){
+        $leave_extension = ExtendedLeave::where('route_no', $route_no)->get();
+        return View::make('form.cancel_leave', [
+            'data' => $leave_extension,
+            "holidays" => Calendars::where('status', 1)->lists('start'),
+            "user" => InformationPersonal::where('userid', $leave_extension[0]->userid)->first()
+        ]);
+    }
+
+    public function leave_employee($id){
+        if($id == 0){
+            return View::make('form.employee_list', [
+                "users" => InformationPersonal::whereIn('job_status', ["Permanent", "Contractual"])->get()
+            ]);
+        }else{
+            return View::make('form.priviledge_employee', [
+                "users" => InformationPersonal::whereIn('job_status', ["Permanent", "Contractual"])->get(),
+                "privs" => LeavePriviledge::lists('userid')
+            ]);
+        }
+    }
+    public function leave_priv_save(){
+        $data = $_POST['leave_priviledge_data'];
+        foreach($data as $row){
+            $priv = LeavePriviledge::where('userid', $row)->first();
+            if(!$priv){
+                $priv = new LeavePriviledge();
+                $priv->userid = $row;
+                $priv->added_by = Auth::user()->userid;
+                $priv->save();
+            }
+        }
+        return Redirect::back();
+    }
+
+    public function employee_save(){
+        $data = $_POST['leave_employee_data'];
+        foreach($data as $row){
+            $check = LeaveEmployee::where('userid', $row)->first();
+            if(!$check){
+                $employ = new LeaveEmployee();
+                $employ->userid = $row;
+                $employ->modified_by = Auth::user()->userid;
+                $employ->save();
+            }
+        }
+        return Redirect::back();
+    }
+    
+    public function save_move(){
+        $id = Input::get('leave_id');
+        $data = $_POST['leave_move_data'];
+        $new_date = date('Y-m-d', strtotime($_POST['move_selected_date']));
+        $extended_leave = ExtendedLeave::where('id', $id)->first();
+        // $extended_leave->status = 2;
+        $extended_leave->save();
+
+        $cancelled = new ModifiedLeave();
+        $cancelled->extended_id = $extended_leave->id;
+        $cancelled->from_start = $data;
+        $cancelled->from_end = $data;
+        $cancelled->to_start = $new_date;
+        $cancelled->to_end = $new_date;
+        $cancelled->status = 2;
+        $cancelled->modified_by = Auth::user()->username;
+        $cancelled->save();
+
+        return Redirect::back();
+    }
+
+    public function save_cancel(){
+        $id = Input::get('leave_id');
+        $data = $_POST['leave_data'];
+        $count = count($data);
+    
+        $extended_leave = ExtendedLeave::where('id', $id)->first();
+        $extended_leave->days = $extended_leave->days - $count;
+        $extended_leave->status = 1;
+        $extended_leave->save();
+
+        $additional_leave = AditionalLeave::where('userid', $extended_leave->userid)->first();
+        
+        if($extended_leave->leave_type == 'FL'){
+            $additional_leave->FL = $additional_leave->FL + $count;
+        }elseif($extended_leave->leave_type == 'SPL'){
+            $additional_leave->SPL = $additional_leave->SPL + $count;
+        }elseif($extended_leave->leave_type == 'wellness'){
+            $additional_leave->SPL = $additional_leave->wellness + $count;
+        }else{
+
+        }
+
+        $additional_leave->save();
+
+        foreach($data as $item){
+            $cancelled = new ModifiedLeave();
+            $cancelled->extended_id = $extended_leave->id;
+            $cancelled->from_start = $extended_leave->start;
+            $cancelled->from_end = $extended_leave->end;
+            $cancelled->to_start = $item;
+            $cancelled->to_end = $item;
+            $cancelled->status = 1;
+            $cancelled->modified_by = Auth::user()->username;
+            $cancelled->save();
+        }
+
+        $leave = Leave::where('route_no', $extended_leave->route_no)->first();
+        LeaveCardView::where('leave_id', $leave->id)->delete();
+
+        $pis = InformationPersonal::where('userid', $leave->userid)->first();
+        $pis->vacation_balance = $leave->vacation_total;
+        $pis->sick_balance = $leave->sick_total;
+        $pis->save();
+        
+        $vl_added = 0;
+        $sl_added = 0;
+
+        $vl_totalDays = ExtendedLeave::where('route_no',  $extended_leave->route_no)->whereIn('leave_type', ['FL', 'VL'])->sum('days');
+        $sl_totalDays = ExtendedLeave::where('route_no', $extended_leave->route_no)->whereIn('leave_type', ['SL'])->sum('days');
+
+        $another_total = ExtendedLeave::where('route_no', $extended_leave->route_no)->wherenotIn('leave_type', ['FL', 'VL', 'SL'])->sum('days');
+
+        $vl_rem = 0;
+
+        $vl_to_deduct = 0;
+        $sl_to_deduct = 0;
+
+        if($pis->vacation_balance >= $vl_totalDays){
+            $vl_to_deduct = $vl_totalDays;
+            $vl_rem = $pis->vacation_balance - $vl_totalDays;
+        }else{
+            $vl_to_deduct = $pis->vacation_balance;
+            $vl_rem = 0;
+        }
+
+        if($pis->sick_balance >= $sl_totalDays){
+            $sl_to_deduct = $sl_totalDays;
+            $sl_rem = $pis->sick_balance - $sl_totalDays;
+        }else{
+            $check_bal = $sl_totalDays - $pis->sick_balance;
+            $sl_to_deduct = $pis->sick_balance;
+            if($vl_rem >= $check_bal){
+                $vl_to_deduct = $vl_to_deduct + $check_bal;
+            }else{
+                $vl_to_deduct = $vl_to_deduct + $vl_rem;
+            }
+        }
+
+        $leave->vl_deduct = $vl_to_deduct;
+        $leave->sl_deduct = $sl_to_deduct;
+        
+        // $leave->with_pay = $vl_to_deduct + $sl_to_deduct + $another_total;
+        // $leave->without_pay = $sl_to_deduct;
+        $leave->save();
+
+        if ($leave) {
+
             $pis = InformationPersonal::where('userid', $leave->userid)->first();
             $add_leave = AditionalLeave::where('userid', $leave->userid)->first();
 
             $leave->status = 1;
 
-            $leave_card = new LeaveCardView();
-            $leave_card->userid = $leave->userid;
-            $leave_card->leave_id = $leave->id;
+            $leave_extension = ExtendedLeave::where('route_no', $leave->route_no)
+                ->orderByRaw("
+                    CASE
+                        WHEN leave_type = 'VL' THEN 1
+                        WHEN leave_type = 'FL' THEN 2
+                        ELSE 3
+                    END
+                ")
+                ->get();
 
-            if($leave->leave_details == 8){
-                $leave_card->particulars = 'Monetization';
-                $leave_card->vl_abswp = $leave->vl_deduct;
-                $leave_card->vl_bal = $pis->vacation_balance - $leave->vl_deduct;
-                $leave_card->sl_abswp = $leave->sl_deduct;
-                $leave_card->sl_bal = $pis->sick_balance - $leave->sl_deduct;
-            }else{
-                $leave_card->particulars = $leave->leave_type .'('. (int) $leave->applied_num_days .')';
+            $sl_main = $pis->sick_balance;
+            $vl_main = $pis->vacation_balance;
 
-                if($leave->leave_type == 'FL'){
-                    $add_leave->FL = $add_leave->FL - $leave->vl_deduct;
-                    $leave_card->vl_abswp = ($leave->vl_deduct == 0)?'': (int) $leave->vl_deduct;
-                }else if($leave->leave_type == 'SPL'){
-                    $add_leave->SPL = $add_leave->SPL - (int) $leave->applied_num_days;
-                }else if($leave->leave_type == 'WL'){
-                    $add_leave->wellness = $add_leave->wellness - (int) $leave->applied_num_days;
-                }else if($leave->leave_type == 'SL'){
-                    $leave_card->sl_abswp = ($leave->sl_deduct == 0)?'':$leave->sl_deduct;
-                    $leave_card->vl_abswp = ($leave->vl_deduct == 0)?'':$leave->vl_deduct;
-                    $leave_card->sl_abswop = ($leave->without_pay == 0)?'':intval($leave->without_pay);
-                    if($leave->applied_num_days <= $pis->sick_balance){
-                        $leave_card->sl_abswp = $leave->applied_num_days;
-                        $leave->with_pay = $leave->applied_num_days;
-                        $leave_card->sl_abswop = null;
-                        $leave_card->vl_abswop = null;
-                    }
-                }else if($leave->leave_type == 'VL'){
-//                    $leave_card->vl_abswp = ($leave->vl_deduct > $pis->vacation_balance)?$pis->vacation_balance : $leave->vl_deduct ;
-//                    $leave_card->vl_abswop = intval($leave->without_pay);
+            $overall_vl = $leave_extension
+                ->filter(function ($item) {
+                    return in_array($item->leave_type, ['FL', 'VL']);
+                })
+                ->sum(function ($item) {
+                    return $item->days;
+                });
 
-                    if($leave->applied_num_days <= $pis->vacation_balance){
-                        $leave_card->vl_abswp = $leave->applied_num_days;
-                        $leave->with_pay =  $leave->applied_num_days;
-                        $leave->without_pay = 0;
-                    }else if($leave->applied_num_days > $pis->vacation_balance){
-                        $rem = $leave->applied_num_days - $pis->vacation_balance;
-                        $leave_card->vl_abswp = intval($pis->vacation_balance);
-                        $leave_card->vl_abswop = intval($rem);
-                        $leave->with_pay =  intval($pis->vacation_balance);
-                        $leave->without_pay = intval($rem);
-                    }
-                }
+            $overall_sl = $leave_extension
+                ->filter(function ($item) {
+                    return in_array($item->leave_type, ['SL']);
+                })
+                ->sum(function ($item) {
+                    return $item->days;
+                });
+            $vl_basis = 0;
+            $sl_basis = 0;
 
-                $dates = LeaveAppliedDates::where('leave_id', $leave->id)->get();
-                $list = [];
-                foreach ($dates as $date){
-                    if($date->startdate == $date->enddate){
-                        $list[] = date('F j, Y', strtotime($date->startdate));
-                    }else{
-                        $list[] = date('F j, Y', strtotime($date->startdate)) .' - '. date('F j, Y', strtotime($date->enddate));
-                    }
-                }
+            $vl_main_rem = 0;
 
-                $data = json_encode($list);
-                $leave_card->date_used = str_replace(['[', ']', '"'], '', $data);
-                $add_leave?$add_leave->save():'';
-
-                $leave_card->vl_bal = ($pis->vacation_balance > $leave->vl_deduct)?$pis->vacation_balance - $leave->vl_deduct : 0;
-                $leave_card->sl_bal = $pis->sick_balance - $leave->sl_deduct;
+            if($vl_main >= $overall_vl){
+                $vl_basis =  $overall_vl;
+                $vl_main_rem = $vl_main - $vl_basis;
+            }elseif($vl_main < $overall_vl){
+                $vl_basis =  $overall_vl - $vl_main;
             }
 
-            $pis->vacation_balance = ($pis->vacation_balance > $leave->vl_deduct)?$pis->vacation_balance - $leave->vl_deduct:0;
-            $pis->sick_balance = ($pis->sick_balance > $leave->sl_deduct)?$pis->sick_balance - $leave->sl_deduct:0;
+            if($sl_main >= $overall_sl){
+                $sl_basis = $overall_sl;
+            }elseif($sl_main < $overall_sl){
+                $new_sl_bal = $sl_main + $vl_main_rem;
+                if($new_sl_bal >= $overall_sl){
+                    $sl_basis = $sl_main;
+                    $vl_basis = ($overall_sl - $sl_main) + $vl_basis;
+                }else{
+                    $sl_basis = $sl_main;
+                    $vl_basis = (($overall_sl - $sl_main) + $vl_basis) > $vl_main ? $vl_main : ($overall_sl - $sl_main) + $vl_basis;
+                }
+            }
+
+            $vl_deduct = $leave->vl_deduct;
+            $sl_deduct = $leave->sl_deduct;
+
+            $rem_vl = $vl_main;
+
+            // $rem_vl = $vl_basis;
+            $rem_sl = $sl_basis;
+
+            $loop_after_vl = $vl_main;
+            $loop_after_sl = $sl_main;
+            $check_data = [];
+            
+            foreach ($leave_extension as $index => $row) {
+
+                $leave_card = new LeaveCardView();
+                $leave_card->userid = $leave->userid;
+                $leave_card->leave_id = $leave->id;
+                $leave_card->extended_id = $row->id;
+
+                if ($leave->leave_details == 8) {
+
+                    $leave_card->particulars = 'Monetization';
+                    $leave_card->vl_abswp = $leave->vl_deduct;
+                    $leave_card->vl_bal = $loop_after_vl - $leave->vl_deduct;
+                    $leave_card->sl_abswp = $leave->sl_deduct;
+                    $leave_card->sl_bal = $loop_after_sl - $leave->sl_deduct;
+
+                } else {
+
+                    $leave_card->particulars = $row->leave_type . '(' . (int)$row->days . ')';
+
+                    if ($row->leave_type == 'FL') {
+
+                        $add_leave->FL = $add_leave->FL - $row->days;
+                        $leave_card->vl_abswp = (int)$row->days;
+                        $rem_vl = $rem_vl - $row->days;
+
+                    } elseif ($row->leave_type == 'SPL') {
+
+                        $add_leave->SPL = $add_leave->SPL - (int)$row->days;
+
+                    } elseif ($row->leave_type == 'WL') {
+
+                        $add_leave->wellness = $row->wellness - (int)$row->days;
+
+                    } elseif ($row->leave_type == 'SL' || $row->leave_type == 'VL') {
+
+                        if ($row->leave_type == 'VL') {
+
+                            if ($rem_vl >= $row->days) {
+                                $leave_card->vl_abswp = $row->days;
+                                $leave_card->vl_abswop = '';
+                                $check_data[] = $rem_vl .' - '.$row->days;
+                                $rem_vl = $rem_vl - $row->days;
+                               
+                            } elseif ($rem_vl < $row->days) {
+                                $leave_card->vl_abswp = $rem_vl;
+                                $leave_card->vl_abswop = $row->days - $rem_vl;
+                                $rem_vl = ($rem_vl - $row->days) > 0 ? $rem_vl - $row->days : 0;
+                            }
+
+                        } else {
+
+                            if ($rem_sl >= $row->days) {
+
+                                $leave_card->sl_abswp = $row->days;
+                                $leave_card->sl_abswop = '';
+                                $rem_sl = $rem_sl - $row->days;
+
+                            } elseif ($rem_sl < $row->days) {
+                                $sl_prior = $rem_sl;
+                                if($check == 0){
+                                    $rem_sl = $rem_sl + $rem_vl;
+                                    $check = 1;
+                                }
+
+                                if ($rem_sl >= $row->days) {
+                                    $leave_card->vl_abswp = $row->days - $sl_prior;
+                                    $leave_card->sl_abswp = $sl_prior;
+                                    $leave_card->sl_abswop = '';
+                                    $rem_sl = $rem_sl - $row->days;
+
+                                } elseif ($rem_sl < $row->days) {
+                                    if($rem_vl == 0){
+
+                                        $leave_card->sl_abswp = $rem_sl;
+                                        $leave_card->sl_abswop = $row->days - $rem_sl;
+                                        $rem_sl = 0;
+                                        $rem_vl = 0;
+                                    }else{
+                                        $leave_card->vl_abswp = $rem_vl;
+                                        $leave_card->sl_abswp = $sl_prior;
+                                        $leave_card->sl_abswop = $row->days - $rem_sl;
+                                        $rem_vl = 0;
+                                        $rem_sl = 0;
+
+                                    }
+                                } else {
+
+                                }
+                            }
+
+                        }
+
+                    } else {
+                    }
+
+                    $list = [];
+
+                    if ($row->start == $row->end) {
+
+                        $list[] = date('F j, Y', strtotime($row->start));
+
+                    } else {
+
+                        $list[] = date('F j, Y', strtotime($row->start))
+                            . ' - ' .
+                            date('F j, Y', strtotime($row->end));
+
+                    }
+
+                    $data = json_encode($list);
+
+                    $leave_card->date_used = str_replace(['[', ']', '"'], '', $data);
+
+                    $add_leave ? $add_leave->save() : '';
+                }
+                
+                $leave_card->vl_bal = $loop_after_vl - ($leave_card->vl_abswp ? $leave_card->vl_abswp : 0) ;
+                $leave_card->sl_bal = $loop_after_sl - ($leave_card->sl_abswp ? $leave_card->sl_abswp : 0) ;
+                $leave_card->save();
+                $loop_after_vl = $loop_after_vl - ($leave_card->vl_abswp ? $leave_card->vl_abswp : 0);
+                $loop_after_vs = $loop_after_sl - ($leave_card->sl_abswp ? $leave_card->sl_abswp : 0);
+            }
+
+            $pis->vacation_balance = ($pis->vacation_balance > $vl_deduct)
+                    ? $pis->vacation_balance - $vl_deduct
+                    : 0;
+
+            $pis->sick_balance = ($pis->sick_balance > $sl_deduct)
+                ? $pis->sick_balance - $sl_deduct
+                : 0;
 
             $pis->save();
             $leave->save();
-            $leave_card->save();
+
         }
 
+        return Redirect::back();
+    }
+
+    public function approved_leave($route_no){
+        $leave = Leave::where('route_no', $route_no)->first();
+        $check = 0;
+        $userid = $leave->userid;
+        if ($leave) {
+
+            $pis = InformationPersonal::where('userid', $leave->userid)->first();
+            $add_leave = AditionalLeave::where('userid', $leave->userid)->first();
+
+            $leave->status = 1;
+
+            $leave_extension = ExtendedLeave::where('route_no', $route_no)
+                ->orderByRaw("
+                    CASE
+                        WHEN leave_type = 'VL' THEN 1
+                        WHEN leave_type = 'FL' THEN 2
+                        ELSE 3
+                    END
+                ")
+                ->get();
+
+            $sl_main = $pis->sick_balance;
+            $vl_main = $pis->vacation_balance;
+
+            $overall_vl = $leave_extension
+                ->filter(function ($item) {
+                    return in_array($item->leave_type, ['FL', 'VL']);
+                })
+                ->sum(function ($item) {
+                    return $item->days;
+                });
+
+            $overall_sl = $leave_extension
+                ->filter(function ($item) {
+                    return in_array($item->leave_type, ['SL']);
+                })
+                ->sum(function ($item) {
+                    return $item->days;
+                });
+            $vl_basis = 0;
+            $sl_basis = 0;
+
+            $vl_main_rem = 0;
+
+            if($vl_main >= $overall_vl){
+                $vl_basis =  $overall_vl;
+                $vl_main_rem = $vl_main - $vl_basis;
+            }elseif($vl_main < $overall_vl){
+                $vl_basis =  $overall_vl - $vl_main;
+            }
+
+            if($sl_main >= $overall_sl){
+                $sl_basis = $overall_sl;
+            }elseif($sl_main < $overall_sl){
+                $new_sl_bal = $sl_main + $vl_main_rem;
+                if($new_sl_bal >= $overall_sl){
+                    $sl_basis = $sl_main;
+                    $vl_basis = ($overall_sl - $sl_main) + $vl_basis;
+                }else{
+                    $sl_basis = $sl_main;
+                    $vl_basis = (($overall_sl - $sl_main) + $vl_basis) > $vl_main ? $vl_main : ($overall_sl - $sl_main) + $vl_basis;
+                }
+            }
+
+            $vl_deduct = $leave->vl_deduct;
+            $sl_deduct = $leave->sl_deduct;
+
+            $rem_vl = $vl_main;
+
+            // $rem_vl = $vl_basis;
+            $rem_sl = $sl_basis;
+
+            $loop_after_vl = $vl_main;
+            $loop_after_sl = $sl_main;
+            $check_data = [];
+
+            if (in_array($leave->leave_details, [8, 9])) {
+
+                if ($leave->leave_details == 8) {
+                    $rate = in_array($leave->vl_deduct, ['10.000', '15.000', '20.000', '25.000', '30.000'])
+                        ? (int) $leave->vl_deduct
+                        : '50%';
+                    $particulars = "Monetization ({$rate})";
+                } else {
+                    $particulars = 'Terminal Leave';
+                }
+            
+                $vl_bal = $pis->vacation_balance - $leave->vl_deduct;
+                $sl_bal = $pis->sick_balance - $leave->sl_deduct;
+            
+                $leave_card = new LeaveCardView();
+                $leave_card->userid      = $userid;
+                $leave_card->particulars = $particulars;
+                $leave_card->vl_abswp    = $leave->vl_deduct;
+                $leave_card->vl_bal      = $vl_bal;
+                $leave_card->sl_abswp    = $leave->sl_deduct;
+                $leave_card->sl_bal      = $sl_bal;
+                $leave_card->date_used   = date('F j, Y', strtotime($leave->date_filling));
+                $leave_card->save();
+            
+                $pis->vacation_balance = $vl_bal;
+                $pis->sick_balance     = $sl_bal;
+                $pis->save();
+            }
+            
+            foreach ($leave_extension as $index => $row) {
+
+                $leave_card = new LeaveCardView();
+                $leave_card->userid = $leave->userid;
+                $leave_card->leave_id = $leave->id;
+                $leave_card->extended_id = $row->id;
+
+                $leave_card->particulars = $row->leave_type . '(' . (int)$row->days . ')';
+
+                if ($row->leave_type == 'FL') {
+
+                    $add_leave->FL = $add_leave->FL - $row->days;
+                    $leave_card->vl_abswp = (int)$row->days;
+                    $rem_vl = $rem_vl - $row->days;
+
+                } elseif ($row->leave_type == 'SPL') {
+
+                    $add_leave->SPL = $add_leave->SPL - (int)$row->days;
+
+                } elseif ($row->leave_type == 'WL') {
+
+                    $add_leave->wellness = $row->wellness - (int)$row->days;
+
+                } elseif ($row->leave_type == 'SL' || $row->leave_type == 'VL') {
+
+                    if ($row->leave_type == 'VL') {
+
+                        if ($rem_vl >= $row->days) {
+                            $leave_card->vl_abswp = $row->days;
+                            $leave_card->vl_abswop = '';
+                            $check_data[] = $rem_vl .' - '.$row->days;
+                            $rem_vl = $rem_vl - $row->days;
+                            
+                        } elseif ($rem_vl < $row->days) {
+                            $leave_card->vl_abswp = $rem_vl;
+                            $leave_card->vl_abswop = $row->days - $rem_vl;
+                            $rem_vl = ($rem_vl - $row->days) > 0 ? $rem_vl - $row->days : 0;
+                        }
+
+                    } else {
+
+                        if ($rem_sl >= $row->days) {
+
+                            $leave_card->sl_abswp = $row->days;
+                            $leave_card->sl_abswop = '';
+                            $rem_sl = $rem_sl - $row->days;
+
+                        } elseif ($rem_sl < $row->days) {
+                            $sl_prior = $rem_sl;
+                            if($check == 0){
+                                $rem_sl = $rem_sl + $rem_vl;
+                                $check = 1;
+                            }
+
+                            if ($rem_sl >= $row->days) {
+                                $leave_card->vl_abswp = $row->days - $sl_prior;
+                                $leave_card->sl_abswp = $sl_prior;
+                                $leave_card->sl_abswop = '';
+                                $rem_sl = $rem_sl - $row->days;
+
+                            } elseif ($rem_sl < $row->days) {
+                                if($rem_vl == 0){
+
+                                    $leave_card->sl_abswp = $rem_sl;
+                                    $leave_card->sl_abswop = $row->days - $rem_sl;
+                                    $rem_sl = 0;
+                                    $rem_vl = 0;
+                                }else{
+                                    $leave_card->vl_abswp = $rem_vl;
+                                    $leave_card->sl_abswp = $sl_prior;
+                                    $leave_card->sl_abswop = $row->days - $rem_sl;
+                                    $rem_vl = 0;
+                                    $rem_sl = 0;
+
+                                }
+                            } else {
+
+                            }
+                        }
+
+                    }
+
+                } else {
+                }
+
+                $list = [];
+
+                if ($row->start == $row->end) {
+
+                    $list[] = date('F j, Y', strtotime($row->start));
+
+                } else {
+
+                    $list[] = date('F j, Y', strtotime($row->start))
+                        . ' - ' .
+                        date('F j, Y', strtotime($row->end));
+
+                }
+
+                $data = json_encode($list);
+
+                $leave_card->date_used = str_replace(['[', ']', '"'], '', $data);
+
+                $add_leave ? $add_leave->save() : '';
+
+                $leave_card->vl_bal = $loop_after_vl - ($leave_card->vl_abswp ? $leave_card->vl_abswp : 0) ;
+                $leave_card->sl_bal = $loop_after_sl - ($leave_card->sl_abswp ? $leave_card->sl_abswp : 0) ;
+                $leave_card->save();
+                $loop_after_vl = $loop_after_vl - ($leave_card->vl_abswp ? $leave_card->vl_abswp : 0);
+                $loop_after_vs = $loop_after_sl - ($leave_card->sl_abswp ? $leave_card->sl_abswp : 0);
+
+                $pis->vacation_balance = ($pis->vacation_balance > $vl_deduct)
+                    ? $pis->vacation_balance - $vl_deduct
+                    : 0;
+
+                $pis->sick_balance = ($pis->sick_balance > $sl_deduct)
+                    ? $pis->sick_balance - $sl_deduct
+                    : 0;
+            }
+
+            $pis->save();
+            $leave->save();
+
+        }
+     
         //TRACKING
         $doc = Tracking_Master::where('route_no',$route_no)
             ->orderBy('id','desc')
@@ -881,9 +1407,7 @@ class AdminController extends BaseController
         $document = Tracking_Details::where('route_no',$route_no)
             ->orderBy('id','desc')
             ->first();
-
-//        return $route_no;
-
+        
         $receiver = UserDts::where('username','=',Auth::user()->username)->first();
         if($document) {
             Tracking_Details::where('route_no', $route_no)
@@ -894,119 +1418,108 @@ class AdminController extends BaseController
         else {
             $received_by = $doc->prepared_by;
         }
-//        return Auth::user()->username;
-//        $section = 'temp;'.$receiver->section;
-//
-//        if($document->code === $section)
-//        {
-//            Tracking_Details::where('id',$document->id)
-//                ->update([
-//                    'code' => 'accept;'.$receiver->section,
-//                    'date_in' => date('Y-m-d H:i:s'),
-//                    'received_by' => $receiver->id,
-//                    'status' => 0,
-//                    'action' => 'Leave application approved'
-//                ]);
-//        }else{
-//            $q = new Tracking_Details();
-//            $q->route_no = $route_no;
-//            $q->code = 'accept;'.$receiver->section;
-//            $q->date_in = date('Y-m-d H:i:s');
-//            $q->received_by = $receiver->id;
-//            $q->delivered_by = $received_by;
-//            $q->action = 'Leave application approved';
-//            $q->save();
-//        }
-//        $this->releasedStatusChecker($route_no,$receiver->section);
-//        ///END TRACKING
+        
+        // return Auth::user()->username;
+        // $section = 'temp;'.$receiver->section;
 
-        $all_dates = LeaveAppliedDates::where('leave_id', $leave->id)->get();
-        $with_pay_leave = intval($leave->with_pay);
-        if($all_dates){
-            foreach ($all_dates as $index => $date){
-                $index = $index + 1;
-                $stat = $index > $with_pay_leave ? 1 : 0;
-                $from = date('Y-m-d',strtotime($date->startdate));
-                $end_date = date('Y-m-d',strtotime($date->enddate));
-                $f = new DateTime($from.' '. '24:00:00');
-                $t = new DateTime($end_date.' '. '24:00:00');
+        // if($document->code === $section)
+        // {
+        //     Tracking_Details::where('id',$document->id)
+        //         ->update([
+        //             'code' => 'accept;'.$receiver->section,
+        //             'date_in' => date('Y-m-d H:i:s'),
+        //             'received_by' => $receiver->id,
+        //             'status' => 0,
+        //             'action' => 'Leave application approved'
+        //         ]);
+        // }else{
+        //     $q = new Tracking_Details();
+        //     $q->route_no = $route_no;
+        //     $q->code = 'accept;'.$receiver->section;
+        //     $q->date_in = date('Y-m-d H:i:s');
+        //     $q->received_by = $receiver->id;
+        //     $q->delivered_by = $received_by;
+        //     $q->action = 'Leave application approved';
+        //     $q->save();
+        // }
+        // $this->releasedStatusChecker($route_no,$receiver->section);
+        // ///END TRACKING
 
-                $interval = $f->diff($t);
-                $remarks = "LEAVE";
-                $f_from = explode('-',$from);
-                $startday = $f_from[2];
-                $j = 0;
+        $cards    = LeavecardView::where('leave_id', $leave->id)->get();
+        $holidays = Calendars::where('status', 1)->lists('start'); // already a plain array in L4
+        
+        $weekdayOnlyTypes = ['VL','SL','SPL','WL','FL','SOLO_PL','STUD_L','RL','SEL','OTHERS'];
+        
+        $eventTimes = [
+            ['time' => '08:00:00', 'event' => 'IN'],
+            ['time' => '12:00:00', 'event' => 'OUT'],
+            ['time' => '13:00:00', 'event' => 'IN'],
+            ['time' => '18:00:00', 'event' => 'OUT'],
+        ];
+        
+        $logRows = [];
+        $now     = date('Y-m-d H:i:s');
 
-                $pdo = DB::connection()->getPdo();
-                $query1 = "INSERT IGNORE INTO leave_logs(userid,datein,time,event,remark,edited,holiday,route_no,leave_status,created_at,updated_at) VALUES";
-                while($j <= $interval->days) {
-                    $datein = $f_from[0].'-'.$f_from[1] .'-'. $startday;
-                    $day_name = date('l', strtotime($datein));
-                    $userid = $leave->userid;
-                    $edited = '1';
-                    $holiday = '007';
-                    $remark = strtoupper($leave->leave_type)." ".$remarks;
+        foreach ($cards as $data) {
+            $extended = ExtendedLeave::with('type_leave')->where('id', $data->extended_id)->first();
+            if (!$extended) {
+                continue;
+            }
+        
+            if (in_array($extended->leave_type, ['FL', 'VL', 'SL'])) {
+                $with_paid = ($data->vl_abswp ?? 0) + ($data->sl_abswp ?? 0);
+            } else {
+                $with_paid = $extended->days;
+            }
 
-                    if($day_name != "Saturday" && $day_name != "Sunday"){
-                        if($leave->half_day_first == 'AM' || $leave->half_day_last == 'AM'){
-                            $timein = '08:00:00';
-                            $event = 'IN';
-                            $query1 .= "('" . $userid . "','" . $datein . "','" . $timein . "','" . $event . "','" . $remark . "','" . $edited . "','" . $holiday . "','" . $route_no . "','" . $stat . "',NOW(),NOW()),";
+            $isWeekdayOnly = in_array($extended->leave_type, $weekdayOnlyTypes);
+    
+            $from = strtotime($extended->start);
+            $to   = strtotime($extended->end);
+            $initial_day = 1;
+            for ($ts = $from; $ts <= $to; $ts = strtotime('+1 day', $ts)) {
+                $datein = date('Y-m-d', $ts);
 
-
-                            $timein = '12:00:00';
-                            $event = 'OUT';
-                            $query1 .= "('" . $userid . "','" . $datein . "','" . $timein . "','" . $event . "','" . $remark . "','" . $edited . "','" . $holiday . "','" . $route_no . "','" . $stat . "',NOW(),NOW()),";
-                        }
-                        elseif($leave->half_day_first == 'PM' || $leave->half_day_last == 'PM') {
-                            $timein = '13:00:00';
-                            $event = 'IN';
-                            $query1 .= "('" . $userid . "','" . $datein . "','" . $timein . "','" . $event . "','" . $remark . "','" . $edited . "','" . $holiday . "','" . $route_no . "','" . $stat . "',NOW(),NOW()),";
-
-
-                            $timein = '18:00:00';
-                            $event = 'OUT';
-                            $query1 .= "('" . $userid . "','" . $datein . "','" . $timein . "','" . $event . "','" . $remark . "','" . $edited . "','" . $holiday . "','" . $route_no . "','" . $stat . "',NOW(),NOW()),";
-                        }
-                        else {
-                            $timein = '08:00:00';
-                            $event = 'IN';
-                            $query1 .= "('" . $userid . "','" . $datein . "','" . $timein . "','" . $event . "','" . $remark . "','" . $edited . "','" . $holiday . "','" . $route_no . "','" . $stat . "',NOW(),NOW()),";
-
-
-                            $timein = '12:00:00';
-                            $event = 'OUT';
-                            $query1 .= "('" . $userid . "','" . $datein . "','" . $timein . "','" . $event . "','" . $remark . "','" . $edited . "','" . $holiday . "','" . $route_no . "','" . $stat . "',NOW(),NOW()),";
-
-
-                            $timein = '13:00:00';
-                            $event = 'IN';
-                            $query1 .= "('" . $userid . "','" . $datein . "','" . $timein . "','" . $event . "','" . $remark . "','" . $edited . "','" . $holiday . "','" . $route_no . "','" . $stat . "',NOW(),NOW()),";
-
-
-                            $timein = '18:00:00';
-                            $event = 'OUT';
-                            $query1 .= "('" . $userid . "','" . $datein . "','" . $timein . "','" . $event . "','" . $remark . "','" . $edited . "','" . $holiday . "','" . $route_no . "','" . $stat . "',NOW(),NOW()),";
-                        }
-                    }
-
-                    $startday = $startday + 1;
-                    $j++;
+                $day    = date('l', $ts);
+        
+                if (in_array($datein, $holidays)) {
+                    continue; 
                 }
-
-                $query1 .= "('','','','','','','','','',NOW(),NOW())";
-                $st = $pdo->prepare($query1);
-                $st->execute();
+                if ($isWeekdayOnly && in_array($day, ['Saturday', 'Sunday'])) {
+                    continue;
+                }
+        
+                $leave_status = $initial_day <= $with_paid ? 0 : 1;
+        
+                foreach ($eventTimes as $t) {
+                    $logRows[] = [
+                        'userid'       => $userid,
+                        'datein'       => $datein,
+                        'time'         => $t['time'],
+                        'event'        => $t['event'],
+                        'edited'       => '1',
+                        'holiday'      => '007',
+                        'route_no'     => $route_no,
+                        'remark'       => $extended->type_leave->desc,
+                        'leave_status' => $leave_status,
+                        'created_at'   => $now,
+                        'updated_at'   => $now,
+                    ];
+                }
+                $initial_day++;
             }
         }
-//        return 1;
-//        return $type;
-//        if($type){
-            Session::put('approved_leave',true);
-            return Redirect::to('leave/roles');
-//        }else{
-//            return 'success';
-//        }
+        foreach (array_chunk($logRows, 5) as $chunk) {
+            try {
+                LeaveLogs::insert($chunk);
+            } catch (\Exception $e) {
+                Log::error($e->getMessage());
+                continue;
+            }
+        }
+
+        Session::put('approved_leave',true);
+        return Redirect::to('leave/roles');
     }
 
     public function cancel_leave($route_no) {
@@ -1072,31 +1585,8 @@ class AdminController extends BaseController
 
     public function leave_credits()
     {
-        // pis list isn't updated for reqular employees, people who can avail leave as of august 2, 2024
 
-       $ids = [
-            "201700267", "001", "201400188", "202100303", "199900064", "200200097", "202300324", "199100053",
-            "201700272", "20230034", "198200051", "201600254", "201500252", "202300326", "199700045", "202100300",
-            "202300322", "202000299", "198600029", "199400080", "202200307", "201400180", "201400185", "200300038",
-            "199100050", "200000039", "201900293", "201400178", "202400339", "201900285", "201400184", "202300335",
-            "201400177", "200200059", "201400182", "202400337", "201400240", "201900280", "201700271", "199000006",
-            "201400181", "201800276", "198100040", "201900282", "199200016", "201700273", "199800018", "201900292",
-            "202300323", "199900085", "201400222", "202300329", "201900289", "202100301", "202400341", "201400221",
-            "199200075", "199600167", "201900290", "201500253", "201900281", "201400227", "202300331", "201600257",
-            "201400200", "201400224", "201400194", "202300317", "201900291", "202400340", "201400210", "201400213",
-            "202300320", "199100004", "202300330", "202400338", "201600258", "201800274", "201400242", "201400243",
-            "199900026", "201600256", "200300012", "201800279", "201400189", "202200312", "199800063", "201400202",
-            "202000300", "202100302", "202300325", "201400225", "201400208", "2014134", "201400219", "202300319",
-            "201400199", "202300332", "202100304", "202300333", "201900283", "201000076", "201400176", "201400211",
-            "0006", "202200311", "0553", "202200313", "0919", "202400342", "202100306", "201400209", "201400212",
-            "202300328", "201700264", "202100307", "202300314", "201800275", "199800169", "202400343", "201600260",
-            "201400206", "201400191", "202000305", "201800277", "199800028", "201400207", "201900287", "200200122",
-            "202300327", "199700084", "198200071", "199800124", "201400229", "201400193", "201400230", "20110004",
-            "201700265", "199500095", "201400244", "200300126", "202200310", "200400141", "202300315", "201400234",
-            "201400232", "202200308", "200800144", "201400231", "200400142", "200300125", "199100159", "201900294",
-            "199600168", "199300165", "201800278", "201900296", "201900288", "199000152", "201900295", "200800145",
-            "201400237", "201400239", "201900284", "2014000238", "1572", "1127", "0005", "0190046"
-        ];
+        $ids = LeaveEmployee::lists('userid');
 
         $keyword = Input::get('search');
         $leave_card = LeaveCardView::get();
@@ -1113,12 +1603,6 @@ class AdminController extends BaseController
             ->select('personal_information.*', 'addtnl_leave.FL','addtnl_leave.SPL', 'addtnl_leave.wellness')
             ->orderBy('personal_information.fname', 'asc')
             ->paginate(10);
-//
-//        return $data = [
-//            "pis" => $pis,
-//            "leave_card" => $leave_card,
-//            "keyword" => $keyword
-//        ];
 
         return View::make('users.leave_credits',[
             "pis" => $pis,
@@ -1439,12 +1923,26 @@ class AdminController extends BaseController
         $pis->sick_balance = $sl;
         $pis->save();
         $add_leave = AditionalLeave::where('userid', $userid)->first();
-        if($add_leave){
-            $add_leave->FL = $fl;
-            $add_leave->SPL = $spl;
-            $add_leave->wellness = $wellness;
-            $add_leave->save();
-            return Redirect::back()->with('update_leave_balance', "Leave data is not found!");
+        if(!$add_leave){
+            $add_leave = new AditionalLeave();
+
+        }
+
+        $add_leave->userid = $userid;
+        $add_leave->period = date('Y', strtotime('-1 year'));
+        $add_leave->FL = $fl;
+        $add_leave->SPL = $spl;
+        $add_leave->wellness = $wellness;
+        $add_leave->save();
+
+        $leave_card = LeaveCardView::where('userid', $userid)->first();
+        if(!$leave_card){
+            $first = new LeaveCardView();
+            $first->userid = $userid;
+            $first->vl_bal = $vl;
+            $first->sl_bal = $sl;
+            $first->date_used = 'Beginning Balance as of ' . date('F j, Y', strtotime('now'));
+            $first->save();
         }
 
         return Redirect::back()->with('update_leave_balance', "Successfully updated leave balances!");
@@ -1535,6 +2033,7 @@ class AdminController extends BaseController
         }
 
         $card_details = LeaveCardView::where('userid', $id)
+            ->with('extended')
             ->paginate($perPage);
 
         return View::make('form.leave_card',[

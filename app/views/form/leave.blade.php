@@ -1,9 +1,16 @@
 
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+<style>
+    .sl-locked-highlight {
+        box-shadow: 0 0 0 1px #2ecc71, 0 0 1px rgba(46,204,113,0.6);
+        transition: box-shadow 0.1s ease;
+    }
+</style>
 <div class="container-fluid" style="width: 980px;">
     <div class="row">
         <div class="panel panel-default">
-            <div style="margin-top: 50px; margin-left: 50px; margin-right: 40px">
-                <table cellpadding="0" cellspacing="0" width="100%" style="margin-top: 30px">
+            <div style="margin-top: 10px; margin-left: 20px; margin-right: 20px">
+                <table cellpadding="0" cellspacing="0" width="100%" style="margin-top: 10px">
                     <tr>
                         <td class="align" width="12%" style="text-align: center; vertical-align: top;"><small>Civil Service Form No. 6<br><i>Revised 2020</i></small></td>
                         <td class="align" width="12%" style="text-align: right; "><br><br><img src="{{ asset('public/img/doh.png') }}" width="100" ></td>
@@ -25,12 +32,12 @@
             <div style="text-align: center; margin-top: 15px;">
                 <h4><strong style="margin-left: 3em;">APPLICATION FOR LEAVE</strong></h4>
             </div>
-            <form action="{{ asset('leave/update/save') }}" method="POST"  style="margin-top: 1px;margin-left: 0.5%; margin-right: 0.5%">
+            <form action="{{ url('form/leave/form/0') }}" enctype="multipart/form-data" method="POST"  style="margin-top: 1px;margin-left: 0.5%; margin-right: 0.5%">
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-md-12">
                             <input type="hidden" id="token" name="_token" value="<?php echo csrf_token(); ?>">
-                            <input type="hidden" name="id" value="{{$leave->id}}">
+                            <input type="hidden" name="id" value="{{ $leave != null && $leave->id ? $leave->id : 0 }}">
                             <table border="1px" width="100%">
                                 <td style="width: 30%">
                                     <div class="row">
@@ -78,13 +85,12 @@
                                         <div class="row">
                                             <div class="col-md-7">
                                                 <label class="control-label" for="inputSuccess1">4. POSITION</label>
-                                                <input type="text" class="form-control" id="inputSuccess1" name="position" value="{{ $leave->position }}" readonly style="display: inline-block; width: 70%; margin-top: 4px">
+                                                <input type="text" class="form-control" id="inputSuccess1" name="position" value="{{ $user->designation }}" readonly style="display: inline-block; width: 70%; margin-top: 4px">
                                             </div>
                                             <div class="col-md-5">
                                                 <label class="control-label" for="inputSuccess1">5. SALARY</label>
-                                                <input type="text" class="form-control" id="inputSuccess1" name="salary" value="{{ number_format($leave->salary, 2, '.', ',') }}" readonly style="display: inline-block; width: 60%; margin-top: 4px">
+                                                <input type="text" class="form-control" id="inputSuccess1" name="salary" value="{{ number_format($user->monthly_salary, 2, '.', ',') }}" readonly style="display: inline-block; width: 60%; margin-top: 4px">
                                             </div>
-
                                         </div>
                                     </td>
                                 </tr>
@@ -133,11 +139,69 @@
                                                             ]
                                                             ?>
                                                             <div class="checkbox">
-                                                                <label style="margin-right: 2%; color:black">
-                                                                    <input type="radio" class="minimal" style="margin-top: auto" id="leave_type" name="leave_type" onclick="" value="{{ $row->code }}" {{($leave->leave_type == $row->code)?'checked' :''}}>
-                                                                    {{ $row->desc }} <span style="font-size: 10.6px; margin-left: auto">{{ $details[$index] }}</span>
+                                                                <label style="color:black">
+                                                                    <input type="checkbox" style="margin-left:5px;" class="minimal leave-toggle"
+                                                                    name="leave_type"value="{{ $row->code }}"
+                                                                    {{ in_array($row->code, array_map('strval', $extended_leave->lists('leave_type'))) ? 'checked' : '' }}>
+                                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                                    {{ $row->code == "FL" ? 'Mandatory/Forced Leave' : ucwords(strtolower($row->desc)) }} 
+                                                                    <span style="font-size: 10.6px; margin-left: auto">{{ $details[$index] }}</span>
                                                                     @if($row->code == 'OTHERS')
-                                                                        <input type="text"  value ="{{$leave->for_others}}" name="others_type" class="others_type_dis others_type_dis_txt" id="others_txt" style="width: 370px; margin-left: 20px; border: none; border-bottom: 2px solid black;" />
+                                                                        <input type="text"  value ="{{ $leave ? $leave->for_others : '' }}" name="others_type" class="others_type_dis others_type_dis_txt" id="others_txt" style="width: 370px; margin-left: 20px; border: none; border-bottom: 2px solid black;" />
+                                                                    @elseif($row->code == 'WL')
+                                                                        <div class="wl_div" style="border:1px solid green; padding:10px; {{ in_array($row->code, array_map('strval', $extended_leave->lists('leave_type'))) ? 'display:block' : 'display:none' }} ">
+                                                                            <input type="hidden" name="wl_type" id="wl_type">
+                                                                            <input type="radio" class="minimal" style="margin-left:50px" id="wl_emergency" name="wl_emergency_status" value="wl_emergency"
+                                                                                {{ ($i = array_search($row->code, array_map('strval', $extended_leave->lists('leave_type')))) !== false && isset($extended_leave[$i]) && $extended_leave[$i]->type == 'emergency' ? 'checked' : '' }}                                                                             
+                                                                            >
+                                                                            <label for="wl_emergency">Emergency</label>
+                                                                            <input type="radio" class="minimal" style="margin-left:50px" id="wl_none_emergency" name="wl_emergency_status" value="wl_not_emergency"
+                                                                                {{ ($i = array_search($row->code, array_map('strval', $extended_leave->lists('leave_type')))) !== false && isset($extended_leave[$i]) && $extended_leave[$i]->type == 'unemergency' ? 'checked' : '' }}                                                                             
+                                                                            >
+                                                                            <label for="wl_none_emergency">Not an Emergency</label>
+                                                                            <!-- <div class="wl_attachment" style="width:100%; border:1px solid green; padding:10px; display:none;">
+                                                                                <div style="display:flex; align-items:center; gap:10px;">
+                                                                                    <label for="medical_certificate">Medical Certificate</label>
+                                                                                    <input type="file"
+                                                                                        id="medical_certificate"
+                                                                                        name="medical_certificate"
+                                                                                        accept=".pdf,image/*">
+                                                                                </div>
+                                                                            </div> -->
+                                                                        </div>
+                                                                    @elseif($row->code == 'SL')
+                                                                        <div class="sl_div" style="border:1px solid green; padding:10px; {{ in_array($row->code, array_map('strval', $extended_leave->lists('leave_type'))) ? 'display:block' : 'display:none' }}">
+                                                                            <input type="hidden" name="sl_type" id="sl_type">
+                                                                            <input type="radio" class="minimal" style="margin-left:50px" id="sl_emergency" name="sl_emergency_status" value="sl_emergency"
+                                                                                {{ ($i = array_search($row->code, array_map('strval', $extended_leave->lists('leave_type')))) !== false && isset($extended_leave[$i]) && $extended_leave[$i]->type == 'emergency' ? 'checked' : '' }}                                                                             
+                                                                            >
+                                                                            <label for="sl_emergency">Emergency</label>
+                                                                            <input type="radio" class="minimal" style="margin-left:50px" id="sl_none_emergency" name="sl_emergency_status" value="sl_not_emergency"
+                                                                                {{ ($i = array_search($row->code, array_map('strval', $extended_leave->lists('leave_type')))) !== false && isset($extended_leave[$i]) && $extended_leave[$i]->type == 'unemergency' ? 'checked' : '' }}                                                                             
+                                                                            >
+                                                                            <label for="sl_none_emergency">Not an Emergency</label>
+                                                                            <div class="sl_attachment" tabindex="-1" style="width:100%; border:1px solid green; padding:10px; display:none;">
+                                                                                <div style="display:flex; align-items:center; gap:10px;">
+                                                                                    <label for="sl_medical_certificate">Medical Certificate</label>
+                                                                                    <input type="file"
+                                                                                        id="medical_certificate"
+                                                                                        name="sl_medical_certificate"
+                                                                                        accept=".pdf,image/*">
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    @elseif($row->code == 'SPL')
+                                                                        <div class="spl_div" style="border:1px solid green; padding:10px; {{ in_array($row->code, array_map('strval', $extended_leave->lists('leave_type'))) ? 'display:block' : 'display:none' }}">
+                                                                            <input type="hidden" name="spl_type" id="spl_type">
+                                                                            <input type="radio" class="minimal" style="margin-left:50px" id="spl_emergency" name="spl_emergency_status" value="spl_emergency"
+                                                                                {{ ($i = array_search($row->code, array_map('strval', $extended_leave->lists('leave_type')))) !== false && isset($extended_leave[$i]) && $extended_leave[$i]->type == 'emergency' ? 'checked' : '' }}                                                                             
+                                                                            >
+                                                                            <label for="spl_emergency">Emergency</label>
+                                                                            <input type="radio" class="minimal" style="margin-left:50px" id="spl_none_emergency" name="spl_emergency_status" value="spl_not_emergency"
+                                                                                {{ ($i = array_search($row->code, array_map('strval', $extended_leave->lists('leave_type')))) !== false && isset($extended_leave[$i]) && $extended_leave[$i]->type == 'unemergency' ? 'checked' : '' }}                                                                             
+                                                                            >
+                                                                            <label for="spl_none_emergency">Not an Emergency</label>
+                                                                        </div>
                                                                     @endif
                                                                 </label>
                                                             </div>
@@ -157,56 +221,63 @@
 
                                                             <label><i>In case of Vacation/Special Privilege leave</i></label><br>
                                                             <label style="display: inline-block; width: 100%;">
-                                                                <input type="checkbox" id="checkboxSuccess" class="vac_dis" value="1" name="leave_details" {{($leave->leave_details == 1)?'checked' :''}}> Within the Philippines
-                                                                <input type="text" name="for_text_input" class="vac_dis" id="within_txt" style="margin-left: 2%; width: 60%; border: none; border-bottom: 2px solid black;"
-                                                                       value="{{($leave->leave_details == 1)?$leave->leave_specify : ''}}">
+                                                                <input type="checkbox" id="checkboxSuccess1" class="vac_dis" value="1" name="leave_details[]" 
+                                                                {{ $extended_details && in_array(1, array_map('strval', $extended_details->lists('details'))) ? 'checked' : '' }}>
+                                                                Within the Philippines
+                                                                <input type="text" name="within_txt" class="vac_dis" id="within_txt" style="margin-left: 2%; width: 60%; border: none; border-bottom: 2px solid black;" 
+                                                                value="{{ $extended_details && (($index = array_search('1', array_map('strval', $extended_details->lists('details')))) !== false) ? $extended_details[$index]->remarks: '' }}">
                                                             </label>
                                                             <br>
                                                             <label style="display: inline-block; width: 100%;">
-                                                                <input type="checkbox" id="checkboxSuccess" class="vac_dis" value="2" name="leave_details" {{($leave->leave_details == 2)?'checked' :''}}> Abroad (Specify)
-                                                                <input type="text" name="for_text_input" class="vac_dis" id="abroad_txt" style="margin-left: 2%; width: 67.5%; border: none; border-bottom: 2px solid black;"  value="{{($leave->leave_details == 2)?$leave->leave_specify :''}}"/>
+                                                                <input type="checkbox" id="checkboxSuccess2" class="vac_dis" value="2" name="leave_details[]" 
+                                                                {{ $extended_details && in_array(2, array_map('strval', $extended_details->lists('details'))) ? 'checked' : '' }}
+                                                                > Abroad (Specify)
+                                                                <input type="text" name="abroad_txt" class="vac_dis" id="abroad_txt" style="margin-left: 2%; width: 67.5%; border: none; border-bottom: 2px solid black;"
+                                                                value="{{ $extended_details && (($index = array_search('2', array_map('strval', $extended_details->lists('details')))) !== false) ? $extended_details[$index]->remarks: '' }}" />
                                                             </label> <br>
                                                             <label><i>In case of Sick Leave</i></label><br>
                                                             <label style="display: inline-block; width: 100%;">
-                                                                <input type="checkbox" id="checkboxSuccess" class="sick_dis" value="3" name="leave_details" {{($leave->leave_details == 3)?'checked' :''}}> In Hospital (Specify Illness)
-                                                                <input type="text"  name="for_text_input" class="sick_dis" id="in_hos_txt" style="margin-left: 2%; width: 53%; border: none; border-bottom: 2px solid black;" value="{{($leave->leave_details == 3)?$leave->leave_specify :''}}" >
+                                                                <input type="checkbox" id="checkboxSuccess3" class="sick_dis" value="3" name="leave_details[]" 
+                                                                {{ $extended_details && in_array(3, array_map('strval', $extended_details->lists('details'))) ? 'checked' : '' }}> In Hospital (Specify Illness)
+                                                                <input type="text" name="in_hos_txt" class="sick_dis" id="in_hos_txt" style="margin-left: 2%; width: 53%; border: none; border-bottom: 2px solid black;" value="{{ $extended_details && (($index = array_search('3', array_map('strval', $extended_details->lists('details')))) !== false) ? $extended_details[$index]->remarks: '' }}" >
                                                             </label>
                                                             <label style="display: inline-block; width: 100%;">
-                                                                <input type="checkbox" id="checkboxSuccess" class="sick_dis" value="4" name="leave_details" {{($leave->leave_details == 4)?'checked' :''}}> Out-patient (Specify Illness)
-                                                                <input type="text" name="for_text_input" class="sick_dis" id="out_hos_txt" style="margin-left: 1%; width: 53%; border: none; border-bottom: 2px solid black;" value="{{($leave->leave_details == 4)?$leave->leave_specify :''}}">
+                                                                <input type="checkbox" id="checkboxSuccess4" class="sick_dis" value="4" name="leave_details[]" {{ $extended_details && in_array(4, array_map('strval', $extended_details->lists('details'))) ? 'checked' : '' }}> Out-patient (Specify Illness)
+                                                                <input type="text" name="out_hos_txt" class="sick_dis" id="out_hos_txt" style="margin-left: 1%; width: 53%; border: none; border-bottom: 2px solid black;" 
+                                                                value="{{ $extended_details && (($index = array_search('4', array_map('strval', $extended_details->lists('details')))) !== false) ? $extended_details[$index]->remarks: '' }}">
                                                             </label><br>
-
                                                             <label><i>In case of Special Leave Benefits for Women</i></label><br>
                                                             <label style="display: inline-block; width: 100%;">
-                                                                <input type="checkbox" id="checkboxSuccess" class="spec_dis" value="5" name="leave_details" {{($leave->leave_details == 5)?'checked' :''}}> (Specify Illness)
-                                                                <input type="text"  name="for_text_input" class="spec_dis" id="spec_txt" style="margin-left: 2%; width: 68%; border: none; border-bottom: 2px solid black;" value="{{($leave->leave_details == 5)?$leave->leave_specify :''}}">
+                                                                <input type="checkbox" id="checkboxSuccess5" class="spec_dis" value="5" name="leave_details[]" {{ $extended_details && in_array(5, array_map('strval', $extended_details->lists('details'))) ? 'checked' : '' }}> (Specify Illness)
+                                                                <input type="text" name="spec_txt" class="spec_dis" id="spec_txt" style="margin-left: 2%; width: 68%; border: none; border-bottom: 2px solid black;" 
+                                                                value="{{ $extended_details && (($index = array_search('5', array_map('strval', $extended_details->lists('details')))) !== false) ? (explode(' -- ', $extended_details[$index]->remarks)[0] ?? ''): ''}}">
                                                             </label><br>
-                                                            <input type="text"  name="for_text_input" class="spec_dis" id="spec_txt2" style="margin-left: 4.5%; width: 90%; border: none; border-bottom: 2px solid black;" >
+                                                            <input type="text" name="spec_txt2" class="spec_dis" id="spec_txt2" style="margin-left: 4.5%; width: 90%; border: none; border-bottom: 2px solid black;" value="{{ $extended_details && (($index = array_search('5', array_map('strval', $extended_details->lists('details')))) !== false) ? (explode(' -- ', $extended_details[$index]->remarks)[1] ?? ''): ''}}">
 
                                                             <label><i>In case of Study Leave</i></label><br>
                                                             <label>
-                                                                <input type="checkbox" id="checkboxSuccess" class="stud_dis" value="6" name="leave_details" {{($leave->leave_details == 6)?'checked' :''}}> Completion of Master's Degree
+                                                                <input type="checkbox" id="checkboxSuccess6" class="stud_dis" value="6" name="leave_details[]" {{ ($leave != null && $leave->leave_details == 6) ? 'checked' : '' }}> Completion of Master's Degree
                                                             </label><br>
                                                             <label>
-                                                                <input type="checkbox" id="checkboxSuccess" class="stud_dis" value="7" name="leave_details" {{($leave->leave_details == 7)?'checked' :''}}> BAR/Board Examination Review
+                                                                <input type="checkbox" id="checkboxSuccess7" class="stud_dis" value="7" name="leave_details[]" {{ ($leave != null && $leave->leave_details == 7) ? 'checked' : '' }}> BAR/Board Examination Review
                                                             </label><br>
                                                             <label><i>Other Purpose</i></label><br>
                                                             <label>
-                                                                <input type="checkbox" id="checkboxSuccess" class="others_dis" value="8" name="leave_details" {{($leave->leave_details == 8 )?'checked' :''}}> Monetization of Leave Credits
+                                                                <input type="checkbox" id="checkboxSuccess8" class="others_dis" value="8" name="leave_details[]" {{ ($leave != null && $leave->leave_details == 8) ? 'checked' : '' }}> Monetization of Leave Credits
                                                             </label><br>
                                                             <div style="margin-left: 10%; width: 80%; text-align: center; display: none" id="monetize_display">
                                                                 <select class="monetize_select form-control" id="monetizeSelect" name="monetize_select" onchange="monetize($(this).val())">
                                                                     <option value="">Please select value</option>
                                                                     <option value="10">10</option>
-                                                                    <option value="15" {{($user->vacation_balance >= 15)?'':'disabled'}}>15</option>
-                                                                    <option value="20" {{($user->vacation_balance >= 20)?'':'disabled'}}>20</option>
-                                                                    <option value="25" {{($user->vacation_balance >= 25)?'':'disabled'}}>25</option>
-                                                                    <option value="30" {{($user->vacation_balance >= 30)?'':'disabled'}}>30</option>
+                                                                    <option value="15" {{ ($user->vacation_balance >= 15)?'':'disabled' }}>15</option>
+                                                                    <option value="20" {{ ($user->vacation_balance >= 20)?'':'disabled' }}>20</option>
+                                                                    <option value="25" {{ ($user->vacation_balance >= 25)?'':'disabled' }}>25</option>
+                                                                    <option value="30" {{ ($user->vacation_balance >= 30)?'':'disabled' }}>30</option>
                                                                     <option value="50">50% Monetization</option>
                                                                 </select>
                                                             </div>
                                                             <label>
-                                                                <input type="checkbox" id="checkboxSuccess" class="others_dis" value="9" name="leave_details" {{($leave->leave_details == 9)?'checked' :''}}> Terminal Leave
+                                                                <input type="checkbox" id="checkboxSuccess9" class="others_dis" value="9" name="leave_details[]" {{ ($leave != null && $leave->leave_details == 9) ? 'checked' : '' }}> Terminal Leave
                                                             </label><br><br>
                                                         </div>
                                                     </div>
@@ -220,7 +291,7 @@
                                 <tr style="width: 52%" id="row_data">
                                     <td id="data_here">
                                         <strong>&nbsp;&nbsp;&nbsp;&nbsp;6.C NUMBER OF WORKING DAYS APPLIED FOR :</strong><br>
-                                        <input type="text" class="form-control" name="applied_num_days" id="applied_num_days" value="{{(int)$leave->applied_num_days}}" style="text-align:center; margin-left: 5%; width: 50%;margin-top: 2%" readonly/>
+                                        <input type="text" class="form-control" name="applied_num_days" id="applied_num_days" value="{{ $leave != null ? (int)$leave->applied_num_days : '' }}" style="text-align:center; margin-left: 5%; width: 50%;margin-top: 2%" readonly/>
                                         <input type="hidden" class="form-control" name="credit_used" id="credit_used"/>
                                         <strong class="sm-m-3" style="display: inline-block; margin-left: 5%; margin-top: 2%; ">INCLUSIVE DATES :</strong>
                                         <button  style="width: 50px; display: inline-block; margin-left: 20px; border-radius:0px; font-size:10px; height:20px" class="btn btn-xs btn-info addButton1" type="button">
@@ -228,20 +299,40 @@
                                         </button>
                                         <br><br>
                                         <div class="table-data" id="clone_data">
-                                        @foreach($leave_dates as $dates)
-                                            <div class="input-group" style="margin-left:5%; margin-bottom: 2px; margin-top: 0px" >
-                                                <div class="input-group-addon" style="">
-                                                    <i class="fa fa-calendar"></i>
+                                            @if(count($extended_leave) <= 0)
+                                                <div class="input-group" style="padding: 0px; margin-left:5%; margin-bottom: 2px; width:100%" >
+                                                    <select class="form-control chosen-select-static selected_type" name="selected_type[]" style="width: 80px;">
+                                                        <option value="" selected disabled hidden>Type</option>
+                                                    </select>
+                                                    <div class="input-group-addon form-control" style="margin-bottom: 5px;width: 50px; ">
+                                                        <i class="fa fa-calendar"></i>
+                                                    </div>
+                                                    <input style="width: 40%;" type="text" class="form-control datepickerInput1" id="inclusive11" name="inclusive_dates1[]" placeholder="Input date here..." required>
+                                                    <input type="text" name="days_input[]" style="width: 10%;" class="form-control days_input" readonly>
+                                                    <button style="width: 11.3%; margin-left: 5%" type="button" class="btn btn-sm btn-danger deleteButton1"><strong>-</strong></button>
                                                 </div>
-                                                <input value="{{ $dates->status == 2 ? date('m/d/Y',strtotime($dates->from_date)).' - '.date('m/d/Y',strtotime($dates->to_date)) : date('m/d/Y',strtotime($dates->startdate)).' - '.date('m/d/Y',strtotime($dates->enddate)) }}" style="width: 50%" type="text" class="form-control datepickerInput1" id="inclusive11" name="inclusive_dates1[]" placeholder="Input date here..." required>
-                                                <button style="height:20px; width: 50px; margin-left: 10px; border-radius:0px" type="button" class="btn btn-xs btn-danger deleteButton1">
-                                                    <i class="fa fa-minus"></i>
-                                                </button>
-                                            </div>
-                                            <div class="row text-center date_remarks" id="date_remarks" style="padding:10px; width:90%; margin-left: 5%"></div>
-                                        @endforeach
+                                                <div class="row text-center date_remarks" id="date_remarks" style="padding:10px; width:90%; margin-left: 5%"></div>
+                                            @else
+                                                @foreach($extended_leave as $dates)
+                                                    <div class="input-group" style="padding: 0px; margin-left:5%; margin-bottom: 2px; width:100%" >
+                                                        <select class="form-control chosen-select-static selected_type" name="selected_type[]" style="width: 80px;">
+                                                            <option value="" selected disabled hidden>Type</option>
+                                                            @foreach($extended_leave as $date)
+                                                                <option value="{{ $date->leave_type }}" {{ $dates->leave_type == $date->leave_type ? "selected" : '' }}>{{ $date->leave_type }}</option>
+                                                            @endforeach
+                                                        </select>
+                                                        <div class="input-group-addon form-control" style="margin-bottom: 5px;width: 50px; ">
+                                                            <i class="fa fa-calendar"></i>
+                                                        </div>
+                                                        <input style="width: 40%;" type="text" class="form-control datepickerInput1" id="inclusive11" name="inclusive_dates1[]" placeholder="Input date here..." value="{{ date('m/d/Y',strtotime($dates->start)).' - '.date('m/d/Y',strtotime($dates->end)) }}" required>
+                                                        <input type="text" name="days_input[]" value="{{ $dates->days }}" style="width: 10%;" class="form-control days_input" readonly>
+                                                        <button style="width: 11.3%; margin-left: 5%" type="button" class="btn btn-sm btn-danger deleteButton1"><strong>-</strong></button>
+                                                    </div>
+                                                    <div class="row text-center date_remarks" id="date_remarks" style="padding:10px; width:90%; margin-left: 5%"></div>
+                                                @endforeach
+                                            @endif
                                         </div>
-                                        @if($leave->sl_remarks)
+                                        @if($leave != null && $leave->sl_remarks)
                                             <div class="row" id="date_remarks2">
                                                 @foreach($leave->sl_remarks as $index => $row)
                                                     <div class="row" style="padding: 7px; width: 90%; margin-left: 5%;">
@@ -278,10 +369,15 @@
                                         <div class="has-success" style="display: flex;">
                                             <div class="checkbox">
                                                 <label>
-                                                    <input type="radio" id="commutation2" value="2" name="com_requested" {{($leave->commutation == 2)?'checked':''}}> Not Requested
+                                                    <input type="radio" id="commutation2" value="2" name="com_requested" 
+                                                    {{ ($leave != null && $leave->commutation == 2) ? 'checked' : '' }}
+                                                    > Not Requested
                                                 </label><br>
                                                 <label>
-                                                    <input type="radio" id="commutation" value="1" name="com_requested" {{($leave->commutation == 1)?'checked':''}}> Requested
+                                                    <input type="radio" id="commutation" value="1" name="com_requested" 
+                                                    {{ ($leave != null && $leave->commutation == 1) ? 'checked' : '' }}
+
+                                                    > Requested
                                                 </label>
                                             </div>
                                         </div>
@@ -324,13 +420,13 @@
                                                     <tbody>
                                                     <tr height="30">
                                                         <td>Total Earned</td>
-                                                        <td>{{($user->vacation_balance != null)?$user->vacation_balance:0}}</td>
-                                                        <td>{{($user->sick_balance != null)?$user->sick_balance:0}}</td>
+                                                        <td>{{ ($user->vacation_balance != null) ? $user->vacation_balance:0 }}</td>
+                                                        <td>{{ ($user->sick_balance != null) ? $user->sick_balance:0 }}</td>
                                                     </tr>
                                                     <tr height ="30" style="">
                                                         <td>Less this application</td>
-                                                        <td><input id="vl_less" name="vl_less" style="width: 30%; text-align: center; border:none" value="{{!Empty($leave->vl_deduct)?$leave->vl_deduct:0}}" readonly></td>
-                                                        <td><input id="sl_less" name="sl_less" style="width: 30%; text-align: center; border: none" value="{{!Empty($leave->sl_deduct)?$leave->sl_deduct:0}}" readonly></td>
+                                                        <td><input id="vl_less" name="vl_less" style="width: 30%; text-align: center; border:none" value="{{ !Empty($leave->vl_deduct) ? $leave->vl_deduct:0 }}" readonly></td>
+                                                        <td><input id="sl_less" name="sl_less" style="width: 30%; text-align: center; border: none" value="{{ !Empty($leave->sl_deduct) ? $leave->sl_deduct:0 }}" readonly></td>
                                                     </tr>
                                                     <tr height = "30">
                                                         <td class="col-md-2">Balance</td>
@@ -356,7 +452,7 @@
                                                     @if(count($officer) > 0)
                                                         @foreach($officer as $section_head)
                                                             @if( $section_head['id'] == 17)
-                                                                <option value="{{ $section_head['id'] }}" {{($leave->officer_1 == $section_head['id'])?'selected':''}}>{{ $section_head['fname'].' '.$section_head['mname'].' '.$section_head['lname'] }}</option>
+                                                                <option value="{{ $section_head['id'] }}" {{ ( $leave != null && $leave->officer_1 == $section_head['id']) ? 'selected':''}}>{{ $section_head['fname'].' '.$section_head['mname'].' '.$section_head['lname'] }}</option>
                                                             @endif
                                                         @endforeach
                                                     @endif
@@ -385,7 +481,7 @@
                                             <select class="chosen-select-static form-control" name="recommendation_officer" required style="width: 70%;margin-right: 50%; text-align: center; ">
                                                 @if(count($officer) > 0)
                                                     @foreach($officer as $section_head)
-                                                        <option value="{{ $section_head['id'] }}" {{($leave->officer_2 == $section_head['id'])?'selected':''}}>{{ $section_head['fname'].' '.$section_head['mname'].' '.$section_head['lname'] }}</option>
+                                                        <option value="{{ $section_head['id'] }}" {{ ($leave != null && $leave->officer_2 == $section_head['id'])?'selected':''}}>{{ $section_head['fname'].' '.$section_head['mname'].' '.$section_head['lname'] }}</option>
                                                     @endforeach
                                                 @endif
                                             </select>
@@ -401,8 +497,8 @@
                                 <tr style="width: 52%" id="row_data">
                                     <td style="vertical-align: top;  border-right: 0px; border-bottom: 0px;">
                                         <strong style="">&nbsp;&nbsp;&nbsp;7.C APPROVED FOR:</strong><br>
-                                        <span style="margin-left: 10%"><input value="{{($leave->with_pay != 0)? intval($leave->with_pay) :''}}" style="width: 22%; border: none; border-bottom: 2px solid black; height: 2%; margin-bottom: 0px" id="with_pay" name="with_pay" readonly> days with pay</span><br>
-                                        <span style="margin-left: 10%"><input value="{{($leave->without_pay != 0)? intval($leave->without_pay) :''}}" style="width: 22%; border: none; border-bottom: 2px solid black; height: 2%" id="without_pay" name="without_pay" readonly> days without pay</span><br>
+                                        <span style="margin-left: 10%"><input value="{{ ($leave != null && $leave->with_pay != 0)? intval($leave->with_pay) :'' }}" style="width: 22%; border: none; border-bottom: 2px solid black; height: 2%; margin-bottom: 0px" id="with_pay" name="with_pay" readonly> days with pay</span><br>
+                                        <span style="margin-left: 10%"><input value="{{ ($leave != null && $leave->without_pay != 0)? intval($leave->without_pay) :'' }}" style="width: 22%; border: none; border-bottom: 2px solid black; height: 2%" id="without_pay" name="without_pay" readonly> days without pay</span><br>
                                         <span style="margin-left: 10%"><input style="width: 22%; border: none; border-bottom: 2px solid black; height: 2%; margin-bottom: 0px" id="others_pay" name="others_pay" readonly> others (Specify)</span>
                                     <td style="width: 48%; margin-top: 10px;border-left: 0px;border-bottom: 0px; vertical-align: top" rowspan="2">
                                         <strong>&nbsp;&nbsp;&nbsp;7.D DISAPPROVED DUE TO:</strong>
@@ -421,9 +517,9 @@
                                         <br>
                                         <div style="margin-left: 2%; text-align: center">
                                             <select class="chosen-select-static form-control" name="approved_officer" required style="width: 30%;margin-right: 50%">
-                                                @if(count($officer) > 0)
-                                                    @foreach($officer as $section_head)
-                                                        <option value="{{ $section_head['id'] }}" {{($leave->officer_3 == $section_head['id'])?'selected':''}}>{{ $section_head['fname'].' '.$section_head['mname'].' '.$section_head['lname'] }}</option>
+                                                @if(count($officer3) > 0)
+                                                    @foreach($officer3 as $division_head)
+                                                        <option value="{{ $division_head['id'] }}" {{ ($leave != null && $leave->officer_3 == $division_head['id'])?'selected':''}}>{{ $division_head['fname'].' '.$division_head['mname'].' '.$division_head['lname'] }}</option>
                                                     @endforeach
                                                 @endif
                                             </select>
@@ -435,7 +531,6 @@
                         </div>
                     </div>
                 </div>
-                <type type="hidden" id="spl_type"></type>
                 <type type="hidden" id="monetize_val" name="monetize_val"></type>
                 <div class="modal-footer">
                     <div class="row">
@@ -448,227 +543,208 @@
                                     </span>
                                 </p>
                             </div>
-                            <div style="display: inline-block; width: 50%;">
-                                {{--<button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>--}}
-                                <a target="_blank" class="btn btn-success" href="{{ asset('FPDF/print_leave.php?id=' .$leave->id) }}" style="color: white;"><i class="fa fa-print"></i> Print(Front)</a>
-                                <a target="_blank" class="btn btn-success" href="{{ asset('leave/print/' .$leave->id) }}" style="color: white;"><i class="fa fa-print"></i> Print(Back)</a>
-                                @if( Auth::user()->usertype !=1 && $leave->status == 0 )
+                            <div style="display: inline-block; width: 50%;">                                
+                                <a target="_blank" class="btn btn-success" href="{{ asset('FPDF/print_leave.php?id=' . (($leave && $leave->id) ? $leave->id : 0)) }}" style="color: white;"><i class="fa fa-print"></i> Print(Front)</a>
+                                <a target="_blank" class="btn btn-success" href="{{ asset('leave/print/' . (($leave && $leave->id) ? $leave->id : 0)) }}" style="color: white;"><i class="fa fa-print"></i> Print(Back)</a>
+                                @if( Auth::user()->usertype !=1 && ($leave != null && $leave->status == 0) )
                                     <button href="{{ asset('leave/update/save') }}"  class="btn btn-primary btn-submit" style="color:white;"><i class="fa fa-pencil"></i> Update</button>
-                                    <a href="{{ asset('leave/delete/' .$leave->id) }}" style="color:white" class="btn btn-danger" ><i class="fa fa-trash"></i> Remove</a>
+                                    <a href="{{ asset('leave/delete/' . (($leave && $leave->id) ? $leave->id : 0)) }}" style="color:white" class="btn btn-danger" ><i class="fa fa-trash"></i> Remove</a>
+                                @elseif($leave == null)
+                                    <button type="submit" class="btn btn-success" style="color:white;"><i class="fa fa-send"></i> Submit</button>
                                 @endif
                             </div>
                         </div>
                     </div>
                 </div>
+                <input type="hidden" class="priv_data" name="priv_data" value="0">
             </form>
         </div>
     </div>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 @include('form.form_leave_script')
 <script>
-    var vl = {{($user->vacation_balance != null)?$user->vacation_balance:0}};
-    var sl = {{($user->sick_balance != null)?$user->sick_balance:0}};
+    var vl = {{ ($user->vacation_balance != null) ? $user->vacation_balance : 0 }};
+    var sl = {{ ($user->sick_balance != null) ? $user->sick_balance : 0 }};
+    var priv = {{ $priv }};
 
     function monetize(data){
 
         $('#monetize_val').val(data);
-        $('#with_pay').val(data + " day(s)");
-        $('#applied_num_days').val(data);
-        console.log('data');
 
         if(data == 50){
+            
+            Lobibox.alert('warning', {
+                msg: '<i class="fa fa-spinner fa-spin"></i> Make sure to attach letter from RD',
+                size: 'mini',
+                closeButton: false,
+                delay: false,
+                sound: false
+            });
+
             var total = Math.ceil((vl + sl)/2);
+
+            $('#with_pay').val(total + " day(s)");
             $('#applied_num_days').val(total);
+            
             var div = total/2;
-            console.log('div', vl + sl);
+            var to_add = 0;
+            var vl_deduct = 0;
+            var sl_deduct = 0;
 
-            var vl_rem = vl - div;
-            var sl_rem = sl - div;
-            var vl_deduct = div, sl_deduct = div;
-            if(vl_rem < 0){
-                sl_rem = sl - (div + vl_rem);
-                vl_rem = 0;
-                sl_deduct = div + vl_rem;
-//                    sl_deduct = div + flow;
+            if(vl >= div){
+                vl_deduct = div;
+            }else{
                 vl_deduct = vl;
-                console.log('res', div + vl_rem);
-
-            }else if (sl_rem < 0){
-                console.log('else', div + vl_rem);
-                vl_rem = vl - (div + sl_rem);
-                sl_rem = 0;
-                vl_deduct = div + sl_rem;
-//                    vl_deduct = div + flow;
-                sl_deduct = sl;
+                to_add = div - vl;
             }
 
-            $('#vl_rem').val(vl_rem);
-            $('#sl_rem').val(sl_rem);
+            if(sl >= div){
+                sl_deduct = div + to_add;
+            }else{
+                sl_deduct = sl;
+                vl_deduct = vl_deduct + (div - sl);
+            }
+
+            $('#vl_rem').val(vl >= vl_deduct ? vl - vl_deduct : 0);
+            $('#sl_rem').val(sl >= sl_deduct ? sl - sl_deduct : 0);
             $('#vl_less').val(vl_deduct);
             $('#sl_less').val(sl_deduct);
         }else{
-            $('#vl_less').val(data);
-            $('#vl_rem').val(vl-data);
-            $('#sl_less').val(0);
-            $('#sl_rem').val(sl);
+            if(vl < 15){
+                Lobibox.alert('error', {
+                    msg: '<i class="fa fa-spinner fa-spin"></i> Monetization request denied. The Vacation Leave (VL) balance must be at least 15 days to qualify for monetization',
+                    size: 'mini',
+                    closeButton: false,
+                    delay: false,
+                    sound: false
+                });
+                $('#monetizeSelect').val('').trigger('chosen:updated');
+            }else{
+                $('#with_pay').val(data + " day(s)");
+                $('#applied_num_days').val(data);
+            
+                $('#vl_less').val(data);
+                $('#vl_rem').val(vl-data);
+                $('#sl_less').val(0);
+                $('#sl_rem').val(sl);
+            }
+           
         }
     }
-//    $('#monetizeSelect').chosen();
+
+    var updated = '<?php echo $update; ?>'
     $('.chosen-select-static').chosen();
     $('#inc_date').daterangepicker();
     $('input[name="leave_type"]').change(function(){
-        $('.date_remarks').empty();
-        $('#date_remarks2').empty();
-        $('#clone_data').not(':first').remove();
-        console.log('sample');
-
-        $('#inclusive11').attr({ required: true, disabled: false });
-
-        $('.has-success1 input[type="checkbox"]').prop('checked', false);
-
-        $('.datepickerInput1').val("");
-        $('#applied_num_days').val("");
-        $('#vl_less').val(0);
-        $('#sl_less').val(0);
-        $('#vl_rem').val(vl);
-        $('#sl_rem').val(sl);
 
         var val = this.value;
-        console.log('value', val);
+
+        var selected_type = $('.selected_type');
+
+        var checkedValues = $('input[name="leave_type"]:checked')
+            .map(function () {
+                return $(this).val();
+            })
+            .get();
+        
+        checkedValues.forEach(function(item) {
+            if (selected_type.find('option[value="' + item + '"]').length === 0) {
+                selected_type.append(
+                    $('<option>', {
+                        value: item,
+                        text: item
+                    })
+                );
+            }
+        });
+
+        selected_type.trigger('chosen:updated'); 
 
         com2();
 
-        if(val == "OTHERS") {
-            $('#others_txt').prop('disabled', false);
-            $('input[name="for_text_input"]').prop('disabled', true).val("");
-            $('#commutation').prop('checked', false);
-            $('#commutation2').prop('checked', false);
-        }else if(val == "VL") {
-            $('input[name="for_text_input"]').prop('disabled', true).val("");
-
-        } else if(val == "SL") {
-            $('input[name="for_text_input"]').prop('disabled', true).val("");
-
+        if(val == "SL") {
+            $('input[name="sl_emergency_status"]').prop('checked', false);
+            $('.sl_attachment').css('display', 'none');
+            $('.sl_div').css('display', 'block');
         } else if(val == "SPL") {
-            $('input[name="for_text_input"]').prop('disabled', true).val("");
+            $('.spl_div').css('display', 'block');
 
-            Lobibox.alert('success', // AVAILABLE TYPES: "error", "info", "success", "warning"
-                {
-                    msg: "Is this an emergency type of Special Privilege Leave?",
-                    size: 'mini',
-                    buttons: {
-                        emergency: {
-                            text: 'Emergency',
-                            class: 'btn-success custom-font-size',
-                            closeOnClick: true
-                        },
-                        notEmergency: {
-                            text: 'Not an Emergency',
-                            class: 'btn-danger custom-font-size',
-                            closeOnClick: true
-                        }
-                    },
-                    callback: function (lobibox, type) {
-                        console.log('type', type);
-                        if (type === 'emergency') {
-                            // Handle emergency button click
-                            $('#spl_type').val('emergency');
-                            console.log('sfsd', $('#spl_type').val())
-                        } else if (type === 'notEmergency') {
-                            // Handle not emergency button click
-                            $('#spl_type').val('unemergency');
-                            console.log('sfsd', $('#spl_type').val())
-                        }
-                    }
-                });
+        }else if(val == "WL"){
+            $('.wl_div').css('display', 'block');
+        }
 
-        }else if(val == "STUD_L") {
-            $('input[name="for_text_input"]').prop('disabled', true).val("");
+        if (!checkedValues.includes('SL')) {
+            $('.sl_div').css('display', 'none');
+        }
 
-        }else if(val == "SLBW") {
-            $('input[name="for_text_input"]').prop('disabled', true).val("");
-        }else{
+        if (!checkedValues.includes('SPL')) {
+            $('.spl_div').css('display', 'none');
+        }
+
+        if (!checkedValues.includes('WL')) {
+            $('.wl_div').css('display', 'none');
         }
     });
 
+    var mon = 0;
+    var term = 0;
 
-    $('input[class="vac_dis"]').change(function(){
-        com2();
-        var val = this.value;
-        if(val == "1")
-        {
-            console.log('here1');
-            $('#within_txt').prop('disabled', false).val('');
-            $('#abroad_txt').prop('disabled', true);
-            $('#in_hos_txt, #in_hos_txt, #master_txt, #bar_txt, #spec_txt, #spec_txt2').prop('disabled', true);
-
-        } else if(val == "2"){
-            $('#abroad_txt').prop('disabled', false);
-            $('#within_txt').prop('disabled', true).val('');
-            $('#in_hos_txt, #out_hos_txt, #master_txt, #bar_txt, #spec_txt, #spec_txt2').prop('disabled', true);
-        }
-    });
-
-    $('input[class="sick_dis"]').change(function(){
-        var val = this.value;
-        com2();
-        console.log('sick', val);
-        if(val == "3")
-        {
-            console.log('here3');
-            $('#in_hos_txt').prop('disabled', false).val('');
-            $('#out_hos_txt').prop('disabled', true);
-            $('#within_txt, #abroad_txt, #master_txt, #bar_txt, #spec_txt, #spec_txt2').prop('disabled', true);
-        } else if(val == "4"){
-            $('#out_hos_txt').prop('disabled', false);
-            $('#in_hos_txt').prop('disabled', true).val('');
-            $('#within_txt, #abroad_txt, #master_txt, #bar_txt, #spec_txt, #spec_txt2').prop('disabled', true);
-        }
-    });
-    $('input[class="stud_dis"]').change(function(){
-        var val = this.value;
-        com2();
-        if(val == "6")
-        {
-            $('#master_txt').prop('disabled', false).val('');
-            $('#bar_txt').prop('disabled', true);
-            $('#within_txt, #abroad_txt, #in_hos_txt, #out_hos_txt, #spec_txt, #spec_txt2').prop('disabled', true);
-        } else if(val == "7"){
-            $('#bar_txt').prop('disabled', false);
-            $('#master_txt').prop('disabled', true).val('');
-            $('#within_txt, #abroad_txt, #in_hos_txt, #out_hos_txt, #spec_txt, #spec_txt2').prop('disabled', true);
-        }
-    });
-
-    $('input[class="spec_dis"]').change(function(){
-        com2();
-        console.log('sdf');
-        $('#spec_txt, #spec_txt2').prop('disabled', false).val('');
-        $('#within_txt, #abroad_txt, #in_hos_txt, #out_hos_txt, #master_txt, #bar_txt').prop('disabled', true);
-
-    });
     $('input[class="others_dis"]').change(function(){
         var val = this.value;
+        $('.leave-toggle').prop('checked', false);
+        $('#applied_num_days').val('');
+        $('.datepickerInput1').val('');
+        $('.days_input').val('');
+        $('.selected_type').empty().trigger('chosen:updated');
+        $('#data_here .input-group').not(':first').each(function() {
+            $(this).next('.date_remarks').remove(); 
+            $(this).remove(); 
+        });
+
+        $('#applied_num_days').val(overall_days());
+        deduction();
+        check_with_pay();
+        com();
+        $('#inclusive11').attr({ required: false, disabled: true });
+
         if(val == 8){
-            alert('Please make sure to attach approved letter from RD!');
-            com();
-            $('#inclusive11').attr({ required: false, disabled: true });
-            console.log('vl', vl);
-            if( vl >= 15){
+            
+            $([1, 2, 3, 4, 5, 6, 7, 9].map(i => `#checkboxSuccess${i}`).join(',')).prop('checked', false);
+            if(mon == 0){
                 $('#monetizeSelect').attr('required', true);
                 $('#monetize_display').css('display', 'block');
+                mon = 1;
             }else{
-                Lobibox.alert('error', {
-                    msg:'Make sure your vacation balance is equal to or more than 15!',
-                    size:'mini'
-                });
-                $('input[name="leave_details"]').prop('checked', false);
-                $('input[name="com_requested"]').prop('checked', false);
+                $('#monetizeSelect').attr('required', false);
+                $('#monetize_display').css('display', 'none');
+                mon = 0;
             }
-
         }else{
-            com2();
-            $('#inclusive11').attr({ required: true, disabled: false });
+            mon = 0;
+            $('#monetizeSelect').attr('required', false);
+            $('#monetize_display').css('display', 'none');
+            $([1, 2, 3, 4, 5, 6, 7, 8].map(i => `#checkboxSuccess${i}`).join(',')).prop('checked', false);
+            $('#without_pay').val("");
+            if(term == 0){
+                var total = vl + sl;
+                $('#with_pay').val(total + " day(s)");
+                $('#applied_num_days').val(total);
+                $('#vl_less').val(vl);
+                $('#vl_rem').val(0);
+                $('#sl_less').val(sl);
+                $('#sl_rem').val(0);
+                term = 1;
+            }else{
+                $('#with_pay').val("");
+                $('#applied_num_days').val("");
+                $('#vl_less').val(0);
+                $('#vl_rem').val(vl);
+                $('#sl_less').val(0);
+                $('#sl_rem').val(sl);
+                term = 0;
+            }
+            
         }
 
         $('#within_txt, #abroad_txt, #in_hos_txt, #out_hos_txt, #master_txt, #bar_txt, #spec_txt, #spec_txt2').prop('disabled', true);
@@ -688,7 +764,6 @@
         $('#monetizeSelect').attr('required', false);
         $('#with_pay').val('');
         $('#without_pay').val('');
-        console.log('chaki');
     }
 
     function validate(evt) {

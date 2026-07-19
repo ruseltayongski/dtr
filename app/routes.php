@@ -25,6 +25,8 @@ Route::get('employees','AdminController@list_all');
 Route::match(array('GET','POST'),'beginning_balance','cdoController@beginning_balance');
 Route::get('card/view/{userid}', 'cdoController@viewHistory');
 Route::match(array('GET','POST'),'update_bbalance','cdoController@update_bbalance');
+Route::post('passlip','cdoController@passlip');
+
 //manual process
 Route::match(array('GET','POST'),'process_pending','cdoController@process_pending');
 Route::match(array('GET', 'POST'), 'cancel_dates', 'cdoController@cancel_dates');
@@ -78,6 +80,14 @@ Route::match(['GET', 'POST'],'leave/approved/{route_no}','AdminController@approv
 Route::match(['GET', 'POST'], 'leave/disapproved/{route_no}','AdminController@disapproved_leave');
 Route::post('leave/pending','AdminController@pending_leave');
 Route::get('leave/delete/{id}','AdminController@delete_leave');
+Route::get('leave/cancellation/{route_no}','AdminController@leave_cancellation');
+Route::get('leave/moved/{route_no}','AdminController@move_leave');
+Route::post('leave/cancellation-save','AdminController@save_cancel');
+Route::post('leave/move-save','AdminController@save_move');
+Route::get('leave/employee/{id}','AdminController@leave_employee');
+Route::post('leave/employee/save','AdminController@employee_save');
+Route::post('leave/priviledge/save','AdminController@leave_priv_save');
+
 //Route::get('leave/update/{id}', 'AdminController@edit_leave');
 Route::get('leave/cancel/{route_no}','AdminController@cancel_leave');
 Route::match(array('GET', 'POST'), 'move_dates', 'AdminController@move_dates');
@@ -126,7 +136,7 @@ Route::post('delete/user/created/logs','PersonalController@delete_created_logs')
 Route::match(['GET', 'POST'],'personal/excel/{id}','DocumentController@timelogs_excel');
 
 //DOCUMENTS
-Route::match(array('GET','POST'),'form/leave','DocumentController@leave');
+Route::match(array('GET','POST'),'form/leave/form/{id}','DocumentController@leave');
 Route::match(array('GET','POST'),'form/leave/all', 'DocumentController@all_leave');
 Route::get('leave/get/{id}','DocumentController@get_leave');
 Route::get('leave/print/{id}', 'DocumentController@print_leave');
