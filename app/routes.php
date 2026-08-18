@@ -453,6 +453,7 @@ Route::post('wellness/action','WellnessController@action');
 
 Route::group(['prefix' => 'api'], function () {
     Route::post('/csharp-sync', 'TimeLogController@csharpApiEndpoint');
+	Route::post('/mobileDtrLogs', 'TimeLogController@mobileDtrLogs');
 });
 
 Route::get('api/test', function () {
