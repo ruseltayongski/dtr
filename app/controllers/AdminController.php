@@ -1585,7 +1585,6 @@ class AdminController extends BaseController
 
     public function leave_credits()
     {
-
         $ids = LeaveEmployee::lists('userid');
 
         $keyword = Input::get('search');
@@ -1941,7 +1940,7 @@ class AdminController extends BaseController
             $first->userid = $userid;
             $first->vl_bal = $vl;
             $first->sl_bal = $sl;
-            $first->date_used = 'Beginning Balance as of ' . date('F j, Y', strtotime('now'));
+            $first->date_used = 'Beginning Balance as of ' . date('F Y', strtotime('-1 month'));
             $first->save();
         }
 

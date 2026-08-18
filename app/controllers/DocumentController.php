@@ -70,7 +70,7 @@ class DocumentController extends BaseController
             $id_list = [];
             $spl = AditionalLeave::where('userid', Auth::user()->userid)->first();
 
-            $manually_added = [988320, 985329, 273, 11, 93053, 986445, 984538, 985950, 80, 976017, 466, 534, 986944, 988121, 357, 988148, 988309, 142, 602, 151, 988466, 75, 988135, 984531];
+            $manually_added = [988320, 985329, 273, 11, 93053, 986445, 984538, 985950, 80, 976017, 466, 534, 988121, 357, 988148, 988309, 142, 602, 151, 988466, 75, 988135, 984531];
 
             foreach(pdoController::section() as $row) {
                 if ($row['acronym'] !== null || in_array($row['head'], [37, 72, 243, 614, 110, 163, 648384, 160, 985950, 830744, 51])) {
@@ -397,15 +397,33 @@ class DocumentController extends BaseController
 
     public function save_edit_leave()
     {
-//        return 1;
-//        return (Input::get('leave_type') != null)?Input::get('leave_type'):'None' ;
         $leave = Leave::where('id', Input::get('id'))->first();
-//        return Input::get('id');
-//        return (int) filter_var(Input::get('with_pay');
+
         if($leave){
-            $pis = InformationPersonal::where('userid', $leave->userid)->first();
-            $l_type = Input::get('leave_type');
+
+            if(Auth::check() AND Auth::user()->usertype == 0){
+                if(Auth::user()->pass_change == NULL){
+                    return Redirect::to('resetpass')->with('pass_change','You must change your password for security after your first log in or resseting password');
+                }
+            }
+
+            $route_no = $leave->route_no;
+
+            $extended_leave = ExtendedLeave::where('route_no', $leave->route_no)->delete();
+            $leave_applied_dates = LeaveAppliedDates::where('leave_id', $leave->id)->delete();
+            $sl_remarks = SLRemarks::where('leave_id', $leave->id)->delete();
+            $leave_details = LeaveDetails::where('route_no', $leave->route_no)->delete();
+
+            $pis = InformationPersonal::where ('userid', Auth::user()->userid)->first();
+            $leave_extended_details = isset($_POST['leave_details']) ? $_POST['leave_details'] : [];
+            $leave_type = $_POST['selected_type'] ?? [];
+            $leave_dates = $_POST['inclusive_dates1'] ?? [];
+            $leave_days = $_POST['days_input'] ?? [];
+
+            $l_type = $leave_type[0] ?? '';
+
             $leave->userid = Auth::user()->userid;
+            $leave->route_no = $route_no;
             $leave->office_agency = Input::get('office_agency');
             $leave->lastname = Input::get('lastname');
             $leave->firstname = Input::get('firstname');
@@ -413,28 +431,73 @@ class DocumentController extends BaseController
             $leave->date_filling = Input::get('date_filling');
             $leave->position = Input::get('position');
             $leave->salary = str_replace(',', '', Input::get('salary'));
-            $leave->leave_type = Input::get('leave_type');
-            $leave->leave_details = (Input::get('leave_details') != null)?Input::get('leave_details'):'None' ;
-            $leave->leave_specify = (Input::get('for_text_input') != null)?Input::get('for_text_input'):'None' ;
-            $leave->credit_used = (Input::get('leave_type') != null)?Input::get('leave_type'):'None' ;
+            $leave->leave_type = $l_type;
+            $leave->leave_details = (isset($leave_extended_details[0]) && in_array($leave_extended_details[0], [8, 9])) ? $leave_extended_details[0] : 'None';
+            $leave->leave_specify = 'None';
+            $leave->credit_used = $l_type;
             $leave->status = 0;
             $leave->remarks = 0;
             $leave->commutation = Input::get('com_requested');
             $leave->with_pay = (Input::get('with_pay') != null)?(int) filter_var(Input::get('with_pay'), FILTER_SANITIZE_NUMBER_INT):0;
             $leave->without_pay = (Input::get('without_pay') != null)?(int) filter_var(Input::get('without_pay'), FILTER_SANITIZE_NUMBER_INT):0;
             $leave->applied_num_days = Input::get('applied_num_days');
-            $leave->as_of = date('Y-m-d', strtotime(Input::get('as_of')));
-            $leave->vacation_total = $pis->vacation_balance;
-            $leave->sick_total = $pis->sick_balance;
+            $leave->as_of = date('Y-m-d',strtotime(Input::get('as_of')));
+            $leave->vacation_total = $pis->vacation_balance ? $pis->vacation_balance:0;
+            $leave->sick_total = $pis->sick_balance ? $pis->sick_balance : 0;
+            $leave->for_others = Input :: get('others_type');
+            $leave->officer_1 = Input::get('certification_officer');
+            $leave->officer_2 = Input::get('recommendation_officer');
+            $leave->officer_3 = Input::get('approved_officer');
+            $leave->vl_deduct = Input::get('vl_less');
+            $leave->sl_deduct = Input::get('sl_less');
+            $leave->SPL_total = 0;
+            $leave->FL_total = 0;
+            $leave->save();
 
             $spl_leave = AditionalLeave::where('userid', Auth::user()->userid)->first();
 
-            if($l_type == "SPL"){
-                $leave->SPL_total = $spl_leave->SPL - Input::get('applied_num_days');
-            }else if($l_type == "FL"){
-                $leave->FL_total = $spl_leave->FL - Input::get('applied_num_days');
-            }
+            foreach($leave_type as $index => $type){
 
+                $extension = new ExtendedLeave();
+                $extension->userid = Auth::user()->userid;
+                $extension->route_no = $route_no;
+                $extension->leave_type = $type;
+
+                $dates = $leave_dates[$index];
+                $temp1 = explode('-',$dates);
+
+                $date_from = date('Y-m-d',strtotime($temp1[0]));
+                $date_to = date('Y-m-d',strtotime($temp1[1]));
+
+                $extension->start = $date_from;
+                $extension->end = $date_to;
+                $extension->days = $leave_days[$index];
+                $extension->type = "n/a";
+
+                if($type == "SPL"){
+                    $extension->type = Input::get('spl_type');
+                    $extension->details = "Domestic Emergency";
+                    $leave->SPL_total = $spl_leave->SPL - Input::get('applied_num_days');
+                    $leave->app_type = Input::get('spl_type');
+                }else if($type == "FL"){
+                    $leave->FL_total = $spl_leave->FL - Input::get('applied_num_days');
+                }else if($type == "WL" || $type == "SL"){
+                    $extension->type = $l_type == "WL" ? Input::get('wl_type') : Input::get('sl_type');
+                    if (Input::file('sl_medical_certificate')) {
+                        $file = Input::file('sl_medical_certificate');
+                        $originalName = $file->getClientOriginalName();
+                        $filename = Auth::user()->userid . '_' . $originalName;
+                        $destinationPath = public_path('img/wellness');
+                        $file->move($destinationPath, $filename);
+                        $extension->details = Input::get('sl_type') == "emergency" ? $filename : '';
+                        $extension->type = Input::get('sl_type');
+                        $leave->app_type = $filename;
+                    }
+                }
+
+                $extension->save();
+            }
+            
             if(Input::get('com_requested') == 2){
                 $inclusive_dates = $_POST['inclusive_dates1'];
                 $last_date = end($inclusive_dates);
@@ -446,17 +509,9 @@ class DocumentController extends BaseController
                 $leave->inc_to = $date_to;
             }
 
-            $leave->for_others = Input :: get('others_type');
-            $leave->officer_1 = Input::get('certification_officer');
-            $leave->officer_2 = Input::get('recommendation_officer');
-            $leave->officer_3 = Input::get('approved_officer');
-            $leave->vl_deduct = Input::get('vl_less');
-            $leave->sl_deduct = Input::get('sl_less');
             $leave->save();
 
             if(Input::get('com_requested') == 2){
-
-                LeaveAppliedDates::where('leave_id', $leave->id)->delete();
 
                 foreach ($inclusive_dates as $index => $date_range) {
 
@@ -473,25 +528,79 @@ class DocumentController extends BaseController
                 }
             }
 
-
-            if (in_array($leave->leave_type, ['SL', 'SPL']) && isset($_POST['s_dates'])) {
-                SLRemarks::where('leave_id', $leave->id)->delete();
-
-                $rem_dates = $_POST['s_dates'];
-                $remarks = $_POST['date_remarks'];
-
-                foreach ($rem_dates as $index => $date){
-                    $sl = new SLRemarks();
-                    $sl->date = date('Y-m-d', strtotime($date));
-                    $sl->remarks = $remarks[$index];
-                    $sl->leave_id = $leave->id;
-                    $sl->save();
+            if (in_array($leave->leave_type, ['SL', 'SPL', 'WL'])) {
+                if (isset($_POST['s_dates'])) {
+                    $rem_dates = $_POST['s_dates'];
+                    $rpo_rem = $_POST['rpo_rem'];
+                    $remarks = $_POST['date_remarks'];
+                    foreach ($rem_dates as $index => $date){
+                        $sl = new SLRemarks();
+                        $sl->date = date('Y-m-d', strtotime($date));
+                        $sl->remarks = $remarks[$index];
+                        $sl->repo_rem = $rpo_rem[$index];
+                        $sl->leave_id = $leave->id;
+                        $sl->save();
+                    }
                 }
             }
 
-            return Redirect::to('form/leave/all')->with('message','Application for leave updated.');
-        }else{
-            return Redirect::to('form/leave/all')->with('message','Leave document does not exist.');
+            ExtendedLeave::where('route_no', $leave->route_no)->update(['route_no' => $route_no]);
+
+            foreach($leave_extended_details as $data){
+                $item = new LeaveDetails();
+                $item->userid = Auth::user()->userid;
+                $item->route_no = $route_no;
+                $item->details = $data;
+                if($data == "1"){
+                    $item->remarks = Input::get('within_txt');
+                }
+                if($data == "2"){
+                    $item->remarks = Input::get('abroad_txt');
+                }
+                if($data == "3"){
+                    $item->remarks = Input::get('in_hos_txt');      
+                }
+                if($data == "4"){
+                    $item->remarks = Input::get('out_hos_txt');
+                }
+                if($data == "5"){
+                    $item->remarks = Input::get('spec_txt') . ' -- ' . Input::get('spec_txt2');
+                }
+                $item->save();
+            }
+
+            $leave->route_no = $route_no;
+            $leave->save();
+
+            $leave_extended_details = ExtendedLeave::where('route_no', $route_no)->get();
+
+            $leave->spl_deduct = $leave_extended_details->filter(function($item) {
+                return $item->leave_type == 'SPL';
+            })->sum('days');
+
+            $leave->fl_deduct = $leave_extended_details->filter(function($item) {
+                return $item->leave_type == 'FL';
+            })->sum('days');
+
+            $leave->wl_deduct = $leave_extended_details->filter(function($item) {
+                return $item->leave_type == 'WL';
+            })->sum('days');
+
+            $leave->save();
+
+            if(Input::get('priv_data') == 1){
+
+                $priv = LeavePriviledge::where('userid', Auth::user()->userid)->first();
+
+                $priv_logs = new LeavePriviledgeLogs();
+                $priv_logs->userid = $leave->userid;
+                $priv_logs->route_no = $route_no;
+                $priv_logs->added_on = $priv->created_at;
+                $priv_logs->added_by = Auth::user()->userid;
+                $priv_logs->save();
+
+                $priv->delete();
+            }
         }
     }
 
@@ -1067,7 +1176,7 @@ class DocumentController extends BaseController
             $section_head[] = pdoController::user_search1($cdo['immediate_supervisor']);
             $division_head[] = pdoController::user_search1($cdo['division_chief']);
             $id_list = [];
-            $manually_added = [988320, 985329, 985329, 273, 11, 93053, 986445, 984538, 985950, 80, 976017, 466, 534, 986944, 988121, 357, 988148, 988309, 142, 602, 151, 988466, 75, 988135, 984531];
+            $manually_added = [988320, 985329, 985329, 273, 11, 93053, 986445, 984538, 985950, 80, 976017, 466, 534, 988121, 357, 988148, 988309, 142, 602, 151, 988466, 75, 988135, 984531];
 
             foreach(pdoController::section() as $row) {
                 if ($row['acronym'] !== null || in_array($row['head'], [37, 72, 243, 614, 110, 163, 648384, 160, 985950, 830744, 51])) {
@@ -1080,7 +1189,7 @@ class DocumentController extends BaseController
             }
 
             if($personal_information->field_status == "HRH"){
-                $list = [144, 73, 975861, 986228, 187, 121, 141, 987010, 97, 104, 99, 986958, 986426, 467014, 976019, 103, 173, 96, 212, 198, 602, 986817, 200, 976020, 174, 179, 985220, 830744, 416];
+                $list = [976017, 614, 144, 73, 975861, 986228, 187, 121, 141, 987010, 97, 104, 99, 986958, 986426, 467014, 976019, 103, 173, 96, 212, 198, 602, 986817, 200, 976020, 174, 179, 985220, 830744, 416];
             }else{
                 $list = array_merge($id_list,$manually_added);
             }
@@ -1101,7 +1210,7 @@ class DocumentController extends BaseController
             }
 
             if($personal_information->field_status == "HRH"){
-                $hrh_data = [614, 110, 80, 72];
+                $hrh_data = [614, 110, 80, 72, 534];
                 $division_head = [];
                 $division_head[] = pdoController::user_search1($cdo['division_chief']);
                 foreach($hrh_data as $data){

@@ -659,7 +659,7 @@ class cdoController extends BaseController
             }
 
             if($personal_information->field_status == "HRH"){
-                $list = [144, 73, 975861, 986228, 187, 121, 141, 987010, 97, 104, 99, 986958, 986426, 467014, 976019, 103, 173, 96, 212, 198, 602, 986817, 200, 976020, 174, 179, 985220, 830744, 416];
+                $list = [976017, 614, 144, 73, 975861, 986228, 187, 121, 141, 987010, 97, 104, 99, 986958, 986426, 467014, 976019, 103, 173, 96, 212, 198, 602, 986817, 200, 976020, 174, 179, 985220, 830744, 416];
             }else{
                 $list = array_merge($id_list,$manually_added);
             }
@@ -686,7 +686,7 @@ class cdoController extends BaseController
             array_multisort($priority, SORT_ASC, $division_head);
             
             if($personal_information->field_status == "HRH"){
-                $hrh_data = [614, 110, 80, 72];
+                $hrh_data = [614, 110, 80, 72, 534];
                 $division_head = [];
                 foreach($hrh_data as $data){
                     $division_head[] = pdoController::user_search1($data);
@@ -1586,7 +1586,6 @@ class cdoController extends BaseController
 
                 }
             }
-
 
             //UPDATE TRACKING MASTER
             pdoController::update_tracking_master($prepared_date,$subject,$route_no);

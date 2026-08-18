@@ -32,7 +32,7 @@
             <div style="text-align: center; margin-top: 15px;">
                 <h4><strong style="margin-left: 3em;">APPLICATION FOR LEAVE</strong></h4>
             </div>
-            <form action="{{ url('form/leave/form/0') }}" enctype="multipart/form-data" method="POST"  style="margin-top: 1px;margin-left: 0.5%; margin-right: 0.5%">
+            <form id="leaveForm" action="{{ url('form/leave/form/0') }}" enctype="multipart/form-data" method="POST"  style="margin-top: 1px;margin-left: 0.5%; margin-right: 0.5%">
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-md-12">
@@ -547,7 +547,7 @@
                                 <a target="_blank" class="btn btn-success" href="{{ asset('FPDF/print_leave.php?id=' . (($leave && $leave->id) ? $leave->id : 0)) }}" style="color: white;"><i class="fa fa-print"></i> Print(Front)</a>
                                 <a target="_blank" class="btn btn-success" href="{{ asset('leave/print/' . (($leave && $leave->id) ? $leave->id : 0)) }}" style="color: white;"><i class="fa fa-print"></i> Print(Back)</a>
                                 @if( Auth::user()->usertype !=1 && ($leave != null && $leave->status == 0) )
-                                    <button href="{{ asset('leave/update/save') }}"  class="btn btn-primary btn-submit" style="color:white;"><i class="fa fa-pencil"></i> Update</button>
+                                    <button type="button" onclick="updateForm()"  class="btn btn-primary" style="color:white;"><i class="fa fa-pencil"></i> Update</button>
                                     <a href="{{ asset('leave/delete/' . (($leave && $leave->id) ? $leave->id : 0)) }}" style="color:white" class="btn btn-danger" ><i class="fa fa-trash"></i> Remove</a>
                                 @elseif($leave == null)
                                     <button type="submit" class="btn btn-success" style="color:white;"><i class="fa fa-send"></i> Submit</button>
@@ -567,6 +567,25 @@
     var vl = {{ ($user->vacation_balance != null) ? $user->vacation_balance : 0 }};
     var sl = {{ ($user->sick_balance != null) ? $user->sick_balance : 0 }};
     var priv = {{ $priv }};
+
+    function updateForm() {
+        console.log($('#leaveForm').length);
+        $.ajax({
+            url: "{{ url('leave/update/save') }}",
+            type: "POST",
+            data: $('#leaveForm').serialize(),
+            success: function(response) {
+                Lobibox.alert({
+                    size: 'mini',
+                    msg: 'Successfully updated leave application!'
+                });
+                location.reload();
+            },
+            error: function(xhr) {
+                console.log(xhr.responseText);
+            }
+        });
+    }
 
     function monetize(data){
 
