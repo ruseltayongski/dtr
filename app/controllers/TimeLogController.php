@@ -12,7 +12,7 @@ class TimeLogController extends Controller
             {
                 return Redirect::to('/');
             }
-        }, ['except' => ['csharpApiEndpoint']]);
+        }, ['except' => ['csharpApiEndpoint','mobileDtrLogs']]);
     }
     
     public function timeLog($supervisor = null){
@@ -854,4 +854,31 @@ class TimeLogController extends Controller
             'logs' => $logs
         ]);
     }
+
+    public function mobileDtrLogs()
+    {
+        $secrets = require __DIR__ . '/../config/secrets.php';
+
+        $configKey = $secrets['old_api_key'];
+        $apiKey = Request::header('X-API-KEY');
+
+        if ($apiKey != $configKey) {
+            return \Response::json(['error' => 'Unauthorized'], 401);
+        }
+
+        $userid = Input::get('userid');
+        $date_from = Input::get('date_from');
+        $date_to = Input::get('date_to');
+
+        $mobileDtrLogs = DtrDetails::where('userid', $userid)
+            ->whereBetween('datein', [$date_from, $date_to])
+            ->where('remark','OFFICE')
+            ->get();
+
+        return \Response::json([
+            'logs' => $mobileDtrLogs
+        ]);
+    }
+
+
 }
