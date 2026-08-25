@@ -718,16 +718,16 @@ class WellnessController extends BaseController {
 			if (count($dates) === 2) {
 				$startDate = Carbon::createFromFormat('m/d/Y', trim($dates[0]))->startOfDay();
 				$endDate   = Carbon::createFromFormat('m/d/Y', trim($dates[1]))->endOfDay();
-				$query->whereBetween('wellness.scheduled_date', [$startDate, $endDate]);
+				$query->where('wellness.scheduled_date', [$startDate, $endDate]);
 			}
 		} elseif ($filter === 'past') {
 			// $startDate = Carbon::now()->subDays(6)->startOfDay();
 			$endDate   = Carbon::now()->endOfDay();
-			$query->whereBetween('wellness.scheduled_date', '<=', $endDate);
+			$query->where('wellness.scheduled_date', '<=', $endDate);
 		} elseif ($filter === 'upcoming') {
 			$startDate = Carbon::now()->startOfDay();
 			//$endDate   = Carbon::now()->addDays(6)->endOfDay();
-			$query->whereBetween('wellness.scheduled_date', '>=', $startDate);
+			$query->where('wellness.scheduled_date', '>=', $startDate);
 		}
 
 		// Apply status filter (after date filtering)
@@ -777,16 +777,16 @@ class WellnessController extends BaseController {
             if (count($dates) === 2) {
                 $startDate = Carbon::createFromFormat('m/d/Y', trim($dates[0]))->startOfDay();
                 $endDate   = Carbon::createFromFormat('m/d/Y', trim($dates[1]))->endOfDay();
-                $query->whereBetween('wellness.scheduled_date', [$startDate, $endDate]);
+                $query->where('wellness.scheduled_date', [$startDate, $endDate]);
             }
         } elseif ($filter === 'past') {
             // $startDate = Carbon::now()->subDays(6)->startOfDay();
             $endDate   = Carbon::now()->endOfDay();
-            $query->whereBetween('wellness.scheduled_date', '<=', $endDate);
+            $query->where('wellness.scheduled_date', '<=', $endDate);
         } elseif ($filter === 'upcoming') {
             $startDate = Carbon::now()->startOfDay();
             // $endDate   = Carbon::now()->addDays(6)->endOfDay();
-            $query->whereBetween('wellness.scheduled_date', '>=', $startDate);
+            $query->where('wellness.scheduled_date', '>=', $startDate);
         }
 
         // Status Filter
