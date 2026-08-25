@@ -872,7 +872,7 @@ class TimeLogController extends Controller
 
         $mobileDtrLogs = DtrDetails::where('userid', $userid)
             ->whereBetween('datein', [$date_from, $date_to])
-            ->where('remark','OFFICE')
+            ->whereIn('remark', ['OFFICE', 'MOBILE'])
             ->get();
 
         return \Response::json([
