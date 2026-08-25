@@ -851,11 +851,11 @@
             let today = moment().startOf('day');
 
             if(calendarFilter === 'past') {
-                startDate = moment().subtract(6, 'days'); // past 7 days including today
+                startDate = moment('1900-01-01');
                 endDate = today;
             } else if(calendarFilter === 'upcoming') {
                 startDate = today;
-                endDate = moment().add(6, 'days'); // next 7 days including today
+                endDate = moment('2099-12-31'); 
             }
 
             $('#inclusive3').daterangepicker({
@@ -878,7 +878,7 @@
         initDateRange();
 
         // Re-init on menu filter change
-        $(document).on('click', '.dropdown-menu a', function(e){
+        $(document).on('click', '.dropdown-menu a[href*="filter="]', function(e){
             e.preventDefault();
             let href = $(this).attr('href');
             let selectedFilter = href.split('filter=')[1]; // past/upcoming
