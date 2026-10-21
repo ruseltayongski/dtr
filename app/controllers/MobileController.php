@@ -45,9 +45,22 @@ class MobileController extends BaseController {
         $password = Input::get("password");
         
         if(Auth::attempt(array('username' => $username, 'password' => $password))){
-            $result = DB::table('users')
-                ->where('userid','=',$username)
-                ->first(["userid","fname","mname","lname"]);
+            // $result = DB::table('users')
+            //     ->where('userid','=',$username)
+            //     ->first(["userid","fname","mname","lname"]);
+           
+            $result = DB::table('users as u')
+                ->leftJoin('dts.users as d', 'u.userid', '=', 'd.username')
+                ->leftJoin('dts.section as s', 'd.section', '=', 's.id')
+                ->where('u.userid', '=', $username)
+                ->first([
+                    'd.section',
+                    's.description',
+                    'u.userid',
+                    'u.fname',
+                    'u.mname',
+                    'u.lname'
+                ]);
         }
         if(isset($result)){
             return json_encode($result);

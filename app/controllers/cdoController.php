@@ -324,7 +324,7 @@ class cdoController extends BaseController
             ->orderBy('id','desc')
             ->paginate(10);
         $card_view = CardView::where('userid', Auth:: user()->userid)->orderBy('created_at', 'asc')->get();
-
+    
         return View::make('cdo.cdo_user')->with([
             "cdo" => $cdo,
             "card_view"=>$card_view,
@@ -646,7 +646,7 @@ class cdoController extends BaseController
             $division_head = pdoController::user_search1($cdo['division_chief']);
         } else{
             $id_list = [];
-            $manually_added = [988320, 985329, 273, 11, 93053, 986445, 984538, 985950, 80, 976017, 466, 534, 986944, 988121, 357, 988148, 988309, 142, 602, 151, 988466, 75, 988135, 984531];
+            $manually_added = [985329, 988320, 273, 11, 93053, 986445, 984538, 985950, 80, 976017, 466, 534, 986944, 988121, 357, 988148, 988309, 142, 602, 151, 988466, 75, 988135, 984531, 988796];
 
             foreach(pdoController::section() as $row) {
                 if ($row['acronym'] !== null || in_array($row['head'], [37, 72, 243, 614, 110, 163, 648384, 160, 985950, 830744, 51])) {
@@ -659,7 +659,7 @@ class cdoController extends BaseController
             }
 
             if($personal_information->field_status == "HRH"){
-                $list = [976017, 614, 144, 73, 975861, 986228, 187, 121, 141, 987010, 97, 104, 99, 986958, 986426, 467014, 976019, 103, 173, 96, 212, 198, 602, 986817, 200, 976020, 174, 179, 985220, 830744, 416, 211792];
+                $list = [976017, 614, 110, 144, 73, 975861, 986228, 187, 121, 141, 987010, 97, 104, 99, 986958, 986426, 467014, 976019, 103, 173, 96, 212, 198, 602, 986817, 200, 976020, 174, 179, 985220, 830744, 416, 211792, 80, 988148];
             }else{
                 $list = array_merge($id_list,$manually_added);
             }
@@ -674,10 +674,10 @@ class cdoController extends BaseController
                 }
             }
 
-            // $div = [27];
-            // foreach ($div as $data){
-            //     $division_head[] = pdoController::user_search1($data);
-            // }
+            $div = [27, 11];
+            foreach ($div as $data){
+                $division_head[] = pdoController::user_search1($data);
+            }
 
             $divisionValues = array_column($division_head, 'id');
             $priority = array_map(function($id) {
@@ -901,6 +901,10 @@ class cdoController extends BaseController
                 $n = (floor(strtotime($end_date) / (60 * 60 * 24)) - floor(strtotime($start_date) / (60 * 60 * 24))) * 4;
             }elseif($cdo_hours[$index] == 'compressed_cdo_wholeday'){
                 $n = (floor(strtotime($end_date) / (60 * 60 * 24)) - floor(strtotime($start_date) / (60 * 60 * 24))) * 10;
+            }elseif($cdo_hours[$index] == '24_hours'){
+                $n = (floor(strtotime($end_date) / (60 * 60 * 24)) - floor(strtotime($start_date) / (60 * 60 * 24))) * 24;
+            }elseif($cdo_hours[$index] == '16_hours'){
+                $n = (floor(strtotime($end_date) / (60 * 60 * 24)) - floor(strtotime($start_date) / (60 * 60 * 24))) * 16;
             }else{
                 $n = (floor(strtotime($end_date) / (60 * 60 * 24)) - floor(strtotime($start_date) / (60 * 60 * 24))) * 5;
             }

@@ -150,6 +150,9 @@
                                                 <option value="compressed_cdo_wholeday" {{ $inclusiveDates['cdo_hours'] === 'compressed_cdo_wholeday' ? 'selected' : '' }}>COMPRESSED WHOLEDAY</option>
                                                 <option value="compressed_cdo_am" {{ $inclusiveDates['cdo_hours'] === 'compressed_cdo_am' ? 'selected' : '' }}>COMPRESSED AM</option>
                                                 <option value="compressed_cdo_pm" {{ $inclusiveDates['cdo_hours'] === 'compressed_cdo_pm' ? 'selected' : '' }}>COMPRESSED PM</option>
+                                                <option value="24_hours" {{ $inclusiveDates['cdo_hours'] === '24_hours' ? 'selected' : '' }}>24 HOURS</option>
+                                                <option value="16_hours" {{ $inclusiveDates['cdo_hours'] === '16_hours' ? 'selected' : '' }}>16 HOURS</option>
+                                        
                                             </select>
                                             <button style="width: 45px; height: 33px" type="button" class="btn btn-sm btn-default deleteButton"><strong>-</strong></button>
                                         </div>
@@ -192,6 +195,8 @@
                                                     <option value="compressed_cdo_wholeday" {{ $inclusiveDates['cdo_hours'] === 'compressed_cdo_wholeday' ? 'selected' : '' }}>COMPRESSED WHOLEDAY</option>
                                                     <option value="compressed_cdo_am" {{ $inclusiveDates['cdo_hours'] === 'compressed_cdo_am' ? 'selected' : '' }}>COMPRESSED AM</option>
                                                     <option value="compressed_cdo_pm" {{ $inclusiveDates['cdo_hours'] === 'compressed_cdo_pm' ? 'selected' : '' }}>COMPRESSED PM</option>
+                                                    <option value="24_hours" {{ $inclusiveDates['cdo_hours'] === '24_hours' ? 'selected' : '' }}>24 HOURS</option>
+                                                    <option value="16_hours" {{ $inclusiveDates['cdo_hours'] === '16_hours' ? 'selected' : '' }}>16 HOURS</option>
                                                 </select>
                                                 <button style="width: 45px; height: 33px" type="button" class="btn btn-sm btn-default deleteButton"><strong>-</strong></button>
                                             </div>
@@ -215,6 +220,8 @@
                                             <option value='compressed_cdo_wholeday'>COMPRESSED WHOLEDAY</option>
                                             <option value='compressed_cdo_am'>COMPRESSED AM</option>
                                             <option value='compressed_cdo_pm'>COMPRESSED PM</option>
+                                            <option value='24_hours'>24 HOURS</option>
+                                            <option value='16_hours'>16 HOURS</option>
                                         </select>
                                         <button style="width: 50px; height: 33px; margin-left: 4%" type="button" class="btn btn-sm btn-default deleteButton"><strong>-</strong></button>
                                     </div>
@@ -648,6 +655,7 @@
     var cdo_hoursDefault = "<?php if(isset($data['inclusiveDates'])) foreach($data['inclusiveDates'] as $index=>$inclusiveDates)echo $inclusiveDates['cdo_hours'] ?>";
     var halfdayFlag1  = true;
     var halfdayFlag2 = true;
+
     if(cdo_hoursDefault == 'cdo_am'){
         $(".cdo_hours").val($(".cdo_hours option:eq(1)").val());
         halfdayFlag2 = false;
@@ -793,11 +801,14 @@
     function calculateCDO(cdo_hours) {
         if (cdo_hours=='cdo_am' || cdo_hours == 'cdo_pm'){
             return 4;
-        }
-        else if(cdo_hours=='cdo_wholeday'){
+        }else if(cdo_hours=='cdo_wholeday'){
             return 8;
         }else if(cdo_hours=='compressed_cdo_wholeday'){
             return 10;
+        }else if(cdo_hours=='24_hours'){
+            return 24;
+        }else if(cdo_hours=='16_hours'){
+            return 16;
         }else{
             return 5;
         }
